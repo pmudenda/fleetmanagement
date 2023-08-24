@@ -591,11 +591,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="reservedMaterialsContent">
-                    <table class="table table-bordered" id="reservedMaterialsTable">
+                    <table class="table table-bordered" id="reservedMaterialsTable" data-form-url="{{route('')}}">
                         <thead>
                         <tr style="text-wrap: nowrap;">
                             <td><input type='checkbox'
-                                       name='reservedMaterial'
+                                       name='reservedMaterials'
                                        value='' class="checkbox"/></td>
                             <td>SPMS Ref.</td>
                             <td>Item Type</td>
@@ -613,7 +613,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-sm btn-success pull-right">
+                    <button type="button" name="attachArticlesToJobCard" class="btn btn-sm btn-success pull-right">
                         <i class="fas fa-check"></i>
                         Confirm
                     </button>
@@ -832,7 +832,35 @@
             window.goToNext = false;
             let bodyTag = "section";
 
+            $.fn.disableBtn = function () {
+                return this.each(function () {
+                    $(this).addClass("disabled").attr("disabled", true)
+                });
+            }
+
+            $.fn.enableBtn = function () {
+                return this.each(function () {
+                    let $this = $(this);
+                    $this.removeClass("disabled").attr("disabled", false)
+                });
+            }
+
+            Number.prototype.round = function (places) {
+                return +(Math.round(this + "e+" + places) + "e-" + places);
+            }
+
             $(document).ready(function () {
+
+                $('#submit_possible').hide();
+
+                $('#submit_not_possible').hide();
+
+                $("#divSubmit_hide").hide();
+
+                initArticleSelector($('.articlesDropDownList'));
+
+                initServiceArticleSelector($('.servicesArticlesDropDownList'));
+
                 setTimeout(function () {
                     let job_card_number = $('[name="job_card_number"]').val();
 
@@ -864,6 +892,19 @@
 
                 }, 600);
 
+                setTimeout(function () {
+                    $('#services_table').find('[data-record-id]').find('.service_unit_price').change();
+                    $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
+                }, 1000);
+
+                setInterval(function () {
+                    disableControls();
+                }, 1000);
+
+                Inputmask({
+                    "mask": "AAA 9{1,4}"
+                }).mask('[name="vehicle_registration"]');
+
                 const $labourTable = $('#labour_table');
 
                 $labourTable.on('change paste', '[name="mechanic"]', function () {
@@ -874,7 +915,7 @@
                     findMechanic($row, this.value);
                 });
 
-                $('[name="selectDefectToAssign"]').on('change', function () {
+                $(document).on('change', '[name="selectDefectToAssign"]', function () {
                     let checked = $(this).is(':checked');
                     let checkBoxes = document.querySelector('#labour_table').querySelectorAll('[name="selectDefectToAssign"]');
                     let count = 0;
@@ -893,6 +934,32 @@
                         $('[value="assignMultiple"]').addClass('d-none');
                         $('[name="saveAllAssignments"]').attr('disabled', true).addClass('d-none');
                         $('.saveAssignment').attr('disabled', false).removeClass('d-none');
+                    }
+                });
+
+                $(document).on('change', '[name="reservedMaterials"]', function () {
+                    function selectAllArticles() {
+                        let ele = document.querySelector('#reservedMaterialsTable').querySelectorAll('[name="reservedMaterial"]');
+                        for (let i = 0; i < ele.length; i++) {
+                            if (ele[i].type === 'checkbox')
+                                ele[i].checked = true;
+                            $(ele[i]).change();
+                        }
+                    }
+
+                    function deSelectArticles() {
+                        let ele = document.querySelector('#reservedMaterialsTable').querySelectorAll('[name="reservedMaterial"]');
+                        for (let i = 0; i < ele.length; i++) {
+                            if (ele[i].type === 'checkbox')
+                                ele[i].checked = false;
+                            $(ele[i]).change();
+                        }
+                    }
+
+                    if ($(this).is(':checked')) {
+                        selectAllArticles()
+                    } else {
+                        deSelectArticles();
                     }
                 });
 
@@ -949,7 +1016,7 @@
 
                 });
 
-                $('[name="selectAll"]').on('change', function () {
+                $(document).on('change', '[name="selectAll"]', function () {
 
                     function selects() {
                         let ele = document.querySelector('#labour_table').querySelectorAll('[name="selectDefectToAssign"]');
@@ -975,36 +1042,6 @@
                         deSelect();
                     }
                 });
-
-                initArticleSelector($('.articlesDropDownList'));
-
-                initServiceArticleSelector($('.servicesArticlesDropDownList'));
-
-                setTimeout(function () {
-                    $('#services_table').find('[data-record-id]').find('.service_unit_price').change();
-                    $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
-                }, 1000);
-
-                setInterval(function () {
-                    disableControls();
-                }, 1000);
-
-                Inputmask({
-                    "mask": "AAA 9{1,4}"
-                }).mask('[name="vehicle_registration"]');
-
-                $.fn.disableBtn = function () {
-                    return this.each(function () {
-                        $(this).addClass("disabled").attr("disabled", true)
-                    });
-                }
-
-                $.fn.enableBtn = function () {
-                    return this.each(function () {
-                        let $this = $(this);
-                        $this.removeClass("disabled").attr("disabled", false)
-                    });
-                }
 
                 $(document).on('click', '.reassignMechanic', function () {
                     let item = JSON.parse($(this).attr('data-labour-item'));
@@ -1156,6 +1193,97 @@
                                             asyncResponse['message'],
                                             function () {
                                                 // window.location.href = asyncResponse["redirectUrl"]
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'Assign Task',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                }
+                            }).fail(function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'Assign Task',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
+
+                                    tmsApp.systemError(
+                                        'Assign Task',
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
+                            });
+                        }
+                    );
+                });
+
+                $(document).on('click', '[name="attachArticlesToJobCard"]', function () {
+
+                    let formSel = $('#reservedMaterialsTable');
+                    let formData = {
+                        submitForm: true,
+                        workshopReference: $('[name="workshop_reference"]').val(),
+                        jobCardNumber: $('[name="job_card_number"]').val()
+                    };
+
+                    let arr = [];
+
+                    $(formSel).find("tbody").children().map(function (index, row) {
+                        if (!$(row).find('[name="reservedMaterial"]:checked')) {
+                            console.log("Not Checked");
+                        } else {
+                            arr.push($(row).find('[name="reservedMaterial"]:checked').val());
+                        }
+
+                    });
+
+                    formData['items'] = arr;
+
+                    formData = {
+                        ...formData
+                    }
+
+                    $('.print-error-msg').css('display', 'none');
+
+                    tmsApp.confirm(
+                        'Article Selection Task',
+                        'Are you sure you want to attach article(s) to Job Card ?',
+                        'Yes',
+                        'No',
+                        function () {
+                            $.ajax({
+                                type: "POST",
+                                url: formSel.data('formUrl'),
+                                data: JSON.stringify(formData),
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                            }).done(function (asyncResponse) {
+
+                                if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'Assign Task',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
                                             },
                                             'success'
                                         );
@@ -1415,15 +1543,7 @@
                     );
                 });
 
-                //first hide the buttons
-                $('#submit_possible').hide();
-
-                $('#submit_not_possible').hide();
-
-                $("#divSubmit_hide").hide();
-
-                //disable the submit button
-                $("#btnSubmit").on('click', function () {
+                $(document).on('click', "#btnSubmit", function () {
                     $("#create_form").submit(function (e) {
                         e.preventDefault()
                         //do something here
@@ -1476,6 +1596,209 @@
                     });
                 });
             });
+
+            /*****************************Function Handlers************************************/
+                //  Define friendly data store name
+            const dataStore = window.sessionStorage;
+            let stepId = 1; //window.step_id;
+            /*try {
+                stepId = dataStore.getItem(index) ? dataStore.getItem(index) : window.step_id;
+            } catch (e) {
+                stepId = 0;
+            }*/
+            function initializeFormWizard() {
+                const index = 'step';
+                form.steps({
+                    showStepURLhash: true,
+                    headerTag: "h1",
+                    bodyTag: "section",
+                    transitionEffect: "slideLeft",
+                    autoFocus: true,
+                    saveState: true,
+                    startIndex: parseInt(stepId),
+                    enableFinishButton: false,
+                    labels: {
+                        finish: 'Submit'
+                    },
+                    onInit: function () {
+                        console.log('Wizard Initializing')
+                    },
+                    onStepChanging: function (event, currentIndex, newIndex) {
+
+                        if (currentIndex > newIndex) {
+                            dataStore.setItem(index, newIndex);
+                            return true;
+                        }
+
+                        const driverAcknowledged = $('#driverAcknowledged').val();
+
+                        if (currentIndex === 1 && driverAcknowledged === 'Y') {
+                            dataStore.setItem(index, newIndex);
+                            return true;
+                        }
+
+                        if (currentIndex === 0 || currentIndex === 2 && $('[name="job_card_number"]').val()) {
+                            dataStore.setItem(index, newIndex);
+                            return true;
+                        }
+
+                        if (currentIndex === 3 && $('[name="job_card_number"]').val()) {
+                            dataStore.setItem(index, newIndex);
+                            return true;
+                        }
+
+                        if (currentIndex < newIndex) {
+                            dataStore.setItem(index, newIndex);
+                            // To remove error styles
+                            form.find(".body:eq(" + newIndex + ") label.error").remove();
+                            form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+                        }
+
+                        form.validate().settings.ignore = ":disabled,:hidden";
+                        window.global_currentIndex = currentIndex;
+                        /* if (form.valid() && !window.goToNext) {
+                             tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                                 postData(form.find('[data-model-name]').get(currentIndex), false);
+                             }, function () {
+                             });
+                         }
+
+                         let tmp = window.goToNext;
+                         window.goToNext = false;
+                         return tmp;*/
+                    },
+                    onStepChanged: function (event, currentIndex, priorIndex) {
+
+                        if (currentIndex === 2 && priorIndex === 3) {
+                            //form.steps("previous");
+                            $('ul[aria-label="Pagination"]').find('a[href="#finish"]').removeClass('d-none');
+                        }
+
+                        //$('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
+                        window.global_currentIndex = currentIndex;
+                        if (currentIndex === 3) {
+                            $('ul[aria-label="Pagination"]').find('a[href="#finish"]').addClass('d-none');
+                        }
+                        window.goToNext = false;
+
+                    },
+                    onFinishing: function (event, currentIndex) {
+                        form.validate().settings.ignore = ":disabled,:hidden";
+                        return form.valid();
+                    },
+                    onFinished: function () {
+
+                        $('a[href="#finish"]').disableBtn();
+
+                        if (form.valid()) {
+                            tmsApp.confirm(
+                                'Confirm',
+                                'Do you want to save the changes ?',
+                                'Yes',
+                                'No',
+                                function () {
+                                    postData(
+                                        $(form.find(bodyTag).get(window.global_currentIndex))
+                                            .find('[data-model-name]').get(0),
+                                        true
+                                    );
+                                },
+                                function () {
+                                }
+                            );
+                        } else {
+                            $('a[role="#finish"]').enableBtn();
+                            //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
+                        }
+
+                    },
+                }).validate(
+                    {
+                        errorClass: "error-class",
+                        validClass: "valid-class",
+                        errorElement: 'div',
+                        errorPlacement: function (error, element) {
+                            if (element.parent('.input-group').length) {
+                                error.insertAfter(element.parent());
+                            } else {
+                                error.insertAfter(element);
+                            }
+                        },
+                        onError: function () {
+                            $('.input-group.error-class').find('.help-block.form-error').each(function () {
+                                $(this).closest('.form-group').addClass('error-class').append($(this));
+                            });
+                        },
+                        rules: {
+                            vehicle_registration: {
+                                required: true
+                            },
+                            workshop: {
+                                required: true
+                            }
+                        },
+                        messages: {
+                            workshop: {
+                                required: "Select the workshop vehicle is being checked-into"
+                            },
+                            vehicle_registration: {
+                                required: "Vehicle Registration is required"
+                            },
+
+                            current_odometer: {
+                                required: "Enter current odometer reading"
+                            },
+                            repairType: {
+                                required: "Select type of repair"
+                            },
+                            driver_staff_number: {
+                                required: "Driver details are required"
+                            }
+                        }
+                    }
+                );
+
+                $(document).on('click', '#saveMaterials', function () {
+                    // $('a[href="#finish"]').disableBtn();
+                    if (form.valid()) {
+                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                                postData(
+                                    $('#material_table'),
+                                    true
+                                );
+                            },
+                            function () {
+                            });
+                    }
+                });
+
+                $(document).on('click', '#saveDefects', function () {
+                    if (form.valid()) {
+                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                            postData(
+                                $('#part8'),
+                                true
+                            );
+                        }, function () {
+                        });
+                    }
+                });
+
+                $(document).on('click', '#saveServices', function () {
+                    // $('a[href="#finish"]').disableBtn();
+                    if (form.valid()) {
+                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+
+                            postData(
+                                $('#services_table'),
+                                true
+                            );
+
+                        }, function () {
+                        });
+                    }
+                });
+            }
 
             function initArticleSelector(element) {
                 const dataUrl = document.querySelector('#articlesUrl').value;
@@ -1883,7 +2206,7 @@
                             let rows = '';
                             for (const payloadElement of response.payload) {
                                 let row = `<tr>
-                                        <td><input type='checkbox' name='reservedMaterisl' value='${payloadElement.id}' class="checkbox"/></td>
+                                        <td><input type='checkbox' name='reservedMaterial' value='${payloadElement.id}' class="checkbox"/></td>
                                         <td>${payloadElement.st_pur}</td>
                                          <td>${payloadElement.item_type}</td>
                                          <td>${payloadElement.req_no}</td>
@@ -1906,7 +2229,6 @@
                     });
             }
 
-            /*****************************Function Handlers************************************/
             function postData(formElements, submitForm) {
                 window.loaderMessage = "Posting Data... please wait";
                 let $container = $(formElements);
@@ -2050,208 +2372,6 @@
                 }).fail(function (xhr) {
                     tmsApp.showErrorMessages(xhr, "Request Submission");
                 })
-            }
-
-            //  Define friendly data store name
-            const dataStore = window.sessionStorage;
-            let stepId = 1; //window.step_id;
-            /*try {
-                stepId = dataStore.getItem(index) ? dataStore.getItem(index) : window.step_id;
-            } catch (e) {
-                stepId = 0;
-            }*/
-            function initializeFormWizard() {
-                const index = 'step';
-                form.steps({
-                    showStepURLhash: true,
-                    headerTag: "h1",
-                    bodyTag: "section",
-                    transitionEffect: "slideLeft",
-                    autoFocus: true,
-                    saveState: true,
-                    startIndex: parseInt(stepId),
-                    enableFinishButton: false,
-                    labels: {
-                        finish: 'Submit'
-                    },
-                    onInit: function () {
-                        console.log('Wizard Initializing')
-                    },
-                    onStepChanging: function (event, currentIndex, newIndex) {
-
-                        if (currentIndex > newIndex) {
-                            dataStore.setItem(index, newIndex);
-                            return true;
-                        }
-
-                        const driverAcknowledged = $('#driverAcknowledged').val();
-
-                        if (currentIndex === 1 && driverAcknowledged === 'Y') {
-                            dataStore.setItem(index, newIndex);
-                            return true;
-                        }
-
-                        if (currentIndex === 0 || currentIndex === 2 && $('[name="job_card_number"]').val()) {
-                            dataStore.setItem(index, newIndex);
-                            return true;
-                        }
-
-                        if (currentIndex === 3 && $('[name="job_card_number"]').val()) {
-                            dataStore.setItem(index, newIndex);
-                            return true;
-                        }
-
-                        if (currentIndex < newIndex) {
-                            dataStore.setItem(index, newIndex);
-                            // To remove error styles
-                            form.find(".body:eq(" + newIndex + ") label.error").remove();
-                            form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-                        }
-
-                        form.validate().settings.ignore = ":disabled,:hidden";
-                        window.global_currentIndex = currentIndex;
-                        /* if (form.valid() && !window.goToNext) {
-                             tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                                 postData(form.find('[data-model-name]').get(currentIndex), false);
-                             }, function () {
-                             });
-                         }
-
-                         let tmp = window.goToNext;
-                         window.goToNext = false;
-                         return tmp;*/
-                    },
-                    onStepChanged: function (event, currentIndex, priorIndex) {
-
-                        if (currentIndex === 2 && priorIndex === 3) {
-                            //form.steps("previous");
-                            $('ul[aria-label="Pagination"]').find('a[href="#finish"]').removeClass('d-none');
-                        }
-
-                        //$('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
-                        window.global_currentIndex = currentIndex;
-                        if (currentIndex === 3) {
-                            $('ul[aria-label="Pagination"]').find('a[href="#finish"]').addClass('d-none');
-                        }
-                        window.goToNext = false;
-
-                    },
-                    onFinishing: function (event, currentIndex) {
-                        form.validate().settings.ignore = ":disabled,:hidden";
-                        return form.valid();
-                    },
-                    onFinished: function () {
-
-                        $('a[href="#finish"]').disableBtn();
-
-                        if (form.valid()) {
-                            tmsApp.confirm(
-                                'Confirm',
-                                'Do you want to save the changes ?',
-                                'Yes',
-                                'No',
-                                function () {
-                                    postData(
-                                        $(form.find(bodyTag).get(window.global_currentIndex))
-                                            .find('[data-model-name]').get(0),
-                                        true
-                                    );
-                                },
-                                function () {
-                                }
-                            );
-                        } else {
-                            $('a[role="#finish"]').enableBtn();
-                            //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
-                        }
-
-                    },
-                }).validate(
-                    {
-                        errorClass: "error-class",
-                        validClass: "valid-class",
-                        errorElement: 'div',
-                        errorPlacement: function (error, element) {
-                            if (element.parent('.input-group').length) {
-                                error.insertAfter(element.parent());
-                            } else {
-                                error.insertAfter(element);
-                            }
-                        },
-                        onError: function () {
-                            $('.input-group.error-class').find('.help-block.form-error').each(function () {
-                                $(this).closest('.form-group').addClass('error-class').append($(this));
-                            });
-                        },
-                        rules: {
-                            vehicle_registration: {
-                                required: true
-                            },
-                            workshop: {
-                                required: true
-                            }
-                        },
-                        messages: {
-                            workshop: {
-                                required: "Select the workshop vehicle is being checked-into"
-                            },
-                            vehicle_registration: {
-                                required: "Vehicle Registration is required"
-                            },
-
-                            current_odometer: {
-                                required: "Enter current odometer reading"
-                            },
-                            repairType: {
-                                required: "Select type of repair"
-                            },
-                            driver_staff_number: {
-                                required: "Driver details are required"
-                            }
-                        }
-                    }
-                );
-
-                $(document).on('click', '#saveMaterials', function () {
-                    // $('a[href="#finish"]').disableBtn();
-                    if (form.valid()) {
-                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                                postData(
-                                    $('#material_table'),
-                                    true
-                                );
-                            },
-                            function () {
-                            });
-                    }
-                });
-
-                $(document).on('click', '#saveDefects', function () {
-                    if (form.valid()) {
-                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                            postData(
-                                $('#part8'),
-                                true
-                            );
-                        }, function () {
-                        });
-                    }
-                });
-
-                $(document).on('click', '#saveServices', function () {
-                    // $('a[href="#finish"]').disableBtn();
-                    if (form.valid()) {
-                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-
-                            postData(
-                                $('#services_table'),
-                                true
-                            );
-
-                        }, function () {
-                        });
-                    }
-                });
             }
 
             function getWorkshops() {
@@ -2497,7 +2617,7 @@
                     })
                     .then(response => {
 
-                        if (!response.success || response.payload.length == 0) {
+                        if (!response.success || response.payload.length === 0) {
                             tmsApp.systemError('Driver Verification', response['message']);
                             return;
                         }
@@ -2505,7 +2625,7 @@
                         let optionListStr = '';
                         if (Array.isArray(response.payload)) {
                             response.payload.forEach(function (item) {
-                                optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
+                                optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} => ${item.name}</option>`;
                             })
 
                             $('#employee_list').html(optionListStr);
@@ -3512,14 +3632,4 @@
 
         })(window.tmsApp || {}, jQuery)
     </script>
-
-    <!--  -->
-    <script type="text/javascript">
-
-        Number.prototype.round = function (places) {
-            return +(Math.round(this + "e+" + places) + "e-" + places);
-        }
-
-    </script>
-
 @endpush

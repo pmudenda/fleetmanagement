@@ -2043,7 +2043,6 @@
                                                     <div class="control-input">
                                                         <div class="link-field ui-front" style="position: relative;">
                                                             <div>
-                                                                {{--v-model="costingAndValuation.supplierName"--}}
                                                                 <select class="form-control form-control-sm view_mode"
                                                                         data-doctype="CostingDetails"
                                                                         data-value=""
@@ -2101,7 +2100,6 @@
                                                            style="padding-right: 0px;">
                                                         Year Purchased:
                                                     </label>
-                                                    <span class="help"></span>
                                                 </div>
                                             </td>
                                             <td>
@@ -2117,11 +2115,6 @@
                                                                        id="yearOfPurchase"
                                                                        data-doctype="CostingDetails"
                                                                        autocomplete="off">
-                                                                <div class="input-group-append">
-                                                                    <div class="input-group-text">
-                                                                        <i class="fas fa-calender"></i>
-                                                                    </div>
-                                                                </div>
                                                             </div>
 
                                                         </div>

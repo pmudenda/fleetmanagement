@@ -52,18 +52,67 @@ create or replace FUNCTION fn_cancel_stores_req (
     v_count          PLS_INTEGER;
 BEGIN
 
---set 45 as tms cancelled
+    --set 45 as tms cancelled
+    IF substr(p_ref_no, 0,3) = 'J02' THEN
+        SELECT
+            COUNT(document_no)
+        INTO v_count
+        FROM
+            store_reservations_header
+        WHERE document_no = p_ref_no;
+
+        IF v_count = 0 THEN
+            v_return_message := 'Reservation with doc no. '
+                || p_ref_no
+                || ' not found';
+        ELSE
+            UPDATE store_reservations_header
+            SET
+                status = '03'
+            WHERE
+                document_no = p_ref_no;
+
+            v_return_message := 'Reservation '
+                || p_ref_no
+                || ' cancelled';
+        END IF;
+    ELSIF substr(p_ref_no, 0,3) = 'J01' THEN
+        SELECT
+            COUNT(document_no)
+        INTO v_count
+        FROM
+            store_requisitions_header
+        WHERE document_no = p_ref_no;
+
+        IF v_count = 0 THEN
+            v_return_message := 'Requistion with doc no. '
+                || p_ref_no
+                || ' not found';
+        ELSE
+            UPDATE store_requisitions_header
+            SET
+                status = '45'
+            WHERE
+                document_no = p_ref_no;
+
+            v_return_message := 'Requistion '
+                || p_ref_no
+                || ' cancelled';
+        END IF;
+    END IF;
+
+
     SELECT
         COUNT(document_no)
     INTO v_count
     FROM
         store_requisitions_header
-        WHERE document_no = p_ref_no;
+    WHERE document_no = p_ref_no;
 
     IF v_count = 0 THEN
         v_return_message := 'Requistion with doc no. '
-                            || p_ref_no
-                            || ' not found';
+            || p_ref_no
+            || ' not found';
     ELSE
         UPDATE store_requisitions_header
         SET
@@ -72,10 +121,10 @@ BEGIN
             document_no = p_ref_no;
 
         v_return_message := 'Requistion '
-                            || p_ref_no
-                            || ' cancelled';
+            || p_ref_no
+            || ' cancelled';
     END IF;
-
+    COMMIT;
     RETURN v_return_message;
 EXCEPTION
     WHEN OTHERS THEN

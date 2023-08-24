@@ -248,6 +248,8 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::post('get/reservations', [MaintenanceController::class, 'getReservedMaterialAndServices'])->name('get.reservations');
 
+            Route::post('get/reservations', [MaintenanceController::class, 'getReservedMaterialAndServices'])->name('attach.reservations.card');
+
             //Route::post('save/approve/job-order/closure', [WorkflowController::class, 'closeJobCard'])->name('approve.work_order.closure');
 
             Route::post('store', function (Request $request) {
