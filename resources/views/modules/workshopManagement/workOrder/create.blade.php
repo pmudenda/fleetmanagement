@@ -369,7 +369,23 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="reservedMaterialsContent">
-
+                    <table class="table table-bordered">
+                        <thead>
+                        <td><input type='checkbox'
+                                   name='reservedMaterial'
+                                   value='' class="checkbox"/></td>
+                        <td>SPMS Ref.</td>
+                        <td>Item Type</td>
+                        <td>Reference No.</td>
+                        <td>Article Code</td>
+                        <td>UOM</td>
+                        <td>Specifications}</td>
+                        <td>Reg No.</td>
+                        <td>Quantity</td>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1858,19 +1874,27 @@
                         }
 
                         if (response.payload) {
-                            $('#reservations').modal('show');
-                            let row = `<tr>
+                            let rows = '';
+                            response.payload.map(function (item) {
+                                let row = `<tr>
                                         <td><input type='checkbox' name='reservedMaterisl' value='${item.id}' class="checkbox"/></td>
-                                        <td></td>
- <td></td>
- <td></td>
- <td></td>
- <td></td>
+                                        <td>${item.st_pur}</td>
+                                         <td>${item.item_type}</td>
+                                         <td>${item.req_no}</td>
+                                         <td>${item.material_code}}</td>
+                                         <td>${item.unit_of_measure}}</td>
+                                        <td>${item.specifications}</td>
+                                        <td>${item.reg_no}</td>
+                                        <td>${quantity}</td>
+                                        </tr>`;
 
-                                        </tr>`
+                                rows += row;
+                            });
 
-
-                            $('#reservedMaterialsContent').html('');
+                            $('#reservedMaterialsTable').html(rows);
+                            setTimeout(function () {
+                                $('#reservations').modal('show');
+                            }, 300);
                         }
                     })
                     .catch(function (xhr, settings, error) {

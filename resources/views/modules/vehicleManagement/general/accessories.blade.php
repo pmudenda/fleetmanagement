@@ -66,12 +66,12 @@
                                                 <td class="status">
                                                     @if($entry->status == "01")
                                                         <span class="badge badge-success p-2">
-                                                                    Active
-                                                            </span>
+                                                            Active
+                                                        </span>
                                                     @else
                                                         <span class="badge badge-danger p-2">
-                                                                    Inactive
-                                                            </span>
+                                                            Inactive
+                                                        </span>
                                                     @endif
                                                 </td>
                                                 {{-- @can("")--}}
