@@ -365,10 +365,10 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Document Follow Up</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Reserved Materials</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="documentFollowUpContent">
+                <div class="modal-body" id="reservedMaterialsContent">
 
                 </div>
                 <div class="modal-footer">
@@ -1859,8 +1859,42 @@
 
                         if (response.payload) {
                             $('#reservations').modal('show');
-                        }
+                            {
+                                "id": "650",
+                                "proc_ref": "C03LR1069217",
+                                "req_no": "ZFMPUR0000000243",
+                                "st_pur": "C03LR1069217",
+                                "item_type": "SE",
+                                "workshop_no": "01",
+                                "form_order": "ZFMSTR0000000481",
+                                "requested_by": "72270",
+                                "authorised_by": "70630",
+                                "comments": "PR CONSOLIDATION FOR SERVICE",
+                                "status": "04",
+                                "cost_assigned_to": "CostCenter",
+                                "requested_by_id": null,
+                                "store": null,
+                                "purchase_office": "ZH",
+                                "is_fuel": "N",
 
+                                "material_code": "410201-0001",
+                                "quantity": "1",
+                                "unit_of_measure": "EACH",
+                                "specifications": "B SERVICE",
+                                "project_code": null,
+                                "reg_no": "BAQ 1",
+                                "amount": "3500",
+                                "price": "3500",
+                                "ref_no": null,
+                                "stores_code": null,
+                                "movt_no": null,
+                                "max_allowed": null,
+                                "cost_centre_name": null,
+                                "quantity_issued": null,
+                                "description": "B SERVICE"
+                            }
+                            $('#reservedMaterialsContent').html('');
+                        }
                     })
                     .catch(function (xhr, settings, error) {
                         tmsApp.showToast(xhr, 'Reservation Search');
@@ -2728,8 +2762,6 @@
                 if (selectedItemType) {
                     enableArticleSelectionWebUIControls();
                 }
-
-
             }
 
             function clearRows(table) {

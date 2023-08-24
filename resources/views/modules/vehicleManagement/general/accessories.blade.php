@@ -6,8 +6,7 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
 @section('content')
-    <x-content-header :pageTitle="''" :activeCrumb="''" :link="'home'"
-                      :linkText="'"/>
+    <x-content-header/>
 
     <section class="content">
         <x-error-view/>
