@@ -195,7 +195,7 @@ class WorkshopService
         }
 
         $toSave = [];
-        if($request->has('observation')){
+        if ($request->has('observation')) {
             for ($key = 0; $key < sizeof($request->observation); $key++) {
                 Log::info(($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : "No More Attachments");
                 $toSave[] = array('observation' => $request->observation[$key], 'file' => ($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : null);
@@ -364,12 +364,14 @@ class WorkshopService
 
         $dataBefore = $workOrder->toArray();
 
+        Log::info('closing job card task' . $workOrderNumber);
         $this->workflowService->cancelProcessTask(
             $workOrderNumber,
             WorkflowProcessCodes::WorkOrderOpened->value
         );
 
         $workOrderNumber = $workOrder->job_card_no;
+
 
         $workOrder->status = StatusHelper::pendingApproval();
         $workOrder->date_out = Carbon::now();
