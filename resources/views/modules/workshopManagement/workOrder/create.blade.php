@@ -1875,21 +1875,20 @@
 
                         if (response.payload) {
                             let rows = '';
-                            response.payload.map(function (item) {
+                            for (const payloadElement of response.payload) {
                                 let row = `<tr>
-                                        <td><input type='checkbox' name='reservedMaterisl' value='${item.id}' class="checkbox"/></td>
-                                        <td>${item.st_pur}</td>
-                                         <td>${item.item_type}</td>
-                                         <td>${item.req_no}</td>
-                                         <td>${item.material_code}}</td>
-                                         <td>${item.unit_of_measure}}</td>
-                                        <td>${item.specifications}</td>
-                                        <td>${item.reg_no}</td>
-                                        <td>${quantity}</td>
+                                        <td><input type='checkbox' name='reservedMaterisl' value='${payloadElement.id}' class="checkbox"/></td>
+                                        <td>${payloadElement.st_pur}</td>
+                                         <td>${payloadElement.item_type}</td>
+                                         <td>${payloadElement.req_no}</td>
+                                         <td>${payloadElement.material_code}}</td>
+                                         <td>${payloadElement.unit_of_measure}}</td>
+                                        <td>${payloadElement.specifications}</td>
+                                        <td>${payloadElement.reg_no}</td>
+                                        <td>${payloadElement.quantity}</td>
                                         </tr>`;
-
                                 rows += row;
-                            });
+                            }
 
                             $('#reservedMaterialsTable').html(rows);
                             setTimeout(function () {
