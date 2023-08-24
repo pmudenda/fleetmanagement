@@ -1418,6 +1418,23 @@ class MaintenanceController extends Controller
         return array($repairTypes, $accessories, $workshop_sections);
     }
 
+    public function getReservedMaterialAndServices(Request $request): JsonResponse
+    {
+        if ($request->has('vehicleRegistration')) {
+            return response()->json([
+                'state' => 'failure',
+                'payload' => []
+            ]);
+        }
+
+        $vehicleRegistration = $request->has('vehicleRegistration');
+        $details = $this->workshopService->getReservedMaterialsAndServices($vehicleRegistration);
+        return response()->json([
+            'state' => 'success',
+            'payload' => $details
+        ]);
+    }
+
     /**
      * @param $reference
      * @return array
@@ -1436,7 +1453,7 @@ class MaintenanceController extends Controller
         $defects = DB::table("wm_vehicle_defects def")
             ->join("wm_workshop_tables wckt", function (JoinClause $join) use ($defectCategory, $vehicleSys) {
                 $join->on("def.defect_category_code", "=", "wckt.code")
-                    ->where(function($query) use($defectCategory, $vehicleSys) {
+                    ->where(function ($query) use ($defectCategory, $vehicleSys) {
                         $query->where("wckt.type_code", "=", $defectCategory);
                     });
             })
@@ -1462,9 +1479,9 @@ class MaintenanceController extends Controller
 
         $comments = WorkShopComment::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
-        $materials = $this->workshopRequisitionService->getWorkShopRequisitionItems($reference, $details->wshp_act_code);
-
         $materialsHeader = WorkShopMaterialHeader::where("job_card_no", "=", $reference)->first();
+
+        $materials = $this->workshopRequisitionService->getWorkShopRequisitionItems($reference, $details->wshp_act_code);
 
         $services = $this->workshopRequisitionService->getWorkShopRequisitionServiceItems($details->wshp_act_code);
 

@@ -666,6 +666,7 @@
                 <input type="hidden" value="{{route('user.search') }}" id="newUserSearchUrl">
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url">
                 <input type="hidden" value="{{route('fuel.last.requisition')}}" id="previousRequisitionUrl">
+                <input type="hidden" value="{{route('get.reservations')}}" name="reservationsUrl" id="reservationsUrl">
                 <input type="hidden" value="{{RequisitionTypes::OutOfTown}}" id="outOfTownReqCode">
                 <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
                        id="incompleteOnBoarding"/>

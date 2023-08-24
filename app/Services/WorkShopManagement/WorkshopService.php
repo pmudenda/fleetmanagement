@@ -422,14 +422,14 @@ class WorkshopService
 
         foreach ($jobCardRequisitions as $requisition) {
             if ($requisition->item_type == RequisitionItemTypes::Service || $requisition->item_type == RequisitionItemTypes::NonStockItem) {
-                if(empty($requisition->st_pur)){
+                if (empty($requisition->st_pur)) {
                     $processCode = WorkflowProcessCodes::PurchaseProcess->value;
                     $this->workflowService->cancelProcessTask(
                         $requisition->req_no,
                         $processCode
                     );
                 }
-            }else{
+            } else {
                 $processCode = WorkflowProcessCodes::StoresRequisition->value;
                 $this->workflowService->cancelProcessTask(
                     $requisition->req_no,
@@ -548,5 +548,16 @@ class WorkshopService
                 "redirectUrl" => URL::signedRoute("workOrder.list"),
             ]
         );
+    }
+
+    public function getReservedMaterialsAndServices(string $vehicleRegistration): Collection
+    {
+        return DB::table("GEN_MATERIAL_HEADERS")
+            ->join("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
+            ->whereNull("GEN_MATERIAL_HEADERS.document_no")
+            ->where("GEN_MATERIAL_DETAILS.reg_no", '=', $vehicleRegistration)
+            ->select("GEN_MATERIAL_HEADERS.*",
+                "GEN_MATERIAL_DETAILS.*"
+            )->get();
     }
 }
