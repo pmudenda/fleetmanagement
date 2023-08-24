@@ -79,6 +79,7 @@ Route::get('gate/pass', function (Request $request) {
 
 })->name('gate.pass');
 
+Route::get('print/job/card', [PdfJobController::class, "index"])->name('print.job.card');
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -343,7 +344,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('e-toll/cards/report', [eTollCardController::class, 'report'])->name('e-toll.card.report');
 
-    Route::get('print/job/card', [PdfJobController::class, "index"])->name('print.job.card');
 });
 
 

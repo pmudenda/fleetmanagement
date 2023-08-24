@@ -130,6 +130,17 @@ class DriverController extends Controller
             ->where('con_st_code','=', 'ACT')
             ->first();
 
+        if($driver->con_st_code != 'ACT' && $driver->con_st_code != '01'){
+            return response()->json([
+                'success' => 'false',
+                'payload' => [],
+                'message' => str_replace('@input',
+                    $searchParam,
+                    ErrorMessages::getMessage('err_0009')
+                )
+            ]);
+        }
+
         if (empty($driver)) {
             return response()->json([
                 'success' => 'false',
