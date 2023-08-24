@@ -1420,7 +1420,7 @@ class MaintenanceController extends Controller
 
     public function getReservedMaterialAndServices(Request $request): JsonResponse
     {
-        if ($request->has('vehicleRegistration')) {
+        if (!$request->has('vehicleRegistration')) {
             return response()->json([
                 'state' => 'failure',
                 'payload' => []
