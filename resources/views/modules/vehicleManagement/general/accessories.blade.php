@@ -140,7 +140,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                         <h1 class="modal-title fs-5" id="createRecordModalLabel">Add <span
-                                    id="modalTitle">{{$title}}</span>
+                                    id="modalTitle">Vehicle Accessories</span>
                         </h1>
 
 
