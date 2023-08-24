@@ -361,6 +361,23 @@
                value="{{StatusHelper::onboardingComplete()}}">
     </section>
 
+    <div class="modal fade" id="reservations" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Document Follow Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="documentFollowUpContent">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
            id="incompleteOnBoarding"/>
     <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop"/>
@@ -394,7 +411,7 @@
     <input type="hidden"
            value="{{route('get.reservations')}}"
            name="reservationsUrl"
-           id="reservationsUrl" />
+           id="reservationsUrl"/>
 
     <div class="modal fade" id="eSignatureModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -1836,13 +1853,14 @@
                     })
                     .then(response => {
 
-                        console.log(response);
-
                         if (!response.success || response.payload.length == 0) {
                             //tmsApp.systemError('Driver Verification', response['message']);
                             return;
                         }
 
+                        if (response.payload) {
+                            $('#reservations').modal('show');
+                        }
                         //hasOpenRequisition
                     })
                     .catch(function (xhr, settings, error) {
