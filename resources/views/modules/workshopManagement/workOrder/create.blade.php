@@ -379,7 +379,7 @@
                         <td>Reference No.</td>
                         <td>Article Code</td>
                         <td>UOM</td>
-                        <td>Specifications}</td>
+                        <td>Specifications</td>
                         <td>Reg No.</td>
                         <td>Quantity</td>
                         </thead>
