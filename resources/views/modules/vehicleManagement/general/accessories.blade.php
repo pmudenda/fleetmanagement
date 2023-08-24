@@ -78,10 +78,10 @@
                                                 <td>
                                                     <div class="dropdown">
                                                         <button
-                                                                class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
-                                                                type="button"
-                                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                                aria-expanded="false">
+                                                            class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                            type="button"
+                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
                                                             Actions
                                                         </button>
                                                         <ul class="dropdown-menu"
@@ -139,9 +139,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="createRecordModalLabel">Add <span
-                                    id="modalTitle">Vehicle Accessories</span>
-                        </h1>
+                    <h1 class="modal-title fs-5" id="createRecordModalLabel">Add <span
+                            id="modalTitle">Vehicle Accessories</span>
+                    </h1>
 
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -196,14 +196,10 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    @if($title == 'nothing')
-                        <h1 class="modal-title fs-5" id="editRecordModalLabel">Add <span id="modalTitle">First</span>
-                        </h1>
-                    @else
-                        <h1 class="modal-title fs-5" id="editRecordModalLabel">Edit <span
-                                    id="modalTitle">{{$title}}</span>
-                        </h1>
-                    @endif
+
+                    <h1 class="modal-title fs-5" id="editRecordModalLabel">Edit <span
+                            id="modalTitle">Accessory</span>
+                    </h1>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -212,9 +208,9 @@
                       method="post">
                     @csrf
                     @method('POST')
-                    @if($title != 'nothing')
-                        <input type="text" value="{{$type}}" name="type" style="display: none" id="data_type"/>
-                    @endif
+
+                    <input type="text" value="" name="type" style="display: none" id="data_type"/>
+
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">Code:</label>
