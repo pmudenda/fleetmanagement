@@ -823,7 +823,7 @@
                 const staff_number = document.querySelector('#driver_staff_number').value
                 let formData = new FormData();
                 formData.append('searchCriteria', staff_number);
-
+                $('#driver_name').val('');
                 fetch(
                     document.querySelector("#driver_staff_number").getAttribute('data-action'),
                     {
