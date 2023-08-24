@@ -1428,7 +1428,7 @@ class MaintenanceController extends Controller
         }
 
 
-        $vehicleRegistration = $request->has('vehicleRegistration');
+        $vehicleRegistration = $request->get('vehicleRegistration');
         Log::info("Checking for reservations for $vehicleRegistration");
         $details = $this->workshopService->getReservedMaterialsAndServices($vehicleRegistration);
         return response()->json([
