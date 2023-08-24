@@ -1853,15 +1853,14 @@
                     })
                     .then(response => {
 
-                        if (!response.success || response.payload.length == 0) {
-                            //tmsApp.systemError('Driver Verification', response['message']);
+                        if (response.state !== 'success' || response.payload.length === 0) {
                             return;
                         }
 
                         if (response.payload) {
                             $('#reservations').modal('show');
                         }
-                        //hasOpenRequisition
+
                     })
                     .catch(function (xhr, settings, error) {
                         tmsApp.showToast(xhr, 'Reservation Search');
