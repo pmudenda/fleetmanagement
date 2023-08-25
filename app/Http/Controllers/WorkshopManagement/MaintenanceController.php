@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\WorkshopManagement;
 
-use;
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Constants\WorkflowActions;
