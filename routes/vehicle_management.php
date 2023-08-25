@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
+use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
+use App\Http\Controllers\Configurations\VehicleBodyTypesController;
 use App\Http\Controllers\migration\VehicleDataCleaningController;
 use App\Http\Controllers\VehicleManagement\MeterEntryController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
+use App\Http\Controllers\VehicleManagement\VehicleModelsController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Models\Reference\GtaVehicle;
 use Illuminate\Http\Request;
@@ -14,7 +17,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'v1/en'], function (): void {
 
-        Route::resource('vehicle/brands', 'ConfigVehicleBrandsController', [
+        Route::resource('vehicle/brands', ConfigVehicleBrandsController::class, [
             'names' => [
                 'get' => 'brands.get',
                 'store' => 'brands.save',
@@ -22,7 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
             ]
         ]);
 
-        Route::resource('vehicle/models', 'VehicleModelsController', [
+        Route::resource('vehicle/models', VehicleModelsController::class, [
             'names' => [
                 'get' => 'models.get',
                 'store' => 'models.save',
@@ -31,7 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
 
         /** BODY TYPES **/
-        Route::resource('vehicle/body-types', 'VehicleBodyTypesController', [
+        Route::resource('vehicle/body-types', VehicleBodyTypesController::class, [
             'names' => [
                 'get' => 'body_type.get',
                 'store' => 'body_type.save',
