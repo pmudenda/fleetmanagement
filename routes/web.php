@@ -19,11 +19,9 @@ use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\PdfJobController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,32 +37,6 @@ use Illuminate\Support\Facades\URL;
 Route::get('/', function () {
     return redirect(route('login'));
 });
-
-Route::get('/mail_view', function () {
-    $details = [
-        'name' => 'Lovemore Daka',
-        'systemLink' => URL::signedRoute('show.workshop.requisition', ['reference' => "786474647"]),
-        'identity' => "898989879",
-        'subject' => "Non-Conformance Assignment",
-        'title' => "Non-Conformance For Your Attention",
-        'body' => "Nonconformity reference PP.14620.NCOF.00001, has been raised by Edwin K. Mboroma for your attention.
-         To ensure high levels of compliance, promptly attend to the nonconformity by " . Carbon::parse(Carbon::now())->format('d/m/Y') . " by clicking on the link below to login to ZQMS."
-    ];
-    return view('mail.send-mail')->with(compact('details'));
-});
-
-Route::get('test', function (Request $request) {
-    return '<table><thead></thead><tbody><tr>' .
-
-        '<td>' . config('rights.role_create') . '</td><td>' . config('rights.role_create') . '</td>' .
-        '<td>' . config('rights.role_access') . '</td><td>' . config('rights.role_access') . '</td>' .
-        '<td>' . config('rights.role_show') . '</td><td>' . config('rights.role_show') . '</td>' .
-        '<td>' . config('rights.role_edit') . '</td><td>' . config('rights.role_edit') . '</td>' .
-        '<td>' . config('rights.role_destroy') . '</td><td>' . config('rights.role_destroy') . '</td>' .
-        '<td>' . config('rights.role_attach') . '</td><td>' . config('rights.role_attach') . '</td>' .
-        '<td>' . config('rights.role_detach') . '</td><td>' . config('rights.role_detach') . '</td>' . '</tr></tbody></table>';
-})->
-name('barcode.generate');
 
 Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 
@@ -83,15 +55,20 @@ Route::get('print/job/card', [PdfJobController::class, "index"])->name('print.jo
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/accident/report', [AccidentRecordingController::class, 'create'])->name('accident.reporting');
+    Route::get('/accident/report', [AccidentRecordingController::class, 'create'])
+        ->name('accident.reporting');
 
-    Route::get('/accident/list', [AccidentRecordingController::class, 'list'])->name('accident.list');
+    Route::get('/accident/list', [AccidentRecordingController::class, 'list'])
+        ->name('accident.list');
 
-    Route::get('/accident/types', [AccidentRecordingController::class, 'getAccidentTypes'])->name('accident.types');
+    Route::get('/accident/types', [AccidentRecordingController::class, 'getAccidentTypes'])
+        ->name('accident.types');
 
-    Route::get('/accident/natures', [AccidentRecordingController::class, 'getAccidentNatures'])->name('accident.natures');
+    Route::get('/accident/natures', [AccidentRecordingController::class, 'getAccidentNatures'])
+        ->name('accident.natures');
 
-    Route::post('/accident/save/report', [AccidentRecordingController::class, 'store'])->name('accident.store');
+    Route::post('/accident/save/report', [AccidentRecordingController::class, 'store'])
+        ->name('accident.store');
 
     //SESSION EXPIRE
     Route::post('getStatus', function () {
@@ -114,9 +91,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         /************ roles ************/
 
-        Route::post('/roles/assign/permission', [RolesController::class, 'assignPermission'])->name('roles.assign.permission');
+        Route::post('/roles/assign/permission', [RolesController::class, 'assignPermission'])
+            ->name('roles.assign.permission');
 
-        Route::post('/roles/revoke/permission', [RolesController::class, 'revokePermission'])->name('roles.revoke.permission');
+        Route::post('/roles/revoke/permission', [RolesController::class, 'revokePermission'])
+            ->name('roles.revoke.permission');
 
         Route::resource('roles', RolesController::class);
 
@@ -128,11 +107,15 @@ Route::group(['middleware' => 'auth'], function () {
 
         /** GENERAL TABLES */
         Route::group(['prefix' => 'general'], function () {
-            Route::get('/open-view', [GeneralTablesController::class, "openFormTypeView"])->name('configuration.general.table');
+            Route::get('/open-view', [GeneralTablesController::class, "openFormTypeView"])
+                ->name('configuration.general.table');
             Route::get('/types', [GeneralTablesController::class, "show"]);
-            Route::post('/general_tables', [GeneralTablesController::class, "save"])->name('save.data');
-            Route::post('/editRecord', [GeneralTablesController::class, "editRecord"])->name('edit.data');
-            Route::post('/deleteRecord', [GeneralTablesController::class, "deleteRecord"])->name('delete.data');
+            Route::post('/general_tables', [GeneralTablesController::class, "save"])
+                ->name('save.data');
+            Route::post('/editRecord', [GeneralTablesController::class, "editRecord"])
+                ->name('edit.data');
+            Route::post('/deleteRecord', [GeneralTablesController::class, "deleteRecord"])
+                ->name('delete.data');
         });
 
         Route::get('vehicle/make', function () {
@@ -152,101 +135,143 @@ Route::group(['middleware' => 'auth'], function () {
             return view('modules.configurations.fuelallocation');
         })->name('vehicle.fuel.allocation');
 
-        Route::get('vehicle/charge-outrate', [ChargeOutRateController::class, 'index'])->name('charge.out.rate');
+        Route::get('vehicle/charge-outrate', [ChargeOutRateController::class, 'index'])
+            ->name('charge.out.rate');
 
-        Route::post('save/charge-outrate', [ChargeOutRateController::class, 'store'])->name('save.charge.out.rate');
+        Route::post('save/charge-outrate', [ChargeOutRateController::class, 'store'])
+            ->name('save.charge.out.rate');
     });
 
     Route::group(['prefix' => 'requisitions'], function () {
-        Route::get('/fuel', [FuelRequisitionController::class, 'create'])->name('new.fuel.requisition');
+        Route::get('/fuel', [FuelRequisitionController::class, 'create'])
+            ->name('new.fuel.requisition');
 
-        Route::get('/fuel/approve', [FuelRequisitionController::class, 'show'])->name('show.fuel.requisition');
+        Route::get('/fuel/approve', [FuelRequisitionController::class, 'show'])
+            ->name('show.fuel.requisition');
 
-        Route::post('/fuel/save', [FuelRequisitionController::class, 'store'])->name('save.fuel.requisition');
+        Route::post('/fuel/save', [FuelRequisitionController::class, 'store'])
+            ->name('save.fuel.requisition');
 
-        Route::get('/fuel-requisitions/list', [FuelRequisitionController::class, 'index'])->name('list.fuel.requisition');
+        Route::get('/fuel-requisitions/list', [FuelRequisitionController::class, 'index'])
+            ->name('list.fuel.requisition');
 
-        Route::post('/fuel/odometer/validation', [FuelRequisitionController::class, 'validateOdometer'])->name('fuel.odometer.validation');
+        Route::post('/fuel/odometer/validation', [FuelRequisitionController::class, 'validateOdometer'])
+            ->name('fuel.odometer.validation');
 
-        Route::post('/fuel/last/requisition', [FuelRequisitionController::class, 'latestRequisition'])->name('fuel.last.requisition');
+        Route::post('/fuel/last/requisition', [FuelRequisitionController::class, 'latestRequisition'])
+            ->name('fuel.last.requisition');
 
-        Route::get('intercity/distance', [FuelRequisitionController::class, 'getDistance'])->name('intercity.distance');
+        Route::get('intercity/distance', [FuelRequisitionController::class, 'getDistance'])
+            ->name('intercity.distance');
 
-        Route::post('/workflow/fuel/approve', [WorkflowController::class, 'processFuelRequisitionApproval'])->name('workflow.approve');
+        Route::post('/workflow/fuel/approve', [WorkflowController::class, 'processFuelRequisitionApproval'])
+            ->name('workflow.approve');
 
     });
 
-    Route::get('searchProjects', [ProjectsController::class, 'findProjectByCode'])->name('search.project');
+    Route::get('searchProjects', [ProjectsController::class, 'findProjectByCode'])
+        ->name('search.project');
 
     Route::group(['prefix' => 'workshop-management'], function () {
 
-        Route::get('workshops/list', [WorkshopController::class, 'index'])->name('workshop.list');
+        Route::get('workshops/list', [WorkshopController::class, 'index'])
+            ->name('workshop.list');
 
-        Route::get('workshop/section', [WorkshopController::class, 'sections'])->name('workshop.sections');
+        Route::get('workshop/section', [WorkshopController::class, 'sections'])
+            ->name('workshop.sections');
 
-        Route::get('workshops/list/json', [WorkshopController::class, 'getActiveWorkShops'])->name('all.workshop.list');
+        Route::get('workshops/list/json', [WorkshopController::class, 'getActiveWorkShops'])
+            ->name('all.workshop.list');
 
-        Route::get('fuel-levels/list/json', [MaintenanceController::class, 'getFuelLevels'])->name('fuels.levels');
+        Route::get('fuel-levels/list/json', [MaintenanceController::class, 'getFuelLevels'])
+            ->name('fuels.levels');
 
         /** Job Card Processing **/
         Route::group(['prefix' => 'maintenance'], function () {
 
-            Route::get('open/job-card', [MaintenanceController::class, 'create'])->name('show.job.card');
+            Route::get('open/job-card', [MaintenanceController::class, 'create'])
+                ->name('show.job.card');
 
-            Route::get('view/job-card', [MaintenanceController::class, 'view'])->name('view.job.card');
+            Route::get('view/job-card', [MaintenanceController::class, 'view'])
+                ->name('view.job.card');
 
             // front desk
-            Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])->name('vehicle.workshop.checkin');
+            Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])
+                ->name('vehicle.workshop.checkin');
 
-            Route::post('vehicle/workshop/checkin', [MaintenanceController::class, 'createTaskForWorkShopSupervisor'])->name('vehicle.workshop.checkin');
+            Route::post('vehicle/workshop/checkin', [MaintenanceController::class, 'createTaskForWorkShopSupervisor'])
+                ->name('vehicle.workshop.checkin');
 
-            Route::post('assessment/acknowledgment', [MaintenanceController::class, "eSign"])->name('sign.assessment');
+            Route::post('assessment/acknowledgment', [MaintenanceController::class, "eSign"])
+                ->name('sign.assessment');
 
             // supporting
-            Route::get('vehicles-in-workshop/list', [MaintenanceController::class, 'list'])->name('workOrder.list');
+            Route::get('vehicles-in-workshop/list', [MaintenanceController::class, 'list'])
+                ->name('workOrder.list');
 
-            Route::get('all/job-card/list', [MaintenanceController::class, 'list'])->name('jobCard.list');
+            Route::get('all/job-card/list', [MaintenanceController::class, 'list'])
+                ->name('jobCard.list');
 
-            Route::get('job-card/show', [MaintenanceController::class, 'showJobCard'])->name('job.card.show');
+            Route::get('job-card/show', [MaintenanceController::class, 'showJobCard'])
+                ->name('job.card.show');
 
             // delete defect
-            Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])->name('delete.defect.record');
+            Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])
+                ->name('delete.defect.record');
 
-            Route::post('/deleteMaterialRecord', [MaintenanceController::class, "deleteMaterialRecord"])->name('delete.material.record');
+            Route::post('/deleteMaterialRecord', [MaintenanceController::class, "deleteMaterialRecord"])
+                ->name('delete.material.record');
 
-            Route::post('/deleteServiceRecord', [MaintenanceController::class, "deleteServiceRecord"])->name('delete.service.record');
+            Route::post('/deleteServiceRecord', [MaintenanceController::class, "deleteServiceRecord"])
+                ->name('delete.service.record');
 
-            Route::post('save/job/card/header', [MaintenanceController::class, 'saveJobCardHeader'])->name('save.job.card');
+            Route::post('save/job/card/header', [MaintenanceController::class, 'saveJobCardHeader'])
+                ->name('save.job.card');
 
-            Route::post('save/job/card/accessories', [MaintenanceController::class, 'saveJobCardAccessories'])->name('job_card.accessories.checkin');
+            Route::post('save/job/card/accessories', [MaintenanceController::class, 'saveJobCardAccessories'])
+                ->name('job_card.accessories.checkin');
 
-            Route::post('save/job-card/defects', [MaintenanceController::class, 'saveJobCardDefects'])->name('defects.job_card');
+            Route::post('save/job-card/defects', [MaintenanceController::class, 'saveJobCardDefects'])
+                ->name('defects.job_card');
 
-            Route::post('save/workshop/material/requisition', [MaintenanceController::class, 'saveJobCardMaterialRequisition'])->name('process.requisition');
+            Route::post('save/material/requisition', [MaintenanceController::class, 'saveJobCardMaterialRequisition'])
+                ->name('process.requisition');
 
-            Route::post('save/workshop/material/reservation', [MaintenanceController::class, 'saveWorkShopMaterialReservation'])->name('save.material.reservation');
+            Route::post('save/material/reservation', [MaintenanceController::class, 'saveWorkShopMaterialReservation'])
+                ->name('save.material.reservation');
 
-            Route::post('save/workshop/services/requisition', [MaintenanceController::class, 'saveJobCardServiceRequest'])->name('process.service.requisition');
+            Route::post('save/services/requisition', [MaintenanceController::class, 'saveJobCardServiceRequest'])
+                ->name('process.service.requisition');
 
-            Route::post('save/workshop/services/reservation', [MaintenanceController::class, 'saveWorkShopServicesReservation'])->name('save.service.reservation');
+            Route::post('save/service/reservation', [MaintenanceController::class, 'saveWorkShopServicesReservation'])
+                ->name('save.service.reservation');
 
-            Route::post('save/workshop/job/assignment', [MaintenanceController::class, 'saveJobCardWorkAssignments'])->name('save.job.assignment');
+            Route::post('save/job/assignment', [MaintenanceController::class, 'saveJobCardWorkAssignments'])
+                ->name('save.job.assignment');
 
-            Route::post('save/workshop/job/reassignment', [MaintenanceController::class, 'saveJobCardWorkReassignments'])->name('save.job.reassignment');
+            Route::post('save/job/reassignment', [MaintenanceController::class, 'saveJobCardWorkReassignments'])
+                ->name('save.job.reassignment');
 
-            Route::get('exit/vehicle/from/workshop', [MaintenanceController::class, 'exitWorkShop'])->name('exit.from.card');
+            Route::get('exit/vehicle/from/workshop', [MaintenanceController::class, 'exitWorkShop'])
+                ->name('exit.from.card');
 
-            Route::post('close/job-card', [MaintenanceController::class, 'closeJobCard'])->name('save.exit.from.workshop');
+            Route::post('close/job-card', [MaintenanceController::class, 'closeJobCard'])
+                ->name('save.exit.from.workshop');
 
-            Route::get('parts-selection', [MaintenanceController::class, 'partsSelection'])->name('parts.selection');
+            Route::get('parts-selection', [MaintenanceController::class, 'partsSelection'])
+                ->name('parts.selection');
 
-            Route::get('job-card/accessories', [MaintenanceController::class, 'showAccessoriesTab'])->name('accessories.job.card');
+            Route::get('job-card/accessories', [MaintenanceController::class, 'showAccessoriesTab'])
+                ->name('accessories.job.card');
 
-            Route::get('workOrder/job-card/defects', [MaintenanceController::class, 'defectsTab'])->name('defects.job.card');
+            Route::get('workOrder/job-card/defects', [MaintenanceController::class, 'defectsTab'])
+                ->name('defects.job.card');
 
-            Route::get('open/job-card/closure', [MaintenanceController::class, 'openJobCardClosure'])->name('show.workorder.closure');
+            Route::get('open/job-card/closure', [MaintenanceController::class, 'openJobCardClosure'])
+                ->name('show.workorder.closure');
 
-            Route::post('get/reservations', [MaintenanceController::class, 'getReservedMaterialAndServices'])->name('load.reservations');
+            Route::post('get/reservations', [MaintenanceController::class, 'getReservedMaterialAndServices'])
+                ->name('load.reservations');
 
             Route::post('attach/to/job-card', [MaintenanceController::class, 'attachReservedArticlesToJobCard'])
                 ->name('attach.reservations.card');
