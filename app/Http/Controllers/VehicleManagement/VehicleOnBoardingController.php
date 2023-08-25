@@ -21,8 +21,6 @@ use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use Exception;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -47,20 +45,14 @@ class VehicleOnBoardingController extends Controller
         return view($viewName);
     }
 
-    public function showDetails(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
+    public function showDetails(Request $request): View
     {
         if ($request->has('reference') && !$request->hasValidSignature()) {
             abort(401);
         }
 
-        if ($request->has('step') && $request->get('step') != "1") {
-            if (!$request->hasValidSignature()) {
-                abort(401);
-            }
-        }
-
-        if (!$request->has('step')) {
-            return redirect(route('new.vehicle', ['step' => 1]));
+        if ($request->has('step') && $request->get('step') != "1" && !$request->hasValidSignature()) {
+            abort(401);
         }
 
         $step = $request->get('step') ?? 0;
@@ -79,6 +71,7 @@ class VehicleOnBoardingController extends Controller
 
         return view($viewName)
             ->with(compact(
+                'step',
                 'reference',
                 'accessories',
                 'enteredAccessories',
@@ -91,12 +84,12 @@ class VehicleOnBoardingController extends Controller
         $reference = $request->get('reference');
 
         if (empty($reference)) {
-            return view('error')->with(['error' => 'vehicle Not Found']);
+            return redirect(route('error'))
+                ->with(['message' => 'vehicle Not Found']);
         }
 
         $vehicle = VehicleHeader::where('id', '=', $reference)->first();
 
-        $step = '';
         if (StatusHelper::PendingGeneralDataEntry() == $vehicle->on_boarding_status) {
             $step = 2;
         } elseif ($vehicle->on_boarding_status == StatusHelper::PendingTechnicalDataEntry()) {
@@ -107,7 +100,7 @@ class VehicleOnBoardingController extends Controller
             $step = 5;
         } elseif ($vehicle->on_boarding_status == StatusHelper::PendingAssignment()) {
             $step = 6;
-        } else if ($vehicle->on_boarding_status = StatusHelper::onboardingComplete()) {
+        } elseif ($vehicle->on_boarding_status = StatusHelper::onboardingComplete()) {
             $step = 7;
         } else {
             $step = 1;
@@ -116,23 +109,20 @@ class VehicleOnBoardingController extends Controller
         return redirect(URL::signedRoute('new.vehicle', ['step' => $step, 'reference' => $reference]));
     }
 
-    public function start(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
+    public function start(Request $request): View|RedirectResponse
     {
         $vehicle = null;
         $vehicleDocuments = [];
         $enteredAccessories = [];
 
         try {
-            if ($request->has('reference')) {
-                if (!$request->hasValidSignature()) {
-                    abort(401);
-                }
+            if ($request->has('reference') && !$request->hasValidSignature()) {
+                abort(401);
             }
-            if ($request->has('step') && $request->get('step') != "1") {
-                if (!$request->hasValidSignature()) {
-                    abort(401);
-                }
+            if ($request->has('step') && $request->get('step') != "1" && !$request->hasValidSignature()) {
+                abort(401);
             }
+
             if (!$request->has('step')) {
                 return redirect(route('new.vehicle', ['step' => 1]));
             }
@@ -206,13 +196,17 @@ class VehicleOnBoardingController extends Controller
         try {
             $model = $this->onBoardingService->processVehicleHeaderInformation($request);
 
-            return response()->json([
-                'state' => 'success',
-                'request' => $request->all(),
-                'payload' => $model,
-                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 2, 'reference' => $model->id]),
-                'message' => 'Your request has been processed  Successfully, Click ok to proceed with onboarding process'
-            ]);
+            return response()->json(
+                [
+                    'state' => 'success',
+                    'request' => $request->all(),
+                    'payload' => $model,
+                    'redirectUrl' => URL::signedRoute('new.vehicle', [
+                        'step' => 2,
+                        'reference' => $model->id
+                    ]),
+                    'message' => SystemMessages::REQUEST_PROCESSED_SUCCESSFULLY
+                ]);
 
         } catch (Exception $e) {
             Log::error($e);
@@ -270,8 +264,11 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 4, 'reference' => $model->vehicle_header_id]),
-                'message' => 'Vehicle Technical Data Processed Successfully'
+                'redirectUrl' => URL::signedRoute('new.vehicle', [
+                    'step' => 4,
+                    'reference' => $model->vehicle_header_id
+                ]),
+                'message' => SystemMessages::TECHNICAL_DATA_SAVED
             ]);
         } catch (Exception $e) {
             Log::error($e);
@@ -295,7 +292,10 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 7, 'reference' => $model->vehicle_header_id]),
+                'redirectUrl' => URL::signedRoute('new.vehicle', [
+                    'step' => 7,
+                    'reference' => $model->vehicle_header_id
+                ]),
                 'message' => 'Request Processed Successfully'
             ]);
         } catch (Exception $e) {
@@ -349,7 +349,10 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 6, 'reference' => $model->vehicle_header_id]),
+                'redirectUrl' => URL::signedRoute('new.vehicle', [
+                    'step' => 6,
+                    'reference' => $model->vehicle_header_id
+                ]),
                 'message' => 'Request Submitted Successfully'
             ]);
         } catch (Exception $e) {
@@ -366,28 +369,38 @@ class VehicleOnBoardingController extends Controller
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function validateVehicleIdentifiers(Request $request): JsonResponse
     {
         $valid = true;
 
         $message = '';
+        $documentIdentity = trim($request->get('key'));
         switch ($request->get('method')) {
             case 'registration_number':
-                $valid = VehicleHeader::where('registration_number', trim($request->get('key')))->count() == 0;
+                $valid = VehicleHeader::where('registration_number', $documentIdentity)
+                        ->count() == 0;
                 $message = $valid ? 'Valid' : 'Duplicate Registration Number';
                 break;
             case 'chassis':
-                $valid = ChassisDetail::where('chassis_number', trim($request->get('key')))->count() == 0;
-                $message = $valid ? 'Chassis Number is valid' : 'Duplicate Chassis Number';;
+                $valid = ChassisDetail::where('chassis_number', $documentIdentity)
+                        ->count() == 0;
+                $message = $valid ? 'Chassis Number is valid' : 'Duplicate Chassis Number';
                 break;
             case 'engine_number':
-                $valid = ChassisDetail::where('engine_number', trim($request->get('key')))->count() == 0;
-                $message = $valid ? 'Engine Number valid' : 'Duplicate Engine Number';;
+                $valid = ChassisDetail::where('engine_number', $documentIdentity)
+                        ->count() == 0;
+                $message = $valid ? 'Engine Number valid' : 'Duplicate Engine Number';
                 break;
             case 'motorVehicleCertificate':
-                $valid = ChassisDetail::where('white_book_serial', trim($request->get('key')))->count() == 0;
-                $message = $valid ? 'White Book Serial is valid' : 'Duplicate White Book Number';;
+                $valid = ChassisDetail::where('white_book_serial', $documentIdentity)
+                        ->count() == 0;
+                $message = $valid ? 'White Book Serial is valid' : 'Duplicate White Book Number';
                 break;
+            default:
+                throw new InvalidDocumentException('Unexpected value');
         }
 
         return response()->json([

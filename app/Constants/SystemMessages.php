@@ -6,7 +6,11 @@ class SystemMessages
 {
     const ODOMETER_VALIDATED_SUCCESSFULLY = "Odometer validated successfully";
     const VEHICLE_GENERAL_DATA_PROCESSED_SUCCESSFULLY = 'Vehicle General Data Processed Successfully';
-    const VEHICLE_ONBOARDED_SUCCESSFULLY = 'Vehicle Onboarded Successfully. You will now be redirected to vehicle Register';
+    const VEHICLE_ONBOARDED_SUCCESSFULLY =
+        'Vehicle Onboarded Successfully. You will now be redirected to vehicle Register';
+    const REQUEST_PROCESSED_SUCCESSFULLY =
+        'Your request has been processed  Successfully, Click ok to proceed with onboarding process';
+    const TECHNICAL_DATA_SAVED = 'Vehicle Technical Data Processed Successfully';
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

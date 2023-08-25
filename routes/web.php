@@ -55,6 +55,10 @@ Route::get('print/job/card', [PdfJobController::class, "index"])->name('print.jo
 
 Route::group(['middleware' => 'auth'], function () {
 
+    Route::get('/', function (Request $request) {
+        return view('error')->with(['error' => $request->get('message')]);
+    })->name('error');
+
     Route::get('/accident/report', [AccidentRecordingController::class, 'create'])
         ->name('accident.reporting');
 
@@ -344,12 +348,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('list', [RemindersController::class, 'index'])->name('reminder.list');
 
         // Renewals
-        Route::get('renewal/create', [RemindersController::class, 'createRenewalReminder'])->name('reminder.renewal.new');
-        Route::post('renewal/save', [RemindersController::class, 'storeRenewalReminder'])->name('reminder.renewal.save');
+        Route::get('renewal/create', [RemindersController::class, 'createRenewalReminder'])
+            ->name('reminder.renewal.new');
+        Route::post('renewal/save', [RemindersController::class, 'storeRenewalReminder'])
+            ->name('reminder.renewal.save');
 
         // Service
-        Route::get('service/create', [RemindersController::class, 'createServiceReminder'])->name('reminder.service.new');
-        Route::post('service/save', [RemindersController::class, 'storeServiceReminder'])->name('reminder.service.save');
+        Route::get('service/create', [RemindersController::class, 'createServiceReminder'])
+            ->name('reminder.service.new');
+        Route::post('service/save', [RemindersController::class, 'storeServiceReminder'])
+            ->name('reminder.service.save');
     });
 
     Route::group(['prefix' => 'reports'], function () {
@@ -368,9 +376,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('e-toll/cards/list', [eTollCardController::class, 'list'])->name('e-toll.card.list');
 
-    Route::get('e-toll/cards/transactions', [eTollCardController::class, 'uploadTransaction'])->name('e-toll.card.transaction');
+    Route::get('e-toll/cards/transactions', [eTollCardController::class, 'uploadTransaction'])
+        ->name('e-toll.card.transaction');
 
-    Route::post('save/e-toll/cards/transactions', [eTollCardController::class, 'saveTransaction'])->name('e-toll.card.save.transactions');
+    Route::post('save/e-toll/cards/transactions', [eTollCardController::class, 'saveTransaction'])
+        ->name('e-toll.card.save.transactions');
 
     Route::get('e-toll/cards/report', [eTollCardController::class, 'report'])->name('e-toll.card.report');
 
