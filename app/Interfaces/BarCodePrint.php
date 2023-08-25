@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Interfaces;
+
 abstract class BarCodePrint implements IBarcodeGenerator
 {
     /**

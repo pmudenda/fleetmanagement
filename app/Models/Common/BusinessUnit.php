@@ -11,6 +11,5 @@ class BusinessUnit extends Model
 
     protected $table = 'REF_BUSINESS_UNITS';
 
-    protected $fillable = [
-    ];
+    protected $fillable = [];
 }

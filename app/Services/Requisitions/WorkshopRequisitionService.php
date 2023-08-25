@@ -893,7 +893,7 @@ class WorkshopRequisitionService
             throw new FuelRequisitionException(ErrorMessages::getMessage('err_0022'));
         }
 
-        if (!str_contains($results, "J02")) {
+        if (!str_starts_with($results, "J02")) {
             throw new FuelRequisitionException($results);
         }
 
@@ -937,7 +937,7 @@ class WorkshopRequisitionService
             throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
         }
 
-        if (!str_contains($results, "N01")) {
+        if (!str_starts_with($results, "N01")) {
             throw new FuelRequisitionException($results);
         }
 
@@ -981,7 +981,7 @@ class WorkshopRequisitionService
             throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
         }
 
-        if (!str_contains($results, "N01")) {
+        if (!str_starts_with($results, "N01")) {
             throw new FuelRequisitionException($results);
         }
 

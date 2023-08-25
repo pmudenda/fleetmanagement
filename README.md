@@ -95,5 +95,13 @@ The ZFMS is propitiatory software developed for use under strict [license]().
 # run the command to install redis server
 redis-server
 
+sqp_57d8e7be7b187776c46345a97b4b9cd792ee3593
+
+sonar-scanner \
+-Dsonar.projectKey=FleetMaster \
+-Dsonar.sources=. \
+-Dsonar.host.url=http://localhost:9000 \
+-Dsonar.token=sqp_57d8e7be7b187776c46345a97b4b9cd792ee3593
+
 
 

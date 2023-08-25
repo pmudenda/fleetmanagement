@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 class RightsServiceProvider extends ServiceProvider
 {
 
-    function boot(): void
+    public function boot(): void
     {
         //dynamic constants
         try {

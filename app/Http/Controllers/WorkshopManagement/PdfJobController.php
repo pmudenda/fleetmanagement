@@ -33,7 +33,7 @@ class PdfJobController extends Controller
         $workShopLocation = "MALAMBO";
         $filepath = public_path() . '/img/ZESCO_removebg.png';
         $this->fpdf->SetAuthor('ZESCO FLEET MASTER');
-        $location = "WORKSHOP LOCATION \n".$workShopLocation;
+        $location = "WORKSHOP LOCATION \n" . $workShopLocation;
 
         $this->fpdf->SetTitle($assignments['documentFileName']);
         $this->fpdf->AliasNbPages('{pages}');
@@ -42,16 +42,6 @@ class PdfJobController extends Controller
         $this->fpdf->AddPage();// Add new pages
 
         $label_size = '12';
-
-        /*if (file_exists($filepath)) {
-            $this->fpdf->Image($filepath, 90, 0, 30);
-            // Arial bold 15
-            $this->fpdf->SetFont('Arial', 'B', 15);
-            // Move to the right
-            // $this->fpdf->Cell(80);
-            // Line break
-            $this->fpdf->Ln(20);
-        }*/
 
         $this->fpdf->Cell(40, 25,
             $this->fpdf->Image($filepath, $this->fpdf->GetX(), $this->fpdf->GetY(), 46),
@@ -64,23 +54,30 @@ class PdfJobController extends Controller
             1, "C");
         $this->fpdf->Ln(5);
 
-        $this->fpdf->Cell(90, 25, $this->fpdf->MultiCell(60, 10, $location, 1, 'L',false), 1, '', 'C');
-        $this->fpdf->Cell(90, 25, $this->fpdf->MultiCell(40, 10, 'DEPARTMENT', 1, 'L', false), 1, '', 'C');
-        $this->fpdf->Cell(90, 25, 'MECHANICAL WORKSHOP JOB CARD', 1, '', 'C');
+        $this->fpdf->Cell(70, 25, "WORKSHOP LOCATION", 1, 0, 'T', false);
+        $this->fpdf->Cell(50, 25, "DEPARTMENT", 1, 0, 'T', false);
+        $this->fpdf->MultiCell(70, 25, "JOB CARD No.", 1, 'T', '', false);
 
-        ;
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
-        ;
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
-        $this->fpdf->MultiCell(60, 10, "JOB CARD No.:\nCO.14900.FORM.0051",
-            1, "L");
+        $this->fpdf->Cell(50, 25, "Date And Time", 1, 0, 'T', false);
+        $this->fpdf->Cell(40, 25, "Fleet No./Reg. No.", 1, 0, '', false);
+        $this->fpdf->Cell(50, 25, "Make/Model", 1, 0, '', false);
+        $this->fpdf->Cell(50, 25, "Chassis No.", 1, 0, '', false);
+        $this->fpdf->Ln();
+        $this->fpdf->Cell(40, 20, "Kilometers", 1, 0, 'T', false);
+        $this->fpdf->Cell(40, 20, "Empty/Loaded", 1, 0, '', false);
+        $this->fpdf->Cell(35, 20, "Due for Service", 1, 0, '', false);
+        $this->fpdf->Cell(25, 20, "A", 1, 0, 'C', false);
+        $this->fpdf->Cell(25, 20, "B", 1, 0, 'C', false);
+        $this->fpdf->Cell(25, 20, "C", 1, 0, 'C', false);
 
+        /*$this->fpdf->Ln(10);
         $this->fpdf->Ln(10);
+        $this->fpdf->Ln(10);*/
         //invoice contents
         $this->fpdf->SetFillColor(28, 153, 85);
         $this->fpdf->SetFont('Arial', 'B', 12);
         $this->fpdf->SetTextColor(255, 255, 255);
-
+        $this->fpdf->Ln(22);
 
         $this->fpdf->SetFillColor(224, 235, 255);
         $this->fpdf->SetTextColor(32, 16, 8);
@@ -90,9 +87,9 @@ class PdfJobController extends Controller
         $this->fpdf->Cell(60, 5, "JOB INSTRUCTION:");
         $this->fpdf->Ln();
         $this->fpdf->MultiCell(190, 5, $assignments['jobInstruction'], 1, '');
-        $this->fpdf->MultiCell(190, 5, '', 1, '');
-        $this->fpdf->MultiCell(190, 5, '', 1, '');
-        $this->fpdf->MultiCell(190, 5, '', 1, '');
+        $this->fpdf->MultiCell(190, 8, '', 1, '');
+        $this->fpdf->MultiCell(190, 8, '', 1, '');
+        $this->fpdf->MultiCell(190, 8, '', 1, '');
 
         $this->fpdf->Ln();
         $this->fpdf->Ln();
@@ -100,68 +97,28 @@ class PdfJobController extends Controller
         $this->fpdf->SetFont('Arial', 'B', $label_size);
         $this->fpdf->Cell(60, 5, "WORK DONE AND WORK COMPLETED:");
         $this->fpdf->Ln();
-        $this->fpdf->MultiCell(190, 5, '', 1, 0);
-        $this->fpdf->MultiCell(190, 5, '', 1, 0);
-        $this->fpdf->MultiCell(190, 5, '', 1, 0);
-        $this->fpdf->MultiCell(190, 5, '', 1, 0);
-        $this->fpdf->MultiCell(190, 5, '', 1, 0);
+        $this->fpdf->MultiCell(0, 8, '', 1, 0);
+        $this->fpdf->MultiCell(190, 8, '', 1, 0);
+        $this->fpdf->MultiCell(190, 8, '', 1, 0);
+        $this->fpdf->MultiCell(190, 8, '', 1, 0);
+        $this->fpdf->MultiCell(190, 8, '', 1, 0);
 
-        /*$this->fpdf->Ln();
 
-        $this->fpdf->Cell(120, 5, 'TOTAL VALUE OF INVOICE (US$)', 1, 0);
+        $this->fpdf->Cell(95, 25, "Supervisor's Signature", 1, 0, 'T', false);
+        $this->fpdf->Cell(95, 25, "Mechanic's Staff Names", 1, 0, 'T', false);
         $this->fpdf->Ln();
+        $this->fpdf->Cell(95, 25, "Date/Time Released", 1, 0, 'T', false);
+        $this->fpdf->Cell(95, 25, "Date/Time Released", 1, 0, 'T', false);
         $this->fpdf->Ln();
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
-        $this->fpdf->Cell(50, 5, "This Invoice is due on 01 July 2023");
-        $this->fpdf->SetFont('Arial', '', $text_size);
-        $this->fpdf->SetTextColor(0, 0, 0);
-//        $this->fpdf->Cell(50, 5, '05-2023', 0, 1);
-        $this->fpdf->Ln();
-        $this->fpdf->Ln();
-
-
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
-        $this->fpdf->Cell(50, 5, "Account Name:");
-        $this->fpdf->SetFont('Arial', '', $text_size);
-        $this->fpdf->SetTextColor(0, 0, 0);
-        $this->fpdf->Cell(50, 5, 'Zesco Limited', 0, 1);
-        $this->fpdf->Ln(2);
-
-
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
-        $this->fpdf->Cell(30, 5, "Bank Name:");
-        $this->fpdf->SetFont('Arial', '', $text_size);
-        $this->fpdf->SetTextColor(0, 0, 0);
-        $this->fpdf->Cell(50, 5, 'Standard Chartered Bank Zambia', 0, 1);
-        $this->fpdf->Ln(2);
-
-
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
-        $this->fpdf->Cell(50, 5, "Account Number:");
-        $this->fpdf->SetFont('Arial', '', $text_size);
-        $this->fpdf->SetTextColor(0, 0, 0);
-        $this->fpdf->Cell(50, 5, '8700211454200', 0, 1);
-        $this->fpdf->Ln(2);
-
-
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
-        $this->fpdf->Cell(50, 5, "Branch Name:");
-        $this->fpdf->SetFont('Arial', '', $text_size);
-        $this->fpdf->SetTextColor(0, 0, 0);
-        $this->fpdf->Cell(50, 5, 'North End Branch', 0, 1);
-        $this->fpdf->Ln(2);
-
-
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
-        $this->fpdf->Cell(50, 5, "Swift Code:");
-        $this->fpdf->SetFont('Arial', '', $text_size);
-        $this->fpdf->SetTextColor(0, 0, 0);
-        $this->fpdf->Cell(50, 5, 'SCBLZMLX', 0, 1);
-        $this->fpdf->Ln(2);*/
-        $this->fpdf->Ln();
-        $this->fpdf->Ln();
-        $header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
-        $this->ImprovedTable($header, []);
+        $this->fpdf->Cell(95, 30, "Driver's Name:", 1, 0, 'T', false);
+        $this->fpdf->MultiCell(95, 5,
+            "W.SMG' Signature \nOdometer Reading ...................................
+                \nRoad Test Remarks ...................................
+                \n......................................................................", 1, 0, false);
+        //$this->fpdf->Ln();
+        $this->fpdf->Cell(95, 25, "Man No.:", 1, 0, 'T', false);
+        $this->fpdf->MultiCell(95, 8, "W.SMG' Signature\n............................................",
+            1, 0, false);
 
         $this->fpdf->Ln();
         $this->fpdf->Ln();

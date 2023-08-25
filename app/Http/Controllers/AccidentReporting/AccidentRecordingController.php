@@ -8,16 +8,15 @@ use App\Http\Requests\AccidentRecordingRequest;
 use App\Models\Accident;
 use App\Models\Settings\GeneralTable;
 use App\Services\FileUploads\FileUploadService;
-use App\Services\Requisitions\FuelRequisitionService;
-use App\Services\Requisitions\WorkshopRequisitionService;
 use App\Services\Workflow\DocumentNumberGenerationService;
-use App\Services\WorkShopManagement\WorkshopService;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use PHPUnit\Exception;
 
-class VehicleRecordingController extends Controller
+class AccidentRecordingController extends Controller
 {
     private readonly FileUploadService $fileUploadService;
 
@@ -29,8 +28,10 @@ class VehicleRecordingController extends Controller
         $this->numberGeneratorService = $numberGeneratorService;
         $this->fileUploadService = $fileUploadService;
     }
-    function create(){
-        $minDate= Carbon::now()->subtract('year', 10);
+
+    public function create(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        $minDate = Carbon::now()->subtract('year', 10);
 
         return view("modules.accidentReporting.create")
             ->with(compact(
@@ -38,7 +39,7 @@ class VehicleRecordingController extends Controller
             ));
     }
 
-    function store(AccidentRecordingRequest $request)
+    public function store(AccidentRecordingRequest $request): JsonResponse
     {
         try {
             $user = auth()->user();
@@ -50,7 +51,7 @@ class VehicleRecordingController extends Controller
                 'area' => $request->get('area'),
                 'vehicle_reg_no' => $request->get('registrationNo'),
                 'driver' => $request->get('driver_staff_number'),
-                'date_of_accident' => Carbon::parse( $request->validated('date')),
+                'date_of_accident' => Carbon::parse($request->validated('date')),
                 'time_of_accident' => Carbon::parse($request->validated('time')),
                 'date_reported' => Carbon::now()->format('Y-m-d'),
                 'time_reported' => Carbon::now(),
@@ -69,7 +70,7 @@ class VehicleRecordingController extends Controller
                 'driver_experience' => $request->validated('experience'),
             ]);
 
-            if($request->hasFile('accident_rpt')) {
+            if ($request->hasFile('accident_rpt')) {
                 $this->fileUploadService->uploadFile($request,
                     'accident_rpt',
                     'VehicleAccident',
@@ -94,7 +95,7 @@ class VehicleRecordingController extends Controller
 
     }
 
-    function accidentTypes()
+    public function accidentTypes(): JsonResponse
     {
 
         try {
@@ -105,7 +106,7 @@ class VehicleRecordingController extends Controller
                 'payload' => $data,
             ]);
         } catch (\Exception $e) {
-
+            Log::info($e);
             return response()->json([
                 'state' => 'failure',
                 'payload' => [],
@@ -113,9 +114,9 @@ class VehicleRecordingController extends Controller
             ]);
         }
     }
-    function accidentNatures()
-    {
 
+    public function accidentNatures(): JsonResponse
+    {
         try {
             $data = GeneralTable::where('type', '=', ConfigurationTypes::ACCIDENT_NATURE->value)->get();
             return response()->json([
@@ -131,124 +132,4 @@ class VehicleRecordingController extends Controller
             ]);
         }
     }
-
-   /* function getVehicle($registrationNo){
-
-        try {
-            $vehicleData = vehicleDetails::find($registrationNo);
-            if (!$vehicleData){
-                $response = [
-                    'status' => 'failure',
-                    'message' => 'Data Not found'
-                ];
-            }else{
-                $response = [
-                    'status' => 'success',
-                    'data' => $vehicleData
-                ];
-            }
-
-            return response()->json($response);
-        }catch (\Throwable | Exception $exception){
-            Log::error($exception->getMessage());
-            $response = [
-                'status' => 'failure',
-                'message' => 'An error occurred with your Query'
-            ];
-
-
-            return response()->json($response);
-        }
-
-    }
-
-    function  getStaffDetails($staffNo){
-        try {
-            $vehicleData = driverDetails::find($staffNo);
-
-            if (!$vehicleData){
-                $response = [
-                    'status' => 'failure',
-                    'message' => 'Data Not found'
-                ];
-            }else{
-                $response = [
-                    'status' => 'success',
-                    'data' => $vehicleData
-                ];
-            }
-
-
-
-            return response()->json($response);
-
-        }catch (\Throwable | Exception $exception){
-            Log::error($exception->getMessage());
-            $response = [
-                'status' => 'failure',
-                'message' => 'An error occurred with your Query'
-            ];
-
-
-            return response()->json($response);
-        }
-
-    }
-
-
-    public function addAccidentRecord(Request $request){
-
-        try {
-
-            $vehicleRecord = $request-> validate([
-                "accidentNature"=>'required',
-                "accidentType"=>'required',
-                "peopleInvolved"=>'required',
-                "date"=>'required',
-                "time"=>'required',
-                "description"=>'required',
-                "policeNotified"=>'required',
-                "staffNumber"=>'required',
-                "driverName"=>'required',
-                "driverEmail"=>'required',
-                "phoneNo"=>'required',
-                "age"=>'required',
-                "driverPosition"=>'required',
-                "registrationNo"=>'required',
-                "modelNo"=>'required',
-                "vehicleMake"=>'required',
-                "chassisNo"=>'required'
-            ]);
-
-
-
-
-            accidentRecord::create($vehicleRecord);
-
-            $response = [
-                'status' => 'success',
-                'message' => 'Done'
-            ];
-
-            return response()->json($response);
-
-        }catch(\Throwable | Exception $exception){
-            Log::error($exception->getMessage());
-
-            $response = [
-                'status' => 'failure',
-                'message' => 'There was an error in your submission'
-            ];
-
-            return response()->json($response);
-        }
-
-
-
-
-
-
-
-    }
-    //*/
 }

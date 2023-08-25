@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AccidentReporting\VehicleRecordingController;
+use App\Http\Controllers\AccidentReporting\AccidentRecordingController;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ChargeOutRateController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
@@ -83,15 +83,15 @@ Route::get('print/job/card', [PdfJobController::class, "index"])->name('print.jo
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/accident/report', [VehicleRecordingController::class, 'create'])->name('accident.reporting');
+    Route::get('/accident/report', [AccidentRecordingController::class, 'create'])->name('accident.reporting');
 
-    Route::get('/accident/list', [VehicleRecordingController::class, 'list'])->name('accident.list');
+    Route::get('/accident/list', [AccidentRecordingController::class, 'list'])->name('accident.list');
 
-    Route::get('/accident/types', [VehicleRecordingController::class, 'accidentTypes'])->name('accident.types');
+    Route::get('/accident/types', [AccidentRecordingController::class, 'accidentTypes'])->name('accident.types');
 
-    Route::get('/accident/natures', [VehicleRecordingController::class, 'accidentNatures'])->name('accident.natures');
+    Route::get('/accident/natures', [AccidentRecordingController::class, 'accidentNatures'])->name('accident.natures');
 
-    Route::post('/accident/save/report', [VehicleRecordingController::class, 'store'])->name('accident.store');
+    Route::post('/accident/save/report', [AccidentRecordingController::class, 'store'])->name('accident.store');
 
     //SESSION EXPIRE
     Route::post('getStatus', function () {

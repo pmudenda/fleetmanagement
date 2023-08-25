@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 class SystemSettingsServiceProvider extends ServiceProvider
 {
 
-    function boot(): void
+    public function boot(): void
     {
         //dynamic system constants
         try {

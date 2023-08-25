@@ -24,7 +24,7 @@ class VehicleDataCleaningController extends Controller
             }
             $userUnits = DB::table('GTAVEHIC_VIEW as gta')
                 ->select(DB::raw('distinct gta.codigo_unidad, ou.description as name_dec'))
-                ->join('ref_organizational_units as ou', 'gta.codigo_unidad', '=', 'ou.code_unit')
+                ->join('zfm_organizational_units_view as ou', 'gta.codigo_unidad', '=', 'ou.code_unit')
                 ->get();
 
             return view('modules.vehicleManagement.migration.list')->with(compact(
@@ -66,7 +66,7 @@ class VehicleDataCleaningController extends Controller
 
         $userUnits = DB::table('GTAVEHIC_VIEW as gta')
             ->select(DB::raw('distinct gta.codigo_unidad, ou.description as name_dec'))
-            ->join('ref_organizational_units as ou', 'gta.codigo_unidad', '=', 'ou.code_unit')
+            ->join('zfm_organizational_units_view as ou', 'gta.codigo_unidad', '=', 'ou.code_unit')
             ->get();
 
         return view('modules.vehicleManagement.migration.list')->with(compact(
