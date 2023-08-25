@@ -1437,6 +1437,25 @@ class MaintenanceController extends Controller
         ]);
     }
 
+    public function attachReservedArticlesToJobCard(Request $request)
+    {
+        try {
+            $reference = $request->get('reference');
+            $workOrder = JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
+                ->first();
+            return response()->json([
+                'payload' => [],
+                'state' => 'success'
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'payload' => [],
+                'state' => 'failure'
+            ]);
+        }
+    }
+
     /**
      * @param $reference
      * @return array
