@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\WorkshopManagement;
 
+use;
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Constants\WorkflowActions;
@@ -11,6 +12,7 @@ use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\FuelRequisitionException;
+use App\Exceptions\InvalidAssessmentSignatoryException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -62,6 +64,7 @@ use Illuminate\View\View;
 
 class MaintenanceController extends Controller
 {
+    const WE_COULD_NOT_COMPLETE_PROCESSING_YOUR_REQUEST_TO_AN_ERROR = "We could not complete processing your request to an error";
     private WorkshopService $workshopService;
     private DocumentNumberGenerationService $numberGeneratorService;
     private FuelRequisitionService $fuelRequisitionService;
@@ -1168,7 +1171,7 @@ class MaintenanceController extends Controller
 
             return response()->json([
                 "success" => false,
-                "message" => "We could not complete processing your request to an error",
+                "message" => self::WE_COULD_NOT_COMPLETE_PROCESSING_YOUR_REQUEST_TO_AN_ERROR,
             ]);
         }
     }
@@ -1176,13 +1179,12 @@ class MaintenanceController extends Controller
     public function eSign(Request $request): JsonResponse
     {
         try {
-            $loginId = $request->get('loginId');
-            $password = $request->get('password');
+            $staffNumber = $request->get('loginId');
 
             $driver = PHCMSEmployee::where('con_st_code', '=', 'ACT')
-                ->where(function ($query) use ($loginId) {
-                    $query->where('alt_per_no', '=', $loginId)
-                        ->orWhere('con_per_no', '=', $loginId);
+                ->where(function ($query) use ($staffNumber) {
+                    $query->where('alt_per_no', '=', $staffNumber)
+                        ->orWhere('con_per_no', '=', $staffNumber);
                 })
                 ->first();
 
@@ -1205,51 +1207,45 @@ class MaintenanceController extends Controller
                 ]);
             }
 
-            if (($driverStaffNo != $loginId) || ($entry->driver_in != $loginId)) {
-                return response()->json([
-                    "success" => false,
-                    "message" => "Assessment Signatory is not the driver who brought the vehicle",
-                ]);
+            if ((($driverStaffNo != $staffNumber) || ($entry->driver_in != $staffNumber)) || ($driverStaffNo !== $entry->driver_in)) {
+                throw new
+                InvalidAssessmentSignatoryException("Assessment Signatory is not the driver who brought the vehicle");
             }
 
-            if ($driverStaffNo !== $entry->driver_in) {
-                return response()->json([
-                    "success" => false,
-                    "message" => "Assessment Signatory is not the driver who brought the vehicle",
-                ]);
-            }
+            $credentials = $request->validate([
+                'email' => ['required', 'loginId'],
+                'password' => ['required'],
+            ]);
 
-            $credentials = $request->only('loginId', 'password');
-
-            // Auth::attempt($credentials)
-            if ($driverStaffNo == $entry->driver_in) {
-
+            if (Auth::attempt($credentials)) {
                 $entry->updated_at = Carbon::now();
                 $entry->driver_acknowledged = 'Y';
                 $entry->date_acknowledged = Carbon::now();
                 $entry->save();
-
-                return response()->json([
-                    'payload' => [],
-                    "success" => true,
-                    "message" => "Assessment Signed Successfully",
-                ]);
+            } else {
+                throw new
+                InvalidAssessmentSignatoryException("Invalid Credentials");
             }
-
-            return response()->json([
-                'payload' => $request->all(),
-                "success" => false,
-                "message" => 'Opps! You have entered invalid credentials',
-            ]);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
+            $message = self::WE_COULD_NOT_COMPLETE_PROCESSING_YOUR_REQUEST_TO_AN_ERROR;
+
+            if ($exception instanceof InvalidAssessmentSignatoryException) {
+                $message = $exception->getMessage();
+            }
 
             return response()->json([
-                "success" => false,
-                "message" => "We could not complete processing your request to an error",
+                'success' => false,
+                'message' => $message
             ]);
         }
+
+        return response()->json([
+            'payload' => [],
+            "success" => true,
+            "message" => "Assessment Signed Successfully",
+        ]);
     }
 
 
@@ -1278,7 +1274,7 @@ class MaintenanceController extends Controller
 
             return response()->json([
                 "success" => false,
-                "message" => "We could not complete processing your request to an error",
+                "message" => self::WE_COULD_NOT_COMPLETE_PROCESSING_YOUR_REQUEST_TO_AN_ERROR,
             ]);
         }
     }
@@ -1308,7 +1304,7 @@ class MaintenanceController extends Controller
 
             return response()->json([
                 "success" => false,
-                "message" => "We could not complete processing your request to an error",
+                "message" => self::WE_COULD_NOT_COMPLETE_PROCESSING_YOUR_REQUEST_TO_AN_ERROR,
             ]);
         }
     }
