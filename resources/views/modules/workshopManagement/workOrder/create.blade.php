@@ -227,7 +227,7 @@
            value="{{route('suppliers.list')}}"/>
 
     <input type="hidden"
-           value=""
+
            name="reservationsUrl"
            id="reservationsUrl"/>
 

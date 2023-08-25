@@ -100,24 +100,27 @@ Route::group(['middleware' => 'auth'], function () {
 
         });
 
-        Route::get('vehicle/all/details', [VehicleController::class, 'getAllDetails'])->name('vehicle.details');
+        Route::get('vehicle/all/details', [VehicleController::class, 'getAllDetails'])
+            ->name('vehicle.details');
 
         Route::get('requisitions/vehicle/details', [VehicleController::class, 'getVehicleDetailsByRegistration'])
             ->name('requisition.vehicle.details');
 
-        Route::get('articles/fuels', [ProcurementSystemIntegrationController::class, 'fuelTypes'])->name('fuel.types');
+        Route::get('articles/fuels', [ProcurementSystemIntegrationController::class, 'fuelTypes'])
+            ->name('fuel.types');
 
         Route::get('/vehicle/list', [VehicleController::class, 'list'])->name('vehicles.list');
 
         Route::get('/vehicles', [VehicleController::class, 'register'])->name('vehicle.edit');
 
-        Route::get('/accessories', [VehicleController::class, 'accessories'])->name('vehicle.accessories');
+        Route::get('/accessories', [VehicleController::class, 'accessories'])
+            ->name('vehicle.accessories');
 
-        Route::get('/cleanup', [VehicleDataCleaningController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
+        Route::post('/save/clean/data', [VehicleDataCleaningController::class, 'saveData'])
+            ->name('save.clean.data');
 
-        Route::post('/save/clean/data', [VehicleDataCleaningController::class, 'saveData'])->name('save.clean.data');
-
-        Route::post('/cleanup/filter', [VehicleDataCleaningController::class, 'filter'])->name('data.migration.filter');
+        Route::post('/cleanup/filter', [VehicleDataCleaningController::class, 'filter'])
+            ->name('data.migration.filter');
 
         Route::post('find/vehicle', function (Request $request) {
             try {

@@ -92,18 +92,11 @@
                                 </a>
                                 <ul class="nav nav-treeview pl-3">
                                     <li class="nav-item">
-                                        <a href="{{URL::signedRoute('vehicle.data.cleanup')}}" class="nav-link">
+                                        <a href="" class="nav-link">
                                             <i class="fas fa-plus nav-icon"></i>
                                             <p>
                                                 New
                                             </p>
-                                        </a>
-
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ URL::signedRoute('vehicle.migration.list') }}" class="nav-link">
-                                            <i class="far fa-list nav-icon"></i>
-                                            <p>List</p>
                                         </a>
                                     </li>
                                 </ul>
