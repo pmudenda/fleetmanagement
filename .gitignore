@@ -31,3 +31,4 @@ vendor/*
 .scribe
 composer.lock
 composer.json
+.scannerwork/
