@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Constants\ErrorMessages;
 use App\Models\Reference\Article;
+use App\Models\Reference\BatteryModel;
 use App\Models\Reference\PurchaseOrder;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use Exception;
@@ -13,7 +14,6 @@ use Illuminate\Support\Facades\Log;
 
 class ProcurementSystemIntegrationController extends \App\Http\Controllers\Controller
 {
-
     private ProcurementSystemIntegrationService $procurementSystemIntegrationService;
 
     public function __construct(ProcurementSystemIntegrationService $procurementSystemIntegrationService)
@@ -107,6 +107,41 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
                 'success' => false,
                 'payload' => [],
                 'message' => ErrorMessages::getMessage('err_0005')
+            ]);
+        }
+    }
+
+    public function getBatterySizes(): JsonResponse
+    {
+        try {
+            $data = BatteryModel::where('description', 'like', '%AUTO%BATTERY%')
+                ->orderBy('code_article', 'asc')
+                ->get();
+            return response()->json([
+                'state' => 'success',
+                'payload' => $data
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'state' => 'failure',
+                'payload' => []
+            ]);
+        }
+    }
+
+    public function getTyreSizes() {
+        try {
+            $data = TyreSizesModel::get();
+            return response()->json([
+                'state' => 'success',
+                'payload' => $data
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'state' => 'failure',
+                'payload' => []
             ]);
         }
     }

@@ -1,39 +1,43 @@
 <?php
 
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
-use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
-use App\Http\Controllers\Configurations\VehicleBodyTypesController;
 use App\Http\Controllers\migration\VehicleDataCleaningController;
 use App\Http\Controllers\VehicleManagement\MeterEntryController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
-use App\Http\Controllers\VehicleManagement\VehicleModelsController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
-use App\Models\Reference\BatteryModel;
 use App\Models\Reference\GtaVehicle;
-use App\Models\Reference\TyreSizesModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
+
     Route::group(['prefix' => 'v1/en'], function (): void {
 
-        Route::prefix('brands')->group(static function (): void {
-            Route::get('/brands', [ConfigVehicleBrandsController::class, 'get'])->name('brands.get');
-            Route::post('/store', [ConfigVehicleBrandsController::class, 'store'])->name('brands.save');
-            Route::delete('/', [ConfigVehicleBrandsController::class, 'destroy'])->name('brands.delete');
-        });
+        Route::resource('vehicle/brands', 'ConfigVehicleBrandsController', [
+            'names' => [
+                'get' => 'brands.get',
+                'store' => 'brands.save',
+                'destroy' => 'brands.delete',
+            ]
+        ]);
 
-        /** MODELS **/
-        Route::post('/models', [VehicleModelsController::class, 'store'])->name('models.save');
-        Route::get('/models', [VehicleModelsController::class, 'get'])->name('models.get');
-        Route::delete('/models', [VehicleModelsController::class, 'destroy'])->name('models.delete');
+        Route::resource('vehicle/models', 'VehicleModelsController', [
+            'names' => [
+                'get' => 'models.get',
+                'store' => 'models.save',
+                'destroy' => 'models.delete',
+            ]
+        ]);
 
         /** BODY TYPES **/
-        Route::post('/vehicle/body-types', [VehicleBodyTypesController::class, 'store'])->name('body_type.save');
-        Route::get('/vehicle/body-types', [VehicleBodyTypesController::class, 'get'])->name('body_type.get');
-        Route::delete('/vehicle/body-types', [VehicleBodyTypesController::class, 'destroy'])->name('body_type.delete');
-
+        Route::resource('vehicle/body-types', 'VehicleBodyTypesController', [
+            'names' => [
+                'get' => 'body_type.get',
+                'store' => 'body_type.save',
+                'destroy' => 'body_type.delete',
+            ]
+        ]);
 
         Route::delete('/vehicle/print-disk', function () {
             return view("");
@@ -41,42 +45,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 
         //BATTERY
-        Route::get('/references/battery-brands', function () {
-            try {
-                $data = BatteryModel::where('description', 'like', '%AUTO%BATTERY%')
-                    ->orderBy('code_article', 'asc')
-                    ->get();
-                return response()->json([
-                    'state' => 'success',
-                    'payload' => $data
-                ]);
-            } catch (Exception $e) {
-                Log::error($e);
-                return response()->json([
-                    'state' => 'failure',
-                    'payload' => []
-                ]);
-            }
-        })->name('battery.get');
-        Route::get('/references/tyre-sizes', function () {
-            try {
-                $data = TyreSizesModel::get();
-                return response()->json([
-                    'state' => 'success',
-                    'payload' => $data
-                ]);
-            } catch (Exception $e) {
-                Log::error($e);
-                return response()->json([
-                    'state' => 'failure',
-                    'payload' => []
-                ]);
-            }
-        })->name('tyres.get');
-    });
-});
+        Route::get('/references/battery-brands', [ProcurementSystemIntegrationController::class, 'getBatterySizes'])
+            ->name('battery.get');
 
-Route::group(['middleware' => 'auth'], function () {
+        Route::get('/references/tyre-sizes', [ProcurementSystemIntegrationController::class, 'getTyreSizes'])
+            ->name('tyres.get');
+    });
 
     Route::group(['prefix' => 'vehicle-management'], function () {
 
@@ -125,7 +99,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('vehicle/all/details', [VehicleController::class, 'getAllDetails'])->name('vehicle.details');
 
-        Route::get('requisition/vehicle/details', [VehicleController::class, 'getVehicleDetailsByRegistration'])->name('requisition.vehicle.details');
+        Route::get('requisitions/vehicle/details', [VehicleController::class, 'getVehicleDetailsByRegistration'])
+            ->name('requisition.vehicle.details');
 
         Route::get('articles/fuels', [ProcurementSystemIntegrationController::class, 'fuelTypes'])->name('fuel.types');
 
@@ -138,8 +113,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/cleanup', [VehicleDataCleaningController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
 
         Route::post('/save/clean/data', [VehicleDataCleaningController::class, 'saveData'])->name('save.clean.data');
-
-        Route::get('/cleanup/assignation/list', [VehicleDataCleaningController::class, 'cleanUpList'])->name('vehicle.migration.list');
 
         Route::post('/cleanup/filter', [VehicleDataCleaningController::class, 'filter'])->name('data.migration.filter');
 
