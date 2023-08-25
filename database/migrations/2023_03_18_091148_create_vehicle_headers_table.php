@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->id();
             $table->string('brand_code')->nullable();
             $table->string('brand_name');
-            //$table->string('model_guid');
             $table->string('model_name');
             $table->string('model_code');
             $table->string('body_type_code');

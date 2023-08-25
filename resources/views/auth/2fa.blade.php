@@ -113,7 +113,9 @@
             <div class="col-md-8">
 
                 <div class="row justify-content-center ">
-                    <img src="{{asset('dashboard/dist/img/ZESCO_removebg.png')}}" width="50%">
+                    <img src="{{asset('dashboard/dist/img/ZESCO_removebg.png')}}"
+                         alt=""
+                         width="50%">
                 </div>
 
                 <div class="card">
@@ -125,7 +127,8 @@
 
                             <p class="text-center">
                                 We sent code to your phone :
-                                {{ substr(auth()->user()->phone, 0, 5) . '******' . substr(auth()->user()->phone,  -2) }}
+                                {{ substr(auth()->user()->phone, 0, 5)
+                                . '******' . substr(auth()->user()->phone,  -2) }}
                             </p>
 
                             @if ($message = Session::get('success'))
@@ -218,35 +221,40 @@
                                 <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
                                     <input type="text" name="otp1"
                                            maxlength="1"
-                                           class="form-control otp input-control text-lg text-center @error('otp1') invalid-input @enderror"
+                                           class="form-control otp input-control text-lg text-center
+                                           @error('otp1') invalid-input @enderror"
                                            placeholder="_"
                                            aria-label="2fa">
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
                                     <input type="text" name="otp2"
                                            maxlength="1"
-                                           class="form-control otp input-control text-lg text-center @error('otp2') invalid-input @enderror"
+                                           class="form-control otp input-control text-lg text-center
+                                           @error('otp2') invalid-input @enderror"
                                            placeholder="_"
                                            aria-label="2fa">
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-2 ps-0 ps-md-2">
                                     <input type="text" name="otp3"
                                            maxlength="1"
-                                           class="form-control otp input-control text-lg text-center @error('code') invalid-input @enderror"
+                                           class="form-control otp input-control text-lg text-center
+                                           @error('code') invalid-input @enderror"
                                            placeholder="_"
                                            aria-label="2fa">
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-2 pe-0 pe-md-2">
                                     <input type="text" name="otp4"
                                            maxlength="1"
-                                           class="form-control otp input-control text-lg text-center @error('otp4') invalid-input @enderror"
+                                           class="form-control otp input-control text-lg text-center
+                                           @error('otp4') invalid-input @enderror"
                                            placeholder="_"
                                            aria-label="2fa">
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-2 pe-0 pe-md-2">
                                     <input type="text" name="otp5"
                                            maxlength="1"
-                                           class="form-control otp input-control text-lg text-center @error('otp5') invalid-input @enderror"
+                                           class="form-control otp input-control text-lg text-center
+                                           @error('otp5') invalid-input @enderror"
                                            placeholder="_"
                                            aria-label="2fa">
                                 </div>

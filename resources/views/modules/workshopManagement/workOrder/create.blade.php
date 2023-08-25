@@ -426,20 +426,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="reservedMaterialsContent">
-                    <table class="table table-bordered" id="reservedMaterialsTable" data-form-url="{{route('attach.reservations.card')}}">
+                    <table class="table table-bordered"
+                           id="reservedMaterialsTable"
+                           data-form-url="{{route('attach.reservations.card')}}">
                         <thead>
                         <tr style="text-wrap: nowrap;">
-                            <td><input type='checkbox'
+                            <th><input type='checkbox'
                                        name='reservedMaterials'
-                                       value='' class="checkbox"/></td>
-                            <td>SPMS Ref.</td>
-                            <td>Item Type</td>
-                            <td>Reference No.</td>
-                            <td style="width: 10%;">Article Code</td>
-                            <td>UOM</td>
-                            <td>Specifications</td>
-                            <td>Reg No.</td>
-                            <td>Quantity</td>
+                                       value='' class="checkbox"/></th>
+                            <th>SPMS Ref.</th>
+                            <th>Item Type</th>
+                            <th>Reference No.</th>
+                            <th style="width: 10%;">Article Code</th>
+                            <th>UOM</th>
+                            <th>Specifications</th>
+                            <th>Reg No.</th>
+                            <th>Quantity</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -1085,7 +1087,12 @@
                         if (!$(row).find('[name="reservedMaterial"]:checked')) {
                             console.log("Not Checked");
                         } else {
-                            arr.push($(row).find('[name="reservedMaterial"]:checked').val());
+                            const checkedValue = $(row).find('[name="reservedMaterial"]:checked').val();
+                            if (checkedValue) {
+                                arr.push({
+                                    'requestId': checkedValue
+                                });
+                            }
                         }
 
                     });

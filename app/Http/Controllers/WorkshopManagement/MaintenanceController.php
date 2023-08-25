@@ -4,15 +4,11 @@ namespace App\Http\Controllers\WorkshopManagement;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
-use App\Constants\WorkflowActions;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
 use App\Enums\RequisitionItemTypes;
-use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\DuplicateDefectException;
-use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\InvalidAssessmentSignatoryException;
-use App\Exceptions\InvalidWorkflowActionException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -39,7 +35,9 @@ use App\Models\WorkShopManagement\AssessmentObservation;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\Mechanic;
 use App\Models\WorkShopManagement\WorkShopComment;
+use App\Models\WorkShopManagement\WorkShopMaterial;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
+use App\Models\WorkShopManagement\WorkShopServiceModel;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
 use App\Models\WorkShopManagement\WorkShopVehicleDefect;
 use App\Services\Requisitions\FuelRequisitionService;
@@ -1321,12 +1319,76 @@ class MaintenanceController extends Controller
         ]);
     }
 
-    public function attachReservedArticlesToJobCard(Request $request)
+    public function attachReservedArticlesToJobCard(Request $request): JsonResponse
     {
         try {
-            $reference = $request->get('reference');
+            $reference = $request->get('jobCardNumber');
+            $documentIds = $request->get('items');
+
+            $requestIds = [];
+            foreach ($documentIds as $documentId) {
+                $requestIds = $documentId['requestId'];
+            }
+
             $workOrder = JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
                 ->first();
+            $user = Auth::user();
+
+            $materials = MaterialDetail::whereIn('id', $requestIds);
+            foreach ($materials as $material) {
+                $materialHeader = MaterialHeader::where('req_no,', '=', $material->ref_no)->first();
+                switch ($material->itemType) {
+                    case RequisitionItemTypes::StockItemCode:
+                        WorkShopMaterial::create([
+                            "wshp_act_code" => $workOrder->wshp_act_code,
+                            "workshop_code" => $workOrder->workshop_code,
+                            'sch_flouted' => 'N',
+                            "form_order" => $materialHeader->form_order,
+                            "evaluation" => "Y",
+                            "date_mat" => \Carbon\Carbon::now(),
+                            "mat_code" => $material->material_code,
+                            "unit_of_measure" => $material->unit_of_measure,
+                            "quantity" => $material->quantity,
+                            "amount" => $material->amount,
+                            "price" => $material->price,
+                            "store_code" => $material->stores_code,
+                            "supplier_code" => $material->supplier_code,
+                            "veh_reg_no" => $material->reg_no,
+                            "specifications" => $material->specifications,
+                            "requested_by" => $material->created_by,
+                            "status" => StatusHelper::new(),
+                            "created_by" => $user->staff_no,
+                        ]);
+                        break;
+                    case RequisitionItemTypes::ServiceItemCode:
+                    case RequisitionItemTypes::NonStockItemCode:
+                        WorkShopServiceModel::create([
+                            "wshp_act_code" => $workOrder->wshp_act_code,
+                            "wshp_code" => $workOrder->workshop_code,
+                            "evaluation" => "Y",
+                            "movt_no" => $materialHeader->form_order,
+                            "date_send" => \Carbon\Carbon::now(),
+                            "mat_code" => $material->material_code,
+                            "unit_of_measure" => $material->unit_of_measure,
+                            "quantity" => $material->quantity,
+                            "amount_est" => $material->amount,
+                            "price" => $material->price,
+                            "store_code" => $material->stores_code,
+                            "code_office" => $materialHeader->purchase_office,
+                            "supp_code" => $materialHeader->supplier_code,
+                            "veh_reg_no" => $material->reg_no,
+                            "specifications" => $material->specifications,
+                            "originator" => $user->staff_no,
+                            // "requested_by_id" => $user->id,
+                            "status" => $materialHeader->status,
+                            "created_by" => $user->id
+                        ]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             return response()->json([
                 'payload' => [],
                 'state' => 'success'

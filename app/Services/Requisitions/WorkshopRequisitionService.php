@@ -136,10 +136,12 @@ class WorkshopRequisitionService
         $form_order_number = null;
         switch ($requisitionPostRequest->get('itemType')) {
             case RequisitionItemTypes::StockItemCode:
-                $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
+                $form_order_number =
+                    DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
                 break;
             case RequisitionItemTypes::NonStockItemCode:
-                $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
+                $form_order_number =
+                    DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
                 break;
         }
 
@@ -149,7 +151,8 @@ class WorkshopRequisitionService
         Log::info("Determined Requisition Item Type Code " . $item_type);
         Log::info("Requisition Item Type " . $requisitionPostRequest->get("itemType"));
 
-        $long_description = "Workshop Requisition Ref.No. " . $requisition_reference_number . " For Vehicle Reg No. " . $registrationNumber;
+        $long_description = "Workshop Requisition Ref.No. " .
+            $requisition_reference_number . " For Vehicle Reg No. " . $registrationNumber;
         $short_description = "Workshop Requisition for Vehicle Reg No. " . $registrationNumber;
 
 
