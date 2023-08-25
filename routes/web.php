@@ -19,6 +19,7 @@ use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\PdfJobController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
+use App\Services\VehicleManagement\VehicleDetailsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -45,7 +46,7 @@ Route::get('gate/pass', function (Request $request) {
         return redirect(route('home'));
     }
 
-    $vehicle = null;// VehicleDetailsService::getVehicleByReg($request->get('ref'));
+    $vehicle = VehicleDetailsService::getVehicleByReg($request->get('ref'));
     return view('dashboard.pass')
         ->with(compact('vehicle'));
 
@@ -55,7 +56,7 @@ Route::get('print/job/card', [PdfJobController::class, "index"])->name('print.jo
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/', function (Request $request) {
+    Route::get('/error', function (Request $request) {
         return view('error')->with(['error' => $request->get('message')]);
     })->name('error');
 
@@ -280,11 +281,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('attach/to/job-card', [MaintenanceController::class, 'attachReservedArticlesToJobCard'])
                 ->name('attach.reservations.card');
 
-            //Route::post('save/approve/job-order/closure', [WorkflowController::class, 'closeJobCard'])->name('approve.work_order.closure');
-
             Route::post('store', function (Request $request) {
 
-                $response = Http::asForm()->post(
+                Http::asForm()->post(
                     'http://example.com/users',
                     [
                         'name' => 'Sara',
@@ -303,13 +302,14 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/bookings/list', [ReservationController::class, 'list'])->name('list.booking');
         Route::get('/workshop/booking', [ReservationController::class, 'create'])->name('new.booking');
-        Route::get('/workshop/requisitions/list', [WorkshopController::class, 'requisitions'])->name('list.workshop.requisition');
+        Route::get('/workshop/requisitions', [WorkshopController::class, 'requisitions'])
+            ->name('list.workshop.requisition');
 
         // STORES REQUISITIONS
         Route::get('/workshop/approve', [MaintenanceController::class, 'show'])
             ->name('show.workshop.requisition');
 
-        Route::post('/workflow/stores/requisition/approve', [WorkflowController::class, 'processStoresRequisitionApproval'])
+        Route::post('approve/stores/requisition/', [WorkflowController::class, 'processStoresRequisitionApproval'])
             ->name('stores.requisition.approve');
     });
 

@@ -12,6 +12,7 @@ use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\InvalidAssessmentSignatoryException;
+use App\Exceptions\InvalidWorkflowActionException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -53,7 +54,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -63,7 +63,8 @@ use Illuminate\View\View;
 
 class MaintenanceController extends Controller
 {
-    const WE_COULD_NOT_COMPLETE_PROCESSING_YOUR_REQUEST_TO_AN_ERROR = "We could not complete processing your request to an error";
+    const RECORD_NOT_FOUND = "Record Not Found";
+    const RECORD_REMOVED_SUCCESSFULLY = "Record Removed Successfully";
     private WorkshopService $workshopService;
     private DocumentNumberGenerationService $numberGeneratorService;
     private FuelRequisitionService $fuelRequisitionService;
@@ -122,10 +123,8 @@ class MaintenanceController extends Controller
                 ->get();
         }
 
-        $view_name = "modules.workshopManagement.workOrder.create";
-
         $step = $request->get("step") ?? 0;
-        return view($view_name)
+        return view("modules.workshopManagement.workOrder.create")
             ->with(
                 compact(
                     "repairTypes",
@@ -177,9 +176,7 @@ class MaintenanceController extends Controller
                 ->get();
         }
 
-        $view_name = "modules.workshopManagement.workOrder.view";
-
-        return view($view_name)
+        return view("modules.workshopManagement.workOrder.view")
             ->with(
                 compact(
                     "repairTypes",
@@ -206,11 +203,10 @@ class MaintenanceController extends Controller
     /**
      * Method is used by workshop front-desk
      * @param Request $request
-     * @return \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+     * @return View
      */
-    public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function start(Request $request): View
     {
-        $view_name = 'modules.workshopManagement.workOrder.start';
         $step = $request->get("step") ?? 0;
         $reference = $request->get("reference") ?? $request->get('ref');
 
@@ -231,7 +227,7 @@ class MaintenanceController extends Controller
             $observation
             ) = $this->getFullJobCardDetails($reference);
 
-        return view($view_name)
+        return view('modules.workshopManagement.workOrder.start')
             ->with(
                 compact(
                     "repairTypes",
@@ -253,7 +249,7 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function defectsTab(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
+    public function defectsTab(Request $request): View|RedirectResponse
     {
         $this->verifyRequestSignature($request);
         $step = $request->get("step") ?? 0;
@@ -313,15 +309,15 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function show(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function show(Request $request): View
     {
         $this->verifyRequestSignature($request);
 
-        $req_no = $request->get("ref");
+        $requestNumber = $request->get("ref");
 
         $user = Auth::user();
 
-        [$header, $details] = $this->workshopRequisitionService->getWorkShopReservationDetails($req_no);
+        [$header, $details] = $this->workshopRequisitionService->getWorkShopReservationDetails($requestNumber);
 
         $requestDetails = $header;
 
@@ -329,7 +325,7 @@ class MaintenanceController extends Controller
             abort(404);
         }
 
-        $workflowTask = WorkflowTaskHeader::where("reference", "=", $req_no)->first();
+        $workflowTask = WorkflowTaskHeader::where("reference", "=", $requestNumber)->first();
 
         $requisitionTypes = RequisitionType::where("status", "01")->where("module", "FR")->get();
 
@@ -456,7 +452,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function showJobCard(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function showJobCard(Request $request): View|Application
     {
         $this->verifyRequestSignature($request);
 
@@ -552,9 +548,8 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function partsSelection(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function partsSelection(Request $request): View|Application|Factory
     {
-
         $step = '1';
         $repairTypes = [];
         $accessories_checked_in = [];
@@ -564,9 +559,7 @@ class MaintenanceController extends Controller
         $defects = [];
         $comments = [];
 
-        $view_name = 'modules.workshopManagement.workOrder.create_old';
-
-        return view($view_name)->with(
+        return view('modules.workshopManagement.workOrder.create_old')->with(
             compact(
                 'repairTypes',
                 'accessories',
@@ -639,13 +632,11 @@ class MaintenanceController extends Controller
 
     public function getFuelLevels(): JsonResponse
     {
-        $fuel_levels = GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
-            ->get();
-
         return response()->json(
             [
                 "state" => "success",
-                "payload" => $fuel_levels
+                "payload" => GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
+                    ->get()
             ]
         );
     }
@@ -658,7 +649,10 @@ class MaintenanceController extends Controller
                 [
                     "success" => true,
                     "payload" => $response,
-                    "redirectUrl" => URL::signedRoute("vehicle.workshop.checkin", ["step" => 2, "reference" => $response->job_card_no]),
+                    "redirectUrl" => URL::signedRoute("vehicle.workshop.checkin", [
+                        "step" => 2,
+                        "reference" => $response->job_card_no
+                    ]),
                 ]
             );
         } catch (\Exception $e) {
@@ -673,130 +667,15 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function closeApproveJobCard(Request $request): JsonResponse
-    {
-        try {
-
-            $reference = $request->get('reference');
-
-            //$requisitionDetail = $this->workshopRequisitionService->getReservationDetail($reference);
-
-            DB::beginTransaction();
-
-            /*;
-            switch ($requisitionDetail->item_type) {
-                case RequisitionItemTypes::Service:
-                case RequisitionItemTypes::NonStockItem:
-                    $process_code = WorkflowProcessCodes::PurchaseProcess->value;
-                    break;
-                case RequisitionItemTypes::StockItem:
-                    $process_code = WorkflowProcessCodes::StoresRequisition->value;
-                    break;
-                default:
-                    break;
-            }*/
-
-            $actionTaken = '';
-            $process_code = WorkflowProcessCodes::WorkOrderClosure->value;
-            $message = '';
-            $action = 0;
-            switch (strtolower(trim($request->get('Approved')))) {
-                case 'approve':
-                    $action = WorkflowActions::approve();
-                    $actionTaken = "Approved";
-                    $message = 'Request Approved Successfully.';
-                    break;
-                case 'reject':
-                    $action = WorkflowActions::reject();
-                    $actionTaken = "Rejected";
-                    $message = 'Request Rejected.';
-                    break;
-                case 'send_back':
-                    $action = WorkflowActions::sendBack();
-                    $actionTaken = "SendBack";
-                    $message = 'Request Sent Back To Originator.';
-                    break;
-            }
-
-            list($nextStepId, $nextUser) = $this->workflowService->invokeWorkFlow(
-                $reference,
-                $process_code,
-                $action,
-                $actionTaken,
-                $request->get('Comments')
-            );
-
-            $user = Auth::user();
-            if ($nextStepId == 100 && $action == WorkflowActions::approve()) {
-                $workOrder = JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
-                    ->first();
-
-                $workOrder->modified_by = $user->staff_no;
-                $workOrder->status = StatusHelper::authorised();
-                $workOrder->updated_at = Carbon::now();
-                $workOrder->save();
-
-                $stockItemRequisitions = MaterialHeader::where('veh_reg_no', $workOrder->reg_no)
-                    ->whereIn('status', [StatusHelper::new(), StatusHelper::partiallyAuthorised()])
-                    ->where('item_type', '=', RequisitionItemTypes::StockItem)
-                    ->where('is_fuel', '=', 'N')
-                    ->orderBy('created_at', 'desc')
-                    ->get();
-
-                foreach ($stockItemRequisitions as $requisition) {
-                    $this->procurementService->cancelStoresRequisition($requisition->st_pur);
-                }
-
-            } else if ($nextStepId == 100 && $action == WorkflowActions::reject()) {
-                $message = 'Request Rejected';
-                $status = StatusHelper::rejected();
-                JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
-                    ->update([
-                        'modified_by' => $user->staff_no,
-                        'status' => $status,
-                        'updated_at' => Carbon::now()
-                    ]);
-            } else {
-                if (strtolower(trim($request->get('Approved'))) == 'approve') {
-                    $message = 'Request Approved and Submitted to the Next Authority For Approval';
-                    $status = StatusHelper::partiallyAuthorised();
-                    JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
-                        ->update([
-                            'modified_by' => $user->staff_no,
-                            'status' => $status,
-                            'updated_at' => Carbon::now()
-                        ]);
-                }
-            }
-
-            DB::commit();
-            return response()->json([
-                'requestPayload' => $request->all(),
-                'success' => true,
-                'redirectUrl' => route('home'),
-                'message' => $message
-            ]);
-        } catch (\Exception $e) {
-            Log::error($e);
-            $message = ErrorMessages::getMessage('err_0005');
-            if ($e instanceof FuelRequisitionException || $e instanceof WorkflowTaskCreationFailedException) {
-                $message = $e->getMessage();
-            }
-
-            return response()->json([
-                'success' => false,
-                'message' => $message
-            ]);
-        }
-    }
-
     public function closeJobCard(WorkOrderClosure $request): JsonResponse
     {
         try {
             return $this->workshopService->workOrderClosure($request);
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
-            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException || $e instanceof VehicleStateException) {
+            if ($e instanceof MaterialReservationException
+                || $e instanceof WorkflowTaskCreationFailedException
+                || $e instanceof VehicleStateException) {
                 $message = $e->getMessage();
             } else {
                 Log::error($e);
@@ -812,7 +691,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function openJobCardClosure(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function openJobCardClosure(Request $request): View
     {
         $this->verifyRequestSignature($request);
 
@@ -927,7 +806,9 @@ class MaintenanceController extends Controller
             return $this->workshopRequisitionService->processJobCardMaterialRequisition($request);
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
-            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException || $e instanceof VehicleStateException) {
+            if ($e instanceof MaterialReservationException
+                || $e instanceof WorkflowTaskCreationFailedException
+                || $e instanceof VehicleStateException) {
                 $message = $e->getMessage();
                 Log::info($e);
             } else {
@@ -947,7 +828,9 @@ class MaintenanceController extends Controller
         } catch (\Exception $e) {
 
             $message = ErrorMessages::getMessage("err_0005");
-            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException || $e instanceof VehicleStateException) {
+            if ($e instanceof MaterialReservationException
+                || $e instanceof WorkflowTaskCreationFailedException
+                || $e instanceof VehicleStateException) {
                 $message = $e->getMessage();
             } else {
                 Log::error($e);
@@ -967,7 +850,9 @@ class MaintenanceController extends Controller
             Log::error($e);
             $message = ErrorMessages::getMessage("err_0005");
 
-            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException || $e instanceof VehicleStateException) {
+            if ($e instanceof MaterialReservationException
+                || $e instanceof WorkflowTaskCreationFailedException
+                || $e instanceof VehicleStateException) {
                 $message = $e->getMessage();
             }
             return response()->json([
@@ -1033,7 +918,9 @@ class MaintenanceController extends Controller
             Log::error($e);
             $message = ErrorMessages::getMessage("err_0005");
 
-            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException || $e instanceof VehicleStateException) {
+            if ($e instanceof MaterialReservationException
+                || $e instanceof WorkflowTaskCreationFailedException
+                || $e instanceof VehicleStateException) {
                 $message = $e->getMessage();
             }
             return response()->json([
@@ -1154,7 +1041,7 @@ class MaintenanceController extends Controller
             if (empty($entry)) {
                 return response()->json([
                     "success" => false,
-                    "message" => "Record Not Found",
+                    "message" => self::RECORD_NOT_FOUND,
                 ]);
             }
 
@@ -1162,7 +1049,7 @@ class MaintenanceController extends Controller
             $entry->save();
             return response()->json([
                 "success" => true,
-                "message" => "Record Removed Successfully",
+                "message" => self::RECORD_REMOVED_SUCCESSFULLY,
             ]);
 
         } catch (\Exception $exception) {
@@ -1170,7 +1057,7 @@ class MaintenanceController extends Controller
 
             return response()->json([
                 "success" => false,
-                "message" => self::WE_COULD_NOT_COMPLETE_PROCESSING_YOUR_REQUEST_TO_AN_ERROR,
+                "message" => ErrorMessages::getMessage('err_0005')
             ]);
         }
     }
@@ -1200,15 +1087,17 @@ class MaintenanceController extends Controller
                 ->first();
 
             if (empty($entry)) {
-                return response()->json([
-                    "success" => false,
-                    "message" => "Record Not Found",
-                ]);
+                throw new
+                InvalidAssessmentSignatoryException(self::RECORD_NOT_FOUND);
             }
 
-            if ((($driverStaffNo != $staffNumber) || ($entry->driver_in != $staffNumber)) || ($driverStaffNo !== $entry->driver_in)) {
+            if ((($driverStaffNo != $staffNumber)
+                    || ($entry->driver_in != $staffNumber))
+                || ($driverStaffNo !== $entry->driver_in)) {
                 throw new
-                InvalidAssessmentSignatoryException("Assessment Signatory is not the driver who brought the vehicle");
+                InvalidAssessmentSignatoryException(
+                    "Assessment Signatory is not the driver who brought the vehicle"
+                );
             }
 
             $credentials = $request->validate([
@@ -1228,7 +1117,7 @@ class MaintenanceController extends Controller
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            $message = self::WE_COULD_NOT_COMPLETE_PROCESSING_YOUR_REQUEST_TO_AN_ERROR;
+            $message = ErrorMessages::getMessage('err_0005');
 
             if ($exception instanceof InvalidAssessmentSignatoryException) {
                 $message = $exception->getMessage();
@@ -1257,7 +1146,7 @@ class MaintenanceController extends Controller
             if (empty($entry)) {
                 return response()->json([
                     "success" => false,
-                    "message" => "Record Not Found",
+                    "message" => self::RECORD_NOT_FOUND,
                 ]);
             }
 
@@ -1265,7 +1154,7 @@ class MaintenanceController extends Controller
             $entry->save();
             return response()->json([
                 "success" => true,
-                "message" => "Record Removed Successfully",
+                "message" => self::RECORD_REMOVED_SUCCESSFULLY,
             ]);
 
         } catch (\Exception $exception) {
@@ -1273,7 +1162,7 @@ class MaintenanceController extends Controller
 
             return response()->json([
                 "success" => false,
-                "message" => self::WE_COULD_NOT_COMPLETE_PROCESSING_YOUR_REQUEST_TO_AN_ERROR,
+                "message" => ErrorMessages::getMessage('err_0005')
             ]);
         }
     }
@@ -1287,7 +1176,7 @@ class MaintenanceController extends Controller
             if (empty($entry)) {
                 return response()->json([
                     "success" => false,
-                    "message" => "Record Not Found",
+                    "message" => self::RECORD_NOT_FOUND,
                 ]);
             }
 
@@ -1295,7 +1184,7 @@ class MaintenanceController extends Controller
             $entry->save();
             return response()->json([
                 "success" => true,
-                "message" => "Record Removed Successfully",
+                "message" => self::RECORD_REMOVED_SUCCESSFULLY,
             ]);
 
         } catch (\Exception $exception) {
@@ -1303,7 +1192,7 @@ class MaintenanceController extends Controller
 
             return response()->json([
                 "success" => false,
-                "message" => self::WE_COULD_NOT_COMPLETE_PROCESSING_YOUR_REQUEST_TO_AN_ERROR,
+                "message" => ErrorMessages::getMessage('err_0005')
             ]);
         }
     }
@@ -1329,20 +1218,20 @@ class MaintenanceController extends Controller
                 "$stockManagement.code_article");
 
         $itemType = $request->get("type_article");
-        $store_code = $request->get("store_code");
+        $storeCode = $request->get("store_code");
 
         if ($itemType == RequisitionItemTypes::StockItemCode) {
-            $query->where(function ($q) use ($itemType, $store_code, $stockManagement, $articles) {
+            $query->where(function ($q) use ($storeCode, $stockManagement, $articles) {
                 $q->whereIn("$articles.code_group", ["01", "04", "30"]);
-                $q->where("$stockManagement.code_store", "=", $store_code);
+                $q->where("$stockManagement.code_store", "=", $storeCode);
             });
-        } else if ($itemType == RequisitionItemTypes::NonStockItemCode) {
-            $query->where(function ($q) use ($itemType, $articles) {
+        } elseif ($itemType == RequisitionItemTypes::NonStockItemCode) {
+            $query->where(function ($q) use ($articles) {
                 $q->where("$articles.code_group", "=", "40");
                 $q->where("$articles.code_subgroup", "=", "07");
             });
-        } else if ($itemType == RequisitionItemTypes::ServiceItemCode) {
-            $query->where(function ($q) use ($itemType, $articles) {
+        } elseif ($itemType == RequisitionItemTypes::ServiceItemCode) {
+            $query->where(function ($q) use ($articles) {
                 $q->where("$articles.code_group", "=", "41");
                 $q->where("$articles.code_subgroup", "=", "02");
             });
@@ -1405,12 +1294,12 @@ class MaintenanceController extends Controller
             ->orderBy("name")
             ->get();
 
-        $workshop_sections = GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)
+        $workshopSections = GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)
             ->where("active", "=", 1)
             ->orderBy("name")
             ->get();
 
-        return array($repairTypes, $accessories, $workshop_sections);
+        return array($repairTypes, $accessories, $workshopSections);
     }
 
     public function getReservedMaterialAndServices(Request $request): JsonResponse
@@ -1467,9 +1356,9 @@ class MaintenanceController extends Controller
         $vehicleSys = 'VEH_SYS';
         $defectCategory = 'WCT';
         $defects = DB::table("wm_vehicle_defects def")
-            ->join("wm_workshop_tables wckt", function (JoinClause $join) use ($defectCategory, $vehicleSys) {
+            ->join("wm_workshop_tables wckt", function (JoinClause $join) use ($defectCategory) {
                 $join->on("def.defect_category_code", "=", "wckt.code")
-                    ->where(function ($query) use ($defectCategory, $vehicleSys) {
+                    ->where(function ($query) use ($defectCategory) {
                         $query->where("wckt.type_code", "=", $defectCategory);
                     });
             })
@@ -1497,7 +1386,8 @@ class MaintenanceController extends Controller
 
         $materialsHeader = WorkShopMaterialHeader::where("job_card_no", "=", $reference)->first();
 
-        $materials = $this->workshopRequisitionService->getWorkShopRequisitionItems($reference, $details->wshp_act_code);
+        $materials = $this->workshopRequisitionService
+            ->getWorkShopRequisitionItems($reference, $details->wshp_act_code);
 
         $services = $this->workshopRequisitionService->getWorkShopRequisitionServiceItems($details->wshp_act_code);
 

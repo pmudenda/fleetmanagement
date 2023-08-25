@@ -34,12 +34,15 @@ class SystemMessages
 
     public static function vehiclePendingOnboardingCompletion(): string
     {
-        return "The vehicle @reg has not completed the onboarding process. Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com";
+        return
+            "The vehicle @reg has not completed the onboarding process.
+            Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com";
     }
 
     public static function vehicleInWorkshop(): string
     {
-        return "The vehicle @reg is in the @workshop Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com";
+        return "The vehicle @reg is in the @workshop Please Contact Fleet Master System Administrator on
+        3309,3350,3351,3306, fleetmaster@zesco.co.com";
     }
 
     public static function userUpdateFailed(): string
