@@ -92,7 +92,6 @@
                                 }, 'success');
                         },
                         function (xhr, settings, errorThrown) {
-                            console.log(errorThrown)
                             setTimeout(function () {
                                 tmsApp.showErrorMessages(xhr, 'Record Creation');
                             }, 300)
@@ -110,7 +109,7 @@
 
 }(window.tmsApp || {}, jQuery));
 
-let app = new Vue({
+let options = {
     'el': '#app_main',
     data: {
         search: null,
@@ -151,48 +150,9 @@ let app = new Vue({
                 });
         },
 
-        /*  postDeleteItem(parent, item) {
-              $.post(document.querySelector('#newBrandEndpoint').value, {
-                  headers: {
-                      Authorization: 'Token'
-                  }
-                  , data: {
-                      guid: item
-                  }
-              })
-                  .then(function (response) {
-                      if (response.data.state === 'failure') {
-                          toastr.error(
-                              'Connection error. Could not delete record');
-                          return;
-                      }
-
-                      Swal.fire({
-                          text: "You have deleted " + item.itemName +
-                              "!."
-                          , icon: "success"
-                          , buttonsStyling: false
-                          , confirmButtonText: "Ok, got it!"
-                          , customClass: {
-                              confirmButton: "btn fw-bold btn-primary"
-                              ,
-                          }
-                      }).then(function () {
-                          // Remove current row
-                          app.datatable.row($(parent)).remove().draw();
-                      });
-                  })
-                  .catch(function (error) {
-                      toastr.error(
-                          'Connection error. Could not retrieve data, some feature might not work.'
-                      )
-                  })
-          },*/
-
         destroyDataTable() {
             this.datatable.destroy();
         },
-
 
         initDatatable: function () {
             const tableRows = this.table.querySelectorAll('tbody tr');
@@ -208,8 +168,6 @@ let app = new Vue({
                 dateColumn[3].setAttribute('data-order', realDate);
             });
 
-            // Disable ordering on column 0 (checkbox)
-            // Disable ordering on column 6 (actions)
             this.datatable = $(this.table).DataTable({
                 /*"info": false,*/
                 'order': [],
@@ -262,46 +220,6 @@ let app = new Vue({
             });
         },
 
-        /*initDeleteButton: function () {
-            KTUtil.on(this.table, '[data-kt-action="remove"]', 'click', function (e) {
-                e.preventDefault();
-
-                // Select parent row
-                const parent = e.target.closest('tr');
-
-                // Get customer name
-                const itemName = parent.querySelectorAll('td')[1].innerText;
-                const guid = parent.querySelector(
-                    '[type="checkbox"]').value;
-                Swal.fire({
-                    text: "Are you sure you want to delete " + itemName +
-                        "?"
-                    , icon: "warning"
-                    , showCancelButton: true
-                    , buttonsStyling: false
-                    , confirmButtonText: "Yes, delete!"
-                    , cancelButtonText: "No, cancel"
-                    , customClass: {
-                        confirmButton: "btn fw-bold btn-danger"
-                        , cancelButton: "btn fw-bold btn-active-light-primary"
-                    }
-                }).then(function (result) {
-                    if (result.value) {
-                        app.postDeleteItem(parent, guid);
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                });
-            });
-        },*/
-
-        loadStatuses() {
-            const status = [
-                {"name": "Active ", "code": '01'},
-                {"name": "Inactive", 'code': '02'}
-            ];
-            this.statusList = status.sort();
-        }
     },
 
     filters: {
@@ -325,11 +243,10 @@ let app = new Vue({
 
         this.add();
 
-        this.loadStatuses();
-
         this.modalEl.addEventListener('hidden.bs.modal', function (event) {
             document.querySelector('[name="addRecordForm"]').reset();
         })
     }
-})
+}
+let app = new Vue(options);
 
