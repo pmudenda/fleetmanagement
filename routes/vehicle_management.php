@@ -1,13 +1,13 @@
 <?php
 
-use App\Exceptions\MeterEntryController;
-use App\Exceptions\VehicleController;
-use App\Exceptions\VehicleModelsController;
-use App\Exceptions\VehicleOnBoardingController;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Http\Controllers\Configurations\VehicleBodyTypesController;
 use App\Http\Controllers\migration\VehicleDataCleaningController;
+use App\Http\Controllers\VehicleManagement\MeterEntryController;
+use App\Http\Controllers\VehicleManagement\VehicleController;
+use App\Http\Controllers\VehicleManagement\VehicleModelsController;
+use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Models\Reference\GtaVehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
