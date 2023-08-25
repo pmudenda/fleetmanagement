@@ -95,7 +95,7 @@ class AccidentRecordingController extends Controller
 
     }
 
-    public function accidentTypes(): JsonResponse
+    public function getAccidentTypes(): JsonResponse
     {
 
         try {
@@ -115,7 +115,7 @@ class AccidentRecordingController extends Controller
         }
     }
 
-    public function accidentNatures(): JsonResponse
+    public function getAccidentNatures(): JsonResponse
     {
         try {
             $data = GeneralTable::where('type', '=', ConfigurationTypes::ACCIDENT_NATURE->value)->get();

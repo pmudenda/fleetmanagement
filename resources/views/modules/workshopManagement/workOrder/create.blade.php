@@ -392,7 +392,7 @@
            value="{{route('suppliers.list')}}"/>
 
     <input type="hidden"
-           value="{{route('get.reservations')}}"
+           value="{{route('load.reservations')}}"
            name="reservationsUrl"
            id="reservationsUrl"/>
 

@@ -87,9 +87,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/accident/list', [AccidentRecordingController::class, 'list'])->name('accident.list');
 
-    Route::get('/accident/types', [AccidentRecordingController::class, 'accidentTypes'])->name('accident.types');
+    Route::get('/accident/types', [AccidentRecordingController::class, 'getAccidentTypes'])->name('accident.types');
 
-    Route::get('/accident/natures', [AccidentRecordingController::class, 'accidentNatures'])->name('accident.natures');
+    Route::get('/accident/natures', [AccidentRecordingController::class, 'getAccidentNatures'])->name('accident.natures');
 
     Route::post('/accident/save/report', [AccidentRecordingController::class, 'store'])->name('accident.store');
 
@@ -246,7 +246,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('open/job-card/closure', [MaintenanceController::class, 'openJobCardClosure'])->name('show.workorder.closure');
 
-            Route::post('get/reservations', [MaintenanceController::class, 'getReservedMaterialAndServices'])->name('get.reservations');
+            Route::post('get/reservations', [MaintenanceController::class, 'getReservedMaterialAndServices'])->name('load.reservations');
 
             Route::post('get/reservations', [MaintenanceController::class, 'getReservedMaterialAndServices'])->name('attach.reservations.card');
 

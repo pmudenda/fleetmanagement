@@ -66,7 +66,7 @@ class FuelRequisitionController extends Controller
         return response()->json([
             'success' => $valid,
             'valid' => $valid,
-            'message' => $valid ? SystemMessages::valid : ErrorMessages::getMessage("err_0018"),
+            'message' => $valid ? SystemMessages::ODOMETER_VALIDATED_SUCCESSFULLY : ErrorMessages::getMessage("err_0018"),
             'requestPayload' => $request->all()
         ]);
     }

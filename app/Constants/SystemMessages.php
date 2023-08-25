@@ -4,9 +4,9 @@ namespace App\Constants;
 
 class SystemMessages
 {
-    const valid = "Odometer validated successfully";
-    const generalDataProcessed = 'Vehicle General Data Processed Successfully';
-    const onboardingComplete = 'Vehicle Onboarded Successfully. You will now be redirected to vehicle Register';
+    const ODOMETER_VALIDATED_SUCCESSFULLY = "Odometer validated successfully";
+    const VEHICLE_GENERAL_DATA_PROCESSED_SUCCESSFULLY = 'Vehicle General Data Processed Successfully';
+    const VEHICLE_ONBOARDED_SUCCESSFULLY = 'Vehicle Onboarded Successfully. You will now be redirected to vehicle Register';
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

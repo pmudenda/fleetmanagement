@@ -183,7 +183,7 @@ class VehicleOnBoardingController extends Controller
                 'request' => $request->all(),
                 'payload' => $model,
                 'redirectUrl' => route('vehicles.list', ['onboarding-complete' => 'yes']),
-                'message' => SystemMessages::onboardingComplete
+                'message' => SystemMessages::VEHICLE_ONBOARDED_SUCCESSFULLY
             ]);
 
         } catch (Exception $e) {
@@ -245,7 +245,7 @@ class VehicleOnBoardingController extends Controller
                     'step' => 3,
                     'reference' => $model->vehicle_header_id
                 ]),
-                'message' => SystemMessages::generalDataProcessed
+                'message' => SystemMessages::VEHICLE_GENERAL_DATA_PROCESSED_SUCCESSFULLY
             ]);
         } catch (Exception $e) {
             Log::error($e);
