@@ -1098,17 +1098,19 @@ class MaintenanceController extends Controller
                 );
             }
 
-            $credentials = $request->validate([
-                'email' => ['required', 'loginId'],
-                'password' => ['required'],
-            ]);
+            $credentials = [
+                'email' => $request->loginId,
+                'password' => $request->password,
+            ];
 
             if (Auth::attempt($credentials)) {
+                Log::info('eSignature Successful');
                 $entry->updated_at = Carbon::now();
                 $entry->driver_acknowledged = 'Y';
                 $entry->date_acknowledged = Carbon::now();
                 $entry->save();
             } else {
+                Log::info('eSignature Failed');
                 throw new
                 InvalidAssessmentSignatoryException("Invalid Credentials");
             }
