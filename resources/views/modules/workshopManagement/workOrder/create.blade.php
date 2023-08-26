@@ -1936,7 +1936,10 @@
                                 data.items,
                                 'code_article',
                                 ['code_article', 'description'],
-                                ':')
+                                ':',
+                                "",
+                                false,
+                                '#pettyCashModal')
                         }
                     },
                     cache: true
@@ -2727,8 +2730,6 @@
 
                     document.querySelector('#pettyCashStoreContainer').style.display = null;
                     $('.quantity').attr('readonly', false);
-
-
                 } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
                     document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
@@ -2738,9 +2739,7 @@
                 } else if (selectedItemType === document.querySelector('[name="nonStockItemCode"]').value) {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
                     document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
-
                     document.querySelector('#storeContainer').style.display = 'none';
-
                     $('.quantity').attr('readonly', false);
                     $('[name="unit_price"]').attr('readonly', false);
 
