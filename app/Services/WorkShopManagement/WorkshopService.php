@@ -560,6 +560,7 @@ class WorkshopService
             ->join("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
             ->whereNull("GEN_MATERIAL_HEADERS.document_no")
             ->where("GEN_MATERIAL_DETAILS.reg_no", '=', $vehicleRegistration)
+            ->whereNull("GEN_MATERIAL_DETAILS.claimed")
             ->select("GEN_MATERIAL_HEADERS.*",
                 "GEN_MATERIAL_DETAILS.*"
             )->get();

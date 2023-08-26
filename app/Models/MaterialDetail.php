@@ -29,6 +29,7 @@ class MaterialDetail extends Model
         'amount',
         'price',
         'ref_no',
-        'max_allowed'
+        'max_allowed',
+        'claimed'
     ];
 }

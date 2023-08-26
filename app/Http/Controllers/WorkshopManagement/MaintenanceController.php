@@ -1330,7 +1330,7 @@ class MaintenanceController extends Controller
     public function attachReservedArticlesToJobCard(Request $request): JsonResponse
     {
         try {
-
+            DB::beginTransaction();
             $reference = $request->get('jobCardNumber');
             $documentIds = $request->get('items');
             Log::debug("Attaching Articles on $reference");
@@ -1416,8 +1416,12 @@ class MaintenanceController extends Controller
                     default:
                         break;
                 }
+
+                $material->claimed = 'Y';
+                $material->save();
             }
 
+            DB::commit();
             return response()->json([
                 'payload' => [],
                 'success' => true,
