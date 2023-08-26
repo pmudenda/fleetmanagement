@@ -1337,8 +1337,8 @@ class MaintenanceController extends Controller
             $requestIds = [];
 
             foreach ($documentIds as $documentId) {
-                $requestIds = $documentId['requestId'];
-                Log::debug("Article: $requestIds");
+                $requestIds[] = $documentId['requestId'];
+                Log::debug("Article ".$documentId['requestId']);
             }
 
             $workOrder = JobCardHeader::where("job_card_no", "=", $reference)
