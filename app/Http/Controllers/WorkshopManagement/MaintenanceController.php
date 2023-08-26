@@ -1350,57 +1350,68 @@ class MaintenanceController extends Controller
 
             foreach ($materials as $material) {
                 Log::debug("Attaching Article :" . $material->material_code);
-                $materialHeader = MaterialHeader::where('req_no', '=', $material->ref_no)->first();
+                $materialHeader = MaterialHeader::where('req_no', '=', $material->req_no)->first();
                 Log::debug("Item Type :" . $materialHeader->item_type);
 
                 switch ($materialHeader->itemType) {
                     case RequisitionItemTypes::STOCK_ITEM:
                         Log::debug("Article Group:" . $materialHeader->item_type);
-                        WorkShopMaterial::create([
-                            "wshp_act_code" => $workOrder->wshp_act_code,
-                            "workshop_code" => $workOrder->workshop_code,
-                            'sch_flouted' => 'N',
-                            "form_order" => $materialHeader->form_order,
-                            "evaluation" => "Y",
-                            "date_mat" => \Carbon\Carbon::now(),
-                            "mat_code" => $material->material_code,
-                            "unit_of_measure" => $material->unit_of_measure,
-                            "quantity" => $material->quantity,
-                            "amount" => $material->amount,
-                            "price" => $material->price,
-                            "store_code" => $material->stores_code,
-                            "supplier_code" => $material->supplier_code,
-                            "veh_reg_no" => $material->reg_no,
-                            "specifications" => $material->specifications,
-                            "requested_by" => $material->created_by,
-                            "status" => StatusHelper::new(),
-                            "created_by" => $user->staff_no,
-                        ]);
+                        WorkShopMaterial::firstOrCreate(
+                            [
+                                "wshp_act_code" => $workOrder->wshp_act_code,
+                                "workshop_code" => $workOrder->workshop_code,
+                                "mat_code" => $material->material_code,
+                            ],
+                            [
+                                'sch_flouted' => 'N',
+                                "form_order" => $materialHeader->form_order,
+                                "evaluation" => "Y",
+                                "date_mat" => \Carbon\Carbon::now(),
+                                "unit_of_measure" => $material->unit_of_measure,
+                                "quantity" => $material->quantity,
+                                "amount" => $material->amount,
+                                "price" => $material->price,
+                                "store_code" => $material->stores_code,
+                                "supplier_code" => $material->supplier_code,
+                                "veh_reg_no" => $material->reg_no,
+                                "specifications" => $material->specifications,
+                                "requested_by" => $material->created_by,
+                                "status" => StatusHelper::new(),
+                                "created_by" => $user->staff_no,
+                            ]);
                         break;
                     case RequisitionItemTypes::SERVICE:
                     case RequisitionItemTypes::NON_STOCK_ITEM:
                         Log::debug("Article Group :" . $materialHeader->item_type);
-                        WorkShopServiceModel::create([
-                            "wshp_act_code" => $workOrder->wshp_act_code,
-                            "wshp_code" => $workOrder->workshop_code,
-                            "evaluation" => "Y",
-                            "movt_no" => $materialHeader->form_order,
-                            "date_send" => \Carbon\Carbon::now(),
-                            "mat_code" => $material->material_code,
-                            "unit_of_measure" => $material->unit_of_measure,
-                            "quantity" => $material->quantity,
-                            "amount_est" => $material->amount,
-                            "price" => $material->price,
-                            "store_code" => $material->stores_code,
-                            "code_office" => $materialHeader->purchase_office,
-                            "supp_code" => $materialHeader->supplier_code,
-                            "veh_reg_no" => $material->reg_no,
-                            "specifications" => $material->specifications,
-                            "originator" => $user->staff_no,
-                            // "requested_by_id" => $user->id,
-                            "status" => $materialHeader->status,
-                            "created_by" => $user->id
-                        ]);
+                        WorkShopServiceModel::firstOrCreate(
+                            [
+                                "wshp_act_code" => $workOrder->wshp_act_code,
+                                "wshp_code" => $workOrder->workshop_code,
+                                "movt_no" => $materialHeader->form_order,
+                                "mat_code" => $material->material_code,
+                            ],
+                            [
+                                //"wshp_act_code" => $workOrder->wshp_act_code,
+                                //"wshp_code" => $workOrder->workshop_code,
+                                //"movt_no" => $materialHeader->form_order,
+                                //"mat_code" => $material->material_code,
+                                // "requested_by_id" => $user->id,
+                                "date_send" => \Carbon\Carbon::now(),
+                                "evaluation" => "Y",
+                                "unit_of_measure" => $material->unit_of_measure,
+                                "quantity" => $material->quantity,
+                                "amount_est" => $material->amount,
+                                "price" => $material->price,
+                                "store_code" => $material->stores_code,
+                                "code_office" => $materialHeader->purchase_office,
+                                "supp_code" => $materialHeader->supplier_code,
+                                "veh_reg_no" => $material->reg_no,
+                                "specifications" => $material->specifications,
+                                "originator" => $user->staff_no,
+
+                                "status" => $materialHeader->status,
+                                "created_by" => $user->id
+                            ]);
                         break;
                     default:
                         break;
