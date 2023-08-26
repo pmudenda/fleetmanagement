@@ -250,16 +250,16 @@
                        class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                     <thead>
                     <tr class="bg-success-subtle">
-                        <th style="width: 6%;" class="pl-2">Reg. No</th>
-                        <th style="width: 25%;">Article</th>
-                        <th>Article Code</th>
-                        <th style="width: 25%;">Tech. Specification</th>
-                        <th>SPMS Ref.</th>
-                        <th style="width: 4%; max-width: 4%;">Qty.</th>
-                        <th>UOM</th>
-                        <th>Unit Price</th>
-                        <th>Total</th>
-                        <th></th>
+                        <th scope="row" style="width: 6%;" class="pl-2">Reg. No</th>
+                        <th scope="row" style="width: 25%;">Article</th>
+                        <th scope="row">Article Code</th>
+                        <th scope="row" style="width: 25%;">Tech. Specification</th>
+                        <th scope="row">SPMS Ref.</th>
+                        <th scope="row" style="width: 4%; max-width: 4%;">Qty.</th>
+                        <th scope="row">UOM</th>
+                        <th scope="row">Unit Price</th>
+                        <th scope="row">Total</th>
+                        <th scope="row"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -281,7 +281,8 @@
                                             data-text="{{$material->mat_code ?? ''}} : {{$material->specifications ?? ''}}"
                                             data-value="{{$material->mat_code ?? ''}}"
                                             class="form-control form-control-sm DropDownList">
-                                        <option
+                                        <option data-toggle="tooltip"
+                                                title="{{$material->mat_code ?? ''}}">{{$material->mat_code ?? ''}}
                                             value="{{$material->mat_code ?? ''}}">{{$material->mat_code ?? ''}}
                                             : {{$material->specifications ?? ''}}</option>
                                     </select>
