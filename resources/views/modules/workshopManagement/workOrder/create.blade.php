@@ -1126,7 +1126,7 @@
                                             'Assign Task',
                                             asyncResponse['message'],
                                             function () {
-                                                //window.location.reload();
+                                                form.steps("next");
                                             },
                                             'success'
                                         );
@@ -2049,7 +2049,8 @@
                             let rows = '';
                             for (const payloadElement of response.payload) {
                                 let row = `<tr>
-                                        <td><input type='checkbox' name='reservedMaterial' value='${payloadElement.id}' class="checkbox"/></td>
+                                        <td><input type='checkbox' name='reservedMaterial'
+                                        value='${payloadElement.id}' class="checkbox"/></td>
                                         <td>${payloadElement.st_pur}</td>
                                          <td>${payloadElement.item_type}</td>
                                          <td>${payloadElement.req_no}</td>
@@ -2099,12 +2100,17 @@
                         if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
                             console.log("Record with " + $(row).attr('data-record-id'));
                         } else {
-                            $(row).find('input[name][type!=hidden], select[name],textarea[name]').each(function (i, item) {
+                            $(row).find('input[name][type!=hidden], select[name],textarea[name]')
+                                .each(function (i, item) {
                                 let val = item.value.replace(/,/g, '');
 
-                                if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
+                                if (item.name === 'endDate'
+                                    || item.name === 'startDate'
+                                    || item.name === 'invoiceDate') {
                                     let dateField = val;
-                                    dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+                                    dateField = DateFormatter.format(new Date(
+                                        moment(val, 'DD/MM/yyyy')),
+                                        DateFormatter.ISO);
 
                                     obj[item.name] = dateField;
                                 } else {
@@ -2155,8 +2161,6 @@
                     }
                 } else {
                     $($container).find('input[name], select[name]').each(function (i, item) {
-                        // let val = item.value.replace(/,/g, '');
-                        // if($(item).parent())
                         if (item.type === 'radio') {
                             obj[item.name] = $('[name="' + item.name + '"]:checked').val();
                         } else {
@@ -2183,7 +2187,8 @@
                     if (response.hasOwnProperty("success") && response.success) {
                         const message = response.message > ""
                             ? response.message
-                            : "Request submitted successfully, Click 'Ok' Proceed to provide information for other sections";
+                            : "Request submitted successfully, " +
+                            "Click 'Ok' Proceed to provide information for other sections";
 
                         tmsApp.showSystemMessage(
                             "Request Submission",
