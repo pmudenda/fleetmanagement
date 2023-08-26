@@ -8,7 +8,7 @@ use App\Http\Controllers\API\CostCenterController;
 use App\Http\Controllers\API\LocationsController;
 use App\Http\Controllers\API\OrganizationalUnitsController;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
-use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
+use App\Http\Controllers\API\RTSAIntegrationController;
 use App\Http\Controllers\OrganizationStructure\BusinessAreasController;
 use App\Http\Controllers\OrganizationStructure\DirectoratesController;
 use App\Models\Settings\GeneralTable;
@@ -21,24 +21,32 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     /** Brands API **/
 
     /* BUSINESS UNITS*/
-    Route::get('business-units', BusinessUnitsController::class)->name('business.units');
+    Route::get('business-units', BusinessUnitsController::class)
+        ->name('business.units');
 
-    Route::get('organizational-units', OrganizationalUnitsController::class)->name('organizational.units');
+    Route::get('organizational-units', OrganizationalUnitsController::class)
+        ->name('organizational.units');
 
-    Route::get('directorates', [DirectoratesController::class, 'get'])->name('directorates');
+    Route::get('directorates', [DirectoratesController::class, 'get'])
+        ->name('directorates');
 
     /* BUSINESS UNITS*/
-    Route::get('cost-centers', CostCenterController::class)->name('cost.centers');
+    Route::get('cost-centers', CostCenterController::class)
+        ->name('cost.centers');
 
-    Route::get('business-areas', [BusinessAreasController::class, 'get'])->name('business.areas');
+    Route::get('business-areas', [BusinessAreasController::class, 'get'])
+        ->name('business.areas');
 
-    Route::get('purchase/orders', [ProcurementSystemIntegrationController::class, 'verifyPurchaseOrder'])->name('verify.purchase.order');
+    Route::get('purchase/orders', [ProcurementSystemIntegrationController::class, 'verifyPurchaseOrder'])
+        ->name('verify.purchase.order');
 
-    Route::get('suppliers', [ProcurementSystemIntegrationController::class, 'getSuppliers'])->name('suppliers.list');
+    Route::get('suppliers', [ProcurementSystemIntegrationController::class, 'getSuppliers'])
+        ->name('suppliers.list');
 
     Route::get('locations', [LocationsController::class, 'index'])->name('locations');
 
-    Route::post('license-verification', [RoadTransportSafetyAgencyIntegrationController::class, 'verifyLicenseDetails'])->name('license.details.verification');
+    Route::post('license-verification', [RTSAIntegrationController::class, 'verifyLicenseDetails'])
+        ->name('license.details.verification');
 
 
     Route::get('load/vehicle/systems', function (Request $request) {
@@ -59,7 +67,8 @@ Route::group(['prefix' => 'v1/en'], function (): void {
                 'message' => ErrorMessages::getMessage('')
             ]);
         }
-    })->name('load.vehicle.systems');
+    })
+        ->name('load.vehicle.systems');
 
     Route::get('load/defectsCategory', function (Request $request) {
         try {
@@ -82,7 +91,8 @@ Route::group(['prefix' => 'v1/en'], function (): void {
                 'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
-    })->name('load.defects.category');
+    })
+        ->name('load.defects.category');
 
     Route::get('load/defects', function (Request $request) {
         try {
@@ -105,7 +115,8 @@ Route::group(['prefix' => 'v1/en'], function (): void {
                 'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
-    })->name('load.defects');
+    })
+        ->name('load.defects');
 
     Route::get('load/workshop/section', function (Request $request) {
         try {
@@ -128,9 +139,10 @@ Route::group(['prefix' => 'v1/en'], function (): void {
                 'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
-    })->name('load.workshop.section');
+    })
+        ->name('load.workshop.section');
 
-    Route::get('load/licence/classes', function (Request $request) {
+    Route::get('load/licence/classes', function () {
         try {
 
             $licenseCategory = GeneralTable::where('type', ConfigurationTypes::LICENSE_CLASS)
@@ -150,9 +162,10 @@ Route::group(['prefix' => 'v1/en'], function (): void {
                 'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
-    })->name('vehicle.licence.classes');
+    })
+        ->name('vehicle.licence.classes');
 
-    Route::get('load/registration/types', function (Request $request) {
+    Route::get('load/registration/types', function () {
         try {
             $licenseCategory = GeneralTable::where('type', ConfigurationTypes::REGISTRATION_CLASS)
                 ->where('active', '=', "1")
@@ -170,9 +183,10 @@ Route::group(['prefix' => 'v1/en'], function (): void {
                 'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
-    })->name('registration.types');
+    })
+        ->name('registration.types');
 
-    Route::get('transmission/types', function (Request $request) {
+    Route::get('transmission/types', function () {
         try {
             $transmissionTypes =
                 GeneralTable::where('type', ConfigurationTypes::TRANSMISSION_TYPE)
@@ -192,6 +206,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
                 'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
-    })->name('transmission.types');
+    })
+        ->name('transmission.types');
 
 });

@@ -13,7 +13,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('users/list', [UsersController::class, 'index'])->name('users.list');
 
-        Route::post('users/resetPassword', [PasswordResetController::class, 'resetPassword'])->name('user.reset.password');
+        Route::post('users/resetPassword', [PasswordResetController::class, 'resetPassword'])
+            ->name('user.reset.password');
 
         // user.store
         Route::resource('/user', UsersController::class);

@@ -3,7 +3,7 @@
 use App\Constants\ErrorMessages;
 use App\Enums\ConfigurationTypes;
 use App\Helpers\StatusHelper;
-use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
+use App\Http\Controllers\API\RTSAIntegrationController;
 use App\Models\Settings\GeneralTable;
 use App\Models\Reference\GtaVehicle;
 use App\Models\WorkShopManagement\WorkShopTable;

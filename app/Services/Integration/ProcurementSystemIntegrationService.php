@@ -39,7 +39,7 @@ class ProcurementSystemIntegrationService
         try {
             Log::info("Generating Stores Requisition For Request " . $docNumber);
 
-            $ZESCOFleetMaster = SystemOfOrigin::ZESCO_FLEET_MASTER;
+            $systemOfOrigin = SystemOfOrigin::ZESCO_FLEET_MASTER;
             $user = auth()->user()->staff_no;
 
             $pdo = DB::getPdo();
@@ -49,7 +49,7 @@ class ProcurementSystemIntegrationService
             Log::info("p store_code  $stores_code");
             Log::info("p user_requesting  $user");
             Log::info("p job_card  $job_card_no");
-            Log::info("p system_origin  $ZESCOFleetMaster");
+            Log::info("p system_origin  $systemOfOrigin");
             Log::info("p fleet_req_code  $stores_requisition_number");
             Log::info("p req_acc_number  $account");
             Log::info("p delivery_site  $delivery_site");
@@ -65,7 +65,7 @@ class ProcurementSystemIntegrationService
             $stmt->bindParam(":p_job_card", $job_card_no);
             $stmt->bindParam(self::P_STORE_CODE, $stores_code);
             $stmt->bindParam(self::P_USER_REQUESTING, $user);
-            $stmt->bindParam(self::P_SYSTEM_ORIGIN, $ZESCOFleetMaster);
+            $stmt->bindParam(self::P_SYSTEM_ORIGIN, $systemOfOrigin);
             $stmt->bindParam(self::P_FLEET_REQ_CODE, $stores_requisition_number);
             $stmt->bindParam(self::P_REQ_ACC_NUMBER, $account);
             $stmt->bindParam(self::P_DELIVERY_SITE, $delivery_site);
@@ -170,7 +170,7 @@ class ProcurementSystemIntegrationService
         try {
             Log::info("Cancelling Stores Requisition For Request " . $procurementSystemReference);
 
-            $ZESCO_FLEET_MASTER = SystemOfOrigin::ZESCO_FLEET_MASTER;
+            $systemOfOrigin = SystemOfOrigin::ZESCO_FLEET_MASTER;
 
             $pdo = DB::getPdo();
 
@@ -180,7 +180,7 @@ class ProcurementSystemIntegrationService
             :p_system_origin); end;");
             $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_ref_no", $procurementSystemReference);
-            $stmt->bindParam(self::P_SYSTEM_ORIGIN, $ZESCO_FLEET_MASTER);
+            $stmt->bindParam(self::P_SYSTEM_ORIGIN, $systemOfOrigin);
             $stmt->bindParam(self::P_CURRENT_USER, auth()->user()->staff_no);
             $stmt->execute();
 
@@ -218,7 +218,7 @@ class ProcurementSystemIntegrationService
         try {
             Log::info("Generating Stores Reservation For Request " . $docNumber);
 
-            $ZESCOFleetMaster = SystemOfOrigin::ZESCO_FLEET_MASTER;
+            $originatingSystem = SystemOfOrigin::ZESCO_FLEET_MASTER;
 
             $user = auth()->user()->staff_no;
 
@@ -227,7 +227,7 @@ class ProcurementSystemIntegrationService
             Log::info(":p_store_code " . $storesCode);
             Log::info(":p_user_requesting " . $user);
             Log::info(":p_job_card_no " . $jobCardNumber);
-            Log::info(":p_system_origin " . $ZESCOFleetMaster);
+            Log::info(":p_system_origin " . $originatingSystem);
             Log::info(":p_fleet_req_code " . $formOrder);
             Log::info(":p_req_acc_number " . $account);
             Log::info(":p_delivery_site " . $deliverySite);
@@ -242,7 +242,7 @@ class ProcurementSystemIntegrationService
             $stmt->bindParam(self::P_STORE_CODE, $storesCode);
             $stmt->bindParam(self::P_USER_REQUESTING, $user);
             $stmt->bindParam(":p_job_card_no", $jobCardNumber);
-            $stmt->bindParam(self::P_SYSTEM_ORIGIN, $ZESCOFleetMaster);
+            $stmt->bindParam(self::P_SYSTEM_ORIGIN, $originatingSystem);
             $stmt->bindParam(self::P_FLEET_REQ_CODE, $formOrder);
             $stmt->bindParam(self::P_REQ_ACC_NUMBER, $account);
             $stmt->bindParam(self::P_DELIVERY_SITE, $deliverySite);
@@ -406,7 +406,7 @@ class ProcurementSystemIntegrationService
         try {
             Log::info("Generating Stores Reservation From Booking Window Request " . $docNumber);
 
-            $ZESCOFleetMaster = SystemOfOrigin::ZESCO_FLEET_MASTER;
+            $originatingSystem = SystemOfOrigin::ZESCO_FLEET_MASTER;
 
             $user = auth()->user()->staff_no;
 
@@ -415,7 +415,7 @@ class ProcurementSystemIntegrationService
             Log::info(":p_store_code " . $storesCode);
             Log::info(":p_user_requesting " . $user);
             Log::info(":p_job_card_no " . $jobCardNumber);
-            Log::info(":p_system_origin " . $ZESCOFleetMaster);
+            Log::info(":p_system_origin " . $originatingSystem);
             Log::info(":p_fleet_req_code " . $formOrder);
             Log::info(":p_req_acc_number " . $account);
             Log::info(":p_delivery_site " . $deliverySite);
@@ -443,7 +443,7 @@ class ProcurementSystemIntegrationService
             $stmt->bindParam(self::P_STORE_CODE, $storesCode);
             $stmt->bindParam(self::P_USER_REQUESTING, $user);
             $stmt->bindParam(":p_job_card_no", $jobCardNumber);
-            $stmt->bindParam(self::P_SYSTEM_ORIGIN, $ZESCOFleetMaster);
+            $stmt->bindParam(self::P_SYSTEM_ORIGIN, $originatingSystem);
             $stmt->bindParam(self::P_FLEET_REQ_CODE, $formOrder);
             $stmt->bindParam(self::P_REQ_ACC_NUMBER, $account);
             $stmt->bindParam(self::P_DELIVERY_SITE, $deliverySite);
@@ -481,24 +481,12 @@ class ProcurementSystemIntegrationService
         try {
             Log::info("Generating Stores Reservation From Booking Window Request " . $docNumber);
 
-            $ZESCOFleetMaster = SystemOfOrigin::ZESCO_FLEET_MASTER;
-
             $user = auth()->user()->staff_no;
 
             Log::info(":p_req_ref_no " . $docNumber);
             Log::info(":p_user_requesting " . $user);
             Log::info(":p_fleet_req_code " . $formOrder);
             Log::info(":p_current_user " . $user);
-            /*
-                Log::info(":p_system_origin " . $ZESCOFleetMaster);
-                Log::info(":p_veh_reg_no " . $vehRegNumber);
-                Log::info(":p_store_code " . $storesCode);
-                Log::info(":p_job_card_no " . $jobCardNumber);
-                Log::info(":p_req_acc_number " . $account);
-                Log::info(":p_delivery_site " . $deliverySite);
-                Log::info(":p_transaction_type " . $transactionType);
-            */
-
 
             $pdo = DB::getPdo();
 
@@ -514,14 +502,6 @@ class ProcurementSystemIntegrationService
             $stmt->bindParam(self::P_USER_REQUESTING, $user);
             $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
             $stmt->execute();
-
-            /* $stmt->bindParam(":p_veh_reg_no", $vehRegNumber);
-             $stmt->bindParam(":p_store_code", $storesCode);
-            $stmt->bindParam(":p_job_card_no", $jobCardNumber);
-            $stmt->bindParam(":p_system_origin", $ZESCOFleetMaster);
-            $stmt->bindParam(":p_req_acc_number", $account);
-            $stmt->bindParam(":p_delivery_site", $deliverySite);
-            $stmt->bindParam(":p_transaction_type", $transactionType);*/
 
             if (is_array($results) && !empty($results)) {
                 $result = $results[0];

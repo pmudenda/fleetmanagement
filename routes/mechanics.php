@@ -3,19 +3,25 @@
 use App\Http\Controllers\WorkshopManagement\MechanicController;
 use App\Models\Reference\LabourRates;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'mechanic-management'], function () {
-        Route::get('mechanic/create', [MechanicController::class, 'create'])->name('mechanic.create');
+        Route::get('mechanic/create', [MechanicController::class, 'create'])
+            ->name('mechanic.create');
 
-        Route::post('mechanic/save', [MechanicController::class, 'store'])->name('mechanic.save');
+        Route::post('mechanic/save', [MechanicController::class, 'store'])
+            ->name('mechanic.save');
 
-        Route::get('mechanic/show', [MechanicController::class, 'show'])->name('mechanic.show');
+        Route::get('mechanic/show', [MechanicController::class, 'show'])
+            ->name('mechanic.show');
 
-        Route::get('mechanic/list', [MechanicController::class, 'list'])->name('mechanic.list');
+        Route::get('mechanic/list', [MechanicController::class, 'list'])
+            ->name('mechanic.list');
 
-        Route::post('mechanic/find', [MechanicController::class, 'find'])->name('mechanic.search');
+        Route::post('mechanic/find', [MechanicController::class, 'find'])
+            ->name('mechanic.search');
 
         Route::post('labour/rates', function (Request $request) {
             try {
@@ -41,7 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
                     'payload' => []
                 ]);
             }
-        })->name('labour.rates');
+        })
+            ->name('labour.rates');
     });
 });
 

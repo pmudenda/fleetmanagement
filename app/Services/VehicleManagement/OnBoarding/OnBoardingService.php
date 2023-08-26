@@ -2,6 +2,7 @@
 
 namespace App\Services\VehicleManagement\OnBoarding;
 
+use App\Constants\ErrorMessages;
 use App\Exceptions\VehicleOnBoardingException;
 use App\Helpers\OnboardingStateHelper;
 use App\Helpers\StatusHelper;
@@ -34,6 +35,7 @@ use Illuminate\Support\Facades\Log;
 
 class OnBoardingService
 {
+    const VEHICLE_ONBOARDING = 'Vehicle Registration';
     private FileUploadService $fileUploadService;
     private BarcodeGenerationService $codeService;
 
@@ -62,19 +64,31 @@ class OnBoardingService
             $recordByRegistrationNumber = ChassisDetail::where('chassis_number', $chassisNumber)->first();
 
             if (!empty($recordByRegistrationNumber)) {
-                throw new VehicleOnBoardingException('The Chassis Number ' . $chassisNumber . ' has already been registered');
+                throw new VehicleOnBoardingException(
+                    str_replace('@docNumber',
+                        $chassisNumber,
+                        ErrorMessages::INVALID_CHASSIS_NUMBER)
+                );
             }
 
             $recordMotorVehicleCertificate = ChassisDetail::where('chassis_number', $whiteBookSerial)->first();
 
             if (!empty($recordMotorVehicleCertificate)) {
-                throw new VehicleOnBoardingException('Vehicle with  White Book Serial ' . $whiteBookSerial . ' has already been registered');
+                throw new VehicleOnBoardingException(
+                    str_replace('@docNumber',
+                        $whiteBookSerial,
+                        ErrorMessages::INVALID_MVC_NUMBER)
+                );
             }
 
             $recordByEngineNumber = ChassisDetail::where('engine_number', $engineNumber)->first();
 
             if (!empty($recordByEngineNumber)) {
-                throw new VehicleOnBoardingException('Vehicle with  Engine ' . $engineNumber . ' has already been registered');
+                throw new VehicleOnBoardingException(
+                    str_replace('@docNumber',
+                        $engineNumber,
+                        ErrorMessages::INVALID_ENGINE_NUMBER)
+                );
             }
         }
 
@@ -89,10 +103,10 @@ class OnBoardingService
                 'date_on_road' => Carbon::parse($request->input('registrationDate')),
                 'engine_number' => $request->input('engineNumber'),
                 'initial_odometer_reading' => $request->input('initialOdometerReading'),
-                'current_odometer_reading' => 0, //$request->input('currentOdometerReading'),
-                'inspection_date' => Carbon::now()->format('Y-m-d'), //$request->input('inspectionDate'),
-                'lst_service_odometer_reading' => 0, //$request->input('odometerReadingLastService')
-                'nxt_service_odometer_reading' => 0, //$request->input('nextServiceOdometerReading')
+                'current_odometer_reading' => 0,
+                'inspection_date' => Carbon::now()->format('Y-m-d'),
+                'lst_service_odometer_reading' => 0,
+                'nxt_service_odometer_reading' => 0,
                 'odometer_reset' => false,
                 'registration_date' => Carbon::parse($request->input('registrationDate')),
                 'min_req_driving_license' => $request->input('requiredMinimumDrivingLicense'),
@@ -109,7 +123,7 @@ class OnBoardingService
             'front_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'Vehicle Registration',
+            self::VEHICLE_ONBOARDING,
             'Front View',
             $user
         );
@@ -118,7 +132,7 @@ class OnBoardingService
             'rear_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'Vehicle Registration',
+            self::VEHICLE_ONBOARDING,
             'Back View',
             $user
         );
@@ -127,7 +141,7 @@ class OnBoardingService
             'right_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'Vehicle Registration',
+            self::VEHICLE_ONBOARDING,
             'Right View',
             $user
         );
@@ -136,7 +150,7 @@ class OnBoardingService
             'left_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'Vehicle Registration',
+            self::VEHICLE_ONBOARDING,
             'Left View',
             $user
         );
@@ -145,7 +159,7 @@ class OnBoardingService
             'insurance_cover_note',
             'vehicleRegistration',
             $request->input('headerId'),
-            'Vehicle Registration',
+            self::VEHICLE_ONBOARDING,
             'Insurance Cover',
             $user
         );
@@ -154,7 +168,7 @@ class OnBoardingService
             'motor_vehicle_certificate',
             'vehicleRegistration',
             $request->input('headerId'),
-            'Vehicle Registration',
+            self::VEHICLE_ONBOARDING,
             'Motor Vehicle Certificate',
             $user
         );
@@ -193,8 +207,8 @@ class OnBoardingService
         $user = auth()->user();
 
         DB::beginTransaction();
-        $user_unit_code = $request->input('user_unit');
-        $organizationUnit = OrganizationalUnit::where('code_unit', $user_unit_code)->first();
+        $userUnitCode = $request->input('user_unit');
+        $organizationUnit = OrganizationalUnit::where('code_unit', $userUnitCode)->first();
         $registrationNumber = strtoupper(trim($request->input('registrationNumber')));
         $exitingRegistration = VehicleHeader::where('registration_number', $registrationNumber)->first();
 
@@ -214,13 +228,13 @@ class OnBoardingService
             ->first();
 
         if (empty($vehicleModel)) {
-            throw new Exception('Vehicle Model Not Found');
+            throw new VehicleOnBoardingException('Vehicle Model Not Found');
         }
 
         $bodyType = VehicleBodyType::where('code', $body)->first();
 
         if (empty($bodyType)) {
-            throw new Exception('Vehicle Body Type Not Found');
+            throw new VehicleOnBoardingException('Vehicle Body Type Not Found');
         }
 
         $model = VehicleHeader::updateOrCreate(
@@ -230,7 +244,6 @@ class OnBoardingService
             [
                 'brand_code' => $brand->code,
                 'brand_name' => $brand->name,
-                /*'model_guid' => $vehicleModel->id,*/
                 'model_name' => $vehicleModel->model_name,
                 'model_code' => $vehicleModel->code,
                 'body_type_code' => $bodyType->code,
@@ -306,7 +319,7 @@ class OnBoardingService
 
         DB::beginTransaction();
 
-        $purchase_order_document = '';
+        $purchaseOrderDocument = '';
         if ($request->purchaseOrderDocument) {
             $uploadPath = $this->fileUploadService->uploadFile($request,
                 'purchaseOrderDocument',
@@ -317,7 +330,7 @@ class OnBoardingService
                 $user
             );
 
-            $purchase_order_document = empty($uploadPath) ? '' : $uploadPath[0]['path'];
+            $purchaseOrderDocument = empty($uploadPath) ? '' : $uploadPath[0]['path'];
         }
 
         $model = CostAndValuation::updateOrCreate(
@@ -335,7 +348,7 @@ class OnBoardingService
                 'yearOfPurchase' => $request->input('yearOfPurchase'),
                 'created_by' => $user->id,
                 'created_name' => $user->name,
-                'purchase_order_document' => $purchase_order_document
+                'purchase_order_document' => $purchaseOrderDocument
             ]);
 
         $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::costing);
@@ -400,14 +413,13 @@ class OnBoardingService
         DB::beginTransaction();
         $costCenterParts = explode(":", $request->get('costCenter'));
         $businessUnitParts = explode(":", $request->get('businessUnit'));
-        $code_center_code = $costCenterParts[0];
-        $code_center_name = $costCenterParts[1];
+        $codeCenterCode = $costCenterParts[0];
+        $codeCenterName = $costCenterParts[1];
 
-        $bu_code = $businessUnitParts[0];
-        $bu_name = $businessUnitParts[1];
+        $buCode = $businessUnitParts[0];
+        $buName = $businessUnitParts[1];
 
         $businessArea = Area::where('area', '=', trim($request->input('businessArea')))
-            //->where('type', '=', 'businessAreas')
             ->first();
 
         if (!$businessArea) {
@@ -417,14 +429,11 @@ class OnBoardingService
         $responsibleId = $request->input('responsibleHODId') ?? $request->input('vehicleHolderId');
         $responsibleName = $request->input('responsibleHOD') ?? $request->input('vehicleHolder');
 
-        //$responsibleName = $request->input('vehicleHolder');
-        //$responsibleId = $request->input('vehicleHolderId');
-
         $data = [
             'vehicle_header_id' => $request->input('headerId'),
             'business_area_code' => $businessArea->area,
             'directorate' => $request->input('directorate'),
-            'cost_center' => $code_center_code,
+            'cost_center' => $codeCenterCode,
             'responsible_head_id' => $responsibleId,
             'responsible_head_name' => $responsibleName,
             'isPoolVehicle' => $request->input('isPoolVehicle'),
@@ -432,14 +441,17 @@ class OnBoardingService
             'mileageExempt' => $request->input('isMileageExempt'),
             'created_by' => $user->id,
             'created_name' => $user->name,
-            'cost_center_name' => $code_center_name,
-            'business_unit' => $bu_code,
-            'business_unit_name' => $bu_name,
+            'cost_center_name' => $codeCenterName,
+            'business_unit' => $buCode,
+            'business_unit_name' => $buName,
             'business_area_name' => $businessArea->description,
             'assignment_state' => StatusHelper::active()
         ];
 
-        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::assignment);
+        $this->updateVehicleOnBoardingState(
+            $request->input('headerId'),
+            OnboardingStateHelper::assignment
+        );
 
         $model = Assignment::updateOrCreate(
             [
@@ -479,10 +491,6 @@ class OnBoardingService
             $barCodeParams['fileType'],
         )->filename($barCodeParams['filename'] . $barCodeParams['fileType']);
 
-        /*DB::table('VM_VEHICLE_HEADER')
-            ->where('id', '=', $record->id)
-            ->update(['barcode' => $barCodePath]);*/
-
         $record->barcode = $barCodePath;
         $record->save();
         return $barCodePath;
@@ -506,13 +514,13 @@ class OnBoardingService
         if ($stage === OnboardingStateHelper::assignment) {
             $onboardingStatus = StatusHelper::onboardingComplete();
             $vehicleHeader->status = StatusHelper::active();
-        } else if (OnboardingStateHelper::generalData) {
+        } elseif (OnboardingStateHelper::generalData) {
             $onboardingStatus = StatusHelper::pendingTechnicalDataEntry();
-        } else if (OnboardingStateHelper::technicalData) {
+        } elseif (OnboardingStateHelper::technicalData) {
             $onboardingStatus = StatusHelper::pendingAccessoriesCheckin();
-        } else if (OnboardingStateHelper::accessoriesCheckin) {
+        } elseif (OnboardingStateHelper::accessoriesCheckin) {
             $onboardingStatus = StatusHelper::pendingCostingDataEntry();
-        } else if (OnboardingStateHelper::costing) {
+        } elseif (OnboardingStateHelper::costing) {
             $onboardingStatus = StatusHelper::pendingAssignment();
         }
 
@@ -547,7 +555,10 @@ class OnBoardingService
         }
 
 
-        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::accessoriesCheckin);
+        $this->updateVehicleOnBoardingState(
+            $request->input('headerId'),
+            OnboardingStateHelper::accessoriesCheckin
+        );
 
         return $request->all();
     }

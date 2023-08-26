@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
-class RoadTransportSafetyAgencyIntegrationController extends Controller
+class RTSAIntegrationController extends Controller
 {
     public function verifyLicenseDetails(): JsonResponse
     {
