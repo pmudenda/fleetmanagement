@@ -55,9 +55,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
+use const App\Providers\PASSWORD_INPUT_FIELD;
 
 class MaintenanceController extends Controller
 {
@@ -1098,15 +1100,12 @@ class MaintenanceController extends Controller
                 );
             }
 
-            $credentials = [
-                'email' => $request->loginId,
-                'password' => $request->password,
-            ];
+            // Hash::check($request->get('password'), $driver->password);
 
             Log::info('Username ' . $request->loginId);
             Log::info('Password ' . $request->password);
 
-            if (Auth::attempt($credentials)) {
+            if ($driver) {
                 Log::info('eSignature Successful');
                 $entry->updated_at = Carbon::now();
                 $entry->driver_acknowledged = 'Y';
