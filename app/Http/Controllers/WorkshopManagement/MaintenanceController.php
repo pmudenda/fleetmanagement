@@ -1317,7 +1317,6 @@ class MaintenanceController extends Controller
             ]);
         }
 
-
         $vehicleRegistration = $request->get('vehicleRegistration');
         Log::info("Checking for reservations for $vehicleRegistration");
         $details = $this->workshopService->getReservedMaterialsAndServices($vehicleRegistration);
@@ -1365,6 +1364,7 @@ class MaintenanceController extends Controller
                             [
                                 'sch_flouted' => 'N',
                                 "form_order" => $materialHeader->form_order,
+                                "st_pur" => $materialHeader->st_pur,
                                 "evaluation" => "Y",
                                 "date_mat" => \Carbon\Carbon::now(),
                                 "unit_of_measure" => $material->unit_of_measure,
@@ -1408,7 +1408,7 @@ class MaintenanceController extends Controller
                                 "veh_reg_no" => $material->reg_no,
                                 "specifications" => $material->specifications,
                                 "originator" => $user->staff_no,
-
+                                "stf_number"=>$materialHeader->st_pur,
                                 "status" => $materialHeader->status,
                                 "created_by" => $user->id
                             ]);
@@ -1494,7 +1494,7 @@ class MaintenanceController extends Controller
 
         $pettyCashItems = collect([]);
 
-        $materials->merge($nonStock);
+        $materials = $materials->merge($nonStock);
 
         $labour = DB::table('wm_workshop_labours labour')
             ->where("wshp_act_code", "=", $details->wshp_act_code)

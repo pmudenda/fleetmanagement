@@ -514,21 +514,6 @@ class WorkshopService
         $assignmentRecord = WorkshopLabour::where("id", "=", $recordId)->first();
         $recordBefore = $assignmentRecord->toArray();
         DB::beginTransaction();
-        /*foreach ($request->validated("items") as $labourItem) {
-            WorkshopLabour::create([
-                'wshp_act_code' => $workOrder->wshp_act_code,
-                'wshp_code' => $workOrder->workshop_code,
-                'section' => $labourItem['workshopSection'],
-                'evaluation' => 'N',
-                'job_card_instruction' => $labourItem['jobCardInstruction'],
-                'date_lab' => Carbon::now(),
-                'mechanic' => $labourItem['mechanic'],
-                'def_no' => $labourItem['assignedDefect'],
-                'defect_id' => $labourItem['assignedDefectId'],
-                'created_by' => $user->staff_no,
-            ]);
-        }*/
-
         $assignmentRecord->mechanic = $request->validated('reassignTo');
         $assignmentRecord->section = $request->validated('reassignmentDefectSection');
         $assignmentRecord->section = $request->validated('reassignmentDefectSection');
