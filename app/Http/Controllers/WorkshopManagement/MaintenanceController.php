@@ -1100,7 +1100,7 @@ class MaintenanceController extends Controller
                 );
             }
 
-            if ($driver instanceof Driver::class
+            if ($driver instanceof Driver
                 && Hash::check($request->get('password'),
                     $driver->password)) {
                 Log::info('Commence Actual eSignature Authentication');
