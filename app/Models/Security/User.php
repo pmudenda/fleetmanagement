@@ -2,7 +2,6 @@
 
 namespace App\Models\Security;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\MaterialHeader;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,7 +18,6 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
 
-    //use HasPermissionsTrait;
     protected $table = 'SEC_USERS';
 
     /**

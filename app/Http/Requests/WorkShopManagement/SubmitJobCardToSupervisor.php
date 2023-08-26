@@ -23,8 +23,8 @@ class SubmitJobCardToSupervisor extends FormRequest
     public function rules(): array
     {
         return [
-            'commentsToSupervisor' => 'required|string',
-            'vehicle_registration' => 'required|string',
+            'commentsToSupervisor' => 'required|string|max:255',
+            'vehicle_registration' => 'required|string|max:10',
             'job_card_number' => 'required|string',
         ];
     }

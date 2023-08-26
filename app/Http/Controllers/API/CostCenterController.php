@@ -13,11 +13,6 @@ class CostCenterController extends Controller
     public function __invoke(): JsonResponse
     {
         try {
-            $month = 60 * 60 * 24 * 30;
-            /*$data = cache()->remember('cost_center', $month, function () {
-                return ;
-            });*/
-
             $data = CostCenter::orderBy('description')->get();
 
             return response()->json([

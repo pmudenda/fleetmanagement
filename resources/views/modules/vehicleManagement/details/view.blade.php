@@ -66,7 +66,7 @@
                           class="form mb-5">
                         <input type="hidden" name="doctype" value="VehicleHeader"/>
                         <div class="row">
-                            <table>
+                            <table role="presentation">
                                 <tr>
                                     <td style="vertical-align: baseline; width:15%;">
                                         <div v-if="images && images.frontView">
@@ -76,7 +76,7 @@
                                     </td>
                                     <td class="pl-3" style="vertical-align: top;">
                                         <div>
-                                            <table>
+                                            <table role="none">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
@@ -108,7 +108,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <table>
+                                                        <table role="presentation">
                                                             <tr>
                                                                 <td>
                                                                     <span data-name="registrationNumber"
@@ -175,13 +175,6 @@
                                                         </div>
                                                     </div>
 
-                                                    {{-- <div class="form-group row">
-                                                         <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
-                                                             <span class="required">Type</span>
-                                                         </label>
-                                                     </div>--}}
-
-
                                                     <div class="form-group row" style="display: none;">
                                                         <label for="user_unit"
                                                                class="fs-6 fw-semibold form-label col-md-3">
@@ -198,7 +191,8 @@
                                                                                     required
                                                                                     name="user_unit"
                                                                                     id="user_unit"
-                                                                                    data-doctype="vehicleHeader"></select>
+                                                                                    data-doc-type="vehicleHeader">
+                                                                            </select>
                                                                         </div>
                                                                     </div>
                                                                     <div class="control-value like-disabled-input"
@@ -213,43 +207,6 @@
                                                 </div>
 
                                                 <div class="col-6">
-                                                    {{--<div class="form-group row">
-                                                        <label for="registrationNumber"
-                                                               class="fs-6 fw-semibold form-label col-md-3">
-                                                            <span class="required">Registration #.</span>
-                                                        </label>
-                                                        <div class="col-md-9 fv-row">
-                                                            <div class="col-md-9">
-
-                                                                <div
-                                                                    class="fv-plugins-message-container invalid-feedback"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-    --}}
-                                                    {{-- <div class="form-group row">
-                                                         <label for="vehicleLocation"
-                                                                class="fs-6 fw-semibold form-label col-md-3">
-                                                             <span class="required"></span>
-                                                         </label>
-                                                         <div class="col-md-9 fv-row">
-                                                             <div class="col-md-9">
-
-                                                             </div>
-                                                         </div>
-                                                     </div>--}}
-
-                                                    {{--<div class="form-group row mt-10 d-none" id="barcodeContainer">
-                                                        <label for="barcode" class="fs-6 fw-semibold form-label col-md-3">
-                                                            <span class="required">Vehicle Badge</span>
-                                                        </label>
-                                                        <div class="col-md-9 fv-row">
-                                                            <div class="col-md-9">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>--}}
-
                                                 </div>
                                             </div>
                                         </div>
@@ -386,7 +343,7 @@
                                                 <legend style="width: inherit;">
                                                     <h4 class="pt-2">Technical Details</h4>
                                                 </legend>
-                                                <table class="gs-0 gy-3 my-0">
+                                                <table aria-label="Technical Details" role="presentation" class="gs-0 gy-3 my-0">
                                                     <tbody>
                                                     <tr>
                                                         <td class="frappe-control ">
@@ -396,7 +353,6 @@
                                                             </label>
                                                         </td>
                                                         <td>
-                                                            {{--@change="checkChassisNumberValidity" v-model="chassisDetails.chassisNumber"--}}
                                                             <div class="control-input-wrapper">
                                                                 <div class="control-input">
                                                                     <div class="link-field ui-front"
@@ -406,7 +362,8 @@
                                                                                    required
                                                                                    id="chassisNumber"
                                                                                    name="chassisNumber"
-                                                                                   class="input-with-feedback form-control view_mode"
+                                                                                   class="input-with-feedback
+                                                                                   form-control view_mode"
                                                                                    maxlength="140"
                                                                                    data-fieldtype="Link"
                                                                                    data-fieldname="company"
@@ -432,10 +389,10 @@
                                                                     <div class="link-field ui-front"
                                                                          style="position: relative;">
                                                                         <div class="">
-                                                                            {{--v-model="chassisDetails.engineNumber"--}}
                                                                             <input type="text"
                                                                                    required
-                                                                                   class="input-with-feedback form-control view_mode"
+                                                                                   class="input-with-feedback
+                                                                                   form-control view_mode"
                                                                                    maxlength="140" data-fieldtype="Link"
                                                                                    data-fieldname="company"
                                                                                    id="engineNumber"
@@ -451,7 +408,6 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-
                                                     <tr>
                                                         <td class="frappe-control ">
                                                             <label for="whiteBookSerial" class="control-label reqd"
@@ -465,9 +421,9 @@
                                                                     <div class="link-field ui-front"
                                                                          style="position: relative;">
                                                                         <div class="">
-                                                                            {{--v-model="chassisDetails.whiteBookSerial"--}}
                                                                             <input type="text"
-                                                                                   class="input-with-feedback form-control view_mode"
+                                                                                   class="input-with-feedback
+                                                                                   form-control view_mode"
                                                                                    maxlength="50"
                                                                                    required
                                                                                    data-fieldname="company"
@@ -497,7 +453,8 @@
                                                                          style="position: relative;">
                                                                         <div class="">
                                                                             <input type="text"
-                                                                                   class="input-with-feedback form-control view_mode"
+                                                                                   class="input-with-feedback
+                                                                                   form-control view_mode"
                                                                                    maxlength="140"
                                                                                    name="stickerRegistrationNumber"
                                                                                    id="stickerRegistrationNumber"
@@ -512,8 +469,6 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-
-
                                                     <tr>
                                                         <td class="frappe-control ">
                                                             <label for="yearOfManufacture" class="control-label reqd"
@@ -529,7 +484,9 @@
                                                                         <div class="">
                                                                             <input
                                                                                 date-format="YYYY"
-                                                                                class="input-with-feedback form-control number_input view_mode"
+                                                                                class="input-with-feedback
+                                                                                form-control
+                                                                                number_input view_mode"
                                                                                 type="number" min="1990"
                                                                                 max="{{date('Y')}}"
                                                                                 step="1"
@@ -575,7 +532,6 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-
                                                     <tr class="d-none">
                                                         <td>
                                                             <div class="clearfix">
@@ -604,7 +560,6 @@
                                                         <td></td>
                                                         <td></td>
                                                     </tr>
-
                                                     <tr>
                                                         <td class="frappe-control ">
                                                             <label for="chargeOutRate" class="control-label reqd"
@@ -867,13 +822,13 @@
                                              v-if="documents && documents.insurance && documents.certificate">
                                             <fieldset class="border p-3">
                                                 <legend style="width: inherit;">
-                                                    <h4 class="pt-2">Documents</h4>
+                                                    <h4 id="documents" class="pt-2">Documents</h4>
                                                 </legend>
-                                                <table class="">
+                                                <table aria-describedby="documents" role="none" class="">
                                                     <thead>
                                                     <tr class="bg-dark">
-                                                        <th>Document Type</th>
-                                                        <th>Action</th>
+                                                        <th scope="row">Document Type</th>
+                                                        <th scope="row">Action</th>
                                                     </tr>
                                                     </thead>
                                                     <tr>

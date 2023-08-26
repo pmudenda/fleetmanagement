@@ -35,9 +35,9 @@
 @section('content')
 
     <x-content-header
-            :activeCrumb="'New Job Card'"
-            :linkText="'Job Card'"
-            :pageTitle="'Workshop Management'"/>
+        :activeCrumb="'New Job Card'"
+        :linkText="'Job Card'"
+        :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -78,8 +78,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                for="staff_no">Registration #:
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            for="staff_no">Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <div class="input-group">
@@ -116,8 +116,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                for="staff_no">Date In :
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            for="staff_no">Date In :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                             <input type="text"
@@ -140,7 +140,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -152,12 +152,12 @@
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select
-                                                                    data-value="{{$details->workshop_code ?? ''}}"
-                                                                    required
-                                                                    class="form-select form-select-sm"
-                                                                    name="workshop"
-                                                                    autocomplete="off"
-                                                                    id="workshop">
+                                                                data-value="{{$details->workshop_code ?? ''}}"
+                                                                required
+                                                                class="form-select form-select-sm"
+                                                                name="workshop"
+                                                                autocomplete="off"
+                                                                id="workshop">
                                                             </select>
                                                         </div>
                                                     </div>
@@ -170,8 +170,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                                for="job_card_no">
+                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                            for="job_card_no">
                                                             Time In:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -195,8 +195,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Repair Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -219,7 +219,7 @@
                                                                         @endif
                                                                     @else
                                                                         <option
-                                                                                value="{{$repairType->code}}">{{$repairType->name}}</option>
+                                                                            value="{{$repairType->code}}">{{$repairType->name}}</option>
                                                                     @endif
 
                                                                 @endforeach
@@ -235,8 +235,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Service Advisor:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -273,8 +273,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Accident No:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -296,8 +296,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="current_odometer">Odometer value:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="current_odometer">Odometer value:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <div class="input-group">
                                                                 <input type="number"
@@ -321,8 +321,8 @@
                                                 <div class="row" style="display: none;">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                for="staff_no">Date Expected Out:
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            for="staff_no">Date Expected Out:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                             <input type="text"
@@ -344,8 +344,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                                for="fuel_level">
+                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                            for="fuel_level">
                                                             Fuel Level :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -365,8 +365,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4"
-                                                                for="sub_fuel_level">
+                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4"
+                                                            for="sub_fuel_level">
                                                             Sub-Tank Fuel Level :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -388,8 +388,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Driver:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -473,7 +473,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <table
-                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                class="table table-row-dashed align-middle gs-0 table-bordered">
                                                 <thead>
                                                 <tr class="bg-dark-subtle">
                                                     <th class="pl-2">Item</th>
@@ -507,7 +507,7 @@
                                         </div>
                                         <div class="col">
                                             <table
-                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                class="table table-row-dashed align-middle gs-0 table-bordered">
                                                 <thead>
                                                 <tr class="bg-dark-subtle">
                                                     <th class="pl-2">Item</th>
@@ -547,8 +547,8 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                                        for="accessoriesRemarks">
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                    for="accessoriesRemarks">
                                                     General Comments and Observation (Damages):
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -926,7 +926,8 @@
                                        value="{{route('suppliers.list')}}"/>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item" style="list-style: none; width: 178px;">
-                                        <a class="nav-link active" data-toggle="tab" href="#materials" role="tab">Spares</a>
+                                        <a class="nav-link active" data-toggle="tab" href="#materials"
+                                           role="tab">Spares</a>
                                     </li>
                                     <li class="nav-item" style="list-style: none; width: 178px;">
                                         <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
@@ -945,25 +946,25 @@
                                                                        name="materialHeaderId">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
-                                                                            for="staff_no">Item Type:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                        for="staff_no">Item Type:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         @if(!empty($materialsHeader))
                                                                             <select
-                                                                                    data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                                                    readonly="readonly"
-                                                                                    class="form-select form-select-sm"
-                                                                                    name="itemType"
-                                                                                    id="itemType">
+                                                                                data-value="{{$materialsHeader->item_type_code ?? ''}}"
+                                                                                readonly="readonly"
+                                                                                class="form-select form-select-sm"
+                                                                                name="itemType"
+                                                                                id="itemType">
                                                                                 <option></option>
                                                                                 <option
-                                                                                        @if($materialsHeader->item_type_code == RequisitionItemTypes::StockItemCode) selected
-                                                                                        @endif value="01">STOCK ITEM
+                                                                                    @if($materialsHeader->item_type_code == RequisitionItemTypes::STOCK_ITEM_CODE) selected
+                                                                                    @endif value="01">STOCK ITEM
                                                                                 </option>
                                                                                 <option
-                                                                                        @if($materialsHeader->item_type_code == RequisitionItemTypes::NonStockItemCode) selected
-                                                                                        @endif value="02">NON STOCK ITEM
+                                                                                    @if($materialsHeader->item_type_code == RequisitionItemTypes::NON_STOCK_ITEM_CODE) selected
+                                                                                    @endif value="02">NON STOCK ITEM
                                                                                 </option>
                                                                             </select>
                                                                         @endif
@@ -982,19 +983,19 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
-                                                                            for="staff_no">
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                        for="staff_no">
                                                                         Purchase Office:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                                         <select
-                                                                                data-value=""
-                                                                                required
-                                                                                class="form-select form-select-sm"
-                                                                                name="purchase_office"
-                                                                                id="purchase_office">
+                                                                            data-value=""
+                                                                            required
+                                                                            class="form-select form-select-sm"
+                                                                            name="purchase_office"
+                                                                            id="purchase_office">
                                                                             <option
-                                                                                    value="{{$officeDetails->purchase_office_code ?? ''}}">
+                                                                                value="{{$officeDetails->purchase_office_code ?? ''}}">
                                                                                 {{$officeDetails->purchase_office ?? ''}}
                                                                             </option>
                                                                         </select>
@@ -1011,7 +1012,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <div
-                                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                         <div class="control-input">
                                                                             <div class="link-field ui-front"
                                                                                  style="position: relative;">
@@ -1078,8 +1079,8 @@
                                                                 <div id="storeContainer"
                                                                      class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                            for="staff_name">
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                        for="staff_name">
                                                                         Store:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -1099,12 +1100,12 @@
                                                                 <div id="supplierContainer" style="display: none;"
                                                                      class="form-group row">
                                                                     <div
-                                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                         <div class="control-input">
                                                                             <div class="link-field ui-front"
                                                                                  style="position: relative;">
                                                                                 <label
-                                                                                        class="form-check-inline field-required">
+                                                                                    class="form-check-inline field-required">
                                                                                     Suppliers
                                                                                 </label>
                                                                             </div>
@@ -1112,11 +1113,11 @@
                                                                     </div>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         <select
-                                                                                data-value="{{$materialsHeader->supplier_code ?? ''}}"
-                                                                                class="form-select form-select-sm"
-                                                                                name="supplier"
-                                                                                autocomplete="off"
-                                                                                id="supplier">
+                                                                            data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                                                            class="form-select form-select-sm"
+                                                                            name="supplier"
+                                                                            autocomplete="off"
+                                                                            id="supplier">
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -1129,8 +1130,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
-                                                                            for="staff_no">Collection Date:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                        for="staff_no">Collection Date:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         @if($materialsHeader)
@@ -1187,11 +1188,11 @@
                                                                     <tr class="increment">
                                                                         <td class="showNumber">
                                                                             <input
-                                                                                    readonly
-                                                                                    name="registration"
-                                                                                    required
-                                                                                    value="{{$details->reg_no ?? ''}}"
-                                                                                    class="form-control form-control-sm registration"/>
+                                                                                readonly
+                                                                                name="registration"
+                                                                                required
+                                                                                value="{{$details->reg_no ?? ''}}"
+                                                                                class="form-control form-control-sm registration"/>
                                                                         </td>
                                                                         <td>
                                                                             <select readonly
@@ -1201,17 +1202,17 @@
                                                                                     data-value="{{$material->material_code ?? ''}}"
                                                                                     class="form-control form-control-sm DropDownList">
                                                                                 <option
-                                                                                        value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
+                                                                                    value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
                                                                                     : {{$material->specifications ?? ''}}</option>
                                                                             </select>
                                                                         </td>
                                                                         <td>
                                                                             <input
-                                                                                    name="articleCode"
-                                                                                    value="{{$material->material_code ?? ''}}"
-                                                                                    required
-                                                                                    readonly
-                                                                                    class="form-control form-control-sm articleCode"/>
+                                                                                name="articleCode"
+                                                                                value="{{$material->material_code ?? ''}}"
+                                                                                required
+                                                                                readonly
+                                                                                class="form-control form-control-sm articleCode"/>
                                                                         </td>
                                                                         <td>
                                                                             <input type="text"
@@ -1235,11 +1236,11 @@
 
                                                                         <td>
                                                                             <input
-                                                                                    name="unit_of_measure"
-                                                                                    required
-                                                                                    value="{{$material->unit_of_measure ?? ''}}"
-                                                                                    readonly
-                                                                                    class="form-control form-control-sm unit_of_measure"/>
+                                                                                name="unit_of_measure"
+                                                                                required
+                                                                                value="{{$material->unit_of_measure ?? ''}}"
+                                                                                readonly
+                                                                                class="form-control form-control-sm unit_of_measure"/>
                                                                         </td>
 
                                                                         <td>
@@ -1252,7 +1253,7 @@
 
                                                                         <td>
                                                                             <span
-                                                                                    id="total_price">{{$material->amount ?? ''}}</span>
+                                                                                id="total_price">{{$material->amount ?? ''}}</span>
                                                                             <input name="total_price"
                                                                                    type="hidden"
                                                                                    required
@@ -1295,8 +1296,8 @@
                                                 <div class="row">
                                                     <div class="form-group">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                                for="remarks">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                            for="remarks">
                                                             Comments <small>Will be used as justification for
                                                                 Requisition</small>:
                                                         </label>
@@ -1330,19 +1331,19 @@
                                                                        name="materialHeaderId">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                            for="staff_no">Item Type:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                        for="staff_no">Item Type:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         @if(!empty($materialsHeader))
                                                                             <select
-                                                                                    data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                                                    readonly="readonly"
-                                                                                    class="form-select form-select-sm"
-                                                                                    name="serviceItemType"
-                                                                                    id="serviceItemType">
+                                                                                data-value="{{$materialsHeader->item_type_code ?? ''}}"
+                                                                                readonly="readonly"
+                                                                                class="form-select form-select-sm"
+                                                                                name="serviceItemType"
+                                                                                id="serviceItemType">
                                                                                 <option
-                                                                                        value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                                                                    value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}">
                                                                                     SERVICE
                                                                                 </option>
                                                                             </select>
@@ -1352,11 +1353,11 @@
                                                                                value="{{$details->job_card_no ?? 0}}"
                                                                                name="job_card_number"/>
                                                                         <input type="hidden"
-                                                                               value="{{RequisitionItemTypes::StockItemCode}}"
+                                                                               value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}"
                                                                                id="stockItemCode"
                                                                                name="stockItemCode"/>
                                                                         <input type="hidden"
-                                                                               value="{{RequisitionItemTypes::ServiceItemCode}}"
+                                                                               value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}"
                                                                                id="serviceItemCode"
                                                                                name="serviceItemCode"/>
                                                                     </div>
@@ -1370,18 +1371,18 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                            for="staff_no">Purchase Office:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                        for="staff_no">Purchase Office:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                                         <select
-                                                                                data-value=""
-                                                                                required
-                                                                                class="form-select form-select-sm"
-                                                                                name="purchase_office"
-                                                                                id="purchase_office">
+                                                                            data-value=""
+                                                                            required
+                                                                            class="form-select form-select-sm"
+                                                                            name="purchase_office"
+                                                                            id="purchase_office">
                                                                             <option
-                                                                                    value="{{$officeDetails->purchase_office_code ?? ''}}">
+                                                                                value="{{$officeDetails->purchase_office_code ?? ''}}">
                                                                                 {{$officeDetails->purchase_office ?? ''}}
                                                                             </option>
                                                                         </select>
@@ -1398,7 +1399,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <div
-                                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                         <div class="control-input">
                                                                             <div class="link-field ui-front"
                                                                                  style="position: relative;">
@@ -1429,8 +1430,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                                            for="job_card_no">
+                                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                                        for="job_card_no">
                                                                         Request Date:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -1466,12 +1467,12 @@
 
                                                                 <div id="supplierContainer" class="form-group row">
                                                                     <div
-                                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                         <div class="control-input">
                                                                             <div class="link-field ui-front"
                                                                                  style="position: relative;">
                                                                                 <label
-                                                                                        class="form-check-inline field-required">
+                                                                                    class="form-check-inline field-required">
                                                                                     Suppliers
                                                                                 </label>
                                                                             </div>
@@ -1479,11 +1480,11 @@
                                                                     </div>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         <select
-                                                                                data-value="{{$materialsHeader->supplier_code ?? ''}}"
-                                                                                class="form-select form-select-sm"
-                                                                                name="service_supplier"
-                                                                                autocomplete="off"
-                                                                                id="service_supplier">
+                                                                            data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                                                            class="form-select form-select-sm"
+                                                                            name="service_supplier"
+                                                                            autocomplete="off"
+                                                                            id="service_supplier">
                                                                         </select>
                                                                         @if($services && $services->isNotEmpty())
                                                                             <input type="hidden" class="form-control"
@@ -1502,8 +1503,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                            for="staff_no">Collection Date:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                        for="staff_no">Collection Date:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         @if($materialsHeader)
@@ -1559,59 +1560,59 @@
                                                                     <tr class="increment">
                                                                         <td class="showNumber">
                                                                             <input
-                                                                                    readonly="readonly"
-                                                                                    name="vehicle_registration"
-                                                                                    required
-                                                                                    value="{{$details->reg_no ?? ''}}"
-                                                                                    class="form-control form-control-sm vehicle_registration"/>
+                                                                                readonly="readonly"
+                                                                                name="vehicle_registration"
+                                                                                required
+                                                                                value="{{$details->reg_no ?? ''}}"
+                                                                                class="form-control form-control-sm vehicle_registration"/>
                                                                         </td>
                                                                         <td>
                                                                             <select
-                                                                                    name="service_article"
-                                                                                    required
-                                                                                    value="{{$service->material_code ?? ''}}"
-                                                                                    data-value="{{$service->material_code ?? ''}}"
-                                                                                    class="form-control form-control-sm servicesArticlesDropDownList">
+                                                                                name="service_article"
+                                                                                required
+                                                                                value="{{$service->material_code ?? ''}}"
+                                                                                data-value="{{$service->material_code ?? ''}}"
+                                                                                class="form-control form-control-sm servicesArticlesDropDownList">
                                                                                 <option
-                                                                                        value="{{$service->material_code ?? ''}}">
+                                                                                    value="{{$service->material_code ?? ''}}">
 
                                                                                 </option>
                                                                             </select>
                                                                         </td>
                                                                         <td>
                                                                             <input
-                                                                                    name="serviceArticleCode"
-                                                                                    required
-                                                                                    value="{{$service->material_code ?? ''}}"
-                                                                                    readonly
-                                                                                    class="form-control form-control-sm serviceArticleCode"/>
+                                                                                name="serviceArticleCode"
+                                                                                required
+                                                                                value="{{$service->material_code ?? ''}}"
+                                                                                readonly
+                                                                                class="form-control form-control-sm serviceArticleCode"/>
                                                                         </td>
                                                                         <td>
                                                                             <input
-                                                                                    name="service_technical_specification"
-                                                                                    required
-                                                                                    value="{{$service->specification ?? ''}}"
-                                                                                    class="form-control form-control-sm service_technical_specification"/>
-                                                                        </td>
-
-                                                                        <td>
-                                                                            <input
-                                                                                    readonly
-                                                                                    type="text"
-                                                                                    min="1"
-                                                                                    value="1"
-                                                                                    max="1"
-                                                                                    name="service_quantity"
-                                                                                    required
-                                                                                    class="form-control form-control-sm service_quantity number_input"/>
+                                                                                name="service_technical_specification"
+                                                                                required
+                                                                                value="{{$service->specification ?? ''}}"
+                                                                                class="form-control form-control-sm service_technical_specification"/>
                                                                         </td>
 
                                                                         <td>
                                                                             <input
-                                                                                    name="service_unit_of_measure"
-                                                                                    required
-                                                                                    readonly
-                                                                                    class="form-control form-control-sm unit_of_measure"/>
+                                                                                readonly
+                                                                                type="text"
+                                                                                min="1"
+                                                                                value="1"
+                                                                                max="1"
+                                                                                name="service_quantity"
+                                                                                required
+                                                                                class="form-control form-control-sm service_quantity number_input"/>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input
+                                                                                name="service_unit_of_measure"
+                                                                                required
+                                                                                readonly
+                                                                                class="form-control form-control-sm unit_of_measure"/>
                                                                         </td>
 
                                                                         <td>
@@ -1663,8 +1664,8 @@
                                                     @if(!empty($comments) && !empty($comments->where('type','=','SREQ')->first()))
                                                         <div class="form-group">
                                                             <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                                    for="remarks">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                for="remarks">
                                                                 Comments <small>Will be used as justification for
                                                                     Requisition</small>:
                                                             </label>
@@ -1744,16 +1745,16 @@
     <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::StockItemCode}}"
+           value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}"
            id="stockItemCode"
            name="stockItemCode"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::ServiceItemCode}}"
+           value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}"
            id="serviceItemCode" name="serviceItemCode"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::NonStockItemCode}}"
+           value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}"
            id="nonStockItemCode" name="nonStockItemCode"/>
 
     <input type="hidden"
@@ -1816,11 +1817,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                        required
-                                                        id="acceptance"
-                                                        name="acceptance"
-                                                        type="checkbox"
-                                                        class="checkbox">
+                                                    required
+                                                    id="acceptance"
+                                                    name="acceptance"
+                                                    type="checkbox"
+                                                    class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -1872,234 +1873,234 @@
 
         const defectTableRowTemplate = ``;
 
-  /*      function initArticleSelector(element) {
-            const dataUrl = document.querySelector('#articlesUrl').value;
+        /*      function initArticleSelector(element) {
+                  const dataUrl = document.querySelector('#articlesUrl').value;
 
-            // don't re-initialize
-            if (!element || element.length === 0) {
-                return;
-            }
-            let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
-            console.log(hasAttribute);
-            if (hasAttribute) {
-                return;
-            }
+                  // don't re-initialize
+                  if (!element || element.length === 0) {
+                      return;
+                  }
+                  let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
+                  console.log(hasAttribute);
+                  if (hasAttribute) {
+                      return;
+                  }
 
-            element.select2({
-                selectOnClose: true,
-                multiple: false,
-                quietMillis: 100,
-                id: function (project) {
-                    return project['code_article'];
-                },
-                theme: 'bootstrap4',
-                ajax: {
-                    delay: 250,
-                    beforeSend: function () {
-                        window.showLoaderModal(false);
-                        window.loaderVisible = false;
-                    },
-                    url: dataUrl,
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            search: params.term, // search term
-                            type_article: document.querySelector('#itemType').value,
-                            store_code: document.querySelector('#store_code').value,
-                            page: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
+                  element.select2({
+                      selectOnClose: true,
+                      multiple: false,
+                      quietMillis: 100,
+                      id: function (project) {
+                          return project['code_article'];
+                      },
+                      theme: 'bootstrap4',
+                      ajax: {
+                          delay: 250,
+                          beforeSend: function () {
+                              window.showLoaderModal(false);
+                              window.loaderVisible = false;
+                          },
+                          url: dataUrl,
+                          dataType: 'json',
+                          data: function (params) {
+                              return {
+                                  search: params.term, // search term
+                                  type_article: document.querySelector('#itemType').value,
+                                  store_code: document.querySelector('#store_code').value,
+                                  page: params.page
+                              };
+                          },
+                          processResults: function (data, params) {
+                              params.page = params.page || 1;
 
-                        return {
-                            results: formatResults(data.items),
-                            pagination: {
-                                more: (params.page * 30) < data['total_count']
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Enter Article name or Code',
-                minimumInputLength: 3,
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            }).off('select2:select').on('select2:select', function (e) {
-                let article = e.params['data'];
-                const row = $(e.currentTarget).closest('tr');
-                if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
+                              return {
+                                  results: formatResults(data.items),
+                                  pagination: {
+                                      more: (params.page * 30) < data['total_count']
+                                  }
+                              };
+                          },
+                          cache: true
+                      },
+                      placeholder: 'Enter Article name or Code',
+                      minimumInputLength: 3,
+                      templateResult: formatRepo,
+                      templateSelection: formatRepoSelection
+                  }).off('select2:select').on('select2:select', function (e) {
+                      let article = e.params['data'];
+                      const row = $(e.currentTarget).closest('tr');
+                      if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
 
-                    if (!article?.price_map) {
-                        const description = article?.technical_specifications ? article?.technical_specifications : "";
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'The Article '
-                                + article?.id
-                                + ' - ' + description + ' has no price. ' +
-                                ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
-                        });
-                        return;
-                    }
+                          if (!article?.price_map) {
+                              const description = article?.technical_specifications ? article?.technical_specifications : "";
+                              Swal.fire({
+                                  icon: 'error',
+                                  title: 'Oops...',
+                                  text: 'The Article '
+                                      + article?.id
+                                      + ' - ' + description + ' has no price. ' +
+                                      ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
+                              });
+                              return;
+                          }
 
-                    if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
-                        const description = article?.technical_specifications ? article?.technical_specifications : "";
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'The Store '
-                                + $("#store_name").val()
-                                + ' does not have '
-                                + article?.id
-                                + ' - ' + description + ' in stock. ' +
-                                'You may have to wait until the stock is received before your request can be processed'
-                        });
-                    }
-                }
-                //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
-                $(row).find('[name="articleCode"]').val(article['id']);
-                $(row).find('[name="unit_price"]').val(article['price_map']);
-                $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
-                $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
-            });
-        }
+                          if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
+                              const description = article?.technical_specifications ? article?.technical_specifications : "";
+                              Swal.fire({
+                                  icon: 'error',
+                                  title: 'Oops...',
+                                  text: 'The Store '
+                                      + $("#store_name").val()
+                                      + ' does not have '
+                                      + article?.id
+                                      + ' - ' + description + ' in stock. ' +
+                                      'You may have to wait until the stock is received before your request can be processed'
+                              });
+                          }
+                      }
+                      //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
+                      $(row).find('[name="articleCode"]').val(article['id']);
+                      $(row).find('[name="unit_price"]').val(article['price_map']);
+                      $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
+                      $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
+                  });
+              }
 
-        function initServiceArticleSelector(element) {
-            const dataUrl = document.querySelector('#articlesUrl').value;
+              function initServiceArticleSelector(element) {
+                  const dataUrl = document.querySelector('#articlesUrl').value;
 
-            // don't re-initialize
-            if (element.length === 0) {
-                return;
-            }
-            let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
-            console.log(hasAttribute);
-            if (hasAttribute) {
-                return;
-            }
+                  // don't re-initialize
+                  if (element.length === 0) {
+                      return;
+                  }
+                  let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
+                  console.log(hasAttribute);
+                  if (hasAttribute) {
+                      return;
+                  }
 
-            element.select2({
-                selectOnClose: true,
-                multiple: false,
-                quietMillis: 100,
-                id: function (project) {
-                    return project['code_article'];
-                },
-                theme: 'bootstrap4',
-                ajax: {
-                    delay: 250,
-                    beforeSend: function () {
-                        window.showLoaderModal(false);
-                        window.loaderVisible = false;
-                    },
-                    url: dataUrl,
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            search: params.term, // search term
-                            type_article: document.querySelector('#serviceItemType').value,
-                            supplier_code: document.querySelector('#service_supplier').value,
-                            page: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
+                  element.select2({
+                      selectOnClose: true,
+                      multiple: false,
+                      quietMillis: 100,
+                      id: function (project) {
+                          return project['code_article'];
+                      },
+                      theme: 'bootstrap4',
+                      ajax: {
+                          delay: 250,
+                          beforeSend: function () {
+                              window.showLoaderModal(false);
+                              window.loaderVisible = false;
+                          },
+                          url: dataUrl,
+                          dataType: 'json',
+                          data: function (params) {
+                              return {
+                                  search: params.term, // search term
+                                  type_article: document.querySelector('#serviceItemType').value,
+                                  supplier_code: document.querySelector('#service_supplier').value,
+                                  page: params.page
+                              };
+                          },
+                          processResults: function (data, params) {
+                              params.page = params.page || 1;
 
-                        return {
-                            results: formatResults(data.items),
-                            pagination: {
-                                more: (params.page * 30) < data['total_count']
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Enter Article name or Code',
-                minimumInputLength: 3,
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            }).off('select2:select').on('select2:select', function (e) {
-                let article = e.params['data'];
-                const row = $(e.currentTarget).closest('tr');
+                              return {
+                                  results: formatResults(data.items),
+                                  pagination: {
+                                      more: (params.page * 30) < data['total_count']
+                                  }
+                              };
+                          },
+                          cache: true
+                      },
+                      placeholder: 'Enter Article name or Code',
+                      minimumInputLength: 3,
+                      templateResult: formatRepo,
+                      templateSelection: formatRepoSelection
+                  }).off('select2:select').on('select2:select', function (e) {
+                      let article = e.params['data'];
+                      const row = $(e.currentTarget).closest('tr');
 
-                $(row).find('[name="serviceArticleCode"]').val(article['id']);
-                $(row).find('[name="service_unit_price"]').val(article['price_map']);
-                $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
-                $(row).find('[name="service_unit_of_measure"]').val(article['unit_measure_name']);
-            });
-        }
+                      $(row).find('[name="serviceArticleCode"]').val(article['id']);
+                      $(row).find('[name="service_unit_price"]').val(article['price_map']);
+                      $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
+                      $(row).find('[name="service_unit_of_measure"]').val(article['unit_measure_name']);
+                  });
+              }
 
-        function formatRepo(project) {
-            if (project.loading)
-                return project.text;
-            return $('<option value="' + project['id'] + '">' + project['text'] + '</option>');
-        }
+              function formatRepo(project) {
+                  if (project.loading)
+                      return project.text;
+                  return $('<option value="' + project['id'] + '">' + project['text'] + '</option>');
+              }
 
-        function formatRepoSelection(project) {
-            if (!project['id']) {
-                return project['text'];
-            }
-            return project['description'];
-        }
+              function formatRepoSelection(project) {
+                  if (!project['id']) {
+                      return project['text'];
+                  }
+                  return project['description'];
+              }
 
-        function formatResults(items) {
-            return $.map(items, function (obj) {
-                return {
-                    "id": obj['code_article'],
-                    "text": obj['code_article'] + ':' + obj.description,
-                    'code_article': obj?.code_article,
-                    'description': obj?.description,
-                    'price_map': obj?.price,
-                    'technical_specifications': obj?.technical_specifications,
-                    'unit_measure': obj?.unit_measure,
-                    'unit_measure_code': obj?.unit_measure,
-                    'unit_measure_name': obj?.unit_measure_name,
-                    'quantity_in_store': obj?.quantity_in_store
-                };
-            });
-        }
+              function formatResults(items) {
+                  return $.map(items, function (obj) {
+                      return {
+                          "id": obj['code_article'],
+                          "text": obj['code_article'] + ':' + obj.description,
+                          'code_article': obj?.code_article,
+                          'description': obj?.description,
+                          'price_map': obj?.price,
+                          'technical_specifications': obj?.technical_specifications,
+                          'unit_measure': obj?.unit_measure,
+                          'unit_measure_code': obj?.unit_measure,
+                          'unit_measure_name': obj?.unit_measure_name,
+                          'quantity_in_store': obj?.quantity_in_store
+                      };
+                  });
+              }
 
-        function getArticleDetails(code_article, selectElem) {
+              function getArticleDetails(code_article, selectElem) {
 
-            fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
-                .then(response => response.json())
-                .then(response => {
-                    let result = response['payload'];
-                    if (result.success === 'failure') {
-                        // show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
+                  fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
+                      .then(response => response.json())
+                      .then(response => {
+                          let result = response['payload'];
+                          if (result.success === 'failure') {
+                              // show errors
+                              toastr.error('Connection error, no data found')
+                              return;
+                          }
 
-                    console.log(result);
+                          console.log(result);
 
-                    let data = {
-                        "id": result['code_article'],
-                        "text": result['code_article'] + ':' + result.description,
-                        'code_article': result?.code_article,
-                        'description': result?.description,
-                        'price_map': result?.price,
-                        'technical_specifications': result?.technical_specifications,
-                        'unit_measure': result?.unit_measure,
-                        'unit_measure_name': result?.unit_measure_name
-                    };
+                          let data = {
+                              "id": result['code_article'],
+                              "text": result['code_article'] + ':' + result.description,
+                              'code_article': result?.code_article,
+                              'description': result?.description,
+                              'price_map': result?.price,
+                              'technical_specifications': result?.technical_specifications,
+                              'unit_measure': result?.unit_measure,
+                              'unit_measure_name': result?.unit_measure_name
+                          };
 
-                    let option = new Option(data.text, data.id, true, true);
-                    selectElem.append(option).trigger('change');
-                    selectElem.trigger({
-                        type: 'select2:select',
-                        params: {
-                            data: data
-                        }
-                    });
-                })
-                .catch(function (error) {
-                    // notify of error
-                    console.log(error);
-                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                });
-        }
-*/
+                          let option = new Option(data.text, data.id, true, true);
+                          selectElem.append(option).trigger('change');
+                          selectElem.trigger({
+                              type: 'select2:select',
+                              params: {
+                                  data: data
+                              }
+                          });
+                      })
+                      .catch(function (error) {
+                          // notify of error
+                          console.log(error);
+                          toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                      });
+              }
+      */
         function findMechanic($row, mechanic) {
             if (!mechanic) {
                 return;
@@ -2277,6 +2278,7 @@
             });
 
             /*****************************Function Handlers************************************/
+
             /*function postData(formElements, submitForm) {
                 window.loaderMessage = "Posting Data... please wait";
                 let $container = $(formElements);

@@ -202,16 +202,16 @@
     <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::StockItemCode}}"
+           value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}"
            id="stockItemCode"
            name="stockItemCode"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::ServiceItemCode}}"
+           value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}"
            id="serviceItemCode" name="serviceItemCode"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::NonStockItemCode}}"
+           value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}"
            id="nonStockItemCode" name="nonStockItemCode"/>
 
     <input type="hidden"
@@ -427,6 +427,7 @@
                 </div>
                 <div class="modal-body" id="reservedMaterialsContent">
                     <table class="table table-bordered"
+                           aria-label="Reserved Articles"
                            id="reservedMaterialsTable"
                            data-form-url="{{route('attach.reservations.card')}}">
                         <thead>

@@ -12,11 +12,11 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    @if($requestDetails->item_type == RequisitionItemTypes::StockItem)
+                    @if($requestDetails->item_type == RequisitionItemTypes::STOCK_ITEM)
                         <h4>APPROVE STORES RESERVATION</h4>
-                    @elseif($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
+                    @elseif($requestDetails->item_type == RequisitionItemTypes::NON_STOCK_ITEM)
                         <h4>APPROVE NON-STOCK PURCHASE PROCESS</h4>
-                    @elseif($requestDetails->item_type == RequisitionItemTypes::Service)
+                    @elseif($requestDetails->item_type == RequisitionItemTypes::SERVICE)
                         <h4>APPROVE SERVICE PURCHASE PROCESS</h4>
                     @endif
                 </div>
@@ -92,11 +92,11 @@
                                     </a>
                                 </th>
                                 <th width="33%" colspan="4" class="text-center">
-                                    @if($requestDetails->item_type == RequisitionItemTypes::StockItem)
+                                    @if($requestDetails->item_type == RequisitionItemTypes::STOCK_ITEM)
                                         STORES RESERVATION
-                                    @elseif($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
+                                    @elseif($requestDetails->item_type == RequisitionItemTypes::NON_STOCK_ITEM)
                                         NON-STOCK PURCHASE PROCESS
-                                    @elseif($requestDetails->item_type == RequisitionItemTypes::Service)
+                                    @elseif($requestDetails->item_type == RequisitionItemTypes::SERVICE)
                                         SERVICE PURCHASE PROCESS
                                     @endif
                                 </th>
@@ -119,8 +119,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                for="staff_no">Vehicle Registration #:
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            for="staff_no">Vehicle Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
@@ -165,8 +165,8 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                    for="request_date">Store:
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">Store:
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <input type="text" class="form-control form-control-sm"
@@ -185,8 +185,9 @@
                                                 <div class="container-fluid pl-0">
                                                     <div class="row">
                                                         <div class="form-group row">
-                                                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                   for="request_date">
+                                                            <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">
                                                                 Supplier:
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -207,8 +208,8 @@
                                                 <div class="row">
                                                     <div class="form-group row" style="display: none;">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Collection Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Collection Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="fuel_allocation"
@@ -229,8 +230,8 @@
                                                 <div style="display: none;" class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Collection Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Collection Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="fuel_allocation"
@@ -274,8 +275,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Request Date:
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Request Date:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
@@ -294,22 +295,22 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Item Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            @if($requestDetails->item_type == RequisitionItemTypes::StockItem)
+                                                            @if($requestDetails->item_type == RequisitionItemTypes::STOCK_ITEM)
                                                                 <input type="text"
                                                                        class="form-control form-control-sm"
                                                                        readonly
                                                                        value="STOCK">
-                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
+                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::NON_STOCK_ITEM)
                                                                 <input type="text"
                                                                        class="form-control form-control-sm"
                                                                        readonly
                                                                        value="NON-STOCK">
-                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::Service)
+                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::SERVICE)
                                                                 <input type="text"
                                                                        class="form-control form-control-sm"
                                                                        readonly
@@ -328,8 +329,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="requester">Request Originator:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="requester">Request Originator:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="requester"
@@ -347,8 +348,9 @@
                                                 <div class="container-fluid pl-0">
                                                     <div class="row">
                                                         <div class="form-group row">
-                                                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                   for="jobCardNo">Job Card #:</label>
+                                                            <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="jobCardNo">Job Card #:</label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <input type="text"
                                                                        class="form-control form-control-sm"
@@ -370,8 +372,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Purpose:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Purpose:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <textarea type="text"
                                                                   readonly
@@ -493,8 +495,8 @@
                                         <td class="text-right"><strong>Total Amount</strong></td>
                                         <td>
                                             <span
-                                                    class="text-bold"
-                                                    id="totalAmount">{{number_format($totalAmount, 2)}}
+                                                class="text-bold"
+                                                id="totalAmount">{{number_format($totalAmount, 2)}}
                                             </span>
                                         </td>
                                     </tr>

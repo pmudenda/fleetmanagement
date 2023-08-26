@@ -4,8 +4,7 @@ namespace App\Constants;
 
 class TransactionType
 {
-    const FuelRequisition = '01';
-    const NonFuelStoresRequisition = '01';
+    const FUEL_REQUISITION = '01';
 
     const STORES_REQUISITIONS = '01';
     const STORES_ISSUES = '02';

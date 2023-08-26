@@ -21,7 +21,7 @@
                                         class="form-select form-select-sm"
                                         name="serviceItemType"
                                         id="serviceItemType">
-                                        <option value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                        <option value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}">
                                             SERVICE
                                         </option>
                                     </select>
@@ -38,7 +38,7 @@
                                           <option value="{{RequisitionItemTypes::NonStockItemCode}}">NON
                                               STOCK ITEM
                                           </option>--}}
-                                        <option value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                        <option value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}">
                                             SERVICE
                                         </option>
                                     </select>
@@ -46,11 +46,11 @@
 
                                 <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
                                 <input type="hidden"
-                                       value="{{RequisitionItemTypes::StockItemCode}}"
+                                       value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}"
                                        id="stockItemCode"
                                        name="stockItemCode"/>
                                 <input type="hidden"
-                                       value="{{RequisitionItemTypes::ServiceItemCode}}"
+                                       value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}"
                                        id="serviceItemCode" name="serviceItemCode"/>
                             </div>
                         </div>

@@ -81,7 +81,7 @@ class WorkflowService
             'actioning_officer' => $currentUser->staff_no,
             'action' => $action,
             'activity' => "Create Document",
-            'status' => StatusHelper::Submitted(),
+            'status' => StatusHelper::submitted(),
             'action_date' => Carbon::now(),
             'next_step' => $stepAfterSubmission->step_id,
             'previous_step' => '00',

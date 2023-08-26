@@ -9,7 +9,9 @@
     <x-error-view/>
     <div class="row">
         <div class="col-8">
-            <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+            <table aria-label="Engine Details"
+                   role="presentation"
+                   class="table table-row-dashed align-middle gs-0 gy-3 my-0">
                 <tbody>
                 <tr>
                     <td class="frappe-control ">
@@ -19,7 +21,6 @@
                         </label>
                     </td>
                     <td>
-                        {{--@change="checkChassisNumberValidity" v-model="chassisDetails.chassisNumber"--}}
                         <div class="control-input-wrapper">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
@@ -461,10 +462,11 @@
 
     <div class="card card-default" v-if="!documents.insurance && !documents.certificate">
         <div class="card-header pl-0">
-            <h3 class="card-title pl-0">Vehicle Document<small class="pl-3 link-info"><strong> Only .pdf, jpg,jpeg,png,bmp allowed</strong> </small></h3>
+            <h3 class="card-title pl-0">Vehicle Document<small class="pl-3 link-info"><strong> Only .pdf,
+                        jpg,jpeg,png,bmp allowed</strong> </small></h3>
         </div>
         <div class="card-body pl-0">
-            <div  class="row">
+            <div class="row">
                 <div class="row">
                     <div class="col pl-0">
                         <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
@@ -509,12 +511,12 @@
     </div>
 
     <div class="row mt-10" v-if="documents && documents.insurance && documents.certificate">
-        <table class="table align-middle table-row-dashed dataTable no-footer">
+        <table class="table align-middle table-row-dashed dataTable no-footer" aria-label="Attached Documents">
             <thead>
             <tr class="bg-dark">
-                <th>Document Type</th>
-                <th>File Name</th>
-                <th></th>
+                <th scope="row">Document Type</th>
+                <th scope="row">File Name</th>
+                <th scope="row"></th>
             </tr>
             </thead>
             <tr>
@@ -522,7 +524,7 @@
                 <td>@{{ documents.certificate?.originalDocumentName }}</td>
                 <td>
                     <button data-zfm-view-file="certificate"
-                            type="button" :data-document-url="'/storage'+documents.certificate?.path"
+                            type="button" v-bind:data-document-url="'/storage'+documents.certificate?.path"
                             class="btn btn-sm btn-success">View File
                     </button>
                 </td>
@@ -532,7 +534,8 @@
                 <td>@{{ documents.insurance?.originalDocumentName }}</td>
                 <td>
                     <button data-zfm-view-file="insurance"
-                            type="button" :data-document-url="'/storage'+documents.insurance?.path"
+                            type="button"
+                            v-bind:data-document-url="'/storage'+documents.insurance?.path"
                             class="btn btn-sm btn-success">View File
                     </button>
                 </td>
@@ -546,7 +549,8 @@
                 <h2 class="fs-2x fw-bold mb-10">Front View</h2>
 
                 <div class="form-group">
-                    <div class="imagePreview" :style='{backgroundImage: "url(/storage" + images.frontView.path + ")",}'>
+                    <div class="imagePreview"
+                         :style='{backgroundImage: "url(/storage" + images.frontView.path + ")",}'>
                     </div>
                 </div>
             </div>
@@ -555,7 +559,8 @@
             <div class="card-px text-center py-5 my-2">
                 <h2 class="fs-2x fw-bold mb-10">Rear View</h2>
                 <div class="form-group">
-                    <div class="imagePreview" :style='{backgroundImage: "url(/storage" + images.rearView.path + ")",}'>
+                    <div class="imagePreview"
+                         :style='{backgroundImage: "url(/storage" + images.rearView.path + ")",}'>
                     </div>
                 </div>
             </div>
@@ -602,11 +607,13 @@
                     </p>
                     <div class="imagePreview" style="display: none;">
                         <button type="button"
-                                class="btn btn-xs clearImage" style="top: 1px;
+                                class="btn btn-xs clearImage"
+                                style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
-                                            padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            padding: 2px;">
+                            <i class="fa fa-window-close" style="font-size: 20px;"></i>
                         </button>
                     </div>
                 </div>

@@ -54,20 +54,29 @@ class PermissionsSeeder extends Seeder
 
 
 
-
-
         // Fuel Requisitions
-        Permission::firstOrCreate(['description' => 'Allows User to requisition for fuel', 'name' => 'requisition_fuel', 'slug' => 'requisition_fuel']);
-        Permission::firstOrCreate(['description' => 'Allows user to requisition for workOrder spares', 'name' => 'requisition_spares', 'slug' => 'requisition_spares']);
-        Permission::firstOrCreate(['description' => 'Allows User to approve fuel requisition', 'name' => 'approve_fuel_requisition', 'slug' => 'approve_fuel_requisition']);
+        Permission::firstOrCreate(
+            ['description' => 'Allows User to requisition for fuel',
+                'name' => 'requisition_fuel', 'slug' => 'requisition_fuel']);
+        Permission::firstOrCreate(
+            ['description' => 'Allows user to requisition for workOrder spares',
+                'name' => 'requisition_spares', 'slug' => 'requisition_spares']);
+        Permission::firstOrCreate(
+            ['description' => 'Allows User to approve fuel requisition',
+                'name' => 'approve_fuel_requisition', 'slug' => 'approve_fuel_requisition']);
 
 
         // Workshop
-        Permission::firstOrCreate(['description' => 'Create Workshop Section', 'name' => 'add_workshop_section', 'slug' => 'create_work_section']);
-        Permission::firstOrCreate(['description' => 'Edit Workshop Section', 'name' => 'edit_workshop_section', 'slug' => 'edit_work_section']);
-        Permission::firstOrCreate(['description' => 'View Workshop Section', 'name' => 'view_workshop_section', 'slug' => 'view_work_section']);
-        Permission::firstOrCreate(['description' => 'View All Cleaned Vehicles', 'name' => 'all_cleaned_list', 'slug' => 'all_cleaned_list']);
-        Permission::firstOrCreate(['description' => 'View All Cleaned Vehicles', 'name' => 'all_cleaned_list', 'slug' => 'all_cleaned_list']);
+        Permission::firstOrCreate(
+            ['description' => 'Create Workshop Section', 'name' => 'add_workshop_section', 'slug' => 'create_work_section']);
+        Permission::firstOrCreate(
+            ['description' => 'Edit Workshop Section', 'name' => 'edit_workshop_section', 'slug' => 'edit_work_section']);
+        Permission::firstOrCreate(
+            ['description' => 'View Workshop Section', 'name' => 'view_workshop_section', 'slug' => 'view_work_section']);
+        Permission::firstOrCreate(
+            ['description' => 'View All Cleaned Vehicles', 'name' => 'all_cleaned_list', 'slug' => 'all_cleaned_list']);
+        Permission::firstOrCreate(
+            ['description' => 'View All Cleaned Vehicles', 'name' => 'all_cleaned_list', 'slug' => 'all_cleaned_list']);
 
 
         Permission::firstOrCreate(['description' => 'Create Job Card Request', 'name' => 'create_job_card', 'slug' => 'create_job_card']);
@@ -76,26 +85,41 @@ class PermissionsSeeder extends Seeder
 
 
         // Permissions -Security
-        Permission::firstOrCreate(['description' => 'Permission Access', 'name' => 'permission_access', 'slug' => 'permission_access']);
-        Permission::firstOrCreate(['description' => 'Permission Show', 'name' => 'permission_show', 'slug' => 'permission_show']);
-        Permission::firstOrCreate(['description' => 'Can Edit Permission', 'name' => 'permission_edit', 'slug' => 'permission_edit']);
-        Permission::firstOrCreate(['description' => 'Permission Destroy', 'name' => 'permission_destroy', 'slug' => 'permission_destroy']);
-        Permission::firstOrCreate(['description' => 'Create Permission', 'name' => 'permission_create', 'slug' => 'permission_create']);
-        Permission::firstOrCreate(['description' => 'Assign Permission', 'name' => 'permission_attach', 'slug' => 'permission_attach']);
-        Permission::firstOrCreate(['description' => 'Permission Detach', 'name' => 'permission_revoke', 'slug' => 'permission_revoke']);
-
-
-        Permission::firstOrCreate(['description' => 'Add General Tables Data', 'name' => 'add_general_table_data', 'slug' => 'add_general_table_data']);
-        Permission::firstOrCreate(['description' => 'Access Reports', 'name' => 'access_reports', 'slug' => 'access_reports']);
+        Permission::firstOrCreate(
+            ['description' => 'Permission Access', 'name' => 'permission_access', 'slug' => 'permission_access']);
+        Permission::firstOrCreate(
+            ['description' => 'Permission Show', 'name' => 'permission_show', 'slug' => 'permission_show']);
+        Permission::firstOrCreate(
+            ['description' => 'Can Edit Permission', 'name' => 'permission_edit', 'slug' => 'permission_edit']);
+        Permission::firstOrCreate(
+            ['description' => 'Permission Destroy', 'name' => 'permission_destroy', 'slug' => 'permission_destroy']);
+        Permission::firstOrCreate(
+            ['description' => 'Create Permission', 'name' => 'permission_create', 'slug' => 'permission_create']);
+        Permission::firstOrCreate(
+            ['description' => 'Assign Permission', 'name' => 'permission_attach', 'slug' => 'permission_attach']);
+        Permission::firstOrCreate(
+            ['description' => 'Permission Detach', 'name' => 'permission_revoke', 'slug' => 'permission_revoke']);
+        Permission::firstOrCreate(
+            ['description' => 'Add General Tables Data', 'name' => 'add_general_table_data', 'slug' => 'add_general_table_data']);
+        Permission::firstOrCreate(
+            ['description' => 'Access Reports', 'name' => 'access_reports', 'slug' => 'access_reports']);
 
         // Roles | Profile -Security
-        Permission::firstOrCreate(['description' => 'Can Detach Role To User ', 'name' => 'user_detach', 'slug' => 'user_detach']);
-        Permission::firstOrCreate(['description' => 'Create User Role(Profile )', 'name' => 'role_create', 'slug' => 'role_create']);
-        Permission::firstOrCreate(['description' => 'View System Role Access', 'name' => 'role_access', 'slug' => 'has_system_role_access']);
-        Permission::firstOrCreate(['description' => 'Role Show', 'name' => 'role_show', 'slug' => 'can_role_show']);
-        Permission::firstOrCreate(['description' => 'Edit User Role', 'name' => 'role_edit', 'slug' => 'role_edit']);
-        Permission::firstOrCreate(['description' => 'Delete User Role', 'name' => 'role_destroy', 'slug' => 'role_destroy']);
-        Permission::firstOrCreate(['description' => 'Assign Role/Profile To User', 'name' => 'role_attach', 'slug' => 'role_attach']);
-        Permission::firstOrCreate(['description' => 'Remove Role/Profile From User', 'name' => 'role_detach', 'slug' => 'role_detach']);
+        Permission::firstOrCreate([
+            'description' => 'Can Detach Role To User ', 'name' => 'user_detach', 'slug' => 'user_detach']);
+        Permission::firstOrCreate([
+            'description' => 'Create User Role(Profile )', 'name' => 'role_create', 'slug' => 'role_create']);
+        Permission::firstOrCreate([
+            'description' => 'View System Role Access', 'name' => 'role_access', 'slug' => 'has_system_role_access']);
+        Permission::firstOrCreate([
+            'description' => 'Role Show', 'name' => 'role_show', 'slug' => 'can_role_show']);
+        Permission::firstOrCreate([
+            'description' => 'Edit User Role', 'name' => 'role_edit', 'slug' => 'role_edit']);
+        Permission::firstOrCreate([
+            'description' => 'Delete User Role', 'name' => 'role_destroy', 'slug' => 'role_destroy']);
+        Permission::firstOrCreate([
+            'description' => 'Assign Role/Profile To User', 'name' => 'role_attach', 'slug' => 'role_attach']);
+        Permission::firstOrCreate([
+            'description' => 'Remove Role/Profile From User', 'name' => 'role_detach', 'slug' => 'role_detach']);
     }
 }

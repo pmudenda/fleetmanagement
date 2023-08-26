@@ -1218,17 +1218,17 @@ class MaintenanceController extends Controller
         $itemType = $request->get("type_article");
         $storeCode = $request->get("store_code");
 
-        if ($itemType == RequisitionItemTypes::StockItemCode) {
+        if ($itemType == RequisitionItemTypes::STOCK_ITEM_CODE) {
             $query->where(function ($q) use ($storeCode, $stockManagement, $articles) {
                 $q->whereIn("$articles.code_group", ["01", "04", "30"]);
                 $q->where("$stockManagement.code_store", "=", $storeCode);
             });
-        } elseif ($itemType == RequisitionItemTypes::NonStockItemCode) {
+        } elseif ($itemType == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
             $query->where(function ($q) use ($articles) {
                 $q->where("$articles.code_group", "=", "40");
                 $q->where("$articles.code_subgroup", "=", "07");
             });
-        } elseif ($itemType == RequisitionItemTypes::ServiceItemCode) {
+        } elseif ($itemType == RequisitionItemTypes::SERVICE_ITEM_CODE) {
             $query->where(function ($q) use ($articles) {
                 $q->where("$articles.code_group", "=", "41");
                 $q->where("$articles.code_subgroup", "=", "02");
@@ -1338,7 +1338,7 @@ class MaintenanceController extends Controller
             foreach ($materials as $material) {
                 $materialHeader = MaterialHeader::where('req_no,', '=', $material->ref_no)->first();
                 switch ($material->itemType) {
-                    case RequisitionItemTypes::StockItemCode:
+                    case RequisitionItemTypes::STOCK_ITEM_CODE:
                         WorkShopMaterial::create([
                             "wshp_act_code" => $workOrder->wshp_act_code,
                             "workshop_code" => $workOrder->workshop_code,
@@ -1360,8 +1360,8 @@ class MaintenanceController extends Controller
                             "created_by" => $user->staff_no,
                         ]);
                         break;
-                    case RequisitionItemTypes::ServiceItemCode:
-                    case RequisitionItemTypes::NonStockItemCode:
+                    case RequisitionItemTypes::SERVICE_ITEM_CODE:
+                    case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
                         WorkShopServiceModel::create([
                             "wshp_act_code" => $workOrder->wshp_act_code,
                             "wshp_code" => $workOrder->workshop_code,

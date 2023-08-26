@@ -4,37 +4,37 @@ namespace App\Helpers;
 // '26', '32', '42', '46'
 class StatusHelper
 {
-    public static function Submitted(): string
+    public static function submitted(): string
     {
         return '99';
     }
 
-    public static function PendingVerification(): string
+    public static function pendingVerification(): string
     {
         return "021";
     }
 
-    public static function PendingGeneralDataEntry(): string
+    public static function pendingGeneralDataEntry(): string
     {
         return "100";
     }
 
-    public static function PendingTechnicalDataEntry(): string
+    public static function pendingTechnicalDataEntry(): string
     {
         return "101";
     }
 
-    public static function PendingAccessoriesCheckin(): string
+    public static function pendingAccessoriesCheckin(): string
     {
         return "102";
     }
 
-    public static function PendingCostingDataEntry(): string
+    public static function pendingCostingDataEntry(): string
     {
         return "103";
     }
 
-    public static function PendingAssignment(): string
+    public static function pendingAssignment(): string
     {
         return "104";
     }

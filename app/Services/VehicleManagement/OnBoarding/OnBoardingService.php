@@ -242,7 +242,7 @@ class OnBoardingService
                 'created_by' => $user->id,
                 'created_name' => $user->name,
                 'mileage' => '0',
-                'on_boarding_status' => StatusHelper::PendingGeneralDataEntry(),
+                'on_boarding_status' => StatusHelper::pendingGeneralDataEntry(),
                 'status' => StatusHelper::vehicleInactive(),
                 'registration_type' => $request->get('registration_type')
             ]);
@@ -507,13 +507,13 @@ class OnBoardingService
             $onboardingStatus = StatusHelper::onboardingComplete();
             $vehicleHeader->status = StatusHelper::active();
         } else if (OnboardingStateHelper::generalData) {
-            $onboardingStatus = StatusHelper::PendingTechnicalDataEntry();
+            $onboardingStatus = StatusHelper::pendingTechnicalDataEntry();
         } else if (OnboardingStateHelper::technicalData) {
-            $onboardingStatus = StatusHelper::PendingAccessoriesCheckin();
+            $onboardingStatus = StatusHelper::pendingAccessoriesCheckin();
         } else if (OnboardingStateHelper::accessoriesCheckin) {
-            $onboardingStatus = StatusHelper::PendingCostingDataEntry();
+            $onboardingStatus = StatusHelper::pendingCostingDataEntry();
         } else if (OnboardingStateHelper::costing) {
-            $onboardingStatus = StatusHelper::PendingAssignment();
+            $onboardingStatus = StatusHelper::pendingAssignment();
         }
 
         $vehicleHeader->on_boarding_status = $onboardingStatus;

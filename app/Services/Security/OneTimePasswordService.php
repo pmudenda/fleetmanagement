@@ -4,6 +4,7 @@ namespace App\Services\Security;
 
 use App\Models\UserCode;
 use Carbon\Carbon;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,9 +12,9 @@ use Illuminate\Support\Facades\Session;
 
 class OneTimePasswordService
 {
-
-    //2 FACTOR AUTH
-
+    /**
+     * @throws Exception
+     */
     public static function generateCode(bool $resend): void
     {
         //$oneTimePassword
@@ -43,6 +44,7 @@ class OneTimePasswordService
 
     /**
      * @return void
+     * @throws Exception
      */
     public static function generateOtp(): void
     {
@@ -54,30 +56,24 @@ class OneTimePasswordService
             Session::flash('user_otp');
         }
 
-        $code = rand(10000, 99999);
+        $code = random_int(10000, 99999);
 
-        if (config('constants.save_otp')) {
-            UserCode::updateOrCreate(
-                ['user_id' => auth()->user()->id],
-                ['code' => Hash::make($code)]
-            );
-        } else {
-            $oneTimePassword = array(
-                'user_id' => auth()->user()->id,
-                'code' => Hash::make($code),
-                'created_at' => Carbon::now()->toDateTimeString()
-            );
-            Session::put('user_otp', $oneTimePassword);
-        }
+        $oneTimePassword = array(
+            'user_id' => auth()->user()->id,
+            'code' => Hash::make($code),
+            'created_at' => Carbon::now()->toDateTimeString()
+        );
+        Session::put('user_otp', $oneTimePassword);
+
         Session::put('user_2fa_code', $code);
 
         $receiverNumber = auth()->user()->phone;
-        $message = "Your+Eforms+2FA+login+code+is+" . $code;
+        $message = "Your+2FA+login+code+is+" . $code;
 
         try {
             $client = new Client();
             $request = new Request('GET', config('constants.sms_api')
-                . $receiverNumber . '&text=' . $message . '');
+                . $receiverNumber . '&text=' . $message);
             $client->sendAsync($request)->wait();
         } catch (\Exception $e) {
             info("Error: " . $e->getMessage());

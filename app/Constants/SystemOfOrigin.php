@@ -4,6 +4,5 @@ namespace App\Constants;
 
 class SystemOfOrigin
 {
-    //const ZESCOFleetMaster = '05';
-    const ZESCOFleetMaster = '04';
+    const ZESCO_FLEET_MASTER = '04';
 }

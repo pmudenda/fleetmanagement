@@ -116,7 +116,7 @@
                                             <div class="form-group row">
                                                 <label
                                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required">
-                                                    @if(RequisitionItemTypes::StockItemCode==$materialsHeader->item_type_code)
+                                                    @if(RequisitionItemTypes::STOCK_ITEM_CODE==$materialsHeader->item_type_code)
                                                         Store Reservation No.:
                                                     @else
                                                         Purchase Process No.:
@@ -153,15 +153,15 @@
                                                         id="itemType">
                                                         <option></option>
                                                         <option
-                                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::StockItemCode) selected
+                                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::STOCK_ITEM_CODE) selected
                                                             @endif value="01">STOCK ITEM
                                                         </option>
                                                         <option
-                                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::NonStockItemCode) selected
+                                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::NON_STOCK_ITEM_CODE) selected
                                                             @endif value="02">NON STOCK ITEM
                                                         </option>
                                                         <option
-                                                            @if($materialsHeader->item_type_code ==  RequisitionItemTypes::ServiceItemCode) selected
+                                                            @if($materialsHeader->item_type_code ==  RequisitionItemTypes::SERVICE_ITEM_CODE) selected
                                                             @endif value="03">SERVICE
                                                         </option>
                                                     </select>
@@ -172,13 +172,14 @@
                                                         name="itemType"
                                                         id="itemType">
                                                         <option></option>
-                                                        <option value="{{RequisitionItemTypes::StockItemCode}}">STOCK
+                                                        <option value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}">STOCK
                                                             ITEM
                                                         </option>
-                                                        <option value="{{RequisitionItemTypes::NonStockItemCode}}">NON
+                                                        <option value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}">
+                                                            NON
                                                             STOCK ITEM
                                                         </option>
-                                                        <option value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                                        <option value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}">
                                                             SERVICE
                                                         </option>
                                                     </select>
@@ -436,16 +437,16 @@
         <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
 
         <input type="hidden"
-               value="{{RequisitionItemTypes::StockItemCode}}"
+               value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}"
                id="stockItemCode"
                name="stockItemCode"/>
 
         <input type="hidden"
-               value="{{RequisitionItemTypes::ServiceItemCode}}"
+               value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}"
                id="serviceItemCode" name="serviceItemCode"/>
 
         <input type="hidden"
-               value="{{RequisitionItemTypes::NonStockItemCode}}"
+               value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}"
                id="nonStockItemCode" name="nonStockItemCode"/>
 
         <input type="hidden"

@@ -90,15 +90,15 @@ class VehicleOnBoardingController extends Controller
 
         $vehicle = VehicleHeader::where('id', '=', $reference)->first();
 
-        if (StatusHelper::PendingGeneralDataEntry() == $vehicle->on_boarding_status) {
+        if (StatusHelper::pendingGeneralDataEntry() == $vehicle->on_boarding_status) {
             $step = 2;
-        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingTechnicalDataEntry()) {
+        } elseif ($vehicle->on_boarding_status == StatusHelper::pendingTechnicalDataEntry()) {
             $step = 3;
-        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingAccessoriesCheckin()) {
+        } elseif ($vehicle->on_boarding_status == StatusHelper::pendingAccessoriesCheckin()) {
             $step = 4;
-        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingCostingDataEntry()) {
+        } elseif ($vehicle->on_boarding_status == StatusHelper::pendingCostingDataEntry()) {
             $step = 5;
-        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingAssignment()) {
+        } elseif ($vehicle->on_boarding_status == StatusHelper::pendingAssignment()) {
             $step = 6;
         } elseif ($vehicle->on_boarding_status = StatusHelper::onboardingComplete()) {
             $step = 7;

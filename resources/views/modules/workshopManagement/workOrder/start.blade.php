@@ -42,9 +42,9 @@
 @section('content')
 
     <x-content-header
-            :activeCrumb="'New Job Card'"
-            :linkText="'Job Card'"
-            :pageTitle="'Workshop Management'"/>
+        :activeCrumb="'New Job Card'"
+        :linkText="'Job Card'"
+        :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -158,8 +158,8 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                        for="commentsToSupervisor">
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                    for="commentsToSupervisor">
                                                     Comments To Workshop Supervisor:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -223,16 +223,16 @@
     <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::StockItemCode}}"
+           value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}"
            id="stockItemCode"
            name="stockItemCode"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::ServiceItemCode}}"
+           value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}"
            id="serviceItemCode" name="serviceItemCode"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::NonStockItemCode}}"
+           value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}"
            id="nonStockItemCode" name="nonStockItemCode"/>
 
     <input type="hidden"
@@ -303,11 +303,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                        required
-                                                        id="acceptance"
-                                                        name="acceptance"
-                                                        type="checkbox"
-                                                        class="checkbox">
+                                                    required
+                                                    id="acceptance"
+                                                    name="acceptance"
+                                                    type="checkbox"
+                                                    class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">

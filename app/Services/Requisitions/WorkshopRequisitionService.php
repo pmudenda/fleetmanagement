@@ -97,12 +97,12 @@ class WorkshopRequisitionService
         $workflowProcess = "";
 
         switch ($requisitionPostRequest->get('itemType')) {
-            case RequisitionItemTypes::StockItemCode:
-                $item_type = RequisitionItemTypes::StockItem;
+            case RequisitionItemTypes::STOCK_ITEM_CODE:
+                $item_type = RequisitionItemTypes::STOCK_ITEM;
                 $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
                 break;
-            case RequisitionItemTypes::NonStockItemCode:
-                $item_type = RequisitionItemTypes::NonStockItem;
+            case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
+                $item_type = RequisitionItemTypes::NON_STOCK_ITEM;
                 $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
                 break;
         }
@@ -135,11 +135,11 @@ class WorkshopRequisitionService
 
         $form_order_number = null;
         switch ($requisitionPostRequest->get('itemType')) {
-            case RequisitionItemTypes::StockItemCode:
+            case RequisitionItemTypes::STOCK_ITEM_CODE:
                 $form_order_number =
                     DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
                 break;
-            case RequisitionItemTypes::NonStockItemCode:
+            case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
                 $form_order_number =
                     DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
                 break;
@@ -226,7 +226,7 @@ class WorkshopRequisitionService
             ]);
 
             switch ($requisitionPostRequest->get('itemType')) {
-                case RequisitionItemTypes::StockItemCode:
+                case RequisitionItemTypes::STOCK_ITEM_CODE:
                     WorkShopMaterial::create([
                         "wshp_act_code" => $workshop_reference,
                         "workshop_code" => $workshop_code,
@@ -258,7 +258,7 @@ class WorkshopRequisitionService
                         // "ind" => "Y",
                     ]);
                     break;
-                case RequisitionItemTypes::NonStockItemCode:
+                case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
                     WorkShopServiceModel::create([
                         "wshp_act_code" => $workshop_reference,
                         "wshp_code" => $workshop_code,
@@ -331,12 +331,12 @@ class WorkshopRequisitionService
         $workflowProcess = "";
 
         switch ($materialReservationRequest->get('itemType')) {
-            case RequisitionItemTypes::StockItemCode:
-                $item_type = RequisitionItemTypes::StockItem;
+            case RequisitionItemTypes::STOCK_ITEM_CODE:
+                $item_type = RequisitionItemTypes::STOCK_ITEM;
                 $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
                 break;
-            case RequisitionItemTypes::NonStockItemCode:
-                $item_type = RequisitionItemTypes::NonStockItem;
+            case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
+                $item_type = RequisitionItemTypes::NON_STOCK_ITEM;
                 $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
                 break;
         }
@@ -378,10 +378,10 @@ class WorkshopRequisitionService
 
         $form_order_number = null;
         switch ($materialReservationRequest->get('itemType')) {
-            case RequisitionItemTypes::StockItemCode:
+            case RequisitionItemTypes::STOCK_ITEM_CODE:
                 $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
                 break;
-            case RequisitionItemTypes::NonStockItemCode:
+            case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
                 $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
                 break;
         }
@@ -494,9 +494,9 @@ class WorkshopRequisitionService
         $workflowProcess = "";
 
         switch ($requisitionPostRequest->itemType) {
-            case RequisitionItemTypes::ServiceItemCode:
-            case RequisitionItemTypes::NonStockItemCode:
-                $item_type = RequisitionItemTypes::Service;
+            case RequisitionItemTypes::SERVICE_ITEM_CODE:
+            case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
+                $item_type = RequisitionItemTypes::SERVICE;
                 $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
                 break;
         }
@@ -511,20 +511,20 @@ class WorkshopRequisitionService
             $item_type_code = $requisitionPostRequest->itemType;
 
             switch ($item_type_code) {
-                case RequisitionItemTypes::StockItemCode:
+                case RequisitionItemTypes::STOCK_ITEM_CODE:
                     $query->where(function ($q) use ($item_type, $articles) {
                         $q->whereIn("$articles.code_group",
                             ["01", "04", "30"]);
                     });
 
                     break;
-                case RequisitionItemTypes::NonStockItemCode:
+                case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
                     $query->where(function ($q) use ($item_type, $articles) {
                         $q->where("$articles.code_group", "=", "40");
                     });
 
                     break;
-                case RequisitionItemTypes::ServiceItemCode:
+                case RequisitionItemTypes::SERVICE_ITEM_CODE:
                     $query->where(function ($q) use ($item_type, $articles) {
                         $q->where("$articles.code_group", "=", "41")
                             ->where("$articles.code_subgroup", "=", "02");
@@ -540,9 +540,9 @@ class WorkshopRequisitionService
 
             if ($count == 0) {
                 $message = "Article @articleCode is not a @itemType";
-                $articleType = $item_type == RequisitionItemTypes::StockItem
+                $articleType = $item_type == RequisitionItemTypes::STOCK_ITEM
                     ? "Stock Item"
-                    : ($item_type == RequisitionItemTypes::NonStockItem
+                    : ($item_type == RequisitionItemTypes::NON_STOCK_ITEM
                         ? "Non Stock Item " : "Service");
 
                 throw new MaterialReservationException(
@@ -728,8 +728,8 @@ class WorkshopRequisitionService
         $item_type = "";
         $workflowProcess = "";
 
-        if ($serviceReservationRequest->get('itemType') == RequisitionItemTypes::ServiceItemCode) {
-            $item_type = RequisitionItemTypes::Service;
+        if ($serviceReservationRequest->get('itemType') == RequisitionItemTypes::SERVICE_ITEM_CODE) {
+            $item_type = RequisitionItemTypes::SERVICE;
             $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
         }
 
@@ -916,7 +916,7 @@ class WorkshopRequisitionService
         $requisitionDetail = self::getReservationDetail($workshop_reference);
 
         $materialHeader = WorkShopMaterialHeader::where("form_order", "=", $requisitionDetail->form_order)
-            ->where("item_type_code", "=", RequisitionItemTypes::NonStockItemCode)
+            ->where("item_type_code", "=", RequisitionItemTypes::NON_STOCK_ITEM_CODE)
             ->first();
         if (!empty($materialHeader)) {
             $results = $this->procurementService->createPurchaseProcess(
@@ -959,7 +959,7 @@ class WorkshopRequisitionService
         $requisitionDetail = self::getReservationDetail($workshop_reference);
 
         $materialHeader = WorkShopMaterialHeader::where("form_order", "=", $requisitionDetail->form_order)
-            ->where("item_type_code", "=", RequisitionItemTypes::ServiceItemCode)
+            ->where("item_type_code", "=", RequisitionItemTypes::SERVICE_ITEM_CODE)
             ->first();
 
         if (!empty($materialHeader)) {
@@ -1140,20 +1140,20 @@ class WorkshopRequisitionService
     public function checkArticleGroup(mixed $item_type_code, Builder $query, string $item_type, mixed $articles, $articleCode, mixed $registrationNumber): void
     {
         switch ($item_type_code) {
-            case RequisitionItemTypes::StockItemCode:
+            case RequisitionItemTypes::STOCK_ITEM_CODE:
                 $query->where(function ($q) use ($item_type, $articles) {
                     $q->whereIn("$articles.code_group",
                         ["01", "04", "30"]);
                 });
 
                 break;
-            case RequisitionItemTypes::NonStockItemCode:
+            case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
                 $query->where(function ($q) use ($item_type, $articles) {
                     $q->where("$articles.code_group", "=", "40");
                 });
 
                 break;
-            case RequisitionItemTypes::ServiceItemCode:
+            case RequisitionItemTypes::SERVICE_ITEM_CODE:
                 $query->where(function ($q) use ($item_type, $articles) {
                     $q->where("$articles.code_group", "=", "41");
                 });
@@ -1169,9 +1169,9 @@ class WorkshopRequisitionService
         // article not found in the item type class
         if ($count == 0) {
             $message = "Article @articleCode is not a @itemType";
-            $articleType = $item_type == RequisitionItemTypes::StockItem
+            $articleType = $item_type == RequisitionItemTypes::STOCK_ITEM
                 ? "Stock Item"
-                : ($item_type == RequisitionItemTypes::NonStockItem
+                : ($item_type == RequisitionItemTypes::NON_STOCK_ITEM
                     ? "Non Stock Item " : "Service");
 
             throw new MaterialReservationException(
@@ -1217,7 +1217,7 @@ class WorkshopRequisitionService
     public function validateSelectedServiceArticles(mixed $articles, mixed $item_type_code, string $item_type, $service_article, mixed $registrationNumber): void
     {
         $query = DB::table("$articles");
-        if ($item_type_code == RequisitionItemTypes::ServiceItemCode) {
+        if ($item_type_code == RequisitionItemTypes::SERVICE_ITEM_CODE) {
             $query->where(function ($q) use ($item_type, $articles) {
                 $q->where("$articles.code_group", "=", "41")
                     ->where("$articles.code_subgroup", "=", "02");
@@ -1230,9 +1230,9 @@ class WorkshopRequisitionService
 
         if ($count == 0) {
             $message = "Article @articleCode is not a @itemType";
-            $articleType = $item_type == RequisitionItemTypes::StockItem
+            $articleType = $item_type == RequisitionItemTypes::STOCK_ITEM
                 ? "Stock Item"
-                : ($item_type == RequisitionItemTypes::NonStockItem
+                : ($item_type == RequisitionItemTypes::NON_STOCK_ITEM
                     ? "Non Stock Item " : "Service");
 
             throw new MaterialReservationException(

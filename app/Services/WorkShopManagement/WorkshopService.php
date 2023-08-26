@@ -421,7 +421,7 @@ class WorkshopService
             ->get();
 
         foreach ($jobCardRequisitions as $requisition) {
-            if ($requisition->item_type == RequisitionItemTypes::Service || $requisition->item_type == RequisitionItemTypes::NonStockItem) {
+            if ($requisition->item_type == RequisitionItemTypes::SERVICE || $requisition->item_type == RequisitionItemTypes::NON_STOCK_ITEM) {
                 if (empty($requisition->st_pur)) {
                     $processCode = WorkflowProcessCodes::PurchaseProcess->value;
                     $this->workflowService->cancelProcessTask(

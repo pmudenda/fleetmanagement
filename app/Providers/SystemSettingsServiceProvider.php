@@ -8,16 +8,9 @@ use Illuminate\Support\ServiceProvider;
 
 class SystemSettingsServiceProvider extends ServiceProvider
 {
-
     public function boot(): void
     {
-        //dynamic system constants
         try {
-            /*$systemSettings = Permission::all();
-            foreach ($systemSettings as $setting) {
-                config(['settings.' . $setting->slug => $setting->slug]);
-            }*/
-
             // load application error messages
             $systemErrorMessages = SystemError::all();
             foreach ($systemErrorMessages as $setting) {
@@ -33,11 +26,6 @@ class SystemSettingsServiceProvider extends ServiceProvider
         } catch (\Exception $e) {
            Log::error('Loading System Config and Error Messages');
         }
-    }
-
-    public function register()
-    {
-
     }
 
 }

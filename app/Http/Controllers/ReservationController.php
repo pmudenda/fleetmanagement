@@ -16,9 +16,7 @@ class ReservationController extends Controller
         $materials = [];
         $materialsHeader = null;
         $services = collect([]);
-        $view_name = 'modules.workshopManagement.booking.create';
-
-        return view($view_name)
+        return view('modules.workshopManagement.booking.create')
             ->with(compact(
                 'details',
                 'materials',

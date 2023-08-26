@@ -4,12 +4,14 @@ namespace App\Enums;
 
 enum RequisitionItemTypes: string
 {
-    const StockItem = "SI";
-    const NonStockItem = "NS";
+    const STOCK_ITEM = "SI";
+    const NON_STOCK_ITEM = "NS";
 
-    const Service = "SE";
+    const SERVICE = "SE";
 
-    const StockItemCode = "01";
-    const NonStockItemCode = "02";
-    const ServiceItemCode = "03";
+    const STOCK_ITEM_CODE = "01";
+
+    const NON_STOCK_ITEM_CODE = "02";
+
+    const SERVICE_ITEM_CODE = "03";
 }

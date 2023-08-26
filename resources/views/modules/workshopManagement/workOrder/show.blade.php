@@ -42,9 +42,9 @@
 @section('content')
 
     <x-content-header
-            :activeCrumb="'New Job Card'"
-            :linkText="'Job Card'"
-            :pageTitle="'Workshop Management'"/>
+        :activeCrumb="'New Job Card'"
+        :linkText="'Job Card'"
+        :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -135,16 +135,16 @@
     <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::StockItemCode}}"
+           value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}"
            id="stockItemCode"
            name="stockItemCode"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::ServiceItemCode}}"
+           value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}"
            id="serviceItemCode" name="serviceItemCode"/>
 
     <input type="hidden"
-           value="{{RequisitionItemTypes::NonStockItemCode}}"
+           value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}"
            id="nonStockItemCode" name="nonStockItemCode"/>
 
     <input type="hidden"
@@ -162,49 +162,49 @@
         <tr class="increment">
             <td class="showNumber">
                 <input
-                        name="registration"
-                        required
-                        value=""
-                        class="form-control form-control-sm vehicle_registration"/>
+                    name="registration"
+                    required
+                    value=""
+                    class="form-control form-control-sm vehicle_registration"/>
             </td>
             <td>
                 <select
-                        name="articles"
-                        required
-                        data-value=""
-                        class="form-control form-control-sm articlesDropDownList">
+                    name="articles"
+                    required
+                    data-value=""
+                    class="form-control form-control-sm articlesDropDownList">
                     <option></option>
                 </select>
             </td>
             <td>
                 <input
-                        name="articleCode"
-                        required
-                        readonly
-                        class="form-control form-control-sm articleCode"/>
+                    name="articleCode"
+                    required
+                    readonly
+                    class="form-control form-control-sm articleCode"/>
             </td>
             <td>
                 <input
-                        name="technical_specification"
-                        required
-                        class="form-control form-control-sm technical_specification"/>
-            </td>
-
-            <td>
-                <input
-                        type="text"
-                        min="1"
-                        name="quantity"
-                        required
-                        class="form-control form-control-sm quantity number_input"/>
+                    name="technical_specification"
+                    required
+                    class="form-control form-control-sm technical_specification"/>
             </td>
 
             <td>
                 <input
-                        name="unit_of_measure"
-                        required
-                        readonly
-                        class="form-control form-control-sm unit_of_measure"/>
+                    type="text"
+                    min="1"
+                    name="quantity"
+                    required
+                    class="form-control form-control-sm quantity number_input"/>
+            </td>
+
+            <td>
+                <input
+                    name="unit_of_measure"
+                    required
+                    readonly
+                    class="form-control form-control-sm unit_of_measure"/>
             </td>
 
             <td>
@@ -235,52 +235,52 @@
         <tr class="increment">
             <td class="showNumber">
                 <input
-                        name="vehicle_registration"
-                        required
-                        value=""
-                        class="form-control form-control-sm vehicle_registration"/>
+                    name="vehicle_registration"
+                    required
+                    value=""
+                    class="form-control form-control-sm vehicle_registration"/>
             </td>
             <td>
                 <select
-                        name="service_article"
-                        required
-                        data-value=""
-                        class="form-control form-control-sm servicesArticlesDropDownList">
+                    name="service_article"
+                    required
+                    data-value=""
+                    class="form-control form-control-sm servicesArticlesDropDownList">
                     <option></option>
                 </select>
             </td>
             <td>
                 <input
-                        name="serviceArticleCode"
-                        required
-                        readonly
-                        class="form-control form-control-sm serviceArticleCode"/>
+                    name="serviceArticleCode"
+                    required
+                    readonly
+                    class="form-control form-control-sm serviceArticleCode"/>
             </td>
             <td>
                 <input
-                        name="service_technical_specification"
-                        required
-                        class="form-control form-control-sm service_technical_specification"/>
-            </td>
-
-            <td>
-                <input
-                        readonly
-                        type="text"
-                        min="1"
-                        value="1"
-                        max="1"
-                        name="service_quantity"
-                        required
-                        class="form-control form-control-sm service_quantity number_input"/>
+                    name="service_technical_specification"
+                    required
+                    class="form-control form-control-sm service_technical_specification"/>
             </td>
 
             <td>
                 <input
-                        name="service_unit_of_measure"
-                        required
-                        readonly
-                        class="form-control form-control-sm unit_of_measure"/>
+                    readonly
+                    type="text"
+                    min="1"
+                    value="1"
+                    max="1"
+                    name="service_quantity"
+                    required
+                    class="form-control form-control-sm service_quantity number_input"/>
+            </td>
+
+            <td>
+                <input
+                    name="service_unit_of_measure"
+                    required
+                    readonly
+                    class="form-control form-control-sm unit_of_measure"/>
             </td>
 
             <td>
@@ -362,11 +362,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                        required
-                                                        id="acceptance"
-                                                        name="acceptance"
-                                                        type="checkbox"
-                                                        class="checkbox">
+                                                    required
+                                                    id="acceptance"
+                                                    name="acceptance"
+                                                    type="checkbox"
+                                                    class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -400,7 +400,8 @@
                             Close
                         </button>--}}
                         <button type="button" class="btn btn-default pull-left"
-                                data-bs-dismiss="modal">Close</button>
+                                data-bs-dismiss="modal">Close
+                        </button>
                         <button id="btnSign" type="submit"
                                 class="btn btn-sm btn-success mr-3">
                             <i class="fas fa-save"></i>

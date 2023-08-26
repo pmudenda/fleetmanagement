@@ -11,7 +11,7 @@ class RightsServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //dynamic constants
+        // dynamic constants
         try {
             $permissions = Permission::all();
             foreach ($permissions as $permission) {
@@ -26,10 +26,4 @@ class RightsServiceProvider extends ServiceProvider
             //ignored
         }
     }
-
-    public function register()
-    {
-
-    }
-
 }

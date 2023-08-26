@@ -8,7 +8,6 @@ use Codedge\Fpdf\Fpdf\Fpdf;
 class PdfJobController extends Controller
 {
     protected $fpdf;
-    private $errorMessage;
 
     public function __construct()
     {
@@ -16,11 +15,11 @@ class PdfJobController extends Controller
     }
 
     // Print Function Starts from the Web Routes
-    public function index()
+    public function index(): void
     {
         /*-----------------------------------------VARIABLES AND DATA------------------------------------------------*/
         $assignments = [
-            'jobInstruction' => 'The CONCAT() function returns a string whose character set depends on the character set of the first string argument. The data type of the result string depends on the data types of the two arguments. Oracle will try to convert the result string in a loss-less manner. For example, if you concatenate a CLOB value with an NCLOB value, the data type of the returned string will be NCLOB.',
+            'jobInstruction' => 'The CONCAT() function returns a string whose character set depends',
             'meter_number' => 6666,
             'customer_name' => 'Customer',
             'address' => 'Address',
@@ -30,10 +29,8 @@ class PdfJobController extends Controller
 
         $workShopSupervisor = 'PETER K. NYIRENDA';
         $jobTitle = "SENIOR MANAGER-INVESTMENT OPERATIONS";
-        $workShopLocation = "MALAMBO";
         $filepath = public_path() . '/img/ZESCO_removebg.png';
         $this->fpdf->SetAuthor('ZESCO FLEET MASTER');
-        $location = "WORKSHOP LOCATION \n" . $workShopLocation;
 
         $this->fpdf->SetTitle($assignments['documentFileName']);
         $this->fpdf->AliasNbPages('{pages}');
@@ -41,15 +38,18 @@ class PdfJobController extends Controller
         $this->fpdf->SetAutoPageBreak(true, 15);
         $this->fpdf->AddPage();// Add new pages
 
-        $label_size = '12';
 
         $this->fpdf->Cell(40, 25,
-            $this->fpdf->Image($filepath, $this->fpdf->GetX(), $this->fpdf->GetY(), 46),
+            $this->fpdf->Image(
+                $filepath,
+                $this->fpdf->GetX(),
+                $this->fpdf->GetY(),
+                46),
             1, 0, 'L',
             false);
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
+        $this->fpdf->SetFont('Arial', 'B', '12');
         $this->fpdf->Cell(90, 25, 'MECHANICAL WORKSHOP JOB CARD', 1, '', 'C');
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
+        $this->fpdf->SetFont('Arial', 'B', '12');
         $this->fpdf->MultiCell(60, 8.33, "Doc Number:\nCO.14900.FORM.0051\nVersion 1",
             1, "C");
         $this->fpdf->Ln(5);
@@ -70,9 +70,6 @@ class PdfJobController extends Controller
         $this->fpdf->Cell(25, 20, "B", 1, 0, 'C', false);
         $this->fpdf->Cell(25, 20, "C", 1, 0, 'C', false);
 
-        /*$this->fpdf->Ln(10);
-        $this->fpdf->Ln(10);
-        $this->fpdf->Ln(10);*/
         //invoice contents
         $this->fpdf->SetFillColor(28, 153, 85);
         $this->fpdf->SetFont('Arial', 'B', 12);
@@ -83,7 +80,7 @@ class PdfJobController extends Controller
         $this->fpdf->SetTextColor(32, 16, 8);
         $this->fpdf->SetFont('Arial', '', 12);
 
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
+        $this->fpdf->SetFont('Arial', 'B', '12');
         $this->fpdf->Cell(60, 5, "JOB INSTRUCTION:");
         $this->fpdf->Ln();
         $this->fpdf->MultiCell(190, 5, $assignments['jobInstruction'], 1, '');
@@ -94,7 +91,7 @@ class PdfJobController extends Controller
         $this->fpdf->Ln();
         $this->fpdf->Ln();
         //-------------------------------------------------------------------------------------------------------
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
+        $this->fpdf->SetFont('Arial', 'B', '12');
         $this->fpdf->Cell(60, 5, "WORK DONE AND WORK COMPLETED:");
         $this->fpdf->Ln();
         $this->fpdf->MultiCell(0, 8, '', 1, 0);
@@ -115,7 +112,6 @@ class PdfJobController extends Controller
             "W.SMG' Signature \nOdometer Reading ...................................
                 \nRoad Test Remarks ...................................
                 \n......................................................................", 1, 0, false);
-        //$this->fpdf->Ln();
         $this->fpdf->Cell(95, 25, "Man No.:", 1, 0, 'T', false);
         $this->fpdf->MultiCell(95, 8, "W.SMG' Signature\n............................................",
             1, 0, false);
@@ -123,38 +119,16 @@ class PdfJobController extends Controller
         $this->fpdf->Ln();
         $this->fpdf->Ln();
 
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
+        $this->fpdf->SetFont('Arial', 'B', '12');
         $this->fpdf->Cell(50, 5, $workShopSupervisor);
         $this->fpdf->Ln();
-        $this->fpdf->SetFont('Arial', 'B', $label_size);
+        $this->fpdf->SetFont('Arial', 'B', '12');
         $this->fpdf->Cell(50, 5, $jobTitle);
         $this->fpdf->Ln();
 
-        $filename = "JobCard" . ".pdf";
-        /*return response()->streamDownload(function () use ($filename) {
-            echo $this->fpdf->Output($filename, 'D');
-        }, $filename);*/
-        $this->fpdf->Output();
+        $fileName = "JobCard" . ".pdf";
+        $this->fpdf->Output('', $fileName);
     }
 
-    private function ImprovedTable(array $header, array $data): void
-    {
-        // Column widths
-        $w = array(40, 35, 40, 45);
-        // Header
-        for ($i = 0; $i < count($header); $i++)
-            $this->fpdf->Cell($w[$i], 7, $header[$i], 1, 0, 'C');
-        $this->fpdf->Ln();
-        // Data
-        foreach ($data as $row) {
-            $this->fpdf->Cell($w[0], 6, $row[0], 'LR');
-            $this->fpdf->Cell($w[1], 6, $row[1], 'LR');
-            $this->fpdf->Cell($w[2], 6, number_format($row[2]), 'LR', 0, 'R');
-            $this->fpdf->Cell($w[3], 6, number_format($row[3]), 'LR', 0, 'R');
-            $this->fpdf->Ln();
-        }
-        // Closing line
-        $this->fpdf->Cell(array_sum($w), 0, '', 'T');
-    }
 }
 

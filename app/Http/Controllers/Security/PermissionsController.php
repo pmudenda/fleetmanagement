@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Security;
 
 use App\Http\Controllers\Controller;
 use App\Models\Security\Permission;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class PermissionsController extends Controller
@@ -42,18 +43,7 @@ class PermissionsController extends Controller
     }
 
 
-    public function show($id)
-    {
-        //
-    }
-
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, Permission $permission)
+    public function update(Request $request, Permission $permission): RedirectResponse
     {
         $permission->name = $request->name ;
         $permission->slug = $request->slug ;

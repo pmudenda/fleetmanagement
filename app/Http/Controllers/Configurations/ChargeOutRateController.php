@@ -11,6 +11,7 @@ use App\Models\Settings\vehicle\VehicleBodyType;
 use App\Models\Settings\vehicle\VehicleBrand;
 use App\Models\Settings\vehicle\VehicleModel;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Log;
 class ChargeOutRateController extends Controller
 {
 
-    public function index(): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(): View|Application
     {
         $chargeOutRateList = ChargeOutRate::get();
         return view('modules.configurations.chargeoutrate')
@@ -35,12 +36,15 @@ class ChargeOutRateController extends Controller
             $type = $request->get("bodyType");
             $charge = $request->get("rate");
             $make = VehicleBrand::where('id', '=', $brand)->first();
-            $model_type = VehicleModel::where('id', '=', $model)->first();
+            $modelType = VehicleModel::where('id', '=', $model)->first();
             $type = VehicleBodyType::where('id', '=', $type)->first();
 
             ChargeOutRate::create([
-                'vehicle_specification' => $type->id . $make->id . $model_type->id,
-                'vehicle_description' => $type->name . ' ' . $make->name . ' ' . $model_type->model_name . ' ' . $model_type->model_code,
+                'vehicle_specification' => $type->id . $make->id . $modelType->id,
+                'vehicle_description' => $type->name
+                    . ' ' . $make->name
+                    . ' ' . $modelType->model_name
+                    . ' ' . $modelType->model_code,
                 'charge' => $charge,
                 'created_by' => auth()->user()->id
             ]);

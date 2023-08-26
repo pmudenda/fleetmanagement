@@ -155,11 +155,11 @@ class WorkflowController extends Controller
             DB::beginTransaction();
             $process_code = '';
             switch ($requisitionDetail->item_type) {
-                case RequisitionItemTypes::Service:
-                case RequisitionItemTypes::NonStockItem:
+                case RequisitionItemTypes::SERVICE:
+                case RequisitionItemTypes::NON_STOCK_ITEM:
                     $process_code = WorkflowProcessCodes::PurchaseProcess->value;
                     break;
-                case RequisitionItemTypes::StockItem:
+                case RequisitionItemTypes::STOCK_ITEM:
                     $process_code = WorkflowProcessCodes::StoresRequisition->value;
                     break;
                 default:
@@ -197,15 +197,15 @@ class WorkflowController extends Controller
 
             if ($nextStepId == 100 && $action == WorkflowActions::approve()) {
                 switch ($requisitionDetail->item_type) {
-                    case RequisitionItemTypes::Service:
+                    case RequisitionItemTypes::SERVICE:
                         $purchaseProcessNumber = $this->workshopRequisitionService->createWorkshopServicePurchaseProcess($request->get('reference'));
                         $message = $message . ' Purchase Process No.: ' . $purchaseProcessNumber;
                         break;
-                    case RequisitionItemTypes::NonStockItem:
+                    case RequisitionItemTypes::NON_STOCK_ITEM:
                         $purchaseProcessNumber = $this->workshopRequisitionService->createWorkshopNonStockPurchaseProcess($request->get('reference'));
                         $message = $message . ' Purchase Process No.: ' . $purchaseProcessNumber;
                         break;
-                    case RequisitionItemTypes::StockItem:
+                    case RequisitionItemTypes::STOCK_ITEM:
                         $reservationNumber = $this->workshopRequisitionService->createWorkshopMaterialStoresReservation($request->get('reference'));
                         $message = $message . ' Stores Reservation No.: ' . $reservationNumber;
                         break;
