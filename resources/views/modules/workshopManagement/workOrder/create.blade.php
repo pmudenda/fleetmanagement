@@ -996,22 +996,22 @@
                         } else {
                             $(row).find('input[name][type!=hidden], select[name],textarea[name]')
                                 .each(function (i, item) {
-                                let val = item.value.replace(/,/g, '');
+                                    let val = item.value.replace(/,/g, '');
 
-                                if (item.name === 'endDate'
-                                    || item.name === 'startDate'
-                                    || item.name === 'invoiceDate') {
-                                    let dateField = val;
-                                    dateField = DateFormatter.format(new Date(
-                                        moment(val, 'DD/MM/yyyy')
-                                    ),
-                                        DateFormatter.ISO);
+                                    if (item.name === 'endDate'
+                                        || item.name === 'startDate'
+                                        || item.name === 'invoiceDate') {
+                                        let dateField = val;
+                                        dateField = DateFormatter.format(new Date(
+                                                moment(val, 'DD/MM/yyyy')
+                                            ),
+                                            DateFormatter.ISO);
 
-                                    obj[item.name] = dateField;
-                                } else {
-                                    obj[item.name] = item.value;
-                                }
-                            });
+                                        obj[item.name] = dateField;
+                                    } else {
+                                        obj[item.name] = item.value;
+                                    }
+                                });
                             arr.push(obj);
                         }
 
@@ -1445,8 +1445,8 @@
                 });
 
                 $('body').on('show.bs.modal', '#pettyCashModal', function () {
-                    $(this).find('select').each(function () {
-                        let dropdownParent = $(document.body);
+                    $(this).find('select[data-select2-i]').each(function () {
+                        let dropdownParent = $('#pettyCashModal');
                         if ($(this).parents('.modal.in:first').length !== 0)
                             dropdownParent = $(this).parents('.modal.in:first');
                         $(this).select2({
@@ -1461,13 +1461,14 @@
             function initializeFormWizard() {
                 const index = $('[name="job_card_number"]').val()?.trim();//'step';
 
-                function getDocumentStep(){
-                    if(!index || !dataStore.getItem(index)){
+                function getDocumentStep() {
+                    if (!index || !dataStore.getItem(index)) {
                         return 1;
                     }
 
-                   return dataStore.getItem(index);
+                    return dataStore.getItem(index);
                 }
+
                 // Define friendly data store name
                 const dataStore = window.sessionStorage;
                 let stepId = window.step_id;
@@ -1929,7 +1930,8 @@
                             window[selectedItemType] = data.items;
                             let articlesCtrl = $(".pettyCashItemsTable").find('.imprestArticles');
                             tmsApp.populateDropDownList(articlesCtrl,
-                                data.items, 'code_article',
+                                data.items,
+                                'code_article',
                                 ['code_article', 'description'],
                                 ':')
                         }
@@ -2267,7 +2269,14 @@
                         }
 
                         let workshops = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name"], "", "", true);
+                        tmsApp.populateDropDownList(
+                            selectElem,
+                            workshops,
+                            "workshop_code",
+                            ["workshop_name"],
+                            "",
+                            "",
+                            true);
 
                         let location = selectElem.attr('data-value');
 
@@ -2297,7 +2306,14 @@
                         }
 
                         let fuelLevels = response['payload'];
-                        tmsApp.populateDropDownList($mainTankFuelLevel, fuelLevels, "code", ["name"], "", "", true);
+                        tmsApp.populateDropDownList(
+                            $mainTankFuelLevel,
+                            fuelLevels,
+                            "code",
+                            ["name"],
+                            "",
+                            "",
+                            true);
                         tmsApp.populateDropDownList($subTankFuelLevelCtl, fuelLevels, "code", ["name"], "", "", true);
 
                         let mainTankLevel = $mainTankFuelLevel.attr('data-value');

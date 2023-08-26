@@ -3,19 +3,20 @@
 @endphp
 <div class="row pt-5">
     <div class="table-responsive">
-        <table id="pettyCashSelectedItemsTable"
+        <table aria-label="Petty Cash Items"
+            id="pettyCashSelectedItemsTable"
                class="table">
             <thead>
             <tr class="bg-green">
-                <th style="width: 6%;" class="pl-2">Reg. No</th>
-                <th style="width: 25%;">Article</th>
-                <th style="width: 10%;">Article Code</th>
-                <th style="width: 25%;">Tech. Specification</th>
-                <th style="width: 4%; max-width: 4%;">Qty.</th>
-                <th style="width: 5%;">UOM</th>
-                <th style="width: 6%;">Unit Price</th>
-                <th style="width: 8%;">Total</th>
-                <th style="width: 3%;"></th>
+                <th scope="row" style="width: 6%;" class="pl-2">Reg. No</th>
+                <th scope="row" style="width: 25%;">Article</th>
+                <th scope="row" style="width: 10%;">Article Code</th>
+                <th scope="row" style="width: 25%;">Tech. Specification</th>
+                <th scope="row" style="width: 4%; max-width: 4%;">Qty.</th>
+                <th scope="row" style="width: 5%;">UOM</th>
+                <th scope="row" style="width: 6%;">Unit Price</th>
+                <th scope="row" style="width: 8%;">Total</th>
+                <th scope="row" style="width: 3%;"></th>
             </tr>
             </thead>
             <tbody>
@@ -96,15 +97,15 @@
             <tfoot>
             <tr>
                 <th>
-                    <button type="button" class="btn btn-sm btn-success" data-bs-target="#pettyCashModal"
-                            data-bs-toggle="modal">
-                        <i class="fas fa-plus"></i>
-                        Insert
-                    </button>
                 </th>
             </tr>
             </tfoot>
         </table>
+        <button type="button" class="btn btn-sm btn-success pull-right" data-bs-target="#pettyCashModal"
+                data-bs-toggle="modal">
+            <i class="fas fa-plus"></i>
+            Add Item
+        </button>
     </div>
 </div>
 
@@ -205,7 +206,7 @@
                                                name="materialHeaderId">
                                         <div class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                 for="pettyCashBuyItemType">
                                                 Item Type:
                                             </label>
