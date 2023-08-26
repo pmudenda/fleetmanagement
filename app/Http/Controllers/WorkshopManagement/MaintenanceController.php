@@ -24,6 +24,7 @@ use App\Http\Requests\WorkShopManagement\WorkshopMaterialResevationRequest;
 use App\Http\Requests\WorkShopManagement\WorkshopRequisitionRequest;
 use App\Http\Requests\WorkShopManagement\WorkshopServiceRequisitionRequest;
 use App\Http\Requests\WorkShopManagement\WorkshopServiceReservationRequest;
+use App\Models\Driver;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Reference\PHCMSEmployee;
@@ -59,7 +60,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
-use const App\Providers\PASSWORD_INPUT_FIELD;
 
 class MaintenanceController extends Controller
 {
@@ -1100,7 +1100,11 @@ class MaintenanceController extends Controller
                 );
             }
 
-            // Hash::check($request->get('password'), $driver->password);
+            if ($driver instanceof Driver::class
+                && Hash::check($request->get('password'),
+                    $driver->password)) {
+                Log::info('Commence Actual eSignature Authentication');
+            }
 
             Log::info('Username ' . $request->loginId);
             Log::info('Password ' . $request->password);
@@ -1326,19 +1330,24 @@ class MaintenanceController extends Controller
     public function attachReservedArticlesToJobCard(Request $request): JsonResponse
     {
         try {
+
             $reference = $request->get('jobCardNumber');
             $documentIds = $request->get('items');
-
+            Log::debug("Attaching Articles on $reference");
             $requestIds = [];
+
             foreach ($documentIds as $documentId) {
                 $requestIds = $documentId['requestId'];
+                Log::debug("Article: $requestIds");
             }
 
-            $workOrder = JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
+            $workOrder = JobCardHeader::where("job_card_no", "=", $reference)
                 ->first();
             $user = Auth::user();
 
-            $materials = MaterialDetail::whereIn('id', $requestIds);
+            $materials = MaterialDetail::whereIn('id', $requestIds)->get();
+            Log::debug("Articles found :" . $materials->count());
+
             foreach ($materials as $material) {
                 $materialHeader = MaterialHeader::where('req_no,', '=', $material->ref_no)->first();
                 switch ($material->itemType) {
@@ -1395,13 +1404,15 @@ class MaintenanceController extends Controller
 
             return response()->json([
                 'payload' => [],
-                'state' => 'success'
+                'state' => 'success',
+                'message' => 'Articles Attached Successfully'
             ]);
         } catch (Exception $e) {
             Log::error($e);
             return response()->json([
                 'payload' => [],
-                'state' => 'failure'
+                'state' => 'failure',
+                'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
     }

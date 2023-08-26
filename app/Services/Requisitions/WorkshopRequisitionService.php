@@ -740,58 +740,71 @@ class WorkshopRequisitionService
 
             $this->validateVehicleStatus($registrationNumber);
 
-            $item_type_code = $serviceReservationRequest->get('itemType');
+            $itemTypeCode = $serviceReservationRequest->get('itemType');
             $key = str_replace("_", "", str_replace(" ", "", $registrationNumber))
                 . str_replace("-", "", str_replace(" ", "", $article));
 
             if (in_array($key, array_keys($serviceArticlesMap))) {
-                $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
+                $message = "Article
+                $article has been already selected for vehicle
+                $registrationNumber. Check your article";
                 throw new MaterialReservationException($message);
             }
 
             $serviceArticlesMap[$key] = $registrationNumber;
 
-            $this->validateSelectedServiceArticles($articles, $item_type_code, $item_type, $item["service_article"], $registrationNumber);
+            $this->validateSelectedServiceArticles($articles,
+                $itemTypeCode,
+                $item_type,
+                $item["service_article"],
+                $registrationNumber);
 
         }
 
-        $form_order = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
-        $purchase_process_reference = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
-        Log::info("Reservation Ref. $purchase_process_reference");
-        Log::info("Doc No.  $form_order");
+        $formOrder = DocumentNumberGenerationService::generateReferenceNumber(
+            WorkflowModules::STOCK_REQUISITION
+        );
+
+        $purchaseProcessReference = DocumentNumberGenerationService::generateReferenceNumber(
+            WorkflowModules::PURCHASE_REQUISITION
+        );
+
+        Log::info("Reservation Ref. $purchaseProcessReference");
+        Log::info("Doc No.  $formOrder");
         Log::info("Reservation Item Type " . $serviceReservationRequest->get("itemType"));
         Log::info("Determined Reservation Item Type Code $item_type");
 
-        $short_description = "Workshop Reservation Ref.No. $purchase_process_reference";
-        $long_description = "Workshop Reservation Ref.No. $purchase_process_reference";
+        $shortDescription = "Workshop Reservation Ref.No. $purchaseProcessReference";
+        $longDescription = "Workshop Reservation Ref.No. $purchaseProcessReference";
 
         $this->workflowService->initiateWorkflowProcess(
-            $purchase_process_reference,
+            $purchaseProcessReference,
             (int)$workflowProcess,
             WorkflowActions::submit(),
             $serviceReservationRequest->remarks,
             $user,
             $serviceReservationRequest->total_amount ?? 0,
-            $short_description,
-            $long_description
+            $shortDescription,
+            $longDescription
         );
 
-        $store_code = $serviceReservationRequest->get('store_code');
-        $workshop_code = $serviceReservationRequest->get("workshop_code");
+
+        $workshopCode = $serviceReservationRequest->get("workshop_code");
+        $storeCode = $serviceReservationRequest->get('store_code');
 
         MaterialHeader::create(
             [
                 "created_by" => $user->id,
                 "date_created" => Carbon::now(),
                 "status" => StatusHelper::new(),
-                "req_no" => $purchase_process_reference,
-                "form_order" => $form_order,
-                "workshop_no" => $workshop_code,
+                "req_no" => $purchaseProcessReference,
+                "form_order" => $formOrder,
+                "workshop_no" => $workshopCode,
                 "item_type" => $item_type,
                 "requested_by" => $user->staff_no,
                 //"veh_reg_no" => $registrationNumber,
                 "purchase_office" => $serviceReservationRequest->get("purchase_office"),
-                "store" => $store_code,
+                "store" => $storeCode,
                 "supplier_code" => $serviceReservationRequest->get('supplier'),
                 "valid_date_from" => $valid_from,
                 "valid_date_to" => $valid_to,
@@ -825,7 +838,7 @@ class WorkshopRequisitionService
                 "amount" => $item["service_total_price"],
                 "price" => $item["service_unit_price"],
                 "stores_code" => $store_code,
-                "req_no" => $purchase_process_reference,
+                "req_no" => $purchaseProcessReference,
                 "specifications" => $item["service_technical_specification"],
                 "description" => $item["service_technical_specification"],
                 "reg_no" => $item["vehicle_registration"],
@@ -834,7 +847,7 @@ class WorkshopRequisitionService
 
         WorkShopComment::firstOrCreate(
             [
-                "workshop_reference" => $purchase_process_reference,
+                "workshop_reference" => $purchaseProcessReference,
                 "type" => "SREQ",
             ],
             [
@@ -847,11 +860,11 @@ class WorkshopRequisitionService
 
         // send notification to Authoriser
         // RequisitionRaised::dispatch($matHeader);
-        Log::info("Reservation " . $purchase_process_reference . " raised successfully");
+        Log::info("Reservation " . $purchaseProcessReference . " raised successfully");
 
         return response()->json([
             "success" => true,
-            "message" => "Reservation " . $purchase_process_reference . " Generated and submitted to the next authority for Authorisation",
+            "message" => "Reservation " . $purchaseProcessReference . " Generated and submitted to the next authority for Authorisation",
             "redirectUrl" => URL::signedRoute("list.workshop.requisition"),
         ]);
     }
@@ -1207,7 +1220,12 @@ class WorkshopRequisitionService
      * @return void
      * @throws MaterialReservationException
      */
-    public function validateSelectedServiceArticles(mixed $articles, mixed $item_type_code, string $item_type, $service_article, mixed $registrationNumber): void
+    public function validateSelectedServiceArticles(
+        mixed  $articles,
+        mixed  $item_type_code,
+        string $item_type,
+               $service_article,
+        mixed  $registrationNumber): void
     {
         $query = DB::table("$articles");
         if ($item_type_code == RequisitionItemTypes::SERVICE_ITEM_CODE) {
@@ -1294,8 +1312,8 @@ class WorkshopRequisitionService
             ->first();
 
         $workshopReference = $jobCardNo;
-        $short_description = "New Job Card Task $jobCardNo For Vehicle $registration";
-        $long_description = $short_description;
+        $shortDescription = "New Job Card Task $jobCardNo For Vehicle $registration";
+        $longDescription = $shortDescription;
 
         $this->workflowService->initiateWorkflowProcess(
             $workshopReference,
@@ -1304,8 +1322,8 @@ class WorkshopRequisitionService
             $comments,
             $user,
             0,
-            $short_description,
-            $long_description,
+            $shortDescription,
+            $longDescription,
             $supervisor->staff_no ?? '71997'
         );
 
