@@ -245,6 +245,7 @@
         <div class="row">
             <div style="max-height:500px; overflow-x: auto;">
                 <table id="material_table"
+                       aria-label="Materials"
                        data-form-url="{{route("process.requisition")}}"
                        data-model-name="PartsHeader"
                        class="table dataTable table-row-dashed align-middle gs-0 nowrap">

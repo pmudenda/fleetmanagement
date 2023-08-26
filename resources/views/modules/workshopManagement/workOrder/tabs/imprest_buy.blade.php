@@ -1,7 +1,7 @@
 @php
     use App\Enums\RequisitionItemTypes;use Carbon\Carbon;use Illuminate\Support\Facades\Auth;
 @endphp
-<section class="content">
+<div class="row pt-5">
     <div class="table-responsive">
         <table id="pettyCashSelectedItemsTable"
                class="table">
@@ -106,7 +106,7 @@
             </tfoot>
         </table>
     </div>
-</section>
+</div>
 
 
 <div class="modal fade" id="pettyCashModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -213,21 +213,26 @@
                                                 @if(!empty($materialsHeader))
                                                     <select
                                                         data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                        readonly="readonly"
                                                         class="form-select form-select-sm"
                                                         name="pettyCashBuyItemType"
                                                         id="pettyCashBuyItemType">
                                                         <option></option>
                                                         <option
-                                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::STOCK_ITEM_CODE) selected
+                                                            @if($materialsHeader->item_type_code ==
+                                                                RequisitionItemTypes::STOCK_ITEM_CODE)
+                                                                selected
                                                             @endif value="01">STOCK ITEM
                                                         </option>
                                                         <option
-                                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::NON_STOCK_ITEM_CODE) selected
+                                                            @if($materialsHeader->item_type_code ==
+                                                                RequisitionItemTypes::NON_STOCK_ITEM_CODE)
+                                                                selected
                                                             @endif value="02">NON STOCK ITEM
                                                         </option>
                                                         <option
-                                                            @if($materialsHeader->item_type_code ==  RequisitionItemTypes::SERVICE_ITEM_CODE) selected
+                                                            @if($materialsHeader->item_type_code ==
+                                                                 RequisitionItemTypes::SERVICE_ITEM_CODE)
+                                                                selected
                                                             @endif value="03">SERVICE
                                                         </option>
                                                     </select>
@@ -238,12 +243,11 @@
                                                         name="pettyCashBuyItemType"
                                                         id="pettyCashBuyItemType">
                                                         <option></option>
-                                                        <option value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}">STOCK
-                                                            ITEM
+                                                        <option value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}">
+                                                            STOCK ITEM
                                                         </option>
                                                         <option value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}">
-                                                            NON
-                                                            STOCK ITEM
+                                                            NON STOCK ITEM
                                                         </option>
                                                         <option value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}">
                                                             SERVICE
@@ -251,7 +255,8 @@
                                                     </select>
                                                 @endif
 
-                                                <input type="hidden" value="{{$details->job_card_no ?? 0}}"
+                                                <input type="hidden"
+                                                       value="{{$details->job_card_no ?? 0}}"
                                                        name="job_card_number"/>
                                             </div>
                                         </div>
@@ -264,7 +269,7 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                 for="imprestPurchaseOffice">
                                                 Purchase Office:
                                             </label>

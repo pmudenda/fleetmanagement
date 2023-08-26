@@ -1444,9 +1444,9 @@
                     }
                 });
 
-                $('body').on('shown.bs.modal', '#pettyCashModal', function () {
+                $('body').on('show.bs.modal', '#pettyCashModal', function () {
                     $(this).find('select').each(function () {
-                        var dropdownParent = $(document.body);
+                        let dropdownParent = $(document.body);
                         if ($(this).parents('.modal.in:first').length !== 0)
                             dropdownParent = $(this).parents('.modal.in:first');
                         $(this).select2({
@@ -1904,7 +1904,11 @@
                 if (window[selectedItemType]) {
                     const data = window[selectedItemType];
                     let articlesCtrl = $(".pettyCashItemsTable").find('.imprestArticles');
-                    tmsApp.populateDropDownList(articlesCtrl, data, 'code_article', ['code_article', 'description'], ':');
+                    tmsApp.populateDropDownList(articlesCtrl,
+                        data,
+                        'code_article',
+                        ['code_article', 'description'],
+                        ':');
                     return;
                 }
 
@@ -1924,7 +1928,10 @@
                         if (data.success) {
                             window[selectedItemType] = data.items;
                             let articlesCtrl = $(".pettyCashItemsTable").find('.imprestArticles');
-                            tmsApp.populateDropDownList(articlesCtrl, data.items, 'code_article', ['code_article', 'description'], ':')
+                            tmsApp.populateDropDownList(articlesCtrl,
+                                data.items, 'code_article',
+                                ['code_article', 'description'],
+                                ':')
                         }
                     },
                     cache: true
