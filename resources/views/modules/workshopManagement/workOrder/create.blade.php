@@ -2721,32 +2721,25 @@
 
             function changePettyCashRequestType(selectedItemType) {
 
-                if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
-                    // showStockItemControls();
+                if (document.querySelector('[name="stockItemCode"]').value === selectedItemType) {
                     document.querySelector('#pettyCashSupplierContainer').style.display = 'none';
-                    //document.querySelector('[name="supplier"]').removeAttribute('required');
                     document.querySelector('[name="imprestBuySupplier"]').removeAttribute('required');
 
                     document.querySelector('#pettyCashStoreContainer').style.display = null;
-                    //document.querySelector('[name="store_code"]').setAttribute('required', 'required');
                     $('.quantity').attr('readonly', false);
 
 
-                } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
+                } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
-                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
                     document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
 
                     document.querySelector('#pettyCashStoreContainer').style.display = 'none';
-                    //document.querySelector('[name="store_code"]').removeAttribute('required');
                     $('.quantity').attr('readonly', 'readonly').val(1);
-                } else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
+                } else if (selectedItemType === document.querySelector('[name="nonStockItemCode"]').value) {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
                     document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
-                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
 
                     document.querySelector('#storeContainer').style.display = 'none';
-                    //document.querySelector('[name="store_code"]').removeAttribute('required');
 
                     $('.quantity').attr('readonly', false);
                     $('[name="unit_price"]').attr('readonly', false);
@@ -2768,14 +2761,13 @@
 
             function changeRequestType(selectedItemType) {
 
-                if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
+                if (document.querySelector('[name="stockItemCode"]').value === selectedItemType) {
                     showStockItemControls();
                     $('.quantity').attr('readonly', false);
-                } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
+                } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
                     showSupplierControls();
-                    $('.quantity').attr('readonly', 'readonly');
-                    $('.quantity').val(1);
-                } else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
+                    $('.quantity').attr('readonly', 'readonly').val(1);
+                } else if (selectedItemType === document.querySelector('[name="nonStockItemCode"]').value) {
                     showSupplierControls();
                     $('.quantity').attr('readonly', false);
                     $('[name="unit_price"]').attr('readonly', false);
@@ -2814,7 +2806,6 @@
                     let $_defect_sel_ = $(row).find(".DropDownList");
                     initArticleSelector($_defect_sel);
                     initArticleSelector($_defect_sel_);
-                    //getArticleDetails(article, $_defect_sel);
                 }
             }
 
@@ -2824,6 +2815,7 @@
                     $($_defect_sel).select2({
                         theme: "bootstrap4",
                         width: "resolve",
+                        dropdownParent: '#pettyCashModal'
                     });
                 }
             }
