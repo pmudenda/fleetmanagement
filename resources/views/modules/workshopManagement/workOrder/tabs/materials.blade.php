@@ -296,10 +296,12 @@
                                 </td>
                                 <td>
                                     <input type="text"
+                                           data-toggle="tooltip"
                                            maxlength="300"
                                            name="technical_specification"
                                            required
                                            readonly
+                                           title="{{$material->article_specification ?? ''}}"
                                            value="{{$material->article_specification ?? ''}}"
                                            class="form-control form-control-sm technical_specification"/>
                                 </td>
