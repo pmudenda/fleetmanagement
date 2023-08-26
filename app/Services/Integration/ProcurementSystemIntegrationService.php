@@ -19,6 +19,9 @@ class ProcurementSystemIntegrationService
     const P_SYSTEM_ORIGIN = ":p_system_origin";
     const P_USER_REQUESTING = ":p_user_requesting";
     const P_STORE_CODE = ":p_store_code";
+    const RESULT = ":result";
+    const P_JOB_CARD_NO = ":p_job_card_no";
+    const P_REQ_REF_NO = ":p_req_ref_no";
 
     public static function updateRequisitions(): void
     {
@@ -59,7 +62,7 @@ class ProcurementSystemIntegrationService
             $stmt = $pdo->prepare("begin :result := fn_create_stores_req(:p_ref_no, :p_reg_no,
             :p_store_code, :p_user_requesting, :p_job_card, :p_system_origin, :p_fleet_req_code,
             :p_req_acc_number, :p_delivery_site, :p_transaction_type, :p_current_user); end;");
-            $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_ref_no", $docNumber);
             $stmt->bindParam(":p_reg_no", $vehRegNumber);
             $stmt->bindParam(":p_job_card", $job_card_no);
@@ -108,7 +111,7 @@ class ProcurementSystemIntegrationService
             $pdo = DB::getPdo();
 
             $stmt = $pdo->prepare("begin :result := fn_stores_doc_no_generator(:ls_type, :ls_area); end;");
-            $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":ls_type", $doc_type);
             $stmt->bindParam(":ls_area", $area_code);
 
@@ -178,7 +181,7 @@ class ProcurementSystemIntegrationService
             :p_ref_no,
             :p_current_user,
             :p_system_origin); end;");
-            $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_ref_no", $procurementSystemReference);
             $stmt->bindParam(self::P_SYSTEM_ORIGIN, $systemOfOrigin);
             $stmt->bindParam(self::P_CURRENT_USER, auth()->user()->staff_no);
@@ -222,33 +225,45 @@ class ProcurementSystemIntegrationService
 
             $user = auth()->user()->staff_no;
 
-            Log::info(":p_req_ref_no " . $docNumber);
-            Log::info(":p_veh_reg_no " . $vehRegNumber);
-            Log::info(":p_store_code " . $storesCode);
-            Log::info(":p_user_requesting " . $user);
-            Log::info(":p_job_card_no " . $jobCardNumber);
-            Log::info(":p_system_origin " . $originatingSystem);
-            Log::info(":p_fleet_req_code " . $formOrder);
-            Log::info(":p_req_acc_number " . $account);
-            Log::info(":p_delivery_site " . $deliverySite);
-            Log::info(":p_transaction_type " . $transactionType);
-            Log::info(":p_current_user " . $user);
+            Log::info("param req_ref_no " . $docNumber);
+            Log::info("param veh_reg_no " . $vehRegNumber);
+            Log::info("param store_code " . $storesCode);
+            Log::info("param user_requesting " . $user);
+            Log::info("param job_card_no " . $jobCardNumber);
+            Log::info("param system_origin " . $originatingSystem);
+            Log::info("param fleet_req_code " . $formOrder);
+            Log::info("param req_acc_number " . $account);
+            Log::info("param delivery_site " . $deliverySite);
+            Log::info("param transaction_type " . $transactionType);
+            Log::info("param current_user" . $user);
 
             $pdo = DB::getPdo();
 
-            $stmt = $pdo->prepare("begin :result := fn_create_reservation(:p_req_ref_no, :p_veh_reg_no, :p_store_code, :p_user_requesting, :p_job_card_no, :p_system_origin, :p_fleet_req_code, :p_req_acc_number, :p_delivery_site, :p_transaction_type, :p_current_user); end;");
-            $stmt->bindParam(":p_req_ref_no", $docNumber);
+            $stmt = $pdo->prepare("begin :result := fn_create_reservation(
+              :p_req_ref_no,
+              :p_veh_reg_no,
+              :p_store_code,
+              :p_user_requesting,
+              :p_job_card_no,
+              :p_system_origin,
+              :p_fleet_req_code,
+              :p_req_acc_number,
+              :p_delivery_site,
+              :p_transaction_type,
+              :p_current_user
+              ); end;");
+            $stmt->bindParam(self::P_REQ_REF_NO, $docNumber);
             $stmt->bindParam(":p_veh_reg_no", $vehRegNumber);
             $stmt->bindParam(self::P_STORE_CODE, $storesCode);
             $stmt->bindParam(self::P_USER_REQUESTING, $user);
-            $stmt->bindParam(":p_job_card_no", $jobCardNumber);
+            $stmt->bindParam(self::P_JOB_CARD_NO, $jobCardNumber);
             $stmt->bindParam(self::P_SYSTEM_ORIGIN, $originatingSystem);
             $stmt->bindParam(self::P_FLEET_REQ_CODE, $formOrder);
             $stmt->bindParam(self::P_REQ_ACC_NUMBER, $account);
             $stmt->bindParam(self::P_DELIVERY_SITE, $deliverySite);
             $stmt->bindParam(self::P_TRANSACTION_TYPE, $transactionType);
             $stmt->bindParam(self::P_CURRENT_USER, $user);
-            $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->execute();
 
             //$result = null;
@@ -334,7 +349,7 @@ class ProcurementSystemIntegrationService
             $stmt->bindParam(":p_reg_no", $regNo);
             $stmt->bindParam(self::P_STORE_CODE, $storeCode);
             $stmt->bindParam(self::P_USER_REQUESTING, $user);
-            $stmt->bindParam(":p_job_card_no", $jobCardNo);
+            $stmt->bindParam(self::P_JOB_CARD_NO, $jobCardNo);
             $stmt->bindParam(self::P_SYSTEM_ORIGIN, $system_origin);
             $stmt->bindParam(":p_form_order", $formOrder);
             $stmt->bindParam(":p_req_account", $account);
@@ -342,7 +357,7 @@ class ProcurementSystemIntegrationService
             $stmt->bindParam(self::P_TRANSACTION_TYPE, $transactionType);
             $stmt->bindParam(self::P_CURRENT_USER, $user);
 
-            $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->execute();
 
             if (is_array($results) && !empty($results)) {
@@ -438,18 +453,18 @@ class ProcurementSystemIntegrationService
              :p_transaction_type,
              :p_current_user); end;");
 
-            $stmt->bindParam(":p_req_ref_no", $docNumber);
+            $stmt->bindParam(self::P_REQ_REF_NO, $docNumber);
             $stmt->bindParam(":p_veh_reg_no", $vehRegNumber);
             $stmt->bindParam(self::P_STORE_CODE, $storesCode);
             $stmt->bindParam(self::P_USER_REQUESTING, $user);
-            $stmt->bindParam(":p_job_card_no", $jobCardNumber);
+            $stmt->bindParam(self::P_JOB_CARD_NO, $jobCardNumber);
             $stmt->bindParam(self::P_SYSTEM_ORIGIN, $originatingSystem);
             $stmt->bindParam(self::P_FLEET_REQ_CODE, $formOrder);
             $stmt->bindParam(self::P_REQ_ACC_NUMBER, $account);
             $stmt->bindParam(self::P_DELIVERY_SITE, $deliverySite);
             $stmt->bindParam(self::P_TRANSACTION_TYPE, $transactionType);
             $stmt->bindParam(self::P_CURRENT_USER, $user);
-            $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->execute();
 
             //$result = null;
@@ -497,10 +512,10 @@ class ProcurementSystemIntegrationService
              :p_user_requesting); end;");
 
             $stmt->bindParam(self::P_CURRENT_USER, $user);
-            $stmt->bindParam(":p_req_ref_no", $docNumber);
+            $stmt->bindParam(self::P_REQ_REF_NO, $docNumber);
             $stmt->bindParam(self::P_FLEET_REQ_CODE, $formOrder);
             $stmt->bindParam(self::P_USER_REQUESTING, $user);
-            $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->execute();
 
             if (is_array($results) && !empty($results)) {
