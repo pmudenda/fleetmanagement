@@ -1444,7 +1444,7 @@
                     }
                 });
 
-                $('body').on('show.bs.modal', '#pettyCashModal', function () {
+                /*$('body').on('show.bs.modal', '#pettyCashModal', function () {
                     $(this).find('select[data-select2-i]').each(function () {
                         let dropdownParent = $('#pettyCashModal');
                         if ($(this).parents('.modal.in:first').length !== 0)
@@ -1453,7 +1453,7 @@
                             dropdownParent: dropdownParent
                         });
                     });
-                });
+                });*/
             });
 
             /*****************************Function Handlers************************************/
@@ -3452,15 +3452,26 @@
                         }
 
                         let suppliers = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, suppliers,
-                            "code_supplier", ["code_supplier", "name_of_supplier"],
-                            " ==> ", '--Select Supplier--');
+                        tmsApp.populateDropDownList(selectElem,
+                            suppliers,
+                            "code_supplier",
+                            ["code_supplier", "name_of_supplier"],
+                            " ==> ",
+                            '--Select Supplier--');
 
-                        tmsApp.populateDropDownList(imprestBuySupplierElem, suppliers,
-                            "code_supplier", ["code_supplier", "name_of_supplier"],
-                            " ==> ", '--Select Supplier--');
+                        tmsApp.populateDropDownList(
+                            imprestBuySupplierElem,
+                            suppliers,
+                            "code_supplier",
+                            ["code_supplier", "name_of_supplier"],
+                            " ==> ",
+                            '--Select Supplier--',
+                            false,
+                            '#pettyCashModal');
 
-                        tmsApp.populateDropDownList(serviceSupplierElem, suppliers,
+                        tmsApp.populateDropDownList(
+                            serviceSupplierElem,
+                            suppliers,
                             "code_supplier", ["code_supplier", "name_of_supplier"],
                             " ==> ", '--Select Supplier--');
 

@@ -457,7 +457,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
                 disabled: defaultControlState,
                 theme: "bootstrap4",
                 width: "resolve",
-                dropDownParent: dropDownListParent
+                dropdownParent: dropDownListParent
             }).append(onlyOption).trigger('change');
 
             return;
@@ -469,7 +469,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
             theme: "bootstrap4",
             width: "resolve",
             data: records,
-            dropDownParent: dropDownListParent
+            dropdownParent: dropDownListParent
         }).append(newOption).trigger('change');
     };
 
