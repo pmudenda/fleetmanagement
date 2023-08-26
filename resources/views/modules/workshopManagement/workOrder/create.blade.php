@@ -755,7 +755,8 @@
 
                 $(document).on('change', '[name="selectDefectToAssign"]', function () {
                     let checked = $(this).is(':checked');
-                    let checkBoxes = document.querySelector('#labour_table').querySelectorAll('[name="selectDefectToAssign"]');
+                    let checkBoxes = document.querySelector('#labour_table')
+                        .querySelectorAll('[name="selectDefectToAssign"]');
                     let count = 0;
                     for (const ele of checkBoxes) {
                         if ($(ele).is(':checked')) {
@@ -777,7 +778,8 @@
 
                 $(document).on('change', '[name="reservedMaterials"]', function () {
                     function selectAllArticles() {
-                        let ele = document.querySelector('#reservedMaterialsTable').querySelectorAll('[name="reservedMaterial"]');
+                        let ele = document.querySelector('#reservedMaterialsTable')
+                            .querySelectorAll('[name="reservedMaterial"]');
                         for (let i = 0; i < ele.length; i++) {
                             if (ele[i].type === 'checkbox')
                                 ele[i].checked = true;
@@ -786,7 +788,8 @@
                     }
 
                     function deSelectArticles() {
-                        let ele = document.querySelector('#reservedMaterialsTable').querySelectorAll('[name="reservedMaterial"]');
+                        let ele = document.querySelector('#reservedMaterialsTable')
+                            .querySelectorAll('[name="reservedMaterial"]');
                         for (let i = 0; i < ele.length; i++) {
                             if (ele[i].type === 'checkbox')
                                 ele[i].checked = false;
@@ -818,20 +821,23 @@
                     if (document.querySelector('[name="stockItemCode"]').value === itemType) {
 
                         if (!selectedArticleObject?.price) {
-                            const description = selectedArticleObject?.technical_specifications ? selectedArticleObject?.technical_specifications : "";
+                            const description = selectedArticleObject?.technical_specifications ?
+                                selectedArticleObject?.technical_specifications : "";
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
                                 text: 'The Article '
                                     + selectedArticleObject?.code_article
                                     + ' - ' + description + ' has no price. ' +
-                                    ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
+                                    ' Please Contact Fleet Master System Administrator ' +
+                                    'on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
                             });
                             return;
                         }
                         console.log(parseInt(selectedArticleObject?.quantity_in_store));
                         if (parseInt(selectedArticleObject?.quantity_in_store) !== 0) {
-                            const description = selectedArticleObject?.technical_specifications ? selectedArticleObject?.technical_specifications : "";
+                            const description = selectedArticleObject?.technical_specifications
+                                ? selectedArticleObject?.technical_specifications : "";
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
@@ -849,15 +855,18 @@
                     //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
                     $($row).find('[name="imprestArticleCode"]').val(selectedArticleObject['code_article']);
                     $($row).find('[name="imprestItemUnitPrice"]').val(selectedArticleObject['price']);
-                    $($row).find('[name="imprestArticleDescription"]').val(selectedArticleObject['technical_specifications']);
-                    $($row).find('[name="imprestItemUnitOfMeasure"]').val(selectedArticleObject['unit_measure_name']);
+                    $($row).find('[name="imprestArticleDescription"]')
+                        .val(selectedArticleObject['technical_specifications']);
+                    $($row).find('[name="imprestItemUnitOfMeasure"]')
+                        .val(selectedArticleObject['unit_measure_name']);
 
                 });
 
                 $(document).on('change', '[name="selectAll"]', function () {
 
                     function selects() {
-                        let ele = document.querySelector('#labour_table').querySelectorAll('[name="selectDefectToAssign"]');
+                        let ele = document.querySelector('#labour_table')
+                            .querySelectorAll('[name="selectDefectToAssign"]');
                         for (let i = 0; i < ele.length; i++) {
                             if (ele[i].type === 'checkbox')
                                 ele[i].checked = true;
@@ -866,7 +875,8 @@
                     }
 
                     function deSelect() {
-                        let ele = document.querySelector('#labour_table').querySelectorAll('[name="selectDefectToAssign"]');
+                        let ele = document.querySelector('#labour_table')
+                            .querySelectorAll('[name="selectDefectToAssign"]');
                         for (let i = 0; i < ele.length; i++) {
                             if (ele[i].type === 'checkbox')
                                 ele[i].checked = false;
@@ -984,12 +994,18 @@
                         if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
                             console.log("Record with " + $(row).attr('data-record-id'));
                         } else {
-                            $(row).find('input[name][type!=hidden], select[name],textarea[name]').each(function (i, item) {
+                            $(row).find('input[name][type!=hidden], select[name],textarea[name]')
+                                .each(function (i, item) {
                                 let val = item.value.replace(/,/g, '');
 
-                                if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
+                                if (item.name === 'endDate'
+                                    || item.name === 'startDate'
+                                    || item.name === 'invoiceDate') {
                                     let dateField = val;
-                                    dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+                                    dateField = DateFormatter.format(new Date(
+                                        moment(val, 'DD/MM/yyyy')
+                                    ),
+                                        DateFormatter.ISO);
 
                                     obj[item.name] = dateField;
                                 } else {
@@ -1442,16 +1458,25 @@
             });
 
             /*****************************Function Handlers************************************/
-                //  Define friendly data store name
-            const dataStore = window.sessionStorage;
-            let stepId = 1; //window.step_id;
-            /*try {
-                stepId = dataStore.getItem(index) ? dataStore.getItem(index) : window.step_id;
-            } catch (e) {
-                stepId = 0;
-            }*/
             function initializeFormWizard() {
-                const index = 'step';
+                const index = $('[name="job_card_number"]').val()?.trim();//'step';
+
+                function getDocumentStep(){
+                    if(!index || !dataStore.getItem(index)){
+                        return 1;
+                    }
+
+                   return dataStore.getItem(index);
+                }
+                // Define friendly data store name
+                const dataStore = window.sessionStorage;
+                let stepId = window.step_id;
+                try {
+                    stepId = getDocumentStep();
+                } catch (e) {
+                    stepId = 0;
+                }
+
                 form.steps({
                     showStepURLhash: true,
                     headerTag: "h1",
@@ -2103,21 +2128,21 @@
                         } else {
                             $(row).find('input[name][type!=hidden], select[name],textarea[name]')
                                 .each(function (i, item) {
-                                let val = item.value.replace(/,/g, '');
+                                    let val = item.value.replace(/,/g, '');
 
-                                if (item.name === 'endDate'
-                                    || item.name === 'startDate'
-                                    || item.name === 'invoiceDate') {
-                                    let dateField = val;
-                                    dateField = DateFormatter.format(new Date(
-                                        moment(val, 'DD/MM/yyyy')),
-                                        DateFormatter.ISO);
+                                    if (item.name === 'endDate'
+                                        || item.name === 'startDate'
+                                        || item.name === 'invoiceDate') {
+                                        let dateField = val;
+                                        dateField = DateFormatter.format(new Date(
+                                                moment(val, 'DD/MM/yyyy')),
+                                            DateFormatter.ISO);
 
-                                    obj[item.name] = dateField;
-                                } else {
-                                    obj[item.name] = item.value;
-                                }
-                            });
+                                        obj[item.name] = dateField;
+                                    } else {
+                                        obj[item.name] = item.value;
+                                    }
+                                });
                             arr.push(obj);
                         }
                     });
