@@ -1351,8 +1351,9 @@ class MaintenanceController extends Controller
             foreach ($materials as $material) {
                 Log::info("Attaching Article :" . $material->material_code);
                 $materialHeader = MaterialHeader::where('req_no', '=', $material->ref_no)->first();
+                Log::info("Item Type :" . $material->itemType);
                 switch ($material->itemType) {
-                    case RequisitionItemTypes::STOCK_ITEM_CODE:
+                    case RequisitionItemTypes::STOCK_ITEM:
                         Log::info("Article Group:" . $material->itemType);
                         WorkShopMaterial::create([
                             "wshp_act_code" => $workOrder->wshp_act_code,
@@ -1375,8 +1376,8 @@ class MaintenanceController extends Controller
                             "created_by" => $user->staff_no,
                         ]);
                         break;
-                    case RequisitionItemTypes::SERVICE_ITEM_CODE:
-                    case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
+                    case RequisitionItemTypes::SERVICE:
+                    case RequisitionItemTypes::NON_STOCK_ITEM:
                         Log::info("Article Group :" . $material->itemType);
                         WorkShopServiceModel::create([
                             "wshp_act_code" => $workOrder->wshp_act_code,
