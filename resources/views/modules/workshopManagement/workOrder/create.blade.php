@@ -1126,7 +1126,7 @@
                                             'Assign Task',
                                             asyncResponse['message'],
                                             function () {
-                                                window.location.reload();
+                                                //window.location.reload();
                                             },
                                             'success'
                                         );

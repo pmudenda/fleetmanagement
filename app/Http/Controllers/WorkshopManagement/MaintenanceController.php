@@ -1349,6 +1349,7 @@ class MaintenanceController extends Controller
             Log::debug("Articles found :" . $materials->count());
 
             foreach ($materials as $material) {
+                Log::debug("Attaching Articles :" . $material->material_code);
                 $materialHeader = MaterialHeader::where('req_no', '=', $material->ref_no)->first();
                 switch ($material->itemType) {
                     case RequisitionItemTypes::STOCK_ITEM_CODE:
