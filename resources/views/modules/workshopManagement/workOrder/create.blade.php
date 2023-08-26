@@ -502,7 +502,7 @@
                     required
                     class="form-control form-control-sm technical_specification"/>
             </td>
-
+            <td></td>
             <td>
                 <input
                     type="text"

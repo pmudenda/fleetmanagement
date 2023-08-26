@@ -278,13 +278,14 @@
                                     <select readonly
                                             name="articles"
                                             required
-                                            data-text="{{$material->mat_code ?? ''}} : {{$material->specifications ?? ''}}"
+                                            data-text="{{$material->specifications ?? ''}}"
                                             data-value="{{$material->mat_code ?? ''}}"
                                             class="form-control form-control-sm DropDownList">
                                         <option data-toggle="tooltip"
-                                                title="{{$material->mat_code ?? ''}}">{{$material->mat_code ?? ''}}
-                                            value="{{$material->mat_code ?? ''}}">{{$material->mat_code ?? ''}}
-                                            : {{$material->specifications ?? ''}}</option>
+                                                title="{{$material->specifications ?? ''}}"
+                                                value="{{$material->mat_code ?? ''}}">
+                                            {{$material->mat_code ?? ''}}:{{$material->specifications ?? ''}}
+                                        </option>
                                     </select>
                                 </td>
                                 <td>
@@ -403,7 +404,7 @@
                                     required
                                     class="form-control form-control-sm technical_specification"/>
                             </td>
-
+                            <td></td>
                             <td>
                                 <input
                                     type="text"
@@ -449,6 +450,7 @@
                     <tfoot>
                     <tr>
                         <td class="pl-2"></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td class="text-right"><strong>TOTAL</strong></td>
