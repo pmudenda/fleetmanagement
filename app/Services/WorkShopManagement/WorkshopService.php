@@ -536,7 +536,11 @@ class WorkshopService
 
         $assignmentRecord->save();
 
-        HistoryService::update($recordBefore, $assignmentRecord->toArray(), $assignmentRecord->wshp_act_code, 'Job Card Task Reassignment', $request->validated('reassignmentJustification'));
+        HistoryService::update($recordBefore,
+            $assignmentRecord->toArray(),
+            $assignmentRecord->wshp_act_code,
+            'Job Card Task Reassignment',
+            $request->validated('reassignmentJustification'));
 
         DB::commit();
 

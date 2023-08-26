@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string('reg_no', 10)->nullable();
             $table->decimal('amount', 18, 2);
             $table->decimal('price', 18, 2);
-            $table->string('ref_no')->nullable();
+            $table->string('ref_no',20)->nullable();
+            $table->string('claimed',2)->nullable();
             $table->date('date_created');
             $table->string('created_by', 10);
             $table->string('cost_centre', 15)->nullable();
