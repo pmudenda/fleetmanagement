@@ -1353,7 +1353,7 @@ class MaintenanceController extends Controller
                 $materialHeader = MaterialHeader::where('req_no', '=', $material->req_no)->first();
                 Log::debug("Item Type :" . $materialHeader->item_type);
 
-                switch ($materialHeader->itemType) {
+                switch ($materialHeader->item_type) {
                     case RequisitionItemTypes::STOCK_ITEM:
                         Log::debug("Article Group:" . $materialHeader->item_type);
                         WorkShopMaterial::firstOrCreate(
