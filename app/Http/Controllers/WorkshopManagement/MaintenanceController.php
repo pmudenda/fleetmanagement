@@ -1348,7 +1348,6 @@ class MaintenanceController extends Controller
             $materials = MaterialDetail::whereIn('id', $requestIds)->get();
             Log::debug("Articles found :" . $materials->count());
 
-            dd($materials);
             foreach ($materials as $material) {
                 Log::debug("Attaching Article :" . $material->material_code);
                 $materialHeader = MaterialHeader::where('req_no', '=', $material->ref_no)->first();
