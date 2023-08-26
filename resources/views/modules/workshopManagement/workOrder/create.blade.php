@@ -1126,6 +1126,7 @@
                                             'Assign Task',
                                             asyncResponse['message'],
                                             function () {
+                                                $("#reservations").modal('hide');
                                                 form.steps("next");
                                             },
                                             'success'
