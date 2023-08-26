@@ -1107,7 +1107,7 @@ class WorkshopRequisitionService
     public function getWorkShopRequisitionNonStockItems(mixed $workShopActCode): Collection
     {
         $articles = config("tables.table_names.articles");
-
+        Log::debug('Loading Materials For Workshop Code' . $workShopActCode);
         return DB::table('WM_WORKSHOP_SERVICES services')
             ->where("wshp_act_code", "=", $workShopActCode)
             ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")

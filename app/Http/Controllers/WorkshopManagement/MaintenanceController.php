@@ -987,7 +987,7 @@ class MaintenanceController extends Controller
     {
         list($repairTypes, $accessories, $workshop_sections) = $this->getWorkshopsRepairTypesAndSections();
 
-        $accessories_checked_in = null;
+        $accessoriesCheckedIn = null;
         $details = null;
         $defects = collect([]);
         $comments = collect([]);
@@ -1000,7 +1000,7 @@ class MaintenanceController extends Controller
         $observation = collect([]);
 
         if ($reference) {
-            list($accessories_checked_in,
+            list($accessoriesCheckedIn,
                 $details,
                 $officeDetails,
                 $defects,
@@ -1015,7 +1015,7 @@ class MaintenanceController extends Controller
 
         return array(
             $repairTypes,
-            $accessories_checked_in,
+            $accessoriesCheckedIn,
             $accessories,
             $details,
             $workshop_sections,
@@ -1443,7 +1443,7 @@ class MaintenanceController extends Controller
      */
     public function getFullJobCardData($reference): array
     {
-        $accessories_checked_in = WorkShopVehicleAccessory::where("job_card_no", "=", $reference)
+        $accessoriesCheckedIn = WorkShopVehicleAccessory::where("job_card_no", "=", $reference)
             ->get();
 
         $details = $this->workshopService->getJobCardDetails($reference);
@@ -1506,7 +1506,7 @@ class MaintenanceController extends Controller
             ->get();
 
         return array(
-            $accessories_checked_in,
+            $accessoriesCheckedIn,
             $details,
             $officeDetails,
             $defects,
