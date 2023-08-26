@@ -304,7 +304,10 @@
                                            class="form-control form-control-sm technical_specification"/>
                                 </td>
                                 <th>
-                                    {{$material->st_pur ?? $material->stf_number ?? ''}}
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           readonly
+                                           value="{{$material->st_pur ?? $material->stf_number ?? ''}}">
                                 </th>
                                 <td>
                                     <input type="text"
