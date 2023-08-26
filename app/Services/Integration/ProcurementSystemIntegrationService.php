@@ -176,6 +176,7 @@ class ProcurementSystemIntegrationService
             Log::info("Cancelling Stores Requisition For Request " . $procurementSystemReference);
 
             $systemOfOrigin = SystemOfOrigin::ZESCO_FLEET_MASTER;
+            $staffNumber = auth()->user()->staff_no;
 
             $pdo = DB::getPdo();
 
@@ -186,7 +187,7 @@ class ProcurementSystemIntegrationService
             $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_ref_no", $procurementSystemReference);
             $stmt->bindParam(self::P_SYSTEM_ORIGIN, $systemOfOrigin);
-            $stmt->bindParam(self::P_CURRENT_USER, auth()->user()->staff_no);
+            $stmt->bindParam(self::P_CURRENT_USER, $staffNumber);
             $stmt->execute();
 
             if (is_array($results) && !empty($results)) {
