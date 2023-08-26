@@ -668,16 +668,14 @@ class FuelRequisitionService
                 $reference,
                 $requisitionDetail->veh_reg_no,
                 $requisitionDetail->form_order,
-                Accounts::MOTOR_VEHICLE_FUEL_LUBRICANTS_ACCOUNT,
-                TransactionType::STORES_REQUISITIONS,
+                Accounts::MOTOR_VEHICLE_FUEL_LUBRICANTS_ACCOUNT
             );
         } else {
             $results = $this->procurementService->createStoresRequisition(
                 $reference,
                 $requisitionDetail->veh_reg_no,
                 $requisitionDetail->form_order,
-                Accounts::MOTOR_VEHICLE_PROJECTS_FUEL_ACCOUNT,
-                TransactionType::STORES_REQUISITIONS,
+                Accounts::MOTOR_VEHICLE_PROJECTS_FUEL_ACCOUNT
             );
         }
 

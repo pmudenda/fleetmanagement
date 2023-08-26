@@ -6,8 +6,6 @@ use App\Events\WorkOrderCompleted;
 use App\Models\Security\User;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\NotificationService\EmailNotificationService;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
 class SendWorkOrderCompletedNotification
@@ -27,10 +25,14 @@ class SendWorkOrderCompletedNotification
     {
         try {
             $workOrder = $event->workOrder;
-            // send notification
+
             Log::info('Sending Notification To Workshop Supervisor');
 
             $task = WorkflowTaskHeader::where('reference', '=', trim($workOrder->job_card_no))->first();
+
+            if (empty($task)) {
+                return;
+            }
 
             $sender = User::where('id', trim($task->created_by))->first();
 

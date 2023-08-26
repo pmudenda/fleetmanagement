@@ -321,24 +321,21 @@ class WorkshopRequisitionService
     {
         Log::info("Creating Workshop Material Booking");
 
-        $valid_to = Carbon::parse($materialReservationRequest->get("date_expected")) ?? Carbon::now()->addDays(7);
-        $valid_from = Carbon::now();
+        $validityTo = Carbon::parse($materialReservationRequest->get("date_expected")) ?? Carbon::now()->addDays(7);
+        $validityFrom = Carbon::now();
 
         /********************************************** Save Data **************************************/
         $user = Auth()->user();
 
-        $item_type = "";
-        $workflowProcess = "";
-
-        switch ($materialReservationRequest->get('itemType')) {
-            case RequisitionItemTypes::STOCK_ITEM_CODE:
-                $item_type = RequisitionItemTypes::STOCK_ITEM;
-                $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
-                break;
-            case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
-                $item_type = RequisitionItemTypes::NON_STOCK_ITEM;
-                $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
-                break;
+        $requestItemType = $materialReservationRequest->get('itemType');
+        if ($requestItemType == RequisitionItemTypes::STOCK_ITEM_CODE) {
+            $itemType = RequisitionItemTypes::STOCK_ITEM;
+            $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
+        } elseif ($requestItemType == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
+            $itemType = RequisitionItemTypes::NON_STOCK_ITEM;
+            $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
+        } else {
+            throw new WorkflowTaskCreationFailedException("Article Item Type Is Missing");
         }
 
         $articles = config("tables.table_names.articles");
@@ -351,9 +348,10 @@ class WorkshopRequisitionService
         foreach ($materials as $item) {
             $registrationNumber = $item['registration'];
             $article = $item["articleCode"];
-
-            $key = str_replace("_", "", str_replace(" ", "", $registrationNumber))
-                . str_replace("-", "", str_replace(" ", "", $article));
+            $key = str_replace(
+                    "_", "",
+                    str_replace(" ", "", $registrationNumber)
+                ) . str_replace("-", "", str_replace(" ", "", $article));
 
             // we've encountered the combination before - duplicate
             if (in_array($key, array_keys($articlesMap))) {
@@ -368,7 +366,7 @@ class WorkshopRequisitionService
             $query = DB::table("$articles");
             $item_type_code = $materialReservationRequest->get('itemType');
 
-            $this->checkArticleGroup($item_type_code, $query, $item_type, $articles, $article, $registrationNumber);
+            $this->checkArticleGroup($item_type_code, $query, $itemType, $articles, $article, $registrationNumber);
         }
 
         DB::beginTransaction();
@@ -389,7 +387,7 @@ class WorkshopRequisitionService
         Log::info("Reservation Ref. " . $requisition_reference_number);
         Log::info("Form Order. " . $form_order_number);
         Log::info("Reservation Item Type " . $materialReservationRequest->get("itemType"));
-        Log::info("Determined Reservation Item Type Code " . $item_type);
+        Log::info("Determined Reservation Item Type Code " . $itemType);
 
         $short_description = "Workshop Reservation for Vehicles Reference $requisition_reference_number";
         $long_description = "Workshop Reservation Reference No. $requisition_reference_number For Vehicles";
@@ -416,14 +414,14 @@ class WorkshopRequisitionService
                 "req_no" => $requisition_reference_number,
                 "form_order" => $form_order_number,
                 "workshop_no" => $workshop_code,
-                "item_type" => $item_type,
+                "item_type" => $itemType,
                 "requested_by" => $user->staff_no,
                 //"veh_reg_no" => $registrationNumber,
                 "purchase_office" => $materialReservationRequest->get("purchase_office"),
                 "store" => $store_code,
                 "supplier_code" => $materialReservationRequest->get('supplier'),
-                "valid_date_from" => $valid_from,
-                "valid_date_to" => $valid_to,
+                "valid_date_from" => $validityFrom,
+                "valid_date_to" => $validityTo,
                 "comments" => $materialReservationRequest->get('remarks'),
                 "cost_assigned_to" => "CostCenter",
                 "is_fuel" => "N",
@@ -873,8 +871,6 @@ class WorkshopRequisitionService
                 $req_no,
                 $requisitionDetail->veh_reg_no,
                 $requisitionDetail->form_order,
-                Accounts::MOTOR_VEHICLE_MAINTENANCE_ACCOUNT,
-                TransactionType::STORES_REQUISITIONS,
                 $requisitionDetail->store,
                 $materialHeader->job_card_no,
                 $requisitionDetail->workshop_no
@@ -885,7 +881,6 @@ class WorkshopRequisitionService
                 $requisitionDetail->veh_reg_no,
                 $requisitionDetail->form_order,
                 Accounts::MOTOR_VEHICLE_MAINTENANCE_ACCOUNT,
-                TransactionType::STORES_REQUISITIONS,
                 $requisitionDetail->store,
                 null
             );
@@ -923,8 +918,6 @@ class WorkshopRequisitionService
                 $workshop_reference,
                 $requisitionDetail->veh_reg_no,
                 $requisitionDetail->form_order,
-                Accounts::MOTOR_VEHICLE_MAINTENANCE_ACCOUNT,
-                TransactionType::SERVICE_PURCHASE_REQUISITIONS,
                 $requisitionDetail->purchase_office,
                 $materialHeader->job_card_no,
                 $requisitionDetail->workshop_no
