@@ -1451,7 +1451,6 @@
                             dropdownParent = $(this).parents('.modal.in:first');
                         $(this).select2({
                             dropdownParent: dropdownParent
-                            // ...
                         });
                     });
                 });
@@ -1905,11 +1904,15 @@
                 if (window[selectedItemType]) {
                     const data = window[selectedItemType];
                     let articlesCtrl = $(".pettyCashItemsTable").find('.imprestArticles');
-                    tmsApp.populateDropDownList(articlesCtrl,
+                    tmsApp.populateDropDownList(
+                        articlesCtrl,
                         data,
                         'code_article',
                         ['code_article', 'description'],
-                        ':');
+                        ':',
+                        "",
+                        false,
+                        '#pettyCashModal');
                     return;
                 }
 
