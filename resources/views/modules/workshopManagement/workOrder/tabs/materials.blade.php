@@ -254,6 +254,7 @@
                         <th style="width: 25%;">Article</th>
                         <th>Article Code</th>
                         <th style="width: 25%;">Tech. Specification</th>
+                        <th>SPMS Ref.</th>
                         <th style="width: 4%; max-width: 4%;">Qty.</th>
                         <th>UOM</th>
                         <th>Unit Price</th>
@@ -302,7 +303,9 @@
                                            value="{{$material->article_specification ?? ''}}"
                                            class="form-control form-control-sm technical_specification"/>
                                 </td>
-
+                                <th>
+                                    {{$material->st_pur ?? $material->stf_number ?? ''}}
+                                </th>
                                 <td>
                                     <input type="text"
                                            min="1"
