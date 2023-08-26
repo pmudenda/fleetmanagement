@@ -1103,6 +1103,9 @@ class MaintenanceController extends Controller
                 'password' => $request->password,
             ];
 
+            Log::info('Username ' . $request->loginId);
+            Log::info('Password ' . $request->password);
+
             if (Auth::attempt($credentials)) {
                 Log::info('eSignature Successful');
                 $entry->updated_at = Carbon::now();
