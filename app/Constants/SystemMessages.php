@@ -11,6 +11,7 @@ class SystemMessages
     const REQUEST_PROCESSED_SUCCESSFULLY =
         'Your request has been processed  Successfully, Click ok to proceed with onboarding process';
     const TECHNICAL_DATA_SAVED = 'Vehicle Technical Data Processed Successfully';
+    const ARTICLES_ATTACHED_SUCCESSFULLY = 'Article(s) Attached Successfully';
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

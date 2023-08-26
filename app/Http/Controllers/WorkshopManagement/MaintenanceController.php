@@ -1338,7 +1338,7 @@ class MaintenanceController extends Controller
 
             foreach ($documentIds as $documentId) {
                 $requestIds[] = $documentId['requestId'];
-                Log::debug("Article ".$documentId['requestId']);
+                Log::debug("Article " . $documentId['requestId']);
             }
 
             $workOrder = JobCardHeader::where("job_card_no", "=", $reference)
@@ -1404,14 +1404,14 @@ class MaintenanceController extends Controller
 
             return response()->json([
                 'payload' => [],
-                'state' => 'success',
-                'message' => 'Articles Attached Successfully'
+                'success' => true,
+                'message' => SystemMessages::ARTICLES_ATTACHED_SUCCESSFULLY
             ]);
         } catch (Exception $e) {
             Log::error($e);
             return response()->json([
                 'payload' => [],
-                'state' => 'failure',
+                'success' => false,
                 'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
