@@ -15,7 +15,7 @@
 @section('content')
     <x-content-header :pageTitle="'Odometer Log Entry'"/>
     <section class="content">
-        <div class="card mt-10">
+        <div id="app" class="card mt-10">
             <div class="card-header">
                 <div class="card-title">
                     <h4>Odometer Log</h4>
@@ -666,8 +666,8 @@
                         break;
                     case 'startOdometer':
 
-                        let endOdometer =  $(element).closest("tr").find("input[name=endOdometer]").val();
-                        if(!endOdometer){
+                        let endOdometer = $(element).closest("tr").find("input[name=endOdometer]").val();
+                        if (!endOdometer) {
                             return;
                         }
 
@@ -675,8 +675,8 @@
                         $(element).closest("tr").find("input[name=difference]").val(diff);
                         break;
                     case 'endOdometer':
-                        let startOdometer =  $(element).closest("tr").find("input[name=startOdometer]").val();
-                        if(!startOdometer){
+                        let startOdometer = $(element).closest("tr").find("input[name=startOdometer]").val();
+                        if (!startOdometer) {
                             return;
                         }
 
@@ -684,9 +684,9 @@
                         $(element).closest("tr").find("input[name=difference]").val(serviceLineAmountTotal);
 
 
-                       /* $(element).closest("table").find("input[name=service_quantity]").each(function (i, it) {
-                            serviceSummaryTotalQty += Util.getFloat(it.value);
-                        });*/
+                        /* $(element).closest("table").find("input[name=service_quantity]").each(function (i, it) {
+                             serviceSummaryTotalQty += Util.getFloat(it.value);
+                         });*/
 
                         // set value in footer
                         /*$('#serviceQuantityTotal').text(tmsApp.getRawNumber(serviceSummaryTotalQty));
@@ -728,79 +728,14 @@
         })(window.tmsApp, jQuery);
 
         let app = new Vue({
-            'el': '#kt_app_main', components: {}, data() {
-                return {
-                    isHeaderSaved: true,
-                    assignmentDetails: {},
-                    assignmentDetailsForm: null,
-                    bodyDetails: {
-                        numberOfSeats: 0, volumeOfBootTanker: 0, seatCapRear: 0
-                    },
-                    bodyDetailsForm: null,
-                    bodyTypes: [],
-                    businessAreas: [],
-                    businessUnits: [],
-                    chassisDetails: {
-                        stickerRegistrationNumber: null, status: 'active'
-                    },
-                    chassisDetailsForm: null,
-                    chassisDetailsFormValidator: null,
-                    configuredModels: [],
-                    costCenters: [],
-                    costingAndValuation: {},
-                    costingDetailsForm: null,
-                    dataStatus: 0,
-                    directorates: [],
-                    document_validity: {
-                        state: null, message: null
-                    },
-                    documents: {},
-                    engineBrands: [],
-                    engineDetails: {},
-                    engineDetailsForm: null,
-                    engineDetailsFormValidator: null,
-                    fuelTypes: [],
-                    images: {
-                        frontView: null, rearView: null, leftView: null, rightView: null,
-                    },
-                    licenseTypes: [],
-                    organizationalUnits: [],
-                    otherDetails: {}, /*  regNumberValidity: {
-                  state: null,
-                  message: null
-              },*/
-                    registrationTypes: [],
-                    searchedEmployeesList: [],
-                    selectedBrandModels: [], // forms
-                    selectedModelCodes: [],
-                    supplierList: [],
-                    transmissionTypes: [],
-                    validators: [],
-                    vehicleBrands: [],
-                    vehicleHeader: {
-                        model: {},
-                        isHeaderSaved: false,
-                        registration_type: null
-                    }, // validators
-                    vehicleHeaderForm: null,
-                    vehicleHeaderFormValidator: null,
-                    vehicleHeaderId: null,
-                    vehicle_brand_placeholder: 'Select Vehicle Brand',
-                    vehicle_model_placeholder: 'Select Model',
-                    weightDetails: {
-                        trailerWeight2: 0
-                    }
-                }
+            'el': '#app',
+            components: {},
+            data() {
+                return {}
             },
 
             created() {
-                this.getBusinessUnits();
-                this.getDirectorates();
-                this.getBusinessAreas();
-                this.getFuelTypes();
-                this.loadRegistrationTypes();
-                this.loadLicenceClasses();
-                this.getTransmissionTypes();
+
             },
 
             filters: {
@@ -825,393 +760,9 @@
                 }
             },
 
-            mounted() {
-                console.log("%c✔ ZESCO Fleet Master Running", "color: #148f32");
-                console.log("%c✔ Vehicle OnBoarding Process", "color: #148f32");
+            mounted() {},
 
-                this.vehicleHeaderForm = document.querySelector('#tms_vehicle_header_form');
-                this.chassisDetailsForm = document.querySelector('#tms_chassis_details_form');
-                this.engineDetailsForm = document.querySelector('#tms_engine_details_form');
-                this.costingDetailsForm = document.querySelector('#tms_costing_valuation_form');
-                this.bodyDetailsForm = document.querySelector('#tms_body_weight_form');
-                this.assignmentDetailsForm = document.querySelector('#tms_assignment_tab_form');
-
-                let input = document.getElementById("userUnit");
-
-                if (this.vehicleHeader && this.vehicleHeader.id) {
-                    this.vehicleHeader.isHeaderSaved = true;
-                }
-            },
-
-            methods: {
-
-                bodyTypeChanged: function (selectedBody) {
-                    app['vehicleHeader'].body_type_code = selectedBody?.code;
-                    document.querySelector('#bodyType').value = selectedBody?.code;
-                },
-
-                checkChassisNumberValidity: function () {
-                    fetch(document.querySelector('#documentValidationUrl').value + '?method=chassis&key=' + app['chassisDetails']['chassisNumber'])
-                        .then(response => response.json())
-                        .then(response => {
-                            // Populate results
-                            if (response.state === 'failure') {
-                                //show errors
-                                toastr.error('Chassis validity not verified', 'Connection error');
-                                return;
-                            }
-
-                            app['document_validity'].state = response['payload'].validity;
-                            app['document_validity'].message = response['payload'].message;
-                        })
-                        .catch(function (error) {
-                            // notify of error
-                            toastr.error('Could not retrieve data, some feature might not work.', 'Connection error')
-                        });
-                },
-
-                checkValueChange(element) {
-                },
-
-                formatBookValueAsMoney: function (event) {
-                    setTimeout(function () {
-                        let formatted = accounting.formatMoney(event.target.value, '');
-                        console.log('%c' + formatted, "color: #148f32");
-                        app['costingAndValuation'].bookValue = formatted;
-                    }, 300);
-                },
-
-                formatCostPriceAsMoney: function (event) {
-                    setTimeout(function () {
-                        let formatted = accounting.formatMoney(event.target.value, '');
-                        app['costingAndValuation'].costPrice = formatted;
-                    }, 300);
-                },
-
-                // web UI event
-                formatMoney: function (event) {
-                    setTimeout(function () {
-                        //ZMW
-                        let formatted = accounting.formatMoney(event.target.value, '');
-                        app['chassisDetails'].chargeOutRate = formatted;
-                    }, 300);
-                },
-
-                getBusinessAreas: function () {
-                    fetch(document.querySelector('#businessAreaEndpoint').value)
-                        .then(response => response.json())
-                        .then(response => {
-                            // Populate results
-                            if (response.state === 'failure') {
-                                //show errors
-                                toastr.error('Connection error, no data found')
-                                return;
-                            }
-
-                            app.businessAreas = response['payload'];
-                        })
-                        .catch(function (error) {
-                            // notify of error
-                            toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                        });
-                },
-
-                getBusinessUnits: function () {
-                    fetch(document.querySelector('#businessUnitsEndpoint').value)
-                        .then(response => response.json())
-                        .then(response => {
-                            // Populate results
-                            if (response.state === 'failure') {
-                                //show errors
-                                toastr.error('Connection error, no data found')
-                                return;
-                            }
-
-                            window.businessUnits = response['payload'];
-                            app.businessUnits = response['payload'];
-                        })
-                        .catch(function (error) {
-                            // notify of error
-                            toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                        });
-                },
-
-                getDirectorates: function () {
-                    fetch(document.querySelector('#directoratesEndpoint').value)
-                        .then(response => response.json())
-                        .then(function (response) {
-                            // Populate results
-                            if (response.state === 'failure') {
-                                //show errors
-                                toastr.error('Connection error, no data found')
-                                return;
-                            }
-
-                            app.directorates = response['payload'];
-                        })
-                        .catch(function (error) {
-                            // notify of error
-                            toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                        });
-                },
-
-                getFuelTypes: function () {
-                    fetch(document.querySelector('#fuelTypesUrl').value)
-                        .then(response => response.json())
-                        .then(response => {
-                            // Populate results
-                            if (response.state === 'failure') {
-                                //show errors
-                                toastr.error('Connection error, no data found')
-                                return;
-                            }
-                            app.fuelTypes = response.payload;
-                        })
-                        .catch(function (error) {
-                            // notify of error
-                            toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                        });
-                },
-
-                getModelLabel: function (val) {
-                    if (typeof val === 'object' && !Array.isArray(val)) {
-                        return val['model_name'] + '=>' + val['model_code'];
-                    }
-                },
-
-                getTransmissionTypes: function () {
-                    fetch(document.querySelector('#transmissionTypeUrl').value)
-                        .then(response => response.json())
-                        .then(response => {
-                            // Populate results
-                            if (response.state === 'failure') {
-                                //show errors
-                                toastr.error('Connection error, no data found')
-                                return;
-                            }
-                            app.transmissionTypes = response.payload;
-                        })
-                        .catch(function (error) {
-                            toastr.error('Connection error. Could not retrieve VEHICLE TRANSMISSION  data, some feature might not work.')
-                        });
-                },
-
-                getUserUnitLabel: function (val) {
-                    if (typeof val === 'object') {
-                        return val['code_unit'] + '=>' + val.description;
-                    }
-                },
-
-                loadLicenceClasses: function () {
-                    fetch(document.querySelector('#licenseClassEndpoint').value)
-                        .then(response => response.json())
-                        .then(response => {
-                            // Populate results
-                            if (response.state === 'failure') {
-                                //show errors
-                                toastr.error('Connection error, no data found')
-                                return;
-                            }
-
-                            app.licenseTypes = response['payload'];
-                        })
-                        .catch(function (error) {
-                            // notify of error
-                            toastr.error(
-                                'Connection error. Could not retrieve license category data, some feature might not work.')
-                        });
-                },
-
-                loadRegistrationTypes: function () {
-                    fetch(document.querySelector('#registrationTypesEndpoint').value)
-                        .then(response => response.json())
-                        .then(response => {
-                            // Populate results
-                            if (response.state === 'failure') {
-                                //show errors
-                                toastr.error('Connection error, no data found')
-                                return;
-                            }
-
-                            app.registrationTypes = response['payload'];
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                            toastr.error(
-                                'Connection error. Could not retrieve license category data, some feature might not work.', 'Registration Types')
-                        });
-                },
-
-                postRequest(data, url, successCallBack, errorCallBack) {
-                    axios.post(url, data, {
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'content-type': 'text/json'
-                        }
-                    }).then(function (response) {
-                        successCallBack(response);
-                    }).catch(function (error) {
-                        errorCallBack(error);
-                    });
-                },
-
-                postVehicleHeaderData() {
-                    if (!this.validators) {
-                        return alert('No Validator Configured');
-                    }
-                    this.vehicleHeaderFormValidator.validate().then(function (status) {
-                        console.log('validated!');
-                        if (status !== 'Valid') {
-                            toastr.warning("Sorry, the data did not pass validation check, check the data and try again.");
-                            return;
-                        }
-
-                        let el = document.querySelector('#tms_save_vehicle');
-                        el.setAttribute('data-kt-indicator', 'on');
-                        el.disabled = true;
-
-                        app.postRequest(new FormData($(app.vehicleHeaderForm)[0]), app.vehicleHeaderForm.action, function (response) {
-                            let el = document.querySelector('#tms_save_vehicle');
-                            let label = el.querySelector(".indicator-label");
-
-                            setTimeout(function () {
-                                el.removeAttribute('data-kt-indicator');
-                                el.disabled = false;
-                            }, 300)
-
-                            if (response.data.state != 'success') {
-                                toastr.error(response.data.message);
-                                return;
-                            }
-
-                            app.vehicleHeaderId = response.data.payload.id;
-                            toastr.success(response.data.message);
-
-                            setTimeout(function () {
-                                app['vehicleHeader'].isHeaderSaved = true;
-                            }, 500)
-
-                            if (el.classList.contains("btn-light-primary")) {
-                                el.classList.remove("btn-light-primary");
-                                el.classList.add("btn-light");
-                                label.innerHTML = "Saved";
-                            } else { // follow
-                                el.classList.add("btn-light-primary");
-                                el.classList.remove("btn-light");
-                                app['vehicleHeader'].isHeaderSaved = true;
-                                label.innerHTML = "Saved";
-                            }
-
-                        }, function (error) {
-                            let el = document.querySelector('#tms_save_vehicle');
-                            let label = el.querySelector(".indicator-label");
-                            label.innerHTML = "Submit";
-                            el.removeAttribute('data-kt-indicator');
-                            el.disabled = false;
-
-                            toastr.error(error.message);
-
-                        });
-                    });
-
-                },
-
-                postVehicleImages() {
-                    let completionForm = $('#completeRegistrationForm');
-                    $.ajax({
-                        'url': $(completionForm).attr('action'),
-                        'type': 'POST',
-                        data: new FormData($(completionForm)[0]),
-                        contentType: false,
-                        processData: false,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'content-type': 'text/json'
-                        }
-                    }).done(function (response) {
-
-                        Swal.fire({
-                            text: "Vehicle Registration Completed Successfully," + "You will be refreshed",
-                            icon: "success",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        }).then(function () {
-                            window.location.reload();
-                        });
-
-                    })
-                },
-
-                preview(event) {
-                    //$('#frame').src = URL.createObjectURL(event.target.files[0]);
-                    let uploadFile = $(event.target);
-                    let self = event.target;
-                    let files = !!self.files ? self.files : [];
-                    if (!files.length || !window.FileReader) return;
-                    // no file selected, or no FileReader support
-
-                    if (/^image/.test(files[0].type)) {
-                        // only image file
-                        let reader = new FileReader();
-                        // instance of the FileReader
-                        reader.readAsDataURL(files[0]);
-                        // read the local file
-
-                        reader.onloadend = function () {
-                            // set image data as background of div
-                            uploadFile.closest("div").find('.imagePreview').css({
-                                "background-image": "url(" + this.result + ")", 'display': 'block'
-                            });
-                        }
-
-                        $(uploadFile).closest('div').find('p').addClass('d-none');
-                    } else {
-
-                        toastr.error('only image (.jpg, .jpeg, .png, .bmp) file types are allowed', 'Invalid File Format Selected')
-                    }
-                },
-
-                registrationTypeChanged(selectedType) {
-                    console.log(selectedType)
-                },
-
-                switchTabs() {
-                    let tabs = document.querySelectorAll('a[role="tab"]');
-                    let activeIndex = 0;
-                    $.each(tabs, function (index, element) {
-                        if ($(element).hasClass('active')) {
-                            activeIndex = index;
-                            return;
-                        }
-                    });
-                    let nextIndex = activeIndex < tabs.length - 1 ? activeIndex + 1 : activeIndex;
-
-                    if (nextIndex === activeIndex) {
-                        return;
-                    }
-                    $(tabs[activeIndex]).removeClass('active');
-                    $(tabs[nextIndex]).addClass('active');
-
-                    // switch visible content
-                    let tabContent = document.querySelector('#myTabContent').children;
-                    $(tabContent[nextIndex]).addClass('active').addClass('show');
-                    $(tabContent[activeIndex]).removeClass('active').removeClass('show')
-                },
-
-                transmissionTypeChanged: function (transmissionType) {
-                    document.querySelector('#transmission_type').value = transmissionType?.code + ':' + transmissionType?.name;
-                },
-
-                /*vehicleBrandChanged(selectedValue) {
-                    this.vehicleHeader.brand_code = selectedValue?.id?.toString().trim();
-                    this.selectedBrandModels = [];
-
-                    app.selectedBrandModels = app['configuredModels'].filter(function (model) {
-                        return model.brand_code?.toString()?.trim() === app?.vehicleHeader.brand_code?.toString().trim();
-                    });
-                },*/
-            }
+            methods: {}
         });
     </script>
 @endpush
