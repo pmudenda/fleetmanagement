@@ -111,7 +111,7 @@
                                                         YES
                                                     </span>
                                                 @else
-                                                    <span class="badge badge-success p-2">
+                                                    <span class="badge badge-danger p-2">
                                                         NO
                                                     </span>
                                                 @endif
