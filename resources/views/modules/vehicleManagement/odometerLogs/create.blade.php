@@ -678,19 +678,7 @@
                         }
 
                         let totalDifference = tmsApp.getRawNumber(element.value) - tmsApp.getRawNumber(startOdometer);
-                        $(element).closest("tr").find("input[name=difference]").val(serviceLineAmountTotal);
-
-
-                        /* $(element).closest("table").find("input[name=service_quantity]").each(function (i, it) {
-                             serviceSummaryTotalQty += Util.getFloat(it.value);
-                         });*/
-
-                        // set value in footer
-                        /*$('#serviceQuantityTotal').text(tmsApp.getRawNumber(serviceSummaryTotalQty));
-
-                        let serviceLineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_unit_price]").val());
-                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceLineAmountTotal);//.change();
-                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(serviceLineAmountTotal));*/
+                        $(element).closest("tr").find("input[name=difference]").val(totalDifference);
                         break;
 
                     default:
