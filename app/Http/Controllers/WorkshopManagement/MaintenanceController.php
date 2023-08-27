@@ -672,7 +672,7 @@ class MaintenanceController extends Controller
     public function closeJobCard(WorkOrderClosure $request): JsonResponse
     {
         try {
-            return $this->workshopService->workOrderClosure($request);
+            return $this->workshopService->closeJobCard($request);
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
             if ($e instanceof MaterialReservationException

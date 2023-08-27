@@ -351,21 +351,21 @@ class WorkshopService
     /**
      * @throws WorkflowTaskCreationFailedException
      */
-    public function workOrderClosure(WorkOrderClosure $request): JsonResponse
+    public function closeJobCard(WorkOrderClosure $request): JsonResponse
     {
         $user = Auth::user();
 
         DB::beginTransaction();
 
         $workOrderNumber = $request->get("job_card_number");
-        $workOrder = JobCardHeader::where("job_card_no", "=", $workOrderNumber)
+        $jobCardHeader = JobCardHeader::where("job_card_no", "=", $workOrderNumber)
             ->first();
 
-        $vehicleHeader = VehicleHeader::where('registration_number', '=', $workOrder->reg_no)->first();
+        $vehicleHeader = VehicleHeader::where('registration_number', '=', $jobCardHeader->reg_no)->first();
         $vehicleHeader->status = StatusHelper::active();
         $vehicleHeader->save();
 
-        $dataBefore = $workOrder->toArray();
+        $dataBefore = $jobCardHeader->toArray();
 
         Log::info('closing job card task' . $workOrderNumber);
         $this->workflowService->cancelProcessTask(
@@ -373,25 +373,25 @@ class WorkshopService
             WorkflowProcessCodes::WorkOrderOpened->value
         );
 
-        $workOrderNumber = $workOrder->job_card_no;
+        $workOrderNumber = $jobCardHeader->job_card_no;
 
-        $workOrder->status = StatusHelper::pendingApproval();
-        $workOrder->date_out = Carbon::now();
-        $workOrder->time_out = Carbon::now();
-        $workOrder->dispatched_by = $user->staff_no;
-        $workOrder->sub_fuel_level_out = '';
-        $workOrder->millage_out = $request->get("exitOdometer");
-        $workOrder->fuel_level_out = $request->get("fuel_level");
-        $workOrder->driver_out = $request->get("driver_out");
-        $workOrder->modified_by = $user->staff_no;
-        $workOrder->status = StatusHelper::authorised();
-        $workOrder->updated_at = Carbon::now();
+        $jobCardHeader->status = StatusHelper::pendingApproval();
+        $jobCardHeader->date_out = Carbon::now();
+        $jobCardHeader->time_out = Carbon::now();
+        $jobCardHeader->dispatched_by = $user->staff_no;
+        $jobCardHeader->sub_fuel_level_out = '';
+        $jobCardHeader->millage_out = $request->get("exitOdometer");
+        $jobCardHeader->fuel_level_out = $request->get("fuel_level");
+        $jobCardHeader->driver_out = $request->get("driver_out");
+        $jobCardHeader->modified_by = $user->staff_no;
+        $jobCardHeader->status = StatusHelper::authorised();
+        $jobCardHeader->updated_at = Carbon::now();
         $totalWorkOrderAmount = $request->get('workOrderTotalAmount');
 
         foreach ($request->get("items") as $labourItem) {
             WorkshopLabour::create([
-                'wshp_act_code' => $workOrder->wshp_act_code,
-                'wshp_code' => $workOrder->workshop_code,
+                'wshp_act_code' => $jobCardHeader->wshp_act_code,
+                'wshp_code' => $jobCardHeader->workshop_code,
                 'section' => $labourItem['workshopSection'],
                 'evaluation' => 'N',
                 'date_lab' => Carbon::now(),
@@ -407,28 +407,33 @@ class WorkshopService
             $totalWorkOrderAmount += (float)$labourItem['totalAmount'];
         }
 
-        $workOrder->repair_cost = $totalWorkOrderAmount;
+        $jobCardHeader->repair_cost = $totalWorkOrderAmount;
 
-        $workOrder->save();
+        $jobCardHeader->save();
 
-        $jobCardRequisitions = MaterialHeader::where('veh_reg_no', $workOrder->reg_no)
+        $jobCardRequisitions = MaterialHeader::where('veh_reg_no', $jobCardHeader->reg_no)
             ->whereIn('status', [
                 StatusHelper::new(),
                 StatusHelper::partiallyAuthorised(),
                 StatusHelper::authorised(),
-                StatusHelper::partiallyReleased()
+                StatusHelper::partiallyReleased(),
+                StatusHelper::issued()
             ])
-            //->where('item_type', '=', RequisitionItemTypes::StockItem)
+            ->where('document_no', '=', $jobCardHeader->job_card_no)
             ->where('is_fuel', '=', 'N')
             ->orderBy('created_at', 'desc')
             ->get();
 
         foreach ($jobCardRequisitions as $requisition) {
-            if (in_array($requisition->item_type, [
-                RequisitionItemTypes::SERVICE,
-                RequisitionItemTypes::NON_STOCK_ITEM
-            ])) {
-                if (empty($requisition->st_pur)) {
+            if (in_array($requisition->item_type,
+                [
+                    RequisitionItemTypes::SERVICE,
+                    RequisitionItemTypes::NON_STOCK_ITEM])
+            ) {
+                if ($requisition->status === StatusHelper::issued()) {
+                    MaterialHeader::where("req_no", $requisition->req_no)
+                        ->update(["document_no" => null]);
+                } elseif (empty($requisition->st_pur)) {
                     $processCode = WorkflowProcessCodes::PurchaseProcess->value;
                     $this->workflowService->cancelProcessTask(
                         $requisition->req_no,
@@ -448,7 +453,7 @@ class WorkshopService
 
         DB::commit();
 
-        WorkOrderCompleted::dispatch($workOrder, "job_card_closed");
+        WorkOrderCompleted::dispatch($jobCardHeader, "job_card_closed");
 
         return response()->json(
             [

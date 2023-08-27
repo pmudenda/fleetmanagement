@@ -177,5 +177,10 @@ class StatusHelper
         return "02";
     }
 
+    public static function issued(): string
+    {
+        return "04";
+    }
+
 
 }
