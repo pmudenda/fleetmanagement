@@ -429,6 +429,36 @@
                                     </ul>
                                 </li>
                             @endcanany
+
+                            {{--@canany([config('rights.add_user'),config('rights.view_user')])--}}
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>
+                                        Mechanics
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview pl-3">
+                                    {{--@canany([config('rights.add_user')])
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{URL::signedRoute('mechanic.create')}}">
+                                                <i class="fas fa-user-plus nav-icon"></i>
+                                                <p class="menu-title">Add</p>
+                                            </a>
+                                        </li>
+                                    @endcanany--}}
+                                    {{-- @canany([config('rights.view_user')])--}}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{URL::signedRoute('mechanic.list')}}">
+                                            <i class="fas fa-users nav-icon"></i>
+                                            <p>List</p>
+                                        </a>
+                                    </li>
+                                    {{--@endcanany--}}
+                                </ul>
+                            </li>
+                            {{-- @endcanany--}}
                         </ul>
                     </li>
                 @endcanany
