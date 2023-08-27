@@ -100,7 +100,7 @@
                                             </td>
 
                                             <td>
-                                                {{$mechanic->license_number ?? '--'}}
+                                                {{$mechanic->workshop_name ?? '--'}}
                                             </td>
                                             <td>
                                                 {{'--'}}
