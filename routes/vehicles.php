@@ -22,22 +22,18 @@ Route::group(['middleware' => 'auth', 'prefix' => 'v1/en'], function (): void {
     });
 
 
-    Route::resource('vehicle/models', VehicleModelsController::class, [
-        'names' => [
-            'get' => 'models.get',
-            'store' => 'models.save',
-            'destroy' => 'models.delete',
-        ]
-    ]);
+    Route::group(['prefix' => 'vehicle/models', 'as' => 'models.'], function () {
+        Route::get('', [VehicleModelsController::class, 'get'])->name('get');
+        Route::post('', [VehicleModelsController::class, 'store'])->name('save');
+        Route::delete('', [VehicleModelsController::class, 'destroy'])->name('delete');
+    });
 
-    /** BODY TYPES **/
-    Route::resource('vehicle/body-types', VehicleBodyTypesController::class, [
-        'names' => [
-            'get' => 'body_type.get',
-            'store' => 'body_type.save',
-            'destroy' => 'body_type.delete',
-        ]
-    ]);
+    Route::group(['prefix' => 'vehicle/body-types', 'as' => 'body_type.'], function () {
+        Route::get('', [VehicleBodyTypesController::class, 'get'])->name('get');
+        Route::post('', [VehicleBodyTypesController::class, 'store'])->name('save');
+        Route::delete('', [VehicleBodyTypesController::class, 'destroy'])->name('delete');
+    });
+
 
     Route::delete('/vehicle/print-disk', function () {
         return view("");
