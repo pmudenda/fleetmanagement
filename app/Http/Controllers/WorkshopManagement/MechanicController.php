@@ -26,7 +26,7 @@ class MechanicController extends Controller
             ->leftJoin('config_workshop wkshp', 'mec.workshop_code', '=', 'wkshp.workshop_code')
             ->select(
                 'mec.*',
-                'wkshp.name as workshop_name'
+                'wkshp.workshop_name'
             )->get();
         return view('modules.mechanicManagement.list')
             ->with(compact('mechanics'));
