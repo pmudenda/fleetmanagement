@@ -6,6 +6,7 @@ use App\Constants\ErrorMessages;
 use App\Models\Reference\Article;
 use App\Models\Reference\BatteryModel;
 use App\Models\Reference\PurchaseOrder;
+use App\Models\Reference\TyreSizesModel;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -90,11 +91,11 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
     public function getArticleDetails(Request $request): JsonResponse
     {
         try {
-            $code_article = $request->get('code_article');
+            $codeArticle = $request->get('code_article');
 
-            Log::info('Code Article ' . $code_article);
+            Log::info('Code Article ' . $codeArticle);
 
-            $procurementArticles = $this->procurementSystemIntegrationService->getArticleDetailsByCode($code_article);
+            $procurementArticles = $this->procurementSystemIntegrationService->getArticleDetailsByCode($codeArticle);
 
             return response()->json([
                 'success' => !empty($procurementArticles),
@@ -130,7 +131,8 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
         }
     }
 
-    public function getTyreSizes() {
+    public function getTyreSizes(): JsonResponse
+    {
         try {
             $data = TyreSizesModel::get();
             return response()->json([
