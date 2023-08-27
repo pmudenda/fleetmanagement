@@ -75,4 +75,11 @@ class MechanicController extends Controller
             ]);
         }
     }
+
+    public function show(Request $request)
+    {
+        $mechanic = null;
+        return view('modules.mechanicManagement.show')
+            ->with(compact('mechanic'));
+    }
 }

@@ -62,7 +62,7 @@
                                         <th>Staff Number</th>
                                         <th>Workshop</th>
                                         <th>Section</th>
-                                        <th>Is Head Of Workshop</th>
+                                        <th>Workshop Supervisor</th>
                                         <th>Status</th>
                                         {{--@can(config('rights.user_show'))--}}
                                         <th>Action</th>
@@ -81,14 +81,14 @@
                                                          width="100%"
                                                          src='{{ asset("storage/user_avatar/$mechanic->avatar")}}'
                                                          alt="Image not found"
-                                                         style="width: 60px; height: 54px;"
+                                                         style="width: 40px; height: 40px;"
                                                     />
                                                 @else
                                                     <img class="profile-user-img img-fluid img-circle border-0"
                                                          width="100%"
                                                          src="{{ asset('assets/media/avatars/avatar.png') }}"
                                                          alt="Image not found"
-                                                         style="width: 60px; height: 54px;"
+                                                         style="width: 40px; height: 40px;"
                                                     />
                                                 @endif
                                             </td>
