@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth', 'prefix' => 'v1/en'], function (): void {
 
-    Route::resource('vehicle/brands', ConfigVehicleBrandsController::class, [
+    Route::resource('vehicle/brands', 'ConfigVehicleBrandsController', [
         'names' => [
             'get' => 'brands.get',
             'store' => 'brands.save',

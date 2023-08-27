@@ -4,7 +4,7 @@ namespace App\Services\Requisitions;
 
 use App\Constants\Accounts;
 use App\Constants\ErrorMessages;
-use App\Constants\TransactionType;
+use App\Constants\SystemMessages;
 use App\Constants\WorkflowActions;
 use App\Constants\WorkflowModules;
 use App\Enums\Modules;
@@ -269,19 +269,21 @@ class FuelRequisitionService
             if (!empty($latestNonCancelledOrRejectedRequisition)) {
 
                 if (in_array($latestNonCancelledOrRejectedRequisition->status, $openRequisitionStatusList)) {
-                    // requisition is open/pending
 
-                    if (RequisitionTypes::Normal->value == $latestNonCancelledOrRejectedRequisition->requisition_type
-                        || RequisitionTypes::Override->value == $latestNonCancelledOrRejectedRequisition->requisition_type) {
+                    if (in_array($latestNonCancelledOrRejectedRequisition->requisition_type,
+                        [RequisitionTypes::Normal->value, RequisitionTypes::Override->value])) {
 
                         return response()->json([
                             "success" => false,
                             "message" =>
-                                str_replace("@veh_reg", $registrationNumber,
+                                str_replace("@veh_reg",
+                                    $registrationNumber,
                                     str_replace("@date_valid_to",
-                                        Carbon::parse($latestNonCancelledOrRejectedRequisition->valid_date_to)->format("d/m/Y"),
+                                        Carbon::parse($latestNonCancelledOrRejectedRequisition->valid_date_to)
+                                            ->format("d/m/Y"),
                                         str_replace("@req_no",
-                                            $latestNonCancelledOrRejectedRequisition->st_pur ?? $latestNonCancelledOrRejectedRequisition->req_no,
+                                            $latestNonCancelledOrRejectedRequisition->st_pur
+                                            ?? $latestNonCancelledOrRejectedRequisition->req_no,
                                             ErrorMessages::getMessage("err_0001")
                                         )
                                     )
@@ -290,12 +292,16 @@ class FuelRequisitionService
                     }
 
                     // cancel out of town
-                    if ($latestNonCancelledOrRejectedRequisition->requisition_type == RequisitionTypes::OutOfTown->value) {
+                    if ($latestNonCancelledOrRejectedRequisition->requisition_type
+                        == RequisitionTypes::OutOfTown->value) {
                         // cancel requisition
                         $latestNonCancelledOrRejectedRequisition->status = StatusHelper::cancelled();
                         $latestNonCancelledOrRejectedRequisition->save();
 
-                        $this->procurementService->cancelStoresRequisition($latestNonCancelledOrRejectedRequisition->st_pur);
+                        $this->procurementService->cancelStoresRequisition(
+                            $latestNonCancelledOrRejectedRequisition->st_pur,
+                            SystemMessages::NORMAL_REQUISITION_RAISED
+                        );
 
                         //cancel associated task
                         $this->cancelAssociatedTask($latestNonCancelledOrRejectedRequisition);
@@ -305,9 +311,12 @@ class FuelRequisitionService
 
                     // fully issued
                     if (RequisitionTypes::Normal->value == $latestNonCancelledOrRejectedRequisition->requisition_type
-                        || RequisitionTypes::Override->value == $latestNonCancelledOrRejectedRequisition->requisition_type
+                        ||
+                        RequisitionTypes::Override->value == $latestNonCancelledOrRejectedRequisition->requisition_type
                     ) {
-                        $this->checkIfPreviousRequisitionPeriodElapsed($latestNonCancelledOrRejectedRequisition, $valid_from, $registrationNumber);
+                        $this->checkIfPreviousRequisitionPeriodElapsed(
+                            $latestNonCancelledOrRejectedRequisition,
+                            $valid_from, $registrationNumber);
                     }
                 }
             }
@@ -323,12 +332,15 @@ class FuelRequisitionService
                     $latestNonCancelledOrRejectedRequisition->status = StatusHelper::cancelled();
                     $latestNonCancelledOrRejectedRequisition->save();
 
-                    $this->procurementService->cancelStoresRequisition($latestNonCancelledOrRejectedRequisition->st_pur);
+                    $this->procurementService->cancelStoresRequisition(
+                        $latestNonCancelledOrRejectedRequisition->st_pur,
+                        SystemMessages::OUT_OF_TOWN_REQUISITION_RAISED
+                    );
 
                     //cancel associated task
                     $this->cancelAssociatedTask($latestNonCancelledOrRejectedRequisition);
                 }
-            }else{
+            } else {
                 Log::info('Nothing found for cancellation');
             }
 

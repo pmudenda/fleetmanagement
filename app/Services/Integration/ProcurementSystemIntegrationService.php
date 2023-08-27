@@ -170,7 +170,7 @@ class ProcurementSystemIntegrationService
     }
 
 
-    public function cancelStoresRequisition($procurementSystemReference): string
+    public function cancelStoresRequisition($procurementSystemReference, $cancellationJustification): string
     {
         try {
             Log::info("Cancelling Stores Requisition For Request " . $procurementSystemReference);
@@ -183,9 +183,11 @@ class ProcurementSystemIntegrationService
             $stmt = $pdo->prepare("begin :result := fn_cancel_stores_req(
             :p_ref_no,
             :p_current_user,
-            :p_system_origin); end;");
+            :p_system_origin,
+            :p_justification); end;");
             $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_ref_no", $procurementSystemReference);
+            $stmt->bindParam(":p_justification", $cancellationJustification);
             $stmt->bindParam(self::P_SYSTEM_ORIGIN, $systemOfOrigin);
             $stmt->bindParam(self::P_CURRENT_USER, $staffNumber);
             $stmt->execute();

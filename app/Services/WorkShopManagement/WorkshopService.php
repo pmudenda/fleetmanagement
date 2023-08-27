@@ -2,6 +2,7 @@
 
 namespace App\Services\WorkShopManagement;
 
+use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
 use App\Enums\RequisitionItemTypes;
@@ -421,7 +422,10 @@ class WorkshopService
             ->get();
 
         foreach ($jobCardRequisitions as $requisition) {
-            if ($requisition->item_type == RequisitionItemTypes::SERVICE || $requisition->item_type == RequisitionItemTypes::NON_STOCK_ITEM) {
+            if (in_array($requisition->item_type, [
+                RequisitionItemTypes::SERVICE,
+                RequisitionItemTypes::NON_STOCK_ITEM
+            ])) {
                 if (empty($requisition->st_pur)) {
                     $processCode = WorkflowProcessCodes::PurchaseProcess->value;
                     $this->workflowService->cancelProcessTask(
@@ -435,25 +439,10 @@ class WorkshopService
                     $requisition->req_no,
                     $processCode
                 );
-                $this->procurementService->cancelStoresRequisition($requisition->st_pur);
+                $this->procurementService->cancelStoresRequisition(
+                    $requisition->st_pur, SystemMessages::EXIT_FROM_WORKSHOP);
             }
         }
-
-        /*
-         * $closureRemarks = $request->get('closureRemarks');
-         *  $short_description = "$closureRemarks for work-order $workOrderNumber";
-        $long_description = "$closureRemarks for work-order $workOrderNumber";
-        $workflowProcess = WorkflowProcessCodes::WorkOrderClosure->value;
-         * $this->workflowService->initiateWorkflowProcess(
-            $workOrderNumber . "-C",
-            (int)$workflowProcess,
-            WorkflowActions::submit(),
-            $closureRemarks,
-            $user,
-            $totalWorkOrderAmount,
-            $short_description,
-            $long_description
-        );*/
 
         DB::commit();
 
