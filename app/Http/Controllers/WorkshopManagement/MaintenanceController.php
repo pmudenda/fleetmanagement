@@ -18,6 +18,7 @@ use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
 use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
 use App\Http\Requests\WorkShopManagement\JobCardTaskReassignment;
+use App\Http\Requests\WorkShopManagement\PettyCashItems;
 use App\Http\Requests\WorkShopManagement\SubmitJobCardToSupervisor;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
 use App\Http\Requests\WorkShopManagement\WorkshopMaterialResevationRequest;
@@ -57,6 +58,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
@@ -1408,7 +1410,7 @@ class MaintenanceController extends Controller
                                 "veh_reg_no" => $material->reg_no,
                                 "specifications" => $material->specifications,
                                 "originator" => $user->staff_no,
-                                "stf_number"=>$materialHeader->st_pur,
+                                "stf_number" => $materialHeader->st_pur,
                                 "status" => $materialHeader->status,
                                 "created_by" => $user->id
                             ]);
@@ -1518,4 +1520,23 @@ class MaintenanceController extends Controller
             $pettyCashItems,
             $observation);
     }
+
+    public function saveImprestBuyItems(PettyCashItems $request): JsonResponse
+    {
+        try {
+            Http::asForm()->post(
+                config('systeminfo.petty_cash_url'),
+                $request
+            );
+            return response()->json(
+                [
+                    'state' => 'success',
+                    'payload' => $request->all()
+                ]
+            );
+        } catch (Exception $e) {
+            Log::error($e);
+        }
+    }
+
 }

@@ -1302,7 +1302,8 @@
                         modelName: formSel.data('modelName'),
                         submitForm: true,
                         workshopReference: $('[name="workshop_reference"]').val(),
-                        jobCardNumber: $('[name="job_card_number"]').val()
+                        jobCardNumber: $('[name="job_card_number"]').val(),
+                        totalPayment: $('[name="total_payment"]').val(),
                     };
 
                     let arr = [];
@@ -1314,18 +1315,22 @@
                         if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
                             console.log("Record with " + $(row).attr('data-record-id'));
                         } else {
-                            $(row).find('input[name][type!=hidden], select[name],textarea[name]').each(function (i, item) {
-                                let val = item.value.replace(/,/g, '');
+                            $(row).find('input[name][type!=hidden], select[name],textarea[name]')
+                                .each(function (i, item) {
+                                    let val = item.value.replace(/,/g, '');
+                                    if (item.name === 'endDate'
+                                        || item.name === 'startDate'
+                                        || item.name === 'invoiceDate') {
+                                        let dateField = val;
+                                        dateField = DateFormatter.format(
+                                            new Date(moment(val, 'DD/MM/yyyy')
+                                            ), DateFormatter.ISO);
 
-                                if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
-                                    let dateField = val;
-                                    dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
-
-                                    obj[item.name] = dateField;
-                                } else {
-                                    obj[item.name] = item.value;
-                                }
-                            });
+                                        obj[item.name] = dateField;
+                                    } else {
+                                        obj[item.name] = item.value;
+                                    }
+                                });
                             arr.push(obj);
                         }
 
@@ -1341,8 +1346,8 @@
                     $('.print-error-msg').css('display', 'none');
 
                     tmsApp.confirm(
-                        'Assign Task',
-                        'Are you sure you want to close this work order ?',
+                        'Submit Imprest Buy Items',
+                        'Are you sure you want to submit this request ?',
                         'Yes',
                         'No',
                         function () {

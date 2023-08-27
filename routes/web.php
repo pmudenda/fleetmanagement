@@ -22,7 +22,6 @@ use App\Http\Controllers\WorkshopManagement\PdfJobController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,8 +74,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/accident/save/report', [AccidentRecordingController::class, 'store'])
         ->name('accident.store');
-    
-    Route::post('getStatus',[UsersController::class, 'getStatus'])->name('session.status');
+
+    Route::post('getStatus', [UsersController::class, 'getStatus'])->name('session.status');
 
     Route::get('/home', [HomeController::class, 'dashboard'])->name('home');
 
@@ -221,22 +220,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'workshop-management'], functi
         Route::post('attach/to/job-card', [MaintenanceController::class, 'attachReservedArticlesToJobCard'])
             ->name('attach.reservations.card');
 
-        Route::post('store', function (Request $request) {
-
-            Http::asForm()->post(
-                'http://example.com/users',
-                [
-                    'name' => 'Sara',
-                    'role' => 'Privacy Consultant',
-                ]);
-
-            return response()->json(
-                [
-                    'state' => 'success',
-                    'payload' => $request->all()
-                ]
-            );
-        })->name('petty.cash.store');
+        Route::post('store/petty-cash/item', [MaintenanceController::class, 'saveImprestBuyItems'])
+            ->name('petty.cash.store');
 
     });
 
