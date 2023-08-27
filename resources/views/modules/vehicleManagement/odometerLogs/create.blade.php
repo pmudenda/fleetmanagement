@@ -476,7 +476,7 @@
                 eventHandler(this, e);
             });
 
-            // AutoNumeric.multiple('.odometer_entry > input');
+
             function addTableRow(tableId) {
                 function reinitializeSelect2($_defect_sel) {
                     if ($_defect_sel) {
@@ -498,121 +498,6 @@
                     dateFormat: 'dd/mm/yy',
                 });
             }
-
-            $(document).on('keypress', '.ui_datepicker', () => {
-                return false;
-            });
-
-            Inputmask({
-                "mask": "99/9999"
-            }).mask("#expiryDate");
-
-
-            tmsApp.appFormValidator('form[name="newOdometerLogForm"]',
-                {},
-                {}
-            );
-
-            $(document).off('click', 'button[value="addRow"][data-table-id]')
-                .on('click', 'button[value="addRow"][data-table-id]', function () {
-                    let tableId = $(this).data('tableId');
-                    addTableRow(tableId);
-                });
-
-            $(document).on('click', "#submitDataBtn", function () {
-                let $form = document.forms['newOdometerLogForm'];
-                if (!$($form).valid()) {
-                    return;
-                }
-
-                $('.print-error-msg').css('display', 'none');
-                let formData = new FormData($form);
-                tmsApp.confirm(
-                    'Odometer Log Entry',
-                    'Are you sure you want to onboard the data ?',
-                    'Yes',
-                    'No',
-                    function () {
-                        window.top.tmsApp.asyncPostFormData(
-                            $form.action,
-                            formData,
-                            function (asyncResponse) {
-
-                                if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
-                                    setTimeout(function () {
-                                        tmsApp.showSystemMessage(
-                                            'eToll Card Saved',
-                                            asyncResponse['message'],
-                                            function () {
-                                                window.location.reload();
-                                            },
-                                            'success'
-                                        );
-                                    }, 300);
-                                } else {
-                                    if (asyncResponse.hasOwnProperty('errors')) {
-                                        tmsApp.printErrorMsg(asyncResponse.errors);
-                                        return
-                                    }
-                                    setTimeout(function () {
-                                        tmsApp.systemError(
-                                            'eToll Card onboarding',
-                                            asyncResponse['message'],
-                                            function () {
-                                            }, 'error');
-                                    }, 300);
-                                }
-                            },
-                            function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
-                                setTimeout(function () {
-                                    if ('responseJSON' in xhr) {
-                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                        }
-                                        if (xhr.responseJSON.hasOwnProperty('message')) {
-                                            tmsApp.systemError(
-                                                'eToll Card onboarding',
-                                                xhr.responseJSON['message']
-                                            );
-                                        }
-                                        return;
-                                    }
-
-                                    tmsApp.systemError(
-                                        'Odometer Log Entry',
-                                        'We could not complete processing your request, please try again later');
-                                }, 300)
-                            }
-                        )
-                    },
-                    function () {
-                    }
-                );
-            });
-
-            $('.ui_datepicker').datepicker({
-                maxDate: new Date(),
-                dateFormat: 'dd/mm/yy',
-            });
-
-            $(document).on('click', '#vehicleSearchBtn', function () {
-                if (!document.querySelector('#vehicleRegistration').value || document.querySelector('#vehicleRegistration') < 8) {
-                    return;
-                }
-                // removeSubmissionAndDetailsOptions();
-                findVehicle();
-            });
-
-            $(document).on('keyup paste enter', '#vehicleRegistration', function () {
-                if (!this.value || this.value.replace('_', '').length < 8) {
-                    return;
-                }
-                setTimeout(function () {
-                    // removeSubmissionAndDetailsOptions();
-                    findVehicle();
-                }, 300);
-            });
 
             function populateVehicleDetails(payload) {
                 let vehicle = payload['vehicle'];
@@ -709,6 +594,131 @@
                 )
             }
 
+            function deleteTableRow(eventSource) {
+
+                let btnEl = $(eventSource);
+                let tableRow = btnEl.closest('tr');
+
+                tmsApp.confirm(
+                    "Are you sure ?",
+                    "The data entered on this line will be cleared out, " +
+                    "if not saved already, you will not be able to recover it",
+                    "Yes",
+                    "No",
+                    function () {
+                        $(tableRow).remove();
+                    });
+            }
+
+            Inputmask({
+                "mask": "99/9999"
+            }).mask("#expiryDate");
+
+            tmsApp.appFormValidator('form[name="newOdometerLogForm"]',
+                {},
+                {}
+            );
+
+            $(document).off('click', 'button[value="addRow"][data-table-id]')
+                .on('click', 'button[value="addRow"][data-table-id]', function () {
+                    let tableId = $(this).data('tableId');
+                    addTableRow(tableId);
+                });
+
+            $(document).on('click', 'button[value="deleteRow"]', function (e) {
+                deleteTableRow(this);
+                return false;
+            });
+
+            $(document).on('click', "#submitDataBtn", function () {
+                let $form = document.forms['newOdometerLogForm'];
+                if (!$($form).valid()) {
+                    return;
+                }
+
+                $('.print-error-msg').css('display', 'none');
+                let formData = new FormData($form);
+                tmsApp.confirm(
+                    'Odometer Log Entry',
+                    'Are you sure you want to onboard the data ?',
+                    'Yes',
+                    'No',
+                    function () {
+                        window.top.tmsApp.asyncPostFormData(
+                            $form.action,
+                            formData,
+                            function (asyncResponse) {
+
+                                if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'eToll Card Saved',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'eToll Card onboarding',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                }
+                            },
+                            function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'eToll Card onboarding',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
+
+                                    tmsApp.systemError(
+                                        'Odometer Log Entry',
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
+                            }
+                        )
+                    },
+                    function () {
+                    }
+                );
+            });
+
+            $(document).on('click', '#vehicleSearchBtn', function () {
+                if (!document.querySelector('#vehicleRegistration').value || document.querySelector('#vehicleRegistration') < 8) {
+                    return;
+                }
+                // removeSubmissionAndDetailsOptions();
+                findVehicle();
+            });
+
+            $(document).on('keyup paste enter', '#vehicleRegistration', function () {
+                if (!this.value || this.value.replace('_', '').length < 8) {
+                    return;
+                }
+                setTimeout(function () {
+                    // removeSubmissionAndDetailsOptions();
+                    findVehicle();
+                }, 300);
+            });
 
         })(window.tmsApp, jQuery);
 
