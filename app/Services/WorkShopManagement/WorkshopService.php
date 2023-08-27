@@ -152,13 +152,13 @@ class WorkshopService
     public function createJobCardAccessories(Request $request): void
     {
         DB::beginTransaction();
-        $job_card_voucher = $request->get("job_card_voucher");
-        $reference_number = $request->get("workshop_reference");
+        $jobCardVoucher = $request->get("job_card_voucher");
+        $referenceNumber = $request->get("workshop_reference");
         $comment = $request->get("accessoriesRemarks");
         $accessoryNames = Accessory::where("status", "=", StatusHelper::active())
             ->get();
         $user = auth()->user();
-        Log::info("Saving Accessories on " . $job_card_voucher);
+        Log::info("Saving Accessories on " . $jobCardVoucher);
 
         foreach ($accessoryNames as $accessoryName) {
             $accessoryCode = $accessoryName->code;
@@ -167,8 +167,8 @@ class WorkshopService
 
             WorkShopVehicleAccessory::updateOrCreate(
                 [
-                    "job_card_no" => trim($job_card_voucher),
-                    "workshop_reference" => trim($reference_number),
+                    "job_card_no" => trim($jobCardVoucher),
+                    "workshop_reference" => trim($referenceNumber),
                     "code" => trim($accessoryCode),
                 ],
                 [
@@ -188,7 +188,7 @@ class WorkshopService
                 $request,
                 "attachment",
                 "Assessment",
-                $reference_number,
+                $referenceNumber,
                 "Observations",
                 "Observations",
                 $user
@@ -199,7 +199,9 @@ class WorkshopService
         if ($request->has('observation')) {
             for ($key = 0; $key < sizeof($request->observation); $key++) {
                 Log::info(($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : "No More Attachments");
-                $toSave[] = array('observation' => $request->observation[$key], 'file' => ($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : null);
+                $toSave[] = array(
+                    'observation' => $request->observation[$key],
+                    'file' => ($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : null);
             }
         }
 
@@ -497,8 +499,6 @@ class WorkshopService
 
     public function saveJobCardWorkReassignments(JobCardTaskReassignment $request): JsonResponse
     {
-        $user = Auth::user();
-
         $recordId = $request->get("reassignmentReference");
         $assignmentRecord = WorkshopLabour::where("id", "=", $recordId)->first();
         $recordBefore = $assignmentRecord->toArray();

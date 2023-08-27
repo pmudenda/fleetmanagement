@@ -1081,7 +1081,7 @@ class WorkshopRequisitionService
             ->whereNull("mat.IND")
             ->where("mat.evaluation", '=', "Y")
             ->select(
-                "WM_WORKSHOP_MATERIALS.*",
+                "mat.*",
                 "$articles.description as article_specification"
             )->get();
     }
