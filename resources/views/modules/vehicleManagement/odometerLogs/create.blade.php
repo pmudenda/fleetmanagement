@@ -36,11 +36,12 @@
                             <div class="row">
                                 <div class="col-6">
                                     <fieldset style="" class="form-group border p-3">
-                                        {{-- <legend class="text-bold">General Information:</legend>--}}
-                                        <table class="app_form_table table">
+                                        <table aria-label="Trip Entry Logs"
+                                               role="none"
+                                               class="app_form_table table">
                                             <tr>
                                                 <td>
-                                                    <label class="app-field-label field-required">
+                                                    <label for="vehicleRegistration" class="app-field-label field-required">
                                                         Reg No.
                                                     </label>
                                                 </td>
@@ -72,9 +73,11 @@
                                                 <td>
                                                     <select name="machineryType"
                                                             class="form-select form-select-sm">
-                                                        <option selected value="MV">VEHICLE</option>
-                                                        {{--<option value="PLANT EQUIPMENT">PLANT EQUIPMENT</option>
-                                                        <option value="BOAT">BOAT</option>--}}
+                                                        <option selected value=""></option>
+                                                        @foreach($registrationTypes as $registrationType)
+                                                            <option value="{{$registrationType->code}}">{{$registrationType->name}}</option>
+                                                        @endforeach
+
                                                     </select>
                                                 </td>
                                             </tr>
@@ -123,7 +126,8 @@
                                                 <div class="input-group">
                                                     <input
                                                         type="date"
-                                                        name="dateFrom"
+                                                        name="periodFrom"
+                                                        id="periodFrom"
                                                         max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                                         class="form-control form-control-sm"/>
                                                     <div class="input-group-append">
@@ -137,7 +141,8 @@
                                                 <div class="input-group">
                                                     <input
                                                         max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                        name="dateTo"
+                                                        id="periodTo"
+                                                        name="periodTo"
                                                         type="date"
                                                         class="form-control form-control-sm "/>
                                                     <div class="input-group-append">
@@ -152,7 +157,6 @@
                                 </div>
                                 <div class="col-6">
                                     <fieldset style="" class="form-group border p-3">
-                                        {{-- <legend class="text-bold">Odometer Information:</legend>--}}
                                         <table class="app_form_table table" id="vehicleTable">
                                             <tr>
                                                 <td>

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\VehicleManagement;
 
+use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\Factory;
+use App\Models\Settings\GeneralTable;
 use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
 class MeterEntryController extends Controller
@@ -21,9 +21,13 @@ class MeterEntryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function create(): View
     {
-        return view('modules.vehicleManagement.odometerLogs.create');
+        $registrationTypes = GeneralTable::where('type', ConfigurationTypes::REGISTRATION_CLASS)
+            ->where('active', '=', "1")
+            ->get();
+        return view('modules.vehicleManagement.odometerLogs.create')
+            ->with(compact('registrationTypes'));
     }
 
     /**
