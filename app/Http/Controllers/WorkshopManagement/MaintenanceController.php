@@ -1352,6 +1352,7 @@ class MaintenanceController extends Controller
             foreach ($materials as $material) {
                 Log::debug("Attaching Article :" . $material->material_code);
                 $materialHeader = MaterialHeader::where('req_no', '=', $material->req_no)->first();
+
                 Log::debug("Item Type :" . $materialHeader->item_type);
 
                 switch ($materialHeader->item_type) {

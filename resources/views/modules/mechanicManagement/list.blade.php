@@ -76,7 +76,7 @@
                                                 {{++$key}}
                                             </td>
                                             <td>
-                                                @if(!empty($user->avatar))
+                                                @if(!empty($mechanic->avatar))
                                                     <img class="profile-user-img img-fluid img-circle border-0"
                                                          width="100%"
                                                          src='{{ asset("storage/user_avatar/$mechanic->avatar")}}'
@@ -93,10 +93,10 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                {{$user->name}}
+                                                {{$mechanic->name}}
                                             </td>
                                             <td>
-                                                {{$user->staff_no ?? '--'}}
+                                                {{$mechanic->staff_no ?? '--'}}
                                             </td>
 
                                             <td>
@@ -121,7 +121,7 @@
                                             </td>
                                             {{--   @can(config('rights.user_show'))--}}
                                             <td>
-                                                <a href="{{URL::signedRoute('mechanic.show',$mechanic->id)}}"
+                                                <a href="{{URL::signedRoute('mechanic.show', $mechanic->id)}}"
                                                    class="btn btn-sm btn-success m-1">
                                                     <i class="fas fa-eye">Details</i>
                                                 </a>

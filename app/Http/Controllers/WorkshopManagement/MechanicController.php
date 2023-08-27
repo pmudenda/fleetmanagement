@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class MechanicController extends Controller
@@ -21,7 +22,12 @@ class MechanicController extends Controller
      */
     public function list(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $mechanics = Mechanic::get();
+        $mechanics = DB::table('wm_mechanics mec')
+            ->leftJoin('config_workshop wkshp', 'mec.workshop_code')
+            ->select(
+                'mec.*',
+                'wkshp.name as workshop_name'
+            )->get();
         return view('modules.mechanicManagement.list')
             ->with(compact('mechanics'));
     }
