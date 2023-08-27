@@ -2141,8 +2141,6 @@
                 ) {
                     $(formElements).find("tbody").children().map(function (index, row) {
                         let obj = {};
-                        /*$('#part8').find("tbody").children().map(function (index, row) {*/
-
                         if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
                             console.log("Record with " + $(row).attr('data-record-id'));
                         } else {

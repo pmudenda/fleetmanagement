@@ -407,7 +407,6 @@
                                                 </td>
                                                 <td>
                                                     <input
-                                                        readonly
                                                         name="authorisedBy"
                                                         type="text"
                                                         class="form-control form-control-sm"/>
@@ -422,7 +421,6 @@
                                                 </td>
                                                 <td>
                                                     <input
-                                                        readonly
                                                         name="driver"
                                                         type="text"
                                                         class="form-control form-control-sm"/>
@@ -637,22 +635,69 @@
                 }
 
                 $('.print-error-msg').css('display', 'none');
-                let formData = new FormData($form);
+                // let formData = new FormData($form);
+
+                let formData = {};
+
+                let arr = [];
+                let obj = {};
+
+                $("#logsTable").find("tbody").children().map(function (index, row) {
+                    let obj = {};
+                    $(row).find('input[name][type!=hidden], select[name],textarea[name]')
+                        .each(function (i, item) {
+                            let val = item.value.replace(/,/g, '');
+
+                            if (item.name === 'endDate'
+                                || item.name === 'startDate'
+                                || item.name === 'invoiceDate') {
+                                let dateField = val;
+                                dateField = DateFormatter.format(new Date(
+                                        moment(val, 'DD/MM/yyyy')),
+                                    DateFormatter.ISO);
+
+                                obj[item.name] = dateField;
+                            } else {
+                                obj[item.name] = item.value;
+                            }
+                        });
+                    arr.push(obj);
+                });
+
+                $($form).find('input[name], select[name]').each(function (i, item) {
+                    if (item.type === 'radio') {
+                        obj[item.name] = $('[name="' + item.name + '"]:checked').val();
+                    } else {
+                        obj[item.name] = item.value;
+                    }
+                });
+
+                formData['items'] = arr;
+
+                formData = {
+                    ...obj,
+                    ...formData
+                }
+
                 tmsApp.confirm(
-                    'Odometer Log Entry',
-                    'Are you sure you want to onboard the data ?',
+                    'Trip Entry Log',
+                    'Are you sure you want to submit the data ?',
                     'Yes',
                     'No',
                     function () {
-                        window.top.tmsApp.asyncPostFormData(
-                            $form.action,
-                            formData,
-                            function (asyncResponse) {
+                        $.ajax({
+                            type: "POST",
+                            url: $form.action,
+                            data: JSON.stringify(formData),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                        })
+                            .done(function (asyncResponse) {
 
                                 if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
-                                            'eToll Card Saved',
+                                            'Trip Entry Log',
                                             asyncResponse['message'],
                                             function () {
                                                 window.location.reload();
@@ -667,14 +712,14 @@
                                     }
                                     setTimeout(function () {
                                         tmsApp.systemError(
-                                            'eToll Card onboarding',
+                                            'Trip Entry Log',
                                             asyncResponse['message'],
                                             function () {
                                             }, 'error');
                                     }, 300);
                                 }
-                            },
-                            function (xhr, settings, errorThrown) {
+                            })
+                            .fail(function (xhr, settings, errorThrown) {
                                 console.log(errorThrown)
                                 setTimeout(function () {
                                     if ('responseJSON' in xhr) {
@@ -683,7 +728,7 @@
                                         }
                                         if (xhr.responseJSON.hasOwnProperty('message')) {
                                             tmsApp.systemError(
-                                                'eToll Card onboarding',
+                                                'Trip Entry Log',
                                                 xhr.responseJSON['message']
                                             );
                                         }
@@ -691,11 +736,10 @@
                                     }
 
                                     tmsApp.systemError(
-                                        'Odometer Log Entry',
+                                        'Trip Entry Log',
                                         'We could not complete processing your request, please try again later');
                                 }, 300)
-                            }
-                        )
+                            });
                     },
                     function () {
                     }
