@@ -80,11 +80,11 @@
                         <div class="card-body box-profile">
                             <div class="text-center">
                                 <a href="#">
-                                    @if(!empty($user->avatar))
+                                    @if(!empty($mechanic->avatar))
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
-                                             src="{{ asset('storage/user_avatar/' . $user->avatar) }}"
+                                             src="{{ asset('storage/user_avatar/' . $mechanic->avatar) }}"
                                              alt="Image not found"
-                                             @if( Auth::user()->id==$user->id)
+                                             @if( Auth::user()->id==$mechanic->id)
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"
@@ -94,7 +94,7 @@
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
                                              src="{{ asset('assets/media/avatars/avatar.png') }}"
                                              alt="Image not found"
-                                             @if( Auth::user()->id==$user->id)
+                                             @if( Auth::user()->id==$mechanic->id)
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"
@@ -104,25 +104,25 @@
                                 </a>
                             </div>
 
-                            <h3 class="profile-username text-center">{{ $user->name }}</h3>
+                            <h3 class="profile-username text-center">{{ $mechanic->name }}</h3>
 
-                            <p class="text-muted text-center">{{ $user->job_title ?? 'Position' }}</p>
+                            <p class="text-muted text-center">{{ $mechanic->job_title ?? 'Position' }}</p>
 
-                            <p class="text-muted text-center">{{ $user->man_no ?? '' }}</p>
+                            <p class="text-muted text-center">{{ $mechanic->man_no ?? '' }}</p>
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
-                                    <b>Man Number</b> <a class="float-right">{{ $user->staff_no }}</a>
+                                    <b>Man Number</b> <a class="float-right">{{ $mechanic->staff_no }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>NRC</b> <a class="float-right">{{ $user->nrc }}</a>
+                                    <b>NRC</b> <a class="float-right">{{ $mechanic->nrc }}</a>
                                 </li>
                                 {{-- @endif --}}
                                 <li class="list-group-item">
-                                    <b>Phone</b> <a class="float-right">{{ $user->mobile_no }}</a>
+                                    <b>Phone</b> <a class="float-right">{{ $mechanic->mobile_no }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Extension</b> <a class="float-right">{{ $user->phone ?? '' }}</a>
+                                    <b>Extension</b> <a class="float-right">{{ $mechanic->phone ?? '' }}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>
@@ -136,16 +136,16 @@
                                 </li>
                                 <li class="list-group-item">
                                     <b>Email</b>
-                                    <a class="float-right">{{ $user->email }}</a>
+                                    <a class="float-right">{{ $mechanic->email ?? '' }}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Status</b> <a class="float-right">
-                                        @if($user->con_st_code == '01')
+                                        @if($mechanic->status == '01')
                                             <span class="badge badge-success p-2">
                                                 Active
                                             </span>
                                         @else
-                                            {{$user->con_st_code ?? '--'}}
+                                            {{$mechanic->status ?? '--'}}
                                         @endif
                                     </a>
                                 </li>
@@ -154,7 +154,7 @@
                                     <b>Total Logins</b>
                                     <a class="float-right">
                                        <span class="badge badge-success p-2">
-                                             {{ $user->total_logins }}
+                                             {{ $mechanic->total_logins ?? '' }}
                                        </span>
                                     </a>
                                 </li>
@@ -206,23 +206,6 @@
                                     </a>
                                 </li>
 
-                                {{--<li class="card-title">
-                                    <a class="nav-link" href="#userInfoUpdate" data-toggle="tab">
-                                        Settings
-                                    </a>
-                                </li>--}}
-
-                                {{--<li class="card-title">
-                                    <a class="nav-link " href="#units" data-toggle="tab">
-                                        My User-Units
-                                    </a>
-                                </li>
-                                <li class="card-title">
-                                    <a class="nav-link " href="#workflow" data-toggle="tab">
-                                        My Work-flow
-                                    </a>
-                                </li>--}}
-
                                 <li class="card-title">
                                     <a class="nav-link" href="#pass_reset" data-toggle="tab">
                                         Password Reset
@@ -236,11 +219,11 @@
 
                                 <div class="active tab-pane" id="activity">
                                     <!-- Post -->
-                                    @include('modules.userManagement.userProfileTabs.userDetailsSummary')
+                                    {{--@include('modules.userManagement.userProfileTabs.userDetailsSummary')--}}
                                 </div>
 
                                 <div class="tab-pane" id="userInfoUpdate">
-                                    @include('modules.userManagement.userProfileTabs.details')
+                                    {{--@include('modules.userManagement.userProfileTabs.details')--}}
                                 </div>
 
                                 {{--
@@ -253,7 +236,7 @@
                                 </div>
                                 --}}
                                 <div class="tab-pane" id="pass_reset">
-                                    @include('modules.userManagement.userProfileTabs.passwordReset')
+                                    {{--@include('modules.userManagement.userProfileTabs.passwordReset')--}}
                                 </div>
                             </div>
                         </div>
