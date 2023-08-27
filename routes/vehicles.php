@@ -15,13 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth', 'prefix' => 'v1/en'], function (): void {
 
-    Route::resource('vehicle/brands', 'ConfigVehicleBrandsController', [
-        'names' => [
-            'get' => 'brands.get',
-            'store' => 'brands.save',
-            'destroy' => 'brands.delete',
-        ]
-    ]);
+    Route::group(['prefix' => 'vehicle/brands', 'as' => 'brands'], function () {
+        Route::get('', [ConfigVehicleBrandsController::class, 'get'])->name('get');
+        Route::post('', [ConfigVehicleBrandsController::class, 'store'])->name('save');
+        Route::delete('', [ConfigVehicleBrandsController::class, 'destroy'])->name('delete');
+    });
+
 
     Route::resource('vehicle/models', VehicleModelsController::class, [
         'names' => [
