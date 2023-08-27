@@ -79,9 +79,9 @@ return new class extends Migration {
                                 UPDATE vm_vehicle_header
                                 SET MILEAGE = :NEW.ODOMETER
                                 WHERE trim(REGISTRATION_NUMBER)= trim(:OLD.REG_NO);
-                                END;
-                                /
-                                ALTER TRIGGER "TR_FUEL_ODOMETER_UPDATE" ENABLE;
+                                END;');
+
+        /*DB::unprepared('ALTER TRIGGER "TR_FUEL_ODOMETER_UPDATE" ENABLE;
 
                                 GRANT UPDATE ON "FUEL_MANAGEMENT" TO "ORAFINANCE";
 
@@ -101,7 +101,7 @@ return new class extends Migration {
 
                                 GRANT SELECT ON "FUEL_MANAGEMENT" TO "SPMS";
 
-GRANT INSERT ON "FUEL_MANAGEMENT" TO "SPMS";');
+                                GRANT INSERT ON "FUEL_MANAGEMENT" TO "SPMS";');*/
     }
 
     /**

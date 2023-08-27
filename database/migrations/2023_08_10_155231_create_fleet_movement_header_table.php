@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
@@ -48,6 +49,64 @@ return new class extends Migration {
             $table->string('machine_type', 20);
             $table->timestamps();
         });
+
+        DB::unprepared("CREATE OR REPLACE TRIGGER TR_ODOMETER_UPDATE AFTER
+                            UPDATE OF odometer_end ON vm_fleet_movement_header
+                            FOR EACH ROW
+                        DECLARE
+                            ln_count NUMBER;
+                        BEGIN
+                            SELECT
+                                COUNT(*)
+                            INTO ln_count
+                            FROM
+                                vm_vehicle_header
+                            WHERE
+                                registration_number = :old.reg_no;
+
+                            IF ln_count > 0 THEN
+                                UPDATE vm_vehicle_header
+                                SET
+                                    mileage = :new.odometer_end
+                                WHERE
+                                    registration_number = :old.reg_no;
+
+                            END IF;
+
+                        EXCEPTION
+                            WHEN OTHERS THEN
+                                raise_application_error(-20010, 'Error TR_ODOMETER_UPDATE:  Oracle code:  '
+                                                                || to_char(sqlcode)
+                                                                || ' Error description : '
+                                                                || sqlerrm);
+                        END;"
+        );
+
+        DB::unprepared("CREATE OR REPLACE TRIGGER tr_odometer_insert AFTER
+                        INSERT ON vm_fleet_movement_header
+                        FOR EACH ROW
+                    DECLARE
+                        ln_count        NUMBER;
+                        ln_old_milleage NUMBER;
+                    BEGIN
+                        SELECT
+                            COUNT(*)
+                        INTO ln_count
+                        FROM
+                            vm_vehicle_header
+                        WHERE
+                            registration_number = :new.reg_no;
+
+                        IF ln_count > 0 THEN
+                            UPDATE vm_vehicle_header
+                            SET
+                                mileage = :new.odometer_end
+                            WHERE
+                                registration_number = :new.reg_no;
+
+                        END IF;
+                    END;"
+        );
     }
 
     /**
