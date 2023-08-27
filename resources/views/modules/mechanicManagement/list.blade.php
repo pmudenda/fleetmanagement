@@ -12,8 +12,8 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'Driver List'" :activeCrumb="'Drivers'" :link="'home'"
-                      :linkText="'Drivers'"/>
+    <x-content-header :pageTitle="'Mechanics List'" :activeCrumb="'Mechanic'" :link="'home'"
+                      :linkText="'Mechanics'"/>
 
     <!-- Main content -->
     <section class="content">
@@ -27,7 +27,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <h4>Driver Management</h4>
+                                <h4>Mechanic Management</h4>
                             </div>
                             <div class="card-toolbar justify-content-end">
                                 <!--begin::Filter-->
@@ -44,9 +44,9 @@
                                     Filter
                                 </button>
                                 @can(config('rights.user_create'))
-                                    <a href="{{route('driver.create')}}" class="btn btn-sm btn-success float-right">
+                                    <a href="{{route('mechanic.create')}}" class="btn btn-sm btn-success float-right">
                                         <i class="fas fa-user-plus"></i>
-                                        Onboard Driver
+                                        Add Mechanic
                                     </a>
                                 @endcan
                             </div>
@@ -71,7 +71,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($users as $key => $user)
+                                    @foreach($mechanics as $key => $user)
                                         <tr>
                                             <td>
                                                 {{++$key}}

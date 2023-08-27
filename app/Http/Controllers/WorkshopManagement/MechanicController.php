@@ -21,7 +21,9 @@ class MechanicController extends Controller
      */
     public function list(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        return view('modules.mechanicManagement.list');
+        $mechanics = Mechanic::get();
+        return view('modules.mechanicManagement.list')
+            ->with(compact('mechanics'));
     }
 
     public function find(Request $request): JsonResponse

@@ -77,14 +77,16 @@ class WorkshopRequisitionService
     /**
      * @throws FuelRequisitionException|WorkflowTaskCreationFailedException|VehicleStateException|MaterialReservationException
      */
-    public function processJobCardMaterialRequisition(WorkshopRequisitionRequest $requisitionPostRequest): JsonResponse
+    public function processJobCardMaterialRequisition(
+        WorkshopRequisitionRequest $requisitionPostRequest
+    ): JsonResponse
     {
         Log::info("Creating Workshop Material Request");
 
         DB::beginTransaction();
 
-        $valid_to = Carbon::parse($requisitionPostRequest->get("date_expected")) ?? Carbon::now()->addDays(7);
-        $valid_from = Carbon::now();
+        $dateExpected = Carbon::parse($requisitionPostRequest->get("date_expected")) ?? Carbon::now()->addDays(7);
+        $validFrom = Carbon::now();
         $registrationNumber = $requisitionPostRequest->get('vehicle_registration');
 
         /********************************************** Save Data **************************************/
@@ -186,8 +188,8 @@ class WorkshopRequisitionService
                 "purchase_office" => $requisitionPostRequest->get("purchase_office"),
                 "store" => $storeCode,
                 "supplier_code" => $requisitionPostRequest->supplier,
-                "valid_date_from" => $valid_from,
-                "valid_date_to" => $valid_to,
+                "valid_date_from" => $validFrom,
+                "valid_date_to" => $dateExpected,
                 "comments" => $requisitionPostRequest->remarks,
                 "cost_assigned_to" => "CostCenter",
                 "is_fuel" => "N",
@@ -1062,21 +1064,22 @@ class WorkshopRequisitionService
         $articles = config("tables.table_names.articles");
         return DB::table("WM_JOB_CARD_HEADER")
             ->join(
-                "WM_WORKSHOP_MATERIALS",
+                "WM_WORKSHOP_MATERIALS mat",
                 "WM_JOB_CARD_HEADER.WSHP_ACT_CODE",
                 "=",
-                "WM_WORKSHOP_MATERIALS.WSHP_ACT_CODE"
+                "mat.WSHP_ACT_CODE"
             )
             ->leftJoin(
                 "$articles",
-                "WM_WORKSHOP_MATERIALS.MAT_CODE",
+                "mat.MAT_CODE",
                 "=",
                 "$articles.CODE_ARTICLE")
             ->where(
                 "WM_JOB_CARD_HEADER.JOB_CARD_NO",
                 "=",
                 $jobCardNumber)
-            ->whereNull("WM_WORKSHOP_MATERIALS.IND")
+            ->whereNull("mat.IND")
+            ->where("mat.evaluation", '=', "Y")
             ->select(
                 "WM_WORKSHOP_MATERIALS.*",
                 "$articles.description as article_specification"
@@ -1111,6 +1114,7 @@ class WorkshopRequisitionService
             ->where("wshp_act_code", "=", $workShopActCode)
             ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")
             ->where(DB::raw("substr(services.mat_code, 0, 2)"), '=', '40')
+            ->where("services.evaluation", '=', "Y")
             ->select(
                 "services.*",
                 "$articles.description as article_specification"
