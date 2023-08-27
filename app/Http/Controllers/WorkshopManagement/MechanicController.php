@@ -28,7 +28,7 @@ class MechanicController extends Controller
                 '=',
                 'wkshp.workshop_code')
             ->leftJoin('config_general_tables wkshp_sec', function ($join) {
-                $join->on('mec.sec_code', '=', 'wkshp_sec.code')
+                $join->on('mec.section_code', '=', 'wkshp_sec.code')
                     ->where('wkshp_sec.type', '=', 'WORK_SHOP_SEC');
             })
             ->select(
