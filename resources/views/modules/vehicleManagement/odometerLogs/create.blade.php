@@ -507,9 +507,6 @@
                 "mask": "99/9999"
             }).mask("#expiryDate");
 
-            Inputmask({
-                "mask": "A{2,3} 9{1,4}"
-            }).mask("#vehicleRegistration");
 
             tmsApp.appFormValidator('form[name="newOdometerLogForm"]',
                 {},
@@ -760,7 +757,12 @@
                 }
             },
 
-            mounted() {},
+            mounted() {
+                Inputmask({
+                    "mask": "A{2,3} 9{1,4}"
+                }).mask("#vehicleRegistration");
+
+            },
 
             methods: {}
         });
