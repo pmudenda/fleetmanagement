@@ -103,10 +103,19 @@
                                                 {{$mechanic->workshop_name ?? '--'}}
                                             </td>
                                             <td>
-                                                {{'--'}}
+                                                {{$mechanic->wkshp_section_name}}
                                             </td>
                                             <td>
-                                                {{'--'}}
+                                                @if(!empty($mechanic->is_supervisor))
+                                                    <span class="badge badge-success p-2">
+                                                        YES
+                                                    </span>
+                                                @else
+                                                    <span class="badge badge-success p-2">
+                                                        NO
+                                                    </span>
+                                                @endif
+
                                             </td>
                                             <td>
                                                 @if($mechanic->status == '01')

@@ -23,9 +23,17 @@ class MechanicController extends Controller
     public function list(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         $mechanics = DB::table('wm_mechanics mec')
-            ->leftJoin('config_workshop wkshp', 'mec.workshop_code', '=', 'wkshp.workshop_code')
+            ->leftJoin('config_workshop wkshp',
+                'mec.workshop_code',
+                '=',
+                'wkshp.workshop_code')
+            ->leftJoin('config_general_tables wkshp_sec', function ($join) {
+                $join->on('wkshp_sec', 'mec.sec_code', '=', 'wkshp.workshop_code')
+                    ->where('wkshp_sec.type', '=', 'WORK_SHOP_SEC');
+            })
             ->select(
                 'mec.*',
+                'wkshp_sec.name as wkshp_section_name',
                 'wkshp.workshop_name'
             )->get();
         return view('modules.mechanicManagement.list')
@@ -66,53 +74,5 @@ class MechanicController extends Controller
                 'payload' => []
             ]);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
