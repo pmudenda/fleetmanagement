@@ -23,7 +23,7 @@ class MechanicController extends Controller
     public function list(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         $mechanics = DB::table('wm_mechanics mec')
-            ->leftJoin('config_workshop wkshp', 'mec.workshop_code')
+            ->leftJoin('config_workshop wkshp', 'mec.workshop_code', '=', 'wkshp.code')
             ->select(
                 'mec.*',
                 'wkshp.name as workshop_name'
