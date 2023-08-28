@@ -1445,7 +1445,7 @@
                                                                     </select>
                                                                     @if($services && $services->isNotEmpty())
                                                                         <input type="hidden" class="form-control"
-                                                                               value="{{$services[0]->supplier_code}}">
+                                                                               value="{{$services[0]->supp_code}}">
                                                                     @endif
                                                                 </div>
                                                             </div>

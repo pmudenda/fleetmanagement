@@ -34,9 +34,9 @@
 @section('content')
 
     <x-content-header
-        :activeCrumb="'New Job Card'"
-        :linkText="'Job Card'"
-        :pageTitle="'Workshop Management'"/>
+            :activeCrumb="'New Job Card'"
+            :linkText="'Job Card'"
+            :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -288,11 +288,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                    required
-                                                    id="acceptance"
-                                                    name="acceptance"
-                                                    type="checkbox"
-                                                    class="checkbox">
+                                                        required
+                                                        id="acceptance"
+                                                        name="acceptance"
+                                                        type="checkbox"
+                                                        class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -338,11 +338,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <i class="fa fa-pencil-square-o"></i> Task Reassignment
+                        <i class="fa fa-pencil-square-o"></i>
+                        Task Reassignment
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
                 <form action="{{route('save.job.reassignment')}}" name="saveReassignmentForm">
                     <input type="hidden" name="reassignmentReference" value="">
                     <input type="hidden" name="reassignmentDefect" value="">
@@ -386,7 +386,7 @@
                                         <option></option>
                                         @foreach($workshop_sections as $workshop_section)
                                             <option
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -1988,20 +1988,11 @@
                             const documentStatus = $documentStatusCtl.val()
                             const newDocumentStatus = $('[name="newDocumentStatus"]').attr('data-value');
 
-                            if (
-                                documentStatus === newDocumentStatus
-                                || documentStatus === null
-                                || documentStatus === ""
-                                || documentStatus === 'undefined'
-                            ) {
-                                //populateVehicleDetails(response.payload, "");
-                                //$($row).find('[name="hoursWorked"]').attr('readonly', false);
-                                //$($row).find('[name="shiftType"]').attr('disabled', false);
-                            }
-
                             $($row).find('[name="mechanicName"]').val(response?.payload['mechanic'].name);
                             $($row).find('[name="postCode"]').val(response?.payload['employee']['job_code']);
-                            $($row).find('[name="workshopSection"]').val(response?.payload['mechanic']['section_code']).change();
+                            $($row).find('[name="workshopSection"]')
+                                .val(response?.payload['mechanic']['section_code'])
+                                .change();
                         } else {
                             //removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(
@@ -2040,11 +2031,6 @@
                         width: "resolve"
                     });
                 }
-
-                /*let workshop = document.querySelector('select[name="workshop"]');
-                if (!workshop.hasAttribute('data-select2-id="workshop"')) {
-                    $(workshop).select2({"disabled": true});
-                }*/
 
                 $('select[name="repairType"]').attr("disabled", true);
                 $('[name="vehicleSearchBtn"]').attr("disabled", true);
@@ -2426,14 +2412,18 @@
                     }
                 }
 
-                let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+                let vLabel = vehicle['body_type_name'] + ' '
+                    + vehicle['brand_name']
+                    + ' ' + vehicle['model_name']
+                    + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
 
                 $('[name="current_odometer"]').val(vehicle['mileage']);
 
                 let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
                                <tr>
-                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
+                                    <th>Model</th>
+                                    <td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
                                </tr>
                                <tr style="">
                                      <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
@@ -2531,7 +2521,9 @@
                         let optionListStr = '';
                         if (Array.isArray(response.payload)) {
                             response.payload.forEach(function (item) {
-                                optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} => ${item.name}</option>`;
+                                optionListStr += `<option value="${item['con_per_no']}">
+                                                    ${item['con_per_no']} => ${item.name}
+                                                  </option>`;
                             })
 
                             $('#employee_list').html(optionListStr);
@@ -2557,36 +2549,59 @@
                         // set value in footer
                         $('#quantityTotal').text(tmsApp.getRawNumber(summaryTotalQty));
 
-                        let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=unit_price]").val());
-                        $(element).closest("tr").find("input[name=total_price]").val(lineAmountTotal).change();
-                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
+                        let lineAmountTotal = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr")
+                                .find("input[name=unit_price]").val());
+
+                        $(element).closest("tr").find("input[name=total_price]")
+                            .val(lineAmountTotal).change();
+                        $(element).closest("tr").find("#total_price")
+                            .text(tmsApp.numberFormat(lineAmountTotal));
                         break;
                     case 'service_quantity':
                         let serviceSummaryTotalQty = 0;
-                        $(element).closest("table").find("input[name=service_quantity]").each(function (i, it) {
-                            serviceSummaryTotalQty += Util.getFloat(it.value);
-                        });
+                        $(element).closest("table").find("input[name=service_quantity]")
+                            .each(function (i, it) {
+                                serviceSummaryTotalQty += Util.getFloat(it.value);
+                            });
 
                         // set value in footer
                         $('#serviceQuantityTotal').text(tmsApp.getRawNumber(serviceSummaryTotalQty));
 
-                        let serviceLineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_unit_price]").val());
-                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceLineAmountTotal);//.change();
-                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(serviceLineAmountTotal));
+                        let serviceLineAmountTotal = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr")
+                                .find("input[name=service_unit_price]")
+                                .val());
+                        $(element).closest("tr").find("input[name=service_total_price]")
+                            .val(serviceLineAmountTotal);
+                        $(element).closest("tr").find("#total_price")
+                            .text(tmsApp.numberFormat(serviceLineAmountTotal));
                         break;
 
                     case 'unit_price':
                         // line total = new material price multiplied by quantity value
-                        let totalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=quantity]").val());
-                        $(element).closest("tr").find("input[name=total_price]").val(totalAmount).change();
-                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(totalAmount));
+                        let totalAmount = tmsApp.getFloat(element.value) *
+                            tmsApp.getFloat($(element).closest("tr")
+                                .find("input[name=quantity]")
+                                .val());
+                        $(element).closest("tr").find("input[name=total_price]")
+                            .val(totalAmount).change();
+                        $(element).closest("tr").find("#total_price")
+                            .text(tmsApp.numberFormat(totalAmount));
                         break;
 
                     case 'service_unit_price':
-                        let serviceTotalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_quantity]").val());
+                        let serviceTotalAmount = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element)
+                                .closest("tr")
+                                .find("input[name=service_quantity]")
+                                .val());
+
                         $(element).closest("tr").find("input[name=service_quantity]").change();
-                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceTotalAmount).change();
-                        $(element).closest("tr").find("#service_total_price").text(tmsApp.numberFormat(serviceTotalAmount));
+                        $(element).closest("tr").find("input[name=service_total_price]")
+                            .val(serviceTotalAmount).change();
+                        $(element).closest("tr").find("#service_total_price")
+                            .text(tmsApp.numberFormat(serviceTotalAmount));
                         break;
 
                     case 'total_price':
@@ -2608,18 +2623,19 @@
                         break;
                     case 'imprestItemQty':
                         let imprestSummaryTotalQty = 0;
-                        $(element).closest("table").find("input[name=imprestItemQty]").each(function (i, it) {
-                            imprestSummaryTotalQty += Util.getFloat(it.value);
-                        });
-
-                        // set value in footer
-                        // $('#serviceQuantityTotal').text(tmsApp.getRawNumber(imprestSummaryTotalQty));
+                        $(element).closest("table").find("input[name=imprestItemQty]")
+                            .each(function (i, it) {
+                                imprestSummaryTotalQty += Util.getFloat(it.value);
+                            });
 
                         let imprestLineAmountTotal = tmsApp.getFloat(element.value)
-                            * tmsApp.getFloat($(element).closest("tr").find("input[name=imprestItemUnitPrice]").val());
-                        $(element).closest("tr").find("input[name=imprestItemTotalPrice]").val(tmsApp.formatMoney(imprestLineAmountTotal, 2));//.change();
+                            * tmsApp.getFloat($(element).closest("tr")
+                                .find("input[name=imprestItemUnitPrice]")
+                                .val());
+                        $(element).closest("tr")
+                            .find("input[name=imprestItemTotalPrice]")
+                            .val(tmsApp.formatMoney(imprestLineAmountTotal, 2));
 
-                        // $(element).closest("tr").find("#imprestItemTotalPrice").text(tmsApp.numberFormat(imprestLineAmountTotal));
 
                         const inps = document.getElementsByName('imprestItemTotalPrice');
                         let total = 0;
@@ -2833,30 +2849,6 @@
 
                 let $articleSelectElement = $table.find(".imprestArticles");
                 reinitializeSelect2($articleSelectElement)
-
-                /*const rowCount = table.rows.length;
-                const row = table.insertRow(rowCount);
-
-                const colCount = table.rows[0].cells.length;
-
-                for (let i = 0; i < colCount; i++) {
-
-                    const newCell = row.insertCell(i);
-
-                    newCell.innerHTML = table.rows[0].cells[i].innerHTML;
-
-                    switch (newCell.childNodes[0].type) {
-                        case "text":
-                            newCell.childNodes[0].value = "";
-                            break;
-                        case "checkbox":
-                            newCell.childNodes[0].checked = false;
-                            break;
-                        case "select-one":
-                            newCell.childNodes[0].selectedIndex = 0;
-                            break;
-                    }
-                }*/
             }
 
             function insertTableRow(tableId) {
