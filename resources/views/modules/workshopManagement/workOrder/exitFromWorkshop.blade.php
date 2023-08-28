@@ -1498,7 +1498,8 @@
                                                     <table id="services_table"
                                                            aria-label="Materials On Job Card"
                                                            data-model-name="ServicesHeader"
-                                                           class="table dataTable table-row-dashed align-middle gs-0 nowrap">
+                                                           class="table dataTable
+                                                           table-row-dashed align-middle gs-0 nowrap">
                                                         <thead>
                                                         <tr class="bg-success-subtle">
                                                             <th style="width: 6%;" class="pl-2">Reg. No</th>
@@ -1521,7 +1522,8 @@
                                                                                 name="vehicle_registration"
                                                                                 required
                                                                                 value="{{$details->reg_no ?? ''}}"
-                                                                                class="form-control form-control-sm vehicle_registration"/>
+                                                                                class="form-control form-control-sm
+                                                                                vehicle_registration"/>
                                                                     </td>
                                                                     <td>
                                                                         <select
@@ -1529,7 +1531,8 @@
                                                                                 required
                                                                                 value="{{$service->material_code ?? ''}}"
                                                                                 data-value="{{$service->material_code ?? ''}}"
-                                                                                class="form-control form-control-sm servicesArticlesDropDownList">
+                                                                                class="form-control form-control-sm
+                                                                                servicesArticlesDropDownList">
                                                                             <option
                                                                                     value="{{$service->material_code ?? ''}}">
 
@@ -1542,14 +1545,16 @@
                                                                                 required
                                                                                 value="{{$service->material_code ?? ''}}"
                                                                                 readonly
-                                                                                class="form-control form-control-sm serviceArticleCode"/>
+                                                                                class="form-control form-control-sm
+                                                                                serviceArticleCode"/>
                                                                     </td>
                                                                     <td>
                                                                         <input
                                                                                 name="service_technical_specification"
                                                                                 required
                                                                                 value="{{$service->specification ?? ''}}"
-                                                                                class="form-control form-control-sm service_technical_specification"/>
+                                                                                class="form-control form-control-sm
+                                                                                service_technical_specification"/>
                                                                     </td>
 
                                                                     <td>
@@ -1561,7 +1566,8 @@
                                                                                 max="1"
                                                                                 name="service_quantity"
                                                                                 required
-                                                                                class="form-control form-control-sm service_quantity number_input"/>
+                                                                                class="form-control form-control-sm
+                                                                                service_quantity number_input"/>
                                                                     </td>
 
                                                                     <td>
@@ -1569,21 +1575,24 @@
                                                                                 name="service_unit_of_measure"
                                                                                 required
                                                                                 readonly
-                                                                                class="form-control form-control-sm unit_of_measure"/>
+                                                                                class="form-control form-control-sm
+                                                                                unit_of_measure"/>
                                                                     </td>
 
                                                                     <td>
                                                                         <input name="service_unit_price"
                                                                                required
                                                                                readonly
-                                                                               class="form-control form-control-sm service_unit_price"/>
+                                                                               class="form-control form-control-sm
+                                                                               service_unit_price"/>
                                                                     </td>
 
                                                                     <td>
                                                                         <input name="service_total_price"
                                                                                required
                                                                                readonly
-                                                                               class="form-control form-control-sm service_total_price"/>
+                                                                               class="form-control form-control-sm
+                                                                               service_total_price"/>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -1619,7 +1628,8 @@
                                                 @if(!empty($comments) && !empty($comments->where('type','=','SREQ')->first()))
                                                     <div class="form-group">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                class="col-xs-12 col-sm-6
+                                                                col-md-5 col-lg-4 pl-0 field-required"
                                                                 for="remarks">
                                                             Comments <small>Will be used as justification for
                                                                 Requisition</small>:
@@ -1633,7 +1643,8 @@
                                                                       readonly
                                                                       name="service_comments"
                                                                       style="height: 129px;"
-                                                                      class="form-control comments form-control-sm">{{$comments->where('type','=','SREQ')->first()->remarks ??''}}</textarea>
+                                                                      class="form-control
+                                                                      comments form-control-sm">{{$comments->where('type','=','SREQ')->first()->remarks ??''}}</textarea>
                                                         </div>
                                                     </div>
                                                 @endif

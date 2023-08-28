@@ -22,17 +22,17 @@
                 @foreach($labour as $labourItem)
                     <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
-                            {{$labourItem->defect_name}}
+                            <input class="form-control form-control-sm"
+                                   readonly
+                            value="{{$labourItem->defect_name}}"/>
                             <input name="assignedDefectId"
                                    type="text"
                                    style="display: none;"
-                                   required
                                    value="{{$labourItem->defect_id}}"
                                    class="form-control-sm defect"/>
                             <input name="assignedDefect"
                                    type="text"
                                    style="display: none;"
-                                   required
                                    value="{{$labourItem->def_no}}"
                                    data-value="{{$labourItem->def_no}}"
                                    class="form-control-sm defect"/>
