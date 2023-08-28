@@ -341,32 +341,6 @@
                                                     {{--{{ $user->supervisor_code ?? '' }}--}}
                                                 </p>
                                             </div>
-
-                                            @if(!empty($user_acting->acting_date_from))
-                                                <div class="col-lg-6 col-sm-12">
-                                                    <p class="text-muted">
-                                                        <strong>Acting Period :</strong>
-                                                        {{ Carbon\Carbon::parse($user_acting->acting_date_from ?? '0')->format('d-M-Y') ?? '' }}
-                                                        To
-                                                        {{ Carbon\Carbon::parse($user_acting->acting_date_to ?? '0')->format('d-M-Y') ?? ('' ?? '') }}
-                                                    </p>
-                                                    <p class="text-muted">
-                                                        <b>Acting Grade:</b>
-                                                        {{ $user_acting->grade->name ?? '' }}
-                                                    </p>
-                                                    <p class="text-muted">
-                                                        <b>Acting Category:</b>
-                                                        {{ $user_acting->grade->category->name ?? '' }}
-                                                    </p>
-                                                    <p class="text-muted">
-                                                        <b>
-                                                            Acting
-                                                            Position:
-                                                        </b>
-                                                        {{ $user_acting->acting_position ?? '' }}
-                                                    </p>
-                                                </div>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
