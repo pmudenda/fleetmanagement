@@ -1594,6 +1594,12 @@ class MaintenanceController extends Controller
             );
         } catch (Exception $e) {
             Log::error($e);
+            return response()->json(
+                [
+                    'state' => 'failure',
+                    'payload' => $request->all()
+                ]
+            );
         }
     }
 
