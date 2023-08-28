@@ -201,7 +201,7 @@
                                         </tr>
 
                                         <tr>
-                                            <td class="pl-5">
+                                            <td>
                                                 <label class="app-field-label" data-field="specificlocationofia">
                                                     Expiry Date <span class="text-danger">*</span>
                                                 </label>
