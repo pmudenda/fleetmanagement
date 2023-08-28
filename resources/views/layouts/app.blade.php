@@ -784,7 +784,8 @@
                             'User Session Started Successfully',
                             function () {
                                 window.location.reload()
-                            }
+                            },
+                            'success'
                         )
 
                     } else {
