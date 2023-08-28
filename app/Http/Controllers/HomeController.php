@@ -27,7 +27,8 @@ class HomeController extends Controller
         Log::info("Logging Off The System" . $user->staff_no);
         session()->pull('simulating', false);
         Auth::logout();
-        return redirect('/login')->with(['msg_body' => 'Signing out!']);
+        return redirect('/login')
+            ->with(['msg_body' => 'Signing out!']);
     }
 
     public function dashboard(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application

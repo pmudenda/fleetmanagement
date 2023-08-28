@@ -1535,19 +1535,20 @@ class MaintenanceController extends Controller
             $imprestReferenceNumber = DocumentNumberGenerationService::generateReferenceNumber(
                 WorkflowModules::IMPREST_BUY
             );
-            $formModel = ImprestBuyHeader::firstOrCreate(
+
+            DB::beginTransaction();
+            ImprestBuyHeader::firstOrCreate(
                 [
                     'projects_id' => $request->projects_id,
                 ],
                 [
-                    'imprest_reference'=> $imprestReferenceNumber,
+                    'imprest_reference' => $imprestReferenceNumber,
                     'cost_center' => $user->cc_code,
                     'business_unit_code' => $user->bc_code,
                     'work_order_number' => $request->get('imprestProjectNumber'),
                     'total_payment' => $request->total_payment,
-                    'code' => $pettyCashSystemReference,
+                    //'code' => $pettyCashSystemReference,
                     'zqms_ref_no' => $request->get('imprestZQMSReference'),
-                    //'external_ref_no' => $request->get('imprestZQMSReference'),
                     'status' => StatusHelper::new(),
                     'name' => $user->name,
                     'staff_no' => $user->staff_no,
@@ -1558,29 +1559,33 @@ class MaintenanceController extends Controller
             foreach ($request->get('items') as $item) {
                 ImprestBuyDetail::create(
                     [
-                        'name' => $item[''],
-
                         'header_reference' => $imprestReferenceNumber,
-                        'vehicle_registration',
-                        'material_code',
-                        'description',
-                        'specification',
-                        'quantity',
-                        'unit_of_measure',
-                        'unit_price',
-                        'total_price',
+                        'vehicle_registration' => $item['imprestVehicleRegistration'],
+                        'material_code' => $item['imprestArticleCode'],
+                        'description' => $item['imprestArticleDescription'],
+                        'specification' => $item['imprestArticleDescription'],
+                        'quantity' => $item['imprestItemQty'],
+                        'unit_of_measure' => $item['imprestItemUnitOfMeasure'],
+                        'unit_price' => $item['imprestItemUnitPrice'],
+                        'total_price' => $item['imprestItemTotalPrice'],
                         'created_by' => $user->staff_no
                     ]
                 );
             }
 
+            DB::commit();
+
             $eformsPettyCashUrl = config('systeminfo.petty_cash_url');
             Log::info("Posting Data To $eformsPettyCashUrl");
 
-            Http::asForm()->post(
+            $httpResponse = Http::asForm()->post(
                 $eformsPettyCashUrl,
                 $request
             );
+
+            Log::info("Logging Response From Petty Cash System");
+            Log::info($httpResponse);
+
             return response()->json(
                 [
                     'state' => 'success',
