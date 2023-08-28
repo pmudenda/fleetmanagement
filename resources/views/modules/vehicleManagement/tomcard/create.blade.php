@@ -61,7 +61,7 @@
                                 <fieldset style="" class="form-group border p-3">
                                     <legend>General Information:</legend>
                                    <div class="row">
-                                       <div class="col-6 col-sm-12">
+                                       <div class="col-6">
                                            <div class="row">
                                                <div class="col" data-id="table-td">
                                                    <label class="app-field-label">
@@ -188,7 +188,7 @@
                                                </div>
                                            </div>
                                        </div>
-                                       <div class="col-3 col-sm-12">
+                                       <div class="col-3">
                                            <div id="vehicleDetailsContainer" style="display: none;"
                                                 class="col-xs-12 col-sm-12 col-md-12">
                                                {{--<h1>Vehicle Details</h1>
