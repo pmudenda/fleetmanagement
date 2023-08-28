@@ -14,9 +14,9 @@ return new class extends Migration {
             $table->id();
             $table->string("created_by")->nullable();
             $table->string("simulator", 20);
-            $table->date("simulated");
-            $table->date("simulate_start");
-            $table->date("simulate_end")->nullable();
+            $table->string("simulated", 20);
+            $table->timestamp("simulate_start");
+            $table->timestamp("simulate_end")->nullable();
             $table->string("comments", 1000);
             $table->timestamps();
         });
