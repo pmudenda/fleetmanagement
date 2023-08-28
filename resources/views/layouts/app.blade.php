@@ -397,7 +397,7 @@
                     </h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="{{route('save.job.reassignment')}}" name="saveReassignmentForm">
+                <form action="{{route('start.user.simulation')}}" name="startUserSimulationForm">
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div class="row">
@@ -425,10 +425,14 @@
                     </div>
 
                     <div class="modal-footer justify-content-end">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <button type="button"
-                                class="btn btn-sm btn-success"
-                                value="applyFilter"> Apply Filter
+                                class="btn btn-default"
+                                data-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                class="btn btn-sm btn-success">
+                            Submit
                         </button>
                     </div>
                 </form>
