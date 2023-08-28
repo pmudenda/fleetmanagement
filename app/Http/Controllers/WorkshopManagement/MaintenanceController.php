@@ -1499,7 +1499,7 @@ class MaintenanceController extends Controller
 
         $observation = AssessmentObservation::where("reference", "=", $details->wshp_act_code)->get();
 
-        $pettyCashItems = collect([]);
+        $pettyCashItems = $this->workshopRequisitionService->getPettyCashItems($reference);
 
         $materials = $materials->merge($nonStock);
 

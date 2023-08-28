@@ -1216,42 +1216,46 @@ class WorkshopRequisitionService
 
     /**
      * @param mixed $articles
-     * @param mixed $item_type_code
-     * @param string $item_type
-     * @param $service_article
+     * @param mixed $itemTypeCode
+     * @param string $itemType
+     * @param $serviceArticle
      * @param mixed $registrationNumber
      * @return void
      * @throws MaterialReservationException
      */
     public function validateSelectedServiceArticles(
         mixed  $articles,
-        mixed  $item_type_code,
-        string $item_type,
-               $service_article,
+        mixed  $itemTypeCode,
+        string $itemType,
+               $serviceArticle,
         mixed  $registrationNumber): void
     {
         $query = DB::table("$articles");
-        if ($item_type_code == RequisitionItemTypes::SERVICE_ITEM_CODE) {
-            $query->where(function ($q) use ($item_type, $articles) {
+        if ($itemTypeCode == RequisitionItemTypes::SERVICE_ITEM_CODE) {
+            $query->where(function ($q) use ($itemType, $articles) {
                 $q->where("$articles.code_group", "=", "41")
                     ->where("$articles.code_subgroup", "=", "02");
             });
         }
 
-        $count = $query->where("code_article", "=", $service_article)
+        $count = $query->where("code_article", "=", $serviceArticle)
             ->where("status", "=", "11")
             ->count();
 
         if ($count == 0) {
             $message = "Article @articleCode is not a @itemType";
-            $articleType = $item_type == RequisitionItemTypes::STOCK_ITEM
-                ? "Stock Item"
-                : ($item_type == RequisitionItemTypes::NON_STOCK_ITEM
-                    ? "Non Stock Item " : "Service");
+
+            if ($itemType == RequisitionItemTypes::STOCK_ITEM) {
+                $articleType = "Stock Item ";
+            } elseif ($itemType == RequisitionItemTypes::NON_STOCK_ITEM) {
+                $articleType = "Non Stock Item ";
+            } else {
+                $articleType = "Service ";
+            }
 
             throw new MaterialReservationException(
                 str_replace("@itemType", $articleType,
-                    str_replace("@articleCode", $service_article, $message)
+                    str_replace("@articleCode", $serviceArticle, $message)
                 )
             );
         }
@@ -1261,7 +1265,7 @@ class WorkshopRequisitionService
                 "gen_material_headers.req_no",
                 "=",
                 "gen_material_details.req_no")
-            ->where("gen_material_details.material_code", "=", $service_article)
+            ->where("gen_material_details.material_code", "=", $serviceArticle)
             ->where("gen_material_details.reg_no", "=", $registrationNumber)
             ->whereIn("gen_material_headers.status", [
                 StatusHelper::new(),
@@ -1275,7 +1279,7 @@ class WorkshopRequisitionService
             throw new MaterialReservationException(
                 str_replace("@req_no", $activeRequests->req_no,
                     str_replace("@reg", $registrationNumber,
-                        str_replace("@articleCode", $service_article, $message)
+                        str_replace("@articleCode", $serviceArticle, $message)
                     ))
             );
         }
@@ -1295,7 +1299,7 @@ class WorkshopRequisitionService
     public function createTaskForWorkShopSupervisor(SubmitJobCardToSupervisor $request): JsonResponse
     {
         DB::beginTransaction();
-        $process_code = WorkflowProcessCodes::WorkOrderOpened->value;
+        $processCode = WorkflowProcessCodes::WorkOrderOpened->value;
         $user = auth()->user();
 
         $jobCardNo = $request->get('job_card_number');
@@ -1320,7 +1324,7 @@ class WorkshopRequisitionService
 
         $this->workflowService->initiateWorkflowProcess(
             $workshopReference,
-            (int)$process_code,
+            (int)$processCode,
             WorkflowActions::submit(),
             $comments,
             $user,
@@ -1339,5 +1343,23 @@ class WorkshopRequisitionService
             "message" => "Job Card Assignment Task Generated For $supervisor->name (Workshop Supervisor)",
             "redirectUrl" => URL::signedRoute("workOrder.list"),
         ]);
+    }
+
+    public function getPettyCashItems($reference): Collection
+    {
+        return DB::table("wm_imprest_buy_headers head")
+            ->join(
+                "wm_imprest_buy_details det",
+                "head.imprest_reference",
+                "=",
+                "det.header_reference"
+            )
+            ->where(
+                "head.work_order_number",
+                "=",
+                $reference)
+            ->select(
+                "det.*",
+            )->get();
     }
 }
