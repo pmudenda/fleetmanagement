@@ -423,12 +423,29 @@
                         <div class="row">
                             <div class="form-group">
                                 <label class="app-field-label">
+                                    Name
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text"
+                                       required
+                                       readonly
+                                       id="userNameIdentifier"
+                                       class="form-control form-control-sm"
+                                       name="userNameIdentifier"
+                                />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="app-field-label">
                                     Justification
                                 </label>
                                 <textarea
                                         id="simulationJustification"
                                         style="height: 129px;"
                                         required
+                                        minlength="20"
+                                        maxlength="255"
                                         class="form-control comments form-control-sm"
                                         name="simulationJustification"></textarea>
                             </div>
@@ -619,6 +636,10 @@
             this.value = this.value.toUpperCase();
         });
 
+        $(document).on('keyup', '[name="simulationJustification"]', function (event) {
+            this.value = this.value.toUpperCase();
+        });
+
         $(document).on("click", 'button[value="documentFollowUpFilter"]', function (event) {
             const form = document.querySelector('form[name="documentFollowUpForm"]');
             const formData = new FormData(form);
@@ -704,8 +725,8 @@
                     .then(response => {
                         console.log(response);
                         if (response.success === 'true' || response.success === true) {
-
-
+                            const name = response.payload?.name;
+                            $('#userNameIdentifier').val(name);
                         } else {
                             tmsApp.systemError(
                                 'User Verification',
@@ -740,10 +761,12 @@
         });
 
         $(document).on('submit', '[name="startUserSimulationForm"]', function (e) {
+            if (!$(this).valid()) {
+                return;
+            }
             e.preventDefault();
             e.stopPropagation();
             let formData = new FormData(this);
-            const postUrl = $('form[name="tms_user_definition"]').attr('data-action');
 
             tmsApp.asyncPostFormData(
                 this.action,
@@ -751,17 +774,31 @@
                 function (response_data) {
                     if (response_data.success === 'true' || response_data.success === true) {
                         if (response_data['payload'].length === 0) {
-                            tmsApp.systemError('', 'No User Found with provided staff number');
+                            tmsApp.systemError(
+                                'User Simulation',
+                                'Could Not Start User Simulation'
+                            );
                         }
-                        populateEmployeeDetails(response_data['payload']);
+                        tmsApp.showSystemMessage(
+                            'User Simulation',
+                            'User Session Started Successfully',
+                            function () {
+                                window.location.reload()
+                            }
+                        )
+
                     } else {
                         tmsApp.play_alert('sound-error');
-                        tmsApp.systemError('', 'No User Found, Check your input and try again');
+                        tmsApp.systemError('User Simulation',
+                            'Could Not Start User Simulation');
                     }
                 },
                 function (xhr, settings, errorThrown) {
+                    tmsApp.play_alert('sound-error');
                     console.log(xhr);
-                    tmsApp.systemError('', 'We could not complete processing your request, please try again later')
+                    tmsApp.systemError(
+                        'User Simulation',
+                        'We could not complete processing your request, please try again later')
                 }
             );
         });
