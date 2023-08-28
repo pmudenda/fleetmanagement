@@ -257,12 +257,12 @@
 
             $(document).on('change', '#vehicleRegistration', function () {
                 function getVehicleDetails() {
-                    const numberPlate = document.querySelector('#vehicle_registration').value
+                    const numberPlate = document.querySelector('#vehicleRegistration').value
                     let formData = new FormData();
                     formData.append('vehicle_registration', numberPlate);
 
                     tmsApp.asyncGetFormData(
-                        $('#vehicle_registration').attr('data-action') + '?vehicle_registration=' + numberPlate,
+                        $('#vehicleRegistration').attr('data-action') + '?vehicle_registration=' + numberPlate,
                         formData,
                         function (response_data) {
                             if (response_data.success === 'true' || response_data.success === true) {
