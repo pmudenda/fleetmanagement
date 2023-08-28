@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class FuelAllocation extends Model
 {
     use SoftDeletes;
-
     protected $table = 'vm_fuel_allocations';
     protected $fillable = [
         'created_by',
