@@ -24,19 +24,24 @@ class UserSimulationController extends Controller
     public function start(Request $request): JsonResponse
     {
         try {
+
             $staffNumber = $request->get('userIdentifier');
             $user = User::where('staff_no', '=', $staffNumber)->first();
+
             if (empty($user)) {
                 throw new UserNotFoundException("User To Simulate Could Not Be Found");
             }
+
             DB::commit();
             $simulationJustification = $request->get('simulationJustification');
             $activeSimulations = Simulation::where('simulated', '=', $staffNumber)
                 ->whereNull('simulate_end')
                 ->count();
+
             if ($activeSimulations > 0) {
                 throw new UserSimulationException("User Is Already Being Simulated");
             }
+
             Simulation::create([
                 "created_by" => Auth::user()->staff_no,
                 "simulator" => Auth::user()->staff_no,
@@ -44,6 +49,7 @@ class UserSimulationController extends Controller
                 "simulate_start" => Carbon::now(),
                 "comments" => $simulationJustification,
             ]);
+
             session(['simulating' => true]);
             Auth::loginUsingId($user->id);
             DB::commit();
@@ -71,7 +77,9 @@ class UserSimulationController extends Controller
     {
         try {
             $simulatedUser = Auth::user();
-            $activeSimulation = Simulation::where('simulated', '=', $simulatedUser->staff_no)
+            $activeSimulation = Simulation::where('simulated',
+                '=',
+                $simulatedUser->staff_no)
                 ->whereNull('simulate_end')
                 ->first();
             if (empty($activeSimulation)) {

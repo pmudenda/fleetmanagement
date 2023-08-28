@@ -13,9 +13,7 @@ use App\Exceptions\MaterialReservationException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Models\MaterialHeader;
 use App\Models\Workflow\WorkflowTaskHeader;
-use App\Models\WorkShopManagement\JobCardHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
@@ -25,7 +23,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -198,15 +195,21 @@ class WorkflowController extends Controller
             if ($nextStepId == 100 && $action == WorkflowActions::approve()) {
                 switch ($requisitionDetail->item_type) {
                     case RequisitionItemTypes::SERVICE:
-                        $purchaseProcessNumber = $this->workshopRequisitionService->createWorkshopServicePurchaseProcess($request->get('reference'));
+                        $purchaseProcessNumber = $this->workshopRequisitionService
+                            ->createWorkshopServicePurchaseProcess(
+                                $request->get('reference'));
                         $message = $message . ' Purchase Process No.: ' . $purchaseProcessNumber;
                         break;
                     case RequisitionItemTypes::NON_STOCK_ITEM:
-                        $purchaseProcessNumber = $this->workshopRequisitionService->createWorkshopNonStockPurchaseProcess($request->get('reference'));
+                        $purchaseProcessNumber = $this->workshopRequisitionService
+                            ->createWorkshopNonStockPurchaseProcess(
+                                $request->get('reference'));
                         $message = $message . ' Purchase Process No.: ' . $purchaseProcessNumber;
                         break;
                     case RequisitionItemTypes::STOCK_ITEM:
-                        $reservationNumber = $this->workshopRequisitionService->createWorkshopMaterialStoresReservation($request->get('reference'));
+                        $reservationNumber = $this->workshopRequisitionService
+                            ->createWorkshopMaterialStoresReservation(
+                                $request->get('reference'));
                         $message = $message . ' Stores Reservation No.: ' . $reservationNumber;
                         break;
                     default:
@@ -214,7 +217,6 @@ class WorkflowController extends Controller
                 }
 
                 $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
-                $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, StatusHelper::authorised());
             } elseif ($nextStepId == 100 && $action == WorkflowActions::reject()) {
                 $this->workshopRequisitionService->updateStatus($reference, StatusHelper::rejected());
                 $message = 'Request Rejected';
@@ -225,7 +227,6 @@ class WorkflowController extends Controller
                     $status = StatusHelper::partiallyAuthorised();
                 }
                 $this->workshopRequisitionService->updateStatus($reference, $status);
-                $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, $status);
             }
 
             DB::commit();
@@ -238,7 +239,8 @@ class WorkflowController extends Controller
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
-            if ($e instanceof FuelRequisitionException || $e instanceof WorkflowTaskCreationFailedException) {
+            if ($e instanceof FuelRequisitionException
+                || $e instanceof WorkflowTaskCreationFailedException) {
                 $message = $e->getMessage();
             }
 

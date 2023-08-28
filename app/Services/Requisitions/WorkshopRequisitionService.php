@@ -12,6 +12,7 @@ use App\Enums\WorkflowProcessCodes;
 use App\Events\JobCardCreated;
 use App\Events\RequisitionRaised;
 use App\Exceptions\FuelRequisitionException;
+use App\Exceptions\InvalidArticleType;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -1056,10 +1057,9 @@ class WorkshopRequisitionService
 
     /**
      * @param mixed $jobCardNumber
-     * @param $workShopActCode
      * @return Collection
      */
-    public function getWorkShopRequisitionItems(mixed $jobCardNumber, $workShopActCode): Collection
+    public function getWorkShopRequisitionItems(mixed $jobCardNumber): Collection
     {
         $articles = config("tables.table_names.articles");
         return DB::table("WM_JOB_CARD_HEADER")
@@ -1109,7 +1109,7 @@ class WorkshopRequisitionService
     public function getWorkShopRequisitionNonStockItems(mixed $workShopActCode): Collection
     {
         $articles = config("tables.table_names.articles");
-        Log::debug('Loading Materials For Workshop Code' . $workShopActCode);
+        Log::debug('Loading Materials For Workshop Code ' . $workShopActCode);
         return DB::table('WM_WORKSHOP_SERVICES services')
             ->where("wshp_act_code", "=", $workShopActCode)
             ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")
@@ -1137,81 +1137,46 @@ class WorkshopRequisitionService
     }
 
     /**
-     * @param mixed $item_type_code
+     * @param mixed $itemTypeCode
      * @param Builder $query
-     * @param string $item_type
+     * @param string $itemType
      * @param mixed $articles
      * @param $articleCode
      * @param mixed $registrationNumber
      * @return void
      * @throws MaterialReservationException
+     * @throws InvalidArticleType
      */
-    public function checkArticleGroup(mixed $item_type_code, Builder $query, string $item_type, mixed $articles, $articleCode, mixed $registrationNumber): void
+    public function checkArticleGroup(mixed   $itemTypeCode,
+                                      Builder $query,
+                                      string  $itemType,
+                                      mixed   $articles, $articleCode,
+                                      mixed   $registrationNumber): void
     {
-        switch ($item_type_code) {
+        switch ($itemTypeCode) {
             case RequisitionItemTypes::STOCK_ITEM_CODE:
-                $query->where(function ($q) use ($item_type, $articles) {
+                $query->where(function ($q) use ($articles) {
                     $q->whereIn("$articles.code_group",
                         ["01", "04", "30"]);
                 });
 
                 break;
             case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
-                $query->where(function ($q) use ($item_type, $articles) {
+                $query->where(function ($q) use ($articles) {
                     $q->where("$articles.code_group", "=", "40");
                 });
 
                 break;
             case RequisitionItemTypes::SERVICE_ITEM_CODE:
-                $query->where(function ($q) use ($item_type, $articles) {
+                $query->where(function ($q) use ($articles) {
                     $q->where("$articles.code_group", "=", "41");
                 });
-
                 break;
+            default:
+                throw new InvalidArticleType("Invalid Article Type");
         }
 
-        $count = $query
-            ->where("code_article", "=", $articleCode)
-            ->where("status", "=", "11")
-            ->count();
-
-        // article not found in the item type class
-        if ($count == 0) {
-            $message = "Article @articleCode is not a @itemType";
-            $articleType = $item_type == RequisitionItemTypes::STOCK_ITEM
-                ? "Stock Item"
-                : ($item_type == RequisitionItemTypes::NON_STOCK_ITEM
-                    ? "Non Stock Item " : "Service");
-
-            throw new MaterialReservationException(
-                str_replace("@itemType", $articleType,
-                    str_replace("@articleCode", $articleCode, $message)
-                )
-            );
-        }
-
-        $activeRequests = DB::table("gen_material_headers")->join("gen_material_details",
-            "gen_material_headers.req_no",
-            "=",
-            "gen_material_details.req_no")
-            ->where("gen_material_details.material_code", "=", $articleCode)
-            ->where("gen_material_details.reg_no", "=", $registrationNumber)
-            ->whereIn("gen_material_headers.status", [
-                StatusHelper::new(),
-                StatusHelper::authorised(),
-                StatusHelper::partiallyReleased()
-            ])->select("gen_material_headers.*")
-            ->first();
-
-        if (!empty($activeRequests)) {
-            $message = "Article @articleCode is already on requisition/reservation @req_no for Vehicle @reg";
-            throw new MaterialReservationException(
-                str_replace("@req_no", $activeRequests->req_no,
-                    str_replace("@reg", $registrationNumber,
-                        str_replace("@articleCode", $articleCode, $message)
-                    ))
-            );
-        }
+        $this->checkArticleType($query, $articleCode, $itemType, $registrationNumber);
     }
 
     /**
@@ -1232,65 +1197,13 @@ class WorkshopRequisitionService
     {
         $query = DB::table("$articles");
         if ($itemTypeCode == RequisitionItemTypes::SERVICE_ITEM_CODE) {
-            $query->where(function ($q) use ($itemType, $articles) {
+            $query->where(function ($q) use ($articles) {
                 $q->where("$articles.code_group", "=", "41")
                     ->where("$articles.code_subgroup", "=", "02");
             });
         }
 
-        $count = $query->where("code_article", "=", $serviceArticle)
-            ->where("status", "=", "11")
-            ->count();
-
-        if ($count == 0) {
-            $message = "Article @articleCode is not a @itemType";
-
-            if ($itemType == RequisitionItemTypes::STOCK_ITEM) {
-                $articleType = "Stock Item ";
-            } elseif ($itemType == RequisitionItemTypes::NON_STOCK_ITEM) {
-                $articleType = "Non Stock Item ";
-            } else {
-                $articleType = "Service ";
-            }
-
-            throw new MaterialReservationException(
-                str_replace("@itemType", $articleType,
-                    str_replace("@articleCode", $serviceArticle, $message)
-                )
-            );
-        }
-
-        $activeRequests = DB::table("gen_material_headers")
-            ->join("gen_material_details",
-                "gen_material_headers.req_no",
-                "=",
-                "gen_material_details.req_no")
-            ->where("gen_material_details.material_code", "=", $serviceArticle)
-            ->where("gen_material_details.reg_no", "=", $registrationNumber)
-            ->whereIn("gen_material_headers.status", [
-                StatusHelper::new(),
-                StatusHelper::authorised(),
-                StatusHelper::partiallyReleased()
-            ])->select("gen_material_headers.*")
-            ->first();
-
-        if (!empty($activeRequests)) {
-            $message = "Article @articleCode is already on requisition/reservation @req_no for Vehicle @reg";
-            throw new MaterialReservationException(
-                str_replace("@req_no", $activeRequests->req_no,
-                    str_replace("@reg", $registrationNumber,
-                        str_replace("@articleCode", $serviceArticle, $message)
-                    ))
-            );
-        }
-    }
-
-    public function updateMaterialHeaderStatus(mixed $reference, string $status)
-    {
-        /*DB::beginTransaction();
-        MaterialHeader::where("req_no", $reference)
-            ->update(["status" => $status]);
-        DB::commit();*/
+        $this->checkArticleType($query, $serviceArticle, $itemType, $registrationNumber);
     }
 
     /**
@@ -1361,5 +1274,63 @@ class WorkshopRequisitionService
             ->select(
                 "det.*",
             )->get();
+    }
+
+    /**
+     * @param Builder $query
+     * @param $articleCode
+     * @param string $itemType
+     * @param mixed $registrationNumber
+     * @return void
+     * @throws MaterialReservationException
+     */
+    public function checkArticleType(Builder $query, $articleCode, string $itemType, mixed $registrationNumber): void
+    {
+        $count = $query
+            ->where("code_article", "=", $articleCode)
+            ->where("status", "=", "11")
+            ->count();
+
+        // article not found in the item type class
+        if ($count == 0) {
+            $message = "Article @articleCode is not a @itemType";
+            if ($itemType == RequisitionItemTypes::STOCK_ITEM) {
+                $articleType = "Stock Item ";
+            } elseif ($itemType == RequisitionItemTypes::NON_STOCK_ITEM) {
+                $articleType = "Non Stock Item ";
+            } else {
+                $articleType = "Service ";
+            }
+
+            throw new MaterialReservationException(
+                str_replace("@itemType", $articleType,
+                    str_replace("@articleCode", $articleCode, $message)
+                )
+            );
+        }
+
+        $activeRequests = DB::table("gen_material_headers")
+            ->join("gen_material_details",
+                "gen_material_headers.req_no",
+                "=",
+                "gen_material_details.req_no")
+            ->where("gen_material_details.material_code", "=", $articleCode)
+            ->where("gen_material_details.reg_no", "=", $registrationNumber)
+            ->whereIn("gen_material_headers.status", [
+                StatusHelper::new(),
+                StatusHelper::authorised(),
+                StatusHelper::partiallyReleased()
+            ])->select("gen_material_headers.*")
+            ->first();
+
+        if (!empty($activeRequests)) {
+            $message = "Article @articleCode is already on requisition/reservation @req_no for Vehicle @reg";
+            throw new MaterialReservationException(
+                str_replace("@req_no", $activeRequests->req_no,
+                    str_replace("@reg", $registrationNumber,
+                        str_replace("@articleCode", $articleCode, $message)
+                    ))
+            );
+        }
     }
 }

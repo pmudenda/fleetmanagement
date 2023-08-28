@@ -1491,7 +1491,7 @@ class MaintenanceController extends Controller
         $materialsHeader = WorkShopMaterialHeader::where("job_card_no", "=", $reference)->first();
 
         $materials = $this->workshopRequisitionService
-            ->getWorkShopRequisitionItems($reference, $details->wshp_act_code);
+            ->getWorkShopRequisitionItems($reference);
 
         $services = $this->workshopRequisitionService->getWorkShopRequisitionServiceItems($details->wshp_act_code);
 
