@@ -261,46 +261,6 @@
                                         </tr>
                                     </table>
                                 </fieldset>
-
-                                <!--Attachments FieldsSets-->
-
-                                <fieldset style="margin-top:10px;" class="form-group border p-3">
-                                    <legend>Attachments:</legend>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6">
-                                            <div class="app-field-input">
-                                                <input type="file" id="supportingDocument" name="supportingDocument"
-                                                       class="form-control"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-3">
-                                            <div class="row pl-2 d-none">
-                                                <div class="app-field-input" data-field="iaclassification">
-                                                    <button type="button" id="btn_link" name="btnExternalLink"
-                                                            class="btn btn-secondary toolbarButtonClick">
-                                                        External Link <i class="fa fa-paperclip"></i>
-                                                    </button>
-                                                    <input type="hidden" name="externalLink" class="form-control"/>
-                                                    <input type="hidden" name="externalLinkDescription"
-                                                           class="form-control"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-3">
-                                            <div class="row pl-2 d-none">
-                                                <div class="app-field-input" data-field="associateRecord">
-                                                    <button type="button"
-                                                            data-bs-toggle="modal"
-                                                            data-="" id="btn_reference"
-                                                            class="btn btn-secondary toolbarButtonClick">
-                                                        Associate Record <i class="fa fa-history"></i>
-                                                    </button>
-                                                    <input type="hidden" name="internalLink" class="form-control"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
                             </form>
                         </div>
                     </div>
