@@ -48,7 +48,7 @@
                 <a href="#"
                    data-action="EndSimulation"
                    class="nav-link">
-                    <i class="fas fa-sign-out"></i>
+                    <i class="fas fa-sign-out-alt mr-2"></i>
                     End Simulation
                 </a>
             </li>
@@ -57,7 +57,9 @@
                 <a href="#"
                    data-toggle="modal"
                    data-target="#modalSimulateUser"
-                   class="nav-link">Simulator User {{session('simulating')}}</a>
+                   class="nav-link"><i class="fas fa-user mr-2"></i>
+                    Simulator User
+                </a>
             </li>
         @endif
     </ul>
