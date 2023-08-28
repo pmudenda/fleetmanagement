@@ -32,19 +32,20 @@
                                     class="form-control form-control-sm"/>
                         </td>
                         <td>
-                            <input readonly
-                                   name=""
-                                   value="{{$pettyCashItem->material_code}}"
-                                   class="form-control form-control-sm"/>
-                        </td>
-                        <td>
                             <input name=""
                                    value="{{$pettyCashItem->material_code}}:{{$pettyCashItem->specification}}"
                                    readonly
                                    class="form-control form-control-sm"/>
                         </td>
+                        <td>
+                            <input readonly
+                                   name=""
+                                   value="{{$pettyCashItem->material_code}}"
+                                   class="form-control form-control-sm"/>
+                        </td>
                         <td><textarea rows="4"
                                       type="text"
+                                      readonly
                                       class="form-control"
                                       placeholder="Item Details / Description"
                                       required>{{$pettyCashItem->description}}</textarea>
