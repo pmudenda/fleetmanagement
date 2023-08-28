@@ -1545,7 +1545,7 @@ class MaintenanceController extends Controller
                     'cost_center' => $user->cc_code,
                     'business_unit_code' => $user->bc_code,
                     'work_order_number' => $request->get('imprestProjectNumber'),
-                    'total_payment' => floatval($request->total_payment),
+                    'total_payment' => floatval($request->get('totalPayment')),
                     //'code' => $pettyCashSystemReference,
                     'zqms_ref_no' => $request->get('imprestZQMSReference'),
                     'status' => StatusHelper::new(),
