@@ -48,7 +48,7 @@
                 <a href="#"
                    data-toggle="modal"
                    data-target="#modalSimulateUser"
-                   class="nav-link">Simulator User</a>
+                   class="nav-link">Simulator User {{session('simulating')}}</a>
             </li>
         @else
             <li class="nav-item d-sm-inline-block">
