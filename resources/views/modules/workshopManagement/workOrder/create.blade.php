@@ -173,13 +173,18 @@
                 <input type="hidden" value="{{route('load.workshop.section')}}" id="workShopSectionsUrl"/>
                 <input type="hidden" value="{{route('load.articles')}}" id="articlesUrl"/>
                 <input type="hidden" value="{{route('get.articles')}}" id="getArticlesUrl"/>
-                <input type="hidden" value="{{route('load.article.details')}}" id="articleDetailsUrl"/>
-                <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
-                <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_registration"
+                <input type="hidden" value="{{route('load.article.details')}}"
+                       id="articleDetailsUrl"/>
+                <input type="hidden" value="{{$details->job_card_no ?? ''}}"
+                       id="job_card_number"/>
+                <input type="hidden" value="{{$details->veh_reg ?? ''}}"
+                       name="vehicle_registration"
                        id="vehicle_registration"/>
-                <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_reg_no"
+                <input type="hidden" value="{{$details->veh_reg ?? ''}}"
+                       name="vehicle_reg_no"
                        id="vehicle_reg_no"/>
-                <input type="hidden" value="{{$details->wshp_act_code ?? ''}}" name="workshop_reference"
+                <input type="hidden" value="{{$details->wshp_act_code ?? ''}}"
+                       name="workshop_reference"
                        id="workshop_reference"/>
                 <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
                        id="deleteDefectUrl"/>
@@ -2956,11 +2961,11 @@
                 }
 
                 if (tableId === "material_table") {
-                    const vehicleReg = $table.find('tbody').find('[name="registration"]').val();
+                    const vehicleReg = $('[name="vehicle_registration"]').val();
                     $table.find('tbody').append(materialTableRowTemplate);
                     $table.find('tbody').find('[name="registration"]').val(vehicleReg).attr('readonly');
                 } else if (tableId === "services_table") {
-                    const vehicleReg = $table.find('tbody').find('[name="vehicle_registration"]').val();
+                    const vehicleReg = $('[name="vehicle_registration"]').val();
                     $table.find('tbody').append(serviceTableRowTemplate);
                     $table.find('tbody').find('[name="vehicle_registration"]').val(vehicleReg).attr('readonly');
 
@@ -3049,10 +3054,8 @@
                     function () {
 
                         $(tableRow).remove();
-                        //Table.deleteRow();
 
                         if (!valueId || valueId === "0") {
-                            // clear first row
                             if (tableId === 'services_table') {
                                 const regNo = $('[name="vehicle_reg_no"]').val();
                                 $(table).find('[name="vehicle_registration"]').val(regNo);
@@ -3066,8 +3069,10 @@
                             dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
                         } else if (tableId === "material_table") {
                             dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
+                            $(table).find('[name="quantity"]').change();
                         } else {
                             dataUrl = document.querySelector('[name="deleteServiceUrl"]').value;
+                            $(table).find('[name="service_quantity"]').change();
                         }
 
                         let formData = new FormData();
@@ -3117,7 +3122,7 @@
                                     300);
                             },
                             'POST',
-                        )
+                        );
                     });
             }
 
@@ -3413,12 +3418,6 @@
                 }).on('keyup', 'input,textarea', function (e) {
                     eventHandler(this, e);
                 });
-
-                /*$(document).off('click', 'button[value="addRow"][data-table-id]')
-                    .on('click', 'button[value="addRow"][data-table-id]', function () {
-                        let tableId = $(this).data('tableId');
-                        //addTableRow(tableId);
-                    });*/
 
                 $(document).on('click', 'button[value="insertRow"][data-table-id]', function () {
                     let tableId = $(this).data('tableId');
