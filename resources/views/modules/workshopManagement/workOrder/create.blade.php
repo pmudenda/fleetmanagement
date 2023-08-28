@@ -2714,9 +2714,11 @@
                 $("#material_table > tbody").children().map(function (index, row) {
                     if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
                         console.log("Record with " + $(row).attr('data-record-id'));
-                    }else
-                    {
-                        inputs.push(row);
+                    } else {
+                        const articleSelected = $(row).find('.articleCode').val();
+                        if (articleSelected) {
+                            inputs.push(row);
+                        }
                     }
                 });
 
