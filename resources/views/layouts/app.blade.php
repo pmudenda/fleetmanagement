@@ -408,19 +408,25 @@
                                 </label>
                                 <input type="text"
                                        required
+                                       id="userIdentifier"
+                                       data-action="{{route('user.search')}}"
                                        class="form-control form-control-sm"
-                                       name="user"/>
+                                       name="userIdentifier"
+                                />
                             </div>
                         </div>
-                        <div class="col-10">
-                            <label class="app-field-label">
-                                Justification
-                            </label>
-                            <textarea id="simulationJustification"
-                                      style="height: 129px;"
-                                      required
-                                      class="form-control comments form-control-sm"
-                                      name="simulationJustification"></textarea>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="app-field-label">
+                                    Justification
+                                </label>
+                                <textarea
+                                        id="simulationJustification"
+                                        style="height: 129px;"
+                                        required
+                                        class="form-control comments form-control-sm"
+                                        name="simulationJustification"></textarea>
+                            </div>
                         </div>
                     </div>
 
@@ -593,7 +599,7 @@
                 'columnDefs': [],
                 "buttons": []
             })
-        })
+        });
     });
 
     (function (tmsApp, $) {
@@ -652,6 +658,66 @@
             }).fail(function (xhr) {
                 tmsApp.showErrorMessages(xhr, 'Document Audit Trail')
             });
+        });
+
+        $(document).on('change', '[name="userIdentifier"]', function () {
+            let searchTerm = this.value;
+
+            function checkUserData(searchTerm) {
+                if (!searchTerm) {
+                    return;
+                }
+
+                const url = $('#userIdentifier').attr('data-action') + '?searchCriteria=' + searchTerm;
+
+                fetch(
+                    url,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: JSON.stringify({searchCriteria: searchTerm}),
+                        referrer: window.baseUrl,
+                        mode: 'cors',
+                        credentials: 'same-origin',
+                    }
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            tmsApp.systemError(
+                                'User Verification',
+                                'We could not complete vehicle state checks',
+                                function () {
+                                });
+                            return;
+                        }
+
+                        return response.json();
+                    })
+                    .then(response => {
+                        console.log(response);
+                        if (response.success === 'true' || response.success === true) {
+                            populateVehicleDetails(response.payload, "");
+                        } else {
+                            tmsApp.systemError(
+                                'Vehicle',
+                                'Vehicle with Registration No.' + numberPlate
+                                + ' was not found, Check your input and try again',
+                                function () {
+                                });
+                        }
+                    })
+                    .catch(function (error) {
+                        tmsApp.systemError(
+                            'System Message',
+                            'We could not complete vehicle state checks',
+                            function () {
+                            });
+                    });
+            }
+
+            checkUserData(searchTerm);
         });
 
         function showDocumentAuditTrailResults(results) {
