@@ -806,10 +806,8 @@
             );
         });
 
-        $(document).on('click', '[data-action="endSimulation"]', function (e) {
-
-            let formData = new FormData(this);
-
+        $(document).on('click', '[data-action="endSimulation"]', function () {
+            let formData = new FormData();
             tmsApp.asyncPostFormData(
                 $(this).data('formUrl'),
                 formData,
