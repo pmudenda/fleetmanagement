@@ -62,7 +62,7 @@
                                     <legend>General Information:</legend>
                                    <div class="row">
                                        <div class="col-6">
-                                           <div class="row">
+                                           <div class="row mb-2">
                                                <div class="col" data-id="table-td">
                                                    <label class="app-field-label">
                                                        Vehicle Registration Number
@@ -90,7 +90,7 @@
                                                </div>
                                            </div>
 
-                                           <div class="row">
+                                           <div class="row mb-2">
                                                <div class="col">
                                                    <label class="app-field-label field-required">
                                                        Card Number
@@ -113,7 +113,7 @@
                                                </div>
                                            </div>
 
-                                           <div class="row">
+                                           <div class="row mb-2">
                                                <div class="col">
                                                    <label class="app-field-label field-required">
                                                        Date Issued
@@ -145,7 +145,7 @@
                                                </div>
                                            </div>
 
-                                           <div class="row">
+                                           <div class="row mb-2">
                                                <div class="col">
                                                    <label class="app-field-label" data-field="specificlocationofia">
                                                        Expiry Date <span class="text-danger">*</span>
@@ -171,7 +171,7 @@
 
                                            </div>
 
-                                           <div class="row">
+                                           <div class="row mb-2">
                                                <td colspan="4">
                                                    <label class="app-field-label" data-field="typeia">
                                                        Comments
@@ -179,7 +179,7 @@
                                                </td>
                                            </div>
 
-                                           <div class="row">
+                                           <div class="row mb-2">
                                                <div class="col" data-id="table-td" style="background: none;">
                                                    <div class="app-field-input">
                                                     <textarea name="comments" id="comments"
