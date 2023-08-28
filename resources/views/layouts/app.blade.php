@@ -1,4 +1,4 @@
-@php use Carbon\Carbon; @endphp
+@php use Carbon\Carbon;use Illuminate\Support\Facades\Auth; @endphp
         <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -466,6 +466,7 @@
 
 </div>
 <input type="hidden" name="gatePassUrl" id="gatePassUrl" value="{{URL::signedRoute("gate.pass")}}"/>
+<input type="hidden" name="currentUser" id="currentUser" value="{{Auth::user()->staff_no}}"/>
 
 <audio preload="auto" id="sound-email" volume=0.1>
     <source src="{{asset('assets/sounds/email.mp3')}}"/>
@@ -667,9 +668,7 @@
                 if (!searchTerm) {
                     return;
                 }
-
                 const url = $('#userIdentifier').attr('data-action') + '?searchCriteria=' + searchTerm;
-
                 fetch(
                     url,
                     {
@@ -687,7 +686,7 @@
                         if (!response.ok) {
                             tmsApp.systemError(
                                 'User Verification',
-                                'We could not complete vehicle state checks',
+                                'We could not user search',
                                 function () {
                                 });
                             return;
@@ -698,11 +697,13 @@
                     .then(response => {
                         console.log(response);
                         if (response.success === 'true' || response.success === true) {
-                            populateVehicleDetails(response.payload, "");
+
+
+
                         } else {
                             tmsApp.systemError(
-                                'Vehicle',
-                                'Vehicle with Registration No.' + numberPlate
+                                'User Verification',
+                                'User with Staff No.' + searchTerm
                                 + ' was not found, Check your input and try again',
                                 function () {
                                 });
@@ -710,11 +711,20 @@
                     })
                     .catch(function (error) {
                         tmsApp.systemError(
-                            'System Message',
-                            'We could not complete vehicle state checks',
+                            'User Verification',
+                            'We could not user search',
                             function () {
                             });
                     });
+            }
+
+            if(searchTerm === $("#currentUser").val()){
+                tmsApp.systemError(
+                    'User Simulation',
+                    "You can not simulate yourself",
+                    function () {
+                    });
+                return;
             }
 
             checkUserData(searchTerm);

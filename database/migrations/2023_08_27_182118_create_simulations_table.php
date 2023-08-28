@@ -12,8 +12,7 @@ return new class extends Migration {
     {
         Schema::create('gen_simulations', function (Blueprint $table) {
             $table->id();
-            $table->string("user_act")->nullable();
-            $table->date("date_act");
+            $table->string("created_by")->nullable();
             $table->string("simulator", 20);
             $table->date("simulated");
             $table->date("simulate_start");
