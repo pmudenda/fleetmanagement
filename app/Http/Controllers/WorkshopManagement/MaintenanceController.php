@@ -1578,13 +1578,7 @@ class MaintenanceController extends Controller
             $eformsPettyCashUrl = config('systeminfo.petty_cash_url');
             Log::info("Posting Data To $eformsPettyCashUrl");
 
-            $httpResponse = Http::asForm()->post(
-                $eformsPettyCashUrl,
-                $request
-            );
-
             Log::info("Logging Response From Petty Cash System");
-            Log::info($httpResponse);
 
             return response()->json(
                 [
@@ -1592,6 +1586,7 @@ class MaintenanceController extends Controller
                     'payload' => $request->all()
                 ]
             );
+
         } catch (Exception $e) {
             Log::error($e);
             return response()->json(
