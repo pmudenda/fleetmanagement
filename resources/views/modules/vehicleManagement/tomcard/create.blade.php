@@ -166,25 +166,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="pl-5">
-                                                <label class="hq-field field-required" data-field="">
-                                                    Card Status
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="app-field-input" data-field="">
-                                                    <div class="input-group">
-                                                        <select id="cardStatus"
-                                                                name="cardStatus"
-                                                                required
-                                                                class="form-select form-select-sm">
-                                                            <option disabled value=""></option>
-                                                            <option value="01">NEW</option>
-                                                            <option value="02">ASSIGNED</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </td>
                                         </tr>
 
                                         <tr>
@@ -217,7 +198,9 @@
                                                     </button>
                                                 </div>
                                             </td>
+                                        </tr>
 
+                                        <tr>
                                             <td class="pl-5">
                                                 <label class="app-field-label" data-field="specificlocationofia">
                                                     Expiry Date <span class="text-danger">*</span>
@@ -242,7 +225,6 @@
                                             </td>
 
                                         </tr>
-
 
                                         <tr>
                                             <td colspan="4">
