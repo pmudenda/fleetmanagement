@@ -13,7 +13,7 @@
                     <div class="card-title">
                         <h2> Charge out rate</h2>
                         <span
-                            class="ml-2 indicator-pill whitespace-nowrap orange">
+                                class="ml-2 indicator-pill whitespace-nowrap orange">
                                     <span>Not Saved</span>
                             </span>
                     </div>
@@ -84,9 +84,9 @@
                                         <div class="col-md-9">
                                             <div class="w-100">
                                                 <input
-                                                    class="form-control form-control-solid"
-                                                    name="model_code"
-                                                    readonly id="model_code"/>
+                                                        class="form-control form-control-solid"
+                                                        name="model_code"
+                                                        readonly id="model_code"/>
                                             </div>
                                         </div>
                                     </div>
@@ -134,7 +134,9 @@
                     </form>
                     <hr class="mt-10">
                     <div class="table-responsive">
-                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+                        <table role="table"
+                               aria-label="charge out rates"
+                               class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
                                id="kt_brands_table">
                             <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
@@ -200,10 +202,10 @@
                                     <td class="text-start">
                                         <div class="dropdown">
                                             <button
-                                                class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
-                                                type="button"
-                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
+                                                    class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                    type="button"
+                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
                                                 Actions
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">

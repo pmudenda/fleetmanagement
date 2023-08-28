@@ -8,7 +8,6 @@ enum Modules: string
     case SparesRequisition = "SPARES_REQ";
     case PurchaseRequisition = "PUR";
     case StoresRequisition = 'STR';
-
     case Requisition = 'REQ';
     case FUEL_REQUISITION = 'FR';
     case WORKSHOP_DOCUMENT = 'WAC';

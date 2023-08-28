@@ -259,7 +259,9 @@
                                         <div id="vehicleDetailsContainer" style="display: none;"
                                              class="col-xs-12 col-sm-12 col-md-12 pl-0">
                                             <h1>Vehicle Details</h1>
-                                            <table class="table table-striped">
+                                            <table role="table"
+                                                   aria-label="Vehicle Details"
+                                                   class="table table-striped">
                                                 <tbody id="vehicleDetails" class="vehicleDetails">
                                                 </tbody>
                                             </table>

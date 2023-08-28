@@ -9,7 +9,8 @@
 
     <x-error-view/>
     <div class="col-8">
-        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+        <table aria-label="PO Header Display"
+                class="table table-row-dashed align-middle gs-0 gy-3 my-0">
             <tbody>
             <tr>
                 <td class="frappe-control ">

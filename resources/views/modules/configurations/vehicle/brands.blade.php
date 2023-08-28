@@ -32,7 +32,9 @@
 
                 <!--begin::Table-->
                 <div class="table-responsive">
-                    <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+                    <table role="table"
+                           aria-label="vehicle brands"
+                           class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
                            id="kt_brands_table">
                         <thead>
                         <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">

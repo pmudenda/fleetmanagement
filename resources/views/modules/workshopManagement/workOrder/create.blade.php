@@ -3033,7 +3033,7 @@
 
                     $(row).find('.select2-container').remove();
                     let $_defect_sel = $(row).find(".select_2_control");
-                    reinitializeSelect2($_defect_sel);
+                    //reinitializeSelect2($_defect_sel);
                 }
             }
 
