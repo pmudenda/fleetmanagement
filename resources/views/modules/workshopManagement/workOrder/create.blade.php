@@ -1308,8 +1308,8 @@
                         submitForm: true,
                         workshopReference: $('[name="workshop_reference"]').val(),
                         jobCardNumber: $('[name="job_card_number"]').val(),
-                        totalPayment: $('[name="total_payment"]').val(),
-                    };
+                        totalPayment: tmsApp.getFloat($('[name="total_payment"]').val()),
+                    }
 
                     let arr = [];
                     let obj = {};
