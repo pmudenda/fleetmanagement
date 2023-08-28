@@ -60,7 +60,7 @@
 
                                 <fieldset style="" class="form-group border p-3">
                                     <legend>General Information:</legend>
-                                    <div class="col-6 col-xm-12">
+                                    <div class="col-6 col-sm-12">
                                         <div class="row">
                                             <div class="col" data-id="table-td">
                                                 <label class="app-field-label">
@@ -74,6 +74,7 @@
                                                         <input type="text"
                                                                id="vehicleRegistration"
                                                                required
+                                                               data-action="{{route('requisition.vehicle.details')}}"
                                                                autocomplete="off"
                                                                name="vehicleRegistration"
                                                                class="form-control"/>
@@ -85,10 +86,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col pl-5" data-type="table-td">
-                                            </div>
-                                            <div class="col" data-type="table-td">
                                             </div>
                                         </div>
 
@@ -190,6 +187,23 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-3 col-sm-12">
+                                        <div id="vehicleDetailsContainer" style="display: none;"
+                                             class="col-xs-12 col-sm-12 col-md-12">
+                                            {{--<h1>Vehicle Details</h1>
+                                             <table class="table">
+                                                 <tbody id="vehicleDetails" class="vehicleDetails">
+                                                 </tbody>
+                                             </table>--}}
+                                        </div>
+
+                                        <div id="image_view" class="card text-center my-2" style="display: none;">
+                                            {{--  <h2 class="fs-2x fw-bold mb-10">Front View</h2>--}}
+                                            <div class="form-group">
+                                                <div class="imagePreview"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </fieldset>
 
                             </div>
@@ -238,6 +252,77 @@
                 {},
                 {}
             );
+
+            $(document).on('change', '#vehicleRegistration', function () {
+                function getVehicleDetails() {
+                    const numberPlate = document.querySelector('#vehicle_registration').value
+                    let formData = new FormData();
+                    formData.append('vehicle_registration', numberPlate);
+
+                    tmsApp.asyncGetFormData(
+                        $('#vehicle_registration').attr('data-action') + '?vehicle_registration=' + numberPlate,
+                        formData,
+                        function (response_data) {
+                            if (response_data.success === 'true' || response_data.success === true) {
+                                let vehicle = response_data.payload['vehicle'];
+                                let images = response_data.payload['images'];
+                                let vehicle_state = response_data.payload['vehicle_state'];
+                                let vehicle_tom_card_message = response_data.payload['vehicle_tom_card_message'];
+
+                                if (!vehicle || !vehicle.brand_name) {
+                                    return;
+                                }
+
+                                if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                                    tmsApp.showSystemMessage("Vehicle State",
+                                        vehicle_state,
+                                        () => {
+                                        },
+                                        "error");
+                                    return;
+                                }
+
+                                if (vehicle['has_tom_card'] === 'Y') {
+                                    tmsApp.showSystemMessage("Vehicle Has A Tom Card Already",
+                                        vehicle_tom_card_message,
+                                        () => {
+                                        },
+                                        "error");
+                                    return;
+                                }
+
+                                let vLabel = vehicle['body_type_name']
+                                    + ' ' + vehicle['brand_name']
+                                    + ' ' + vehicle['model_name']
+                                    + ' ' + vehicle['model_code'];
+                                $("#vehicle_description").val(vLabel);
+                                $("#vehicle_status").text(vehicle['status_name']);
+
+                                if (images && images.length > 0) {
+                                    let frontViewImages = images.filter((image) => {
+                                        return image['file_type'] === 'Front View';
+                                    })
+                                    let imagePath = frontViewImages[0]?.path;
+                                    document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
+                                }
+                                findLatestRequisition();
+                            } else {
+                                removeSubmissionAndDetailsOptions();
+                                let $message = response_data['message']
+                                    ? response_data['message']
+                                    : ' No Vehicle Found, Check your input and try again';
+                                tmsApp.systemError('Vehicle', $message);
+                            }
+                        },
+                        function (xhr) {
+                            tmsApp.systemError('System Message',
+                                'We could not complete processing your request, please try again later');
+                        }
+                    )
+                }
+
+                getVehicleDetails();
+            });
 
             $("#submitRequisitionBtn").on('click', function () {
                 let $form = document.forms['newTomCardForm'];
@@ -330,7 +415,6 @@
                     $(input).datepicker('setDate', null);
                 });
             });
-
 
         })(window.tmsApp, jQuery);
     </script>

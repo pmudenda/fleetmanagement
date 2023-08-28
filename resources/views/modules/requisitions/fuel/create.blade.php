@@ -6,7 +6,7 @@
           type="text/css"/>
 
     <style>
-        .select2-dropdown select2-dropdown--below{
+        .select2-dropdown select2-dropdown--below {
             width: 400px !important;
         }
     </style>
@@ -50,8 +50,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Registration #:
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                for="staff_no">Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
@@ -89,8 +89,8 @@
                                                         </div>
                                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
-                                                                for="staff_no">Status:
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                    for="staff_no">Status:
                                                             </label>
                                                             <span id="vehicle_status" class="ml-3 badge badge-success"
                                                                   data-name="vehicle_status"></span>
@@ -107,7 +107,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -159,7 +159,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -209,8 +209,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="staff_name">
                                                             Requisition Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -221,7 +221,7 @@
                                                                 <option value="">--Select--</option>
                                                                 @foreach ($requisitionTypes as $requisitionType)
                                                                     <option
-                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                            value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -235,8 +235,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="staff_name">
                                                             Current Odometer Reading :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -264,8 +264,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="staff_name">
                                                             Driver:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -320,8 +320,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Departure Date:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Departure Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group date"
                                                                  data-target-input="nearest">
@@ -357,8 +357,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Return Date:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">Return Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group date"
                                                                  data-target-input="nearest">
@@ -397,8 +397,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Departure Town:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Departure Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <select required class="form-control city select2"
                                                                     name="departureTown"
@@ -415,8 +415,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Destination Town:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">Destination Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <select required
                                                                     class="form-control city select2"
@@ -438,8 +438,8 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="covered_kilometers">Estimated Distance (Km):
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                    for="covered_kilometers">Estimated Distance (Km):
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <input type="text" required
@@ -471,8 +471,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Allocation Per Week:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Allocation Per Week:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group input-group-sm">
                                                                 <input type="text" class="form-control form-control-sm"
@@ -495,8 +495,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Request Date:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">Request Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="request_date"
@@ -516,8 +516,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                            for="next_fuel_date">
+                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                                for="next_fuel_date">
                                                             Next Refueling Date :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
@@ -539,8 +539,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Purpose:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Purpose:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <textarea type="text"
                                                                   id="justification"
@@ -559,8 +559,8 @@
                                                 <div class="row d-none" id="authorityToTravelContainer">
                                                     <div class="form-group row">
                                                         <label
-                                                            id="authority"
-                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 field-required">
+                                                                id="authority"
+                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 field-required">
                                                             Authority To Travel(<small>Any Authorization
                                                                 Document</small>)
                                                         </label>
@@ -597,15 +597,17 @@
 
                         <div class="container-fluid">
                             <div id="materialDetailsContainer" class="table-responsive mt-3">
-                                <table id="materialDetailsTable" class="table table-bordered">
+                                <table id="materialDetailsTable"
+                                       aria-label="fuel request detail"
+                                       class="table table-bordered">
                                     <thead>
                                     <tr class="bg-dark">
-                                        <th>Material Description</th>
-                                        <th class="project_view_item d-none">Project Number</th>
-                                        <th style="width: 15%;">Quantity</th>
-                                        <th>Unit Of Measure</th>
-                                        <th>Price (ZMW)</th>
-                                        <th>Amount(ZMW)</th>
+                                        <th scope="row">Material Description</th>
+                                        <th scope="row" class="project_view_item d-none">Project Number</th>
+                                        <th scope="row" style="width: 15%;">Quantity</th>
+                                        <th scope="row">Unit Of Measure</th>
+                                        <th scope="row">Price (ZMW)</th>
+                                        <th scope="row">Amount(ZMW)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -757,7 +759,10 @@
                     return;
                 }
 
-                let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+                let vLabel = vehicle['body_type_name']
+                    + ' ' + vehicle['brand_name']
+                    + ' ' + vehicle['model_name']
+                    + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
                 $("#vehicle_status").text(vehicle['status_name']);
 
@@ -853,7 +858,7 @@
                         }
 
                         if (response.payload.con_st_code != '01' && response.payload.con_st_code != 'ACT') {
-                            tmsApp.systemError('Driver Verification', 'Employee with Staff_no '+ staff_number +' is not active');
+                            tmsApp.systemError('Driver Verification', 'Employee with Staff_no ' + staff_number + ' is not active');
                             return;
                         }
 
@@ -878,12 +883,15 @@
                             findLatestRequisition();
                         } else {
                             removeSubmissionAndDetailsOptions();
-                            let $message = response_data['message'] ? response_data['message'] : ' No Vehicle Found, Check your input and try again';
+                            let $message = response_data['message']
+                                ? response_data['message']
+                                : ' No Vehicle Found, Check your input and try again';
                             tmsApp.systemError('Vehicle', $message);
                         }
                     },
                     function (xhr) {
-                        tmsApp.systemError('System Message', 'We could not complete processing your request, please try again later');
+                        tmsApp.systemError('System Message',
+                            'We could not complete processing your request, please try again later');
                     }
                 )
             }
@@ -917,7 +925,7 @@
 
                         console.log(response);
 
-                        if (!response.success || response.payload.length == 0) {
+                        if (!response.success || response.payload.length === 0) {
                             //tmsApp.systemError('Driver Verification', response['message']);
                             return;
                         }
@@ -935,7 +943,8 @@
                 switch (element.name) {
                     case 'material_price':
                         // line total = new material price multiplied by quantity value
-                        let totalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=material_quantity]").val());
+                        let totalAmount = tmsApp.getFloat(element.value) *
+                            tmsApp.getFloat($(element).closest("tr").find("input[name=material_quantity]").val());
                         $(element).closest("tr").find("input[name=material_amount]").val(totalAmount).change();
                         $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(totalAmount));
                         break;
@@ -948,7 +957,8 @@
 
                         $('#totalQty').text(tmsApp.numberFormat(summaryTotalQty));
                         // line total = new quantity value multiplied by material price
-                        let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=material_price]").val());
+                        let lineAmountTotal = tmsApp.getFloat(element.value) *
+                            tmsApp.getFloat($(element).closest("tr").find("input[name=material_price]").val());
                         $(element).closest("tr").find("input[name=material_amount]").val(lineAmountTotal).change();
                         $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(lineAmountTotal));
                         break;
@@ -978,7 +988,7 @@
 
                 let data = '';
                 if (format === 'ISO') {
-                    let datePart = new Intl.DateTimeFormat('en-GB').format(date);// .toDateString().split(' ')[0];
+                    let datePart = new Intl.DateTimeFormat('en-GB').format(date);
                     console.log(datePart);
                     let dateParts = datePart.split('/');
                     data = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
@@ -1016,17 +1026,6 @@
                 document.querySelector('[name="return_date"]').setAttribute('max', maxDate);
             }
 
-
-            /*$('#vehicle_registration').on('keyup paste enter', function () {
-                if (!this.value || this.value.replace('_', '').length < 8) {
-                    return;
-                }
-                setTimeout(function () {
-                    removeSubmissionAndDetailsOptions();
-                    findVehicle();
-                }, 300);
-            });*/
-
             $('#driver_staff_number').on('keyup paste enter', function () {
                 if (!this.value || this.value.length < 5) {
                     return;
@@ -1049,7 +1048,8 @@
             });
 
             $('#vehicleSearchBtn').on('click', function () {
-                if (!document.querySelector('#vehicle_registration').value || document.querySelector('#vehicle_registration') < 8) {
+                if (!document.querySelector('#vehicle_registration').value
+                    || document.querySelector('#vehicle_registration') < 8) {
                     return;
                 }
                 removeSubmissionAndDetailsOptions();
@@ -1396,9 +1396,9 @@
 
                 let otherCities = [];
                 for (const [key, value] of Object.entries(window['citiesMap'])) {
-                     if( selectedTown === value['town_from']){
-                         otherCities.push(value);
-                     }
+                    if (selectedTown === value['town_from']) {
+                        otherCities.push(value);
+                    }
                 }
 
                 for (const value of otherCities) {
