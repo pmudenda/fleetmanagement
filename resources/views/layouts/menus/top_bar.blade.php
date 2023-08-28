@@ -43,18 +43,21 @@
             </div>
         </li>
 
-        @if(session('simulating'))
+        @if(session('simulating', false))
+            <li class="nav-item d-sm-inline-block">
+                <a href="#"
+                   data-action="EndSimulation"
+                   class="nav-link">
+                    <i class="fas fa-sign-out"></i>
+                    End Simulation
+                </a>
+            </li>
+        @else
             <li class="nav-item d-sm-inline-block">
                 <a href="#"
                    data-toggle="modal"
                    data-target="#modalSimulateUser"
                    class="nav-link">Simulator User {{session('simulating')}}</a>
-            </li>
-        @else
-            <li class="nav-item d-sm-inline-block">
-                <a href="#"
-                   data-action="EndSimulation"
-                   class="nav-link"> <i class="fas fa-sign-out"></i> End Simulation</a>
             </li>
         @endif
     </ul>
