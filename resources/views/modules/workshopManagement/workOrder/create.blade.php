@@ -3137,7 +3137,7 @@
                             cancelButtonColor: '#d33',
                             confirmButtonText: 'Yes'
                         }).then((result) => {
-                            if (result.isConfirmed) {
+                            if (result.value) {
                                 // clear things here
                                 changePettyCashRequestType(selectedItemType);
                             }
@@ -3162,7 +3162,7 @@
                             cancelButtonColor: '#d33',
                             confirmButtonText: 'Yes'
                         }).then((result) => {
-                            if (result.isConfirmed) {
+                            if (result.value) {
                                 // clear things here
                                 for (const row of rows) {
                                     $(row).remove();
