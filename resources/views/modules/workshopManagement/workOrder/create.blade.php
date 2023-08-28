@@ -1530,25 +1530,13 @@
 
                         form.validate().settings.ignore = ":disabled,:hidden";
                         window.global_currentIndex = currentIndex;
-                        /* if (form.valid() && !window.goToNext) {
-                             tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                                 postData(form.find('[data-model-name]').get(currentIndex), false);
-                             }, function () {
-                             });
-                         }
-
-                         let tmp = window.goToNext;
-                         window.goToNext = false;
-                         return tmp;*/
                     },
                     onStepChanged: function (event, currentIndex, priorIndex) {
 
                         if (currentIndex === 2 && priorIndex === 3) {
-                            //form.steps("previous");
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').removeClass('d-none');
                         }
 
-                        //$('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
                         window.global_currentIndex = currentIndex;
                         if (currentIndex === 3) {
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').addClass('d-none');
@@ -2722,13 +2710,17 @@
             }
 
             function tableHasItems() {
-                let inputs = $("#material_table > tbody").find('.articleCode');
-                for (const input of inputs) {
-                    if (input.value > "") {
-                        return true;
+                let inputs = [];
+                $("#material_table > tbody").children().map(function (index, row) {
+                    if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
+                        console.log("Record with " + $(row).attr('data-record-id'));
+                    }else
+                    {
+                        inputs.push(row);
                     }
-                }
-                return false;
+                });
+
+                return inputs;
             }
 
             function pettyCashTableHasItems() {
@@ -3156,8 +3148,8 @@
 
                 $("#itemType").on('change', function () {
                     const selectedItemType = this.value;
-
-                    if (tableHasItems()) {
+                    const rows = tableHasItems();
+                    if (rows.length > 0) {
                         Swal.fire({
                             title: 'Change Requisition Item Type',
                             text: "Changing Item Type will clear the items you've selected already." +
@@ -3170,6 +3162,10 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 // clear things here
+                                for (const row of rows) {
+                                    $(row).remove();
+                                }
+
                                 changeRequestType(selectedItemType);
                             }
                         });
