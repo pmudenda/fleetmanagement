@@ -29,8 +29,8 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'e-Toll Card On Boarding'" :activeCrumb="'OnBoarding'" :link="'e-toll.card'"
-                      :linkText="'e-Toll Card'"/>
+    <x-content-header :pageTitle="'Tom Card Assignment'" :activeCrumb="'OnBoarding'" :link="'list.tom.card'"
+                      :linkText="'Tom Card'"/>
     <section class="content">
         <x-error-view/>
         <div class="container-fluid">
@@ -41,7 +41,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <h4>e-Toll Card Management</h4>
+                                <h4>Tom Card Management</h4>
                             </div>
                             <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                                 <button type="button" id="submitRequisitionBtn"
@@ -56,7 +56,7 @@
                         </div>
                         <div class="card-body p-2">
                             <form class="" name="newETollCardForm"
-                                  action="{{route('e-toll.card.save')}}"
+                                  action="{{route('save.assign.tom.card')}}"
                                   id="newETollCardForm"
                                   method="post">
                                 @csrf

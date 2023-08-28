@@ -8,9 +8,6 @@ use App\Http\Controllers\VehicleManagement\TomCardManagementController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleModelsController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
-use App\Models\Reference\GtaVehicle;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth', 'prefix' => 'v1/en'], function (): void {
@@ -120,6 +117,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'vehicle-management'], functio
 
     Route::get('tom/card/assignment', [TomCardManagementController::class, 'create'])
         ->name('assign.tom.card');
+
+    Route::post('tom/card/assignment/save', [TomCardManagementController::class, 'store'])
+        ->name('save.assign.tom.card');
+
+    Route::get('tom/card/list', [TomCardManagementController::class, 'list'])
+        ->name('list.tom.card');
 });
 
 
