@@ -63,7 +63,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
@@ -1582,7 +1581,7 @@ class MaintenanceController extends Controller
 
             return response()->json(
                 [
-                    'state' => 'success',
+                    'success' => true,
                     'payload' => $request->all()
                 ]
             );
@@ -1591,7 +1590,7 @@ class MaintenanceController extends Controller
             Log::error($e);
             return response()->json(
                 [
-                    'state' => 'failure',
+                    'success' => false,
                     'payload' => $request->all()
                 ]
             );
