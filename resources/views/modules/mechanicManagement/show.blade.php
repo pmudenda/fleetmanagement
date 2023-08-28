@@ -68,7 +68,7 @@
 @section('content')
     <x-content-header :pageTitle="'DRIVER DETAILS'" :activeCrumb="'Driver Details'" :link="'driver.list'"
                       :linkText="'Drivers'"/>
-
+{{dd($mechanic)}}
     <!-- Main content -->
     <section class="content">
         <x-error-view/>
