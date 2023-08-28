@@ -255,8 +255,8 @@ class FuelRequisitionService
             Log::info("No Previous Requisition for $registrationNumber . found");
         }
 
-        $valid_to = Carbon::createFromFormat("d/m/Y", $requisitionPostRequest->get("next_fuel_date"));
-        $valid_from = Carbon::createFromFormat("d/m/Y", $requisitionPostRequest->get("request_date"));
+        $validFrom = Carbon::createFromFormat("d/m/Y", $requisitionPostRequest->get("request_date"));
+        $validTo = Carbon::createFromFormat("d/m/Y", $requisitionPostRequest->get("next_fuel_date"));
 
         if ($isLocalRequisition) {
             // quantity requested can not be more than allocated
@@ -316,15 +316,15 @@ class FuelRequisitionService
                     ) {
                         $this->checkIfPreviousRequisitionPeriodElapsed(
                             $latestNonCancelledOrRejectedRequisition,
-                            $valid_from, $registrationNumber);
+                            $validFrom, $registrationNumber);
                     }
                 }
             }
         } elseif ($isOutOfTownRequisition) {
 
             // out of town requisition request amount can be more than allocated
-            $valid_from = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("departure_date"));
-            $valid_to = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("return_date"));
+            $validFrom = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("departure_date"));
+            $validTo = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("return_date"));
 
             if (!empty($latestNonCancelledOrRejectedRequisition)) {
                 if (in_array($latestNonCancelledOrRejectedRequisition->status, $openRequisitionStatusList)) {
@@ -405,7 +405,7 @@ class FuelRequisitionService
             // override has to be before expiry of previous requisition
             if (
                 RequisitionTypes::Normal->value == $latestNonCancelledOrRejectedRequisition->requisition_type
-                && $valid_from->greaterThan(Carbon::parse($latestNonCancelledOrRejectedRequisition->valid_date_to))
+                && $validFrom->greaterThan(Carbon::parse($latestNonCancelledOrRejectedRequisition->valid_date_to))
             ) {
                 return response()->json([
                     "success" => false,
@@ -430,8 +430,8 @@ class FuelRequisitionService
             }
 
             // override is only valid from date of request to when the original requisition was suppoed to end
-            $valid_from = Carbon::now();
-            $valid_to = $latestNonCancelledOrRejectedRequisition->valid_date_to;
+            $validFrom = Carbon::now();
+            $validTo = $latestNonCancelledOrRejectedRequisition->valid_date_to;
         }
 
         Log::info("Vehicle Reg Is $registrationNumber");
@@ -483,8 +483,8 @@ class FuelRequisitionService
                 "status" => StatusHelper::new(),
                 "veh_reg_no" => $registrationNumber,
                 "cost_centre" => $requisitionPostRequest->get("cost_centre_code"),
-                "valid_date_from" => $valid_from,
-                "valid_date_to" => $valid_to,
+                "valid_date_from" => $validFrom,
+                "valid_date_to" => $validTo,
                 "odometer" => $requisitionPostRequest->get("odometer_reading"),
                 "town_from" => $townFrom,
                 "town_to" => $townTo,
