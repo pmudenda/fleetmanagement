@@ -9,4 +9,6 @@ class WorkflowModules
     const WORKSHOP_REQUISITION = "SPARES_REQ";
     const STOCK_REQUISITION = 'STR';
     const PURCHASE_REQUISITION = "PUR";
+    const ACCIDENT_REPORT = 'ACC_RPT';
+    const IMPREST_BUY = 'IMP_BUY';
 }

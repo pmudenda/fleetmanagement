@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,11 +17,12 @@ return new class extends Migration
             $table->string('user_unit_code')->nullable();
             $table->integer('user_unit_id')->nullable();
             $table->integer('pay_point_id')->nullable();
-            $table->integer('projects_id')->nullable();
+            $table->string('work_order_number', 20)->nullable();
             $table->string('total_payment')->nullable();
             $table->string('change')->nullable();
-            $table->string('code');
+            $table->string('code')->nullable();
             $table->string('external_ref_no')->nullable();
+            $table->string('zqms_ref_no')->nullable();
             $table->string('status')->nullable();
             $table->string('name')->nullable();
             $table->string('staff_no')->nullable();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccidentReporting;
 
+use App\Constants\WorkflowModules;
 use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccidentRecordingRequest;
@@ -44,7 +45,8 @@ class AccidentRecordingController extends Controller
         try {
             $user = auth()->user();
 
-            $reference = $this->numberGeneratorService->generateReferenceNumber('ACC_RPT');
+            $reference = $this->numberGeneratorService->generateReferenceNumber(
+                 WorkflowModules::ACCIDENT_REPORT);
             Accident::create([
                 'reported_by' => $user->staff_no,
                 'reference' => $reference,

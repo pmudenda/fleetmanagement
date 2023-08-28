@@ -17,10 +17,12 @@ class ImprestBuyHeader extends Model
         'user_unit_code',
         'user_unit_id',
         'pay_point_id',
-        'projects_id',
+        'work_order_number',
         'total_payment',
         'change',
-        'code', 'external_ref_no',
+        'code',
+        'external_ref_no',
+        'zqms_ref_no',
         'status',
         'name',
         'staff_no',
@@ -28,5 +30,6 @@ class ImprestBuyHeader extends Model
         'authorised_by',
         'date_authorised',
         'created_by',
-        'deleted_at'];
+        'deleted_at'
+    ];
 }

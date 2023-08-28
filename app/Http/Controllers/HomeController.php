@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataCleanUp;
-use App\Models\Reference\TMSDataCleanUp;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\WorkflowService;
 use Illuminate\Contracts\View\Factory;
@@ -12,6 +10,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -24,7 +23,9 @@ class HomeController extends Controller
 
     public function logout(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        auth()->user();
+        $user = auth()->user();
+        Log::info("Logging Off The System" . $user->staff_no);
+        session()->pull('simulating', false);
         Auth::logout();
         return redirect('/login')->with(['msg_body' => 'Signing out!']);
     }
