@@ -243,7 +243,7 @@
 
                                         </tr>
 
-                                        <tr>
+                                       {{-- <tr>
                                             <td>
                                                 <label class="app-field-label" data-field="specificlocationofia">
                                                     Card Verification Value (<small>CVV</small>)
@@ -288,9 +288,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
+                                        </tr>--}}
 
-                                        <tr>
+                                       {{-- <tr>
                                             <td>
                                                 <label class="field-required app-field-label-">
                                                     Assigned To
@@ -309,7 +309,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
+                                        </tr>--}}
 
                                         <td>
                                             <label class="app-field-label" data-field="responseHead">
