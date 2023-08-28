@@ -88,7 +88,7 @@ class MechanicController extends Controller
                 $join->on('mec.section_code', '=', 'wkshp_sec.code')
                     ->where('wkshp_sec.type', '=', 'WORK_SHOP_SEC');
             })
-            ->where('id', '=', $staffId)
+            ->where('mec.id', '=', $staffId)
             ->select(
                 'mec.*',
                 'wkshp_sec.name as wkshp_section_name',
