@@ -9,6 +9,6 @@ class TomCardManagementController extends Controller
 {
     public function create(): View
     {
-        return view('');
+        return view('modules.vehicleManagement.tomcard.create');
     }
 }
