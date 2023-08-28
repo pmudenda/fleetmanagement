@@ -29,7 +29,10 @@
                 <div class="row">
 
                     <div class="col">
-                        <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                        <table
+                                aria-label="Accessories Table"
+                                role="none"
+                                class="table table-row-dashed align-middle gs-0 table-bordered">
                             <thead>
                             <tr class="bg-dark">
                                 <th class="pl-2">Item</th>
@@ -56,7 +59,10 @@
                         </table>
                     </div>
                     <div class="col">
-                        <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                        <table
+                                aria-label="Accessories Table"
+                                role="none"
+                                class="table table-row-dashed align-middle gs-0 table-bordered">
                             <thead>
                             <tr class="bg-dark">
                                 <th class="pl-2">Item</th>

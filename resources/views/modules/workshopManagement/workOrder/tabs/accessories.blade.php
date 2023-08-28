@@ -12,14 +12,15 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <table
+                    <table aria-label="Accessories Table 2"
+                           role="none"
                             class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
-                            <th class="pl-2">Item</th>
-                            <th>Present</th>
-                            <th class="pr-2">Not Present</th>
-                            <th class="pr-2">Remarks</th>
+                            <th scope="row" class="pl-2">Item</th>
+                            <th scope="row">Present</th>
+                            <th scope="row" class="pr-2">Not Present</th>
+                            <th scope="row" class="pr-2">Remarks</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -47,13 +48,15 @@
                 </div>
                 <div class="col">
                     <table
+                            aria-label="Accessories Table 2"
+                            role="none"
                             class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
-                            <th class="pl-2">Item</th>
-                            <th>Present</th>
-                            <th class="pr-2">Not Present</th>
-                            <th class="pr-2">Remarks</th>
+                            <th scope="row" class="pl-2">Item</th>
+                            <th scope="row">Present</th>
+                            <th scope="row" class="pr-2">Not Present</th>
+                            <th scope="row" class="pr-2">Remarks</th>
                         </tr>
                         </thead>
                         <tbody>

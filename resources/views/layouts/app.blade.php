@@ -337,7 +337,8 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <table id="filterProperty" class="table">
+                    <table aria-label="Documents Table"
+                           id="filterProperty" class="table">
                         <tbody>
                         <tr>
                             <td>

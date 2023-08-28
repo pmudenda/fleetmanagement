@@ -15,5 +15,5 @@ enum Modules: string
     case JOB_CARD = 'JOB_CAR';
     case MATERIAL = 'MAT';
 
-    const VEHICLE = "VEH";
+    case VEHICLE = "VEH";
 }

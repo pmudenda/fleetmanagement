@@ -84,9 +84,9 @@
                         </div>
                     </div>
                     <div id="newApproval_DIVWait" style="visibility: hidden; display: none">
-                        <table border="0" style="width:100%; height:100%;">
+                        <table style="width:100%; height:100%; border: 0;">
                             <tr>
-                                <td align="center">
+                                <td style="text-align: center">
                                     Please wait . . .
                                     <br/>
                                     <br/>
