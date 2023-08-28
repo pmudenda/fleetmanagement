@@ -87,8 +87,7 @@
                                              @if( Auth::user()->id==$mechanic->id)
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
-                                             data-target="#modal-edit-profile"
-                                                @endif
+                                             data-target="#modal-edit-profile"@endif
                                         />
                                     @else
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
@@ -97,18 +96,17 @@
                                              @if( Auth::user()->id==$mechanic->id)
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
-                                             data-target="#modal-edit-profile"
-                                                @endif
+                                             data-target="#modal-edit-profile"@endif
                                         />
                                     @endif
                                 </a>
                             </div>
 
-                            <h3 class="profile-username text-center">{{ $mechanic->name }}</h3>
+                            <h3 class="profile-username text-center">{{$mechanic->name}}</h3>
 
-                            <p class="text-muted text-center">{{ $mechanic->job_title ?? 'Position' }}</p>
+                            {{--<p class="text-muted text-center">{{ $mechanic->job_title ?? 'Position' }}</p>--}}
 
-                            <p class="text-muted text-center">{{ $mechanic->man_no ?? '' }}</p>
+                            <p class="text-muted text-center">{{ $mechanic->staff_no ?? '' }}</p>
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">

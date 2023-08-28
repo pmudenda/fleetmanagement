@@ -76,9 +76,24 @@ class MechanicController extends Controller
         }
     }
 
-    public function show(Request $request)
+    public function show(Request $request): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $mechanic = null;
+        $staffId = $request->get('ref');
+        $mechanic = DB::table('wm_mechanics mec')
+            ->leftJoin('config_workshop wkshp',
+                'mec.workshop_code',
+                '=',
+                'wkshp.workshop_code')
+            ->leftJoin('config_general_tables wkshp_sec', function ($join) {
+                $join->on('mec.section_code', '=', 'wkshp_sec.code')
+                    ->where('wkshp_sec.type', '=', 'WORK_SHOP_SEC');
+            })
+            ->where('id', '=', $staffId)
+            ->select(
+                'mec.*',
+                'wkshp_sec.name as wkshp_section_name',
+                'wkshp.workshop_name'
+            )->get();
         return view('modules.mechanicManagement.show')
             ->with(compact('mechanic'));
     }
