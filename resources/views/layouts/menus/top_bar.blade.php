@@ -43,12 +43,20 @@
             </div>
         </li>
 
-        <li class="nav-item d-sm-inline-block">
-            <a href="#"
-               data-toggle="modal"
-               data-target="#modalSimulateUser"
-               class="nav-link">Simulator User</a>
-        </li>
+        @if(session('simulating'))
+            <li class="nav-item d-sm-inline-block">
+                <a href="#"
+                   data-toggle="modal"
+                   data-target="#modalSimulateUser"
+                   class="nav-link">Simulator User</a>
+            </li>
+        @else
+            <li class="nav-item d-sm-inline-block">
+                <a href="#"
+                   data-action="EndSimulation"
+                   class="nav-link"> <i class="fas fa-sign-out"></i> End Simulation</a>
+            </li>
+        @endif
     </ul>
 
     <ul class="navbar-nav ml-auto">

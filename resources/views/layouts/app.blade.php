@@ -397,8 +397,13 @@
                     </h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="{{route('start.user.simulation')}}" name="startUserSimulationForm">
-                    <!-- Modal body -->
+
+                <form action="{{route('start.user.simulation')}}"
+                      method="POST"
+                      enctype="application/x-www-form-urlencoded"
+                      name="startUserSimulationForm"
+                      id="startUserSimulationForm">
+
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-group">
@@ -437,6 +442,8 @@
                             Cancel
                         </button>
                         <button type="submit"
+                                id="startSimulationBtn"
+                                name="startSimulationBtn"
                                 class="btn btn-sm btn-success">
                             Submit
                         </button>
@@ -699,7 +706,6 @@
                         if (response.success === 'true' || response.success === true) {
 
 
-
                         } else {
                             tmsApp.systemError(
                                 'User Verification',
@@ -718,16 +724,46 @@
                     });
             }
 
-            if(searchTerm === $("#currentUser").val()){
+            if (searchTerm === $("#currentUser").val()) {
+                $('#startSimulationBtn').attr('disabled', true);
                 tmsApp.systemError(
                     'User Simulation',
                     "You can not simulate yourself",
                     function () {
                     });
                 return;
+            } else {
+                $('#startSimulationBtn').attr('disabled', false);
             }
 
             checkUserData(searchTerm);
+        });
+
+        $(document).on('submit', '[name="startUserSimulationForm"]', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            let formData = new FormData(this);
+            const postUrl = $('form[name="tms_user_definition"]').attr('data-action');
+
+            tmsApp.asyncPostFormData(
+                this.action,
+                formData,
+                function (response_data) {
+                    if (response_data.success === 'true' || response_data.success === true) {
+                        if (response_data['payload'].length === 0) {
+                            tmsApp.systemError('', 'No User Found with provided staff number');
+                        }
+                        populateEmployeeDetails(response_data['payload']);
+                    } else {
+                        tmsApp.play_alert('sound-error');
+                        tmsApp.systemError('', 'No User Found, Check your input and try again');
+                    }
+                },
+                function (xhr, settings, errorThrown) {
+                    console.log(xhr);
+                    tmsApp.systemError('', 'We could not complete processing your request, please try again later')
+                }
+            );
         });
 
         function showDocumentAuditTrailResults(results) {

@@ -38,10 +38,20 @@ class UserSimulationController extends Controller
             "simulate_start" => Carbon::now(),
             "comments" => $simulationJustification,
         ]);
-
+        session(['simulating' => true]);
         Auth::loginUsingId($user->id);
 
         DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'payload' => []
+        ]);
+    }
+
+    public function end(Request $request): JsonResponse
+    {
+        $request->session()->forget('name');
 
         return response()->json([
             'success' => true,
