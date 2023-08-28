@@ -6,7 +6,9 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{route('home')}}" class="nav-link">System Dashboard</a>
+            <a href="{{route('home')}}" class="nav-link">
+                System Dashboard
+            </a>
         </li>
         {{--<li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Document</a>
@@ -17,7 +19,7 @@
                role="button"
                data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-                Documents Check
+                <i class="fas fa-list"></i> Documents Check
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item"
