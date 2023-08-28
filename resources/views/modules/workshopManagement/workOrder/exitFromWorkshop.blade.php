@@ -2176,7 +2176,8 @@
                         }
 
                         let defectSelectionFilterData = response['payload'];
-                        tmsApp.populateDropDownList(defectSelectionFilterData,
+                        tmsApp.populateDropDownList(
+                            defectSelectionElem,
                             defectSelectionFilterData,
                             "code", ["description"],
                             "",
