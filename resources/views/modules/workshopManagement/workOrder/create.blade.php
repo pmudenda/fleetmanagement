@@ -3023,16 +3023,18 @@
 
                 if (tableId === "part8") {
                     let row = lastRow;
+                    $(row).find('.select2-container').remove();
+                    let $_defect_sel = $(row).find(".select_2_control");
                     const $vehicleSystem = $(row).find('[name="vehicleSystem"]');
                     // $vehicleSystem.attr('disabled', false)
+                    console.log($vehicleSystem)
                     loadDefectDropdownLists(window['VEH_SYS'], $vehicleSystem);
 
                     $(row).find('[name="defectCategory"]').attr('disabled', false)
                     $(row).find('[name="defect"]').attr('disabled', false)
                     $(row).find('[name="workshopSection"]').attr('disabled', false)
 
-                    $(row).find('.select2-container').remove();
-                    let $_defect_sel = $(row).find(".select_2_control");
+
                     //reinitializeSelect2($_defect_sel);
                 }
             }
