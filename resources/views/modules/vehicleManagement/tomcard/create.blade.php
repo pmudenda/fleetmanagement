@@ -101,7 +101,7 @@
                                             </td>
                                         </tr>
 
-                                        <tr>
+                                        {{--<tr>
                                             <td>
                                                 <label class="app-field-label">
                                                     NRFA Batch Number <span class="text-danger">*</span>
@@ -143,7 +143,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
+                                        </tr>--}}
 
                                         <tr>
                                             <td>
