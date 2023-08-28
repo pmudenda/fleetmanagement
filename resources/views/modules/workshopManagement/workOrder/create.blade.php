@@ -1308,6 +1308,8 @@
                         submitForm: true,
                         workshopReference: $('[name="workshop_reference"]').val(),
                         jobCardNumber: $('[name="job_card_number"]').val(),
+                        imprestProjectNumber: $('[name="imprestProjectNumber"]').val(),
+                        imprestZQMSReference: $('[name="imprestZQMSReference"]').val(),
                         totalPayment: tmsApp.getFloat($('[name="total_payment"]').val()),
                     }
 

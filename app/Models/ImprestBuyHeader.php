@@ -17,6 +17,7 @@ class ImprestBuyHeader extends Model
         'user_unit_code',
         'user_unit_id',
         'pay_point_id',
+        'imprest_reference',
         'work_order_number',
         'total_payment',
         'change',
