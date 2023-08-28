@@ -2,11 +2,18 @@
 
 namespace App\Models\VehicleManagement;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TomCardAllocation extends Model
 {
     protected $table = '';
-    protected $fillable = [];
+    protected $fillable = [
+        'reg_no',
+        'card_number',
+        'period_from',
+        'period_to',
+        'status',
+        'assigned_by',
+        'modified_by',
+    ];
 }

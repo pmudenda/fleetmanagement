@@ -4,6 +4,7 @@ use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Http\Controllers\Configurations\VehicleBodyTypesController;
 use App\Http\Controllers\migration\VehicleDataCleaningController;
+use App\Http\Controllers\VehicleManagament\TomCardManagementController;
 use App\Http\Controllers\VehicleManagement\MeterEntryController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleModelsController;
@@ -111,12 +112,15 @@ Route::group(['middleware' => 'auth', 'prefix' => 'vehicle-management'], functio
 
     Route::get('odometer/logs/new', [MeterEntryController::class, 'create'])
         ->name('new.fleet.movement');
+
     Route::post('odometer/logs/new', [MeterEntryController::class, 'store'])
         ->name('save.odometer.log');
 
     Route::get('odometer/log/vehicle/details', [VehicleController::class, 'getVehicleDetails'])
         ->name('odometer.log.vehicle.details');
 
+    Route::get('tom/card/assignment', [TomCardManagementController::class, 'create'])
+        ->name('assign.tom.card');
 });
 
 

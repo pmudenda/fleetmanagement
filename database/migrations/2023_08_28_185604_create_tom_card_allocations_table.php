@@ -13,10 +13,11 @@ return new class extends Migration {
         Schema::create('vm_tom_card_allocations', function (Blueprint $table) {
             $table->id();
             $table->string('reg_no', 10);
+            $table->string('card_number', 25);
             $table->date('period_from');
             $table->date('period_to');
             $table->string('status', 2);
-            $table->string('created_by', 12)->nullable();
+            $table->string('assigned_by', 12)->nullable();
             $table->string('modified_by', 12)->nullable();
             $table->timestamps();
         });
