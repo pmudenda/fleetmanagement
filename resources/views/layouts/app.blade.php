@@ -768,6 +768,8 @@
             e.stopPropagation();
             let formData = new FormData(this);
 
+            $("#modalSimulateUser").modal('hide');
+
             tmsApp.asyncPostFormData(
                 this.action,
                 formData,
@@ -799,6 +801,47 @@
                     console.log(xhr);
                     tmsApp.systemError(
                         'User Simulation',
+                        'We could not complete processing your request, please try again later')
+                }
+            );
+        });
+
+        $(document).on('click', '[data-action="endSimulation"]', function (e) {
+
+            let formData = new FormData(this);
+
+            tmsApp.asyncPostFormData(
+                $(this).data('formUrl'),
+                formData,
+                function (response_data) {
+                    if (response_data.success === 'true' || response_data.success === true) {
+                        if (response_data['payload'].length === 0) {
+                            tmsApp.systemError(
+                                'End User Simulation',
+                                'Could Not Start User Simulation'
+                            );
+                        }
+                        tmsApp.showSystemMessage(
+                            'End User Simulation',
+                            'User Simulation Ended Successfully',
+                            function () {
+                                window.location.reload()
+                            },
+                            'success'
+                        )
+
+                    } else {
+                        tmsApp.play_alert('sound-error');
+                        tmsApp.systemError(
+                            'End User Simulation',
+                            'Could Not End User Simulation');
+                    }
+                },
+                function (xhr, settings, errorThrown) {
+                    tmsApp.play_alert('sound-error');
+                    console.log(xhr);
+                    tmsApp.systemError(
+                        'End User Simulation',
                         'We could not complete processing your request, please try again later')
                 }
             );

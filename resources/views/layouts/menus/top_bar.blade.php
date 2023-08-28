@@ -10,9 +10,7 @@
                 System Dashboard
             </a>
         </li>
-        {{--<li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Document</a>
-        </li>--}}
+
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#"
                id="navbarDropdown"
@@ -48,7 +46,8 @@
         @if(session('simulating', false))
             <li class="nav-item d-sm-inline-block">
                 <a href="#"
-                   data-action="EndSimulation"
+                   data-form-url="{{route('end.user.simulation')}}"
+                   data-action="endSimulation"
                    class="nav-link">
                     <i class="fas fa-sign-out-alt mr-2"></i>
                     End Simulation

@@ -8,8 +8,7 @@ class Simulation extends Model
 {
     protected $table = 'gen_simulations';
     protected $fillable = [
-        "user_act",
-        "date_act",
+        "created_at",
         "simulator",
         "simulated",
         "simulate_start",
