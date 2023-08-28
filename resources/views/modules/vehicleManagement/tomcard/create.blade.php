@@ -59,15 +59,15 @@
 
                                 <fieldset style="" class="form-group border p-3">
                                     <legend>General Information:</legend>
-                                    <table class="app_form_table table">
-                                        <tr>
-                                            <td>
+                                    <div class="app_form_table table">
+                                        <div class="row">
+                                            <div class="col" data-id="table-td">
                                                 <label class="app-field-label">
                                                     Vehicle Registration Number
                                                     <span class="text-danger">*</span>
                                                 </label>
-                                            </td>
-                                            <td>
+                                            </div>
+                                            <div class="col" data-type="table-td">
                                                 <div class="app-field-input" data-field="taskOriginator">
                                                     <div class="input-group">
                                                         <input type="text"
@@ -84,20 +84,20 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </td>
-                                            <td class="pl-5">
-                                            </td>
-                                            <td>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                            <div class="col pl-5" data-type="table-td">
+                                            </div>
+                                            <div class="col" data-type="table-td">
+                                            </div>
+                                        </div>
 
-                                        <tr>
-                                            <td>
+                                        <div class="row">
+                                            <div class="col">
                                                 <label class="app-field-label field-required">
                                                     Card Number
                                                 </label>
-                                            </td>
-                                            <td>
+                                            </div>
+                                            <div class="col">
                                                 <div class="input-group">
                                                     <input type="text"
                                                            name="cardNumber"
@@ -111,16 +111,16 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </div>
 
-                                        <tr>
-                                            <td>
+                                        <div class="row">
+                                            <div class="col">
                                                 <label class="app-field-label field-required">
                                                     Date Issued
                                                 </label>
-                                            </td>
-                                            <td>
+                                            </div>
+                                            <div class="col">
                                                 <div class="input-group date">
                                                     <input type="text"
                                                            name="dateIssued"
@@ -143,17 +143,17 @@
                                                         <i data-action="clearDate" class="fa fa-eraser"></i>
                                                     </button>
                                                 </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </div>
 
-                                        <tr>
-                                            <td>
+                                        <div class="row">
+                                            <div class="col">
                                                 <label class="app-field-label" data-field="specificlocationofia">
                                                     Expiry Date <span class="text-danger">*</span>
                                                 </label>
-                                            </td>
+                                            </div>
 
-                                            <td>
+                                            <div class="col">
                                                 <div class="input-group date">
                                                     <input type="text"
                                                            name="expiryDate"
@@ -168,26 +168,27 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                            </td>
+                                            </div>
 
-                                        </tr>
+                                        </div>
 
-                                        <tr>
+                                        <div class="row">
                                             <td colspan="4">
                                                 <label class="app-field-label" data-field="typeia">
                                                     Comments
                                                 </label>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="background: none;" colspan="4">
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col" data-id="table-td" style="background: none;">
                                                 <div class="app-field-input">
                                                     <textarea name="comments" id="comments"
                                                               class="form-control"></textarea>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </fieldset>
                             </form>
                         </div>
