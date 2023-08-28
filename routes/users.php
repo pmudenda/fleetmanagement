@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Security\PasswordResetController;
 use App\Http\Controllers\UserManagement\UsersController;
+use App\Http\Controllers\UserManagement\UserSimulationController;
 use Illuminate\Support\Facades\Route;
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'user-management'], function () {
@@ -28,8 +30,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('user/update', [UsersController::class, 'update'])->name('user.update');
 
+        Route::post('user/simulation/start', [UserSimulationController::class, 'start'])->name('start.user.simulation');
 
-        Route::post('user/simulation', [UsersController::class, 'update'])->name('start.user.simulation');
+        Route::post('user/simulation/end', [UserSimulationController::class, 'end'])->name('end.user.simulation');
     });
 });
 
