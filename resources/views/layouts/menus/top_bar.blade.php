@@ -43,10 +43,10 @@
             </div>
         </li>
 
-        <li class="nav-item d-none d-sm-inline-block">
+        <li class="nav-item d-sm-inline-block">
             <a href="#"
                data-toggle="modal"
-               data-target="#modalsimulateUser"
+               data-target="#modalSimulateUser"
                class="nav-link">Simulator User</a>
         </li>
     </ul>
