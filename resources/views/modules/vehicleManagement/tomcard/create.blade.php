@@ -29,7 +29,9 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'Tom Card Assignment'" :activeCrumb="'OnBoarding'" :link="'list.tom.card'"
+    <x-content-header :pageTitle="'Tom Card Assignment'"
+                      :activeCrumb="'Assignment'"
+                      :link="'list.tom.card'"
                       :linkText="'Tom Card'"/>
     <section class="content">
         <x-error-view/>
@@ -44,14 +46,13 @@
                                 <h4>Tom Card Management</h4>
                             </div>
                         </div>
-                        <div class="card-body p-2">
-                            <form class="" name="newETollCardForm"
-                                  action="{{route('save.assign.tom.card')}}"
-                                  id="newETollCardForm"
-                                  method="post">
-                                @csrf
-                                <input type="hidden" name="relatedReference" id="relatedReference"
-                                       value="{{$relatedReference ?? ''}}"/>
+                        <form class="" name="newTomCardForm"
+                              action="{{route('save.assign.tom.card')}}"
+                              id="newTomCardForm"
+                              method="post">
+                            @csrf
+                            <div class="card-body p-2">
+
                                 <div class="errorTxt"></div>
                                 <x-error-view></x-error-view>
 
@@ -59,7 +60,7 @@
 
                                 <fieldset style="" class="form-group border p-3">
                                     <legend>General Information:</legend>
-                                    <div class="app_form_table table">
+                                    <div class="col-6 col-xm-12">
                                         <div class="row">
                                             <div class="col" data-id="table-td">
                                                 <label class="app-field-label">
@@ -190,20 +191,21 @@
                                         </div>
                                     </div>
                                 </fieldset>
-                            </form>
-                        </div>
-                        <div class="card-footer">
-                            <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                                <button type="button" id="submitRequisitionBtn"
-                                        class="btn btn-success btn-sm mr-3 when_odo_valid">
-                                    <i class="fas fa-save"></i> Save
-                                </button>
-                                <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
-                                    <i class="fas fa-undo"></i> Reset
-                                </button>
 
                             </div>
-                        </div>
+                            <div class="card-footer">
+                                <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                                    <button type="button" id="submitRequisitionBtn"
+                                            class="btn btn-success btn-sm mr-3 when_odo_valid">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                    <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
+                                        <i class="fas fa-undo"></i> Reset
+                                    </button>
+
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -211,12 +213,10 @@
         </div>
     </section>
     <x-employee-search-modal/>
-    <input type="hidden" value="{{route('license.details.verification')}}" id="rtsaLicenseVerificationEndPoint">
 @endsection
 
 @push('scripts')
-    <script
-            src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
+    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
     <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
     <!-- page script -->
     <script>
@@ -234,13 +234,13 @@
                 "mask": "A{2,3} 9{1,4}"
             }).mask("#vehicleRegistration");
 
-            tmsApp.appFormValidator('form[name="newETollCardForm"]',
+            tmsApp.appFormValidator('form[name="newTomCardForm"]',
                 {},
                 {}
             );
 
             $("#submitRequisitionBtn").on('click', function () {
-                let $form = document.forms['newETollCardForm'];
+                let $form = document.forms['newTomCardForm'];
                 if (!$($form).valid()) {
                     return;
                 }
@@ -248,8 +248,8 @@
                 $('.print-error-msg').css('display', 'none');
                 let formData = new FormData($form);
                 tmsApp.confirm(
-                    'eToll Card onboarding',
-                    'Are you sure you want to onboard the data ?',
+                    'Tom Card Assignment',
+                    'Are you sure you want to assign the Tom card ?',
                     'Yes',
                     'No',
                     function () {
@@ -261,7 +261,7 @@
                                 if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
-                                            'eToll Card Saved',
+                                            'Tom Card Assignment',
                                             asyncResponse['message'],
                                             function () {
                                                 window.location.reload();
@@ -276,7 +276,7 @@
                                     }
                                     setTimeout(function () {
                                         tmsApp.systemError(
-                                            'eToll Card onboarding',
+                                            'Tom Card Assignment',
                                             asyncResponse['message'],
                                             function () {
                                             }, 'error');
@@ -292,7 +292,7 @@
                                         }
                                         if (xhr.responseJSON.hasOwnProperty('message')) {
                                             tmsApp.systemError(
-                                                'eToll Card onboarding',
+                                                'Tom Card Assignment',
                                                 xhr.responseJSON['message']
                                             );
                                         }
@@ -300,7 +300,7 @@
                                     }
 
                                     tmsApp.systemError(
-                                        'eToll Card Saving',
+                                        'Tom Card Assignment',
                                         'We could not complete processing your request, please try again later');
                                 }, 300)
                             }
