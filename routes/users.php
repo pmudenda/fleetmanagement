@@ -27,6 +27,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('user/sync', [UsersController::class, 'sync'])->name('user.sync');
 
         Route::post('user/update', [UsersController::class, 'update'])->name('user.update');
+
+
+        Route::post('user/simulation', [UsersController::class, 'update'])->name('start.user.simulation');
     });
 });
 
