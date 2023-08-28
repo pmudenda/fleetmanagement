@@ -84,7 +84,7 @@
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
                                              src="{{ asset('storage/user_avatar/' . $mechanic->avatar) }}"
                                              alt="Image not found"
-                                             @if( Auth::user()->id==$mechanic->id)
+                                             @if(Auth::user()->id==$mechanic->id)
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"@endif
@@ -93,7 +93,7 @@
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
                                              src="{{ asset('assets/media/avatars/avatar.png') }}"
                                              alt="Image not found"
-                                             @if( Auth::user()->id==$mechanic->id)
+                                             @if(Auth::user()->id==$mechanic->id)
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"@endif
@@ -112,16 +112,16 @@
                                 <li class="list-group-item">
                                     <b>Man Number</b> <a class="float-right">{{ $mechanic->staff_no }}</a>
                                 </li>
-                                <li class="list-group-item">
+                                {{--<li class="list-group-item">
                                     <b>NRC</b> <a class="float-right">{{ $mechanic->nrc }}</a>
-                                </li>
-                                {{-- @endif --}}
-                                <li class="list-group-item">
+                                </li>--}}
+
+                                {{--<li class="list-group-item">
                                     <b>Phone</b> <a class="float-right">{{ $mechanic->mobile_no }}</a>
-                                </li>
-                                <li class="list-group-item">
+                                </li>--}}
+                                {{--<li class="list-group-item">
                                     <b>Extension</b> <a class="float-right">{{ $mechanic->phone ?? '' }}</a>
-                                </li>
+                                </li>--}}
                                 <li class="list-group-item">
                                     <b>
                                         Assigned Profile
@@ -145,15 +145,6 @@
                                         @else
                                             {{$mechanic->status ?? '--'}}
                                         @endif
-                                    </a>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <b>Total Logins</b>
-                                    <a class="float-right">
-                                       <span class="badge badge-success p-2">
-                                             {{ $mechanic->total_logins ?? '' }}
-                                       </span>
                                     </a>
                                 </li>
                             </ul>
@@ -204,11 +195,11 @@
                                     </a>
                                 </li>
 
-                                <li class="card-title">
+                               {{-- <li class="card-title">
                                     <a class="nav-link" href="#pass_reset" data-toggle="tab">
                                         Password Reset
                                     </a>
-                                </li>
+                                </li>--}}
 
                             </ul>
                         </div>
