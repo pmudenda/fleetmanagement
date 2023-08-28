@@ -632,11 +632,11 @@
             tmsApp.numberOnly(event);
         });
 
-        $(document).on('keyup', '.uppercase', function (event) {
+        $(document).on('input', '.uppercase', function (event) {
             this.value = this.value.toUpperCase();
         });
 
-        $(document).on('keyup', '[name="simulationJustification"]', function (event) {
+        $(document).on('input', '[name="simulationJustification"]', function (event) {
             this.value = this.value.toUpperCase();
         });
 
