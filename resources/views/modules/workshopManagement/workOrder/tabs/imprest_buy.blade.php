@@ -67,7 +67,7 @@
                         </td>
                         <td>
                             <input name=""
-                                   value="{{$pettyCashItem->unit_price}}"
+                                   value="{{number_format($pettyCashItem->unit_price, 2)}}"
                                    readonly
                                    class="form-control form-control-sm"/>
                         </td>
@@ -75,7 +75,7 @@
                             <input name=""
                                    type="text"
                                    readonly
-                                   value="{{$pettyCashItem->total_price}}"
+                                   value="{{number_format($pettyCashItem->total_price, 2)}}"
                                    class="form-control form-control-sm total_price"/>
                         </td>
                         <td>
