@@ -66,8 +66,10 @@
 @endpush
 
 @section('content')
-    <x-content-header :pageTitle="'DRIVER DETAILS'" :activeCrumb="'Driver Details'" :link="'driver.list'"
-                      :linkText="'Drivers'"/>
+    <x-content-header :pageTitle="'MECHANIC DETAILS'"
+                      :activeCrumb="'Mechanic Details'"
+                      :link="'mechanic.list'"
+                      :linkText="'Mechanic'"/>
 
     <!-- Main content -->
     <section class="content">

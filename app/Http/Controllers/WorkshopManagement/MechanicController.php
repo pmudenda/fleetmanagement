@@ -27,12 +27,17 @@ class MechanicController extends Controller
                 'mec.workshop_code',
                 '=',
                 'wkshp.workshop_code')
+            ->leftJoin('sec_users usr',
+                'mec.staff_no',
+                '=',
+                'usr.staff_no')
             ->leftJoin('config_general_tables wkshp_sec', function ($join) {
                 $join->on('mec.section_code', '=', 'wkshp_sec.code')
                     ->where('wkshp_sec.type', '=', 'WORK_SHOP_SEC');
             })
             ->select(
                 'mec.*',
+                'usr.*',
                 'wkshp_sec.name as wkshp_section_name',
                 'wkshp.workshop_name'
             )->get();
