@@ -43,16 +43,6 @@
                             <div class="card-title">
                                 <h4>Tom Card Management</h4>
                             </div>
-                            <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                                <button type="button" id="submitRequisitionBtn"
-                                        class="btn btn-success btn-sm mr-3 when_odo_valid">
-                                    <i class="fas fa-save"></i> Save
-                                </button>
-                                <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
-                                    <i class="fas fa-undo"></i> Reset
-                                </button>
-
-                            </div>
                         </div>
                         <div class="card-body p-2">
                             <form class="" name="newETollCardForm"
@@ -100,50 +90,6 @@
                                             <td>
                                             </td>
                                         </tr>
-
-                                        {{--<tr>
-                                            <td>
-                                                <label class="app-field-label">
-                                                    NRFA Batch Number <span class="text-danger">*</span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="app-field-input" data-field="taskOriginator">
-                                                    <div class="input-group">
-                                                        <input type="text"
-                                                               id="batchNumber"
-                                                               required
-                                                               autocomplete="off"
-                                                               name="batchNumber"
-                                                               class="form-control"/>
-                                                        <div class="input-group-append">
-                                                            <button type="button" data-assignmenttype="single"
-                                                                    data-inputfield="taskOriginator"
-                                                                    data-field="userSelection"
-                                                                    class="input-group-text">
-                                                                <i class="fa fc-day-number"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="pl-5">
-                                                <label class="field-required app-field-label-">
-                                                    Scheme
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="app-field-input" data-field="dateoriginated">
-                                                    <div class="input-group">
-                                                        <select
-                                                                name="cardScheme"
-                                                                class="form-select">
-                                                            <option value="ST">Standard</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>--}}
 
                                         <tr>
                                             <td>
@@ -244,6 +190,18 @@
                                     </table>
                                 </fieldset>
                             </form>
+                        </div>
+                        <div class="card-footer">
+                            <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                                <button type="button" id="submitRequisitionBtn"
+                                        class="btn btn-success btn-sm mr-3 when_odo_valid">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                                <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
+                                    <i class="fas fa-undo"></i> Reset
+                                </button>
+
+                            </div>
                         </div>
                     </div>
                 </div>
