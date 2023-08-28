@@ -93,7 +93,7 @@ class MechanicController extends Controller
                 'mec.*',
                 'wkshp_sec.name as wkshp_section_name',
                 'wkshp.workshop_name'
-            )->get();
+            )->first();
         return view('modules.mechanicManagement.show')
             ->with(compact('mechanic'));
     }
