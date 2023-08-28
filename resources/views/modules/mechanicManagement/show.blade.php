@@ -229,11 +229,11 @@
                                                 <p class="text-muted">
                                                     <b>Location:</b> {{ $user->functional_section ?? '' }}</p>
                                                 <p class="text-muted"><b>Area:</b>
-                                                    @foreach(Area::get() as $area)
+                                                    {{--@foreach(Area::get() as $area)
                                                         @if($area->area == $user->area_code)
                                                             <b value="{{$area->area}}">{{$area->description}}</b>
                                                         @endif
-                                                    @endforeach
+                                                    @endforeach--}}
                                                 </p>
                                             </div>
                                             <div class="col-6">
@@ -257,9 +257,12 @@
                                                     {{$user->user_unit ?? '' }}
                                                 @endif
                                                 </p>
-                                                <p class="text-muted"><b class="text-dark">Business Unit
-                                                        Code:</b> {{ $user->bu_code ?? '' }}</p>
-                                                {{--<p class="text-muted"><b>Business Unit Code:</b> {{ $user->bu_code ?? '' }}</p>--}}
+                                                <p class="text-muted">
+                                                    <b class="text-dark">
+                                                        Business Unit Code:
+                                                    </b>
+                                                    {{ $user->bu_code ?? '' }}
+                                                </p>
                                                 <p class="text-muted"><b>Cost Center:</b> {{ $user->cc_code ?? '' }}
                                                 </p>
                                             </div>
@@ -331,32 +334,12 @@
                                             <div class="col-lg-6 col-sm-12">
                                                 <p class="text-muted">
                                                     <strong>Name:</strong>
-                                                    {{ $user->supervisor_name ?? '' }}
+                                                    {{--{{ $user->supervisor_name ?? '' }}--}}
                                                 </p>
                                                 <p class="text-muted">
                                                     <strong>Staff No.:</strong>
-                                                    {{ $user->supervisor_code ?? '' }}
+                                                    {{--{{ $user->supervisor_code ?? '' }}--}}
                                                 </p>
-                                                {{--
-                                                    <p class="text-muted">
-                                                        <strong>Category:</strong>
-                                                        {{ $user->grade->category->name ?? '' }}
-                                                    </p>
-                                                --}}
-                                                {{--
-                                                    <p class="text-muted">
-                                                         <strong>User Position:</strong>
-                                                         {{ $user->job_title ?? '' }}
-                                                     </p>
-                                                 --}}
-                                                {{--
-                                                    <p class="text-muted ">
-                                                         <strong class="text-orange ">
-                                                             Job Code:
-                                                         </strong>
-                                                         {{ $user->job_code ?? '' }}
-                                                    </p>
-                                                 --}}
                                             </div>
 
                                             @if(!empty($user_acting->acting_date_from))
