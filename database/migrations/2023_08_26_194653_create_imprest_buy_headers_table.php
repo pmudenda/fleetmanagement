@@ -29,7 +29,7 @@ return new class extends Migration {
             $table->string('claim_date')->nullable();
             $table->string('authorised_by')->nullable();
             $table->string('date_authorised')->nullable();
-            $table->integer('created_by');
+            $table->string('created_by', 20);
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

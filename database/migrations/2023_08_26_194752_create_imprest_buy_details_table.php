@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('unit_of_measure',10)->nullable();
             $table->decimal('unit_price', 19,4)->nullable();
             $table->decimal('total_price', 19,4)->nullable();
-            $table->string('created_by')->nullable();
+            $table->string('created_by', 20)->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

@@ -1546,7 +1546,7 @@ class MaintenanceController extends Controller
                     'cost_center' => $user->cc_code,
                     'business_unit_code' => $user->bc_code,
                     'work_order_number' => $request->get('imprestProjectNumber'),
-                    'total_payment' => $request->total_payment,
+                    'total_payment' => floatval($request->total_payment),
                     //'code' => $pettyCashSystemReference,
                     'zqms_ref_no' => $request->get('imprestZQMSReference'),
                     'status' => StatusHelper::new(),
@@ -1564,10 +1564,10 @@ class MaintenanceController extends Controller
                         'material_code' => $item['imprestArticleCode'],
                         'description' => $item['imprestArticleDescription'],
                         'specification' => $item['imprestArticleDescription'],
-                        'quantity' => $item['imprestItemQty'],
+                        'quantity' => (int)$item['imprestItemQty'],
                         'unit_of_measure' => $item['imprestItemUnitOfMeasure'],
-                        'unit_price' => $item['imprestItemUnitPrice'],
-                        'total_price' => $item['imprestItemTotalPrice'],
+                        'unit_price' => floatval($item['imprestItemUnitPrice']),
+                        'total_price' => floatval($item['imprestItemTotalPrice']),
                         'created_by' => $user->staff_no
                     ]
                 );
