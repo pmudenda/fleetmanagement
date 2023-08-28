@@ -1,5 +1,5 @@
 @php use Carbon\Carbon; @endphp
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Fleet Master</title>
@@ -398,41 +398,39 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <form action="{{route('save.job.reassignment')}}" name="saveReassignmentForm">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="form-group">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="app-field-label">
+                                    User
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text"
+                                       required
+                                       class="form-control form-control-sm"
+                                       name="user"/>
+                            </div>
+                        </div>
+                        <div class="col-10">
                             <label class="app-field-label">
-                                Mechanic
-                                <span class="text-danger">*</span>
+                                Justification
                             </label>
-                            <input type="text"
-                                   required
-                                   class="form-control form-control-sm"
-                                   name="reassignTo"
-                                   list="mechanics"/>
+                            <textarea id="simulationJustification"
+                                      style="height: 129px;"
+                                      required
+                                      class="form-control comments form-control-sm"
+                                      name="simulationJustification"></textarea>
                         </div>
                     </div>
-                    <div class="col-10">
-                        <label class="app-field-label">
-                            Mechanic
-                            <span class="text-danger">*</span>
-                        </label>
-                                <textarea id="reassignmentJustification"
-                                          style="height: 129px;"
-                                          required
-                                          class="form-control comments form-control-sm"
-                                          name="reassignmentJustification"></textarea>
-                    </div>
-                </div>
 
-                <div class="modal-footer justify-content-end">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button"
-                            class="btn btn-sm btn-success"
-                            value="applyFilter"> Apply Filter
-                    </button>
-                </div>
+                    <div class="modal-footer justify-content-end">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button"
+                                class="btn btn-sm btn-success"
+                                value="applyFilter"> Apply Filter
+                        </button>
+                    </div>
                 </form>
             </div>
 

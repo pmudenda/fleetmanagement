@@ -262,6 +262,7 @@
                                             <table role="table"
                                                    aria-label="Vehicle Details"
                                                    class="table table-striped">
+                                                <thead></thead>
                                                 <tbody id="vehicleDetails" class="vehicleDetails">
                                                 </tbody>
                                             </table>
