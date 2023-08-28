@@ -228,6 +228,7 @@
 
         </div>
     </section>
+    <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
     <x-employee-search-modal/>
 @endsection
 
@@ -305,11 +306,10 @@
                                         return image['file_type'] === 'Front View';
                                     })
                                     let imagePath = frontViewImages[0]?.path;
-                                    document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
+                                    document.querySelector(".imagePreview")
+                                        .style.backgroundImage = "url(/storage" + imagePath + ")";
                                 }
-                                findLatestRequisition();
                             } else {
-                                removeSubmissionAndDetailsOptions();
                                 let $message = response_data['message']
                                     ? response_data['message']
                                     : ' No Vehicle Found, Check your input and try again';
