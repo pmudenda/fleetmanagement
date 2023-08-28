@@ -1539,7 +1539,7 @@ class MaintenanceController extends Controller
             DB::beginTransaction();
             ImprestBuyHeader::firstOrCreate(
                 [
-                    'projects_id' => $request->projects_id,
+                    'work_order_number' => $request->get('imprestProjectNumber'),
                 ],
                 [
                     'imprest_reference' => $imprestReferenceNumber,
