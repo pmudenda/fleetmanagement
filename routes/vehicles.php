@@ -109,29 +109,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'vehicle-management'], functio
     Route::get('/accessories', [VehicleController::class, 'accessories'])
         ->name('vehicle.accessories');
 
-    Route::post('/save/clean/data', [VehicleDataCleaningController::class, 'saveData'])
-        ->name('save.clean.data');
-
-    Route::post('/cleanup/filter', [VehicleDataCleaningController::class, 'filter'])
-        ->name('data.migration.filter');
-
-    Route::post('find/vehicle', function (Request $request) {
-        try {
-            $vehicle = GtaVehicle::where('matricula', $request->get('reg_num'))->get();
-            return response()->json([
-                'success' => !empty($vehicle),
-                'payload' => $vehicle
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'success' => false,
-                'payload' => [],
-                'message' => 'We could not complete processing your request, please try again later'
-            ]);
-        }
-    })->name('cleanup.vehicle.find');
-
     Route::get('odometer/logs/new', [MeterEntryController::class, 'create'])
         ->name('new.fleet.movement');
     Route::post('odometer/logs/new', [MeterEntryController::class, 'store'])

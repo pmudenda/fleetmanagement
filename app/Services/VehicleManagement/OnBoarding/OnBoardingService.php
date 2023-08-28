@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\Log;
 class OnBoardingService
 {
     const VEHICLE_ONBOARDING = 'Vehicle Registration';
+    const DOC_NUMBER = '@docNumber';
     private FileUploadService $fileUploadService;
     private BarcodeGenerationService $codeService;
 
@@ -61,21 +62,24 @@ class OnBoardingService
         $engineNumber = $request->input('engineNumber');
 
         if ($request->chassisDetailsId == 0) {
-            $recordByRegistrationNumber = ChassisDetail::where('chassis_number', $chassisNumber)->first();
+            $recordByRegistrationNumber = ChassisDetail::where('chassis_number', $chassisNumber)
+                ->first();
 
             if (!empty($recordByRegistrationNumber)) {
                 throw new VehicleOnBoardingException(
-                    str_replace('@docNumber',
+                    str_replace(
+                        self::DOC_NUMBER,
                         $chassisNumber,
                         ErrorMessages::INVALID_CHASSIS_NUMBER)
                 );
             }
 
-            $recordMotorVehicleCertificate = ChassisDetail::where('chassis_number', $whiteBookSerial)->first();
+            $recordMotorVehicleCertificate = ChassisDetail::where('chassis_number', $whiteBookSerial)
+                ->first();
 
             if (!empty($recordMotorVehicleCertificate)) {
                 throw new VehicleOnBoardingException(
-                    str_replace('@docNumber',
+                    str_replace(self::DOC_NUMBER,
                         $whiteBookSerial,
                         ErrorMessages::INVALID_MVC_NUMBER)
                 );
@@ -85,7 +89,7 @@ class OnBoardingService
 
             if (!empty($recordByEngineNumber)) {
                 throw new VehicleOnBoardingException(
-                    str_replace('@docNumber',
+                    str_replace(self::DOC_NUMBER,
                         $engineNumber,
                         ErrorMessages::INVALID_ENGINE_NUMBER)
                 );

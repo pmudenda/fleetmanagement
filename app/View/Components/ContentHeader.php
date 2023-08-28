@@ -16,7 +16,11 @@ class ContentHeader extends Component
     public string $link;
     public string $linkText;
 
-    public function __construct($activeCrumb ='Dashboard v1', $link ='home', $linkText = "Home", $pageTitle = "Dashboard")
+    public function __construct(
+        $activeCrumb = 'Dashboard v1',
+        $link = 'home',
+        $linkText = "Home",
+        $pageTitle = "Dashboard")
     {
         if (empty($pageTitle)) {
             $pageTitle = "";

@@ -32,10 +32,15 @@ class WorkflowApprovalHistory extends Component
     {
         $this->approvals = DB::table("WFL_WORKFLOW_LOGS")
             ->where('reference', '=', $this->request->req_no ?? $this->request->reference)
-            ->join('SEC_USERS', 'WFL_WORKFLOW_LOGS.actioning_officer', '=', 'SEC_USERS.staff_no')
-            ->leftJoin('CONFIG_STATUSES', 'WFL_WORKFLOW_LOGS.status', '=', 'CONFIG_STATUSES.code')
-            ->leftJoin('WFL_WORKFLOW_ACTIONS', 'WFL_WORKFLOW_LOGS.action', '=', 'WFL_WORKFLOW_ACTIONS.action_id')
-            ->where('CONFIG_STATUSES.module', '=', Modules::Material)
+            ->join('SEC_USERS', 'WFL_WORKFLOW_LOGS.actioning_officer',
+                '=', 'SEC_USERS.staff_no')
+            ->leftJoin('CONFIG_STATUSES', 'WFL_WORKFLOW_LOGS.status',
+                '=', 'CONFIG_STATUSES.code')
+            ->leftJoin('WFL_WORKFLOW_ACTIONS', 'WFL_WORKFLOW_LOGS.action',
+                '=', 'WFL_WORKFLOW_ACTIONS.action_id')
+            ->where('CONFIG_STATUSES.module',
+                '=',
+                Modules::MATERIAL->value)
             ->select(
                 'WFL_WORKFLOW_LOGS.*',
                 'WFL_WORKFLOW_ACTIONS.name as action_name',

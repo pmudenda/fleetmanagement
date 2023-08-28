@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 class DocumentController extends Controller
 {
-    public function documentFollowup(Request $request): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function documentFollowup(Request $request): View
     {
         Log::info("Making Document Followup");
         try {

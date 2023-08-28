@@ -8,12 +8,12 @@ enum Modules: string
     case SparesRequisition = "SPARES_REQ";
     case PurchaseRequisition = "PUR";
     case StoresRequisition = 'STR';
+
     case Requisition = 'REQ';
-    const FuelReq = 'FR';
+    case FUEL_REQUISITION = 'FR';
+    case WORKSHOP_DOCUMENT = 'WAC';
+    case JOB_CARD = 'JOB_CAR';
+    case MATERIAL = 'MAT';
 
-    const WORKSHOP_DOCUMENT = 'WAC';
-    const JOB_CARD = 'JOB_CAR';
-    const Material = 'MAT';
-
-    const Vehicle = "VEH";
+    const VEHICLE = "VEH";
 }

@@ -55,7 +55,8 @@ class WorkshopController extends Controller
                 //->leftJoin('WM_JOB_CARD_HEADER', 'GEN_MATERIAL_HEADERS.REQ_NO', '=', 'WM_JOB_CARD_HEADER.REQ_NO')
                 ->where('GEN_MATERIAL_HEADERS.requested_by', '=', $staff_no)
                 ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'N')
-                ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
+                ->where('CONFIG_STATUSES.MODULE', '=',
+                    Modules::MATERIAL->value)
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
                     'SEC_USERS.name as originator',
@@ -68,7 +69,7 @@ class WorkshopController extends Controller
                 ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
                 //->leftJoin('WM_JOB_CARD_HEADER', 'GEN_MATERIAL_HEADERS.REQ_NO', '=', 'WM_JOB_CARD_HEADER.REQ_NO')
                 ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'N')
-                ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
+                ->where('CONFIG_STATUSES.MODULE', '=', Modules::MATERIAL->value)
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
                     'SEC_USERS.name as originator',

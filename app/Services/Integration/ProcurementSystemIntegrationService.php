@@ -173,6 +173,9 @@ class ProcurementSystemIntegrationService
     public function cancelStoresRequisition($procurementSystemReference, $cancellationJustification): string
     {
         try {
+            if(empty($procurementSystemReference)){
+                return "No Procurement Reference";
+            }
             Log::info("Cancelling Stores Requisition For Request " . $procurementSystemReference);
 
             $systemOfOrigin = SystemOfOrigin::ZESCO_FLEET_MASTER;

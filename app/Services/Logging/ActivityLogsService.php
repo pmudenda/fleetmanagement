@@ -12,58 +12,51 @@ use Torann\GeoIP\Facades\GeoIP;
 
 class ActivityLogsService
 {
-    public static function store($request, $action, $action_type, $comment): void
+    public static function store($request, $action, $actionType, $comment): void
     {
         try {
             //BROWSER
             if (Browser::isMobile()) {
-                $device_type = "Mobile";
+                $deviceType = "Mobile";
             }
             if (Browser::isTablet()) {
-                $device_type = "Tablet";
+                $deviceType = "Tablet";
             }
             if (Browser::isDesktop()) {
-                $device_type = "Desktop / Laptop";
+                $deviceType = "Desktop / Laptop";
             }
             if (Browser::isBot()) {
-                $device_type = "Bot";
+                $deviceType = "Bot";
             }
+
             $device = Browser::deviceFamily();
             $os = Browser::platformName();
-            $os_version = Browser::platformVersion();
+            $osVersion = Browser::platformVersion();
             $browser = Browser::browserName();
-            $browser_version = Browser::browserVersion();
+            $browserVersion = Browser::browserVersion();
+            $ipAddress = $request->getClientIp();
+            $location = GeoIP::getLocation($ipAddress);
 
-            //get ip
-            $ip_address = $request->getClientIp();
-            //GEO DATA
-            $location = GeoIP::getLocation($ip_address);
-
-            //CREATE THE LOG
-            ActivityLogsModel::create(
-                [
+            ActivityLogsModel::create([
                 'user_id' => $request->user()->id,
                 'staff_no' => $request->user()->staff_no,
                 'staff_profile' => $request->user()->profile,
                 'username' => $request->user()->name,
                 'user_email' => $request->user()->email,
-
-                'ip_address' => $ip_address,
+                'ip_address' => $ipAddress,
                 'request_method' => $request->method(),
                 'request_params' => json_encode($request->all()),
                 'route_url' => $request->url(),
                 'previous_url' => $request->session()->previousUrl(),
-
                 'action_name' => $action,
-                'action_type' => $action_type,
+                'action_type' => $actionType,
                 'comment' => $comment,
                 'device' => $device,
-                'device_type' => $device_type,
+                'device_type' => $deviceType,
                 'os' => $os,
-                'os_version' => $os_version,
+                'os_version' => $osVersion,
                 'browser' => $browser,
-                'browser_version' => $browser_version,
-
+                'browser_version' => $browserVersion,
                 'iso_code' => $location->iso_code,
                 'country' => $location->country,
                 'city' => $location->city,

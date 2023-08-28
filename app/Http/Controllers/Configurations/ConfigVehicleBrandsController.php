@@ -89,8 +89,7 @@ class ConfigVehicleBrandsController extends Controller
     public function destroy(Request $request): JsonResponse
     {
         try {
-            $configVehicleBrands = VehicleBrand::where('guid', $request->input('guid'))->first();
-            //$configVehicleBrands->status = 'deactivated';
+            $configVehicleBrands = VehicleBrand::where('code', $request->input('code'))->first();
             $configVehicleBrands->status = 'deactivated';
 
             return response()->json([

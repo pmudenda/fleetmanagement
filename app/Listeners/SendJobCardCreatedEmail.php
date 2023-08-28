@@ -32,7 +32,7 @@ class SendJobCardCreatedEmail
 
             // send notification
             Log::info('Sending Mail Notification To Request Workshop Supervisor');
-            $sender = $user; //User::where('staff_no', '=', trim($user->staff_no))->first();
+            $sender = $user;
 
             $task = WorkflowTaskHeader::where('reference', '=', trim($reference))->first();
 

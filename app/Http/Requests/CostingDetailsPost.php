@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CostingDetailsPost extends FormRequest
 {
+    const REQUIRED_NUMERIC = 'required|numeric';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -24,11 +26,11 @@ class CostingDetailsPost extends FormRequest
     {
         return [
             'assetNumber' => 'required|string|max:100',
-            'bookValue' => 'required|numeric',
-            'costOfLicense' => 'required|numeric',
-            'costPrice' => 'required|numeric',
-            'premium' => 'required|numeric',
-            'yearOfPurchase' => 'required|numeric',
+            'bookValue' => self::REQUIRED_NUMERIC,
+            'costOfLicense' => self::REQUIRED_NUMERIC,
+            'costPrice' => self::REQUIRED_NUMERIC,
+            'premium' => self::REQUIRED_NUMERIC,
+            'yearOfPurchase' => self::REQUIRED_NUMERIC,
             'supplierName' => 'required|string',
             'purchaseOrderDocument' => 'nullable|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
         ];

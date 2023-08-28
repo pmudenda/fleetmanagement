@@ -4,7 +4,7 @@ namespace App\Constants;
 
 class EventTypes
 {
-    public static function Added(): string
+    public static function added(): string
     {
         return 'Added';
     }

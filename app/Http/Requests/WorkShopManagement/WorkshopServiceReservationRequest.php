@@ -7,6 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class WorkshopServiceReservationRequest extends FormRequest
 {
+    const REQUIRED_STRING = 'required|string';
+    const REQUIRED_NUMERIC = 'required|numeric';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,24 +26,24 @@ class WorkshopServiceReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'item.*.service_article' => 'required|string',
-            'item.*.service_quantity' => 'required|numeric',
-            'item.*.vehicle_registration' => 'required|string',
-            'item.*.service_technical_specification' => 'required|string',
-            'item.*.service_total_price' => 'required|numeric',
-            'item.*.service_unit_of_measure' => 'required|string',
-            'item.*.service_unit_price' => 'required|numeric',
+            'item.*.service_article' => self::REQUIRED_STRING,
+            'item.*.service_quantity' => self::REQUIRED_NUMERIC,
+            'item.*.vehicle_registration' => self::REQUIRED_STRING,
+            'item.*.service_technical_specification' => self::REQUIRED_STRING,
+            'item.*.service_total_price' => self::REQUIRED_NUMERIC,
+            'item.*.service_unit_of_measure' => self::REQUIRED_STRING,
+            'item.*.service_unit_price' => self::REQUIRED_NUMERIC,
 
             //'job_card_no' => 'required|string',
             //'workshop_reference' => 'required|string',
-            'modelName' => 'required|string',
-            'purchase_office' => 'required|string',
-            'remarks' => 'required|string',
-            'request_date' => 'required|string',
+            'modelName' => self::REQUIRED_STRING,
+            'purchase_office' => self::REQUIRED_STRING,
+            'remarks' => self::REQUIRED_STRING,
+            'request_date' => self::REQUIRED_STRING,
             // 'store_code' => 'required|string',
             // 'store_name' => 'required|string',
             'supplier' => 'nullable|string',
-            'workshop_code' => 'required|string',
+            'workshop_code' => self::REQUIRED_STRING,
         ];
     }
 }

@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\URL;
 
 class EmailNotificationService
 {
+    const NEW_TASK_NEEDS_YOUR_ATTENTION = "New Task Needs Your Attention";
+
     public static function sendNotification($recipient, $sender, $record, $action, $task): bool
     {
         try {
@@ -24,8 +26,8 @@ class EmailNotificationService
                         'name' => $names,
                         'systemLink' => URL::signedRoute('show.workshop.requisition', ['ref' => $record->req_no]),
                         'identity' => $record->req_no,
-                        'subject' => "New Task Needs Your Attention",
-                        'title' => "New Task Needs Your Attention",
+                        'subject' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
+                        'title' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
                         'body' => "Please be informed that {$sender->name} has raised a request for spares, with reference
                                <strong>{$record->req_no}</strong>
                                in Fleet Master.
@@ -52,9 +54,9 @@ class EmailNotificationService
                         'name' => $names,
                         'systemLink' => URL::signedRoute('show.workshop.requisition', ['ref' => $record->req_no]),
                         'identity' => $record->req_no,
-                        'subject' => "New Task Needs Your Attention",
-                        'title' => "New Task Needs Your Attention",
-                        'body' => "Please be informed that {$sender->name} has raised a request for spares with reference
+                        'subject' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
+                        'title' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
+                        'body' => "{$sender->name} has raised a request for workshop materials/services with reference
                                <strong>{$record->req_no}</strong>
                                in Fleet Master.
                                <br>To Take action immediately, click on the button below to login
@@ -66,8 +68,8 @@ class EmailNotificationService
                         'name' => $names,
                         'systemLink' => URL::signedRoute('show.fuel.requisition', ['ref' => $record->req_no]),
                         'identity' => $record->req_no,
-                        'subject' => "New Task Needs Your Attention",
-                        'title' => "New Task Needs Your Attention",
+                        'subject' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
+                        'title' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
                         'body' => "Please be informed that {$sender->name} has raised a fuel request, with reference
                                <strong>{$record->req_no}</strong>
                                <br>To Take action immediately, click on the button below
@@ -77,12 +79,14 @@ class EmailNotificationService
                 case 'workOrderCompleted':
                     $details = [
                         'name' => $names,
-                        'systemLink' => URL::signedRoute('show.workorder.closure', ['ref' => $record->job_card_no]),
+                        'systemLink' => URL::signedRoute('show.workorder.closure', [
+                            'ref' => $record->job_card_no
+                        ]),
                         'identity' => $record->job_card_no,
-                        'subject' => "New Task Needs Your Attention",
-                        'title' => "New Task Needs Your Attention",
-                        'body' => "Work-Order No. <strong>{$record->job_card_no}</strong> assigned to {$sender->name} has been completed and submitted
-                                   for your approval.
+                        'subject' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
+                        'title' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
+                        'body' => "Work-Order No. <strong>{$record->job_card_no}</strong> assigned to {$sender->name}
+                        has been completed and submitted for your approval.
                                <br>To Take action immediately, click on the button below
                                .<br>Regards. "
                     ];
@@ -104,10 +108,11 @@ class EmailNotificationService
                         'name' => $names,
                         'systemLink' => URL::signedRoute('show.fuel.requisition', ['ref' => $record['req_no']]),
                         'identity' => $record['req_no'],
-                        'subject' => "Requisition Update",
-                        'title' => "Requisition Update",
+                        'subject' => "Requisition Approval Update",
+                        'title' => "Requisition Approval Update",
                         'body' => "Please be informed that fuel requisition, Ref. No.
-                        <strong>{$record['req_no']} has raised a partially authorised and submitted for further approval.
+                        <strong>{$record['req_no']} has raised a partially authorised
+                        and submitted for further approval.
                         <br>To Take action immediately, click on the button below
                         .<br>Regards. "
                     ];
@@ -120,7 +125,8 @@ class EmailNotificationService
                         'subject' => "Requisition Update",
                         'title' => "Requisition Update",
                         'body' => "Please be informed that the fuel requisition
-                                Ref. No. <strong>{$record['req_no']}</strong> has been fully Authorised. Your SPMS requisition no. is {$record['spms_ref']}.
+                                Ref. No. <strong>{$record['req_no']}</strong> has been fully Authorised.
+                                Your SPMS requisition no. is {$record['spms_ref']}.
                                <br>
                                .<br>Regards. "
                     ];

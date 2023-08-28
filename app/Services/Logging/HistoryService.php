@@ -20,7 +20,11 @@ class HistoryService
      * @param $justification
      * @return void
      */
-    public static function update(array $dataBefore, array $dataAfter, string $document, string $eventSubject, $justification): void
+    public static function update(array $dataBefore,
+                                  array $dataAfter,
+                                  string $document,
+                                  string $eventSubject,
+                                  $justification): void
     {
         $ignoredColumnChanges = ['updated_at'];
         $user = Auth::user();

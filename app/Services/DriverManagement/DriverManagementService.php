@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class DriverManagementService
 {
+    const DRIVER_ONBOARDING = 'Driver Onboarding';
     private FileUploadService $fileUploadService;
 
     public function __construct(FileUploadService $fileUploadService)
@@ -33,7 +34,7 @@ class DriverManagementService
         DB::beginTransaction();
         $user = Auth::user();
 
-        $on_boarding_reference = DocumentNumberGenerationService::generateReferenceNumber(
+        $onBoardingReference = DocumentNumberGenerationService::generateReferenceNumber(
             WorkflowModules::DRIVER_ONBOARDING
         );
 
@@ -49,7 +50,7 @@ class DriverManagementService
             'license_date_issued' => Carbon::parse($request->get("license_date_issued")),
             'license_date_expiry' => Carbon::parse($request->get("license_date_expiry")),
             'license_category' => $request->get("license_class"),
-            'on_boarding_reference' => $on_boarding_reference,
+            'on_boarding_reference' => $onBoardingReference,
             'permit_number' => $request->get("permit_number"),
 
             'permit_date_issued' => Carbon::parse($request->get("permit_date_issued")),
@@ -63,8 +64,8 @@ class DriverManagementService
         $this->fileUploadService->uploadFile($request,
             'license_front_view',
             'DriverDocuments',
-            $on_boarding_reference,
-            'Driver Onboarding',
+            $onBoardingReference,
+            self::DRIVER_ONBOARDING,
             'License Front View',
             $user
         );
@@ -72,8 +73,8 @@ class DriverManagementService
         $this->fileUploadService->uploadFile($request,
             'license_back_view',
             'DriverDocuments',
-            $on_boarding_reference,
-            'Driver Onboarding',
+            $onBoardingReference,
+            self::DRIVER_ONBOARDING,
             'License Back View',
             $user
         );
@@ -81,8 +82,8 @@ class DriverManagementService
         $this->fileUploadService->uploadFile($request,
             'permit_copy',
             'DriverDocuments',
-            $on_boarding_reference,
-            'Driver Onboarding',
+            $onBoardingReference,
+            self::DRIVER_ONBOARDING,
             'Permit',
             $user
         );

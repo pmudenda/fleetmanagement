@@ -1605,11 +1605,13 @@
                                                             <td></td>
                                                             <td class="text-right"><strong>TOTAL</strong></td>
                                                             <td class="text-right"><b id="serviceQuantityTotal"
-                                                                                      class="input-number">0</b></td>
+                                                                                      class="input-number">0</b>
+                                                            </td>
                                                             <td></td>
                                                             <td class="text-right"><strong>TOTAL</strong></td>
                                                             <td class="text-right"><b id="serviceTotalPrice"
-                                                                                      class="input-number">0.00</b></td>
+                                                                                      class="input-number">0.00</b>
+                                                            </td>
                                                         </tr>
                                                         </tfoot>
 
@@ -1625,7 +1627,9 @@
                                             </div>
                                             <hr>
                                             <div class="row">
-                                                @if(!empty($comments) && !empty($comments->where('type','=','SREQ')->first()))
+                                                @if(!empty($comments)
+                                                    && !empty($comments->where('type','=','SREQ')->first())
+                                                    )
                                                     <div class="form-group">
                                                         <label
                                                                 class="col-xs-12 col-sm-6
@@ -1650,7 +1654,9 @@
                                                 @endif
 
                                             </div>
-                                            <table class="mt-10">
+                                            <table aria-label="Section"
+                                                   role="none"
+                                                   class="mt-10">
                                                 <tbody>
                                                 <tr>
                                                     <td class="text-right">
@@ -1673,27 +1679,6 @@
                             </div>
                         </div>
                     </section>
-
-                    {{--@if(!empty($taskHeader->assigned_user))
-                        @if( (auth()->user()->staff_no == $taskHeader->assigned_user && empty($taskHeader->date_ended))
-                            ||
-                            (auth()->user()->hasRole('final_authoriser')&& empty($taskHeader->date_ended))
-                            )
-                            <div class="card-footer pl-0">
-                                <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                                    <button type="button" id="approveRequisitionBtn"
-                                            class="btn btn-success btn-sm mr-3">
-                                        <i class="fas fa-thumbs-up"></i> Approve
-                                    </button>
-                                    <button type="button"
-                                            id="declineRequisitionBtn"
-                                            class="btn btn-danger btn-sm mr-3">
-                                        <i class="fas fa-thumbs-down"></i> Reject
-                                    </button>
-                                </div>
-                            </div>
-                        @endif
-                    @endif--}}
                 </form>
 
                 <input type="hidden" value="{{route('user.search') }}" id="newUserSearchUrl"/>
@@ -1780,10 +1765,6 @@
             Inputmask({
                 "mask": "AAA 9{1,4}"
             }).mask('[name="vehicle_registration"]');
-
-            /*$('.datePicker').datepicker({
-                dateFormat: 'dd/mm/yy',
-            });*/
 
             $.fn.disableBtn = function () {
                 return this.each(function () {
@@ -2184,7 +2165,7 @@
                     });
             }
 
-            function loadData(key, url, selectElem) {
+            function loadData(key, url, defectSelectionElem) {
                 fetch(url)
                     .then(response => response.json())
                     .then(response => {
@@ -2194,19 +2175,25 @@
                             return;
                         }
 
-                        let fuelLevels = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["description"], "");
+                        let defectSelectionFilterData = response['payload'];
+                        tmsApp.populateDropDownList(defectSelectionFilterData,
+                            defectSelectionFilterData,
+                            "code", ["description"],
+                            "",
+                            "", true);
 
-                        let location = selectElem.attr('data-value');
+                        let location = defectSelectionElem.attr('data-value');
 
                         if (location) {
-                            selectElem.val(location);
-                            selectElem.trigger('change');
+                            defectSelectionElem.val(location);
+                            defectSelectionElem.trigger('change');
                         }
                     })
                     .catch(function (error) {
                         toastr.error(
-                            'Connection error. Could not retrieve fuel levels data, some feature might not work.', 'Defects Data')
+                            'Could not retrieve fuel levels data, some feature might not work.',
+                            'Defects Data'
+                        );
                     });
             }
 
@@ -2246,11 +2233,17 @@
                     return;
                 }
 
-                let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+                let vLabel = vehicle['body_type_name']
+                    + ' ' + vehicle['brand_name']
+                    + ' ' + vehicle['model_name']
+                    + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
                 let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
                                <tr>
-                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
+                                    <th>Model</th>
+                                    <td id="model">
+                                        ${vehicle['model_name']} ${vehicle['model_code']}
+                                    </td>
                                </tr>
                                <tr style="">
                                      <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
@@ -2346,7 +2339,9 @@
                         let optionListStr = '';
                         if (Array.isArray(response.payload)) {
                             response.payload.forEach(function (item) {
-                                optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
+                                optionListStr += `<option value="${item['con_per_no']}">
+                                                    ${item['con_per_no']} =>${item.name}
+                                                 </option>`;
                             })
 
                             $('#employee_list').html(optionListStr);
@@ -2370,8 +2365,13 @@
                     case 'hoursWorked':
                     case 'ratePerHour':
                         let lineTotal = tmsApp.getFloat($(element).closest("tr").find("input[name=hoursWorked]").val())
-                            * tmsApp.getFloat($(element).closest("tr").find("input[name=ratePerHour]").val());
-                        $(element).closest("tr").find("input[name=totalAmount]").val(tmsApp.numberFormat(lineTotal)).change();
+                            * tmsApp.getFloat($(element).closest("tr")
+                                .find("input[name=ratePerHour]").val());
+
+                        $(element).closest("tr")
+                            .find("input[name=totalAmount]")
+                            .val(tmsApp.numberFormat(lineTotal))
+                            .change();
                         break;
 
                     case 'totalAmount':
@@ -2392,7 +2392,10 @@
                         // set value in footer
                         $('#quantityTotal').text(tmsApp.getRawNumber(summaryTotalQty));
 
-                        let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=unit_price]").val());
+                        let lineAmountTotal = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr")
+                                .find("input[name=unit_price]").val());
+
                         $(element).closest("tr").find("input[name=total_price]").val(lineAmountTotal).change();
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
                         break;
@@ -2406,23 +2409,34 @@
                         // set value in footer
                         $('#serviceQuantityTotal').text(tmsApp.getRawNumber(serviceSummaryTotalQty));
 
-                        let serviceLineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_unit_price]").val());
+                        let serviceLineAmountTotal = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr")
+                                .find("input[name=service_unit_price]").val());
+
                         $(element).closest("tr").find("input[name=service_total_price]").val(serviceLineAmountTotal);//.change();
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(serviceLineAmountTotal));
                         break;
 
                     case 'unit_price':
                         // line total = new material price multiplied by quantity value
-                        let totalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=quantity]").val());
+                        let totalAmount = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr")
+                                .find("input[name=quantity]").val());
+
                         $(element).closest("tr").find("input[name=total_price]").val(totalAmount).change();
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(totalAmount));
                         break;
 
                     case 'service_unit_price':
-                        let serviceTotalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_quantity]").val());
-                        $(element).closest("tr").find("input[name=service_quantity]").change();
-                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceTotalAmount).change();
-                        $(element).closest("tr").find("#service_total_price").text(tmsApp.numberFormat(serviceTotalAmount));
+                        let serviceTotalAmount = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr")
+                                .find("input[name=service_quantity]").val());
+                        $(element).closest("tr").find("input[name=service_quantity]")
+                            .change();
+                        $(element).closest("tr").find("input[name=service_total_price]")
+                            .val(serviceTotalAmount).change();
+                        $(element).closest("tr").find("#service_total_price")
+                            .text(tmsApp.numberFormat(serviceTotalAmount));
                         break;
 
                     case 'total_price':
@@ -2483,18 +2497,12 @@
 
             function showSupplierControls() {
                 document.querySelector('#supplierContainer').style.display = null;
-                //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
-
                 document.querySelector('#storeContainer').style.display = 'none';
-                //document.querySelector('[name="store_code"]').removeAttribute('required');
             }
 
             function showStockItemControls() {
                 document.querySelector('#supplierContainer').style.display = 'none';
-                //document.querySelector('[name="supplier"]').removeAttribute('required');
-
                 document.querySelector('#storeContainer').style.display = null;
-                //document.querySelector('[name="store_code"]').setAttribute('required', 'required');
             }
 
             function tableHasItems() {
@@ -2509,12 +2517,12 @@
 
             function changeRequestType(selectedItemType) {
 
-                if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
+                if (document.querySelector('[name="stockItemCode"]').value === selectedItemType) {
                     showStockItemControls();
-                } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
+                } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
                     showSupplierControls();
                     $('.quantity').attr('readonly', 'readonly').val(1);
-                } else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
+                } else if (selectedItemType === document.querySelector('[name="nonStockItemCode"]').value) {
                     showSupplierControls();
                 } else {
                     showSupplierControls();
@@ -2548,7 +2556,9 @@
 
                             if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
                                 let dateField = val;
-                                dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+                                dateField = DateFormatter.format(
+                                    new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO
+                                );
 
                                 obj[item.name] = dateField;
                             } else {
@@ -2809,7 +2819,9 @@
 
             getFuelLevels();
 
-            loadData('VEH_SYS', document.querySelector('#systemsUrl').value + '?key=VEH_SYS', $('select[name="vehicleSystem"]'));
+            loadData('VEH_SYS',
+                document.querySelector('#systemsUrl').value + '?key=VEH_SYS', $('select[name="vehicleSystem"]')
+            );
 
             initEventHandlers();
 
@@ -2832,8 +2844,6 @@
                     if (!id) {
                         return;
                     }
-
-                    // getArticleDetails(id, selectElem);
                 });
             }
 
@@ -2857,125 +2867,6 @@
                     $('[name="fuel_level"]').attr('disabled', true);
                 }, 300);
             }
-
-
         })(window.tmsApp || {}, jQuery)
     </script>
-
-    <script type="text/javascript">
-
-        //ROUND OFF FUNCTION
-        Number.prototype.round = function (places) {
-            return +(Math.round(this + "e+" + places) + "e-" + places);
-        }
-
-        function getvalues() {
-            const inps = document.getElementsByName('amount[]');
-            let total = 0;
-            for (let i = 0; i < inps.length; i++) {
-                const inp = inps[i];
-                total = total + parseFloat(inp.value || 0);
-            }
-            total = total.round(2);
-
-            if (!isNaN(total)) {
-                //check if petty cash is below 2000
-                if (total > 2000) {
-                    $('#submit_possible').hide();
-                    $('#submit_not_possible').show();
-                } else if (total == 0) {
-                    $('#submit_not_possible').hide();
-                    $('#submit_possible').hide();
-                } else {
-                    $('#submit_not_possible').hide();
-                    $('#submit_possible').show();
-                }
-                //set value
-                document.getElementById('total-payment').value = total;
-            }
-        }
-
-        // Navigation Script Starts Here
-        $(document).ready(function () {
-
-            //first hide the buttons
-            $('#submit_possible').hide();
-            $('#submit_not_possible').hide();
-
-        });
-
-    </script>
-
-    <script type="text/javascript">
-        function addRow(tableID) {
-
-            const table = document.getElementById(tableID);
-
-            const rowCount = table.rows.length;
-            const row = table.insertRow(rowCount);
-
-            const colCount = table.rows[0].cells.length;
-
-            for (let i = 0; i < colCount; i++) {
-
-                const newCell = row.insertCell(i);
-
-                newCell.innerHTML = table.rows[0].cells[i].innerHTML;
-
-                switch (newCell.childNodes[0].type) {
-                    case "text":
-                        newCell.childNodes[0].value = "";
-                        break;
-                    case "checkbox":
-                        newCell.childNodes[0].checked = false;
-                        break;
-                    case "select-one":
-                        newCell.childNodes[0].selectedIndex = 0;
-                        break;
-                }
-            }
-        }
-
-        function deleteRow(tableID) {
-            try {
-                const table = document.getElementById(tableID);
-                let rowCount = table.rows.length;
-
-                for (let i = 0; i < rowCount; i++) {
-                    const row = table.rows[i];
-                    const chkbox = row.cells[0].childNodes[0];
-                    if (null != chkbox && true == chkbox.checked) {
-                        if (rowCount <= 1) {
-                            alert("Cannot delete all the rows.");
-                            break;
-                        }
-                        table.deleteRow(i);
-                        rowCount--;
-                        i--;
-                    }
-                }
-                getvalues();
-            } catch (e) {
-                alert(e);
-            }
-        }
-
-    </script>
-    <script>
-        $(document).ready(function () {
-            $("#divSubmit_hide").hide();
-            //disable the submit button
-            $("#btnSubmit").on('click', function () {
-                $("#create_form").submit(function (e) {
-                    e.preventDefault()
-                    //do something here
-                    $("#divSubmit_show").hide();
-                    $("#divSubmit_hide").show();
-                    //continue submitting
-                    e.currentTarget.submit();
-                });
-            });
-        });
-    </script>
-
 @endpush

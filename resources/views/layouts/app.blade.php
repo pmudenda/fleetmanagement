@@ -1,5 +1,5 @@
 @php use Carbon\Carbon; @endphp
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Fleet Master</title>
@@ -17,7 +17,6 @@
           type="text/css"
           href="{{asset('themes/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
     <link rel="stylesheet" href="{{asset('themes/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-    {{--<link rel="stylesheet" href="{{asset('themes/plugins/jqvmap/jqvmap.min.css')}}">--}}
     <link rel="stylesheet" type="text/css" href="{{ asset('libs/bootstrap-5.2.3/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('themes/dist/css/adminlte.min2167.css')}}?v=3.2.0">
     <link rel="stylesheet" type="text/css"
@@ -51,7 +50,6 @@
     </style>
     @stack('styles')
 </head>
-{{--@php dd(config('rights')) @endphp--}}
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
 <div class="wrapper">
     <x-page-preloader/>
@@ -121,8 +119,8 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
-                <form name="documentAuditTrail" action="{{route('document.audit.trail')}}">
-                    <!-- Modal body -->
+                <form name="documentAuditTrail"
+                      action="{{route('document.audit.trail')}}">
                     <div class="modal-body">
                         <div class="row mb-2">
                             <div class="col-12">

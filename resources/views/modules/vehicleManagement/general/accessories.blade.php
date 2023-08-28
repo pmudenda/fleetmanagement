@@ -41,7 +41,9 @@
                         <div class="card-body ">
                             <div class="table-wrap">
                                 <div class="table-responsive">
-                                    <table id="recordsTable" class="table table-bordered table-striped">
+                                    <table aria-label="Accessories"
+                                           id="recordsTable"
+                                           class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
                                             <th>Code</th>
@@ -78,10 +80,10 @@
                                                 <td>
                                                     <div class="dropdown">
                                                         <button
-                                                            class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
-                                                            type="button"
-                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                            aria-expanded="false">
+                                                                class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                                type="button"
+                                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                                aria-expanded="false">
                                                             Actions
                                                         </button>
                                                         <ul class="dropdown-menu"
@@ -140,7 +142,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="createRecordModalLabel">Add <span
-                            id="modalTitle">Vehicle Accessories</span>
+                                id="modalTitle">Vehicle Accessories</span>
                     </h1>
 
 
@@ -198,7 +200,7 @@
                 <div class="modal-header">
 
                     <h1 class="modal-title fs-5" id="editRecordModalLabel">Edit <span
-                            id="modalTitle">Accessory</span>
+                                id="modalTitle">Accessory</span>
                     </h1>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

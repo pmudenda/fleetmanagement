@@ -7,6 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class BodyDetailsPost extends FormRequest
 {
+    const NULLABLE_NUMERIC = 'nullable|numeric';
+    const REQUIRED_NUMERIC = 'required|numeric';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,16 +26,16 @@ class BodyDetailsPost extends FormRequest
     public function rules(): array
     {
         return [
-            'height' => 'required|numeric',
-            'length' => 'required|numeric',
-            'width' => 'required|numeric',
-            'seatCapFront' => 'required|numeric',
+            'height' => self::REQUIRED_NUMERIC,
+            'length' => self::REQUIRED_NUMERIC,
+            'width' => self::REQUIRED_NUMERIC,
+            'seatCapFront' => self::REQUIRED_NUMERIC,
             'tareWeight' => 'required|numeric|lt:grossWeight',
             'grossWeight' => 'required|numeric|gt:tareWeight',
-            'distanceAxle1' => 'nullable|numeric',
-            'distanceAxle2' => 'nullable|numeric',
-            'distanceAxle3' => 'nullable|numeric',
-            'distanceAxle4' => 'nullable|numeric',
+            'distanceAxle1' => self::NULLABLE_NUMERIC,
+            'distanceAxle2' => self::NULLABLE_NUMERIC,
+            'distanceAxle3' => self::NULLABLE_NUMERIC,
+            'distanceAxle4' => self::NULLABLE_NUMERIC,
         ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,10 +18,8 @@ class DatabaseSeeder extends Seeder
             RequisitionTypeSeeder::class,
             RolesSeeder::class,
             StatusSeeder::class,
-            //UnitOfMeasureSeeder::class,
             VehicleBodyTypesSeeder::class,
             VehicleBrandsSeeder::class,
-            //OrganogramSeeder::class
             WorkflowSeeder::class,
             WorkShopSeeder::class,
             VehicleAccessoriesSeeder::class,

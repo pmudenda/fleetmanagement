@@ -44,6 +44,7 @@ class MaterialHeader extends Model
 
     public function originator(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'requested_by', 'staff_no' )->withDefault();;
+        return $this->belongsTo(User::class, 'requested_by', 'staff_no')
+            ->withDefault();
     }
 }

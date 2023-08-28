@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BodyAndWeightDetail extends Model
 {
-    use HasFactory;
-    //use SoftDeletes;
-
     protected $table = 'VM_BODY_AND_WEIGHT_DETAILS';
     protected $fillable = [
         'distanceAxle1',

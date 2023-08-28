@@ -40,11 +40,10 @@ class FuelRequisitionController extends Controller
 
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $staff_no = auth()->user()->staff_no;
         $requisitions = $this->requisitionService->getMyRequisitions(null);
-        $requisition_type = "FUEL";
+        $requisitionType = "FUEL";
         return view("modules.requisitions.fuel.list")
-            ->with(compact('requisitions', 'requisition_type'));
+            ->with(compact('requisitions', 'requisitionType'));
     }
 
     public function validateOdometer(OdometerValidationRequest $request): JsonResponse
@@ -66,12 +65,14 @@ class FuelRequisitionController extends Controller
         return response()->json([
             'success' => $valid,
             'valid' => $valid,
-            'message' => $valid ? SystemMessages::ODOMETER_VALIDATED_SUCCESSFULLY : ErrorMessages::getMessage("err_0018"),
+            'message' => $valid ?
+                SystemMessages::ODOMETER_VALIDATED_SUCCESSFULLY
+                : ErrorMessages::getMessage("err_0018"),
             'requestPayload' => $request->all()
         ]);
     }
 
-    public function create(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function create(): View|Application
     {
         $user = Auth::user();
 
@@ -80,7 +81,7 @@ class FuelRequisitionController extends Controller
             ->first();
 
         $requisitionTypes = RequisitionType::where('status', StatusHelper::active())
-            ->where('module', Modules::FuelReq)
+            ->where('module', Modules::FUEL_REQUISITION->value)
             ->orderBy('code')
             ->get();
 
@@ -111,7 +112,8 @@ class FuelRequisitionController extends Controller
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
 
-            if ($e instanceof FuelRequisitionException || $e instanceof WorkflowTaskCreationFailedException) {
+            if ($e instanceof FuelRequisitionException
+                || $e instanceof WorkflowTaskCreationFailedException) {
                 $message = $e->getMessage();
             }
             return response()->json([
@@ -127,20 +129,20 @@ class FuelRequisitionController extends Controller
             abort(401);
         }
 
-        $req_no = $request->get('ref');
-
+        $requisitionNumber = $request->get('ref');
         $user = Auth::user();
 
-        $requestDetails = $this->requisitionService->getRequisitionDetail($req_no);
+        $requestDetails = $this->requisitionService->getRequisitionDetail($requisitionNumber);
 
-        $supportingDocument = File::where('reference_number', '=', $req_no)->first();
+        $supportingDocument = File::where('reference_number', '=', $requisitionNumber)
+            ->first();
 
         if ($requestDetails == null) {
             abort(404);
         }
 
 
-        $workflowTask = WorkflowTaskHeader::where('reference', '=', $req_no)->first();
+        $workflowTask = WorkflowTaskHeader::where('reference', '=', $requisitionNumber)->first();
 
         $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
 
@@ -152,7 +154,6 @@ class FuelRequisitionController extends Controller
             ->with(compact(
                 'user',
                 'requisitionTypes',
-                //'organizationalUnit',
                 'requestDetails',
                 'daysToNextRefuel',
                 'approvalHistory',
@@ -188,7 +189,10 @@ class FuelRequisitionController extends Controller
     public function getDistance(Request $request): JsonResponse
     {
         try {
-            $result = $this->kilometerService->getDistanceBetween($request->input('departure'), $request->input('destination'));
+            $result = $this->kilometerService->getDistanceBetween(
+                $request->input('departure'),
+                $request->input('destination')
+            );
             return response()->json(array(
                 'success' => true,
                 'data' => $result

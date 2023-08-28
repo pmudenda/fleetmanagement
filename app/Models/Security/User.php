@@ -9,7 +9,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -100,16 +99,18 @@ class User extends Authenticatable
 
     public static function swapping($user): void
     {
-        Log::info('Checking Other Session For User ' . $user->staff_no);
-        try {
-            DB::table('sessions')
-                ->where('user_id', $user->id)
-                ->update([
-                    'id' => DB::raw("concat('OUTMAN_', concat(user_id, concat('_', id)))"),
-                    'user_id' => null,
-                ]);
-        } catch (\Exception $e) {
-            Log::error($e);
+        if (config('systeminfo.enableSingleSessionManagement')) {
+            Log::info('Checking Other Session For User ' . $user->staff_no);
+            try {
+                DB::table('sessions')
+                    ->where('user_id', $user->id)
+                    ->update([
+                        'id' => DB::raw("concat('OUTMAN_', concat(user_id, concat('_', id)))"),
+                        'user_id' => null,
+                    ]);
+            } catch (\Exception $e) {
+                Log::error($e);
+            }
         }
     }
 }

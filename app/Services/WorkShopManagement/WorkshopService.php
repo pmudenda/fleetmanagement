@@ -87,8 +87,10 @@ class WorkshopService
             return $details;
         }
 
-        $workshop_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::WORKSHOP_DOCUMENT);
-        $doc_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::JOB_CARD);
+        $workshop_number = DocumentNumberGenerationService::generateReferenceNumber(
+            Modules::WORKSHOP_DOCUMENT->value);
+        $doc_number = DocumentNumberGenerationService::generateReferenceNumber(
+            Modules::JOB_CARD->value);
 
         $section = GeneralTable::where("name", "=", "RECEPTION")
             ->where("type", ConfigurationTypes::WORK_SHOP_SECTION)
@@ -205,7 +207,7 @@ class WorkshopService
             }
         }
 
-        if (sizeof($toSave) == 0 && !empty($uploadedFiles)) {
+        if (!empty($toSave) && !empty($uploadedFiles)) {
             foreach ($uploadedFiles as $uploadedFile) {
                 $toSave[] = array('observation' => null, 'file' => $uploadedFile->path);
             }
@@ -318,7 +320,7 @@ class WorkshopService
 
     }
 
-    public function getWorkShopPurchaseOfficeAndStore($workshop_code)
+    public function getWorkShopPurchaseOfficeAndStore($workshopCode)
     {
         $stores = config("tables.table_names.stores");
         $purchaseOffices = config("tables.table_names.purchaseOffices");
@@ -326,7 +328,7 @@ class WorkshopService
         $data = DB::table("config_workshop")
             ->leftJoin("$stores", "config_workshop.store_code", "=", "$stores.code_store")
             ->leftJoin("$purchaseOffices", "config_workshop.area_code", "=", "$purchaseOffices.area")
-            ->where("config_workshop.workshop_code", "=", $workshop_code)
+            ->where("config_workshop.workshop_code", "=", $workshopCode)
             ->select("config_workshop.*",
                 "$stores.code_store as store_code",
                 "$stores.description as store_name",
@@ -411,6 +413,13 @@ class WorkshopService
 
         $jobCardHeader->save();
 
+        HistoryService::update(
+            $dataBefore,
+            $jobCardHeader->toArray(),
+            $jobCardHeader->job_card_no,
+            "Job Card Closure",
+            "Exit from Workshop");
+
         $jobCardRequisitions = MaterialHeader::where('veh_reg_no', $jobCardHeader->reg_no)
             ->whereIn('status', [
                 StatusHelper::new(),
@@ -447,7 +456,8 @@ class WorkshopService
                     $processCode
                 );
                 $this->procurementService->cancelStoresRequisition(
-                    $requisition->st_pur, SystemMessages::EXIT_FROM_WORKSHOP);
+                    $requisition->st_pur,
+                    SystemMessages::EXIT_FROM_WORKSHOP);
             }
         }
 

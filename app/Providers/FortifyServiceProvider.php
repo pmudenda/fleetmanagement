@@ -6,7 +6,6 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
-use App\Helpers\ConfigHelper;
 use App\Helpers\StatusHelper;
 use App\Models\Security\User;
 use Carbon\Carbon;
@@ -61,9 +60,11 @@ class FortifyServiceProvider extends ServiceProvider
                 Auth::logoutOtherDevices($request->get(PASSWORD_INPUT_FIELD));
                 $user->total_logins = ($user->total_logins ?? 0) + 1;
                 $user->last_login = Carbon::now();
-                // User::swapping($user);
+                User::swapping($user);
                 return $user;
             }
+
+            return null;
         });
 
         Fortify::createUsersUsing(CreateNewUser::class);

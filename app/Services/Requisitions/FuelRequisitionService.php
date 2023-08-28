@@ -723,12 +723,23 @@ class FuelRequisitionService
     {
         if ($staff_no) {
             return DB::table("GEN_MATERIAL_HEADERS")
-                ->leftJoin("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
-                ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
-                ->leftJoin("CONFIG_REQUISITION_TYPES", "GEN_MATERIAL_HEADERS.requisition_type", "=", "CONFIG_REQUISITION_TYPES.code")
-                ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by", "=", "SEC_USERS.staff_no")
+                ->leftJoin("GEN_MATERIAL_DETAILS",
+                    "GEN_MATERIAL_HEADERS.req_no",
+                    "=", "GEN_MATERIAL_DETAILS.req_no")
+                ->leftJoin("CONFIG_STATUSES",
+                    "GEN_MATERIAL_HEADERS.status",
+                    "=", "CONFIG_STATUSES.code")
+                ->leftJoin("CONFIG_REQUISITION_TYPES",
+                    "GEN_MATERIAL_HEADERS.requisition_type",
+                    "=",
+                    "CONFIG_REQUISITION_TYPES.code")
+                ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by",
+                    "=",
+                    "SEC_USERS.staff_no")
                 ->where("GEN_MATERIAL_HEADERS.requested_by", "=", $staff_no)
-                ->where("CONFIG_STATUSES.MODULE", "=", Modules::Material)
+                ->where("CONFIG_STATUSES.MODULE",
+                    "=",
+                    Modules::MATERIAL->value)
                 ->where("GEN_MATERIAL_HEADERS.IS_FUEL", "=", "Y")
                 ->select(
                     "GEN_MATERIAL_HEADERS.*",
@@ -741,11 +752,16 @@ class FuelRequisitionService
                 ->get();
         } else {
             return DB::table("GEN_MATERIAL_HEADERS")
-                ->leftJoin("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
-                ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
-                ->leftJoin("CONFIG_REQUISITION_TYPES", "GEN_MATERIAL_HEADERS.requisition_type", "=", "CONFIG_REQUISITION_TYPES.code")
-                ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by", "=", "SEC_USERS.staff_no")
-                ->where("CONFIG_STATUSES.MODULE", "=", Modules::Material)
+                ->leftJoin("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no",
+                    "=", "GEN_MATERIAL_DETAILS.req_no")
+                ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status",
+                    "=", "CONFIG_STATUSES.code")
+                ->leftJoin("CONFIG_REQUISITION_TYPES",
+                    "GEN_MATERIAL_HEADERS.requisition_type",
+                    "=", "CONFIG_REQUISITION_TYPES.code")
+                ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by",
+                    "=", "SEC_USERS.staff_no")
+                ->where("CONFIG_STATUSES.MODULE", "=", Modules::MATERIAL->value)
                 ->where("GEN_MATERIAL_HEADERS.IS_FUEL", "=", "Y")
                 ->select(
                     "GEN_MATERIAL_HEADERS.*",

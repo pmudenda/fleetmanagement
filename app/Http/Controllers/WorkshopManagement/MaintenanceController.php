@@ -554,10 +554,10 @@ class MaintenanceController extends Controller
     {
         $step = '1';
         $repairTypes = [];
-        $accessories_checked_in = [];
+        $accessoriesCheckedIn = [];
         $accessories = [];
         $details = [];
-        $workshop_sections = [];
+        $workshopSections = [];
         $defects = [];
         $comments = [];
 
@@ -566,9 +566,9 @@ class MaintenanceController extends Controller
                 'repairTypes',
                 'accessories',
                 'details',
-                'accessories_checked_in',
+                'accessoriesCheckedIn',
                 'step',
-                'workshop_sections',
+                'workshopSections',
                 'defects',
                 'comments'
             )

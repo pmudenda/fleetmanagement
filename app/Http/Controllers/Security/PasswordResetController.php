@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Security;
 
 use App\Helpers\ConfigHelper;
-use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordResetRequest;
 use App\Models\Security\User;
@@ -20,7 +19,9 @@ class PasswordResetController extends Controller
         if (in_array($request->otp, ['Zesco123', 'zesco123', 'zesco@123', 'Zesco@123', 'Zesco12345', 'zesco12345'])) {
             return redirect()->back()->withInput()
                 ->withErrors(
-                    ['otp' => 'Sorry your new password has been listed as too common hence not so much secure.Please change to another password.'
+                    [
+                        'otp' => 'Sorry your new password has been listed as too common
+                        hence not so much secure.Please change to another password.'
                     ]);
         }
 

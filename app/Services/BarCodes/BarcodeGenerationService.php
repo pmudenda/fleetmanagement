@@ -7,6 +7,12 @@ use App\Interfaces\BarCodePrint;
 
 class BarcodeGenerationService extends BarCodePrint
 {
+    const SPACE = "212222";
+    const BACK_SLASH = "222221";
+    const EXCLAIMATION = "222122";
+    const HASH = "121223";
+    const AMPERSAND = "121322";
+    const PERCENTAGE = "131222";
     protected $fileType;
     /**
      * Image file path
@@ -98,12 +104,12 @@ class BarcodeGenerationService extends BarCodePrint
 
             // Must not change order of array elements as the checksum depends on the array's key to validate final code
             $code_array = array(
-                " " => "212222",
-                "!" => "222122",
-                "\"" => "222221",
-                "#" => "121223",
-                "$" => "121322",
-                "%" => "131222",
+                " " => self::SPACE,
+                "!" => self::EXCLAIMATION,
+                "\"" => self::BACK_SLASH,
+                "#" => self::HASH,
+                "$" => self::AMPERSAND,
+                "%" => self::PERCENTAGE,
                 "&" => "122213",
                 "'" => "122312",
                 "(" => "132212",
@@ -209,8 +215,8 @@ class BarcodeGenerationService extends BarCodePrint
             $chksum = 104;
 
             // Must not change order of array elements as the checksum depends on the array's key to validate final code
-            $code_array = array(" " => "212222", "!" => "222122", "\"" => "222221", "#" => "121223",
-                "$" => "121322", "%" => "131222", "&" => "122213", "'" => "122312",
+            $codesArray = array(" " => self::SPACE, "!" => self::EXCLAIMATION, "\"" => self::BACK_SLASH, "#" => self::HASH,
+                "$" => self::AMPERSAND, "%" => self::PERCENTAGE, "&" => "122213", "'" => "122312",
                 "(" => "132212", ")" => "221213", "*" => "221312", "+" => "231212",
                 "," => "112232", "-" => "122132", "." => "122231", "/" => "113222",
                 "0" => "123122", "1" => "123221", "2" => "223211", "3" => "221132",
@@ -223,7 +229,7 @@ class BarcodeGenerationService extends BarCodePrint
                 "L" => "132131", "M" => "113123", "N" => "113321", "O" => "133121",
                 "P" => "313121", "Q" => "211331", "R" => "231131", "S" => "213113",
                 "T" => "213311", "U" => "213131", "V" => "311123", "W" => "311321",
-                "X" => "331121", "Y" => "312113",
+                "character" => "331121", "Y" => "312113",
                 "Z" => "312311", "[" => "332111",
                 "\\" => "314111", "]" => "221411", "^" => "431111", "_" => "111224",
                 "\`" => "111422", "a" => "121124", "b" => "121421", "c" => "141122",
@@ -240,21 +246,21 @@ class BarcodeGenerationService extends BarCodePrint
                 "Start C" => "211232", "Stop" => "2331112"
             );
 
-            $code_keys = array_keys($code_array);
+            $codeKeys = array_keys($codesArray);
 
-            $code_values = array_flip($code_keys);
+            $codeValues = array_flip($codeKeys);
 
-            for ($X = 1; $X <= strlen($this->text); $X++) {
+            for ($character = 1; $character <= strlen($this->text); $character++) {
 
-                $activeKey = substr($this->text, ($X - 1), 1);
+                $activeKey = substr($this->text, ($character - 1), 1);
 
-                $this->code_string .= $code_array[$activeKey];
+                $this->code_string .= $codesArray[$activeKey];
 
-                $chksum = ($chksum + ($code_values[$activeKey] * $X));
+                $chksum = ($chksum + ($codeValues[$activeKey] * $character));
 
             }
 
-            $this->code_string .= $code_array[$code_keys[($chksum - (intval($chksum / 103) * 103))]];
+            $this->code_string .= $codesArray[$codeKeys[($chksum - (intval($chksum / 103) * 103))]];
 
             $this->code_string = "211214" . $this->code_string . "2331112";
 
@@ -285,8 +291,8 @@ class BarcodeGenerationService extends BarCodePrint
             $text = strtoupper($this->text);
 
             // Must not change order of array elements as the checksum depends on the array's key to validate final code
-            $code_array = array(" " => "212222", "!" => "222122", "\"" => "222221", "#" => "121223",
-                "$" => "121322", "%" => "131222", "&" => "122213", "'" => "122312",
+            $code_array = array(" " => self::SPACE, "!" => self::EXCLAIMATION, "\"" => self::BACK_SLASH, "#" => self::HASH,
+                "$" => self::AMPERSAND, "%" => self::PERCENTAGE, "&" => "122213", "'" => "122312",
                 "(" => "132212", ")" => "221213", "*" => "221312", "+" => "231212",
                 "," => "112232", "-" => "122132", "." => "122231", "/" => "113222",
                 "0" => "123122", "1" => "123221", "2" => "223211", "3" => "221132",

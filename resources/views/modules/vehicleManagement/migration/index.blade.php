@@ -38,7 +38,7 @@
                                     <input name="registrationNumber"
                                            type="text"
                                            value="{{$registration ?? ''}}"
-                                           data-action="{{route('cleanup.vehicle.find')}}"
+                                           data-action=""
                                            class="form-control form-control-sm required"
                                            id="registrationNumber"
                                            placeholder=""

@@ -205,10 +205,12 @@
             </div>
 
             <div class="row mt-10 d-none">
-                <table class="mt-10 table">
+                <table aria-label="PreparedBy"
+                       role="none"
+                       class="mt-10 table">
                     <tbody>
                     <tr>
-                        <td class="text-left">
+                        <td scope="col" class="text-left">
                             <strong id="srfTotal" class="input-number">Prepared By:</strong>
                             <b id="section" class="input-number">RECEPTION</b>
                         </td>

@@ -30,22 +30,21 @@ class FuelWorkflowApprovers extends Component
     public function render(): View|Closure|string
     {
         $documentStatus = $this->request->status;
-        $approvals_array = WorkflowLog::where('reference', $this->task->reference)
+        $approvalsArray = WorkflowLog::where('reference', $this->task->reference)
             ->orderBy('action_date')
             ->get();
 
-        $steps = $approvals_array->pluck('step_id')->toArray();
-        $currentStep = WorkflowTaskDetail::where('reference', '=', $this->task->reference)->first();
+        $steps = $approvalsArray->pluck('step_id')->toArray();
+        $currentStep = WorkflowTaskDetail::where('reference', '=', $this->task->reference)
+            ->first();
 
         $claimant = User::where('staff_no', '=', $this->request->created_by)->first();
         $supervisor = User::where('staff_no', '=', $claimant->supervisor_code)->first();
         $manager = null;
 
-        if (!empty($supervisor)) {
-            // if($currentStep == '03' || in_array('03', $steps))
-            if($currentStep->current_step_id == '03' || in_array('03', $steps)) {
-                $manager = User::where('staff_no', '=', $supervisor->supervisor_code)->first();
-            }
+
+        if (!empty($supervisor) && ($currentStep->current_step_id == '03' || in_array('03', $steps))) {
+            $manager = User::where('staff_no', '=', $supervisor->supervisor_code)->first();
         }
 
         $snrManager = null;
@@ -58,7 +57,7 @@ class FuelWorkflowApprovers extends Component
             compact('documentStatus',
                 'steps',
                 'currentStep',
-                'approvals_array',
+                'approvalsArray',
                 'claimant',
                 'supervisor',
                 'manager',

@@ -21,7 +21,8 @@ class VehicleDetailsService
                 ->leftJoin('VM_CHASSIS_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_CHASSIS_DETAILS.vehicle_header_id')
                 ->leftJoin('VM_ENGINE_DETAILS',
                     'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
-                ->where('CONFIG_STATUSES.MODULE', '=', Modules::Vehicle)
+                ->where('CONFIG_STATUSES.MODULE',
+                    '=', Modules::VEHICLE->value)
                 ->select('VM_VEHICLE_HEADER.*',
                     'VM_VEHICLE_HEADER.id as header_id',
                     'VM_ASSIGNMENTS.*',
@@ -87,17 +88,22 @@ class VehicleDetailsService
             ->get();
     }
 
-    public function getBasicVehicleDetails(mixed $vehicle_registration): object|null
+    public function getBasicVehicleDetails(mixed $vehicleRegistration): object|null
     {
         try {
             $results = DB::table('VM_VEHICLE_HEADER')->
-            where('VM_VEHICLE_HEADER.registration_number', $vehicle_registration)
-                ->leftJoin('CONFIG_STATUSES', 'VM_VEHICLE_HEADER.status', '=', 'CONFIG_STATUSES.code')
-                ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
-                ->leftJoin('VM_CHASSIS_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_CHASSIS_DETAILS.vehicle_header_id')
+            where('VM_VEHICLE_HEADER.registration_number', $vehicleRegistration)
+                ->leftJoin('CONFIG_STATUSES', 'VM_VEHICLE_HEADER.status',
+                    '=', 'CONFIG_STATUSES.code')
+                ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id',
+                    '=', 'VM_ASSIGNMENTS.vehicle_header_id')
+                ->leftJoin('VM_CHASSIS_DETAILS', 'VM_VEHICLE_HEADER.id',
+                    '=', 'VM_CHASSIS_DETAILS.vehicle_header_id')
                 ->leftJoin('VM_ENGINE_DETAILS',
-                    'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
-                ->where('CONFIG_STATUSES.MODULE', '=', Modules::Vehicle)
+                    'VM_VEHICLE_HEADER.id', '=',
+                    'VM_ENGINE_DETAILS.vehicle_header_id')
+                ->where('CONFIG_STATUSES.MODULE',
+                    '=', Modules::VEHICLE->value)
                 ->select('VM_VEHICLE_HEADER.*',
                     'VM_ASSIGNMENTS.*',
                     'VM_ENGINE_DETAILS.fuel_allocation',
@@ -122,10 +128,11 @@ class VehicleDetailsService
             ->get();
     }
 
-    public function getSubmittedAccessories($vehicle_header_id): Collection
+    public function getSubmittedAccessories($vehicleHeaderId): Collection
     {
         try {
-            return VehicleAccessory::where('vehicle_header_id', '=', $vehicle_header_id)->get();
+            return VehicleAccessory::where('vehicle_header_id', '=', $vehicleHeaderId)
+                ->get();
         } catch (\Exception $e) {
             Log::info('Fetch vehicle accessories');
             Log::error($e);
