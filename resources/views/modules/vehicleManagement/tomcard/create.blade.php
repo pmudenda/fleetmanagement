@@ -202,7 +202,7 @@
                                                        class="table">
                                                     <thead>
                                                     <tr>
-                                                        <th></th>
+                                                        <th colspan="2"><strong>Summary</strong></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody id="vehicleDetails" class="vehicleDetails">
