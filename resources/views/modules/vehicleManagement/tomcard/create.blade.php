@@ -351,10 +351,13 @@
                                 if (vehicle['has_tom_card'] === 'Y') {
                                     $('.when_odo_valid').addClass('disabled').attr('disabled', true);
                                     setTimeout(function () {
-                                        tmsApp.showToast(
+                                        tmsApp.showSystemMessage(
+                                            "Vehicle Has A Tom Card ",
                                             vehicle_tom_card_message,
-                                            "Vehicle Was Already Assigned A Tom Card ",
-                                            "error");
+                                            null,
+                                            "error"
+                                        );
+
                                     }, 300)
                                     return;
                                 }
