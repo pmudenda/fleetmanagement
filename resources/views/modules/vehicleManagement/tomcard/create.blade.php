@@ -170,7 +170,7 @@
                                             <div class="row mb-2">
                                                 <td colspan="4">
                                                     <label class="app-field-label" data-field="typeia">
-                                                        Comments
+                                                        Justification
                                                     </label>
                                                 </td>
                                             </div>
@@ -178,7 +178,10 @@
                                             <div class="row mb-2">
                                                 <div class="col" data-id="table-td" style="background: none;">
                                                     <div class="app-field-input">
-                                                    <textarea name="comments" id="comments"
+                                                    <textarea name="comments"
+                                                              id="comments"
+                                                              minlength="20"
+                                                              maxlength="255"
                                                               class="form-control"></textarea>
                                                     </div>
                                                 </div>
@@ -243,10 +246,6 @@
             Inputmask({
                 "mask": "9999 9999 9999 9999"
             }).mask("#cardNumber");
-
-            Inputmask({
-                "mask": "99/9999"
-            }).mask("#expiryDate");
 
             Inputmask({
                 "mask": "A{2,3} 9{1,4}"
@@ -364,6 +363,10 @@
 
                 getVehicleDetails();
             });
+
+            $(document).on('input', '[name="comments"]', function () {
+                this.value = this.value?.toUpperCase();
+            })
 
             $("#submitRequisitionBtn").on('click', function () {
                 let $form = document.forms['newTomCardForm'];
