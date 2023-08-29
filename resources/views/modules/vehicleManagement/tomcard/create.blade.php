@@ -79,7 +79,7 @@
                                     <div class="row mt-2">
                                         <table id="TomCards"
                                                aria-label="Tom cards"
-                                               class="table table-row-dashed align-middle nowrap">
+                                               class="table table-row-dashed align-middle">
                                             <thead>
                                             <tr>
                                                 <th scope="row">Reg. No.</th>
@@ -105,10 +105,11 @@
                                                                 data-form-url="{{route('revoke.assign.tom.card')}}"
                                                                 data-id="{{$tomCardAllocation->id}}"
                                                                 id="revokeTomCardBtn"
+                                                                data-toggle="tooltip"
+                                                                title="Revoke Assignment"
                                                                 name="revokeTomCardBtn"
                                                                 class="btn btn-danger">
-                                                            <i class="fas fa-remove"></i>
-                                                            Revoke Assignment
+                                                            <i class="fas fa-trash"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -362,6 +363,8 @@
             Inputmask({
                 "mask": "M/Y"
             }).mask("#expiryDate");
+
+            tmsApp.initDatatable("#TomCards", false, true, []);
 
             tmsApp.appFormValidator('form[name="newTomCardForm"]',
                 {
