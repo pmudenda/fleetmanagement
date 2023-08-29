@@ -492,7 +492,7 @@
                     $('#model_code').val(filteredResults[0]?.model_code);
                     $('#bodyType').val(filteredResults[0]?.body_type_code)
                         .change()
-                        .attr('disabled', true);
+                        .attr('readonly', true);
                 }
             });
 
