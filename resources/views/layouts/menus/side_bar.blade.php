@@ -85,7 +85,7 @@
                             <li class="nav-item pl-2">
                                 <a href="{{ URL::signedRoute('assign.tom.card') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Tom Card Allocation</p>
+                                    <p>Tom Card Management</p>
                                 </a>
                             </li>
 
