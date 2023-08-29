@@ -148,14 +148,13 @@
                                                 <div class="col">
                                                     <label for="expiryDate"
                                                            class="app-field-label field-required">
-                                                        Valid To
+                                                        Expiry
                                                     </label>
                                                 </div>
 
                                                 <div class="col">
                                                     <div class="input-group date">
-                                                        <input type="date"
-                                                               min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                        <input type="text"
                                                                name="expiryDate"
                                                                id="expiryDate"
                                                                class="form-control"
@@ -218,14 +217,15 @@
                             </div>
                             <div class="card-footer">
                                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                                    <button type="button" id="submitRequisitionBtn"
-                                            class="btn btn-success btn-sm mr-3 when_odo_valid">
+                                    <button type="button"
+                                            id="submitRequisitionBtn"
+                                            disabled
+                                            class="btn btn-success disabled btn-sm mr-3 when_odo_valid">
                                         <i class="fas fa-save"></i> Save
                                     </button>
                                     <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
                                         <i class="fas fa-undo"></i> Reset
                                     </button>
-
                                 </div>
                             </div>
                         </form>
@@ -247,23 +247,47 @@
         (function (tmsApp, $) {
 
             Inputmask({
-                "mask": "9999 9999 9999 9999"
+                "mask": "999999 999999999999"
             }).mask("#cardNumber");
 
             Inputmask({
                 "mask": "A{2,3} 9{1,4}"
             }).mask("#vehicleRegistration");
 
+            Inputmask({
+                "mask": "99/99"
+            }).mask("#expiryDate");
+
             tmsApp.appFormValidator('form[name="newTomCardForm"]',
                 {
                     cardNumber: {
                         required: true
                     },
-                    comments: {
+                    expiryDate: {
                         required: true
+                    },
+                    dateIssued: {
+                        required: true
+                    },
+                    comments: {
+                        required: true,
+                        minlength: 20,
+                        maxlength: 255
                     }
                 },
-                {}
+                {
+                    cardNumber: {
+                        required: "Tom Card Number Is Mandatory"
+                    },
+                    dateIssued: {
+                        required: true
+                    },
+                    comments: {
+                        required: "Justification for assigning tom card to vehicle is required",
+                        minlength: "The Justification should not be less than 20 characters",
+                        maxlength: "The Justification should not be more than 255 characters"
+                    }
+                }
             );
 
             $(document).on('change', '#vehicleRegistration', function () {
@@ -286,6 +310,7 @@
                                 }
 
                                 if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                                    $('.when_odo_valid').addClass('disabled').attr('disabled', true);
                                     tmsApp.showSystemMessage("Vehicle State",
                                         'Vehicle Is Not Active, ' +
                                         'Please Contact Fleet Master System Administrator ' +
@@ -298,6 +323,7 @@
                                 }
 
                                 if (vehicle['has_tom_card'] === 'Y') {
+                                    $('.when_odo_valid').addClass('disabled').attr('disabled', true);
                                     tmsApp.showToast(
                                         vehicle_tom_card_message,
                                         "Vehicle Was Already Assigned A Tom Card ",
@@ -313,32 +339,32 @@
                                 $("#vehicle_status").text(vehicle['status_name']);
 
                                 let row = `<tr>
-                                <th>Make</th>
-                                <td id="make">
-                                    ${vehicle['brand_name']}
-                                </td>
-                            </tr>
-                            <tr>
-                                    <th>Model</th>
-                                    <td id="model">
-                                        ${vehicle['model_name']} ${vehicle['model_code']}
-                                    </td>
-                               </tr>
-                            <tr style="">
-                                     <th>Type</th>
-                                     <td id="registration">
-                                        ${vehicle['body_type_name']}
-                                     </td>
-                                </tr>
-                            <tr style="">
-                                     <th>State:</th>
-                                     <td id="registration">
-                                         ${vehicle['status_name']}
-                                     </td>
-                                </tr>`;
+                                                <th>Make</th>
+                                                <td id="make">
+                                                    ${vehicle['brand_name']}
+                                                </td>
+                                           </tr>
+                                           <tr>
+                                                <th>Model</th>
+                                                <td id="model">
+                                                    ${vehicle['model_name']} ${vehicle['model_code']}
+                                                </td>
+                                           </tr>
+                                            <tr style="">
+                                                     <th>Type</th>
+                                                     <td id="registration">
+                                                        ${vehicle['body_type_name']}
+                                                     </td>
+                                            </tr>
+                                            <tr style="">
+                                                     <th>State:</th>
+                                                     <td id="registration">
+                                                         ${vehicle['status_name']}
+                                                     </td>
+                                            </tr>`;
 
                                 $('tbody#vehicleDetails').html(row);
-
+                                $('.when_odo_valid').removeClass('disabled').attr('disabled', false);
                                 if (images && images.length > 0) {
                                     document.querySelector('#vehicleDetailsContainer').style.display = null;
                                     document.querySelector('#image_view').style.display = null;
@@ -355,9 +381,11 @@
                                     ? response_data['message']
                                     : ' No Vehicle Found, Check your input and try again';
                                 tmsApp.systemError('Vehicle', $message);
+                                $('.when_odo_valid').addClass('disabled').attr('disabled', true);
                             }
                         },
                         function (xhr) {
+                            $('.when_odo_valid').addClass('disabled').attr('disabled', true);
                             tmsApp.systemError('System Message',
                                 'We could not complete processing your request, please try again later');
                         }
@@ -443,23 +471,14 @@
                 );
             });
 
-            $('[name="dateIssued"]').datepicker({
-                maxDate: new Date(),
-                dateFormat: 'dd/mm/yy',
-            });
-
-            $(document).on('click', '[data-action="openDatePicker"]', function () {
-                $(".datetimepicker-opened").datepicker("show");
-            });
-
-            let clearDateBtns = document.querySelectorAll('[data-action="clearDate"]');
-            clearDateBtns.forEach(function (button) {
+            let clearDateButtons = document.querySelectorAll('[data-action="clearDate"]');
+            clearDateButtons.forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     let input = $(event.target).parent().find('input');
                     if (input.length === 0) {
                         input = $(this).parent().parent().find('input')
                     }
-                    $(input).datepicker('setDate', null);
+                    $(input).val(null);
                 });
             });
 
