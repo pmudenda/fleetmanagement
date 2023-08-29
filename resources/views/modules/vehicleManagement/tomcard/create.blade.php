@@ -245,7 +245,33 @@
     <!-- page script -->
     <script>
         (function (tmsApp, $) {
-
+            Inputmask.extendDefinitions({
+                M: {
+                    validator: "0[1-9]|1[012]",
+                    cardinality: 2,
+                    placeholder: 'm',
+                    prevalidator: [{
+                        validator: function (chrs, maskset, pos, strict, opts) {
+                            var isNumeric = new RegExp("[0-9]");
+                            if(!isNumeric.test(chrs)) return false;
+                            if(chrs > "1") {
+                                maskset.buffer[pos] = "0";
+                                return {
+                                    "pos": pos+1,
+                                    "c": chrs,
+                                };
+                            }
+                            else return true;
+                        },
+                        cardinality: 1
+                    }]
+                },
+                Y: {
+                    validator: "\\d{2}",
+                    cardinality: 2,
+                    placeholder: 'y',
+                }
+            });
             Inputmask({
                 "mask": "999999 999999999999"
             }).mask("#cardNumber");
@@ -255,7 +281,7 @@
             }).mask("#vehicleRegistration");
 
             Inputmask({
-                "mask": "99/99"
+                "mask": "M/Y"
             }).mask("#expiryDate");
 
             tmsApp.appFormValidator('form[name="newTomCardForm"]',
