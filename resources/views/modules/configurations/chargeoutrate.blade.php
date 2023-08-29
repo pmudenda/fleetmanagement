@@ -125,11 +125,18 @@
                                     <div class="col-md-9 fv-row">
                                         <div class="col-md-9">
                                             <div class="w-100 fv-row">
-                                                <input class="form-control form-control-solid"
-                                                       name="rate"
-                                                       id="rate"
-                                                       placeholder="Enter charge rate"
-                                                       type="text"/>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            ZMW
+                                                        </div>
+                                                    </div>
+                                                    <input class="form-control form-control-solid"
+                                                           name="rate"
+                                                           id="rate"
+                                                           placeholder="Enter charge rate"
+                                                           type="text"/>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -258,10 +265,6 @@
     <script>
 
         (function (tmsApp, $) {
-
-            console.log("%c✔ ZESCO Fleet Master Running", "color: #148f32");
-            console.log("%c✔ Vehicle OnBoarding Process", "color: #148f32");
-
             function getVehicleBrands() {
                 fetch(document.querySelector('#brands-api').value)
                     .then(response => response.json())
@@ -416,6 +419,9 @@
                     });
             }
 
+            console.log("%c✔ ZESCO FLEET MASTER RUNNING", "color: #148f32");
+            console.log("%c✔ CHARGE OUT RATE CONFIGURATION", "color: #148f32");
+
             tmsApp.appFormValidator('form[name="tms_charge_out_form"]',
                 {
                     'brand': {
@@ -447,6 +453,9 @@
                 }
             );
 
+            $(document).on('input', '#rate', function (e) {
+                tmsApp.numberOnly(e);
+            });
 
             $(document).on('change', 'select[name="brand"]', function () {
                 nativeVehicleBrandChanged();
@@ -457,7 +466,6 @@
                 console.log('%c' + formatted, "color: #148f32");
                 this.value = formatted;
             });
-
 
             $(document).on('change', 'select[name="model"]', function () {
                 const modelId = $(this).val()?.toString().trim();
