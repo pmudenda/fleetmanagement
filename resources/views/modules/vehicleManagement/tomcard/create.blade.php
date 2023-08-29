@@ -94,7 +94,7 @@
                                             @foreach($tomCardAllocations as $tomCardAllocation)
                                                 <tr>
                                                     <td>{{$tomCardAllocation->reg_no}}</td>
-                                                    <td style="text-wrap: none;">
+                                                    <td style="text-wrap: nowrap;">
                                                         {{$tomCardAllocation->card_number}}
                                                     </td>
                                                     <td>
