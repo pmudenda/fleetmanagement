@@ -189,20 +189,26 @@
                                             </div>
                                         </div>
                                         <div class="col-3">
-                                            <div id="vehicleDetailsContainer" style="display: none;"
-                                                 class="col-xs-12 col-sm-12 col-md-12">
-                                                {{--<h1>Vehicle Details</h1>
-                                                 <table class="table">
-                                                     <tbody id="vehicleDetails" class="vehicleDetails">
-                                                     </tbody>
-                                                 </table>--}}
-                                            </div>
-
                                             <div id="image_view" class="card text-center my-2" style="display: none;">
-                                                {{--  <h2 class="fs-2x fw-bold mb-10">Front View</h2>--}}
                                                 <div class="form-group">
                                                     <div class="imagePreview"></div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div id="vehicleDetailsContainer" style="display: none;"
+                                                 class="col-xs-12 col-sm-12 col-md-12">
+                                                {{--<h1>Vehicle Details</h1>--}}
+                                                <table aria-label="vehicle summary details"
+                                                       class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="vehicleDetails" class="vehicleDetails">
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -269,7 +275,6 @@
                             if (response_data.success === 'true' || response_data.success === true) {
                                 let vehicle = response_data.payload['vehicle'];
                                 let images = response_data.payload['images'];
-                                let vehicle_state = response_data.payload['vehicle_state'];
                                 let vehicle_tom_card_message = response_data.payload['vehicle_tom_card_message'];
 
                                 if (!vehicle || !vehicle.brand_name) {
@@ -277,12 +282,15 @@
                                 }
 
                                 if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
-                                    /*tmsApp.showSystemMessage("Vehicle State",
-                                        vehicle_state,
+                                    tmsApp.showSystemMessage("Vehicle State",
+                                        'Vehicle Is Not Active, ' +
+                                        'Please Contact Fleet Master System Administrator ' +
+                                        'on 3309,3350,3351,3306, ' +
+                                        'fleetmaster@zesco.co.com',
                                         () => {
                                         },
                                         "error");
-                                    return;*/
+                                    return;
                                 }
 
                                 if (vehicle['has_tom_card'] === 'Y') {
