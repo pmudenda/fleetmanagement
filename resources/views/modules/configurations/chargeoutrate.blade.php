@@ -12,19 +12,21 @@
                 <div class="card-header">
                     <div class="card-title">
                         <h2> Charge out rate</h2>
-                        <span
-                                class="ml-2 indicator-pill whitespace-nowrap orange">
+                        <span class="ml-2 indicator-pill
+                                whitespace-nowrap orange">
                                     <span>Not Saved</span>
                             </span>
                     </div>
-                    <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                    <div id="actionButtonsContainer"
+                         class="card-toolbar justify-content-end">
                         <button type="submit" id="submitSaveChargeRateBtn"
                                 class="btn btn-success btn-sm mr-3">
                             <i class="fas fa-save"></i>
                             Submit
                         </button>
 
-                        <button type="reset" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
+                        <button type="reset" id="resetRequisitionBtn"
+                                class="btn btn-danger btn-sm mr-3">
                             <i class="fas fa-undo"></i>
                             Clear Data
                         </button>
@@ -49,7 +51,9 @@
                                     <div class="col-md-9 fv-row">
                                         <div class="col-md-9">
                                             <div class="w-100 fv-row">
-                                                <select class="form-control view_mode" name="brand" id="brand">
+                                                <select class="form-control view_mode"
+                                                        name="brand"
+                                                        id="brand">
                                                     <option>--Select Brand--</option>
                                                 </select>
                                             </div>
@@ -93,7 +97,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="brand"
+                                    <label for="bodyType"
                                            class="fs-6 fw-semibold form-label col-md-3">
                                         <span class="required">Body Type</span>
                                     </label>
@@ -114,7 +118,8 @@
                             <!--- RIGHT -->
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
+                                    <label for="rate"
+                                           class="fs-6 fw-semibold form-label col-md-3">
                                         <span class="required">Charge</span>
                                     </label>
                                     <div class="col-md-9 fv-row">
@@ -137,13 +142,13 @@
                         <table role="table"
                                aria-label="charge out rates"
                                class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
-                               id="kt_brands_table">
+                               id="chargeOutRateTable">
                             <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                                 <th>
                                     <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
                                         <input class="list-row-checkbox" type="checkbox" data-kt-check="true"
-                                               data-kt-check-target="#kt_brands_table .form-check-input" value="all"/>
+                                               data-kt-check-target="#form-check-input" value="all"/>
                                     </div>
                                 </th>
 
@@ -167,7 +172,6 @@
                                 </th>
                             </tr>
                             </thead>
-
 
                             <tbody class="text-gray-600 fw-semibold">
                             @foreach($chargeOutRateList as $chargeOutRate)
@@ -227,7 +231,6 @@
                                     </td>
                                 </tr>
                             @endforeach
-
                             </tbody>
                         </table>
                     </div>
@@ -272,7 +275,7 @@
                         }
 
                         let vehicleBrands = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, vehicleBrands, "id", ["name"], "");
+                        tmsApp.populateDropDownList(selectElem, vehicleBrands, "code", ["name"], "");
 
                         let brand_id = selectElem.attr('data-value');
 
@@ -299,7 +302,6 @@
                 });
 
                 if (filteredResults.length === 0) {
-                    //toastr.warning('No Models Found for the selected models', 'Models')
                     getConfiguredModels();
                 }
 
@@ -399,7 +401,7 @@
                         }
 
                         let bodyTypes = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, bodyTypes, "id", ["body_type_name"], "");
+                        tmsApp.populateDropDownList(selectElem, bodyTypes, "code", ["body_type_name"], "");
 
                         let bodyTypeId = selectElem.attr('data-value');
                         if (bodyTypeId) {

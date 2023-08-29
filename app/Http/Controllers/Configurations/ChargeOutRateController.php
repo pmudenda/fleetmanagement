@@ -6,11 +6,10 @@ use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChargeOutRateRequest;
-use App\Models\ChargeOutRate;
 use App\Models\Settings\vehicle\VehicleBodyType;
 use App\Models\Settings\vehicle\VehicleBrand;
 use App\Models\Settings\vehicle\VehicleModel;
-use Illuminate\Contracts\View\Factory;
+use App\Models\VehicleManagement\ChargeOutRate;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 class ChargeOutRateController extends Controller
 {
 
-    public function index(): View|Application
+    public function create(): View|Application
     {
         $chargeOutRateList = ChargeOutRate::get();
         return view('modules.configurations.chargeoutrate')

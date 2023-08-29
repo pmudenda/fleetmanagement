@@ -16,7 +16,8 @@ return new class extends Migration {
             $table->string('modified_by', 255)->nullable();
             $table->string('vehicle_specification', 20);
             $table->string('vehicle_description');
-            $table->decimal('charge', 18, 2);
+            $table->decimal('charge', 19, 2);
+            $table->string('currency',3);
             $table->timestamps();
         });
     }

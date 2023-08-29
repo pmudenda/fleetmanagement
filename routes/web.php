@@ -299,7 +299,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'system-configuration'], funct
         return view('modules.configurations.fuelallocation');
     })->name('vehicle.fuel.allocation');
 
-    Route::get('vehicle/charge-outrate', [ChargeOutRateController::class, 'index'])
+    Route::get('vehicle/charge-out-rate', [ChargeOutRateController::class, 'create'])
         ->name('charge.out.rate');
 
     Route::post('save/charge-outrate', [ChargeOutRateController::class, 'store'])

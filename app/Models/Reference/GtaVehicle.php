@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class GtaVehicle extends Model
 {
-    use HasFactory;
-
     protected $table = 'GTAVEHIC_VIEW';
 
     protected $fillable = [
