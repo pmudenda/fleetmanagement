@@ -276,14 +276,14 @@
                                     return;
                                 }
 
-                                /*if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                                if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
                                     tmsApp.showSystemMessage("Vehicle State",
                                         vehicle_state,
                                         () => {
                                         },
                                         "error");
                                     return;
-                                }*/
+                                }
 
                                 if (vehicle['has_tom_card'] === 'Y') {
                                     tmsApp.showToast(
@@ -301,6 +301,9 @@
                                 $("#vehicle_status").text(vehicle['status_name']);
 
                                 if (images && images.length > 0) {
+                                    document.querySelector('#vehicleDetailsContainer').style.display = null;
+                                    document.querySelector('#image_view').style.display = null;
+
                                     let frontViewImages = images.filter((image) => {
                                         return image['file_type'] === 'Front View';
                                     })

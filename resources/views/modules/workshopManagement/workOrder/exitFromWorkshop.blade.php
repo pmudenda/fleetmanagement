@@ -1049,19 +1049,23 @@
                                                             <div id="supplierContainer" style="display: none;"
                                                                  class="form-group row d-none">
                                                                 <div
-                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class=" col-xs-12
+                                                                        col-sm-6
+                                                                        col-md-5 col-lg-4 control-input-wrapper">
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <label
-                                                                                    class="form-check-inline field-required d-none">
+                                                                                    class="form-check-inline
+                                                                                    field-required d-none">
                                                                                 Suppliers
                                                                             </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div
-                                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-7 d-none">
+                                                                        class="col-xs-12 col-sm-6
+                                                                        col-md-7 col-lg-7 d-none">
                                                                     <select
                                                                             data-value="{{$materialsHeader->supplier_code ?? ''}}"
                                                                             class="form-select form-select-sm"
@@ -1080,7 +1084,8 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                        class="col-xs-12 col-sm-6
+                                                                        col-md-5 col-lg-4 app-field-label"
                                                                         for="staff_no">Collection Date:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -1117,9 +1122,11 @@
                                             <div class="row">
                                                 <div style="max-height:500px; overflow-x: auto;">
                                                     <table id="material_table"
+                                                           aria-label="Materials"
                                                            data-form-url=""
                                                            data-model-name="PartsHeader"
-                                                           class="table dataTable table-row-dashed align-middle gs-0 nowrap">
+                                                           class="table dataTable
+                                                           table-row-dashed align-middle gs-0 nowrap">
                                                         <thead>
                                                         <tr class="bg-success-subtle">
                                                             <th style="width: 6%;" class="pl-2">Reg. No</th>
@@ -1218,7 +1225,8 @@
                                                                                required
                                                                                value="{{$material->amount ?? ''}}"
                                                                                readonly
-                                                                               class="form-control form-control-sm total_price"/>
+                                                                               class="form-control
+                                                                               form-control-sm total_price"/>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -1253,7 +1261,8 @@
                                             <div class="row">
                                                 <div class="form-group">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                             pl-0 field-required"
                                                             for="remarks">
                                                         Comments <small>Will be used as justification for
                                                             Requisition</small>:
@@ -1263,12 +1272,14 @@
                                                             <textarea type="text"
                                                                       required
                                                                       readonly
-                                                                      class="form-control comments form-control-sm">{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
+                                                                      class="form-control comments
+                                                                      form-control-sm">{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
                                                         @else
                                                             <textarea type="text"
                                                                       required
                                                                       readonly
-                                                                      class="form-control comments form-control-sm"></textarea>
+                                                                      class="form-control comments
+                                                                      form-control-sm"></textarea>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -1328,7 +1339,8 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                        app-field-label field-required"
                                                                         for="staff_no">Purchase Office:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -1355,7 +1367,8 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <div
-                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                        control-input-wrapper">
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
@@ -1423,19 +1436,22 @@
 
                                                             <div id="supplierContainer" class="form-group row">
                                                                 <div
-                                                                        class="d-none col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class="d-none col-xs-12 col-sm-6 col-md-5
+                                                                        col-lg-4 control-input-wrapper">
                                                                     <div class="control-input d-none">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <label
-                                                                                    class="form-check-inline field-required d-none">
+                                                                                    class="form-check-inline
+                                                                                    field-required d-none">
                                                                                 Suppliers
                                                                             </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div
-                                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-7 d-none">
+                                                                        class="col-xs-12 col-sm-6 col-md-7
+                                                                        col-lg-7 d-none">
                                                                     <select
                                                                             data-value="{{$materialsHeader->supplier_code ?? ''}}"
                                                                             class="form-select form-select-sm"
@@ -1460,7 +1476,8 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                        app-field-label field-required"
                                                                         for="staff_no">Collection Date:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -1679,6 +1696,13 @@
                             </div>
                         </div>
                     </section>
+                    <datalist id="mechanics">
+                        @if(!empty($mechanics))
+                            @foreach($mechanics as $mechanic)
+                                <option value="{{$mechanic->staff_no}}">{{$mechanic->staff_no}} {{$mechanic->name}}</option>
+                            @endforeach
+                        @endif
+                    </datalist>
                 </form>
 
                 <input type="hidden" value="{{route('user.search') }}" id="newUserSearchUrl"/>

@@ -2,6 +2,7 @@
 <div class="row pt-5">
     <div class="table-responsive">
         <table id="labour_table"
+               aria-label="Labour Table"
                data-model-name="SummaryHeader"
                class="table dataTable table-row-dashed align-middle gs-0 nowrap mt-10">
             <thead>
@@ -44,6 +45,7 @@
                                    value="{{$labourItem->mechanic ?? ''}}"
                                    class="form-control form-control-sm mechanicStaffNumber"
                                    autocapitalize="characters"
+                                   list="mechanics"
                                    id="mechanic"
                                    name="mechanic"/>
                         </td>

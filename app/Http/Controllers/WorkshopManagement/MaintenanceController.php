@@ -612,6 +612,13 @@ class MaintenanceController extends Controller
             $taskHeader = WorkflowTaskHeader::where('reference', '=', $request->get("reference"))->first();
         }
 
+        $mechanics = [];
+        if (!empty($details)) {
+            $mechanics = Mechanic::where('status', '=', StatusHelper::active())
+                ->where('workshop_code', '=', $details->workshop_code)
+                ->get();
+        }
+
         return view("modules.workshopManagement.workOrder.exitFromWorkshop")
             ->with(
                 compact(
@@ -631,7 +638,8 @@ class MaintenanceController extends Controller
                     'taskHeader',
                     'approvalHistory',
                     'pettyCashItems',
-                    'observation'
+                    'observation',
+                    'mechanics'
                 )
             );
     }

@@ -582,7 +582,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
      * @param errorCallBack
      */
     appInstance.asyncGetFormData = function (url, requestPayload, successCallBack, errorCallBack) {
-        $.ajax({
+        let settings = {
             type: 'GET',
             url: url,
             dataType: 'json',
@@ -598,7 +598,8 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
                     errorCallBack(xhr, settings, errorThrown);
                 }
             }
-        });
+        }
+        $.ajax(settings);
     };
     /**
      *
