@@ -35,7 +35,7 @@ class ChargeOutRateController extends Controller
             $brand = $request->get("brand");
             $model = $request->get("model");
             $bodyType = $request->get("bodyType");
-            $charge = $request->get("rate");
+            $charge = floatval($request->get("rate"));
 
             Log::info("Brand Code " . $brand);
             Log::info("Model Code " . $model);
