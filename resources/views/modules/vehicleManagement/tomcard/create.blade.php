@@ -1,4 +1,4 @@
-@php use App\Enums\RequisitionTypes;use App\Helpers\StatusHelper;use Carbon\Carbon; @endphp
+@php use App\Helpers\StatusHelper; @endphp
 @extends('layouts.app')
 
 
@@ -60,7 +60,7 @@
 
                                 <fieldset style="" class="form-group border p-3">
                                     <legend>General Information:</legend>
-                                    <div class="row">
+                                    <div class="row mt-5">
                                         <div class="col-6">
                                             <div class="row mb-2">
                                                 <div class="col" data-id="table-td">
@@ -70,12 +70,14 @@
                                                     </label>
                                                 </div>
                                                 <div class="col" data-type="table-td">
-                                                    <div class="app-field-input" data-field="taskOriginator">
+                                                    <div class="app-field-input">
                                                         <div class="input-group">
                                                             <input type="text"
                                                                    id="vehicleRegistration"
                                                                    required
-                                                                   data-action="{{route('requisition.vehicle.details')}}"
+                                                                   data-action="{{
+                                                                   route('requisition.vehicle.details')
+                                                                   }}"
                                                                    autocomplete="off"
                                                                    name="vehicleRegistration"
                                                                    class="form-control"/>
@@ -252,15 +254,14 @@
                     prevalidator: [{
                         validator: function (chrs, maskset, pos, strict, opts) {
                             var isNumeric = new RegExp("[0-9]");
-                            if(!isNumeric.test(chrs)) return false;
-                            if(chrs > "1") {
+                            if (!isNumeric.test(chrs)) return false;
+                            if (chrs > "1") {
                                 maskset.buffer[pos] = "0";
                                 return {
-                                    "pos": pos+1,
+                                    "pos": pos + 1,
                                     "c": chrs,
                                 };
-                            }
-                            else return true;
+                            } else return true;
                         },
                         cardinality: 1
                     }]
@@ -296,7 +297,7 @@
                     },
                     comments: {
                         required: true,
-                        minlength: 20,
+                        minlength: 50,
                         maxlength: 255
                     }
                 },
@@ -309,7 +310,7 @@
                     },
                     comments: {
                         required: "Justification for assigning tom card to vehicle is required",
-                        minlength: "The Justification should not be less than 20 characters",
+                        minlength: "The Justification should not be less than 50 characters",
                         maxlength: "The Justification should not be more than 255 characters"
                     }
                 }
