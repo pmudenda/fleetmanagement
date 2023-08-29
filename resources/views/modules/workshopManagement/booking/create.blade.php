@@ -337,7 +337,8 @@
                                                        class="form-control form-control-sm"
                                                        readonly
                                                        id="store_name"
-                                                       value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
+                                                       value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails
+                                                              ->store_name ?? ''}}"
                                                        placeholder=""
                                                        name="store_name"/>
                                             </div>
@@ -352,7 +353,8 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                    class="col-xs-12 col-sm-6 col-md-5
+                                                    col-lg-4 app-field-label field-required"
                                                     for="staff_no">Servicing Date:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -361,7 +363,9 @@
                                                            class="form-control form-control-sm"
                                                            id="date_expected"
                                                            min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                           value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
+                                                           value="{{date('Y-m-d',
+                                                            strtotime(Carbon::parse($materialsHeader->collection_date)
+                                                            ->format('Y-m-d')))}}"
                                                            name="date_expected"
                                                     />
 
@@ -370,7 +374,9 @@
                                                            class="form-control form-control-sm"
                                                            id="date_expected"
                                                            min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                           value="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
+                                                           value="{{date('Y-m-d',
+                                                            strtotime(Carbon::now()
+                                                            ->addDays(7)))}}"
                                                            name="date_expected"
                                                     />
                                                 @endif

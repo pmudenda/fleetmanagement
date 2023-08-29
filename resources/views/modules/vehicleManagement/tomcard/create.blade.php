@@ -121,20 +121,17 @@
                                                 </div>
                                                 <div class="col">
                                                     <div class="input-group date">
-                                                        <input type="text"
+                                                        <input type="date"
+                                                               min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                                                name="dateIssued"
                                                                id="dateIssued"
                                                                autocomplete="off"
-                                                               class="form-control datetimepicker"
+                                                               class="form-control"
                                                                required/>
-                                                        <div class="input-group-append"
-                                                             data-target="#dateIssued"
-                                                             data-action="openDatePicker">
+                                                        <div class="input-group-append">
                                                         <span type="button"
-                                                              data-action="openDatePicker"
-                                                              class="input-group-text ui-datepicker-trigger">
-                                                            <i data-action="datetimepicker"
-                                                               class="fa fa-calendar"></i>
+                                                              class="input-group-text">
+                                                            <i class="fa fa-calendar"></i>
                                                         </span>
                                                         </div>
                                                         <button type="button" data-action="clearDate"
@@ -147,19 +144,18 @@
 
                                             <div class="row mb-2">
                                                 <div class="col">
-                                                    <label class="app-field-label" data-field="specificlocationofia">
+                                                    <label class="app-field-label">
                                                         Expiry Date <span class="text-danger">*</span>
                                                     </label>
                                                 </div>
 
                                                 <div class="col">
                                                     <div class="input-group date">
-                                                        <input type="text"
+                                                        <input type="date"
+                                                               min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                                                name="expiryDate"
                                                                id="expiryDate"
-                                                               autocomplete="off"
-                                                               class="form-control datetimepicker"
-                                                               data-target="#dateOpened"
+                                                               class="form-control"
                                                                required/>
                                                         <div class="input-group-append">
                                                         <span class="input-group-text">
@@ -257,7 +253,14 @@
             }).mask("#vehicleRegistration");
 
             tmsApp.appFormValidator('form[name="newTomCardForm"]',
-                {},
+                {
+                    cardNumber: {
+                        required: true
+                    },
+                    comments: {
+                        required: true
+                    }
+                },
                 {}
             );
 
