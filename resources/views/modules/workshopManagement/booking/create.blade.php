@@ -37,9 +37,9 @@
 @section('content')
 
     <x-content-header
-        :activeCrumb="'New Reservation'"
-        :linkText="'Booking'"
-        :pageTitle="'New Reservation'"/>
+            :activeCrumb="'New Reservation'"
+            :linkText="'Booking'"
+            :pageTitle="'New Reservation'"/>
 
     <section class="content">
         <div class="card">
@@ -115,7 +115,7 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required">
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required">
                                                     @if(RequisitionItemTypes::STOCK_ITEM_CODE==$materialsHeader->item_type_code)
                                                         Store Reservation No.:
                                                     @else
@@ -140,37 +140,37 @@
                                                name="materialHeaderId">
                                         <div class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                for="staff_no">Item Type:
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                    for="staff_no">Item Type:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                 @if(!empty($materialsHeader))
                                                     <select
-                                                        data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                        readonly="readonly"
-                                                        class="form-select form-select-sm"
-                                                        name="itemType"
-                                                        id="itemType">
+                                                            data-value="{{$materialsHeader->item_type_code ?? ''}}"
+                                                            readonly="readonly"
+                                                            class="form-select form-select-sm"
+                                                            name="itemType"
+                                                            id="itemType">
                                                         <option></option>
                                                         <option
-                                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::STOCK_ITEM_CODE) selected
-                                                            @endif value="01">STOCK ITEM
+                                                                @if($materialsHeader->item_type_code == RequisitionItemTypes::STOCK_ITEM_CODE) selected
+                                                                @endif value="01">STOCK ITEM
                                                         </option>
                                                         <option
-                                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::NON_STOCK_ITEM_CODE) selected
-                                                            @endif value="02">NON STOCK ITEM
+                                                                @if($materialsHeader->item_type_code == RequisitionItemTypes::NON_STOCK_ITEM_CODE) selected
+                                                                @endif value="02">NON STOCK ITEM
                                                         </option>
                                                         <option
-                                                            @if($materialsHeader->item_type_code ==  RequisitionItemTypes::SERVICE_ITEM_CODE) selected
-                                                            @endif value="03">SERVICE
+                                                                @if($materialsHeader->item_type_code ==  RequisitionItemTypes::SERVICE_ITEM_CODE) selected
+                                                                @endif value="03">SERVICE
                                                         </option>
                                                     </select>
                                                 @else
                                                     <select
-                                                        required
-                                                        class="form-select form-select-sm"
-                                                        name="itemType"
-                                                        id="itemType">
+                                                            required
+                                                            class="form-select form-select-sm"
+                                                            name="itemType"
+                                                            id="itemType">
                                                         <option></option>
                                                         <option value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}">STOCK
                                                             ITEM
@@ -198,16 +198,16 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                for="staff_no">Purchase Office:
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                    for="staff_no">Purchase Office:
                                             </label>
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <select
-                                                    data-value=""
-                                                    required
-                                                    class="form-select form-select-sm"
-                                                    name="purchase_office"
-                                                    id="purchase_office">
+                                                        data-value=""
+                                                        required
+                                                        class="form-select form-select-sm"
+                                                        name="purchase_office"
+                                                        id="purchase_office">
                                                     <option value="{{$officeDetails->purchase_office_code ?? ''}}">
                                                         {{$officeDetails->purchase_office ?? ''}}
                                                     </option>
@@ -225,7 +225,7 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <div
-                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                 <div class="control-input">
                                                     <div class="link-field ui-front"
                                                          style="position: relative;">
@@ -238,12 +238,12 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                 <select
-                                                    data-value="{{$details->workshop_code ?? ''}}"
-                                                    required
-                                                    class="form-select form-select-sm"
-                                                    name="workshop_code"
-                                                    autocomplete="off"
-                                                    id="workshop">
+                                                        data-value="{{$details->workshop_code ?? ''}}"
+                                                        required
+                                                        class="form-select form-select-sm"
+                                                        name="workshop_code"
+                                                        autocomplete="off"
+                                                        id="workshop">
                                                 </select>
                                                 {{--<input type="text"
                                                        readonly
@@ -264,8 +264,8 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                for="job_card_no">
+                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                    for="job_card_no">
                                                 Request Date:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -301,7 +301,7 @@
 
                                         <div id="supplierContainer" style="display: none;" class="form-group row">
                                             <div
-                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                 <div class="control-input">
                                                     <div class="link-field ui-front"
                                                          style="position: relative;">
@@ -313,19 +313,19 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                 <select
-                                                    data-value="{{$materialsHeader->supplier_code ?? ''}}"
-                                                    class="form-select form-select-sm"
-                                                    name="supplier"
-                                                    autocomplete="off"
-                                                    id="supplier">
+                                                        data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                                        class="form-select form-select-sm"
+                                                        name="supplier"
+                                                        autocomplete="off"
+                                                        id="supplier">
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div id="storeContainer" style="display: none;" class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                for="staff_name">
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                    for="staff_name">
                                                 Store:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -352,8 +352,8 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                for="staff_no">Servicing Date:
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                    for="staff_no">Servicing Date:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                 @if($materialsHeader)
@@ -471,49 +471,49 @@
         <tr class="increment">
             <td class="showNumber">
                 <input
-                    name="registration"
-                    required
-                    value=""
-                    class="form-control form-control-sm vehicle_registration"/>
+                        name="registration"
+                        required
+                        value=""
+                        class="form-control form-control-sm vehicle_registration"/>
             </td>
             <td>
                 <select
-                    name="articles"
-                    required
-                    data-value=""
-                    class="form-control form-control-sm articlesDropDownList">
+                        name="articles"
+                        required
+                        data-value=""
+                        class="form-control form-control-sm articlesDropDownList">
                     <option></option>
                 </select>
             </td>
             <td>
                 <input
-                    name="articleCode"
-                    required
-                    readonly
-                    class="form-control form-control-sm articleCode"/>
+                        name="articleCode"
+                        required
+                        readonly
+                        class="form-control form-control-sm articleCode"/>
             </td>
             <td>
                 <input
-                    name="technical_specification"
-                    required
-                    class="form-control form-control-sm technical_specification"/>
-            </td>
-
-            <td>
-                <input
-                    type="text"
-                    min="1"
-                    name="quantity"
-                    required
-                    class="form-control form-control-sm quantity number_input"/>
+                        name="technical_specification"
+                        required
+                        class="form-control form-control-sm technical_specification"/>
             </td>
 
             <td>
                 <input
-                    name="unit_of_measure"
-                    required
-                    readonly
-                    class="form-control form-control-sm unit_of_measure"/>
+                        type="text"
+                        min="1"
+                        name="quantity"
+                        required
+                        class="form-control form-control-sm quantity number_input"/>
+            </td>
+
+            <td>
+                <input
+                        name="unit_of_measure"
+                        required
+                        readonly
+                        class="form-control form-control-sm unit_of_measure"/>
             </td>
 
             <td>
@@ -544,52 +544,52 @@
         <tr class="increment">
             <td class="showNumber">
                 <input
-                    name="vehicle_registration"
-                    required
-                    value=""
-                    class="form-control form-control-sm vehicle_registration"/>
+                        name="vehicle_registration"
+                        required
+                        value=""
+                        class="form-control form-control-sm vehicle_registration"/>
             </td>
             <td>
                 <select
-                    name="service_article"
-                    required
-                    data-value=""
-                    class="form-control form-control-sm servicesArticlesDropDownList">
+                        name="service_article"
+                        required
+                        data-value=""
+                        class="form-control form-control-sm servicesArticlesDropDownList">
                     <option></option>
                 </select>
             </td>
             <td>
                 <input
-                    name="serviceArticleCode"
-                    required
-                    readonly
-                    class="form-control form-control-sm serviceArticleCode"/>
+                        name="serviceArticleCode"
+                        required
+                        readonly
+                        class="form-control form-control-sm serviceArticleCode"/>
             </td>
             <td>
                 <input
-                    name="service_technical_specification"
-                    required
-                    class="form-control form-control-sm service_technical_specification"/>
-            </td>
-
-            <td>
-                <input
-                    readonly
-                    type="text"
-                    min="1"
-                    value="1"
-                    max="1"
-                    name="service_quantity"
-                    required
-                    class="form-control form-control-sm service_quantity number_input"/>
+                        name="service_technical_specification"
+                        required
+                        class="form-control form-control-sm service_technical_specification"/>
             </td>
 
             <td>
                 <input
-                    name="service_unit_of_measure"
-                    required
-                    readonly
-                    class="form-control form-control-sm unit_of_measure"/>
+                        readonly
+                        type="text"
+                        min="1"
+                        value="1"
+                        max="1"
+                        name="service_quantity"
+                        required
+                        class="form-control form-control-sm service_quantity number_input"/>
+            </td>
+
+            <td>
+                <input
+                        name="service_unit_of_measure"
+                        required
+                        readonly
+                        class="form-control form-control-sm unit_of_measure"/>
             </td>
 
             <td>
@@ -1756,17 +1756,34 @@
                     }
                 }
 
-                let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+                let vLabel = vehicle['body_type_name']
+                    + ' ' + vehicle['brand_name']
+                    + ' ' + vehicle['model_name']
+                    + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
-                let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
-                               <tr>
-                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
+                let row = `<tr>
+                                <th>Make</th>
+                                <td id="make">
+                                    ${vehicle['brand_name']}
+                                </td>
+                            </tr>
+                            <tr>
+                                    <th>Model</th>
+                                    <td id="model">
+                                        ${vehicle['model_name']} ${vehicle['model_code']}
+                                    </td>
                                </tr>
-                               <tr style="">
-                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
+                            <tr style="">
+                                     <th>Type</th>
+                                     <td id="registration">
+                                        ${vehicle['body_type_name']}
+                                     </td>
                                 </tr>
-                                <tr style="">
-                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
+                            <tr style="">
+                                     <th>State:</th>
+                                     <td id="registration">
+                                         ${vehicle['status_name']}
+                                     </td>
                                 </tr>`;
 
                 $('tbody#vehicleDetails').html(row);
@@ -1839,12 +1856,10 @@
 
                 const $table = $('table#' + tableId);
                 if (tableId === "material_table") {
-                    const $materialTableRowTemplate = materialTableRowTemplate;// document.querySelector('#materialTableRowTemplate');
-                    $table.find('tbody').append($materialTableRowTemplate);
+                    $table.find('tbody').append(materialTableRowTemplate);
                 } else {
                     if (tableId === "services_table") {
-                        const $serviceTableRowTemplate = serviceTableRowTemplate;//document.querySelector('#');
-                        $table.find('tbody').append($serviceTableRowTemplate);
+                        $table.find('tbody').append(serviceTableRowTemplate);
                     }
                 }
 
@@ -1974,7 +1989,7 @@
                 }).off('select2:select').on('select2:select', function (e) {
                     let article = e.params['data'];
                     const row = $(e.currentTarget).closest('tr');
-                    if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
+                    if (document.querySelector('[name="stockItemCode"]').value === $("#itemType").val()) {
 
                         if (!article?.price_map) {
                             const description = article?.technical_specifications
@@ -1985,7 +2000,8 @@
                                 text: 'The Article '
                                     + article?.id
                                     + ' - ' + description + ' has no price. ' +
-                                    ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, ' +
+                                    ' Please Contact Fleet Master System Administrator ' +
+                                    ' on 3309,3350,3351,3306, ' +
                                     'fleetmaster@zesco.co.com'
                             });
                             return;
@@ -2002,7 +2018,8 @@
                                     + ' does not have '
                                     + article?.id
                                     + ' - ' + description + ' in stock. ' +
-                                    'You may have to wait until the stock is received before your request can be processed'
+                                    'You may have to wait until the stock is received before ' +
+                                    'your request can be processed'
                             });
                         }
                     }

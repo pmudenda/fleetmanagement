@@ -198,7 +198,6 @@
                                         <div class="col-3">
                                             <div id="vehicleDetailsContainer" style="display: none;"
                                                  class="col-xs-12 col-sm-12 col-md-12">
-                                                {{--<h1>Vehicle Details</h1>--}}
                                                 <table aria-label="vehicle summary details"
                                                        class="table">
                                                     <thead>
@@ -296,9 +295,9 @@
                                 if (vehicle['has_tom_card'] === 'Y') {
                                     tmsApp.showToast(
                                         vehicle_tom_card_message,
-                                        "Vehicle Has A Tom Card Already",
+                                        "Vehicle Was Already Assigned A Tom Card ",
                                         "error");
-                                    //return;
+                                    return;
                                 }
 
                                 let vLabel = vehicle['body_type_name']
@@ -307,6 +306,33 @@
                                     + ' ' + vehicle['model_code'];
                                 $("#vehicle_description").val(vLabel);
                                 $("#vehicle_status").text(vehicle['status_name']);
+
+                                let row = `<tr>
+                                <th>Make</th>
+                                <td id="make">
+                                    ${vehicle['brand_name']}
+                                </td>
+                            </tr>
+                            <tr>
+                                    <th>Model</th>
+                                    <td id="model">
+                                        ${vehicle['model_name']} ${vehicle['model_code']}
+                                    </td>
+                               </tr>
+                            <tr style="">
+                                     <th>Type</th>
+                                     <td id="registration">
+                                        ${vehicle['body_type_name']}
+                                     </td>
+                                </tr>
+                            <tr style="">
+                                     <th>State:</th>
+                                     <td id="registration">
+                                         ${vehicle['status_name']}
+                                     </td>
+                                </tr>`;
+
+                                $('tbody#vehicleDetails').html(row);
 
                                 if (images && images.length > 0) {
                                     document.querySelector('#vehicleDetailsContainer').style.display = null;
