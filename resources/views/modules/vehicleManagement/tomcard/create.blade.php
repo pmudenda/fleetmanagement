@@ -24,6 +24,15 @@
         input:valid + span::after {
             content: "✓";
         }
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            border-color: orange;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+            color: #495057;
+            background-color: #fff;
+            border-color: #dee2e6 #dee2e6 #fff;
+        }
     </style>
 @endpush
 
