@@ -487,8 +487,8 @@
                 if (filteredResults.length > 0) {
                     console.log(filteredResults[0]);
                     $('#model_code').val(filteredResults[0]?.model_code);
-                    $('#bodyType').val(filteredResults[0]?.body_type_code)
-                        .attr('disabled', true).change();
+                    /*$('#bodyType').val(filteredResults[0]?.body_type_code)
+                        .attr('disabled', true).change();*/
                 }
             });
 
