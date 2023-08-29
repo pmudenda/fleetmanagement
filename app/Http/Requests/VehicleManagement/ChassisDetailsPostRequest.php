@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\VehicleManagement;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -9,7 +9,8 @@ class ChassisDetailsPostRequest extends FormRequest
 {
     const REQUIRED_NUMERIC = 'required|numeric';
     const REQUIRED_FILE_MIMES = 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff';
-    const EXCLUDE_UNLESS_CHASSIS_DETAILS = 'exclude_unless:chassisDetailsId,0|required|unique:App\Models\VehicleManagement\ChassisDetail';
+    const EXCLUDE_UNLESS_CHASSIS_DETAILS = 'exclude_unless:chassisDetailsId,
+    0|required|unique:App\Models\VehicleManagement\ChassisDetail';
 
     /**
      * Determine if the user is authorized to make this request.

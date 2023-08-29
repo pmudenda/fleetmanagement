@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ETollCardRequest;
+use App\Http\Requests\VehicleManagement\ETollCardRequest;
 use App\Models\ETollCard;
 use App\Services\FileUploads\FileUploadService;
 use Carbon\Carbon;

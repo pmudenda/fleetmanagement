@@ -16,6 +16,8 @@ class SystemMessages
     const EXIT_FROM_WORKSHOP = "CANCELLED BECAUSE THE VEHICLE HAS BEEN EXITED FROM THE WORKSHOP IN FLEET MASTER.";
     const OUT_OF_TOWN_REQUISITION_RAISED
         = "CANCELLED BECAUSE OUT OF TOWN REQUISITION HAS BEEN REQUESTED IN FLEET MASTER.";
+    const TOM_CARD_ASSIGNED = "Tom Card Assigned Successfully";
+    const TOM_CARD_ASSIGNMENT_FAILED = "Tom Card Assignment Failed";
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

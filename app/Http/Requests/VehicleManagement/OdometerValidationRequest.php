@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\VehicleManagement;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class OnboardingVehicleAccessoryRequest extends FormRequest
+class OdometerValidationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,8 @@ class OnboardingVehicleAccessoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            'odometer_reading' => 'required|numeric',
+            'vehicle_registration' => 'required|string|max:10',
         ];
     }
 }
