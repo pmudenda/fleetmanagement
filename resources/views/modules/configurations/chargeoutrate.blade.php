@@ -110,7 +110,7 @@
                                                 <select class="form-select form-select-sm view_mode"
                                                         required
                                                         id="bodyType"
-                                                        name="body_type">
+                                                        name="bodyType">
                                                 </select>
                                             </div>
                                         </div>
@@ -400,7 +400,7 @@
                     .then(response => response.json())
                     .then(response => {
 
-                        let selectElem = $('select[name="body_type"]');
+                        let selectElem = $('select[name="bodyType"]');
                         // Populate results
                         if (response.state === 'failure') {
                             //show errors
