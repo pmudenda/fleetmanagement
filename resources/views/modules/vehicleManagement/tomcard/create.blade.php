@@ -113,7 +113,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row mb-2">
+                                           {{-- <div class="row mb-2">
                                                 <div class="col">
                                                     <label
                                                             for="dateIssued"
@@ -128,8 +128,7 @@
                                                                name="dateIssued"
                                                                id="dateIssued"
                                                                autocomplete="off"
-                                                               class="form-control"
-                                                               required/>
+                                                               class="form-control"/>
                                                         <div class="input-group-append">
                                                         <span type="button"
                                                               class="input-group-text">
@@ -168,6 +167,7 @@
                                                 </div>
 
                                             </div>
+--}}
 
                                             <div class="row mb-2">
                                                 <td colspan="4">
