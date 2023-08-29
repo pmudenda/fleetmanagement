@@ -44,13 +44,13 @@ class TomCardManagementController extends Controller
                 ->update(['has_tom_card' => 'Y']);
             DB::commit();
             return response()->json([
-                'success' => true,
+                'state' => 'success',
                 'message' => SystemMessages::TOM_CARD_ASSIGNED
             ]);
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json([
-                'success' => false,
+                'state' => 'failure',
                 'message' => SystemMessages::TOM_CARD_ASSIGNMENT_FAILED
             ]);
         }
