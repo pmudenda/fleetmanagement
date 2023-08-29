@@ -112,12 +112,12 @@
                                                     <td>
                                                         {{
                                                             Carbon::parse($tomCardAllocation->period_from)
-                                                            ->format('d/m/Y')
+                                                            ->format('d/M/Y')
                                                         }}
                                                     </td>
                                                     <td>
                                                         {{
-                                                            Carbon::parse($tomCardAllocation->period_to)
+                                                            $tomCardAllocation->period_to
                                                         }}
                                                     </td>
                                                     <td>{{$tomCardAllocation->assigned_by_name}}</td>
