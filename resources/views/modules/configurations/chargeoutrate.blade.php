@@ -455,9 +455,9 @@
                 }
             );
 
-            $(document).on('input', '#rate', function (e) {
-                tmsApp.numberOnly(e);
-            });
+            $(document).on('keypress', '#rate', function (event) {
+                tmsApp.numberOnly(event);
+            })
 
             $(document).on('change', 'select[name="brand"]', function () {
                 nativeVehicleBrandChanged();
