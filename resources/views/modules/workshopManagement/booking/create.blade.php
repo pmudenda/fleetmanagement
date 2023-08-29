@@ -842,7 +842,7 @@
                     formData,
                     function (response_data) {
                         if (response_data.success === 'true' || response_data.success === true) {
-                            populateVehicleDetails(response_data.payload, stage);
+                            populateVehicleDetails(response_data.payload, stage, null);
                         } else {
                             removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(
@@ -1677,7 +1677,10 @@
                         if (data) {
                             $storeCtl.value = data['store_code'] + ':' + data['store_name'];
                             $storeCodeCtl.value = data['store_code'];
-                            $($purchaseOfficeCtl).empty().append('<option selected value="' + data['purchase_office_code'] + '">' + data['purchase_office'] + '</option>')
+                            $($purchaseOfficeCtl).empty()
+                                .append('<option selected value="'
+                                    + data['purchase_office_code'] + '">'
+                                    + data['purchase_office'] + '</option>')
                                 .trigger('change');
                         }
                     })
@@ -1701,7 +1704,6 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        /*body: JSON.stringify({vehicle_registration: numberPlate}),*/
                         referrer: window.baseUrl,
                         mode: 'cors',
                         credentials: 'same-origin',
@@ -1722,7 +1724,7 @@
                     .then(response => {
                         console.log(response);
                         if (response.success === 'true' || response.success === true) {
-                            populateVehicleDetails(response.payload, "");
+                            populateVehicleDetails(response.payload, "", $row);
                         } else {
                             removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(
@@ -1742,7 +1744,7 @@
                     });
             }
 
-            function populateVehicleDetails(payload, state) {
+            function populateVehicleDetails(payload, state, $row) {
                 let vehicle = payload['vehicle'];
                 let images = payload['images'];
                 let vehicle_state = payload['vehicle_state'];
@@ -1754,6 +1756,7 @@
                 // BAD 1010
                 if (state !== 'InWorkshop') {
                     if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                        $($row).find('.vehicle_registration').val('').change();
                         tmsApp.showSystemMessage("Vehicle State",
                             vehicle_state,
                             () => {
