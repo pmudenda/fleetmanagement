@@ -10,6 +10,7 @@ use App\Models\VehicleManagement\TomCardAllocation;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -34,7 +35,7 @@ class TomCardManagementController extends Controller
             TomCardAllocation::create([
                 'reg_no' => $vehicleRegistration,
                 'card_number' => $request->get('cardNumber'),
-                'period_from'=> Carbon::now(),
+                'period_from' => Carbon::now(),
                 'period_to' => $expiryDate,
                 'status' => StatusHelper::active(),
                 'assigned_by' => Auth::user()->staff_no,
@@ -59,8 +60,38 @@ class TomCardManagementController extends Controller
         }
     }
 
-    public function list(): View
+    public function revoke(Request $request): JsonResponse
     {
-        return view('modules.vehicleManagement.tomcard.create');
+        try {
+            DB::beginTransaction();
+
+            $allocation = TomCardAllocation::where('id',
+                '=',
+                $request->get('recordId'))->first();
+            $comments = $request->get('justification');
+            $vehicleRegistration = $allocation->reg_no;
+
+            $allocation->status = StatusHelper::inactive();
+            $allocation->revocation_justification = $comments;
+            $allocation->date_revoked = Carbon::now();
+            $allocation->revoked_by = Auth::user()->staff_no;
+            $allocation->save();
+            DB::table('vm_vehicle_header')
+                ->where('registration_number',
+                    '=',
+                    $vehicleRegistration)
+                ->update(['has_tom_card' => 'N']);
+            DB::commit();
+            return response()->json([
+                'state' => 'success',
+                'message' => SystemMessages::TOM_CARD_REVOKED
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'state' => 'failure',
+                'message' => SystemMessages::TOM_CARD_REVOCATION_FAILED
+            ]);
+        }
     }
 }

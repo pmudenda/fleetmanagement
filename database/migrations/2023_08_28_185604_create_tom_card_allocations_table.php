@@ -16,8 +16,11 @@ return new class extends Migration {
             $table->string('card_number', 25);
             $table->date('period_from')->nullable();
             $table->date('period_to');
+            $table->string('revoked_by', 20)->nullable();
+            $table->timestamp('date_revoked')->nullable();
             $table->string('status', 2);
-            $table->string('justification', 255);
+            $table->string('assignment_justification', 255);
+            $table->string('revocation_justification', 255);
             $table->string('assigned_by', 12)->nullable();
             $table->string('modified_by', 12)->nullable();
             $table->timestamps();

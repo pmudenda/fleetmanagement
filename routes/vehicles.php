@@ -121,8 +121,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'vehicle-management'], functio
     Route::post('tom/card/assignment/save', [TomCardManagementController::class, 'store'])
         ->name('save.assign.tom.card');
 
-    Route::get('tom/card/list', [TomCardManagementController::class, 'list'])
-        ->name('list.tom.card');
+    Route::post('tom/card/assignment/revoke', [TomCardManagementController::class, 'revoke'])
+        ->name('revoke.assign.tom.card');
 });
 
 

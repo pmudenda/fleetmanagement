@@ -18,6 +18,8 @@ class SystemMessages
         = "CANCELLED BECAUSE OUT OF TOWN REQUISITION HAS BEEN REQUESTED IN FLEET MASTER.";
     const TOM_CARD_ASSIGNED = "Tom Card Assigned Successfully";
     const TOM_CARD_ASSIGNMENT_FAILED = "Tom Card Assignment Failed";
+    const TOM_CARD_REVOCATION_FAILED = "Tom Card Revokation Failed";
+    const TOM_CARD_REVOKED = "Tom Card Revoked Successfully";
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

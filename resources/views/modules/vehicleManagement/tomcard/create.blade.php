@@ -24,6 +24,7 @@
         input:valid + span::after {
             content: "✓";
         }
+
         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
             border-color: orange;
         }
@@ -66,7 +67,7 @@
                                         <a class="nav-link"
                                            data-toggle="tab"
                                            href="#assign"
-                                           role="tab">Assign</a>
+                                           role="tab">Assign Tom Card</a>
                                     </li>
                                 </ul>
                             </div>
@@ -74,7 +75,7 @@
                         <div class="tab-content">
 
                             <div class="tab-pane active" id="assignments" role="tabpanel">
-                                <div class="col-xs-12 col-sm-12 col-md-12 px-0">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="row mt-2">
                                         <table id="TomCards"
                                                aria-label="Tom cards"
@@ -99,6 +100,17 @@
                                                     <td>{{$tomCardAllocation->period_to}}</td>
                                                     <td>{{$tomCardAllocation->assigned_by}}</td>
                                                     <td>{{$tomCardAllocation->justification}}</td>
+                                                    <td>
+                                                        <button
+                                                                data-form-url="{{route('revoke.assign.tom.card')}}"
+                                                                data-id="{{$tomCardAllocation->id}}"
+                                                                id="revokeTomCardBtn"
+                                                                name="revokeTomCardBtn"
+                                                                class="btn btn-danger">
+                                                            <i class="fas fa-remove"></i>
+                                                            Revoke Assignment
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </table>
@@ -281,14 +293,14 @@
                                     <div class="card-footer">
                                         <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                                             <button type="button"
-                                                    id="submitRequisitionBtn"
+                                                    id="submitTomCardBtn"
                                                     disabled
                                                     class="btn btn-success disabled btn-sm mr-3 when_odo_valid">
                                                 <i class="fas fa-save"></i> Save
                                             </button>
                                             <button type="button" id="resetRequisitionBtn"
                                                     class="btn btn-danger btn-sm mr-3">
-                                                <i class="fas fa-undo"></i> Reset
+                                                <i class="fas fa-undo"></i> Clear Data
                                             </button>
                                         </div>
                                     </div>
@@ -338,6 +350,7 @@
                     placeholder: 'y',
                 }
             });
+
             Inputmask({
                 "mask": "999999 999999999999"
             }).mask("#cardNumber");
@@ -496,7 +509,7 @@
                 this.value = this.value?.toUpperCase();
             })
 
-            $("#submitRequisitionBtn").on('click', function () {
+            $(document).on('click', "#submitTomCardBtn", function () {
                 let $form = document.forms['newTomCardForm'];
                 if (!$($form).valid()) {
                     return;
@@ -558,6 +571,91 @@
 
                                     tmsApp.systemError(
                                         'Tom Card Assignment',
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
+                            }
+                        )
+                    },
+                    function () {
+                    }
+                );
+            });
+
+            $(document).on('click', "#revokeTomCardBtn", function () {
+                const recordId = $(this).attr('data-id');
+                const postUrl = $(this).attr('data-form-url');
+                let formData = new FormData();
+                formData.append('record', recordId);
+
+                tmsApp.confirm(
+                    'Tom Card Revocation',
+                    'Are you sure you want to revoke the assigned Tom card ?',
+                    'Yes',
+                    'No',
+                    async function () {
+                        const {value: justification} = await Swal.fire({
+                            input: 'textarea',
+                            inputLabel: 'Message',
+                            inputPlaceholder: 'Type your justification here...',
+                            inputAttributes: {
+                                'aria-label': 'Type your justification here',
+                                'required': true
+                            },
+                            showCancelButton: true
+                        })
+
+                        if (!justification) {
+                            return
+                        }
+
+                        formData.append('justification', justification);
+                        window.top.tmsApp.asyncPostFormData(
+                            postUrl,
+                            formData,
+                            function (asyncResponse) {
+
+                                if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'Tom Card Revocation',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'Tom Card Revocation',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                }
+                            },
+                            function (xhr, settings, errorThrown) {
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'Tom Card Revocation',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
+
+                                    tmsApp.systemError(
+                                        'Tom Card Revocation',
                                         'We could not complete processing your request, please try again later');
                                 }, 300)
                             }
