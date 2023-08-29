@@ -13,6 +13,8 @@ use App\Models\VehicleManagement\ChargeOutRate;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ChargeOutRateController extends Controller
@@ -34,11 +36,18 @@ class ChargeOutRateController extends Controller
             $model = $request->get("model");
             $bodyType = $request->get("bodyType");
             $charge = $request->get("rate");
+
+            Log::info("Brand Code" . $brand);
+            Log::info("Model Code" . $model);
+            Log::info("Body Type Code" . $bodyType);
+            Log::info("Charge " . $charge);
+
             $make = VehicleBrand::where('code', '=', $brand)->first();
             $modelType = VehicleModel::where('code', '=', $model)->first();
             $type = VehicleBodyType::where('code', '=', $bodyType)->first();
+            $user = Auth::user();
 
-
+            DB::beginTransaction();
             ChargeOutRate::create([
                 'vehicle_specification' => "$type->code  $make->code  $modelType->code",
                 'vehicle_description' => $type->name
@@ -47,8 +56,11 @@ class ChargeOutRateController extends Controller
                     . ' ' . $modelType->model_code,
                 'charge' => floatval($charge),
                 'current' => 'K',
-                'created_by' => auth()->user()->id
+                'created_by' => $user->staff_no
             ]);
+
+            DB::commit();
+
             return response()->json(
                 [
                     'message' => SystemMessages::chargeOutRateAddedSuccessfully(),
