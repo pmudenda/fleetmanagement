@@ -198,7 +198,8 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                    class="col-xs-12 col-sm-6
+                                                    col-md-5 col-lg-4 app-field-label field-required"
                                                     for="staff_no">Purchase Office:
                                             </label>
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">

@@ -319,12 +319,16 @@ class WorkshopRequisitionService
      * @throws VehicleStateException
      * @throws WorkflowTaskCreationFailedException
      * @throws MaterialReservationException
+     * @throws InvalidArticleType
      */
-    public function processMaterialReservation(WorkshopMaterialResevationRequest $materialReservationRequest): JsonResponse
+    public function processMaterialReservation(
+        WorkshopMaterialResevationRequest $materialReservationRequest
+    ): JsonResponse
     {
         Log::info("Creating Workshop Material Booking");
 
-        $validityTo = Carbon::parse($materialReservationRequest->get("date_expected")) ?? Carbon::now()->addDays(7);
+        $validityTo = Carbon::parse($materialReservationRequest->get("date_expected"))
+            ?? Carbon::now()->addDays(7);
         $validityFrom = Carbon::now();
 
         /********************************************** Save Data **************************************/
@@ -358,7 +362,8 @@ class WorkshopRequisitionService
 
             // we've encountered the combination before - duplicate
             if (in_array($key, array_keys($articlesMap))) {
-                $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
+                $message = "Article $article has been already selected for vehicle
+                $registrationNumber. Check your article";
                 throw new MaterialReservationException($message);
             }
 
@@ -367,9 +372,9 @@ class WorkshopRequisitionService
             $this->validateVehicleStatus($registrationNumber);
 
             $query = DB::table("$articles");
-            $item_type_code = $materialReservationRequest->get('itemType');
+            $itemTypeCode = $materialReservationRequest->get('itemType');
 
-            $this->checkArticleGroup($item_type_code, $query, $itemType, $articles, $article, $registrationNumber);
+            $this->checkArticleGroup($itemTypeCode, $query, $itemType, $articles, $article, $registrationNumber);
         }
 
         DB::beginTransaction();
@@ -477,12 +482,14 @@ class WorkshopRequisitionService
      * @throws FuelRequisitionException
      * @throws MaterialReservationException|VehicleStateException
      */
-    public function processJobCardServiceRequest(WorkshopServiceRequisitionRequest $requisitionPostRequest): JsonResponse
+    public function processJobCardServiceRequest(
+        WorkshopServiceRequisitionRequest $requisitionPostRequest
+    ): JsonResponse
     {
         Log::info("Creating Workshop Service Request");
 
-        $valid_to = Carbon::now(); //Carbon::parse($requisitionPostRequest->get("date_expected")) ?? Carbon::now()->addDays(7);
-        $valid_from = Carbon::now();
+        $validFrom = Carbon::now();
+        $validTo = Carbon::now();
         $registrationNumber = $requisitionPostRequest->vehicle_registration;
 
         /********************************************** Save Data **************************************/
@@ -491,21 +498,19 @@ class WorkshopRequisitionService
         $this->validateVehicleStatus($registrationNumber);
 
         // check that each article selected is of correct class
-        $item_type = "";
+        $itemType = "";
         $workflowProcess = "";
 
-        switch ($requisitionPostRequest->itemType) {
-            case RequisitionItemTypes::SERVICE_ITEM_CODE:
-            case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
-                $item_type = RequisitionItemTypes::SERVICE;
-                $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
-                break;
+        $requestItemType = $requisitionPostRequest->itemType;
+        if ($requestItemType == RequisitionItemTypes::SERVICE_ITEM_CODE
+            || $requestItemType == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
+            $itemType = RequisitionItemTypes::SERVICE;
+            $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
         }
 
         // check each article to make sure it's of the correct type and is no active on a reservation for the same car
         //$stockManagement = config("tables.table_names.stockManagement");
         $articles = config("tables.table_names.articles");
-        //$units = config("tables.table_names.units");
 
         foreach ($requisitionPostRequest->get("items") as $item) {
             $query = DB::table("$articles");
@@ -513,20 +518,20 @@ class WorkshopRequisitionService
 
             switch ($item_type_code) {
                 case RequisitionItemTypes::STOCK_ITEM_CODE:
-                    $query->where(function ($q) use ($item_type, $articles) {
+                    $query->where(function ($q) use ($itemType, $articles) {
                         $q->whereIn("$articles.code_group",
                             ["01", "04", "30"]);
                     });
 
                     break;
                 case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
-                    $query->where(function ($q) use ($item_type, $articles) {
+                    $query->where(function ($q) use ($itemType, $articles) {
                         $q->where("$articles.code_group", "=", "40");
                     });
 
                     break;
                 case RequisitionItemTypes::SERVICE_ITEM_CODE:
-                    $query->where(function ($q) use ($item_type, $articles) {
+                    $query->where(function ($q) use ($itemType, $articles) {
                         $q->where("$articles.code_group", "=", "41")
                             ->where("$articles.code_subgroup", "=", "02");
                     });
@@ -541,9 +546,9 @@ class WorkshopRequisitionService
 
             if ($count == 0) {
                 $message = "Article @articleCode is not a @itemType";
-                $articleType = $item_type == RequisitionItemTypes::STOCK_ITEM
+                $articleType = $itemType == RequisitionItemTypes::STOCK_ITEM
                     ? "Stock Item"
-                    : ($item_type == RequisitionItemTypes::NON_STOCK_ITEM
+                    : ($itemType == RequisitionItemTypes::NON_STOCK_ITEM
                         ? "Non Stock Item " : "Service");
 
                 throw new MaterialReservationException(
@@ -580,28 +585,32 @@ class WorkshopRequisitionService
         }
 
         DB::beginTransaction();
-        $form_order = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
-        $purchase_process_reference = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
+        $formOrder = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
+        $purchaseProcessReference = DocumentNumberGenerationService::generateReferenceNumber(
+            WorkflowModules::PURCHASE_REQUISITION
+        );
 
-        Log::info("Requisition Ref. " . $purchase_process_reference);
-        Log::info("Doc No. " . $form_order);
+        Log::info("Requisition Ref. " . $purchaseProcessReference);
+        Log::info("Doc No. " . $formOrder);
         Log::info("Requisition Item Type " . $requisitionPostRequest->get("itemType"));
-        Log::info("Determined Requisition Item Type Code " . $item_type);
+        Log::info("Determined Requisition Item Type Code " . $itemType);
 
-        $short_description = "Workshop Requisition for Vehicle Reg No. " . $registrationNumber;
-        $long_description = "Workshop Requisition Ref.No. " . $purchase_process_reference . " For Vehicle Reg No. " . $registrationNumber;
+        $shortDescription = "Workshop Requisition for Vehicle Reg No. " . $registrationNumber;
+        $longDescription = "Workshop Requisition Ref.No. "
+            . $purchaseProcessReference
+            . " For Vehicle Reg No. " . $registrationNumber;
 
         $justification = $requisitionPostRequest->remarks;
 
         $this->workflowService->initiateWorkflowProcess(
-            $purchase_process_reference,
+            $purchaseProcessReference,
             (int)$workflowProcess,
             WorkflowActions::submit(),
             $justification,
             $user,
             $requisitionPostRequest->total_amount ?? 0,
-            $short_description,
-            $long_description
+            $shortDescription,
+            $longDescription
         );
 
         $storeCode = $requisitionPostRequest->store_code;
@@ -614,17 +623,17 @@ class WorkshopRequisitionService
                 "created_by" => $user->id,
                 "date_created" => Carbon::now(),
                 "status" => StatusHelper::new(),
-                "req_no" => $purchase_process_reference,
-                "form_order" => $form_order,
+                "req_no" => $purchaseProcessReference,
+                "form_order" => $formOrder,
                 "workshop_no" => $workshopCode,
-                "item_type" => $item_type,
+                "item_type" => $itemType,
                 "requested_by" => $user->staff_no,
                 "veh_reg_no" => $registrationNumber,
                 "purchase_office" => $requisitionPostRequest->get("purchase_office"),
                 "store" => $storeCode,
                 "supplier_code" => $requisitionPostRequest->supplier,
-                "valid_date_from" => $valid_from,
-                "valid_date_to" => $valid_to,
+                "valid_date_from" => $validFrom,
+                "valid_date_to" => $validTo,
                 "comments" => $justification,
                 "cost_assigned_to" => "CostCenter",
                 "is_fuel" => "N",
@@ -634,7 +643,7 @@ class WorkshopRequisitionService
 
         WorkShopMaterialHeader::create(
             [
-                "form_order" => $form_order,
+                "form_order" => $formOrder,
                 "job_card_no" => $joCardNumber,
                 "item_type_code" => $item_type_code,
                 "workshop_reference" => $workshopReference,
@@ -656,7 +665,7 @@ class WorkshopRequisitionService
                 "amount" => $item["service_total_price"],
                 "price" => $item["service_unit_price"],
                 "stores_code" => $storeCode,
-                "req_no" => $purchase_process_reference,
+                "req_no" => $purchaseProcessReference,
                 "specifications" => $item["service_technical_specification"],
                 "description" => $item["service_technical_specification"],
                 "reg_no" => $item["vehicle_registration"],
@@ -667,7 +676,7 @@ class WorkshopRequisitionService
                 "wshp_act_code" => $workshopReference,
                 "wshp_code" => $workshopCode,
                 "evaluation" => "Y",
-                "movt_no" => $form_order,
+                "movt_no" => $formOrder,
                 "date_send" => Carbon::now(),
                 "mat_code" => $item["service_article"],
                 "unit_of_measure" => $item["service_unit_of_measure"],
@@ -701,11 +710,13 @@ class WorkshopRequisitionService
 
         // send notification to authoriser
         RequisitionRaised::dispatch($matHeader, 'job_card_material_requisition');
-        Log::info("Requisition " . $purchase_process_reference . " raised successfully");
+        Log::info("Requisition " . $purchaseProcessReference . " raised successfully");
 
         return response()->json([
             "success" => true,
-            "message" => "Requisition " . $purchase_process_reference . " Generated and submitted to the next authority for Authorisation",
+            "message" => "Requisition "
+                . $purchaseProcessReference
+                . " Generated and submitted to the next authority for Authorisation",
             "redirectUrl" => URL::signedRoute("list.workshop.requisition"),
         ]);
     }
@@ -715,7 +726,9 @@ class WorkshopRequisitionService
      * @throws WorkflowTaskCreationFailedException
      * @throws MaterialReservationException
      */
-    public function processServiceReservation(WorkshopServiceReservationRequest $serviceReservationRequest): JsonResponse
+    public function processServiceReservation(
+        WorkshopServiceReservationRequest $serviceReservationRequest
+    ): JsonResponse
     {
         Log::info("Creating Workshop Service Booking");
 
@@ -1284,7 +1297,10 @@ class WorkshopRequisitionService
      * @return void
      * @throws MaterialReservationException
      */
-    public function checkArticleType(Builder $query, $articleCode, string $itemType, mixed $registrationNumber): void
+    public function checkArticleType(Builder $query,
+                                             $articleCode,
+                                     string  $itemType,
+                                     mixed   $registrationNumber): void
     {
         $count = $query
             ->where("code_article", "=", $articleCode)
@@ -1319,7 +1335,8 @@ class WorkshopRequisitionService
             ->whereIn("gen_material_headers.status", [
                 StatusHelper::new(),
                 StatusHelper::authorised(),
-                StatusHelper::partiallyReleased()
+                StatusHelper::partiallyReleased(),
+                StatusHelper::issued()
             ])->select("gen_material_headers.*")
             ->first();
 
