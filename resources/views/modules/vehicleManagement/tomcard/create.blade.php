@@ -113,7 +113,7 @@
                                                 </div>
                                             </div>
 
-                                           {{-- <div class="row mb-2">
+                                            {{--<div class="row mb-2">
                                                 <div class="col">
                                                     <label
                                                             for="dateIssued"
@@ -141,7 +141,7 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>--}}
 
                                             <div class="row mb-2">
                                                 <div class="col">
@@ -167,7 +167,6 @@
                                                 </div>
 
                                             </div>
---}}
 
                                             <div class="row mb-2">
                                                 <td colspan="4">
