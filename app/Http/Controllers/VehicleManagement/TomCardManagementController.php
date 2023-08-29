@@ -44,7 +44,7 @@ class TomCardManagementController extends Controller
                 'period_to' => $expiryDate,
                 'status' => StatusHelper::active(),
                 'assigned_by' => Auth::user()->staff_no,
-                'justification' => $comments
+                'assignment_justification' => $comments
             ]);
             DB::table('vm_vehicle_header')
                 ->where('registration_number',
