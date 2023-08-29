@@ -73,7 +73,7 @@
                         </div>
                         <div class="tab-content">
 
-                            <div class="tab-pane" id="assignments" role="tabpanel">
+                            <div class="tab-pane active" id="assignments" role="tabpanel">
                                 <div class="col-xs-12 col-sm-12 col-md-12 px-0">
                                     <div class="row mt-2">
                                         <table id="TomCards"
