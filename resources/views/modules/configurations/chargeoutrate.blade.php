@@ -406,7 +406,7 @@
                         }
 
                         let bodyTypes = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, bodyTypes, "code", ["body_type_name"], "");
+                        tmsApp.populateDropDownList(selectElem, bodyTypes, "code", ["name"], "");
 
                         let bodyTypeId = selectElem.attr('data-value');
                         if (bodyTypeId) {
