@@ -89,6 +89,7 @@
                                                 <th scope="row">Valid To</th>
                                                 <th scope="row">Assigned By</th>
                                                 <th scope="row">Justification</th>
+                                                <th scope="row">Action</th>
                                             </tr>
                                             </thead>
                                             @foreach($tomCardAllocations as $tomCardAllocation)
@@ -128,11 +129,10 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <button
+                                                        <button type="button"
                                                                 data-form-url="{{route('revoke.assign.tom.card')}}"
                                                                 data-id="{{$tomCardAllocation->id}}"
                                                                 id="revokeTomCardBtn"
-                                                                data-toggle="tooltip"
                                                                 title="Revoke Assignment"
                                                                 name="revokeTomCardBtn"
                                                                 class="btn btn-danger">
