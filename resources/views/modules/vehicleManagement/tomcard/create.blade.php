@@ -118,7 +118,14 @@
                                                             ->format('d/m/Y')
                                                         }}</td>
                                                     <td>{{$tomCardAllocation->assigned_by_name}}</td>
-                                                    <td>{{$tomCardAllocation->justification}}</td>
+                                                    <td>
+                                                        @if($tomCardAllocation->status == '01')
+                                                            {{$tomCardAllocation->assignment_justification}}
+                                                        @else
+                                                            {{$tomCardAllocation->revocation_justification}}
+                                                        @endif
+
+                                                    </td>
                                                     <td>
                                                         <button
                                                                 data-form-url="{{route('revoke.assign.tom.card')}}"
