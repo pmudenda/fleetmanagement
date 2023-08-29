@@ -5,8 +5,13 @@ window.businessUnits = [];
 
 function setSelectedAccessories() {
     $.each(window.selectedAccessories, function (index, element) {
-        $("input[name=" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true).attr('readonly', true);
-        $("input[name=COMMENT_" + element.code + "]").val(element?.remarks).attr('readonly', true);
+        $("input[name="
+            + element?.code + "][value="
+            + element?.is_present + "]")
+            .prop('checked', true).attr('readonly', true);
+        $("input[name=COMMENT_"
+            + element.code
+            + "]").val(element?.remarks).attr('readonly', true);
     });
 }
 
@@ -41,13 +46,13 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'brand_code', data['brand_code']);
 
     if (data['model_code']) {
-        $('select[name="model"]').val(data['model_code']);
-        $('select[name="model"]').attr('data-value', data['model_code']);
+        $('select[name="model"]').val(data['model_code'])
+            .attr('data-value', data['model_code']);
     }
 
     if (data['brand_code']) {
-        $('select[name="brand"]').val(data['brand_code']);
-        $('select[name="brand"]').attr('data-value', data['brand_code']);
+        $('select[name="brand"]').val(data['brand_code'])
+            .attr('data-value', data['brand_code']);
 
         setTimeout(function () {
             $('select[name="brand"]').trigger('change');
@@ -65,21 +70,21 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     if (data['body_type_code']) {
         $('select[name="bodyType"]').val(parseInt(data['body_type_code']))
-        $('select[name="bodyType"]').attr('data-value', parseInt(data['body_type_code']));
+            .attr('data-value', parseInt(data['body_type_code']));
         setTimeout(function () {
             $('select[name="bodyType"]').trigger('change');
         }, 600);
     }
 
     if (data['business_unit_code']) {
-        $('select[name="user_unit"]').val(data['business_unit_code']);
-        $('select[name="user_unit"]').attr('data-value', data['business_unit_code']);
+        $('select[name="user_unit"]').val(data['business_unit_code'])
+            .attr('data-value', data['business_unit_code']);
         userUnitChanged();
     }
 
     if (data['location_name']) {
-        $('select[name="vehicleLocation"]').val(data['location_name']);
-        $('select[name="vehicleLocation"]').attr('data-value', data['location_name']);
+        $('select[name="vehicleLocation"]').val(data['location_name'])
+            .attr('data-value', data['location_name']);
     }
 
     setTimeout(function () {
@@ -647,7 +652,7 @@ let app = new Vue({
                     app.registrationTypes = response['payload'];
                 })
                 .catch(function (error) {
-                   console.log(error);
+                    console.log(error);
                     toastr.error(
                         'Connection error. Could not retrieve license category data, some feature might not work.', 'Registration Types')
                 });
@@ -813,15 +818,6 @@ let app = new Vue({
         transmissionTypeChanged: function (transmissionType) {
             document.querySelector('#transmission_type').value = transmissionType?.code + ':' + transmissionType?.name;
         },
-
-        /*vehicleBrandChanged(selectedValue) {
-            this.vehicleHeader.brand_code = selectedValue?.id?.toString().trim();
-            this.selectedBrandModels = [];
-
-            app.selectedBrandModels = app['configuredModels'].filter(function (model) {
-                return model.brand_code?.toString()?.trim() === app?.vehicleHeader.brand_code?.toString().trim();
-            });
-        },*/
     }
 });
 
@@ -921,19 +917,19 @@ function checkOnboardingHeaderStatus() {
     function submitChassisDetails($form) {
         $('.print-error-msg').css('display', 'none');
 
-        if (document.querySelector('[name="front_view"]').files.length == 0) {
+        if (document.querySelector('[name="front_view"]').files.length === 0) {
             toastr.error('You have not attached the vehicle Front View Image', 'Validation Failure')
             return;
         }
-        if (document.querySelector('[name="rear_view"]').files.length == 0) {
+        if (document.querySelector('[name="rear_view"]').files.length === 0) {
             toastr.error('You have not attached the vehicle Back View Image', 'Validation Failure')
             return;
         }
-        if (document.querySelector('[name="right_view"]').files.length == 0) {
+        if (document.querySelector('[name="right_view"]').files.length === 0) {
             toastr.error('You have not attached the vehicle Right View Image', 'Validation Failure')
             return;
         }
-        if (document.querySelector('[name="left_view"]').files.length == 0) {
+        if (document.querySelector('[name="left_view"]').files.length === 0) {
             toastr.error('You have not attached the vehicle Left View Image', 'Validation Failure')
             return;
         }
@@ -950,25 +946,30 @@ function checkOnboardingHeaderStatus() {
         formData.set('chargeOutRate', tmsApp.getRawNumber(formData.get('chargeOutRate')).toString());
 
         tmsApp.asyncPostFormData($form.action, formData, function (asyncResponse) {
-            if ('state' in asyncResponse && asyncResponse.state != 'success') {
+            if ('state' in asyncResponse && asyncResponse.state !== 'success') {
                 if (asyncResponse.hasOwnProperty('errors')) {
                     tmsApp.printErrorMsg(asyncResponse.errors);
                     return
                 }
 
                 setTimeout(function () {
-                    tmsApp.systemError('Vehicle On-Boarding - General Data', asyncResponse['message'], function () {
-                    }, 'error');
+                    tmsApp.systemError(
+                        'Vehicle On-Boarding - General Data',
+                        asyncResponse['message'], function () {
+                        }, 'error');
                 }, 300);
                 toastr.error(asyncResponse.message);
                 return;
             }
 
-            tmsApp.showSystemMessage('Vehicle On-Boarding - General Data', asyncResponse.message, function () {
-                setTimeout(function () {
-                    window.location.href = asyncResponse['redirectUrl']
-                }, 500);
-            }, 'success');
+            tmsApp.showSystemMessage(
+                'Vehicle On-Boarding - General Data',
+                asyncResponse.message,
+                function () {
+                    setTimeout(function () {
+                        window.location.href = asyncResponse['redirectUrl']
+                    }, 500);
+                }, 'success');
         }, function (xhr, settings, errorThrown) {
             console.log(errorThrown)
             setTimeout(function () {
@@ -1185,7 +1186,8 @@ function checkOnboardingHeaderStatus() {
         const isValid = $($form).valid();
 
         if (!isValid) {
-            toastr.warning("Sorry, the data did not pass validation check, for details, check the indicated fields", 'Validation');
+            toastr.warning("Sorry, the data did not pass validation check, for details," +
+                " check the indicated fields", 'Validation');
             return;
         }
 
@@ -1197,18 +1199,24 @@ function checkOnboardingHeaderStatus() {
                 }
 
                 setTimeout(function () {
-                    tmsApp.systemError('Vehicle On-Boarding - Assignment', asyncResponse['message'], function () {
-                    }, 'error');
+                    tmsApp.systemError(
+                        'Vehicle On-Boarding - Assignment',
+                        asyncResponse['message'],
+                        function () {
+                        }, 'error');
                 }, 300);
                 toastr.error(asyncResponse.message);
                 return;
             }
 
-            tmsApp.showSystemMessage('Vehicle On-Boarding - Assignment', asyncResponse.message, function () {
-                setTimeout(function () {
-                    window.location.href = asyncResponse['redirectUrl']
-                }, 500);
-            }, 'success');
+            tmsApp.showSystemMessage(
+                'Vehicle On-Boarding - Assignment',
+                asyncResponse.message,
+                function () {
+                    setTimeout(function () {
+                        window.location.href = asyncResponse['redirectUrl']
+                    }, 500);
+                }, 'success');
         }, function (xhr, settings, errorThrown) {
             console.log(errorThrown)
             setTimeout(function () {
@@ -1220,8 +1228,9 @@ function checkOnboardingHeaderStatus() {
     function getPurchaseOrderDetails() {
         const purchaseOrder = document.querySelector('#purchase_order_number').value;
 
-        if (purchaseOrder.substring(0, 3) != "C02") {
-            let message = 'The purchase order number provided is not related to Vehicle purchase, Please contact system Administrator on';
+        if (purchaseOrder.substring(0, 3) !== "C02") {
+            let message = 'The purchase order number provided is not related to Vehicle purchase,' +
+                ' Please contact system Administrator on';
             message += 'Please Contact Fleet Master\n' +
                 ' System Administrator on 3309,3350,3351,3306,3307, fleetmaster@zesco.co.zm'
             tmsApp.showSystemMessage('Purchase Order', message, function () {
@@ -1908,7 +1917,7 @@ function checkOnboardingHeaderStatus() {
         document.querySelector("#purchase_order_number").value = '';
     });
 
-    $('[name="registration_type"]').on('change', function (e) {
+    $(document).on('change', '[name="registration_type"]', function (e) {
         const registrationType = this.value;
         let selectElem = $('select[name="brand"]');
 
@@ -1929,11 +1938,11 @@ function checkOnboardingHeaderStatus() {
         }*/
     });
 
-    $('[name="chassisNumber"]').on('change paste', function () {
+    $(document).on('change paste', '[name="chassisNumber"]', function () {
         checkChassisNumberValidity();
     });
 
-    $('[name="engineNumber"]').on('change paste', function () {
+    $(document).on('change paste', '[name="engineNumber"]', function () {
         checkEngineNumberValidity();
     });
 

@@ -309,7 +309,9 @@
                 }
 
                 let selectElem = $('select[name="model"]');
-                tmsApp.populateDropDownList(selectElem, filteredResults, "code", ["model_name", "model_code"], " => ");
+                tmsApp.populateDropDownList(selectElem,
+                    filteredResults, "code",
+                    ["model_name", "model_code"], " => ");
 
                 let model = selectElem.attr('data-value');
 
@@ -468,13 +470,15 @@
             });
 
             $(document).on('change', 'select[name="model"]', function () {
-                const modelId = $(this).val()?.toString().trim();
-                if (!modelId) {
+                const modelCode = $(this).val()?.toString().trim();
+                if (!modelCode) {
                     return;
                 }
 
+                const brandCode = $('select[name="brand"]').val();
                 let filteredResults = window.VehicleModels.filter(function (model) {
-                    return model.code?.toString().trim() === modelId;
+                    //return model.code?.toString().trim() === modelCode;
+                    return (model.code?.toString().trim() === modelCode && model?.brand_code === brandCode);
                 });
 
                 if (filteredResults.length > 0) {
