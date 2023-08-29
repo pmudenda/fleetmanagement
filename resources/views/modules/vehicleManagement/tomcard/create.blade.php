@@ -64,32 +64,36 @@
                         </div>
                         <div class="tab-content">
                             <div class="tab-pane" id="assignments" role="tabpanel">
-                                <table id="TomCards"
-                                       aria-label="Tom cards"
-                                       class="table table-row-dashed align-middle gs-0 nowrap">
-                                    <thead>
-                                    <tr>
-                                        <th scope="row">Reg. No.</th>
-                                        <th scope="row">Card No.</th>
-                                        <th scope="row">State</th>
-                                        <th scope="row">valid From</th>
-                                        <th scope="row">Valid To</th>
-                                        <th scope="row">Assigned By</th>
-                                        <th scope="row">Justification</th>
-                                    </tr>
-                                    </thead>
-                                    @foreach($tomCardAllocations as $tomCardAllocation)
-                                        <tr>
-                                            <td>{{$tomCardAllocation->reg_no}}</td>
-                                            <td>{{$tomCardAllocation->card_number}}</td>
-                                            <td>{{$tomCardAllocation->status}}</td>
-                                            <td>{{$tomCardAllocation->period_from}}</td>
-                                            <td>{{$tomCardAllocation->period_to}}</td>
-                                            <td>{{$tomCardAllocation->assigned_by}}</td>
-                                            <td>{{$tomCardAllocation->justification}}</td>
-                                        </tr>
-                                    @endforeach
-                                </table>
+                                <div class="col-xs-12 col-sm-12 col-md-12 px-0">
+                                    <div class="row mt-2">
+                                        <table id="TomCards"
+                                               aria-label="Tom cards"
+                                               class="table table-row-dashed align-middle nowrap">
+                                            <thead>
+                                            <tr>
+                                                <th scope="row">Reg. No.</th>
+                                                <th scope="row">Card No.</th>
+                                                <th scope="row">State</th>
+                                                <th scope="row">valid From</th>
+                                                <th scope="row">Valid To</th>
+                                                <th scope="row">Assigned By</th>
+                                                <th scope="row">Justification</th>
+                                            </tr>
+                                            </thead>
+                                            @foreach($tomCardAllocations as $tomCardAllocation)
+                                                <tr>
+                                                    <td>{{$tomCardAllocation->reg_no}}</td>
+                                                    <td>{{$tomCardAllocation->card_number}}</td>
+                                                    <td>{{$tomCardAllocation->status}}</td>
+                                                    <td>{{$tomCardAllocation->period_from}}</td>
+                                                    <td>{{$tomCardAllocation->period_to}}</td>
+                                                    <td>{{$tomCardAllocation->assigned_by}}</td>
+                                                    <td>{{$tomCardAllocation->justification}}</td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <div class="tab-pane active" id="revocation" role="tabpanel">
                                 <form class="" name="newTomCardForm"
