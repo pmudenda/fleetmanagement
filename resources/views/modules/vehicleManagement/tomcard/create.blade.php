@@ -129,15 +129,17 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <button type="button"
-                                                                data-form-url="{{route('revoke.assign.tom.card')}}"
-                                                                data-id="{{$tomCardAllocation->id}}"
-                                                                id="revokeTomCardBtn"
-                                                                title="Revoke Assignment"
-                                                                name="revokeTomCardBtn"
-                                                                class="btn btn-danger">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
+                                                        @if($tomCardAllocation->status == '01')
+                                                            <button type="button"
+                                                                    data-form-url="{{route('revoke.assign.tom.card')}}"
+                                                                    data-id="{{$tomCardAllocation->id}}"
+                                                                    id="revokeTomCardBtn"
+                                                                    title="Revoke Assignment"
+                                                                    name="revokeTomCardBtn"
+                                                                    class="btn btn-danger">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
