@@ -471,7 +471,7 @@
 
             $(document).on('change', 'select[name="model"]', function () {
                 const modelCode = $(this).val()?.toString().trim();
-                const modelName = $('select[name="model"]option:selected').text()?.split('=>')[0]?.trim();
+                const modelName = $('#model option:selected').text()?.split('=>')[0]?.trim();
                 if (!modelCode) {
                     return;
                 }
