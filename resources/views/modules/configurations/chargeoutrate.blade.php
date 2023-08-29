@@ -478,6 +478,7 @@
                 });
 
                 if (filteredResults.length > 0) {
+                    console.log(filteredResults[0]);
                     document.querySelector('#model_code').value = filteredResults[0]?.code;
                     $('#bodyType').val(filteredResults[0]?.model_code)
                         .attr('disabled', true).change();
