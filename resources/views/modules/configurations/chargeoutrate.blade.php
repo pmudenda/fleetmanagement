@@ -466,11 +466,13 @@
                 }
 
                 let filteredResults = window.VehicleModels.filter(function (model) {
-                    return model.id?.toString().trim() === modelId;
+                    return model.code?.toString().trim() === modelId;
                 });
 
                 if (filteredResults.length > 0) {
-                    document.querySelector('#model_code').value = filteredResults[0]?.model_code;
+                    document.querySelector('#model_code').value = filteredResults[0]?.code;
+                    $('#bodyType').val(filteredResults[0]?.model_code)
+                        .attr('disabled', true).change();
                 }
             });
 
