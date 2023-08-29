@@ -59,19 +59,20 @@
                                     <li class="nav-item" style="list-style: none; width: 178px;">
                                         <a class="nav-link active"
                                            data-toggle="tab"
-                                           href="#revocation"
-                                           role="tab">Revocation</a>
+                                           href="#assignments"
+                                           role="tab">Assignments</a>
                                     </li>
                                     <li class="nav-item" style="list-style: none; width: 178px;">
                                         <a class="nav-link"
                                            data-toggle="tab"
-                                           href="#assignments"
-                                           role="tab">Assignments</a>
+                                           href="#assign"
+                                           role="tab">Assign</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="tab-content">
+
                             <div class="tab-pane" id="assignments" role="tabpanel">
                                 <div class="col-xs-12 col-sm-12 col-md-12 px-0">
                                     <div class="row mt-2">
@@ -104,7 +105,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane active" id="revocation" role="tabpanel">
+
+                            <div class="tab-pane" id="assign" role="tabpanel">
                                 <form class="" name="newTomCardForm"
                                       action="{{route('save.assign.tom.card')}}"
                                       id="newTomCardForm"
@@ -292,6 +294,7 @@
                                     </div>
                                 </form>
                             </div>
+
                         </div>
                     </div>
                 </div>
