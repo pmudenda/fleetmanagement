@@ -19,7 +19,9 @@
                     </div>
                     <div id="actionButtonsContainer"
                          class="card-toolbar justify-content-end">
-                        <button type="submit" id="submitSaveChargeRateBtn"
+                        <button type="submit"
+                                name="submitSaveChargeRateBtn"
+                                id="submitSaveChargeRateBtn"
                                 class="btn btn-success btn-sm mr-3">
                             <i class="fas fa-save"></i>
                             Submit
@@ -493,7 +495,7 @@
                 }
             });
 
-            $('[name="charge_out_form"]').on('submit', function (e) {
+            $('[name="submitSaveChargeRateBtn"]').on('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 postVehicleHeaderData();
