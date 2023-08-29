@@ -41,7 +41,7 @@
 
     <x-content-header :pageTitle="'Tom Card Assignment'"
                       :activeCrumb="'Assignment'"
-                      :link="'list.tom.card'"
+                      :link="'assign.tom.card'"
                       :linkText="'Tom Card'"/>
     <section class="content">
         <x-error-view/>
