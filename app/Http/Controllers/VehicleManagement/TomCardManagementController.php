@@ -18,7 +18,9 @@ class TomCardManagementController extends Controller
 {
     public function create(): View
     {
-        return view('modules.vehicleManagement.tomcard.create');
+        $tomCardAllocations = TomCardAllocation::get();
+        return view('modules.vehicleManagement.tomcard.create')
+            ->with(compact('tomCardAllocations'));
     }
 
     public function store(TomCardAssignment $request): JsonResponse
@@ -32,6 +34,7 @@ class TomCardManagementController extends Controller
             TomCardAllocation::create([
                 'reg_no' => $vehicleRegistration,
                 'card_number' => $request->get('cardNumber'),
+                'period_from'=> Carbon::now(),
                 'period_to' => $expiryDate,
                 'status' => StatusHelper::active(),
                 'assigned_by' => Auth::user()->staff_no,

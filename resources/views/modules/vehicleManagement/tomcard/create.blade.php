@@ -45,191 +45,239 @@
                             <div class="card-title">
                                 <h4>Tom Card Management</h4>
                             </div>
+                            <div class="card-toolbar  justify-content-end">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item" style="list-style: none; width: 178px;">
+                                        <a class="nav-link active"
+                                           data-toggle="tab"
+                                           href="#revocation"
+                                           role="tab">Revocation</a>
+                                    </li>
+                                    <li class="nav-item" style="list-style: none; width: 178px;">
+                                        <a class="nav-link"
+                                           data-toggle="tab"
+                                           href="#assignments"
+                                           role="tab">Assignments</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <form class="" name="newTomCardForm"
-                              action="{{route('save.assign.tom.card')}}"
-                              id="newTomCardForm"
-                              method="post">
-                            @csrf
-                            <div class="card-body p-2">
+                        <div class="tab-pane active" id="revocation" role="tabpanel">
+                            <form class="" name="newTomCardForm"
+                                  action="{{route('save.assign.tom.card')}}"
+                                  id="newTomCardForm"
+                                  method="post">
+                                @csrf
+                                <div class="card-body p-2">
 
-                                <div class="errorTxt"></div>
-                                <x-error-view></x-error-view>
+                                    <div class="errorTxt"></div>
+                                    <x-error-view></x-error-view>
 
-                                <label class="app-required-marker"></label>
+                                    <label class="app-required-marker"></label>
 
-                                <fieldset style="" class="form-group border p-3">
-                                    <legend>General Information:</legend>
-                                    <div class="row mt-5">
-                                        <div class="col-6">
-                                            <div class="row mb-2">
-                                                <div class="col" data-id="table-td">
-                                                    <label class="app-field-label">
-                                                        Vehicle Registration Number
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                </div>
-                                                <div class="col" data-type="table-td">
-                                                    <div class="app-field-input">
-                                                        <div class="input-group">
-                                                            <input type="text"
-                                                                   id="vehicleRegistration"
-                                                                   required
-                                                                   data-action="{{
+                                    <fieldset style="" class="form-group border p-3">
+                                        <legend>General Information:</legend>
+                                        <div class="row mt-5">
+                                            <div class="col-6">
+                                                <div class="row mb-2">
+                                                    <div class="col" data-id="table-td">
+                                                        <label class="app-field-label">
+                                                            Vehicle Registration Number
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col" data-type="table-td">
+                                                        <div class="app-field-input">
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                       id="vehicleRegistration"
+                                                                       required
+                                                                       data-action="{{
                                                                    route('requisition.vehicle.details')
                                                                    }}"
-                                                                   autocomplete="off"
-                                                                   name="vehicleRegistration"
-                                                                   class="form-control"/>
-                                                            <div class="input-group-append">
-                                                                <button type="button"
-                                                                        class="input-group-text">
-                                                                    <i class="fas fa-car"></i>
-                                                                </button>
+                                                                       autocomplete="off"
+                                                                       name="vehicleRegistration"
+                                                                       class="form-control"/>
+                                                                <div class="input-group-append">
+                                                                    <button type="button"
+                                                                            class="input-group-text">
+                                                                        <i class="fas fa-car"></i>
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="row mb-2">
-                                                <div class="col">
-                                                    <label class="app-field-label field-required">
-                                                        Card Number
-                                                    </label>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="input-group">
-                                                        <input type="text"
-                                                               name="cardNumber"
-                                                               id="cardNumber"
-                                                               autocomplete="off"
-                                                               class="form-control"
-                                                               required/>
-                                                        <div class="input-group-append">
+                                                <div class="row mb-2">
+                                                    <div class="col">
+                                                        <label class="app-field-label field-required">
+                                                            Card Number
+                                                        </label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   name="cardNumber"
+                                                                   id="cardNumber"
+                                                                   autocomplete="off"
+                                                                   class="form-control"
+                                                                   required/>
+                                                            <div class="input-group-append">
                                                         <span class="input-group-text">
                                                             <i class="fas fa-credit-card"></i>
                                                         </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            {{--<div class="row mb-2">
-                                                <div class="col">
-                                                    <label
-                                                            for="dateIssued"
-                                                            class="field-required">
-                                                        Date Issued
-                                                    </label>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="input-group date">
-                                                        <input type="date"
-                                                               min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                               name="dateIssued"
-                                                               id="dateIssued"
-                                                               autocomplete="off"
-                                                               class="form-control"/>
-                                                        <div class="input-group-append">
-                                                        <span type="button"
-                                                              class="input-group-text">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </span>
-                                                        </div>
-                                                        <button type="button" data-action="clearDate"
-                                                                class="input-group-text">
-                                                            <i data-action="clearDate" class="fa fa-eraser"></i>
-                                                        </button>
+                                                {{--<div class="row mb-2">
+                                                    <div class="col">
+                                                        <label
+                                                                for="dateIssued"
+                                                                class="field-required">
+                                                            Date Issued
+                                                        </label>
                                                     </div>
-                                                </div>
-                                            </div>--}}
+                                                    <div class="col">
+                                                        <div class="input-group date">
+                                                            <input type="date"
+                                                                   min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                   name="dateIssued"
+                                                                   id="dateIssued"
+                                                                   autocomplete="off"
+                                                                   class="form-control"/>
+                                                            <div class="input-group-append">
+                                                            <span type="button"
+                                                                  class="input-group-text">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                            </div>
+                                                            <button type="button" data-action="clearDate"
+                                                                    class="input-group-text">
+                                                                <i data-action="clearDate" class="fa fa-eraser"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>--}}
 
-                                            <div class="row mb-2">
-                                                <div class="col">
-                                                    <label for="expiryDate"
-                                                           class="app-field-label field-required">
-                                                        Expiry
-                                                    </label>
-                                                </div>
+                                                <div class="row mb-2">
+                                                    <div class="col">
+                                                        <label for="expiryDate"
+                                                               class="app-field-label field-required">
+                                                            Expiry
+                                                        </label>
+                                                    </div>
 
-                                                <div class="col">
-                                                    <div class="input-group date">
-                                                        <input type="text"
-                                                               name="expiryDate"
-                                                               id="expiryDate"
-                                                               class="form-control"
-                                                               required/>
-                                                        <div class="input-group-append">
+                                                    <div class="col">
+                                                        <div class="input-group date">
+                                                            <input type="text"
+                                                                   name="expiryDate"
+                                                                   id="expiryDate"
+                                                                   class="form-control"
+                                                                   required/>
+                                                            <div class="input-group-append">
                                                         <span class="input-group-text">
                                                             <i class="fa fa-calendar"></i>
                                                         </span>
+                                                            </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
 
-                                            </div>
+                                                <div class="row mb-2">
+                                                    <td colspan="4">
+                                                        <label class="app-field-label" data-field="typeia">
+                                                            Justification
+                                                        </label>
+                                                    </td>
+                                                </div>
 
-                                            <div class="row mb-2">
-                                                <td colspan="4">
-                                                    <label class="app-field-label" data-field="typeia">
-                                                        Justification
-                                                    </label>
-                                                </td>
-                                            </div>
-
-                                            <div class="row mb-2">
-                                                <div class="col" data-id="table-td" style="background: none;">
-                                                    <div class="app-field-input">
+                                                <div class="row mb-2">
+                                                    <div class="col" data-id="table-td" style="background: none;">
+                                                        <div class="app-field-input">
                                                     <textarea name="comments"
                                                               id="comments"
                                                               minlength="20"
                                                               maxlength="255"
                                                               class="form-control"></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div id="image_view" class="card text-center my-2" style="display: none;">
-                                                <div class="form-group">
-                                                    <div class="imagePreview"></div>
+                                            <div class="col-3">
+                                                <div id="image_view" class="card text-center my-2"
+                                                     style="display: none;">
+                                                    <div class="form-group">
+                                                        <div class="imagePreview"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-3">
+                                                <div id="vehicleDetailsContainer" style="display: none;"
+                                                     class="col-xs-12 col-sm-12 col-md-12">
+                                                    <table aria-label="vehicle summary details"
+                                                           class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th colspan="2"><strong>Summary</strong></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="vehicleDetails" class="vehicleDetails">
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-3">
-                                            <div id="vehicleDetailsContainer" style="display: none;"
-                                                 class="col-xs-12 col-sm-12 col-md-12">
-                                                <table aria-label="vehicle summary details"
-                                                       class="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th colspan="2"><strong>Summary</strong></th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody id="vehicleDetails" class="vehicleDetails">
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
+                                    </fieldset>
 
-                            </div>
-                            <div class="card-footer">
-                                <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                                    <button type="button"
-                                            id="submitRequisitionBtn"
-                                            disabled
-                                            class="btn btn-success disabled btn-sm mr-3 when_odo_valid">
-                                        <i class="fas fa-save"></i> Save
-                                    </button>
-                                    <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
-                                        <i class="fas fa-undo"></i> Reset
-                                    </button>
                                 </div>
-                            </div>
-                        </form>
+                                <div class="card-footer">
+                                    <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                                        <button type="button"
+                                                id="submitRequisitionBtn"
+                                                disabled
+                                                class="btn btn-success disabled btn-sm mr-3 when_odo_valid">
+                                            <i class="fas fa-save"></i> Save
+                                        </button>
+                                        <button type="button" id="resetRequisitionBtn"
+                                                class="btn btn-danger btn-sm mr-3">
+                                            <i class="fas fa-undo"></i> Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane active" id="assignments" role="tabpanel">
+                            <table id="TomCards"
+                                   aria-label="Tom cards"
+                                   class="table table-row-dashed align-middle gs-0 nowrap">
+                                <thead>
+                                <tr>
+                                    <th scope="row">Reg. No.</th>
+                                    <th scope="row">Card No.</th>
+                                    <th scope="row">State</th>
+                                    <th scope="row">valid From</th>
+                                    <th scope="row">Valid To</th>
+                                    <th scope="row">Assigned By</th>
+                                    <th scope="row">Justification</th>
+                                </tr>
+                                </thead>
+                                @foreach($tomCardAllocations as $tomCardAllocation)
+                                    <tr>
+                                        <td>{{$tomCardAllocation->reg_no}}</td>
+                                        <td>{{$tomCardAllocation->card_number}}</td>
+                                        <td>{{$tomCardAllocation->status}}</td>
+                                        <td>{{$tomCardAllocation->period_from}}</td>
+                                        <td>{{$tomCardAllocation->period_to}}</td>
+                                        <td>{{$tomCardAllocation->assigned_by}}</td>
+                                        <td>{{$tomCardAllocation->justification}}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -375,7 +423,7 @@
                                                     ${vehicle['brand_name']}
                                                 </td>
                                            </tr>
-                                           <tr>
+                                            <tr>
                                                 <th>Model</th>
                                                 <td id="model">
                                                     ${vehicle['model_name']} ${vehicle['model_code']}
