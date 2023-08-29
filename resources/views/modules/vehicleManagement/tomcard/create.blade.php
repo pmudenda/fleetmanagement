@@ -1,4 +1,4 @@
-@php use App\Helpers\StatusHelper; @endphp
+@php use App\Helpers\StatusHelper;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 
@@ -95,10 +95,29 @@
                                                 <tr>
                                                     <td>{{$tomCardAllocation->reg_no}}</td>
                                                     <td>{{$tomCardAllocation->card_number}}</td>
-                                                    <td>{{$tomCardAllocation->status}}</td>
-                                                    <td>{{$tomCardAllocation->period_from}}</td>
-                                                    <td>{{$tomCardAllocation->period_to}}</td>
-                                                    <td>{{$tomCardAllocation->assigned_by}}</td>
+                                                    <td>
+                                                        @if($tomCardAllocation->status == '01')
+                                                            <span class="badge badge-success p-2">
+                                                                Active
+                                                            </span>
+                                                        @else
+                                                            <span class="badge badge-danger p-2">
+                                                                Inactive
+                                                            </span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            Carbon::parse($tomCardAllocation->period_from)
+                                                            ->format('d/m/Y')
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            Carbon::parse($tomCardAllocation->period_to)
+                                                            ->format('d/m/Y')
+                                                        }}</td>
+                                                    <td>{{$tomCardAllocation->assigned_by_name}}</td>
                                                     <td>{{$tomCardAllocation->justification}}</td>
                                                     <td>
                                                         <button

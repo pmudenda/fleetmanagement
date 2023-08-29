@@ -20,7 +20,11 @@ class TomCardManagementController extends Controller
 {
     public function create(): View
     {
-        $tomCardAllocations = TomCardAllocation::get();
+        $tomCardAllocations = DB::table('vm_tom_card_allocations al')
+            ->leftJoin('sec_users user_a', 'al.assigned_by', '=', 'user_a.staff_no')
+            ->leftJoin('sec_users user_b', 'al.revoked_by', '=', 'user_b.staff_no')
+            ->select('al.*', 'user_a.name as assigned_by_name', 'user_b')
+            ->get();
         return view('modules.vehicleManagement.tomcard.create')
             ->with(compact('tomCardAllocations'));
     }
