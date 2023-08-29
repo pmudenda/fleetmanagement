@@ -471,14 +471,17 @@
 
             $(document).on('change', 'select[name="model"]', function () {
                 const modelCode = $(this).val()?.toString().trim();
+                const modelName = this.selectedIndex[0].text?.split('=>')[0]?.trim();
                 if (!modelCode) {
                     return;
                 }
-
+                console.log(modelName);
                 const brandCode = $('select[name="brand"]').val();
                 let filteredResults = window.VehicleModels.filter(function (model) {
-                    //return model.code?.toString().trim() === modelCode;
-                    return (model.code?.toString().trim() === modelCode && model?.brand_code === brandCode);
+                    return (model.code?.toString().trim()
+                        === modelCode && model?.brand_code
+                        === brandCode && model.model_code
+                        === modelName);
                 });
 
                 if (filteredResults.length > 0) {
