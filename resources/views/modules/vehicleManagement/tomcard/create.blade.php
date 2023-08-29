@@ -115,7 +115,9 @@
 
                                             <div class="row mb-2">
                                                 <div class="col">
-                                                    <label class="app-field-label field-required">
+                                                    <label
+                                                            for="dateIssued"
+                                                            class="field-required">
                                                         Date Issued
                                                     </label>
                                                 </div>
@@ -144,8 +146,9 @@
 
                                             <div class="row mb-2">
                                                 <div class="col">
-                                                    <label class="app-field-label">
-                                                        Expiry Date <span class="text-danger">*</span>
+                                                    <label for="expiryDate"
+                                                           class="app-field-label field-required">
+                                                        Valid To
                                                     </label>
                                                 </div>
 
