@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\SystemMessages;
+use App\Exceptions\DataNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleManagement\TomCardAssignment;
@@ -67,7 +68,11 @@ class TomCardManagementController extends Controller
 
             $allocation = TomCardAllocation::where('id',
                 '=',
-                $request->get('recordId'))->first();
+                $request->get('record'))->first();
+            if (empty($allocation)) {
+                throw new DataNotFoundException("Allocation Record Not Found");
+            }
+
             $comments = $request->get('justification');
             $vehicleRegistration = $allocation->reg_no;
 
@@ -87,10 +92,14 @@ class TomCardManagementController extends Controller
                 'message' => SystemMessages::TOM_CARD_REVOKED
             ]);
         } catch (\Exception $e) {
+            $message = SystemMessages::TOM_CARD_REVOCATION_FAILED;
+            if ($e instanceof DataNotFoundException) {
+                $message = $e->getMessage();
+            }
             Log::error($e);
             return response()->json([
                 'state' => 'failure',
-                'message' => SystemMessages::TOM_CARD_REVOCATION_FAILED
+                'message' => $message
             ]);
         }
     }
