@@ -135,6 +135,7 @@
                                                     </div>
                                                     <input class="form-control form-control-solid"
                                                            name="rate"
+                                                           required
                                                            id="rate"
                                                            placeholder="Enter charge rate"
                                                            type="text"/>
@@ -440,6 +441,9 @@
                     },
                     'bodyType': {
                         required: true
+                    },
+                    rate: {
+                        required: true
                     }
                 },
                 {
@@ -452,8 +456,11 @@
                     'model_code': {
                         required: "Vehicle Model code is required"
                     },
-                    'bodyType': {
-                        required: "Body type is required"
+                    bodyType: {
+                        required: "Body type must be selected"
+                    },
+                    rate: {
+                        required: "The Charge Is required"
                     }
                 }
             );
