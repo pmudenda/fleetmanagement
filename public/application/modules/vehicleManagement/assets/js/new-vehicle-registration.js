@@ -2231,12 +2231,18 @@ function checkOnboardingHeaderStatus() {
 
     $(document).on('change', 'select[name="model"]', function () {
         const modelCode = $(this).val()?.toString().trim();
+        const modelName = $('#model option:selected').text()?.split('=>')[1]?.trim();
         if (!modelCode) {
             return;
         }
         const brandCode = $('select[name="brand"]').val();
         let filteredModelResults = window.VehicleModels.filter(function (model) {
-            return (model.code?.toString().trim() === modelCode && model?.brand_code === brandCode);
+            return (model.code?.toString().trim()
+                === modelCode
+                && model?.brand_code
+                === brandCode
+                && model.model_code
+                === modelName);
         });
 
         if (filteredModelResults.length > 0) {

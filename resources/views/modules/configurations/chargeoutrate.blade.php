@@ -475,17 +475,18 @@
                 if (!modelCode) {
                     return;
                 }
-                console.log(modelName);
+
                 const brandCode = $('select[name="brand"]').val();
                 let filteredResults = window.VehicleModels.filter(function (model) {
                     return (model.code?.toString().trim()
-                        === modelCode && model?.brand_code
-                        === brandCode && model.model_code
+                        === modelCode
+                        && model?.brand_code
+                        === brandCode
+                        && model.model_code
                         === modelName);
                 });
 
                 if (filteredResults.length > 0) {
-                    console.log(filteredResults[0]);
                     $('#model_code').val(filteredResults[0]?.model_code);
                     $('#bodyType').val(filteredResults[0]?.body_type_code)
                         .attr('disabled', true).change();
