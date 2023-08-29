@@ -94,7 +94,9 @@
                                             @foreach($tomCardAllocations as $tomCardAllocation)
                                                 <tr>
                                                     <td>{{$tomCardAllocation->reg_no}}</td>
-                                                    <td style="text-wrap: none;">{{$tomCardAllocation->card_number}}</td>
+                                                    <td style="text-wrap: none;">
+                                                        {{$tomCardAllocation->card_number}}
+                                                    </td>
                                                     <td>
                                                         @if($tomCardAllocation->status == '01')
                                                             <span class="badge badge-success p-2">
@@ -124,7 +126,6 @@
                                                         @else
                                                             {{$tomCardAllocation->revocation_justification}}
                                                         @endif
-
                                                     </td>
                                                     <td>
                                                         <button
