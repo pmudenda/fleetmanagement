@@ -115,8 +115,8 @@
                                                     <td>
                                                         {{
                                                             Carbon::parse($tomCardAllocation->period_to)
-                                                            ->format('d/m/Y')
-                                                        }}</td>
+                                                        }}
+                                                    </td>
                                                     <td>{{$tomCardAllocation->assigned_by_name}}</td>
                                                     <td>
                                                         @if($tomCardAllocation->status == '01')
