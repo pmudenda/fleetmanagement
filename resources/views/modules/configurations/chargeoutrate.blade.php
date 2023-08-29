@@ -110,7 +110,7 @@
                                                 <select class="form-select form-select-sm view_mode"
                                                         required
                                                         id="bodyType"
-                                                        name="bodyType">
+                                                        name="body_type">
                                                 </select>
                                             </div>
                                         </div>
@@ -399,7 +399,7 @@
                     .then(response => response.json())
                     .then(response => {
 
-                        let selectElem = $('select[name="bodyType"]');
+                        let selectElem = $('select[name="body_type"]');
                         // Populate results
                         if (response.state === 'failure') {
                             //show errors
@@ -413,7 +413,7 @@
                         let bodyTypeId = selectElem.attr('data-value');
                         if (bodyTypeId) {
                             selectElem.val(bodyTypeId);
-                            selectElem.trigger('change');
+                            selectElem.change();
                         }
                     })
                     .catch(function (error) {
@@ -491,7 +491,8 @@
                 if (filteredResults.length > 0) {
                     $('#model_code').val(filteredResults[0]?.model_code);
                     $('#bodyType').val(filteredResults[0]?.body_type_code)
-                        .attr('disabled', true).change();
+                        .change()
+                        .attr('disabled', true);
                 }
             });
 
