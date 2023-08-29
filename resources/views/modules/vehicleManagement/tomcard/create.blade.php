@@ -1,4 +1,3 @@
-
 @php use App\Enums\RequisitionTypes;use App\Helpers\StatusHelper;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
@@ -61,152 +60,152 @@
 
                                 <fieldset style="" class="form-group border p-3">
                                     <legend>General Information:</legend>
-                                   <div class="row">
-                                       <div class="col-6">
-                                           <div class="row mb-2">
-                                               <div class="col" data-id="table-td">
-                                                   <label class="app-field-label">
-                                                       Vehicle Registration Number
-                                                       <span class="text-danger">*</span>
-                                                   </label>
-                                               </div>
-                                               <div class="col" data-type="table-td">
-                                                   <div class="app-field-input" data-field="taskOriginator">
-                                                       <div class="input-group">
-                                                           <input type="text"
-                                                                  id="vehicleRegistration"
-                                                                  required
-                                                                  data-action="{{route('requisition.vehicle.details')}}"
-                                                                  autocomplete="off"
-                                                                  name="vehicleRegistration"
-                                                                  class="form-control"/>
-                                                           <div class="input-group-append">
-                                                               <button type="button"
-                                                                       class="input-group-text">
-                                                                   <i class="fas fa-car"></i>
-                                                               </button>
-                                                           </div>
-                                                       </div>
-                                                   </div>
-                                               </div>
-                                           </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="row mb-2">
+                                                <div class="col" data-id="table-td">
+                                                    <label class="app-field-label">
+                                                        Vehicle Registration Number
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col" data-type="table-td">
+                                                    <div class="app-field-input" data-field="taskOriginator">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   id="vehicleRegistration"
+                                                                   required
+                                                                   data-action="{{route('requisition.vehicle.details')}}"
+                                                                   autocomplete="off"
+                                                                   name="vehicleRegistration"
+                                                                   class="form-control"/>
+                                                            <div class="input-group-append">
+                                                                <button type="button"
+                                                                        class="input-group-text">
+                                                                    <i class="fas fa-car"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                           <div class="row mb-2">
-                                               <div class="col">
-                                                   <label class="app-field-label field-required">
-                                                       Card Number
-                                                   </label>
-                                               </div>
-                                               <div class="col">
-                                                   <div class="input-group">
-                                                       <input type="text"
-                                                              name="cardNumber"
-                                                              id="cardNumber"
-                                                              autocomplete="off"
-                                                              class="form-control"
-                                                              required/>
-                                                       <div class="input-group-append">
+                                            <div class="row mb-2">
+                                                <div class="col">
+                                                    <label class="app-field-label field-required">
+                                                        Card Number
+                                                    </label>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="input-group">
+                                                        <input type="text"
+                                                               name="cardNumber"
+                                                               id="cardNumber"
+                                                               autocomplete="off"
+                                                               class="form-control"
+                                                               required/>
+                                                        <div class="input-group-append">
                                                         <span class="input-group-text">
                                                             <i class="fas fa-credit-card"></i>
                                                         </span>
-                                                       </div>
-                                                   </div>
-                                               </div>
-                                           </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                           <div class="row mb-2">
-                                               <div class="col">
-                                                   <label class="app-field-label field-required">
-                                                       Date Issued
-                                                   </label>
-                                               </div>
-                                               <div class="col">
-                                                   <div class="input-group date">
-                                                       <input type="text"
-                                                              name="dateIssued"
-                                                              id="dateIssued"
-                                                              autocomplete="off"
-                                                              class="form-control datetimepicker"
-                                                              required/>
-                                                       <div class="input-group-append"
-                                                            data-target="#dateIssued"
-                                                            data-action="openDatePicker">
+                                            <div class="row mb-2">
+                                                <div class="col">
+                                                    <label class="app-field-label field-required">
+                                                        Date Issued
+                                                    </label>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="input-group date">
+                                                        <input type="text"
+                                                               name="dateIssued"
+                                                               id="dateIssued"
+                                                               autocomplete="off"
+                                                               class="form-control datetimepicker"
+                                                               required/>
+                                                        <div class="input-group-append"
+                                                             data-target="#dateIssued"
+                                                             data-action="openDatePicker">
                                                         <span type="button"
                                                               data-action="openDatePicker"
                                                               class="input-group-text ui-datepicker-trigger">
                                                             <i data-action="datetimepicker"
                                                                class="fa fa-calendar"></i>
                                                         </span>
-                                                       </div>
-                                                       <button type="button" data-action="clearDate"
-                                                               class="input-group-text">
-                                                           <i data-action="clearDate" class="fa fa-eraser"></i>
-                                                       </button>
-                                                   </div>
-                                               </div>
-                                           </div>
+                                                        </div>
+                                                        <button type="button" data-action="clearDate"
+                                                                class="input-group-text">
+                                                            <i data-action="clearDate" class="fa fa-eraser"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                           <div class="row mb-2">
-                                               <div class="col">
-                                                   <label class="app-field-label" data-field="specificlocationofia">
-                                                       Expiry Date <span class="text-danger">*</span>
-                                                   </label>
-                                               </div>
+                                            <div class="row mb-2">
+                                                <div class="col">
+                                                    <label class="app-field-label" data-field="specificlocationofia">
+                                                        Expiry Date <span class="text-danger">*</span>
+                                                    </label>
+                                                </div>
 
-                                               <div class="col">
-                                                   <div class="input-group date">
-                                                       <input type="text"
-                                                              name="expiryDate"
-                                                              id="expiryDate"
-                                                              autocomplete="off"
-                                                              class="form-control datetimepicker"
-                                                              data-target="#dateOpened"
-                                                              required/>
-                                                       <div class="input-group-append">
+                                                <div class="col">
+                                                    <div class="input-group date">
+                                                        <input type="text"
+                                                               name="expiryDate"
+                                                               id="expiryDate"
+                                                               autocomplete="off"
+                                                               class="form-control datetimepicker"
+                                                               data-target="#dateOpened"
+                                                               required/>
+                                                        <div class="input-group-append">
                                                         <span class="input-group-text">
                                                             <i class="fa fa-calendar"></i>
                                                         </span>
-                                                       </div>
-                                                   </div>
-                                               </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                           </div>
+                                            </div>
 
-                                           <div class="row mb-2">
-                                               <td colspan="4">
-                                                   <label class="app-field-label" data-field="typeia">
-                                                       Comments
-                                                   </label>
-                                               </td>
-                                           </div>
+                                            <div class="row mb-2">
+                                                <td colspan="4">
+                                                    <label class="app-field-label" data-field="typeia">
+                                                        Comments
+                                                    </label>
+                                                </td>
+                                            </div>
 
-                                           <div class="row mb-2">
-                                               <div class="col" data-id="table-td" style="background: none;">
-                                                   <div class="app-field-input">
+                                            <div class="row mb-2">
+                                                <div class="col" data-id="table-td" style="background: none;">
+                                                    <div class="app-field-input">
                                                     <textarea name="comments" id="comments"
                                                               class="form-control"></textarea>
-                                                   </div>
-                                               </div>
-                                           </div>
-                                       </div>
-                                       <div class="col-3">
-                                           <div id="vehicleDetailsContainer" style="display: none;"
-                                                class="col-xs-12 col-sm-12 col-md-12">
-                                               {{--<h1>Vehicle Details</h1>
-                                                <table class="table">
-                                                    <tbody id="vehicleDetails" class="vehicleDetails">
-                                                    </tbody>
-                                                </table>--}}
-                                           </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div id="vehicleDetailsContainer" style="display: none;"
+                                                 class="col-xs-12 col-sm-12 col-md-12">
+                                                {{--<h1>Vehicle Details</h1>
+                                                 <table class="table">
+                                                     <tbody id="vehicleDetails" class="vehicleDetails">
+                                                     </tbody>
+                                                 </table>--}}
+                                            </div>
 
-                                           <div id="image_view" class="card text-center my-2" style="display: none;">
-                                               {{--  <h2 class="fs-2x fw-bold mb-10">Front View</h2>--}}
-                                               <div class="form-group">
-                                                   <div class="imagePreview"></div>
-                                               </div>
-                                           </div>
-                                       </div>
-                                   </div>
+                                            <div id="image_view" class="card text-center my-2" style="display: none;">
+                                                {{--  <h2 class="fs-2x fw-bold mb-10">Front View</h2>--}}
+                                                <div class="form-group">
+                                                    <div class="imagePreview"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </fieldset>
 
                             </div>
@@ -287,12 +286,11 @@
                                 }*/
 
                                 if (vehicle['has_tom_card'] === 'Y') {
-                                    tmsApp.showSystemMessage("Vehicle Has A Tom Card Already",
+                                    tmsApp.showToast(
                                         vehicle_tom_card_message,
-                                        () => {
-                                        },
+                                        "Vehicle Has A Tom Card Already",
                                         "error");
-                                    return;
+                                    //return;
                                 }
 
                                 let vLabel = vehicle['body_type_name']
