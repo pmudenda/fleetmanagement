@@ -37,25 +37,29 @@ class ChargeOutRateController extends Controller
             $bodyType = $request->get("bodyType");
             $charge = $request->get("rate");
 
-            Log::info("Brand Code" . $brand);
-            Log::info("Model Code" . $model);
-            Log::info("Body Type Code" . $bodyType);
+            Log::info("Brand Code " . $brand);
+            Log::info("Model Code " . $model);
+            Log::info("Body Type Code " . $bodyType);
             Log::info("Charge " . $charge);
 
             $make = VehicleBrand::where('code', '=', $brand)->first();
-            $modelType = VehicleModel::where('code', '=', $model)->first();
+            $modelType = VehicleModel::where('code', '=', $model)
+                ->where('brand_code', '=', $brand)
+                ->where('body_type_code', '=', $bodyType)
+                ->first();
+
             $type = VehicleBodyType::where('code', '=', $bodyType)->first();
             $user = Auth::user();
 
             DB::beginTransaction();
             ChargeOutRate::create([
-                'vehicle_specification' => "$type->code  $make->code  $modelType->code",
+                'vehicle_specification' => "$type->code$make->code$modelType->code",
                 'vehicle_description' => $type->name
                     . ' ' . $make->name
                     . ' ' . $modelType->model_name
                     . ' ' . $modelType->model_code,
-                'charge' => floatval($charge),
-                'current' => 'K',
+                'charge' => $charge,
+                'currency' => 'k',
                 'created_by' => $user->staff_no
             ]);
 
