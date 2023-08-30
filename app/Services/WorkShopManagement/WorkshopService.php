@@ -403,17 +403,12 @@ class WorkshopService
         $totalWorkOrderAmount = $request->get('workOrderTotalAmount');
 
         foreach ($request->get("items") as $labourItem) {
-            $defect = '';
-            if (in_array('assignedDefect', $labourItem)) {
-                $defect = $labourItem['assignedDefect'];
-            } else {
-                $defect = $labourItem['defect'];
-            }
+
             WorkshopLabour::firstOrCreate(
                 [
                     'wshp_act_code' => $jobCardHeader->wshp_act_code,
                     'wshp_code' => $jobCardHeader->workshop_code,
-                    'def_no' => $defect,
+                    'def_no' => $labourItem['assignedDefect'],
                 ],
                 [
                     'section' => $labourItem['workshopSection'],

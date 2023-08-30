@@ -37,8 +37,7 @@ class WorkOrderClosure extends FormRequest
             'items.*.hoursWorked' => 'required',
             'items.*.ratePerHour' => 'required',
             'items.*.totalAmount' => 'required',
-            'items.*.assignedDefect' => 'nullable',
-            'items.*.defect' => 'nullable',
+            'items.*.assignedDefect' => 'required',
             'items.*.shiftType' => 'required',
         ];
     }
