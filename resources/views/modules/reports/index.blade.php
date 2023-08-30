@@ -50,7 +50,7 @@
 
         </div>
     </section>
-   <input type="hidden" name="fuelExpenseReport" value="{{route('reports.fuel.data')}}">
+    <input type="hidden" name="fuelExpenseReport" value="{{route('reports.fuel.data')}}">
 @endsection
 
 @push('scripts')
@@ -266,15 +266,21 @@
         (function (appInstance) {
             appInstance.initDatatable("#listTable", false);
 
-            $.getJSON($('[name="fuelExpenseReport"]').val()).done((response) => {
-                if (response.state != 'success') {
-                    return;
-                }
-                window.costByYear = response.payload['costByYear'];
-                //fuelExpensesByVehicle();
-                fuelExpenseTotalsByType();
-                fuelExpensesByYear();
-            }).fail(function () {
+            fetch($('[name="fuelExpenseReport"]').val())
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                })
+                .then((response) => {
+                    if (response.state !== 'success') {
+                        return;
+                    }
+                    window.costByYear = response.payload['costByYear'];
+                    //fuelExpensesByVehicle();
+                    fuelExpenseTotalsByType();
+                    fuelExpensesByYear();
+                }).catch(function () {
             })
 
         })(window.tmsApp || {});
