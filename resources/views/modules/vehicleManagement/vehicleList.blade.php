@@ -29,15 +29,16 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <div class="accordion" id="accordionExample">
-                    <div class="card px-0">
+                    <div class="card px-0" style="display: none;">
                         <div class="card-header" id="headingOne">
                             <h2 class="mb-0">
-                                <button class="btn btn-link btn-block text-left"
+                                <button class="btn btn-primary btn-sm text-left"
                                         type="button"
                                         data-bs-toggle="collapse"
                                         data-bs-target="#collapseOne"
                                         aria-expanded="true"
                                         aria-controls="collapseOne">
+                                    <i class="fas fa-filter"></i>
                                     Filters
                                 </button>
                             </h2>
@@ -48,21 +49,20 @@
                              aria-labelledby="headingOne"
                              data-parent="#accordionExample">
                             <div class="card-body px-0">
-                                <div class="listqbe" style="display: flex; flex-direction: row;">
-                                    <div class="sys-list-filterhead">
+                                <div class="list-qbe">
+                                    <div class="sys-list-filter-head">
                                         <span class="lbl">Filter:</span>
-                                        <select
-                                                class="hq-listselector">
+                                        <select class="list-selector">
                                             <option>My Default Filter</option>
                                         </select>
-                                        <a class="sys-button showborder marginleft font34"
+                                        <a class="sys-button show-border margin-left font34"
                                            style="cursor: pointer;">
                                             <i class="fa fa-pencil"></i>
                                             <span>Hide Filter</span>
                                         </a>
                                     </div>
                                     <div class="qbeinner" style="">
-                                        <div class="qbetoolbar" style="visibility: visible;">
+                                        <div class="qbe-toolbar" style="visibility: visible;">
                                             <a class="toolbarbutton">
                                                 <i class="fa fa-save"></i>
                                                 Save</a>
@@ -88,6 +88,7 @@
                                                 Records
                                             </a>
                                         </div>
+
                                         <div data-qbefield="systemname"
                                              class="qbefield">
                                             <i class="fa fa-remove"
@@ -515,7 +516,7 @@
                 <!--begin::Table-->
                 <div class="table-responsive">
                     <table aria-label="vehicles Tables"
-                            class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+                           class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
                            id="kt_brands_table">
                         <thead>
                         <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
@@ -718,7 +719,6 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </section>
