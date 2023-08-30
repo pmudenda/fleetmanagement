@@ -300,11 +300,16 @@ class WorkshopService
         DB::commit();
     }
 
-    public function getJobCardHeader(): Collection
+    public function getJobCardHeader(mixed $status): Collection
     {
         return DB::table("WM_JOB_CARD_HEADER header")
-            ->leftJoin("SEC_USERS", "header.received_by", "=", "SEC_USERS.staff_no")
-            ->leftJoin("CONFIG_GENERAL_TABLES", "header.receiving_section", "=", "CONFIG_GENERAL_TABLES.code")
+            ->leftJoin("SEC_USERS",
+                "header.received_by",
+                "=",
+                "SEC_USERS.staff_no")
+            ->leftJoin("CONFIG_GENERAL_TABLES",
+                "header.receiving_section",
+                "=", "CONFIG_GENERAL_TABLES.code")
             ->leftJoin("CONFIG_GENERAL_TABLES as config", "header.repair_type", "=", "config.code")
             ->leftJoin("CONFIG_WORKSHOP", "header.receiving_section", "=", "CONFIG_WORKSHOP.workshop_code")
             ->where("CONFIG_GENERAL_TABLES.type", "=", ConfigurationTypes::WORK_SHOP_SECTION)
@@ -386,25 +391,28 @@ class WorkshopService
         $jobCardHeader->fuel_level_out = $request->get("fuel_level");
         $jobCardHeader->driver_out = $request->get("driver_out");
         $jobCardHeader->modified_by = $user->staff_no;
-        $jobCardHeader->status = StatusHelper::authorised();
+        $jobCardHeader->status = StatusHelper::closed();
         $jobCardHeader->updated_at = Carbon::now();
         $totalWorkOrderAmount = $request->get('workOrderTotalAmount');
 
         foreach ($request->get("items") as $labourItem) {
-            WorkshopLabour::create([
-                'wshp_act_code' => $jobCardHeader->wshp_act_code,
-                'wshp_code' => $jobCardHeader->workshop_code,
-                'section' => $labourItem['workshopSection'],
-                'evaluation' => 'N',
-                'date_lab' => Carbon::now(),
-                'mechanic' => $labourItem['mechanic'],
-                'hours_worked' => $labourItem['hoursWorked'],
-                'rate' => (float)$labourItem['ratePerHour'],
-                'total_amount' => (float)$labourItem['totalAmount'],
-                'def_no' => $labourItem['assignedDefect'],
-                'created_by' => $user->staff_no,
-                'type_of_hour' => $labourItem['shiftType'],
-            ]);
+            WorkshopLabour::firstOrCreate(
+                [
+                    'wshp_act_code' => $jobCardHeader->wshp_act_code,
+                    'wshp_code' => $jobCardHeader->workshop_code,
+                    'def_no' => $labourItem['assignedDefect'],
+                ],
+                [
+                    'section' => $labourItem['workshopSection'],
+                    'evaluation' => 'N',
+                    'date_lab' => Carbon::now(),
+                    'mechanic' => $labourItem['mechanic'],
+                    'hours_worked' => $labourItem['hoursWorked'],
+                    'rate' => (float)$labourItem['ratePerHour'],
+                    'total_amount' => (float)$labourItem['totalAmount'],
+                    'created_by' => $user->staff_no,
+                    'type_of_hour' => $labourItem['shiftType'],
+                ]);
 
             $totalWorkOrderAmount += (float)$labourItem['totalAmount'];
         }

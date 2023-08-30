@@ -252,7 +252,17 @@
                                                class="nav-link">
                                                 <i class="fas fa-list nav-icon"></i>
                                                 <p>
-                                                    View (Job Card)
+                                                    View (Open Card)
+                                                </p>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item pl-2">
+                                            <a href="{{URL::signedRoute('closed.jobCard.list')}}"
+                                               class="nav-link">
+                                                <i class="fas fa-list nav-icon"></i>
+                                                <p>
+                                                    View (Closed Card)
                                                 </p>
                                             </a>
                                         </li>

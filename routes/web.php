@@ -156,6 +156,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'workshop-management'], functi
         Route::get('all/job-card/list', [MaintenanceController::class, 'list'])
             ->name('jobCard.list');
 
+        Route::get('closed/job-card/list', [MaintenanceController::class, 'closedJobCard'])
+            ->name('closed.jobCard.list');
+
         Route::get('job-card/show', [MaintenanceController::class, 'showJobCard'])
             ->name('job.card.show');
 
