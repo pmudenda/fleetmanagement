@@ -561,14 +561,14 @@ class WorkshopService
 
     public function getReservedMaterialsAndServices(string $vehicleRegistration): Collection
     {
-        return DB::table("GEN_MATERIAL_HEADERS")
-            ->join("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
-            ->whereNull("GEN_MATERIAL_HEADERS.document_no")
-            ->where("GEN_MATERIAL_DETAILS.reg_no", '=', $vehicleRegistration)
-            ->where("GEN_MATERIAL_HEADERS.is_fuel", '=', 'N')
-            ->whereNull("GEN_MATERIAL_DETAILS.claimed")
-            ->select("GEN_MATERIAL_HEADERS.*",
-                "GEN_MATERIAL_DETAILS.*"
+        return DB::table("GEN_MATERIAL_HEADERS mat_header")
+            ->join("GEN_MATERIAL_DETAILS mat_detail", "mat_header.req_no", "=", "mat_detail.req_no")
+            ->whereNull("mat_header.document_no")
+            ->where("mat_detail.reg_no", '=', $vehicleRegistration)
+            ->where("mat_header.is_fuel", '=', 'N')
+            ->whereNull("mat_detail.claimed")
+            ->select("mat_header.*",
+                "mat_detail.*"
             )->get();
     }
 }
