@@ -321,7 +321,7 @@ class WorkshopService
                 "=", ConfigurationTypes::WORK_SHOP_SECTION)
             ->where("config.type", "=",
                 ConfigurationTypes::REPAIR_TYPE)
-            ->whereNull("header.status", '=', $status)
+            ->where("header.status", '=', $status)
             ->select("header.*",
                 "CONFIG_WORKSHOP.workshop_name",
                 "config.name as repair_type_name",
