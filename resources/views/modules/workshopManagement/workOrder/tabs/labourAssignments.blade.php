@@ -1,4 +1,4 @@
-@php use App\Helpers\StatusHelper;use Carbon\Carbon; @endphp
+@php use App\Helpers\StatusHelper; @endphp
 <div class="row pt-5">
     <div class="table-responsive">
         <button type="button"
@@ -38,10 +38,10 @@
                     <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
                             <input
-                                readonly
-                                name="selectDefectToAssign"
-                                class="checkbox"
-                                type="checkbox">
+                                    readonly
+                                    name="selectDefectToAssign"
+                                    class="checkbox"
+                                    type="checkbox">
                         </td>
                         <td>
                             {{$labourItem->defect_name}}
@@ -105,7 +105,9 @@
                                        readonly
                                        name="jobCardInstruction"
                                        style="height: 129px;"
-                                       class="form-control comments form-control-sm">{{$labourItem->job_card_instruction}}</textarea>
+                                       class="form-control comments form-control-sm">
+                                 {{$labourItem->job_card_instruction}}
+                             </textarea>
                         </td>
 
                         <td>
@@ -121,7 +123,8 @@
                                         <button type="button"
                                                 data-labour-item="{{json_encode($labourItem)}}"
                                                 style="background: #f59d33; color: #fff;"
-                                                class="btn btn-sm btn-success reassignMechanic col pull-right dropdown-item">
+                                                class="btn btn-sm btn-success
+                                                reassignMechanic col pull-right dropdown-item">
                                             <i class="fa fa-history"></i>
                                             Reassign
                                         </button>
@@ -130,7 +133,9 @@
                                     <li>
                                     <li>
                                         <a class="dropdown-item" data-kt-action="edit"
-                                           href="{{URL::signedRoute('print.job.card', ['reference' => $labourItem->id])}}">
+                                           href="{{URL::signedRoute('print.job.card', [
+                                            'reference' => $labourItem->id
+                                            ])}}">
                                             <i class="fa fa-print"></i>
                                             Print Job Card
                                         </a>
@@ -154,9 +159,9 @@
                         <tr class="increment">
                             <td>
                                 <input disabled
-                                    name="selectDefectToAssign"
-                                    class="checkbox"
-                                    type="checkbox">
+                                       name="selectDefectToAssign"
+                                       class="checkbox"
+                                       type="checkbox">
                             </td>
                             <td>
                                 {{$defect->defect_name}}
@@ -197,11 +202,11 @@
                                     @foreach($workshop_sections as $workshop_section)
                                         @if($defect->section_code == $workshop_section->code)
                                             <option
-                                                selected
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                    selected
+                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                         @else
                                             <option
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                         @endif
                                     @endforeach
                                 </select>

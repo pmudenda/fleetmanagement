@@ -136,7 +136,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
+                                                                class="col-xs-12 col-sm-6 col-md-5
+                                                                col-lg-4 app-field-label pl-0"
                                                                 for="staff_no">Date In :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -144,7 +145,11 @@
                                                                    class="form-control form-control-sm"
                                                                    id="date_of_req"
                                                                    readonly
-                                                                   value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
+                                                                   value="@if($details) {{
+                                                                    Carbon::parse($details->date_in)->format('d/m/Y')}}
+                                                                    @else
+                                                                    {{ date('Y-m-d', strtotime(Carbon::now()))}}
+                                                                     @endif"
                                                                    name="date_of_req"
                                                                    required>
                                                         </div>
@@ -165,8 +170,11 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <input type="text"
                                                                    readonly
-                                                                   value="@if($details){{Carbon::parse($details->time_in)->format('H:i:s')}}@else{{Carbon::now()->format('H:i:s')}}@endif"
-                                                                   class="form-control form-control-sm when_valid number_input"
+                                                                   value="@if($details){{
+                                                                    Carbon::parse($details->time_in)->format('H:i:s')}}
+                                                                    @else{{Carbon::now()->format('H:i:s')}}@endif"
+                                                                   class="form-control form-control-sm
+                                                                   when_valid number_input"
                                                                    id="timeIn"
                                                                    name="timeIn"
                                                             />
@@ -183,12 +191,14 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper pl-0">
+                                                                class="col-xs-12 col-sm-6 col-md-5
+                                                                col-lg-4 control-input-wrapper pl-0">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
                                                                     <label
-                                                                            class="form-check-inline field-required pl-0">
+                                                                            class="form-check-inline
+                                                                            field-required pl-0">
                                                                         Workshop
                                                                     </label>
                                                                 </div>
@@ -222,7 +232,8 @@
                                                             @if($details && $details->service_advisor)
                                                                 <input type="text"
                                                                        readonly
-                                                                       class="form-control form-control-sm when_valid number_input"
+                                                                       class="form-control form-control-sm
+                                                                       when_valid number_input"
                                                                        id="service_advisor"
                                                                        value="{{ $details->service_advisor .' | '. $details->section_in_name}}"
                                                                        required
@@ -231,7 +242,8 @@
                                                             @else
                                                                 <input type="text"
                                                                        readonly
-                                                                       class="form-control form-control-sm when_valid number_input"
+                                                                       class="form-control form-control-sm
+                                                                       when_valid number_input"
                                                                        id="service_advisor"
                                                                        value="{{auth()->user()->name . ' | RECEPTION' }}"
                                                                        required
@@ -264,13 +276,15 @@
                                                                                name="repairType"
                                                                                value="{{$repairType->code}}"/>
                                                                         <input readonly
-                                                                               class="form-control form-control-sm when_valid"
+                                                                               class="form-control
+                                                                               form-control-sm when_valid"
                                                                                type="text"
                                                                                value="{{$repairType->name}}"/>
                                                                     @endif
                                                                 @else
                                                                     <input readonly
-                                                                           class="form-control form-control-sm when_valid"
+                                                                           class="form-control
+                                                                           form-control-sm when_valid"
                                                                            type="text"
                                                                            value="">
                                                                 @endif
@@ -286,7 +300,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required pl-0"
+                                                                class="col-xs-12 col-sm-6
+                                                                col-md-5 col-lg-4 field-required pl-0"
                                                                 for="current_odometer">Odometer value:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <div class="input-group">
@@ -383,7 +398,8 @@
                                                 <div class="row" style="display: none;">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                app-field-label field-required"
                                                                 for="date_expected_out">
                                                             Date Expected Out:
                                                         </label>
@@ -392,7 +408,9 @@
                                                                    readonly
                                                                    class="form-control form-control-sm"
                                                                    id="date_expected_out"
-                                                                   value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
+                                                                   value="@if($details){{
+                                                                   date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}
+                                                                   @else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
                                                                    name="date_of_req"
                                                             >
                                                         </div>
@@ -455,7 +473,7 @@
                                     <div id="vehicleDetailsContainer" style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12 pl-0">
                                         <h1>Vehicle Details</h1>
-                                        <table class="table table-striped">
+                                        <table aria-label="vehicle details" class="table table-striped">
                                             <tbody id="vehicleDetails" class="vehicleDetails">
                                             </tbody>
                                         </table>
@@ -484,7 +502,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
+                                                                class="col-xs-12 col-sm-6 col-md-5
+                                                                col-lg-4 app-field-label pl-0"
                                                                 for="staff_no">Date Out :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -514,8 +533,10 @@
                                                             <input type="text"
                                                                    readonly
                                                                    data-value="@if($details){{Carbon::now()->format('H:i:s')}}@endif"
-                                                                   value="@if($details){{Carbon::parse($details->time_out)->format('H:i:s')}}@else{{Carbon::now()->format('H:i:s')}}@endif"
-                                                                   class="form-control form-control-sm when_valid number_input"
+                                                                   value="@if($details){{Carbon::parse($details->time_out)->format('H:i:s')}}
+                                                                   @else{{Carbon::now()->format('H:i:s')}}@endif"
+                                                                   class="form-control form-control-sm
+                                                                   when_valid number_input"
                                                                    id="timeOut"
                                                                    name="timeOut"
                                                             />
@@ -532,7 +553,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required pl-0"
+                                                                class="col-xs-12 col-sm-6
+                                                                col-md-5 col-lg-4 field-required pl-0"
                                                                 for="current_odometer">Odometer On Exit:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <div class="input-group">
@@ -559,7 +581,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 pl-0 field-required"
+                                                                class="col-xs-12 col-sm-12
+                                                                col-md-5 col-lg-4 pl-0 field-required"
                                                                 for="next_fuel_date">
                                                             Fuel Level On Exit:
                                                         </label>
@@ -584,7 +607,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                class="col-xs-12 col-sm-6
+                                                                col-md-5 col-lg-4 pl-0 field-required"
                                                                 for="staff_name">
                                                             Driver On Exit:
                                                         </label>
@@ -602,7 +626,8 @@
                                                                 <div class="input-group-addon">
                                                                     <button type="button" id="employeeSearchBtn"
                                                                             name="employeeSearchBtn"
-                                                                            class="btn btn-success btn-sm border-radius-0">
+                                                                            class="btn btn-success
+                                                                            btn-sm border-radius-0">
                                                                         <i class="fas fa-search"></i>
                                                                     </button>
                                                                 </div>
@@ -631,17 +656,8 @@
                                     </div>
                                 </div>
                             </div>
-                            {{--<div class="col-12 text-right">
-                                <div>
-                                    <button type="button"
-                                            id="saveExitSummary"
-                                            style="background: #f59d33; color: #fff;"
-                                            class="btn btn-sm btn-success add pull-right">
-                                        <i class="fa fa-save"></i>
-                                        Save Exit Summary
-                                    </button>
-                                </div>
-                            </div>--}}
+
+
                         </div>
                     </section>
 
@@ -652,9 +668,6 @@
                                    id="suppliersList"
                                    value="{{route('suppliers.list')}}"/>
                             <ul class="nav nav-tabs" role="tablist">
-                                {{-- <li class="nav-item" style="list-style: none; width: 178px; display: none;">
-                                     <a class="nav-link" data-toggle="tab" href="#accessories" role="tab">Accessories</a>
-                                 </li>--}}
                                 <li class="nav-item" style="list-style: none; width: 178px;">
                                     <a class="nav-link active" data-toggle="tab" href="#defects" role="tab">Defects</a>
                                 </li>
@@ -671,94 +684,6 @@
 
 
                             <div class="tab-content">
-                                {{-- <div class="tab-pane" id="accessories" role="tabpanel">
-                                     <div class="container-fluid pl-0 mt-5">
-                                         <div class="row"
-                                              data-model-name="Accessories">
-                                             <input type="hidden" value="{{$details->job_card_no ?? 0}}"
-                                                    name="job_card_voucher"/>
-                                             <div class="col-xs-12 col-sm-12 col-md-12">
-                                                 <div class="row">
-
-                                                     <div class="col">
-                                                         <table
-                                                                 class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                             <thead>
-                                                             <tr class="bg-dark-subtle">
-                                                                 <th class="pl-2">Item</th>
-                                                                 <th>Present</th>
-                                                                 <th class="pr-2">Not Present</th>
-                                                                 <th class="pr-2">Remarks</th>
-                                                             </tr>
-                                                             </thead>
-                                                             <tbody>
-                                                             @foreach($accessories as $key => $accessory)
-                                                                 @if(($key%2) == 0)
-                                                                     <tr>
-                                                                         <td class="pl-2"
-                                                                             style="width: 35%;">{{$accessory->name}}</td>
-                                                                         <td><input type="radio"
-                                                                                    value="YES"
-                                                                                    required
-                                                                                    name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                         </td>
-                                                                         <td><input type="radio"
-                                                                                    value="NO"
-                                                                                    required
-                                                                                    name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                         </td>
-                                                                         <td style="width: 45%;">
-                                                                             <input typeof="text"
-                                                                                    name="comment_{{str_replace(' ','', $accessory->code)}}"
-                                                                                    class="form-control form-control-sm"/>
-                                                                         </td>
-                                                                     </tr>
-                                                                 @endif
-                                                             @endforeach
-                                                             </tbody>
-                                                         </table>
-                                                     </div>
-                                                     <div class="col">
-                                                         <table
-                                                                 class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                             <thead>
-                                                             <tr class="bg-dark-subtle">
-                                                                 <th class="pl-2">Item</th>
-                                                                 <th>Present</th>
-                                                                 <th class="pr-2">Not Present</th>
-                                                                 <th class="pr-2">Remarks</th>
-                                                             </tr>
-                                                             </thead>
-                                                             <tbody>
-                                                             @foreach($accessories as $key => $accessory)
-                                                                 @if(($key%2) != 0)
-                                                                     <tr>
-                                                                         <td class="pl-2" style="width: 35%;">
-                                                                             {{$accessory->name}}
-                                                                         </td>
-                                                                         <td><input type="radio" required value="YES"
-                                                                                    name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                         </td>
-                                                                         <td><input type="radio" required value="NO"
-                                                                                    name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                         </td>
-                                                                         <td style="width: 45%;">
-                                                                             <input typeof="text"
-                                                                                    name="comment_{{str_replace(' ','', $accessory->code)}}"
-                                                                                    class="form-control form-control-sm">
-                                                                         </td>
-                                                                     </tr>
-                                                                 @endif
-                                                             @endforeach
-                                                             </tbody>
-                                                         </table>
-                                                     </div>
-
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>--}}
 
                                 <div class="tab-pane active" id="defects" role="tabpanel">
                                     <div class="container-fluid pl-0 mt-5">
@@ -769,8 +694,8 @@
                                                 <div class="row">
                                                     <div class="table-responsive" style="max-height:500px;">
                                                         <table aria-label="Defects Table"
-                                                                data-model-name="Defects"
-                                                                class="table table-row-dashed align-middle gs-0">
+                                                               data-model-name="Defects"
+                                                               class="table table-row-dashed align-middle gs-0">
                                                             <thead>
                                                             <tr class="bg-dark-subtle">
                                                                 <th style="width: 25%;" class="pl-2">System</th>
@@ -792,7 +717,8 @@
                                                                                     required
                                                                                     disabled
                                                                                     data-value="{{$defect->veh_sys}}"
-                                                                                    class="form-select form-select-sm select_2_control vehicleSystem">
+                                                                                    class="form-select form-select-sm
+                                                                                    select_2_control vehicleSystem">
                                                                                 <option></option>
                                                                             </select>
                                                                         </td>
@@ -801,7 +727,8 @@
                                                                                     required
                                                                                     disabled
                                                                                     data-value="{{$defect->defect_category_code}}"
-                                                                                    class="form-select form-select-sm select_2_control defectCategory">
+                                                                                    class="form-select form-select-sm
+                                                                                    select_2_control defectCategory">
                                                                                 <option></option>
                                                                             </select>
                                                                         </td>
@@ -810,7 +737,9 @@
                                                                                     required
                                                                                     disabled
                                                                                     data-value="{{$defect->defect_code}}"
-                                                                                    class="form-select form-select-sm select_2_control defect">
+                                                                                    class="form-select
+                                                                                    form-select-sm
+                                                                                    select_2_control defect">
                                                                                 <option></option>
                                                                             </select>
                                                                         </td>
@@ -818,16 +747,22 @@
                                                                             <select name="workshopSection"
                                                                                     disabled
                                                                                     required
-                                                                                    class="form-select form-select-sm workshopSection">
+                                                                                    class="form-select
+                                                                                    form-select-sm
+                                                                                    workshopSection">
                                                                                 <option></option>
                                                                                 @foreach($workshop_sections as $workshop_section)
                                                                                     @if($defect->section_code == $workshop_section->code)
                                                                                         <option
                                                                                                 selected
-                                                                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                                                value="{{$workshop_section->code}}">
+                                                                                            {{$workshop_section->name}}
+                                                                                        </option>
                                                                                     @else
                                                                                         <option
-                                                                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                                                value="{{$workshop_section->code}}">
+                                                                                            {{$workshop_section->name}}
+                                                                                        </option>
                                                                                     @endif
                                                                                 @endforeach
                                                                             </select>
@@ -836,8 +771,11 @@
                                                                         <td>
                                                                             <input name="date_def"
                                                                                    readonly="readonly"
-                                                                                   value="@if($defect){{date('Y-m-d',strtotime(Carbon::parse($defect->date_def)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
-                                                                                   class="tabledit-input form-control input-sm input-number"
+                                                                                   value="@if($defect){{
+                                                                                    date('Y-m-d',strtotime(Carbon::parse($defect->date_def)->format('Y-m-d H:i:s')))}}
+                                                                                    @else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
+                                                                                   class="tabledit-input
+                                                                                   form-control input-sm input-number"
                                                                                    type="text">
                                                                         </td>
                                                                     </tr>
@@ -862,7 +800,9 @@
                                                                   id="remarks"
                                                                   readonly
                                                                   name="remarks"
-                                                                  class="form-control form-control-sm">{{$comments->where('type','=','DEF')->first()->remarks ??''}}</textarea>
+                                                                  class="form-control form-control-sm">
+                                                            {{$comments->where('type','=','DEF')->first()->remarks ??''}}
+                                                        </textarea>
                                                     @endif
                                                 </div>
                                                 <table class="mt-10">
@@ -909,11 +849,16 @@
                                                                                 id="itemType">
                                                                             <option></option>
                                                                             <option
-                                                                                    @if($materialsHeader->item_type_code == RequisitionItemTypes::STOCK_ITEM_CODE) selected
+                                                                                    @if($materialsHeader->item_type_code
+                                                                                == RequisitionItemTypes::STOCK_ITEM_CODE
+                                                                                )
+                                                                                        selected
                                                                                     @endif value="01">STOCK ITEM
                                                                             </option>
                                                                             <option
-                                                                                    @if($materialsHeader->item_type_code == RequisitionItemTypes::NON_STOCK_ITEM_CODE) selected
+                                                                                    @if($materialsHeader->item_type_code
+                                                                            == RequisitionItemTypes::NON_STOCK_ITEM_CODE
+                                                                            ) selected
                                                                                     @endif value="02">NON STOCK ITEM
                                                                             </option>
                                                                         </select>
@@ -933,7 +878,8 @@
                                                         <div class="row d-none">
                                                             <div class="form-group row">
                                                                 <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                                        col-lg-4 app-field-label"
                                                                         for="staff_no">
                                                                     Purchase Office:
                                                                 </label>
@@ -961,7 +907,8 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <div
-                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class=" col-xs-12 col-sm-6 col-md-5
+                                                                        col-lg-4 control-input-wrapper">
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
