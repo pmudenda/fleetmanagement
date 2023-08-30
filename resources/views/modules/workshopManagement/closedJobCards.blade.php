@@ -145,17 +145,6 @@
                                                                     View Job Card
                                                                 </a>
                                                             </li>
-                                                            @if($workshop->status != StatusHelper::authorised())
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                       data-kt-action="exit"
-                                                                       href="{{URL::signedRoute('exit.from.card',[
-                                                                        'reference'=>$workshop->job_card_no
-                                                                        ])}}">
-                                                                        Exit From Workshop
-                                                                    </a>
-                                                                </li>
-                                                            @endif
                                                         </ul>
                                                     </div>
                                                 </td>
