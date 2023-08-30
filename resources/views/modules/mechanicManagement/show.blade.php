@@ -544,18 +544,22 @@
                                                         @endif
                                                         class="@if($allowUpdate)
                                                         form-select form-select-sm
-                                                        @else form-control@endif"
+                                                        @else form-control @endif"
                                                         required>
                                                     <option value>--Choose Profile--</option>
-                                                    @foreach ($roles as $groupName)
+                                                    {{--@foreach ($roles as $groupName)
                                                         @if($groupName->id == $mechanic->roles()->first()->id)
                                                             <option selected
-                                                                    value="{{$groupName->id}}">{{$groupName->description}}</option>
+                                                                    value="{{$groupName->id}}">
+                                                                {{$groupName->description}}
+                                                            </option>
                                                         @else
                                                             <option
-                                                                    value="{{$groupName->id}}">{{$groupName->description}}</option>
+                                                                    value="{{$groupName->id}}">
+                                                                {{$groupName->description}}
+                                                            </option>
                                                         @endif
-                                                    @endforeach
+                                                    @endforeach--}}
                                                 </select>
                                             </div>
                                         </div>
@@ -568,7 +572,7 @@
                                                         <button type="submit"
                                                                 id="updateUserData"
                                                                 class="btn btn-sm btn-success mr-3">
-                                                            Update
+                                                            Save
                                                         </button>
 
                                                         <button type="button"
