@@ -25,28 +25,12 @@
                             <div class="card-title">
                                 <h4>Fuel Requisitions Report</h4>
                             </div>
-                            <div class="card-toolbar justify-content-end">
-
-                                <button type="button"
-                                        class="btn btn-sm btn-primary me-3"
-                                        data-menu-trigger="click"
-                                        data-menu-placement="bottom-end">
-                                <span class="svg-icon svg-icon-2">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
-                                            fill="currentColor"></path>
-                                    </svg>
-                                </span>
-                                    Filter
-                                </button>
-                            </div>
+                            <div class="card-toolbar justify-content-end"></div>
                         </div>
                         <div class="card-body p-2">
                             <div class="row">
                                 <div class="col-6">
-                                    <div id="main" style="height:400px;"></div>
+                                    <div id="bar_chart" style="height:400px;"></div>
                                 </div>
                                 <div class="col-6">
                                     <div id="pie" style="height:400px;"></div>
@@ -54,7 +38,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <div id="bar_chart" style="height:400px;"></div>
+                                    <div id="main" style="height:400px;"></div>
                                 </div>
                             </div>
                             <div class="table-responsive mt-10 ">
@@ -234,7 +218,6 @@
                         valueObject[datum['fuel_type']] = parseFloat(datum['cost']);
                     }
 
-                    //if (!productValue.hasOwnProperty(datum['fuel_type'])){
                     let obj = productValue[datum.fuel_type] ?? {};
                     obj['product'] = datum['fuel_type'];
                     if (obj[datum['year']]) {
@@ -289,7 +272,7 @@
                 }
                 window.costByYear = response.payload['costByYear'];
                 //fuelExpensesByVehicle();
-                //fuelExpenseTotalsByType();
+                fuelExpenseTotalsByType();
                 fuelExpensesByYear();
             }).fail(function () {
             })
