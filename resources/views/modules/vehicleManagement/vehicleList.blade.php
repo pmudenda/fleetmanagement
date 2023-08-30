@@ -44,7 +44,7 @@
                             </h2>
                         </div>
 
-                        <div id="collapseOne" style="display: none;" class="collapse" aria-labelledby="headingOne"
+                        <div id="collapseOne"  class="collapse" aria-labelledby="headingOne"
                              data-parent="#accordionExample">
                             <div class="card-body px-0">
                                 <div class="listqbe">
