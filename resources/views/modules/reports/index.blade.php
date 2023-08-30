@@ -178,9 +178,9 @@
                         legendData.push(datum['fuel_type']);
                     }
                     if (valueObject.hasOwnProperty(datum['fuel_type'])) {
-                        valueObject[datum['fuel_type']] += parseFloat(datum['ttl']);
+                        valueObject[datum['fuel_type']] += parseFloat(datum['cost']);
                     } else {
-                        valueObject[datum['fuel_type']] = parseFloat(datum['ttl']);
+                        valueObject[datum['fuel_type']] = parseFloat(datum['cost']);
                     }
                 }
 
@@ -277,6 +277,8 @@
                         return;
                     }
                     window.costByYear = response.payload['costByYear'];
+                    window.costByUnit = response.payload['costByUnit'];
+                    window.costByType = response.payload['costByType'];
                     //fuelExpensesByVehicle();
                     fuelExpenseTotalsByType();
                     fuelExpensesByYear();
