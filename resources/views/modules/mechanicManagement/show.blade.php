@@ -438,7 +438,7 @@
 
 
                                         <div class="form-group row">
-                                            <label for="inputName2" class="col-sm-2 col-form-label">Man No:</label>
+                                            <label for="inputName2" class="col-sm-2 col-form-label">Staff No:</label>
                                             <div class="col-sm-10">
                                                 <input disabled type="text"
                                                        class="form-control"
@@ -460,14 +460,20 @@
                                                 <select @if(!$allowUpdate)
                                                             disabled
                                                         @endif
-                                                        class="@if($allowUpdate) form-select form-select-sm @else form-control  @endif"
+                                                        class="@if($allowUpdate)
+                                                        form-select form-select-sm
+                                                        @else form-control  @endif"
                                                         id="area"
                                                         name="area">
                                                     @foreach(Area::get() as $area)
                                                         @if($area->area == $mechanic->area_code)
-                                                            <option value="{{$area->area}}">{{$area->description}}</option>
+                                                            <option value="{{$area->area}}">
+                                                                {{$area->description}}
+                                                            </option>
                                                         @else
-                                                            <option value="{{$area->area}}">{{$area->description}}</option>
+                                                            <option value="{{$area->area}}">
+                                                                {{$area->description}}
+                                                            </option>
                                                         @endif
                                                     @endforeach
                                                 </select>
