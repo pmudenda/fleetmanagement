@@ -47,7 +47,6 @@
             @endif
             </p>
             <p class="text-muted"><b class="text-dark">Business Unit Code:</b> {{ $user->bu_code ?? '' }}</p>
-            {{--<p class="text-muted"><b>Business Unit Code:</b> {{ $user->bu_code ?? '' }}</p>--}}
             <p class="text-muted"><b>Cost Center:</b> {{ $user->cc_code ?? '' }} </p>
         </div>
     </div>
@@ -67,20 +66,10 @@
                 <strong>Grade:</strong>
                 {{ $user->grade ?? '' }}
             </p>
-            {{--<p class="text-muted">
-                <strong>Category:</strong>
-                {{ $user->grade->category->name ?? '' }}
-            </p>--}}
             <p class="text-muted">
                 <strong>User Position:</strong>
                 {{ $user->job_title ?? '' }}
             </p>
-            {{-- <p class="text-muted ">
-                 <strong class="text-orange ">
-                     Job Code:
-                 </strong>
-                 {{ $user->job_code ?? '' }}
-             </p>--}}
         </div>
 
         @if(!empty($user_acting->acting_date_from))
@@ -125,26 +114,6 @@
                 <strong>Staff No.:</strong>
                 {{ $user->supervisor_code ?? '' }}
             </p>
-            {{--
-                <p class="text-muted">
-                    <strong>Category:</strong>
-                    {{ $user->grade->category->name ?? '' }}
-                </p>
-            --}}
-            {{--
-                <p class="text-muted">
-                     <strong>User Position:</strong>
-                     {{ $user->job_title ?? '' }}
-                 </p>
-             --}}
-            {{--
-                <p class="text-muted ">
-                     <strong class="text-orange ">
-                         Job Code:
-                     </strong>
-                     {{ $user->job_code ?? '' }}
-                </p>
-             --}}
         </div>
 
         @if(!empty($user_acting->acting_date_from))
