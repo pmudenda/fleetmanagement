@@ -159,7 +159,7 @@
                                         <option></option>
                                     </select>
                                 </div>
-                                <select name="assignedDefectId"
+                                <select name="assignedDefect"
                                         required
                                         disabled
                                         data-value="{{$defect->defect_code}}"

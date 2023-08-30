@@ -2652,7 +2652,7 @@
                 $(document).on('change', 'select[name="defectCategory"]', function () {
                     if (!this.value) return;
                     const tr = $(this).closest('tr');
-                    let selectElem = tr.find('select[name="defect"]');
+                    let selectElem = tr.find('select[name="assignedDefect"]');
                     getVehicleDefects(this.value, selectElem);
                 })
 
