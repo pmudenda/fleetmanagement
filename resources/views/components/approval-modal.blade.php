@@ -18,9 +18,10 @@
                             Sign As Different User...
                         </div>
                         <div style="clear:both;">
-                            <label class="app-label" id="remarksTitle">Comments</label>
+                            <label for="newApproval_Remarks" class="app-label" id="remarksTitle">Comments</label>
                             <div>
                             <textarea id="newApproval_Remarks"
+                                      name="newApproval_Remarks"
                                       class="form-control" cols="35"
                                       rows="4" maxlength="1000"></textarea>
                                 <br/>
@@ -84,7 +85,8 @@
                         </div>
                     </div>
                     <div id="newApproval_DIVWait" style="visibility: hidden; display: none">
-                        <table style="width:100%; height:100%; border: 0;">
+                        <table role="none" aria-label="loader"
+                               style="width:100%; height:100%; border: 0;">
                             <tr>
                                 <td style="text-align: center">
                                     Please wait . . .

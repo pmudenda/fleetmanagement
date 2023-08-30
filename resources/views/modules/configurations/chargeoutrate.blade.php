@@ -214,7 +214,7 @@
                                     </td>
 
                                     <td class="text-start">
-                                        <div class="dropdown">
+                                        <div class="dropdown" style="display: none;">
                                             <button
                                                     class="btn btn-light
                                                     btn-active-light-primary btn-sm dropdown-toggle"
