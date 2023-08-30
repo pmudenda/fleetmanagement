@@ -83,6 +83,7 @@ class MechanicController extends Controller
 
     public function show(Request $request): View|\Illuminate\Foundation\Application|Factory|Application
     {
+        $employee = config("tables.table_names.employee");
         $staffId = $request->get('ref');
         $mechanic = DB::table('wm_mechanics mec')
             ->leftJoin('config_workshop wkshp',
@@ -98,6 +99,7 @@ class MechanicController extends Controller
                         'WORK_SHOP_SEC'
                     );
             })
+            ->leftJoin("$employee emp","mec.staff_no", "=", 'emp.alt_per_no' )
             ->where('mec.id', '=', $staffId)
             ->select(
                 'mec.*',

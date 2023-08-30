@@ -348,7 +348,6 @@
                                 </div>
 
                                 <div class="tab-pane" id="userInfoUpdate">
-                                    {{--@include('modules.userManagement.userProfileTabs.details')--}}
                                     @php $allowUpdate = false;  @endphp
                                     @if(auth()->user()->can(config('rights.user_update')))
                                         @php $allowUpdate = true;  @endphp
@@ -374,7 +373,10 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputEmail" class="col-sm-2 col-form-label field-required">Email:</label>
+                                            <label for="email"
+                                                   class="col-sm-2 col-form-label field-required">
+                                                Email:
+                                            </label>
                                             <div class="col-sm-10">
                                                 <input type="email"
                                                        class="form-control"
@@ -383,7 +385,7 @@
                                                            readonly
                                                        @endif
                                                        required
-                                                       placeholder="Email" value="{{ $mechanic->email }}">
+                                                       placeholder="Email" value="{{ $mechanic->email ?? '' }}">
                                             </div>
                                         </div>
 
@@ -397,7 +399,7 @@
                                                            readonly
                                                        @endif
                                                        placeholder="extension"
-                                                       value="{{ $mechanic->extension }}"/>
+                                                       value="{{ $mechanic->extension ?? '' }}"/>
                                             </div>
                                         </div>
 
@@ -465,7 +467,7 @@
                                                         @else form-control  @endif"
                                                         id="area"
                                                         name="area">
-                                                    @foreach(Area::get() as $area)
+                                                    {{--@foreach(Area::get() as $area)
                                                         @if($area->area == $mechanic->area_code)
                                                             <option value="{{$area->area}}">
                                                                 {{$area->description}}
@@ -475,7 +477,7 @@
                                                                 {{$area->description}}
                                                             </option>
                                                         @endif
-                                                    @endforeach
+                                                    @endforeach--}}
                                                 </select>
                                             </div>
                                         </div>

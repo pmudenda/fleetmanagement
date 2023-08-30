@@ -768,7 +768,7 @@
                                             <div class="col-xs-12 col-sm-12 col-md-12">
                                                 <div class="row">
                                                     <div class="table-responsive" style="max-height:500px;">
-                                                        <table
+                                                        <table aria-label="Defects Table"
                                                                 data-model-name="Defects"
                                                                 class="table table-row-dashed align-middle gs-0">
                                                             <thead>
@@ -1699,7 +1699,9 @@
                     <datalist id="mechanics">
                         @if(!empty($mechanics))
                             @foreach($mechanics as $mechanic)
-                                <option value="{{$mechanic->staff_no}}">{{$mechanic->staff_no}} {{$mechanic->name}}</option>
+                                <option value="{{$mechanic->staff_no}}">
+                                    {{$mechanic->staff_no}} {{$mechanic->name}}
+                                </option>
                             @endforeach
                         @endif
                     </datalist>
