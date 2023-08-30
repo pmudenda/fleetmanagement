@@ -190,7 +190,7 @@
                                            id="dateOfWork"
                                            class="form-control"
                                     />
-                                    <div class="input-group-append"
+                                    {{--<div class="input-group-append"
                                          data-target="#dateIssued"
                                          data-action="openDatePicker">
                                         <div type="button"
@@ -199,7 +199,7 @@
                                             <i data-action="openDatePicker"
                                                class="fa fa-calendar"></i>
                                         </div>
-                                    </div>
+                                    </div>--}}
                                 </div>
                             </td>
                             <td>
