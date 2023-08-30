@@ -141,7 +141,7 @@
                     @foreach($defects as $defect)
                         <tr class="increment">
                             <td>
-                                <div class="d-none">
+                                {{--<div class="d-none">
                                     <select name="vehicleSystem"
                                             style="display: none;"
                                             required
@@ -158,14 +158,29 @@
                                             class="form-select form-select-sm select_2_control defectCategory">
                                         <option></option>
                                     </select>
-                                </div>
-                                <select name="assignedDefect"
-                                        required
-                                        disabled
-                                        data-value="{{$defect->defect_code}}"
-                                        class="form-select form-select-sm select_2_control defect">
-                                    <option></option>
-                                </select>
+                                    <select name="assignedDefect"
+                                            required
+                                            disabled
+                                            data-value="{{$defect->defect_code}}"
+                                            class="form-select form-select-sm select_2_control defect">
+                                        <option></option>
+                                    </select>
+                                </div>--}}
+
+                                {{$defect->defect_name}}
+                                <input name="assignedDefectId"
+                                       type="text"
+                                       style="display: none;"
+                                       required
+                                       value="{{$defect->defect_id}}"
+                                       class="form-control-sm defect"/>
+                                <input name="assignedDefect"
+                                       type="text"
+                                       style="display: none;"
+                                       required
+                                       value="{{$defect->defect_code}}"
+                                       data-value="{{$defect->defect_code}}"
+                                       class="form-control-sm defect"/>
                             </td>
                             <td class="showNumber">
                                 <input type="text"
@@ -211,10 +226,14 @@
                                         @if($defect->section_code == $workshop_section->code)
                                             <option
                                                     selected
-                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                    value="{{$workshop_section->code}}">
+                                                {{$workshop_section->name}}
+                                            </option>
                                         @else
                                             <option
-                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                    value="{{$workshop_section->code}}">
+                                                {{$workshop_section->name}}
+                                            </option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -299,7 +318,9 @@
                                   required
                                   name="closureRemarks"
                                   style="height: 129px;"
-                                  class="form-control comments form-control-sm">{{$taskHeader->long_description ??''}}</textarea>
+                                  class="form-control comments form-control-sm">
+                            {{$taskHeader->long_description ??''}}
+                        </textarea>
                     @else
                         @if($details->status === StatusHelper::pendingApproval())
                             <textarea type="text"
