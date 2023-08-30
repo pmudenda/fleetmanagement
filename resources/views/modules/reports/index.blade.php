@@ -120,7 +120,7 @@
             let myPieChart2 = echarts.init(pieChartDom);
 
             const data = genData();
-            option2 = {
+            const option2 = {
                 title: {
                     text: 'Fuel Type By Consumption',
                     subtext: 'Most Consumed',
@@ -172,14 +172,15 @@
                 const seriesData = [];
                 let valueObject = {};
 
-                for (const datum of window['data']) {
+                for (const datum of window['costByType']) {
 
                     if (legendData.indexOf(datum['fuel_type']) === -1) {
                         legendData.push(datum['fuel_type']);
                     }
                     if (valueObject.hasOwnProperty(datum['fuel_type'])) {
                         valueObject[datum['fuel_type']] += parseFloat(datum['cost']);
-                    } else {
+                    }
+                    else {
                         valueObject[datum['fuel_type']] = parseFloat(datum['cost']);
                     }
                 }
