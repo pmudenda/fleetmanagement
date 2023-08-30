@@ -53,30 +53,32 @@
                                     </span>
                                     Filter
                                 </button>
-                                {{--@can(config('rights.create_workshop'))@endcan--}}
-                                <a href="{{URL::signedRoute('show.job.card')}}"
-                                   class="btn btn-sm btn-success float-right">
-                                    <i class="fas fa-user-plus"></i>
-                                    Create Job Card
-                                </a>
-
+                                @can(config('rights.create_job_card'))
+                                    <a href="{{URL::signedRoute('show.job.card')}}"
+                                       class="btn btn-sm btn-success float-right">
+                                        <i class="fas fa-user-plus"></i>
+                                        Create Job Card
+                                    </a>
+                                @endcan
                             </div>
                         </div>
                         <div class="card-body p-2">
                             <div class="table-responsive mt-10 ">
-                                <table id="listTable" class="table table-bordered">
+                                <table aria-label="Open Job Cards"
+                                       id="listTable"
+                                       class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Reg. No.</th>
-                                        <th>Workshop Document No.</th>
-                                        <th>Job Card Voucher</th>
-                                        <th>Workshop</th>
-                                        <th>Date Raised</th>
-                                        <th>Repair Type</th>
-                                        <th>Date Out</th>
+                                        <th scope="row">#</th>
+                                        <th scope="row">Reg. No.</th>
+                                        <th scope="row">Workshop Document No.</th>
+                                        <th scope="row">Job Card Voucher</th>
+                                        <th scope="row">Workshop</th>
+                                        <th scope="row">Date Raised</th>
+                                        <th scope="row">Repair Type</th>
+                                        <th scope="row">Date Out</th>
                                         {{--@can(config('rights.user_show'))--}}
-                                        <th>Action</th>
+                                        <th scope="row">Action</th>
                                         {{--@endcan--}}
                                     </tr>
                                     </thead>
@@ -85,18 +87,30 @@
                                         <tr>
                                             <td>
                                                 {{-- {{++$key}}--}}
-                                                @if(Carbon::now()->isBefore(Carbon::parse($workshop->expected_date_out)))
-                                                    <span class="badge badge-success p-2"
+                                                @if(Carbon::now()->isBefore(
+                                                    Carbon::parse($workshop->expected_date_out))
+                                                    )
+                                                    <span title="Active"
+                                                          data-toggle="tooltip"
+                                                          class="badge badge-success p-2"
                                                           style="width: 20px;height: 20px; border-radius: 50%;">
                                                         <p></p>
                                                     </span>
-                                                @elseif(Carbon::now()->isAfter(Carbon::parse($workshop->expected_date_out)))
-                                                    <span class="badge badge-danger p-2"
+                                                @elseif(Carbon::now()->isAfter(
+                                                        Carbon::parse($workshop->expected_date_out))
+                                                        )
+                                                    <span title="Expired"
+                                                          data-toggle="tooltip"
+                                                          class="badge badge-danger p-2"
                                                           style="width: 20px;height: 20px; border-radius: 50%;">
                                                         <p></p>
                                                     </span>
-                                                @elseif(Carbon::now()->addDays(3)->eq(Carbon::parse($workshop->expected_date_out)))
-                                                    <span class="badge badge-warning p-2"
+                                                @elseif(Carbon::now()->addDays(3)->eq(
+                                                        Carbon::parse($workshop->expected_date_out))
+                                                        )
+                                                    <span title="Expiring In 3 Days"
+                                                          data-toggle="tooltip"
+                                                          class="badge badge-warning p-2"
                                                           style="width: 20px;height: 20px; border-radius: 50%;">
                                                         <p></p>
                                                     </span>
@@ -126,18 +140,11 @@
                                             <td>
                                                 {{$workshop->date_out}}
                                             </td>
-                                            {{--<td>
-                                               @if($workshop->status == '01')
-                                                    Active
-                                                @else
-                                                    Inactive
-                                                @endif
-                                            </td>--}}
-                                            {{--@can(config('rights.user_show'))--}}
                                             <td>
                                                 <div class="dropdown">
                                                     <button
-                                                            class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                            class="btn btn-light
+                                                            btn-active-light-primary btn-sm dropdown-toggle"
                                                             type="button"
                                                             id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                                             aria-expanded="false">
@@ -147,7 +154,11 @@
                                                         <li>
                                                             <a class="dropdown-item"
                                                                data-kt-action="edit"
-                                                               href="{{URL::signedRoute('view.job.card',["view"=>true,'step'=> '1', 'reference'=>$workshop->job_card_no])}}">
+                                                               href="{{URL::signedRoute('view.job.card',[
+                                                                    "view"=>true,
+                                                                    'step'=> '1',
+                                                                    'reference'=>$workshop->job_card_no
+                                                                    ])}}">
                                                                 View Job Card
                                                             </a>
                                                         </li>
@@ -155,16 +166,16 @@
                                                             <li>
                                                                 <a class="dropdown-item"
                                                                    data-kt-action="exit"
-                                                                   href="{{URL::signedRoute('exit.from.card',['reference'=>$workshop->job_card_no])}}">
+                                                                   href="{{URL::signedRoute('exit.from.card',[
+                                                                            'reference'=>$workshop->job_card_no
+                                                                   ])}}">
                                                                     Exit From Workshop
                                                                 </a>
                                                             </li>
                                                         @endif
-                                                        {{--@endcan--}}
                                                     </ul>
                                                 </div>
                                             </td>
-                                            {{-- @endcan--}}
                                         </tr>
                                     @endforeach
                                     </tbody>

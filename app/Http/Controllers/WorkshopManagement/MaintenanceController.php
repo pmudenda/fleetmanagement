@@ -107,7 +107,7 @@ class MaintenanceController extends Controller
 
         $workshopsVehicleList = $this->workshopService->getJobCardHeader(StatusHelper::closed());
 
-        return view("modules.workshopManagement.vehiclesInWorkshop")
+        return view("modules.workshopManagement.closedJobCards")
             ->with(
                 compact(
                     "workshopsVehicleList"

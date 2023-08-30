@@ -246,27 +246,27 @@
                                             </li>
                                         @endcanany
 
-                                        {{--@can(config('rights.view_job_card'))--}}
-                                        <li class="nav-item pl-2">
-                                            <a href="{{URL::signedRoute('jobCard.list')}}"
-                                               class="nav-link">
-                                                <i class="fas fa-list nav-icon"></i>
-                                                <p>
-                                                    View (Open Card)
-                                                </p>
-                                            </a>
-                                        </li>
+                                        @can(config('rights.view_job_card'))
+                                            <li class="nav-item pl-2">
+                                                <a href="{{URL::signedRoute('jobCard.list')}}"
+                                                   class="nav-link">
+                                                    <i class="fas fa-list nav-icon"></i>
+                                                    <p>
+                                                        View (Open Card)
+                                                    </p>
+                                                </a>
+                                            </li>
 
-                                        <li class="nav-item pl-2">
-                                            <a href="{{URL::signedRoute('closed.jobCard.list')}}"
-                                               class="nav-link">
-                                                <i class="fas fa-list nav-icon"></i>
-                                                <p>
-                                                    View (Closed Card)
-                                                </p>
-                                            </a>
-                                        </li>
-                                        {{-- @endcan--}}
+                                            <li class="nav-item pl-2">
+                                                <a href="{{URL::signedRoute('closed.jobCard.list')}}"
+                                                   class="nav-link">
+                                                    <i class="fas fa-list nav-icon"></i>
+                                                    <p>
+                                                        View (Closed Card)
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcan
                                     </ul>
                                 </li>
                             @endcanany
