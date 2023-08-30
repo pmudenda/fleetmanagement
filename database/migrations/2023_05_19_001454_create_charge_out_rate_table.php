@@ -52,15 +52,16 @@ return new class extends Migration {
                                 ls_dcs_category_code,
                                 :new.vehicle_specification,
                                 :new.vehicle_description,
-                                :new.charge,
                                 :new.currency,
+                                :new.charge,
                                 sysdate,
                                 user,
                                 sysdate
                             );
                     EXCEPTION
                         WHEN OTHERS THEN
-                            raise_application_error(-20010, 'System error. .Trigger:TR_INSERT_VEHICLE_RATES. :  Oracle code:  '
+                            raise_application_error(-20010, 'System error.
+                            .Trigger:TR_INSERT_VEHICLE_RATES. :  Oracle code:  '
                                                             || to_char(sqlcode)
                                                             || ' Error description : '
                                                             || sqlerrm);

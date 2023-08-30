@@ -9,7 +9,9 @@ use App\Enums\RequisitionTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\FuelRequisitionApproved;
 use App\Exceptions\FuelRequisitionException;
+use App\Exceptions\MaterialRequisitionException;
 use App\Exceptions\MaterialReservationException;
+use App\Exceptions\ServiceRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
@@ -150,14 +152,14 @@ class WorkflowController extends Controller
             $requisitionDetail = $this->workshopRequisitionService->getReservationDetail($reference);
 
             DB::beginTransaction();
-            $process_code = '';
+            $workflowProcessCode = '';
             switch ($requisitionDetail->item_type) {
                 case RequisitionItemTypes::SERVICE:
                 case RequisitionItemTypes::NON_STOCK_ITEM:
-                    $process_code = WorkflowProcessCodes::PurchaseProcess->value;
+                    $workflowProcessCode = WorkflowProcessCodes::PurchaseProcess->value;
                     break;
                 case RequisitionItemTypes::STOCK_ITEM:
-                    $process_code = WorkflowProcessCodes::StoresRequisition->value;
+                    $workflowProcessCode = WorkflowProcessCodes::StoresRequisition->value;
                     break;
                 default:
                     break;
@@ -166,27 +168,24 @@ class WorkflowController extends Controller
             $actionTaken = '';
             $message = '';
             $action = 0;
-            switch (strtolower(trim($request->get('Approved')))) {
-                case 'approve':
-                    $action = WorkflowActions::approve();
-                    $actionTaken = "Approved";
-                    $message = 'Request Approved Successfully.';
-                    break;
-                case 'reject':
-                    $action = WorkflowActions::reject();
-                    $actionTaken = "Rejected";
-                    $message = 'Request Rejected.';
-                    break;
-                case 'send_back':
-                    $action = WorkflowActions::sendBack();
-                    $actionTaken = "SendBack";
-                    $message = 'Request Sent Back To Originator.';
-                    break;
+            $userAction = strtolower(trim($request->get('Approved')));
+            if ($userAction == 'approve') {
+                $action = WorkflowActions::approve();
+                $actionTaken = "Approved";
+                $message = 'Request Approved Successfully.';
+            } elseif ($userAction == 'reject') {
+                $action = WorkflowActions::reject();
+                $actionTaken = "Rejected";
+                $message = 'Request Rejected.';
+            } elseif ($userAction == 'send_back') {
+                $action = WorkflowActions::sendBack();
+                $actionTaken = "SendBack";
+                $message = 'Request Sent Back To Originator.';
             }
 
             list($nextStepId, $nextUser) = $this->workflowService->invokeWorkFlow(
                 $reference,
-                $process_code,
+                $workflowProcessCode,
                 $action,
                 $actionTaken,
                 $request->get('Comments')
@@ -239,8 +238,11 @@ class WorkflowController extends Controller
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
-            if ($e instanceof FuelRequisitionException
-                || $e instanceof WorkflowTaskCreationFailedException) {
+            if ($e instanceof ServiceRequisitionException
+                || $e instanceof WorkflowTaskCreationFailedException
+                || $e instanceof MaterialRequisitionException
+                || $e instanceof MaterialReservationException
+            ) {
                 $message = $e->getMessage();
             }
 

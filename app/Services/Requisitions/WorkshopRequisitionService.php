@@ -14,6 +14,7 @@ use App\Events\RequisitionRaised;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\InvalidArticleType;
 use App\Exceptions\MaterialReservationException;
+use App\Exceptions\ServiceRequisitionException;
 use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
@@ -514,29 +515,22 @@ class WorkshopRequisitionService
 
         foreach ($requisitionPostRequest->get("items") as $item) {
             $query = DB::table("$articles");
-            $item_type_code = $requisitionPostRequest->itemType;
+            $itemTypeCode = $requisitionPostRequest->itemType;
 
-            switch ($item_type_code) {
-                case RequisitionItemTypes::STOCK_ITEM_CODE:
-                    $query->where(function ($q) use ($itemType, $articles) {
-                        $q->whereIn("$articles.code_group",
-                            ["01", "04", "30"]);
-                    });
-
-                    break;
-                case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
-                    $query->where(function ($q) use ($itemType, $articles) {
-                        $q->where("$articles.code_group", "=", "40");
-                    });
-
-                    break;
-                case RequisitionItemTypes::SERVICE_ITEM_CODE:
-                    $query->where(function ($q) use ($itemType, $articles) {
-                        $q->where("$articles.code_group", "=", "41")
-                            ->where("$articles.code_subgroup", "=", "02");
-                    });
-
-                    break;
+            if ($itemTypeCode == RequisitionItemTypes::STOCK_ITEM_CODE) {
+                $query->where(function ($q) use ($articles) {
+                    $q->whereIn("$articles.code_group",
+                        ["01", "04", "30"]);
+                });
+            } elseif ($itemTypeCode == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
+                $query->where(function ($q) use ($articles) {
+                    $q->where("$articles.code_group", "=", "40");
+                });
+            } elseif ($itemTypeCode == RequisitionItemTypes::SERVICE_ITEM_CODE) {
+                $query->where(function ($q) use ($articles) {
+                    $q->where("$articles.code_group", "=", "41")
+                        ->where("$articles.code_subgroup", "=", "02");
+                });
             }
 
             $count = $query
@@ -546,10 +540,14 @@ class WorkshopRequisitionService
 
             if ($count == 0) {
                 $message = "Article @articleCode is not a @itemType";
-                $articleType = $itemType == RequisitionItemTypes::STOCK_ITEM
-                    ? "Stock Item"
-                    : ($itemType == RequisitionItemTypes::NON_STOCK_ITEM
-                        ? "Non Stock Item " : "Service");
+                $articleType = '';
+                if ($itemType == RequisitionItemTypes::STOCK_ITEM) {
+                    $articleType = "Stock Item";
+                } elseif ($itemType == RequisitionItemTypes::NON_STOCK_ITEM) {
+                    $articleType = "Non Stock Item";
+                } elseif ($itemType == RequisitionItemTypes::SERVICE) {
+                    $articleType = "Service";
+                }
 
                 throw new MaterialReservationException(
                     str_replace("@itemType", $articleType,
@@ -565,6 +563,7 @@ class WorkshopRequisitionService
                     "gen_material_details.req_no")
                 ->where("gen_material_details.material_code", "=", $item["service_article"])
                 ->where("gen_material_details.reg_no", "=", $registrationNumber)
+                ->where("gen_material_headers.is_fuel", "=", 'N')
                 ->whereIn("gen_material_headers.status", [
                     StatusHelper::new(),
                     StatusHelper::authorised(),
@@ -645,7 +644,7 @@ class WorkshopRequisitionService
             [
                 "form_order" => $formOrder,
                 "job_card_no" => $joCardNumber,
-                "item_type_code" => $item_type_code,
+                "item_type_code" => $itemTypeCode,
                 "workshop_reference" => $workshopReference,
                 "workshop_code" => $workshopCode,
                 "request_date" => Carbon::now(),
@@ -879,14 +878,15 @@ class WorkshopRequisitionService
 
         return response()->json([
             "success" => true,
-            "message" => "Reservation " . $purchaseProcessReference . " Generated and submitted to the next authority for Authorisation",
+            "message" => "Reservation $purchaseProcessReference Generated and
+            submitted to the next authority for Authorisation",
             "redirectUrl" => URL::signedRoute("list.workshop.requisition"),
         ]);
     }
 
 
     /**
-     * @throws FuelRequisitionException
+     * @throws MaterialReservationException
      */
     public function createWorkshopMaterialStoresReservation(mixed $req_no): mixed
     {
@@ -916,11 +916,11 @@ class WorkshopRequisitionService
 
 
         if (empty($results)) {
-            throw new FuelRequisitionException(ErrorMessages::getMessage('err_0022'));
+            throw new MaterialReservationException(ErrorMessages::getMessage('err_0022'));
         }
 
         if (!str_starts_with($results, "J02")) {
-            throw new FuelRequisitionException($results);
+            throw new MaterialReservationException($results);
         }
 
 
@@ -932,7 +932,7 @@ class WorkshopRequisitionService
     }
 
     /**
-     * @throws FuelRequisitionException
+     * @throws ServiceRequisitionException
      */
     public function createWorkshopNonStockPurchaseProcess($workshop_reference): mixed
     {
@@ -958,11 +958,11 @@ class WorkshopRequisitionService
         }
 
         if (empty($results)) {
-            throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
+            throw new ServiceRequisitionException("Purchase Process Could Not Be Started ");
         }
 
         if (!str_starts_with($results, "N01")) {
-            throw new FuelRequisitionException($results);
+            throw new ServiceRequisitionException($results);
         }
 
         self::updateStPur($requisitionDetail->req_no, $results);
@@ -974,10 +974,11 @@ class WorkshopRequisitionService
 
     /**
      * @throws FuelRequisitionException
+     * @throws ServiceRequisitionException
      */
-    public function createWorkshopServicePurchaseProcess(mixed $workshop_reference): mixed
+    public function createWorkshopServicePurchaseProcess(mixed $workshopReference): mixed
     {
-        $requisitionDetail = self::getReservationDetail($workshop_reference);
+        $requisitionDetail = self::getReservationDetail($workshopReference);
 
         $materialHeader = WorkShopMaterialHeader::where("form_order", "=", $requisitionDetail->form_order)
             ->where("item_type_code", "=", RequisitionItemTypes::SERVICE_ITEM_CODE)
@@ -985,7 +986,7 @@ class WorkshopRequisitionService
 
         if (!empty($materialHeader)) {
             $results = $this->procurementService->createPurchaseProcess(
-                $workshop_reference,
+                $workshopReference,
                 $requisitionDetail->veh_reg_no,
                 $requisitionDetail->form_order,
                 Accounts::MOTOR_VEHICLE_MAINTENANCE_ACCOUNT,
@@ -996,13 +997,13 @@ class WorkshopRequisitionService
             );
         } else {
             $results = $this->procurementService->createPurchaseProcessBooking(
-                $workshop_reference,
+                $workshopReference,
                 $requisitionDetail->form_order
             );
         }
 
         if (empty($results)) {
-            throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
+            throw new ServiceRequisitionException("Purchase Process Could Not Be Started ");
         }
 
         if (!str_starts_with($results, "N01")) {
@@ -1017,16 +1018,19 @@ class WorkshopRequisitionService
     }
 
 
-    public function getWorkShopReservationDetails(mixed $req_no): array
+    public function getWorkShopReservationDetails(mixed $requisitionNumber): array
     {
         $articles = config("tables.table_names.articles");
 
         // "GEN_MATERIAL_HEADERS.*",
         $header = DB::table("GEN_MATERIAL_HEADERS")
-            ->where("GEN_MATERIAL_HEADERS.req_no", $req_no)
-            ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
+            ->where("GEN_MATERIAL_HEADERS.req_no", $requisitionNumber)
+            ->leftJoin("CONFIG_STATUSES",
+                "GEN_MATERIAL_HEADERS.status",
+                "=", "CONFIG_STATUSES.code")
             ->where("CONFIG_STATUSES.MODULE", "=", "MAT")
-            ->select("GEN_MATERIAL_HEADERS.*", "CONFIG_STATUSES.name as status_name", "CONFIG_STATUSES.color_code")
+            ->select("GEN_MATERIAL_HEADERS.*",
+                "CONFIG_STATUSES.name as status_name", "CONFIG_STATUSES.color_code")
             ->get();
 
         $detail = DB::table("GEN_MATERIAL_HEADERS")
@@ -1034,15 +1038,11 @@ class WorkshopRequisitionService
                 "GEN_MATERIAL_HEADERS.req_no",
                 "=",
                 "GEN_MATERIAL_DETAILS.req_no")
-            //->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
             ->leftJoin("$articles", "GEN_MATERIAL_DETAILS.MATERIAL_CODE",
                 "=", "$articles.CODE_ARTICLE")
-            //->where("CONFIG_STATUSES.MODULE", "=", "MAT")
-            ->where("GEN_MATERIAL_DETAILS.req_no", $req_no)
+            ->where("GEN_MATERIAL_DETAILS.req_no", $requisitionNumber)
             ->select("GEN_MATERIAL_DETAILS.*",
                 "$articles.description"
-            //"CONFIG_STATUSES.name as status_name",
-            //"CONFIG_STATUSES.color_code"
             )
             ->get();
 
@@ -1050,13 +1050,18 @@ class WorkshopRequisitionService
 
     }
 
-    public function getReservationDetail($req_no): mixed
+    public function getReservationDetail($requisitionNumber): mixed
     {
         $results = DB::table("GEN_MATERIAL_HEADERS")
-            ->where("GEN_MATERIAL_HEADERS.req_no", $req_no)
-            ->join("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
-            ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
-            ->where("CONFIG_STATUSES.MODULE", "=", "MAT")
+            ->where("GEN_MATERIAL_HEADERS.req_no", $requisitionNumber)
+            ->join("GEN_MATERIAL_DETAILS",
+                "GEN_MATERIAL_HEADERS.req_no",
+                "=", "GEN_MATERIAL_DETAILS.req_no")
+            ->leftJoin("CONFIG_STATUSES",
+                "GEN_MATERIAL_HEADERS.status",
+                "=", "CONFIG_STATUSES.code")
+            ->where("CONFIG_STATUSES.MODULE",
+                "=", "MAT")
             ->select(
                 "GEN_MATERIAL_HEADERS.*",
                 "GEN_MATERIAL_DETAILS.*",
@@ -1109,7 +1114,10 @@ class WorkshopRequisitionService
 
         return DB::table('WM_WORKSHOP_SERVICES services')
             ->where("wshp_act_code", "=", $workShopActCode)
-            ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")
+            ->leftJoin("$articles",
+                "$articles.CODE_ARTICLE",
+                "=",
+                "services.mat_code")
             ->where(DB::raw("substr(services.mat_code, 0, 2)"), '=', '41')
             ->where("services.evaluation", '=', "Y")
             ->select(
