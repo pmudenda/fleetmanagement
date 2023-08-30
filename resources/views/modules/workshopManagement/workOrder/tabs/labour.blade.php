@@ -159,7 +159,7 @@
                                         <option></option>
                                     </select>
                                 </div>
-                                <select name="defect"
+                                <select name="assignedDefectId"
                                         required
                                         disabled
                                         data-value="{{$defect->defect_code}}"
@@ -172,16 +172,8 @@
                                        class="form-control form-control-sm"
                                        autocapitalize="characters"
                                        id="mechanic"
+                                       list="mechanics"
                                        name="mechanic"/>
-                                {{--<div class="input-group">
-                                    <div class="input-group-addon">
-                                        <button type="button" id="mechanicSearchBtn"
-                                                name="mechanicSearchBtn"
-                                                class="btn btn-success btn-sm border-radius-0">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>--}}
                             </td>
                             <td>
                                 <input type="text"
@@ -192,7 +184,7 @@
                             </td>
                             <td>
                                 <div class="input-group date">
-                                    <input type="text"
+                                    <input type="date"
                                            required
                                            name="dateOfWork"
                                            id="dateOfWork"
