@@ -357,7 +357,8 @@
                                           action="{{ route('user.update') }}">
                                         @csrf
                                         <div class="form-group row">
-                                            <label for="inputName" class="col-sm-2 col-form-label field-required">Name:</label>
+                                            <label for="inputName"
+                                                   class="col-sm-2 col-form-label field-required">Name:</label>
                                             <div class="col-sm-10">
                                                 <input type="text"
                                                        class="form-control"
@@ -367,8 +368,9 @@
                                                        @endif
                                                        required
                                                        placeholder="Name"
-                                                       value="{{ $user->name }}">
-                                                <input type="hidden" id="userId" name="userId" required value="{{ $user->id}}">
+                                                       value="{{ $mechanic->name }}">
+                                                <input type="hidden" id="userId" name="userId" required
+                                                       value="{{ $mechanic->id}}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -381,7 +383,7 @@
                                                            readonly
                                                        @endif
                                                        required
-                                                       placeholder="Email" value="{{ $user->email }}">
+                                                       placeholder="Email" value="{{ $mechanic->email }}">
                                             </div>
                                         </div>
 
@@ -395,7 +397,7 @@
                                                            readonly
                                                        @endif
                                                        placeholder="extension"
-                                                       value="{{ $user->extension }}"/>
+                                                       value="{{ $mechanic->extension }}"/>
                                             </div>
                                         </div>
 
@@ -404,7 +406,7 @@
                                                 Code</label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="job_code"
-                                                       placeholder="job_code" value="{{ $user->job_code }}">
+                                                       placeholder="job_code" value="{{ $mechanic->job_code }}">
                                             </div>
                                         </div>--}}
 
@@ -415,15 +417,15 @@
                                             <div class="col-sm-10">
                                                 <select id="user_unit_new" class="form-control user_unit_new"
                                                         name="user_unit_new">
-                                                    <option value="{{ $user->user_unit->id ?? '' }} ">
-                                                        {{ $user->user_unit->user_unit_description ?? '' }}
+                                                    <option value="{{ $mechanic->user_unit->id ?? '' }} ">
+                                                        {{ $mechanic->user_unit->user_unit_description ?? '' }}
                                                         :
-                                                        {{ $user->user_unit->user_unit_code ?? 'Please Select User Unit' }}
+                                                        {{ $mechanic->user_unit->user_unit_code ?? 'Please Select User Unit' }}
                                                     </option>
                                                     Auth::user()->type_id == config('constants.user_types.developer')
-                                                    @if (Auth::user()->id == $user->id ||
+                                                    @if (Auth::user()->id == $mechanic->id ||
                                                          \App\Helpers\Authorise::hasDeveloperUserType(Auth::user()))
-                                                        @foreach ($user_unit_new as $item)
+                                                        @foreach ($mechanic_unit_new as $item)
                                                             <option value="{{ $item->id }}">
                                                                 {{ $item->user_unit_description }}
                                                                 : {{ $item->user_unit_code }}
@@ -446,7 +448,7 @@
                                                            readonly
                                                        @endif
                                                        placeholder="Staff No"
-                                                       value="{{ $user->staff_no }}">
+                                                       value="{{ $mechanic->staff_no }}">
                                             </div>
                                         </div>
 
@@ -462,7 +464,7 @@
                                                         id="area"
                                                         name="area">
                                                     @foreach(Area::get() as $area)
-                                                        @if($area->area == $user->area_code)
+                                                        @if($area->area == $mechanic->area_code)
                                                             <option value="{{$area->area}}">{{$area->description}}</option>
                                                         @else
                                                             <option value="{{$area->area}}">{{$area->description}}</option>
@@ -484,7 +486,7 @@
                                                                    readonly
                                                                @endif
                                                                name="staff_supervisor"
-                                                               value="{{$user->supervisor_name ?? ''}}"
+                                                               value="{{$mechanic->supervisor_name ?? ''}}"
                                                                data-bs-toggle="modal"
                                                                autocomplete="off"
                                                                data-bs-target="#searchEmployeeModal"
@@ -493,7 +495,7 @@
                                                                class="form-control form-control-sm"/>
 
                                                         <input type="hidden"
-                                                               value="{{$user->supervisor_code ?? ''}}"
+                                                               value="{{$mechanic->supervisor_code ?? ''}}"
                                                                data-assignmenttype="single"
                                                                data-inputfield="staff_supervisorId"
                                                                id="staff_supervisorId"
@@ -540,11 +542,13 @@
                                                         @if(!$allowUpdate)
                                                             disabled
                                                         @endif
-                                                        class="@if($allowUpdate) form-select form-select-sm @else form-control  @endif"
+                                                        class="@if($allowUpdate)
+                                                        form-select form-select-sm
+                                                        @else form-control@endif"
                                                         required>
                                                     <option value>--Choose Profile--</option>
                                                     @foreach ($roles as $groupName)
-                                                        @if($groupName->id == $user->roles()->first()->id)
+                                                        @if($groupName->id == $mechanic->roles()->first()->id)
                                                             <option selected
                                                                     value="{{$groupName->id}}">{{$groupName->description}}</option>
                                                         @else
