@@ -101,7 +101,7 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function closedJobCard(Request $request): View
+    public function viewClosedJobCards(Request $request): View
     {
         $this->verifyRequestSignature($request);
 

@@ -310,11 +310,18 @@ class WorkshopService
             ->leftJoin("CONFIG_GENERAL_TABLES",
                 "header.receiving_section",
                 "=", "CONFIG_GENERAL_TABLES.code")
-            ->leftJoin("CONFIG_GENERAL_TABLES as config", "header.repair_type", "=", "config.code")
-            ->leftJoin("CONFIG_WORKSHOP", "header.receiving_section", "=", "CONFIG_WORKSHOP.workshop_code")
-            ->where("CONFIG_GENERAL_TABLES.type", "=", ConfigurationTypes::WORK_SHOP_SECTION)
-            ->where("config.type", "=", ConfigurationTypes::REPAIR_TYPE)
-            ->whereNull("header.date_out")
+            ->leftJoin("CONFIG_GENERAL_TABLES as config",
+                "header.repair_type",
+                "=",
+                "config.code")
+            ->leftJoin("CONFIG_WORKSHOP",
+                "header.receiving_section",
+                "=", "CONFIG_WORKSHOP.workshop_code")
+            ->where("CONFIG_GENERAL_TABLES.type",
+                "=", ConfigurationTypes::WORK_SHOP_SECTION)
+            ->where("config.type", "=",
+                ConfigurationTypes::REPAIR_TYPE)
+            ->whereNull("header.status", '=', $status)
             ->select("header.*",
                 "CONFIG_WORKSHOP.workshop_name",
                 "config.name as repair_type_name",
