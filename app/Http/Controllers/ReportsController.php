@@ -37,22 +37,26 @@ class ReportsController extends Controller
 
     public function getFuelCost(Request $request): JsonResponse
     {
-        $year = $request->get('year') ?? Carbon::now()->year;
-        $cost_by_year = DB::table('zfm_fuel_cost')
+        $query = DB::table('zfm_fuel_cost');
+
+        $cost_by_year = $query
             ->select(DB::raw('SUM(ttl) as cost, year, fuel_type'))
             ->groupBy('year', 'fuel_type')
             ->get();
 
-        $data = []; /*FuelCost::get()
-            ->where('year', '=', '2023')
-            ->where('month', '=', '04')
-            ->paginate(10);*/
+        $cost_by_unit = $query
+            ->select(DB::raw('SUM(ttl) as cost, year, fuel_req_unit'))
+            ->groupBy('year', 'fuel_req_unit')
+            ->get();
+
+        $data = [];
 
         return response()->json([
             'state' => 'success',
             'payload' => [
                 'data' => $data,
-                'costByYear' => $cost_by_year
+                'costByYear' => $cost_by_year,
+                'costByUnit' => $cost_by_unit
             ]
         ]);
     }
