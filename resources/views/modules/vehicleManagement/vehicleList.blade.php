@@ -45,40 +45,29 @@
                              data-parent="#accordionExample">
                             <div class="card-body px-0">
                                 <div class="list-qbe">
-                                    {{--<div class="sys-list-filter-head">
-                                        <span class="lbl">Filter:</span>
-                                        <select class="list-selector">
-                                            <option>My Default Filter</option>
-                                        </select>
-                                        <a class="sys-button show-border margin-left font34"
-                                           style="cursor: pointer;">
-                                            <i class="fa fa-pencil"></i>
-                                            <span>Hide Filter</span>
-                                        </a>
-                                    </div>--}}
                                     <div class="qbeinner" style="">
                                         <div class="qbe-toolbar" style="visibility: visible;">
-                                            <a class="toolbarbutton">
-                                                <i class="fa fa-save"></i>
-                                                Save</a>
-                                            <a class="toolbarbutton">
-                                                <i class="fa fa-save"></i>
-                                                Save As
-                                            </a>
-                                            <a class="toolbarbutton">
-                                                <i class="fa fa-trash-o"></i>
-                                                Delete
-                                            </a>
-                                            <a class="toolbarbutton">
+                                            {{-- <a class="toolbarbutton">
+                                                 <i class="fa fa-save"></i>
+                                                 Save</a>
+                                             <a class="toolbarbutton">
+                                                 <i class="fa fa-save"></i>
+                                                 Save As
+                                             </a>
+                                             <a class="toolbarbutton">
+                                                 <i class="fa fa-trash-o"></i>
+                                                 Delete
+                                             </a>--}}
+                                            <a class="btn btn-success btn-sm toolbarbutton">
                                                 <i class="fa fa-undo"></i>
                                                 Reset
                                             </a>
-                                            <a class="toolbarbutton">
+                                            <a class="btn btn-success btn-sm toolbarbutton">
                                                 <i class="fa fa-thumbs-down"></i>
                                                 Clear
                                             </a>
-                                            <a class="toolbarbutton listrefreshbutton">
-                                                <i class="fa fa-search"></i>
+                                            <a class="btn btn-success btn-sm toolbarbutton listrefreshbutton">
+                                                <i class="fa fa-hand-grab-o"></i>
                                                 Get
                                                 Records
                                             </a>
@@ -184,9 +173,9 @@
                                             </div>
                                             <div data-qbefield="dateopened"
                                                  class="qbefield">
-                                               {{-- <i class="fa fa-remove"
-                                                   title="Remove this field"
-                                                   style="cursor:pointer;"></i>--}}
+                                                {{-- <i class="fa fa-remove"
+                                                    title="Remove this field"
+                                                    style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel"
                                                     title="Date Opened">
@@ -240,8 +229,8 @@
                                                     id="dp1675929085276">
                                             </div>
                                             <div data-qbefield="tasksubject" class="qbefield">
-                                               {{-- <i class="fa fa-remove" title="Remove this field"
-                                                   style="cursor:pointer;"></i>--}}
+                                                {{-- <i class="fa fa-remove" title="Remove this field"
+                                                    style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Subject">Subject
                                                 </label>
@@ -268,9 +257,9 @@
                                             </span>
                                             </div>
                                             <div data-qbefield="assigneeuser" class="qbefield">
-                                               {{-- <i class="fa fa-remove"
-                                                   title="Remove this field"
-                                                   style="cursor:pointer;"></i>--}}
+                                                {{-- <i class="fa fa-remove"
+                                                    title="Remove this field"
+                                                    style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Assignee">
                                                     Assignee
