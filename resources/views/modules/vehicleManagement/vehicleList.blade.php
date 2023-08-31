@@ -85,7 +85,7 @@
                                             </a>
                                         </div>
 
-                                        <div class="">
+                                        <div class="d-flex">
                                             <div data-qbefield="systemname"
                                                  class="qbefield">
                                                 {{--<i class="fa fa-remove"
