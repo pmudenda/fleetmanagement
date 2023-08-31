@@ -9,6 +9,9 @@
         .qbefield {
             margin-right: 23px;
         }
+        .qbeoperator{
+            margin-top: 10px;
+        }
     </style>
 @endpush
 @section('content')
