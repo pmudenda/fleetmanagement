@@ -101,7 +101,9 @@
                                             </button>
                                         </div>
                                     </td>
-
+                                    <td>
+                                        <input type="text" name="observation[]" class="form-control">
+                                    </td>
                                     <td>
                                         <button type="button"
                                                 data-table-id="observations"

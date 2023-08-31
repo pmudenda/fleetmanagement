@@ -7,6 +7,7 @@ use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccidentRecordingRequest;
 use App\Models\Accident;
+use App\Models\Common\File;
 use App\Models\Settings\GeneralTable;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -15,6 +16,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
@@ -39,6 +41,28 @@ class AccidentRecordingController extends Controller
         return view("modules.accidentReporting.create")
             ->with(compact(
                 'minDate'
+            ));
+    }
+
+    public function show(Request $request): View
+    {
+        $accident = Accident::where('reference', '=', $request->get('reference'))->first();
+
+        $files = File::where('reference_number', '=', $request->get('reference'))->get();
+
+        return view("modules.accidentReporting.show")
+            ->with(compact(
+                'accident',
+                'files'
+            ));
+    }
+
+    public function list(Request $request): View
+    {
+        $accidents = Accident::paginate(100);
+        return view("modules.accidentReporting.list")
+            ->with(compact(
+                'accidents',
             ));
     }
 
