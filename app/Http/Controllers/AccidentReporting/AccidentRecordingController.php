@@ -46,6 +46,7 @@ class AccidentRecordingController extends Controller
 
     public function show(Request $request): View
     {
+        $minDate = Carbon::now()->subtract('year', 10);
         $accident = Accident::where('reference', '=', $request->get('reference'))->first();
 
         $files = File::where('reference_number', '=', $request->get('reference'))->get();
@@ -53,6 +54,7 @@ class AccidentRecordingController extends Controller
         return view("modules.accidentReporting.show")
             ->with(compact(
                 'accident',
+                'minDate',
                 'files'
             ));
     }
