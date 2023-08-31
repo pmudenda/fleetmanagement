@@ -56,14 +56,11 @@
                                 <div class="list-qbe">
                                     <div class="qbeinner" style="">
                                         <div class="qbe-toolbar" style="visibility: visible;">
-                                            <a class="btn btn-danger btn-sm toolbarbutton">
+                                            <a class="btn btn-danger btn-sm toolbarbutton mr-3">
                                                 <i class="fa fa-undo"></i>
                                                 Reset
                                             </a>
-                                            {{--<a class="btn btn-success btn-sm toolbarbutton">
-                                                <i class="fa fa-thumbs-down"></i>
-                                                Clear
-                                            </a>--}}
+
                                             <a class="btn btn-success btn-sm toolbarbutton listrefreshbutton">
                                                 <i class="fa fa-hand-grab-o"></i>
                                                 Get
@@ -74,7 +71,11 @@
                                         <div class="d-flex">
                                             <div data-qbefield="systemname"
                                                  class="qbefield">
-                                                <label class="qbefieldlabel" title="Module">BRAND</label>
+                                                <label for="brand"
+                                                       class="qbefieldlabel"
+                                                       title="Module">
+                                                    BRAND
+                                                </label>
                                                 <div class="qbeoperator">
                                                     <select name="brand"
                                                             class="qbeoperator form-select form-select-sm">
@@ -92,14 +93,15 @@
                                                         <option value="18">not in</option>
                                                     </select>
                                                 </div>
-                                                <input type="text"
+                                                {{--<input type="text"
                                                        class="qbeinput qbeinputin"
-                                                       style=""/>
+                                                       style=""/>--}}
                                             </div>
                                             <div data-qbefield="tasknumber"
                                                  class="qbefield">
                                                 <label
-                                                    class="qbefieldlabel" title="Task #">Task #
+                                                    class="qbefieldlabel" title="Task #">
+                                                    TYPE
                                                 </label>
                                                 <div class="qbeoperator">
                                                     <select
