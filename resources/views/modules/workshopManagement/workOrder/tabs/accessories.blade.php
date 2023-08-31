@@ -13,8 +13,8 @@
             <div class="row">
                 <div class="col">
                     <table aria-label="Accessories Table 2"
-                           role="none"
-                            class="table table-row-dashed align-middle gs-0 table-bordered">
+                           role="table"
+                           class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
                             <th scope="row" class="pl-2">Item</th>
@@ -48,9 +48,9 @@
                 </div>
                 <div class="col">
                     <table
-                            aria-label="Accessories Table 2"
-                            role="none"
-                            class="table table-row-dashed align-middle gs-0 table-bordered">
+                        aria-label="Accessories Table 2"
+                        role="table"
+                        class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
                             <th scope="row" class="pl-2">Item</th>
@@ -90,8 +90,8 @@
                 <div class="col">
                     <div class="form-group">
                         <label
-                                class="col-xs-12 col-sm-6 col-md-6 col-lg-6 pl-0"
-                                for="accessoriesRemarks">
+                            class="col-xs-12 col-sm-6 col-md-6 col-lg-6 pl-0"
+                            for="accessoriesRemarks">
                             General Comments and Observation (Damages):
                         </label>
                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -100,7 +100,9 @@
                                           id="accessoriesRemarks"
                                           name="accessoriesRemarks"
                                           style="height: 129px;"
-                                          class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
+                                          class="form-control form-control-sm">
+                                    {{$comments->where('type','=','ACC')->first()->remarks ??''}}
+                                </textarea>
                             @else
                                 <textarea type="text"
                                           id="accessoriesRemarks"
@@ -116,12 +118,14 @@
                     <div class="row">
                         <div class="table-responsive" style="max-height:500px;">
                             <table data-model-name="Observations"
-                                   class="table table-striped" id="observations">
+                                   role="table"
+                                   class="table table-striped"
+                                   id="observations">
                                 <thead>
                                 <tr class="bg-success">
-                                    <th>Attachment</th>
-                                    <th>Remarks</th>
-                                    <th></th>
+                                    <th scope="row" >Attachment</th>
+                                    <th scope="row" >Remarks</th>
+                                    <th scope="row" ></th>
                                 </tr>
                                 </thead>
                                 <tbody>

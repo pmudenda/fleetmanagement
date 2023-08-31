@@ -76,10 +76,67 @@ class AccidentRecordingController extends Controller
                 'driver_experience' => $request->validated('experience'),
             ]);
 
+            if ($request->hasFile('insurance_report')) {
+                $this->fileUploadService->uploadFile(
+                    $request,
+                    'insurance_report',
+                    'VehicleAccident',
+                    $reference,
+                    'Insurance Report',
+                    'Report',
+                    $user
+                );
+            }
+
             if ($request->hasFile('accident_rpt')) {
                 $this->fileUploadService->uploadFile(
                     $request,
-                    'accident_rpt',
+                    'police_report',
+                    'VehicleAccident',
+                    $reference,
+                    'Police Report',
+                    'Report',
+                    $user
+                );
+            }
+
+            if ($request->hasFile('front_view')) {
+                $this->fileUploadService->uploadFile(
+                    $request,
+                    'front_view',
+                    'VehicleAccident',
+                    $reference,
+                    'Police Report',
+                    'Report',
+                    $user
+                );
+            }
+            if ($request->hasFile('rear_view')) {
+                $this->fileUploadService->uploadFile(
+                    $request,
+                    'rear_view',
+                    'VehicleAccident',
+                    $reference,
+                    'Police Report',
+                    'Report',
+                    $user
+                );
+            }
+            if ($request->hasFile('right_view')) {
+                $this->fileUploadService->uploadFile(
+                    $request,
+                    'right_view',
+                    'VehicleAccident',
+                    $reference,
+                    'Police Report',
+                    'Report',
+                    $user
+                );
+            }
+            if ($request->hasFile('left_view')) {
+                $this->fileUploadService->uploadFile(
+                    $request,
+                    'left_view',
                     'VehicleAccident',
                     $reference,
                     'Police Report',

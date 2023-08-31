@@ -56,7 +56,6 @@
                     @include('modules.accidentReporting.tabs.accidentDetail')
 
 
-
                 </form>
 
                 <input type="hidden"
@@ -74,11 +73,52 @@
         <script src="{{asset("libs/steps/jquery.steps.min.js")}}"></script>
         <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
         <script>
+            const observationRowTemplate = `<tr>
+                                    <td>
+                                        <p>
+                                            <button type="button" title="Select Image"
+                                                    data-toggle="tooltip"
+                                                    data-select="file"
+                                                    class="btn btn-primary btn-sm selectAttachment">
+                                                <i class="fas fa-paperclip"></i>
+                                            </button>
+                                            <input type="file"
+                                                   accept="image/*"
+                                                   style="display: none;"
+                                                   class="fileElem d-none"
+                                                   id="attachment"
+                                                   name="attachment[]"/>
+                                        </p>
+                                        <div class="imagePreview"
+                                             style="display: none; min-height: 100px !important;">
+                                            <button type="button"
+                                                    class="btn btn-xs clearImage"
+                                                    style="top: 1px;
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="observation[]" class="form-control">
+                                    </td>
+                                    <td>
+                                        <button type="button"
+                                                data-table-id="observations"
+                                                class="btn btn-sm btn-danger"
+                                                value="deleteRow">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>`;
             (function (tmsApp, $) {
 
                 new tmsApp.fileUploader().makeSingleFileUploader();
 
-                new ImageUpload().init();
+                new ImageUpload().initRow();
 
                 function initializeFormWizard() {
                     let formWizard = $('#my-form');
@@ -165,6 +205,18 @@
                 $(function () {
                     initializeFormWizard()
                 });
+
+                function insertTableRow(tableId) {
+
+                    const $table = $('table#' + tableId);
+                    if (tableId === "observations") {
+                        //const materialTableRowTemplate = document.querySelector('#materialTableRowTemplate');
+                        $table.find('tbody').append(observationRowTemplate);
+                    }
+                    let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
+
+                    lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+                }
 
                 function displayVehicleDetails(payload) {
                     let vehicle = payload['vehicle'];
@@ -402,8 +454,12 @@
                         tmsApp.numberOnly(e);
                     })
 
+                    $(document).on('click', 'button[value="insertRow"][data-table-id]', function () {
+                        let tableId = $(this).data('tableId');
+                        insertTableRow(tableId);
+                    });
 
-                    $("#vehicleClear").click(function () {
+                    $(document).on('click', "#vehicleClear", function () {
 
                         let vehicleModel = document.getElementById("modelNo")
                         let vehicleMake = document.getElementById("vehicleMake")

@@ -3,7 +3,8 @@
         <div class="row">
             <div class="row">
                 <div class="col pl-0">
-                    <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
+                    <label for="inspectionDate"
+                           class="fs-6 fw-semibold form-label field-required col-md-5"
                            style="padding-right: 0px;">
                         Police Report:
                         <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
@@ -21,7 +22,8 @@
                     <canvas style="display: none;" id="motor_vehicle_certificatePdfViewer"></canvas>
                 </div>
                 <div class="col">
-                    <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
+                    <label for="inspectionDate"
+                           class="fs-6 fw-semibold form-label reqd col-md-5"
                            style="padding-right: 0px;">
                         Insurance Report:
                         <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
@@ -30,7 +32,6 @@
                     <div class="col-md-7 fv-row">
                         <div class="col-md-9 pl-0">
                             <input type="file" accept="image/*,.pdf"
-                                   required
                                    id="insurance_report"
                                    class="filer_input"
                                    name="insurance_report"/>
@@ -42,130 +43,221 @@
             </div>
         </div>
     </div>
-    <div class="row mt-5 mb-10 create_mode">
-        <div class="col-md-3">
-            <div class="card text-center py-5 my-2 pt-0">
-                <h2 class="fs-2x fw-bold mb-5">Front View</h2>
-                <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                <div class="form-group">
-                    <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
-                       class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                        <button type="button"
-                                data-select="file"
-                                data-input="selectFrontViewFile"
-                                class="upload-file btn btn-sm btn-primary me-2">
-                            <i class="fas fa-cloud-arrow-up"></i> Select Image
-                        </button>
-                        <input type="file" accept="image/*"
-                               style="display: none;"
-                               class="fileElem"
-                               name="front_view"/>
-                    </p>
-                    <div class="imagePreview" style="display: none;">
-                        <button type="button"
-                                class="btn btn-xs clearImage"
-                                style="top: 1px;
-                                            position: relative;
-                                            right: 1px;
-                                            float: right;
-                                            padding: 2px;">
-                            <i class="fa fa-window-close" style="font-size: 20px;"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card-px text-center py-5 my-2 pt-0">
-                <h2 class="fs-2x fw-bold mb-5">Rear View</h2>
-                <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                <div class="form-group">
-                    <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
-                       class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                        <button type="button"
-                                data-select="file"
-                                class="upload-file btn btn-sm btn-primary me-2">
-                            <i class="fas fa-cloud-arrow-up"></i> Select Image
-                        </button>
-                        <input type="file" accept="image/*"
-                               style="display: none;"
-                               class="fileElem"
-                               name="rear_view"/>
-                    </p>
+    {{-- <div class="row mt-5 mb-10 create_mode">
+         <div class="col-md-3">
+             <div class="card text-center py-5 my-2 pt-0">
+                 <h2 class="fs-2x fw-bold mb-5">Front View</h2>
+                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
+                 <div class="form-group">
+                     <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
+                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                         <button type="button"
+                                 data-select="file"
+                                 data-input="selectFrontViewFile"
+                                 class="upload-file btn btn-sm btn-primary me-2">
+                             <i class="fas fa-cloud-arrow-up"></i> Select Image
+                         </button>
+                         <input type="file" accept="image/*"
+                                style="display: none;"
+                                class="fileElem"
+                                name="front_view"/>
+                     </p>
+                     <div class="imagePreview" style="display: none;">
+                         <button type="button"
+                                 class="btn btn-xs clearImage"
+                                 style="top: 1px;
+                                             position: relative;
+                                             right: 1px;
+                                             float: right;
+                                             padding: 2px;">
+                             <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                         </button>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <div class="col-md-3">
+             <div class="card-px text-center py-5 my-2 pt-0">
+                 <h2 class="fs-2x fw-bold mb-5">Rear View</h2>
+                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
+                 <div class="form-group">
+                     <p
+                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                         <button type="button"
+                                 data-select="file"
+                                 class="upload-file btn btn-sm btn-primary me-2">
+                             <i class="fas fa-cloud-arrow-up"></i> Select Image
+                         </button>
+                         <input type="file" accept="image/*"
+                                style="display: none;"
+                                class="fileElem"
+                                name="rear_view"/>
+                     </p>
 
-                    <div class="imagePreview" style="display: none;">
-                        <button type="button"
-                                class="btn btn-xs clearImage" style="top: 1px;
-                                            position: relative;
-                                            right: 1px;
-                                            float: right;
-                                            padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                     <div class="imagePreview" style="display: none;">
+                         <button type="button"
+                                 class="btn btn-xs clearImage" style="top: 1px;
+                                             position: relative;
+                                             right: 1px;
+                                             float: right;
+                                             padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
+                         </button>
+                     </div>
+                 </div>
+             </div>
+         </div>
 
-        <div class="col-md-3">
-            <div class="card text-center py-5 my-2 pt-0">
-                <h2 class="fs-2x fw-bold mb-5">Right View</h2>
-                <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                <div class="form-group">
-                    <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
-                       class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                        <button type="button"
-                                data-select="file"
-                                data-input="selectFrontViewFile"
-                                class="upload-file btn btn-sm btn-primary me-2">
-                            <i class="fas fa-cloud-arrow-up"></i> Select Image
-                        </button>
-                        <input type="file" accept="image/*"
-                               style="display: none;"
-                               class="fileElem"
-                               name="right_view"/>
-                    </p>
-                    <div class="imagePreview" style="display: none;">
-                        <button type="button"
-                                class="btn btn-xs clearImage" style="top: 1px;
-                                            position: relative;
-                                            right: 1px;
-                                            float: right;
-                                            padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center py-5 my-2 pt-0">
-                <h2 class="fs-2x fw-bold mb-5">Left View</h2>
-                <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                <div class="form-group">
-                    <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
-                       class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                        <button type="button"
-                                data-select="file"
-                                data-input="selectFrontViewFile"
-                                class="upload-file btn btn-sm btn-primary me-2">
-                            <i class="fas fa-cloud-arrow-up"></i> Select Image
-                        </button>
-                        <input type="file" accept="image/*"
-                               style="display: none;"
-                               class="fileElem"
-                               name="left_view"/>
-                    </p>
-                    <div class="imagePreview" style="display: none;">
-                        <button type="button"
-                                class="btn btn-xs clearImage" style="top: 1px;
-                                            position: relative;
-                                            right: 1px;
-                                            float: right;
-                                            padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                        </button>
-                    </div>
+         <div class="col-md-3">
+             <div class="card text-center py-5 my-2 pt-0">
+                 <h2 class="fs-2x fw-bold mb-5">Right View</h2>
+                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
+                 <div class="form-group">
+                     <p
+                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                         <button type="button"
+                                 data-select="file"
+                                 data-input="selectFrontViewFile"
+                                 class="upload-file btn btn-sm btn-primary me-2">
+                             <i class="fas fa-cloud-arrow-up"></i> Select Image
+                         </button>
+                         <input type="file" accept="image/*"
+                                style="display: none;"
+                                class="fileElem"
+                                name="right_view"/>
+                     </p>
+                     <div class="imagePreview" style="display: none;">
+                         <button type="button"
+                                 class="btn btn-xs clearImage" style="top: 1px;
+                                             position: relative;
+                                             right: 1px;
+                                             float: right;
+                                             padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
+                         </button>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <div class="col-md-3">
+             <div class="card text-center py-5 my-2 pt-0">
+                 <h2 class="fs-2x fw-bold mb-5">Left View</h2>
+                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
+                 <div class="form-group">
+                     <p
+                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                         <button type="button"
+                                 data-select="file"
+                                 data-input="selectFrontViewFile"
+                                 class="upload-file btn btn-sm btn-primary me-2">
+                             <i class="fas fa-cloud-arrow-up"></i> Select Image
+                         </button>
+                         <input type="file" accept="image/*"
+                                style="display: none;"
+                                class="fileElem"
+                                name="left_view"/>
+                     </p>
+                     <div class="imagePreview" style="display: none;">
+                         <button type="button"
+                                 class="btn btn-xs clearImage" style="top: 1px;
+                                             position: relative;
+                                             right: 1px;
+                                             float: right;
+                                             padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
+                         </button>
+                     </div>
 
-                </div>
-            </div>
-        </div>
+                 </div>
+             </div>
+         </div>
+     </div>--}}
+
+    <div class="table-responsive" style="max-height:500px;">
+        <table data-model-name="Observations"
+               role="table"
+               class="table table-striped"
+               id="observations">
+            <thead>
+            <tr class="bg-success">
+                <th scope="row">Attachment</th>
+                <th scope="row">Remarks</th>
+                <th scope="row"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if($observation->isNotEmpty())
+                @foreach($observation as $item)
+                    <tr data-record-id="{{$item->id}}">
+                        <td>
+                            <div class="imagePreview"
+                                 style="min-height: 100px !important; background-image: url('/storage{{$item->image_path}}'); display: block; background-size: cover">
+                            </div>
+                        </td>
+                        <td>
+                            <input type="text"
+                                   value="{{$item->remarks}}"
+                                   readonly
+                                   class="form-control">
+                        </td>
+                        <td>
+                            {{--<button type="button"
+                                    data-table-id="observations"
+                                    class="btn btn-sm btn-danger"
+                                    value="deleteRow">
+                                <i class="fa fa-trash"></i>
+                            </button>--}}
+                        </td>
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td>
+                        <p>
+                            <button type="button" title="Select Image"
+                                    data-toggle="tooltip"
+                                    data-select="file"
+                                    class="btn btn-primary btn-sm selectAttachment">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <input type="file"
+                                   accept="image/*"
+                                   style="display: none;"
+                                   class="fileElem"
+                                   id="attachment"
+                                   name="attachment[]"/>
+                        </p>
+                        <div class="imagePreview"
+                             style="display: none; min-height: 100px !important;">
+                            <button type="button"
+                                    class="btn btn-xs clearImage"
+                                    style="top: 1px;
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" name="observation[]" class="form-control">
+                    </td>
+                    <td>
+                        <button type="button"
+                                data-table-id="observations"
+                                class="btn btn-sm btn-danger"
+                                value="deleteRow">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            @endif
+            </tbody>
+        </table>
+        <button type="button"
+                data-table-id="observations"
+                class="btn btn-sm btn-primary add pull-right"
+                value="insertRow">
+            <i class="fa fa-plus"></i> Add Row
+        </button>
+
     </div>
 </section>
