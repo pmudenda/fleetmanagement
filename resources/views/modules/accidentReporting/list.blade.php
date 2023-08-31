@@ -53,48 +53,49 @@
                                        class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th>Reference</th>
                                         <th>Reg. No.</th>
                                         <th>Description</th>
-                                        <th>Staff Number</th>
-                                        <th>Workshop</th>
-                                        <th>Section</th>
-                                        <th>Workshop Supervisor</th>
+                                        <th>Driver</th>
+                                        <th>Date Acc.</th>
+                                        <th>Date Rpt.</th>
+                                        <th>Nature</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {{dd($accidents)}}
                                     @foreach($accidents as $key =>$accident)
                                         <tr>
                                             <td>
-                                                {{++$key}}
+                                                {{$accident->reference}}
                                             </td>
                                             <td>
+                                                {{$accident->vehicle_reg_no}}
                                             </td>
                                             <td>
-
+                                                {{$accident->driver}}
                                             </td>
                                             <td>
-
-                                            </td>
-
-                                            <td>
-
-                                            </td>
-                                            <td>
-
-                                            </td>
-                                            <td>
-
-                                            </td>
-                                            <td>
-
+                                                {{$accident->date_of_accident}} : {{$accident->time_of_accident}}
                                             </td>
 
                                             <td>
-
+                                                {{$accident->date_reported}} : {{$accident->time_reported}}
+                                            </td>
+                                            <td>
+                                                {{$accident->nature_of_accident}}
+                                            </td>
+                                            <td>
+                                                {{$accident->type_of_accident}}
+                                            </td>
+                                            <td>
+                                                <a href="{{URL::signedRoute('accident.show', [
+                                                    'reference'=>$accident->reference
+                                                    ])}}"
+                                                   class="btn btn-sm btn-success m-1">
+                                                    <i class="fas fa-eye">Details</i>
+                                                </a>
                                             </td>
 
                                         </tr>
