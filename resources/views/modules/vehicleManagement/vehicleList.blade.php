@@ -77,7 +77,7 @@
                                                     BRAND
                                                 </label>
                                                 <div class="qbeoperator">
-                                                    <select name="brand"
+                                                    <select name="brand" multiple
                                                             class="qbeoperator form-select form-select-sm">
                                                         <option value="is">is</option>
                                                         <option value="isnot">is not</option>
