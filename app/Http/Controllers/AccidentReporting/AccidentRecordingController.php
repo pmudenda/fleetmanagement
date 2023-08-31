@@ -88,7 +88,7 @@ class AccidentRecordingController extends Controller
                 );
             }
 
-            if ($request->hasFile('accident_rpt')) {
+            if ($request->hasFile('police_report')) {
                 $this->fileUploadService->uploadFile(
                     $request,
                     'police_report',
@@ -100,47 +100,14 @@ class AccidentRecordingController extends Controller
                 );
             }
 
-            if ($request->hasFile('front_view')) {
+            if ($request->hasFile('attachment')) {
                 $this->fileUploadService->uploadFile(
                     $request,
-                    'front_view',
+                    'attachment',
                     'VehicleAccident',
                     $reference,
-                    'Police Report',
-                    'Report',
-                    $user
-                );
-            }
-            if ($request->hasFile('rear_view')) {
-                $this->fileUploadService->uploadFile(
-                    $request,
-                    'rear_view',
-                    'VehicleAccident',
-                    $reference,
-                    'Police Report',
-                    'Report',
-                    $user
-                );
-            }
-            if ($request->hasFile('right_view')) {
-                $this->fileUploadService->uploadFile(
-                    $request,
-                    'right_view',
-                    'VehicleAccident',
-                    $reference,
-                    'Police Report',
-                    'Report',
-                    $user
-                );
-            }
-            if ($request->hasFile('left_view')) {
-                $this->fileUploadService->uploadFile(
-                    $request,
-                    'left_view',
-                    'VehicleAccident',
-                    $reference,
-                    'Police Report',
-                    'Report',
+                    'Accident Pictures',
+                    'Accident Pictures',
                     $user
                 );
             }

@@ -49,12 +49,12 @@
                 <table data-model-name="Observations"
                        aria-label="accident attachments"
                        role="table"
-                       class="table table-striped"
+                       class="table table-striped table-bordered"
                        id="observations">
                     <thead>
                     <tr class="bg-success">
                         <th scope="row">Attachment</th>
-                        <th scope="row">Remarks</th>
+                        <th scope="row">Remarks(Description)</th>
                         <th scope="row"></th>
                     </tr>
                     </thead>
@@ -80,10 +80,10 @@
                                 <button type="button"
                                         class="btn btn-xs clearImage"
                                         style="top: 1px;
-                                                                                                    position: relative;
-                                                                                                    right: 1px;
-                                                                                                    float: right;
-                                                                                                    padding: 2px;">
+                                        position: relative;
+                                        right: 1px;
+                                        float: right;
+                                        padding: 2px;">
                                     <i class="fa fa-window-close" style="font-size: 20px;"></i>
                                 </button>
                             </div>
