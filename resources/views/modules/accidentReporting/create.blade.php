@@ -573,7 +573,7 @@
                                                 <div class="form-group row">
                                                     <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_no">
+                                                            for="assignedTo">
                                                         Assigned To :
                                                     </label>
 
@@ -830,7 +830,7 @@
                           ${vehicle['model_code']}`;
                     let row = `<div class="row">
                                <div class="col">
-                                    <strong>Make</strong>
+                                    <strong>Make:</strong>
                                </div>
                                <div class="col" id="make">
                                     ${vehicle['brand_name']}
@@ -846,13 +846,17 @@
                                     </div>
                                </div>
                                <div class="row">
-                                    <div class="col-6">Type</div>
+                                    <div class="col-6">
+                                        <strong>Type</strong>
+                                    </div>
                                     <div class="col-6" id="registration">
                                        ${vehicle['body_type_name']}
                                     </div>
                                 </div>
                                 <div class="row">
-                                     <div class="col"></div>
+                                     <div class="col">
+                                        <strong>Status</strong>
+                                    </div>
                                     <div class="col" id="registration">
                                     ${vehicle['status_name']}
                                     </div>
