@@ -207,24 +207,24 @@
                 let years = [];
                 let productValue = [];
 
-                for (const datum of window['costByYear']) {
+                for (const datum of window['data']) {
 
                     if (legendData.indexOf(datum['fuel_type']) === -1) {
                         legendData.push(datum['fuel_type']);
                     }
 
                     if (valueObject.hasOwnProperty(datum['fuel_type'])) {
-                        valueObject[datum['fuel_type']] += parseFloat(datum['cost']);
+                        valueObject[datum['fuel_type']] += parseFloat(datum['ttl']);
                     } else {
-                        valueObject[datum['fuel_type']] = parseFloat(datum['cost']);
+                        valueObject[datum['fuel_type']] = parseFloat(datum['ttl']);
                     }
 
                     let obj = productValue[datum.fuel_type] ?? {};
                     obj['product'] = datum['fuel_type'];
                     if (obj[datum['year']]) {
-                        obj[datum['year']] += parseFloat(datum['cost']);
+                        obj[datum['year']] += parseFloat(datum['ttl']);
                     } else {
-                        obj[datum['year']] = parseFloat(datum['cost']);
+                        obj[datum['year']] = parseFloat(datum['ttl']);
                     }
                     productValue[datum['fuel_type']] = obj;
 
@@ -267,13 +267,8 @@
         (function (appInstance) {
             appInstance.initDatatable("#listTable", false);
 
-            fetch($('[name="fuelExpenseReport"]').val())
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                })
-                .then((response) => {
+            $.getJSON($('[name="fuelExpenseReport"]').val())
+                .done((response) => {
                     if (response.state !== 'success') {
                         return;
                     }
@@ -283,7 +278,7 @@
                     //fuelExpensesByVehicle();
                     fuelExpenseTotalsByType();
                     fuelExpensesByYear();
-                }).catch(function () {
+                }).fail(function (xhr) {
             })
 
         })(window.tmsApp || {});

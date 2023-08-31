@@ -337,35 +337,38 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <table aria-label="Documents Table"
-                           id="filterProperty" class="table">
-                        <tbody>
-                        <tr>
-                            <td>
-                                <select class="form-select" name="property">
-                                    <option value="" disabled>--Select--</option>
-                                    <option value="userUnit">User Unit</option>
-                                    <option value="workshopSection">Section</option>
-                                    <option value="workshop">Workshop</option>
-                                    <option value="dateIn">Date In</option>
-                                    <option value="dateOut">Date Out</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" name="operator">
-                                    <option value="=">Is</option>
-                                    <option value="<>">Is not</option>
-                                    <option value=">">Is After</option>
-                                    <option value="<">Is Before</option>
-                                </select>
-                            </td>
-                            <td>
+                    <div id="filterProperty"
+                         class="table">
+                        <div class="row">
+                            <div class="col">
+                                <label>
+                                    <select class="form-select" name="property">
+                                        <option value="" disabled>--Select--</option>
+                                        <option value="userUnit">User Unit</option>
+                                        <option value="workshopSection">Section</option>
+                                        <option value="workshop">Workshop</option>
+                                        <option value="dateIn">Date In</option>
+                                        <option value="dateOut">Date Out</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="col">
+                                <label>
+                                    <select class="form-select" name="operator">
+                                        <option value="=">Is</option>
+                                        <option value="<>">Is not</option>
+                                        <option value=">">Is After</option>
+                                        <option value="<">Is Before</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="col">
                                 <select class="form-select" name="filterValue">
                                 </select>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                            </div>
+                        </div>
+
+                    </div>
                     <button type="button"
                             data-table-id="filterProperty"
                             class="btn btn-sm btn-primary add pull-left"
@@ -407,7 +410,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-group">
-                                <label class="app-field-label">
+                                <label for="userIdentifier" class="app-field-label">
                                     User
                                     <span class="text-danger">*</span>
                                 </label>
