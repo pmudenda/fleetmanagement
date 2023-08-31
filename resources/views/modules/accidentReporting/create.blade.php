@@ -284,11 +284,13 @@
                         success: function (response) {
                             if (response.success === 'true' || response.success) {
                                 const driverDetails = response.payload;
-                                let driverName = document.getElementById("driver_name")
-                                let yearsOfActivity = document.getElementById("yearsOfActivity")
+
                                 $('[name="job_title"]').val(driverDetails?.job_title);
-                                driverName.value = driverDetails.name;
-                                yearsOfActivity.value = getYearsDifferenceFromNow(driverDetails.license_date_issued)
+
+                                $("#driver_name").val(driverDetails.name);
+
+                                $('[name="experience"]')
+                                    .val(getYearsDifferenceFromNow(driverDetails.license_date_issued));
                                 tmsApp.showSystemMessage('Driver Search', response.message, null, 'success')
 
                             } else {
@@ -385,7 +387,7 @@
                         "mask": "A{2,3} 9{1,4}"
                     }).mask("#registrationNo");
 
-                    $(document).on('keypress', '.numberOnly', function (e){
+                    $(document).on('keypress', '.numberOnly', function (e) {
                         tmsApp.numberOnly(e);
                     })
 

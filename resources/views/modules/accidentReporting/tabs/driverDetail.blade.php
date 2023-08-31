@@ -98,16 +98,16 @@
                                 <label
                                     class="col-xs-12 col-sm-6 col-md-5
                                                         col-lg-4 app-field-label field-required"
-                                    for="yearsOfActivity">
+                                    for="experience">
                                     Experience(Years):
                                 </label>
                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                     <div class="input-group">
                                         <input type="text"
                                                class="form-control form-control-sm"
-                                               id="yearsOfActivity"
+                                               id="experience"
                                                value=""
-                                               name="yearsOfActivity"
+                                               name="experience"
                                                required>
                                     </div>
                                 </div>
