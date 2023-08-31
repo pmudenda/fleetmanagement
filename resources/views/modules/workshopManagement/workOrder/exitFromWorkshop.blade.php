@@ -88,7 +88,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
+                                                                class="col-xs-12 col-sm-6
+                                                                col-md-5 col-lg-4 app-field-label pl-0"
                                                                 for="staff_no">
                                                             JOB CARD NUMBER:
                                                         </label>
@@ -473,7 +474,9 @@
                                     <div id="vehicleDetailsContainer" style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12 pl-0">
                                         <h1>Vehicle Details</h1>
-                                        <table aria-label="vehicle details" class="table table-striped">
+                                        <table role="none"
+                                               aria-label="vehicle details"
+                                               class="table table-striped">
                                             <tbody id="vehicleDetails" class="vehicleDetails">
                                             </tbody>
                                         </table>
@@ -751,11 +754,14 @@
                                                                                     form-select-sm
                                                                                     workshopSection">
                                                                                 <option></option>
-                                                                                @foreach($workshop_sections as $workshop_section)
-                                                                                    @if($defect->section_code == $workshop_section->code)
-                                                                                        <option
-                                                                                                selected
-                                                                                                value="{{$workshop_section->code}}">
+                                                                                @foreach($workshop_sections
+                                                                                    as $workshop_section)
+                                                                                    @if($defect->section_code
+                                                                                        == $workshop_section->code)
+                                                                                        <option selected
+                                                                                                value="{{
+                                                                                                $workshop_section->code
+                                                                                            }}">
                                                                                             {{$workshop_section->name}}
                                                                                         </option>
                                                                                     @else
@@ -801,24 +807,27 @@
                                                                   readonly
                                                                   name="remarks"
                                                                   class="form-control form-control-sm">
-                                                            {{$comments->where('type','=','DEF')->first()->remarks ??''}}
+                                                            {{
+    $comments->where('type','=','DEF')->first()->remarks ??''
+    }}
                                                         </textarea>
                                                     @endif
                                                 </div>
-                                                <table class="mt-10">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td class="text-right">
-                                                            <strong id="srfTotal" class="input-number">Prepared
-                                                                By:</strong>
-                                                        </td>
-                                                        <td>
-                                                            <b id="section" class="input-number">RECEPTION</b>
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                                                <div class="mt-10">
+                                                    <div>
+                                                        <div class="row">
+                                                            <div class="col-3 text-right">
+                                                                <strong id="srfTotal" class="input-number">
+                                                                    Prepared By:
+                                                                </strong>
+                                                            </div>
+                                                            <div class="col-3 text-left">
+                                                                <b id="section" class="input-number">RECEPTION</b>
+                                                            </div>
+                                                            <div></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1356,7 +1365,8 @@
                                                                                class="form-control form-control-sm"
                                                                                id="request_date"
                                                                                readonly
-                                                                               value="{{Carbon::parse($details->date_in)->format('d/m/Y')}}"
+                                                                               value="{{Carbon::parse($details->date_in)
+->format('d/m/Y')}}"
                                                                                name="request_date"
                                                                                required>
                                                                     @else
@@ -1364,7 +1374,8 @@
                                                                                class="form-control form-control-sm"
                                                                                id="request_date"
                                                                                readonly
-                                                                               value="{{Carbon::parse(Carbon::now())->format('d/m/Y')}}"
+                                                                               value="{{Carbon::parse(Carbon::now())
+->format('d/m/Y')}}"
                                                                                name="request_date"
                                                                                required>
                                                                     @endif
@@ -1612,7 +1623,10 @@
                                                                       name="service_comments"
                                                                       style="height: 129px;"
                                                                       class="form-control
-                                                                      comments form-control-sm">{{$comments->where('type','=','SREQ')->first()->remarks ??''}}</textarea>
+                                                                      comments form-control-sm">
+                                                                {{$comments->where('type','=','SREQ')
+                                                                    ->first()->remarks ??''}}
+                                                            </textarea>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -1841,7 +1855,9 @@
 
                             $($row).find('[name="mechanicName"]').val(response?.payload['mechanic'].name);
                             $($row).find('[name="postCode"]').val(response?.payload['employee']['job_code']);
-                            $($row).find('[name="workshopSection"]').val(response?.payload['mechanic']['section_code']).change();
+                            $($row).find('[name="workshopSection"]')
+                                .val(response?.payload['mechanic']['section_code'])
+                                .change();
                         } else {
                             //removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(
@@ -2387,7 +2403,8 @@
                             * tmsApp.getFloat($(element).closest("tr")
                                 .find("input[name=service_unit_price]").val());
 
-                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceLineAmountTotal);//.change();
+                        $(element).closest("tr").find("input[name=service_total_price]")
+                            .val(serviceLineAmountTotal);
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(serviceLineAmountTotal));
                         break;
 

@@ -21,9 +21,9 @@
 @endpush
 @section('content')
     <x-content-header
-        :activeCrumb="'New Accident'"
-        :linkText="'Report'"
-        :pageTitle="'Accident Reporting'"/>
+            :activeCrumb="'New Accident'"
+            :linkText="'Report'"
+            :pageTitle="'Accident Reporting'"/>
     <section class="content">
         <div class="card">
             <div class="card-header">
@@ -61,8 +61,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                        for="staff_no">Registration #:
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_no">Registration #:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <div class="input-group">
@@ -116,8 +116,9 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                        for="staff_no">
+                                                            class="col-xs-12 col-sm-6
+                                                            col-md-5 col-lg-4 field-required"
+                                                            for="staff_no">
                                                         Assigned To :
                                                     </label>
 
@@ -162,8 +163,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                        for="mileage">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mileage">
                                                         Odometer :
                                                     </label>
                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -196,8 +197,9 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                    for="staff_no">Date Reported:
+                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                        col-lg-4 app-field-label field-required"
+                                                        for="staff_no">Date Reported:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                     <div class="input-group">
@@ -225,8 +227,8 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label
-                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                    for="job_card_no">
+                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                        for="job_card_no">
                                                     Time Reported:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -234,7 +236,8 @@
                                                         <input type="text"
                                                                readonly
                                                                value="{{Carbon::now()->format('H:i:s')}}"
-                                                               class="form-control form-control-sm when_valid number_input"
+                                                               class="form-control
+                                                               form-control-sm when_valid number_input"
                                                                id="timeIn"
                                                                name="timeIn"
                                                         />
@@ -259,13 +262,12 @@
                                         <div id="vehicleDetailsContainer" style="display: none;"
                                              class="col-xs-12 col-sm-12 col-md-12 pl-0">
                                             <h1>Vehicle Details</h1>
-                                            <table role="table"
-                                                   aria-label="Vehicle Details"
-                                                   class="table table-striped">
-                                                <thead></thead>
-                                                <tbody id="vehicleDetails" class="vehicleDetails">
-                                                </tbody>
-                                            </table>
+                                            <div role="table"
+                                                 aria-label="Vehicle Details"
+                                                 class="table table-striped">
+                                                <div id="vehicleDetails" class="vehicleDetails">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -285,7 +287,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="ownerAddress">Type of Accident*:</label>
+                                    <label for="accidentType">Type of Accident*:</label>
                                     <select id="accidentType" name="accidentType" class="form-control required">
                                         <option value="none">Select Incident type</option>
                                     </select>
@@ -297,7 +299,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="ownerAddress">Nature of accident*:</label>
+                                <label for="accidentNature">Nature of accident*:</label>
                                 <select id="accidentNature" name="accidentNature" class="form-control required">
                                     <option value="none">Select Incident Nature</option>
                                 </select>
@@ -309,8 +311,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="peopleInvolved">Number of people involved:</label>
-                                    <input name="peopleInvolved" type="number" class="form-control required"
-                                           id="peopleInvolved" placeholder="Enter Number of people Involved" required>
+                                    <input name="peopleInvolved"
+                                           type="number"
+                                           class="form-control required"
+                                           id="peopleInvolved"
+                                           placeholder="Enter Number of people Involved"
+                                           required/>
                                 </div>
                                 @error('peopleInvolved')
                                 <p>{{$message}}</p>
@@ -321,7 +327,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="vehicleMake">Other People Involved:</label>
-                                    <select name="other_people_involved" type="text" class="form-control disableVehicle"
+                                    <select name="other_people_involved"
+                                            type="text"
+                                            class="form-control disableVehicle"
                                             id="insurance_state" required>
                                         <option selected disabled>-- Select --</option>
                                         <option value="YES">Yes</option>
@@ -337,12 +345,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="num_passengers">Number of Passengers:</label>
-                                    <input name="num_passengers" type="number" class="form-control required"
-                                           id="num_passengers" placeholder="Enter Number of Passengers" required>
+                                    <input name="num_passengers"
+                                           type="number"
+                                           class="form-control required"
+                                           id="num_passengers"
+                                           placeholder="Enter Number of Passengers"
+                                           required/>
                                 </div>
                                 @error('num_passengers')
                                 <p>{{$message}}</p>
-
                                 @enderror
                             </div>
 
@@ -375,7 +386,6 @@
                                     </select>
                                     @error('property')
                                     <p>{{$message}}</p>
-
                                     @enderror
                                 </div>
                             </div>
@@ -397,7 +407,6 @@
                                 </div>
                                 @error('num_passengers')
                                 <p>{{$message}}</p>
-
                                 @enderror
                             </div>
 
@@ -408,7 +417,8 @@
                                            type="text"
                                            class="form-control required"
                                            id="location"
-                                           placeholder="Enter The Location Of The Accident" required>
+                                           placeholder="Enter The Location Of The Accident"
+                                           required/>
                                 </div>
                                 @error('peopleInvolved')
                                 <p>{{$message}}</p>
@@ -506,9 +516,9 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                            class="col-xs-12 col-sm-6 col-md-5
                                                         col-lg-4 app-field-label field-required"
-                                                        for="staff_no">Registration #:
+                                                            for="staff_no">Registration #:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <div class="input-group">
@@ -562,8 +572,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                        for="staff_no">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_no">
                                                         Assigned To :
                                                     </label>
 
@@ -608,8 +618,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                        for="mileage">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mileage">
                                                         Odometer :
                                                     </label>
                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -715,9 +725,9 @@
     <input type="hidden" value="{{route('accident.types')}}" id="accident_types_endpoint">
     <input type="hidden" value="{{route('accident.natures')}}" id="accident_natures_endpoint">
     @push('scripts')
-{{--
-        <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
---}}
+        {{--
+                <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
+        --}}
         <script src="{{asset("libs/steps/jquery.steps.min.js")}}"></script>
         <script>
             (function (tmsApp, $) {
@@ -817,21 +827,42 @@
                         return;
                     }
 
-                    let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
-                    let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
-                               <tr>
-                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
-                               </tr>
-                               <tr style="">
-                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
-                                </tr>
+                    let vLabel = `${vehicle['body_type_name']}
+                          ${vehicle['brand_name']}
+                          ${vehicle['model_name']}
+                          ${vehicle['model_code']}`;
+                    let row = `<div class="row">
+                               <div class="col-6">
+                                    <strong>Make</strong>
+                               </div>
+                               <div class="col-6" id="make">
+                                    ${vehicle['brand_name']}
+                               </div>
+                               </div>
+                               <div class="row">
+                                    <div class="col-6">
+                                        <strong>Model</strong>
+                                    </div>
+                                    <div class="col-6" id="model">
+                                        ${vehicle['model_name']}
+                                        ${vehicle['model_code']}
+                                    </div>
+                               </div>
+                               <div class="row">
+                                    <div class="col-6">Type</div>
+                                    <div class="col-6" id="registration">
+                                       ${vehicle['body_type_name']}
+                                    </div>
+                                </div>
                                 <tr style="">
                                      <th>State:</th><td id="registration">${vehicle['status_name']}</td>
                                 </tr>`;
 
                     document.querySelector('[name="type_brand_model"]').value = vLabel;
                     document.querySelector('[name="assignedTo"]').value = vehicle['business_unit_code'];
-                    document.querySelector('[name="assignedToDescription"]').value = vehicle['business_unit_code'] + ' : ' + vehicle['business_unit_name'];
+                    document.querySelector('[name="assignedToDescription"]')
+                        .value = vehicle['business_unit_code']
+                        + ' : ' + vehicle['business_unit_name'];
 
                     $('tbody#vehicleDetails').html(row);
                     document.querySelector('#vehicleDetailsContainer').style.display = null;
@@ -841,10 +872,10 @@
                             return image['file_type'] === 'Front View';
                         })
                         let imagePath = frontViewImages[0]?.path;
-                        document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
-
-                        document.querySelector('#image_view').style.display = null;
-
+                        document.querySelector(".imagePreview")
+                            .style.backgroundImage = "url(/storage" + imagePath + ")";
+                        document.querySelector('#image_view')
+                            .style.display = null;
                     }
                 }
 
@@ -887,7 +918,7 @@
                     // Convert the difference to years
                     const yearsDifference = difference_ms / (1000 * 60 * 60 * 24 * 365.25);
 
-                    return Math.floor(yearsDifference);
+                    return Math.floor(yearsDifference) * -1;
                 }
 
                 function fetchDriverDetails(searchCriteria, url) {
@@ -911,9 +942,8 @@
                                 let driverName = document.getElementById("driver_name")
                                 let yearsOfActivity = document.getElementById("yearsOfActivity")
 
-
                                 driverName.value = driverDetails.name;
-                                yearsOfActivity.value = getYearsDifferenceFromNow(driverDetails.license_date_issued) * -1
+                                yearsOfActivity.value = getYearsDifferenceFromNow(driverDetails.license_date_issued)
                                 tmsApp.showSystemMessage('Driver Search', response.message, null, 'success')
 
                             } else {
@@ -967,7 +997,9 @@
                             .catch(function (error) {
                                 // notify of error
                                 console.log(error)
-                                toastr.error('Connection error. Could not retrieve Organizational units data, some feature might not work.')
+                                toastr.error(
+                                    'Could not retrieve Organizational units data, some feature might not work.',
+                                    'Connection error.');
                             });
                     }
 
@@ -997,9 +1029,9 @@
                                 }
                             })
                             .catch(function (error) {
-                                // notify of error
-                                console.log(error)
-                                toastr.error('Connection error. Could not retrieve Organizational units data, some feature might not work.')
+                                toastr.error(
+                                    'Could not retrieve Organizational units data, some feature might not work.',
+                                    'Connection error.')
                             });
                     }
 
