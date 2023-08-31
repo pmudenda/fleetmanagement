@@ -9,7 +9,8 @@
         .qbefield {
             margin-right: 23px;
         }
-        .qbeoperator{
+
+        .qbeoperator {
             margin-top: 10px;
         }
     </style>
@@ -55,25 +56,14 @@
                                 <div class="list-qbe">
                                     <div class="qbeinner" style="">
                                         <div class="qbe-toolbar" style="visibility: visible;">
-                                            {{-- <a class="toolbarbutton">
-                                                 <i class="fa fa-save"></i>
-                                                 Save</a>
-                                             <a class="toolbarbutton">
-                                                 <i class="fa fa-save"></i>
-                                                 Save As
-                                             </a>
-                                             <a class="toolbarbutton">
-                                                 <i class="fa fa-trash-o"></i>
-                                                 Delete
-                                             </a>--}}
                                             <a class="btn btn-danger btn-sm toolbarbutton">
                                                 <i class="fa fa-undo"></i>
                                                 Reset
                                             </a>
-                                            <a class="btn btn-success btn-sm toolbarbutton">
+                                            {{--<a class="btn btn-success btn-sm toolbarbutton">
                                                 <i class="fa fa-thumbs-down"></i>
                                                 Clear
-                                            </a>
+                                            </a>--}}
                                             <a class="btn btn-success btn-sm toolbarbutton listrefreshbutton">
                                                 <i class="fa fa-hand-grab-o"></i>
                                                 Get
@@ -84,11 +74,7 @@
                                         <div class="d-flex">
                                             <div data-qbefield="systemname"
                                                  class="qbefield">
-                                                {{--<i class="fa fa-remove"
-                                                   title="Remove this field"
-                                                   style="cursor:pointer;">
-                                                </i>--}}
-                                                <label class="qbefieldlabel" title="Module">Brand</label>
+                                                <label class="qbefieldlabel" title="Module">BRAND</label>
                                                 <div class="qbeoperator">
                                                     <select name="brand"
                                                             class="qbeoperator form-select form-select-sm">
@@ -112,10 +98,6 @@
                                             </div>
                                             <div data-qbefield="tasknumber"
                                                  class="qbefield">
-                                                {{--<i class="fa fa-remove"
-                                                   title="Remove this field"
-                                                   style="cursor:pointer;">
-                                                </i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Task #">Task #
                                                 </label>
@@ -277,14 +259,12 @@
                                                 <input type="text" class="qbeinput qbeinputin" style="">
                                             </div>
                                             <div data-qbefield="datedue" class="qbefield">
-                                                {{--<i class="fa fa-remove" title="Remove this field"
-                                                   style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Date Due">
                                                     Date Due
                                                 </label>
                                                 <div class="qbeoperator">
-                                                    <select class="qbeoperator">
+                                                    <select class="qbeoperator form-select form-select-sm">
                                                         <option value="12">&gt;=</option>
                                                         <option value="11">&lt;=</option>
                                                         <option value="10">&gt;</option>
@@ -332,15 +312,12 @@
                                             </div>
                                             <div data-qbefield="datecompleted"
                                                  class="qbefield">
-                                                {{--<i class="fa fa-remove"
-                                                   title="Remove this field"
-                                                   style="cursor:pointer;"></i>--}}
                                                 <label class="qbefieldlabel"
                                                        title="Date Completed">
                                                     Date Completed
                                                 </label>
                                                 <div class="qbeoperator">
-                                                    <select class="qbeoperator">
+                                                    <select class="qbeoperator form-select form-select-sm">
                                                         <option value="12">&gt;=</option>
                                                         <option value="11">&lt;=</option>
                                                         <option value="10">&gt;</option>
@@ -395,7 +372,7 @@
                                                 <label
                                                     class="qbefieldlabel" title="Date Closed">Date Closed</label>
                                                 <div class="qbeoperator">
-                                                    <select class="qbeoperator">
+                                                    <select class="qbeoperator form-select form-select-sm">
                                                         <option value="12">&gt;=</option>
                                                         <option value="11">&lt;=</option>
                                                         <option value="10">&gt;</option>
@@ -446,7 +423,8 @@
                                                     class="qbefieldlabel" title="Action">
                                                     Action
                                                 </label>
-                                                <div class="qbeoperator"><select class="qbeoperator">
+                                                <div class="qbeoperator">
+                                                    <select class="qbeoperator form-select form-select-sm">
                                                         <option value="0">is</option>
                                                         <option value="16">is not</option>
                                                         <option value="1">starts with</option>
@@ -462,10 +440,6 @@
                                                     </select>
                                                 </div>
                                                 <input type="text" class="qbeinput qbeinputin" style="">
-                                                <span
-                                                    class="qbelabelin"
-                                                    style="display:none">(use ; to separate values)
-                                            </span>
                                             </div>
                                         </div>
 
@@ -648,7 +622,11 @@
                                             @if($vehicle->on_boarding_status == StatusHelper::onboardingComplete())
                                                 <li>
                                                     <a class="dropdown-item" data-kt-action="edit"
-                                                       href="{{URL::signedRoute('view.vehicle', ['step' => 6, 'reference' => $vehicle->header_id, 'edit'=> true])}}">
+                                                       href="{{URL::signedRoute('view.vehicle', [
+                                                        'step' => 6,
+                                                        'reference' => $vehicle->header_id,
+                                                        'edit'=> true
+                                                        ])}}">
                                                         Edit
                                                     </a>
                                                 </li>
@@ -666,7 +644,9 @@
                                             @if($vehicle->on_boarding_status != StatusHelper::onboardingComplete())
                                                 <li>
                                                     <a class="dropdown-item"
-                                                       href="{{URL::signedRoute('resume.onboarding',['reference' => $vehicle->header_id])}}">
+                                                       href="{{URL::signedRoute('resume.onboarding',[
+                                                        'reference' => $vehicle->header_id
+                                                        ])}}">
                                                         Complete Onboarding
                                                     </a>
                                                 </li>
