@@ -12,7 +12,9 @@ function getVehicleBrands() {
 
             let vehicleBrands = response['payload'];
             window.vehicleBrands = vehicleBrands;
-            tmsApp.populateDropDownList(selectElem, vehicleBrands, "code", ["name"], "");
+            window.tmsApp.populateDropDownList(selectElem,
+                vehicleBrands, "code",
+                ["name"], "");
 
             let brandCode = selectElem.attr('data-value');
 
