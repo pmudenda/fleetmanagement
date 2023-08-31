@@ -10,6 +10,7 @@
     <x-content-header :pageTitle="'Vehicle Register'"/>
     <section class="content">
         <div class="card">
+
             <div class="card-header">
                 <div class="card-title">
                     <button class="btn btn-primary btn-sm text-left"
@@ -32,14 +33,12 @@
                         </a>
                     </div>
                 </div>
-
             </div>
 
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <div class="accordion" id="accordionExample">
-                    <div class="card px-0">
-                        <div class="card-header" id="headingOne"></div>
+                    <div class="row">
                         <div id="collapseOne"
                              class="collapse"
                              aria-labelledby="headingOne"
