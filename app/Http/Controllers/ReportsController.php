@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\DataCleanUp;
 use App\Models\Reference\TMSDataCleanUp;
 use App\Services\VehicleManagement\VehicleDetailsService;
-use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -15,9 +14,16 @@ use Illuminate\Support\Facades\DB;
 
 class ReportsController extends Controller
 {
+    private VehicleDetailsService $vehicleDetailsService;
+
+    public function __construct(VehicleDetailsService $vehicleDetailsService,)
+    {
+        $this->vehicleDetailsService = $vehicleDetailsService;
+    }
+
     public function vehicleByStatus(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $vehicleData = VehicleDetailsService::getAllVehicles();
+        $vehicleData = $this->vehicleDetailsService->getAllVehicles();
         $tmsVehicleData = TMSDataCleanUp::get();
         $cleanVehicleData = DataCleanUp::get();
 

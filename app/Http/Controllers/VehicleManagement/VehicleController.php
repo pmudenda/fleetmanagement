@@ -48,7 +48,8 @@ class VehicleController extends Controller
 
             Log::info('reference is ' . $ref);
             if ($ref == 0) {
-                return redirect(route('vehicles.list'))->with(['error' => 'Missing Required Parameters']);
+                return redirect(route('vehicles.list'))
+                    ->with(['error' => 'Missing Required Parameters']);
             }
 
             Log::info('Fetching Vehicle Details ' . $ref);
@@ -241,8 +242,7 @@ class VehicleController extends Controller
 
     public function list(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $vehicleList = VehicleDetailsService::getAllVehicles();
-
+        $vehicleList = $this->vehicleDetailsService->getAllVehicles();
         return view('modules.vehicleManagement.vehicleList')
             ->with(compact('vehicleList'));
     }

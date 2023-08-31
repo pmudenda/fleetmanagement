@@ -20,7 +20,7 @@
         <div class="row g-12 g-xl-12" id="kt_app_main">
 
             <!--BEGIN:::VEHICLE HEADER -->
-{{--            @include('vehicleManagement.onboarding.tabs.save_header')--}}
+            {{--            @include('vehicleManagement.onboarding.tabs.save_header')--}}
             <!--END:::VEHICLE HEADER -->
 
             <!--BEGIN:::DETAILS  -->
@@ -93,7 +93,7 @@
 
                             <!--Begin:::Chassis Details Tab pane-->
                             <div class="tab-pane fade" id="tms_chassis_details_tab" role="tabpanel">
-                               {{-- @include('vehicleManagement.onboarding.tabs.chassis_tab')--}}
+                                {{-- @include('vehicleManagement.onboarding.tabs.chassis_tab')--}}
                             </div>
                             <!--End:::Chassis Details Tab pane-->
 
@@ -105,13 +105,13 @@
 
                             <!--Begin::: Costing And Valuation Tab pane-->
                             <div class="tab-pane fade" id="tms_costing_valuation_tab" role="tabpanel">
-                               {{-- @include('vehicleManagement.onboarding.tabs.cost_details_tab')--}}
+                                {{-- @include('vehicleManagement.onboarding.tabs.cost_details_tab')--}}
                             </div>
                             <!--End:::Tab pane-->
 
                             <!--Begin:::Body Weight Tab pane-->
                             <div class="tab-pane fade" id="tms_body_weight_tab" role="tabpanel">
-                               {{-- @include('vehicleManagement.onboarding.tabs.weight_details_tab')--}}
+                                {{-- @include('vehicleManagement.onboarding.tabs.weight_details_tab')--}}
                             </div>
                             <!--End::: Body WeightTab pane-->
 
@@ -142,10 +142,8 @@
     <script>
         window.reference = `{!! $reference !!}`;
     </script>
-    {{--<script src="{{ asset('assets/global/plugins.bundle.js') }}"></script>--}}
     <script src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <script
-        src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js').'?v='.Carbon::now()->format('his')}}"></script>
-    <script
-        src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
+    <script src="{{asset('application/modules/vehicleManagement/assets/js/lib.vehicle.data.js')}}"></script>
+    <script src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js')}}"></script>
+    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
 @endpush

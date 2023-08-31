@@ -77,25 +77,15 @@
                                                     BRAND
                                                 </label>
                                                 <div class="qbeoperator">
-                                                    <select name="brand" multiple
+                                                    <select name="brand"
+                                                            multiple
                                                             class="qbeoperator form-select form-select-sm">
-                                                        <option value="is">is</option>
-                                                        <option value="isnot">is not</option>
-                                                        <option value="startsWith">starts with</option>
-                                                        <option value="endsWith">ends with</option>
-                                                        <option value="contains">contains</option>
-                                                        <option value="doesntStartWith">does not start with</option>
-                                                        <option value="45">does not end with</option>
-                                                        <option value="46">does not contain</option>
-                                                        <option value="6">is empty</option>
-                                                        <option value="5">is not empty</option>
-                                                        <option value="17">in</option>
-                                                        <option value="18">not in</option>
+                                                        <option value=""></option>
+                                                        @foreach($brands as $brand)
+                                                            <option value="{{$brand->code}}">{{$brand->name}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
-                                                {{--<input type="text"
-                                                       class="qbeinput qbeinputin"
-                                                       style=""/>--}}
                                             </div>
 
                                             <div data-qbefield="tasknumber"

@@ -144,6 +144,7 @@
         window.reference = `{!! $reference !!}`;
     </script>
     <script src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <script src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js').'?v='.Carbon::now()->format('his')}}"></script>
-    <script src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
+    <script src="{{asset('application/modules/vehicleManagement/assets/js/lib.vehicle.data.js')}}"></script>
+    <script src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js')}}"></script>
+    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
 @endpush
