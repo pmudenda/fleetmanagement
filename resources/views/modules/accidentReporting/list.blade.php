@@ -65,6 +65,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    {{dd($accidents)}}
                                     @foreach($accidents as $key =>$accident)
                                         <tr>
                                             <td>
