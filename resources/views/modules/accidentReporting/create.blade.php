@@ -73,6 +73,10 @@
         <script>
             (function (tmsApp, $) {
 
+                new tmsApp.fileUploader().makeSingleFileUploader();
+
+                new ImageUpload().init();
+
                 function initializeFormWizard() {
                     let formWizard = $('#my-form');
 

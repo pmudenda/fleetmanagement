@@ -5,16 +5,16 @@
                 <div class="col pl-0">
                     <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
                            style="padding-right: 0px;">
-                        Motor Vehicle Certificate (White Book):
+                        Police Report:
                         <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
                     </label>
                     <div class="col-md-7 fv-row">
                         <div class="col-md-9 pl-0">
                             <input type="file" accept="image/*,.pdf"
                                    required
-                                   id="motor_vehicle_certificate"
+                                   id="police_report"
                                    class="filer_input"
-                                   name="motor_vehicle_certificate"/>
+                                   name="police_report"/>
                         </div>
                     </div>
 
@@ -23,7 +23,7 @@
                 <div class="col">
                     <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
                            style="padding-right: 0px;">
-                        Insurance Cover Note:
+                        Insurance Report:
                         <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
                     </label>
 
@@ -31,9 +31,9 @@
                         <div class="col-md-9 pl-0">
                             <input type="file" accept="image/*,.pdf"
                                    required
-                                   id="insurance_cover_note"
+                                   id="insurance_report"
                                    class="filer_input"
-                                   name="insurance_cover_note"/>
+                                   name="insurance_report"/>
                         </div>
                     </div>
 
