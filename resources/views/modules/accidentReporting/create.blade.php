@@ -69,6 +69,7 @@
     <input type="hidden" value="{{route('accident.natures')}}" id="accident_natures_endpoint">
     @push('scripts')
         <script src="{{asset("libs/steps/jquery.steps.min.js")}}"></script>
+        <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
         <script>
             (function (tmsApp, $) {
 

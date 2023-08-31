@@ -1193,22 +1193,6 @@
                     lastRow.find('#unit_price').text('');
                 }
 
-                if (tableId === "services_table") {
-                    // let row = lastRow[0];
-                    // $(row).find('.select2-container').remove();
-                    // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                    lastRow.find('[name="service_article"]').val('');
-                    // lastRow.find('[name="service_article"]')
-                    lastRow.find('[name="serviceArticleCode"]').val('');
-                    lastRow.find('[name="service_technical_specification"]').val('');
-                    lastRow.find('[name="service_unit_price"]').val('');
-                    lastRow.find('[name="service_unit_of_measure"]').val('');
-                    lastRow.find('[name="service_total_price"]').val('');
-                    // initServiceArticleSelector('.')
-                } else {
-
-                }
 
                 if (tableId === "part8") {
                     let row = lastRow[0];
@@ -1217,19 +1201,6 @@
                     reinitializeSelect2($_defect_sel);
                 }
 
-                if (tableId === "material_table") {
-                    let row = lastRow[0];
-                    $(row).find('.select2-container').remove();
-                    $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                    let article = $(row).find('input.articleCode').val();
-                    console.log('Article on line', article)
-                    let $_defect_sel = $(row).find(".articlesDropDownList");
-                    let $_defect_sel_ = $(row).find(".DropDownList");
-                    initArticleSelector($_defect_sel);
-                    initArticleSelector($_defect_sel_);
-                    //getArticleDetails(article, $_defect_sel);
-                }
             }
 
             function insertTableRow(tableId) {
