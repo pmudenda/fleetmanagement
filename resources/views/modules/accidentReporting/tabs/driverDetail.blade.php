@@ -72,7 +72,6 @@
                                         <input type="text"
                                                class="form-control form-control-sm"
                                                id="yearsOfActivity"
-                                               readonly
                                                value=""
                                                name="yearsOfActivity"
                                                required>
@@ -83,55 +82,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="container-fluid pl-0">
-                        <div class="row">
-                            <div class="form-group row">
-                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <div class="input-group">
-                                        <input type="text"
-                                               required
-                                               readonly
-                                               name="assignedToDescription"
-                                               class="form-control form-control-sm"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-
-            {{--<div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="container-fluid pl-0">
-                        <div class="row">
-                            <div class="form-group row">
-                                <label
-                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                    for="mileage">
-                                    Odometer :
-                                </label>
-                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                    <div class="input-group">
-                                        <input name="mileage"
-                                               type="text"
-                                               class="form-control"
-                                               id="mileage"
-                                               placeholder="Enter Current Odometer Reading"
-                                               required>
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">
-                                                <i class="fa fa-dashboard"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>--}}
         </div>
     </div>
 
