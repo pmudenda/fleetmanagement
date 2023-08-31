@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AccidentReporting\AccidentRecordingController;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ChargeOutRateController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
@@ -59,21 +58,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/error', function (Request $request) {
         return view('error')->with(['error' => $request->get('message')]);
     })->name('error');
-
-    Route::get('/accident/report', [AccidentRecordingController::class, 'create'])
-        ->name('accident.reporting');
-
-    Route::get('/accident/list', [AccidentRecordingController::class, 'list'])
-        ->name('accident.list');
-
-    Route::get('/accident/types', [AccidentRecordingController::class, 'getAccidentTypes'])
-        ->name('accident.types');
-
-    Route::get('/accident/natures', [AccidentRecordingController::class, 'getAccidentNatures'])
-        ->name('accident.natures');
-
-    Route::post('/accident/save/report', [AccidentRecordingController::class, 'store'])
-        ->name('accident.store');
 
     Route::post('getStatus', [UsersController::class, 'getStatus'])->name('session.status');
 

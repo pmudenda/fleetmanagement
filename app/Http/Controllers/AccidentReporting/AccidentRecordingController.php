@@ -15,7 +15,9 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 
 class AccidentRecordingController extends Controller
 {
@@ -45,8 +47,10 @@ class AccidentRecordingController extends Controller
         try {
             $user = auth()->user();
 
+            DB::beginTransaction();
             $reference = $this->numberGeneratorService->generateReferenceNumber(
-                 WorkflowModules::ACCIDENT_REPORT);
+                WorkflowModules::ACCIDENT_REPORT);
+
             Accident::create([
                 'reported_by' => $user->staff_no,
                 'reference' => $reference,
@@ -73,7 +77,8 @@ class AccidentRecordingController extends Controller
             ]);
 
             if ($request->hasFile('accident_rpt')) {
-                $this->fileUploadService->uploadFile($request,
+                $this->fileUploadService->uploadFile(
+                    $request,
                     'accident_rpt',
                     'VehicleAccident',
                     $reference,
@@ -83,8 +88,13 @@ class AccidentRecordingController extends Controller
                 );
             }
 
+            DB::commit();
+
             return response()->json([
                 'state' => 'success',
+                'redirectUrl' => URL::signedRoute('accident.show', [
+                    'reference' => $reference
+                ]),
                 'message' => 'Successfully Recorded An Accident',
             ]);
         } catch (\Exception $e) {

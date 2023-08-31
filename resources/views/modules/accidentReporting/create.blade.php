@@ -45,11 +45,14 @@
                     <h3 class="step-top step1-top">Vehicle Details</h3>
                     @include('modules.accidentReporting.tabs.vehicleDetails')
 
-                    <h3 class="step-top step2-top">Accident Details</h3>
-                    @include('modules.accidentReporting.tabs.accidentDetail')
-
                     <h3 class="step-top step3-top">Driver Details</h3>
                     @include('modules.accidentReporting.tabs.driverDetail')
+
+                    <h3 class="step-top step3-top">Accident Details</h3>
+                    @include('modules.accidentReporting.tabs.accidentDetail')
+
+                    <h3 class="step-top step4-top">Attachments</h3>
+                    @include('modules.accidentReporting.tabs.attachments')
 
                 </form>
 
@@ -114,7 +117,7 @@
                                     if (response.state === 'success') {
 
                                         tmsApp.showSystemMessage('Accident Recording', response.message, function () {
-                                            window.location.reload();
+                                            window.location.href = response['redirectUrl'];
                                         }, 'success')
                                     } else {
                                         tmsApp.showSystemMessage('Accident Recording', response.message, null, 'error');
