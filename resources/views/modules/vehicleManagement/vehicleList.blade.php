@@ -672,7 +672,7 @@
     <script>
         (function (tmsApp) {
             tmsApp.initDatatable("#kt_brands_table", false, true, []);
-            $('#brand').select2({})
+            $('[name="brand"]').select2({})
         })(window.tmsApp || {});
     </script>
 @endpush
