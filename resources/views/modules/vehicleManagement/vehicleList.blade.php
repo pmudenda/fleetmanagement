@@ -46,7 +46,7 @@
                              data-parent="#accordionExample">
                             <div class="card-body px-0">
                                 <div class="list-qbe">
-                                    <div class="sys-list-filter-head">
+                                    {{--<div class="sys-list-filter-head">
                                         <span class="lbl">Filter:</span>
                                         <select class="list-selector">
                                             <option>My Default Filter</option>
@@ -56,7 +56,7 @@
                                             <i class="fa fa-pencil"></i>
                                             <span>Hide Filter</span>
                                         </a>
-                                    </div>
+                                    </div>--}}
                                     <div class="qbeinner" style="">
                                         <div class="qbe-toolbar" style="visibility: visible;">
                                             <a class="toolbarbutton">
