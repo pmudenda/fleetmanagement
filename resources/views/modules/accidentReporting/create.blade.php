@@ -725,9 +725,6 @@
     <input type="hidden" value="{{route('accident.types')}}" id="accident_types_endpoint">
     <input type="hidden" value="{{route('accident.natures')}}" id="accident_natures_endpoint">
     @push('scripts')
-        {{--
-                <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
-        --}}
         <script src="{{asset("libs/steps/jquery.steps.min.js")}}"></script>
         <script>
             (function (tmsApp, $) {
@@ -832,18 +829,18 @@
                           ${vehicle['model_name']}
                           ${vehicle['model_code']}`;
                     let row = `<div class="row">
-                               <div class="col-6">
+                               <div class="col">
                                     <strong>Make</strong>
                                </div>
-                               <div class="col-6" id="make">
+                               <div class="col" id="make">
                                     ${vehicle['brand_name']}
                                </div>
                                </div>
                                <div class="row">
-                                    <div class="col-6">
+                                    <div class="col">
                                         <strong>Model</strong>
                                     </div>
-                                    <div class="col-6" id="model">
+                                    <div class="col" id="model">
                                         ${vehicle['model_name']}
                                         ${vehicle['model_code']}
                                     </div>
@@ -854,9 +851,12 @@
                                        ${vehicle['body_type_name']}
                                     </div>
                                 </div>
-                                <tr style="">
-                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
-                                </tr>`;
+                                <div class="row">
+                                     <div class="col"></div>
+                                    <div class="col" id="registration">
+                                    ${vehicle['status_name']}
+                                    </div>
+                                </div>`;
 
                     document.querySelector('[name="type_brand_model"]').value = vLabel;
                     document.querySelector('[name="assignedTo"]').value = vehicle['business_unit_code'];
@@ -864,7 +864,7 @@
                         .value = vehicle['business_unit_code']
                         + ' : ' + vehicle['business_unit_name'];
 
-                    $('tbody#vehicleDetails').html(row);
+                    $('#vehicleDetails').html(row);
                     document.querySelector('#vehicleDetailsContainer').style.display = null;
 
                     if (images && images.length > 0) {
