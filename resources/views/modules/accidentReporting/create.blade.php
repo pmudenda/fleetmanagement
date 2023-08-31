@@ -44,7 +44,7 @@
                     <h3 class="step-top step1-top">Vehicle Details</h3>
                     <section class="section first-section mx-auto">
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-7">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
@@ -243,7 +243,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="row">
-                                    <div class="col-8">
+                                    <div class="col-12">
                                         <div class="row">
                                             <div class="col-6">
                                                 <div id="vehicleDetailsContainer" style="display: none;"
