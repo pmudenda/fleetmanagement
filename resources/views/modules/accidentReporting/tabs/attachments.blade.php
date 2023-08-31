@@ -43,196 +43,72 @@
             </div>
         </div>
     </div>
-    {{-- <div class="row mt-5 mb-10 create_mode">
-         <div class="col-md-3">
-             <div class="card text-center py-5 my-2 pt-0">
-                 <h2 class="fs-2x fw-bold mb-5">Front View</h2>
-                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                 <div class="form-group">
-                     <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
-                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                         <button type="button"
-                                 data-select="file"
-                                 data-input="selectFrontViewFile"
-                                 class="upload-file btn btn-sm btn-primary me-2">
-                             <i class="fas fa-cloud-arrow-up"></i> Select Image
-                         </button>
-                         <input type="file" accept="image/*"
-                                style="display: none;"
-                                class="fileElem"
-                                name="front_view"/>
-                     </p>
-                     <div class="imagePreview" style="display: none;">
-                         <button type="button"
-                                 class="btn btn-xs clearImage"
-                                 style="top: 1px;
-                                             position: relative;
-                                             right: 1px;
-                                             float: right;
-                                             padding: 2px;">
-                             <i class="fa fa-window-close" style="font-size: 20px;"></i>
-                         </button>
-                     </div>
-                 </div>
-             </div>
-         </div>
-         <div class="col-md-3">
-             <div class="card-px text-center py-5 my-2 pt-0">
-                 <h2 class="fs-2x fw-bold mb-5">Rear View</h2>
-                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                 <div class="form-group">
-                     <p
-                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                         <button type="button"
-                                 data-select="file"
-                                 class="upload-file btn btn-sm btn-primary me-2">
-                             <i class="fas fa-cloud-arrow-up"></i> Select Image
-                         </button>
-                         <input type="file" accept="image/*"
-                                style="display: none;"
-                                class="fileElem"
-                                name="rear_view"/>
-                     </p>
-
-                     <div class="imagePreview" style="display: none;">
-                         <button type="button"
-                                 class="btn btn-xs clearImage" style="top: 1px;
-                                             position: relative;
-                                             right: 1px;
-                                             float: right;
-                                             padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                         </button>
-                     </div>
-                 </div>
-             </div>
-         </div>
-
-         <div class="col-md-3">
-             <div class="card text-center py-5 my-2 pt-0">
-                 <h2 class="fs-2x fw-bold mb-5">Right View</h2>
-                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                 <div class="form-group">
-                     <p
-                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                         <button type="button"
-                                 data-select="file"
-                                 data-input="selectFrontViewFile"
-                                 class="upload-file btn btn-sm btn-primary me-2">
-                             <i class="fas fa-cloud-arrow-up"></i> Select Image
-                         </button>
-                         <input type="file" accept="image/*"
-                                style="display: none;"
-                                class="fileElem"
-                                name="right_view"/>
-                     </p>
-                     <div class="imagePreview" style="display: none;">
-                         <button type="button"
-                                 class="btn btn-xs clearImage" style="top: 1px;
-                                             position: relative;
-                                             right: 1px;
-                                             float: right;
-                                             padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                         </button>
-                     </div>
-                 </div>
-             </div>
-         </div>
-         <div class="col-md-3">
-             <div class="card text-center py-5 my-2 pt-0">
-                 <h2 class="fs-2x fw-bold mb-5">Left View</h2>
-                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                 <div class="form-group">
-                     <p
-                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                         <button type="button"
-                                 data-select="file"
-                                 data-input="selectFrontViewFile"
-                                 class="upload-file btn btn-sm btn-primary me-2">
-                             <i class="fas fa-cloud-arrow-up"></i> Select Image
-                         </button>
-                         <input type="file" accept="image/*"
-                                style="display: none;"
-                                class="fileElem"
-                                name="left_view"/>
-                     </p>
-                     <div class="imagePreview" style="display: none;">
-                         <button type="button"
-                                 class="btn btn-xs clearImage" style="top: 1px;
-                                             position: relative;
-                                             right: 1px;
-                                             float: right;
-                                             padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                         </button>
-                     </div>
-
-                 </div>
-             </div>
-         </div>
-     </div>--}}
-
-    <div class="table-responsive" style="max-height:500px;">
-        <table data-model-name="Observations"
-               aria-label="accident attachments"
-               role="table"
-               class="table table-striped"
-               id="observations">
-            <thead>
-            <tr class="bg-success">
-                <th scope="row">Attachment</th>
-                <th scope="row">Remarks</th>
-                <th scope="row"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <p>
-                        <button type="button" title="Select Image"
-                                data-toggle="tooltip"
-                                data-select="file"
-                                class="btn btn-primary btn-sm selectAttachment">
-                            <i class="fas fa-paperclip"></i>
-                        </button>
-                        <input type="file"
-                               accept="image/*"
-                               style="display: none;"
-                               class="fileElem"
-                               id="attachment"
-                               name="attachment[]"/>
-                    </p>
-                    <div class="imagePreview"
-                         style="display: none; min-height: 100px !important;">
-                        <button type="button"
-                                class="btn btn-xs clearImage"
-                                style="top: 1px;
+    <div class="row">
+        <div class="col-6">
+            <div class="table-responsive" style="max-height:500px;">
+                <table data-model-name="Observations"
+                       aria-label="accident attachments"
+                       role="table"
+                       class="table table-striped"
+                       id="observations">
+                    <thead>
+                    <tr class="bg-success">
+                        <th scope="row">Attachment</th>
+                        <th scope="row">Remarks</th>
+                        <th scope="row"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <p>
+                                <button type="button" title="Select Image"
+                                        data-toggle="tooltip"
+                                        data-select="file"
+                                        class="btn btn-primary btn-sm selectAttachment">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                                <input type="file"
+                                       accept="image/*"
+                                       style="display: none;"
+                                       class="fileElem"
+                                       id="attachment"
+                                       name="attachment[]"/>
+                            </p>
+                            <div class="imagePreview"
+                                 style="display: none; min-height: 250px !important;">
+                                <button type="button"
+                                        class="btn btn-xs clearImage"
+                                        style="top: 1px;
                                                                                                     position: relative;
                                                                                                     right: 1px;
                                                                                                     float: right;
                                                                                                     padding: 2px;">
-                            <i class="fa fa-window-close" style="font-size: 20px;"></i>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <input type="text" name="observation[]" class="form-control">
-                </td>
-                <td>
-                    <button type="button"
-                            data-table-id="observations"
-                            class="btn btn-sm btn-danger"
-                            value="deleteRow">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <button type="button"
-                data-table-id="observations"
-                class="btn btn-sm btn-primary add pull-right"
-                value="insertRow">
-            <i class="fa fa-plus"></i> Add Row
-        </button>
-
+                                    <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="text" name="observation[]" class="form-control">
+                        </td>
+                        <td>
+                            <button type="button"
+                                    data-table-id="observations"
+                                    class="btn btn-sm btn-danger"
+                                    value="deleteRow">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button type="button"
+                        data-table-id="observations"
+                        class="btn btn-sm btn-primary add pull-right"
+                        value="insertRow">
+                    <i class="fa fa-plus"></i> Add Row
+                </button>
+            </div>
+        </div>
     </div>
 </section>
