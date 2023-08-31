@@ -193,7 +193,7 @@
                                        ${vehicle['body_type_name']}
                                     </div>
                                 </div>
-                                <div class="row">
+                               <div class="row">
                                      <div class="col">
                                         <strong>Status</strong>
                                     </div>
@@ -202,8 +202,9 @@
                                     </div>
                                 </div>`;
 
-                    document.querySelector('[name="type_brand_model"]').value = vLabel;
-                    document.querySelector('[name="assignedTo"]').value = vehicle['business_unit_code'];
+                    $('[name="mileage"]').val(vehicle?.mileage);
+                    $('[name="type_brand_model"]').val(vLabel);
+                    $('[name="assignedTo"]').val(vehicle['business_unit_code']);
                     document.querySelector('[name="assignedToDescription"]')
                         .value = vehicle['business_unit_code']
                         + ' : ' + vehicle['business_unit_name'];
@@ -243,8 +244,12 @@
                             tmsApp.showToast(response.message, 'success', null);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            tmsApp.showSystemMessage('Vehicle Details', response.message, function () {
-                            }, 'error')
+                            tmsApp.showSystemMessage(
+                                'Vehicle Details',
+                                response['message'],
+                                null,
+                                'error'
+                            );
                         }
                     });
                 }
