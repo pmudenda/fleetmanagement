@@ -118,7 +118,7 @@
                                     <div class="input-group">
                                         <input name="mileage"
                                                type="text"
-                                               class="form-control"
+                                               class="form-control numberOnly"
                                                id="mileage"
                                                placeholder="Enter Current Odometer Reading"
                                                required>

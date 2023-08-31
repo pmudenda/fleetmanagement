@@ -155,7 +155,6 @@
                     initializeFormWizard()
                 });
 
-
                 function displayVehicleDetails(payload) {
                     let vehicle = payload['vehicle'];
                     let images = payload['images'];
@@ -202,7 +201,7 @@
                                     </div>
                                 </div>`;
 
-                    $('[name="mileage"]').val(vehicle?.mileage);
+                    $('[name="mileage"]').val(vehicle?.mileage).attr('min', vehicle?.mileage);
                     $('[name="type_brand_model"]').val(vLabel);
                     $('[name="assignedTo"]').val(vehicle['business_unit_code']);
                     document.querySelector('[name="assignedToDescription"]')
@@ -223,7 +222,6 @@
                             .style.display = null;
                     }
                 }
-
 
                 function fetchVehicleDetails(reg) {
                     $.ajax({
@@ -305,82 +303,79 @@
                     });
                 }
 
+                function getAccidentTypes() {
+                    fetch(document.querySelector('#accident_types_endpoint').value)
+                        .then(response => response.json())
+                        .then(response => {
+                            // Populate results
+                            let selectElem = $('#accidentType');
+
+                            if (response.state === 'failure') {
+                                //show errors
+                                toastr.error('Connection error, no data found')
+                                return;
+                            }
+
+
+                            let userUnits = response['payload'];
+
+
+                            window.organizationUnits = userUnits;
+                            tmsApp.populateDropDownList(selectElem, userUnits, "code", ['name']);
+
+                            let userUnitId = selectElem.attr('data-value');
+                            if (userUnitId) {
+                                selectElem.val(userUnitId);
+                                selectElem.trigger('change');
+                            }
+                        })
+                        .catch(function (error) {
+                            // notify of error
+                            console.log(error)
+                            toastr.error(
+                                'Could not retrieve Organizational units data, some feature might not work.',
+                                'Connection error.');
+                        });
+                }
+
+                function getAccidentNatures() {
+                    fetch(document.querySelector('#accident_natures_endpoint').value)
+                        .then(response => response.json())
+                        .then(response => {
+                            // Populate results
+                            let selectElem = $('#accidentNature');
+
+                            if (response.state === 'failure') {
+                                //show errors
+                                toastr.error('Connection error, no data found')
+                                return;
+                            }
+
+                            let userUnits = response['payload'];
+
+
+                            window.organizationUnits = userUnits;
+                            tmsApp.populateDropDownList(selectElem, userUnits, "code", ['name']);
+
+                            let userUnitId = selectElem.attr('data-value');
+                            if (userUnitId) {
+                                selectElem.val(userUnitId);
+                                selectElem.trigger('change');
+                            }
+                        })
+                        .catch(function (error) {
+                            toastr.error(
+                                'Could not retrieve Organizational units data, some feature might not work.',
+                                'Connection error.')
+                        });
+                }
+
                 $(document).ready(function () {
                     $(document).on('click', '#driverSearchBtn', function (event) {
-
                         let $driverCtrl = $('#driver_staff_number');
-
                         fetchDriverDetails($driverCtrl.val(), $driverCtrl.attr('data-action'))
 
                     });
-
-
-                    function getAccidentTypes() {
-                        fetch(document.querySelector('#accident_types_endpoint').value)
-                            .then(response => response.json())
-                            .then(response => {
-                                // Populate results
-                                let selectElem = $('#accidentType');
-
-                                if (response.state === 'failure') {
-                                    //show errors
-                                    toastr.error('Connection error, no data found')
-                                    return;
-                                }
-
-
-                                let userUnits = response['payload'];
-
-
-                                window.organizationUnits = userUnits;
-                                tmsApp.populateDropDownList(selectElem, userUnits, "code", ['name']);
-
-                                let userUnitId = selectElem.attr('data-value');
-                                if (userUnitId) {
-                                    selectElem.val(userUnitId);
-                                    selectElem.trigger('change');
-                                }
-                            })
-                            .catch(function (error) {
-                                // notify of error
-                                console.log(error)
-                                toastr.error(
-                                    'Could not retrieve Organizational units data, some feature might not work.',
-                                    'Connection error.');
-                            });
-                    }
-
-                    function getAccidentNatures() {
-                        fetch(document.querySelector('#accident_natures_endpoint').value)
-                            .then(response => response.json())
-                            .then(response => {
-                                // Populate results
-                                let selectElem = $('#accidentNature');
-
-                                if (response.state === 'failure') {
-                                    //show errors
-                                    toastr.error('Connection error, no data found')
-                                    return;
-                                }
-
-                                let userUnits = response['payload'];
-
-
-                                window.organizationUnits = userUnits;
-                                tmsApp.populateDropDownList(selectElem, userUnits, "code", ['name']);
-
-                                let userUnitId = selectElem.attr('data-value');
-                                if (userUnitId) {
-                                    selectElem.val(userUnitId);
-                                    selectElem.trigger('change');
-                                }
-                            })
-                            .catch(function (error) {
-                                toastr.error(
-                                    'Could not retrieve Organizational units data, some feature might not work.',
-                                    'Connection error.')
-                            });
-                    }
 
                     getAccidentNatures();
 
@@ -389,6 +384,10 @@
                     Inputmask({
                         "mask": "A{2,3} 9{1,4}"
                     }).mask("#registrationNo");
+
+                    $(document).on('keypress', '.numberOnly', function (e){
+                        tmsApp.numberOnly(e);
+                    })
 
 
                     $("#vehicleClear").click(function () {
