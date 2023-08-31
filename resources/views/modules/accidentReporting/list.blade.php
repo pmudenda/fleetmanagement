@@ -60,7 +60,7 @@
                                         <th>Date Acc.</th>
                                         <th>Date Rpt.</th>
                                         <th>Nature</th>
-                                        <th>Status</th>
+                                       {{-- <th>Status</th>--}}
                                         <th>Action</th>
                                     </tr>
                                     </thead>
