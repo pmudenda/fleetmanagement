@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 @php @endphp
 @extends('layouts.app')
 
@@ -60,7 +61,7 @@
                                         <th>Date Acc.</th>
                                         <th>Date Rpt.</th>
                                         <th>Nature</th>
-                                       {{-- <th>Status</th>--}}
+                                        {{-- <th>Status</th>--}}
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -77,11 +78,13 @@
                                                 {{$accident->driver}}
                                             </td>
                                             <td>
-                                                {{$accident->date_of_accident}} : {{$accident->time_of_accident}}
+                                                {{Carbon::parse($accident->date_of_accident)->format('d/M/Y')}} :
+                                                {{Carbon::parse($accident->time_of_accident)->format('H:i')}}
                                             </td>
 
                                             <td>
-                                                {{$accident->date_reported}} : {{$accident->time_reported}}
+                                                {{Carbon::parse($accident->date_reported)->format('d/M/Y')}} :
+                                                {{Carbon::parse($accident->time_reported)->format('H:i')}}
                                             </td>
                                             <td>
                                                 {{$accident->nature_of_accident}}
