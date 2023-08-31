@@ -85,15 +85,16 @@
                                                    title="Remove this field"
                                                    style="cursor:pointer;">
                                                 </i>--}}
-                                                <label class="qbefieldlabel" title="Module">Module</label>
+                                                <label class="qbefieldlabel" title="Module">Brand</label>
                                                 <div class="qbeoperator">
-                                                    <select class="qbeoperator">
-                                                        <option value="0">is</option>
-                                                        <option value="16">is not</option>
-                                                        <option value="1">starts with</option>
-                                                        <option value="2">ends with</option>
-                                                        <option value="3">contains</option>
-                                                        <option value="44">does not start with</option>
+                                                    <select name="brand"
+                                                            class="qbeoperator form-select form-select-sm">
+                                                        <option value="is">is</option>
+                                                        <option value="isnot">is not</option>
+                                                        <option value="startsWith">starts with</option>
+                                                        <option value="endsWith">ends with</option>
+                                                        <option value="contains">contains</option>
+                                                        <option value="doesntStartWith">does not start with</option>
                                                         <option value="45">does not end with</option>
                                                         <option value="46">does not contain</option>
                                                         <option value="6">is empty</option>
@@ -105,9 +106,6 @@
                                                 <input type="text"
                                                        class="qbeinput qbeinputin"
                                                        style=""/>
-                                                <span class="qbelabelin" style="display:none">
-                                                (use ; to separate values)
-                                            </span>
                                             </div>
                                             <div data-qbefield="tasknumber"
                                                  class="qbefield">
@@ -119,7 +117,8 @@
                                                     class="qbefieldlabel" title="Task #">Task #
                                                 </label>
                                                 <div class="qbeoperator">
-                                                    <select class="qbeoperator">
+                                                    <select
+                                                        class="qbeoperator form-select form-select-sm">
                                                         <option value="12">&gt;=</option>
                                                         <option value="11">&lt;=</option>
                                                         <option value="10">&gt;</option>
@@ -136,9 +135,7 @@
                                                        class="qbeinputupper"
                                                        style="display:none">
                                             </div>
-                                            <div
-                                                data-qbefield="originatoruser"
-                                                class="qbefield">
+                                            <div data-qbefield="originatoruser" class="qbefield">
                                                 {{--<i class="fa fa-remove"
                                                    title="Remove this field"
                                                    style="cursor:pointer;"></i>--}}
@@ -147,7 +144,8 @@
                                                     Originator
                                                 </label>
                                                 <div class="qbeoperator">
-                                                    <select class="qbeoperator">
+                                                    <select
+                                                        class="qbeoperator form-select form-select-sm">
                                                         <option value="0">is</option>
                                                         <option value="16">is not</option>
                                                         <option value="13">Is Current User</option>
@@ -167,27 +165,16 @@
                                                 <input type="text"
                                                        class="qbeinput qbeinputin"
                                                        style=""/>
-                                                <span
-                                                    class="qbelabelin"
-                                                    style="display:none">
-                                                (use ; to separate values)
-                                            </span>
-                                                <i class="fa fa-fw fa-user"
-                                                   style="cursor:pointer;"
-                                                   title="Select User"></i>
                                             </div>
                                             <div data-qbefield="dateopened"
                                                  class="qbefield">
-                                                {{-- <i class="fa fa-remove"
-                                                    title="Remove this field"
-                                                    style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel"
                                                     title="Date Opened">
                                                     Date Opened
                                                 </label>
                                                 <div class="qbeoperator">
-                                                    <select class="qbeoperator">
+                                                    <select class="qbeoperator form-select form-select-sm">
                                                         <option value="12">&gt;=</option>
                                                         <option value="11">&lt;=</option>
                                                         <option value="10">&gt;</option>
@@ -234,13 +221,12 @@
                                                     id="dp1675929085276">
                                             </div>
                                             <div data-qbefield="tasksubject" class="qbefield">
-                                                {{-- <i class="fa fa-remove" title="Remove this field"
-                                                    style="cursor:pointer;"></i>--}}
                                                 <label
-                                                    class="qbefieldlabel" title="Subject">Subject
+                                                    class="qbefieldlabel" title="Subject">
+                                                    Subject
                                                 </label>
                                                 <div class="qbeoperator">
-                                                    <select class="qbeoperator">
+                                                    <select class="qbeoperator form-select form-select-sm">
                                                         <option value="0">is</option>
                                                         <option value="16">is not</option>
                                                         <option value="1">starts with</option>
@@ -255,22 +241,20 @@
                                                         <option value="18">not in</option>
                                                     </select>
                                                 </div>
-                                                <input type="text" class="qbeinput qbeinputin" style=""><span
+                                                <input type="text" class="qbeinput qbeinputin" style="">
+                                                <span
                                                     class="qbelabelin"
                                                     style="display:none">
-                                                (use ; to separate values)
                                             </span>
                                             </div>
                                             <div data-qbefield="assigneeuser" class="qbefield">
-                                                {{-- <i class="fa fa-remove"
-                                                    title="Remove this field"
-                                                    style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Assignee">
                                                     Assignee
                                                 </label>
                                                 <div class="qbeoperator">
-                                                    <select class="qbeoperator">
+                                                    <select
+                                                        class="qbeoperator form-select form-select-sm">
                                                         <option value="0">is</option>
                                                         <option value="16">is not</option>
                                                         <option value="13">Is Current User</option>
@@ -288,16 +272,6 @@
                                                     </select>
                                                 </div>
                                                 <input type="text" class="qbeinput qbeinputin" style="">
-                                                <span
-                                                    class="qbelabelin"
-                                                    style="display:none">
-                                                (use ; to separate values)
-                                            </span>
-                                                <i
-                                                    class="fa fa-fw fa-user"
-                                                    style="cursor:pointer;"
-                                                    title="Select User">
-                                                </i>
                                             </div>
                                             <div data-qbefield="datedue" class="qbefield">
                                                 {{--<i class="fa fa-remove" title="Remove this field"
