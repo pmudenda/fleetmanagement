@@ -494,7 +494,7 @@
 </div>
 <input type="hidden" name="gatePassUrl" id="gatePassUrl" value="{{URL::signedRoute("gate.pass")}}"/>
 <input type="hidden" name="currentUser" id="currentUser" value="{{Auth::user()->staff_no}}"/>
-
+@include('modules.vehicleManagement.partial.data_end_point')
 <audio preload="auto" id="sound-email" volume=0.1>
     <source src="{{asset('assets/sounds/email.mp3')}}"/>
 </audio>

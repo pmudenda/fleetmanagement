@@ -86,43 +86,7 @@
                             </li>
 
                         </ul>
-                        <!--END:::TAB HEADERS  -->
-
-                        <!--BEGIN:::TAB CONTENT  -->
-                        <div class="tab-content" id="myTabContent">
-
-                            <!--Begin:::Chassis Details Tab pane-->
-                            <div class="tab-pane fade" id="tms_chassis_details_tab" role="tabpanel">
-                                {{-- @include('vehicleManagement.onboarding.tabs.chassis_tab')--}}
-                            </div>
-                            <!--End:::Chassis Details Tab pane-->
-
-                            <!--Begin:::Engine Details Tab pane-->
-                            <div class="tab-pane fade" id="tms_engine_details_tab" role="tabpanel">
-                                {{--@include('vehicleManagement.onboarding.tabs.engine_details_tab')--}}
-                            </div>
-                            <!--End:::Engine Details Tab pane-->
-
-                            <!--Begin::: Costing And Valuation Tab pane-->
-                            <div class="tab-pane fade" id="tms_costing_valuation_tab" role="tabpanel">
-                                {{-- @include('vehicleManagement.onboarding.tabs.cost_details_tab')--}}
-                            </div>
-                            <!--End:::Tab pane-->
-
-                            <!--Begin:::Body Weight Tab pane-->
-                            <div class="tab-pane fade" id="tms_body_weight_tab" role="tabpanel">
-                                {{-- @include('vehicleManagement.onboarding.tabs.weight_details_tab')--}}
-                            </div>
-                            <!--End::: Body WeightTab pane-->
-
-                            <!--Begin:::Assignment Tab pane-->
-                            <div class="tab-pane fade active show" id="tms_assignment_tab" role="tabpanel">
-                                {{--@include('vehicleManagement.onboarding.tabs.assignment_details')--}}
-                            </div>
-                            <!--End::: Assignment Tab pane-->
-
-                        </div>
-                        <!--BEGIN:::TAB CONTENT  -->
+                        <!--END:::TAB HEADERS-->
                     </div>
                 </div>
 

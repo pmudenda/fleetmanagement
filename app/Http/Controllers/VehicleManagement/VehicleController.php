@@ -7,6 +7,7 @@ use App\Constants\SystemMessages;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Settings\Accessory;
+use App\Models\Settings\vehicle\VehicleBrand;
 use App\Models\Settings\WorkShop;
 use App\Models\VehicleManagement\VehicleAccessory;
 use App\Models\WorkShopManagement\JobCardHeader;
@@ -48,8 +49,9 @@ class VehicleController extends Controller
 
             Log::info('reference is ' . $ref);
             if ($ref == 0) {
-                return redirect(route('vehicles.list'))
-                    ->with(['error' => 'Missing Required Parameters']);
+                return redirect(
+                    route('vehicles.list')
+                )->with(['error' => 'Missing Required Parameters']);
             }
 
             Log::info('Fetching Vehicle Details ' . $ref);
@@ -61,7 +63,6 @@ class VehicleController extends Controller
             } else {
                 Log::info('Vehicle Details Not Found ');
             }
-
 
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($ref);
 
@@ -90,7 +91,8 @@ class VehicleController extends Controller
                     'spares_cost_by_year' => $spares_cost_by_year
                 ],
                 'success' => !empty($vehicle),
-                'message' => !empty($vehicle) ? 'Vehicle Details retrieved successfully'
+                'message' => !empty($vehicle)
+                    ? 'Vehicle Details retrieved successfully'
                     : 'Could not read vehicle details'
             ]);
         } catch (Exception $e) {
@@ -202,10 +204,6 @@ class VehicleController extends Controller
                     'message' => 'Vehicle not found'
                 ]);
             }
-
-            // $vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
-            // $accessories = $this->vehicleDetailsService->getSubmittedAccessories($vehicle->vehicle_header_id);
-            // $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
 
             $vehicle_state = '';
 

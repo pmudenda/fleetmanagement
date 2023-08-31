@@ -23,6 +23,7 @@
             <div class="card-header">
                 <div class="card-title">
                     <button class="btn btn-primary btn-sm text-left"
+                            style="display: none"
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#collapseOne"
@@ -45,7 +46,7 @@
 
             <!--begin::Card body-->
             <div class="card-body pt-0">
-                <div class="accordion" id="accordionExample">
+                <div style="display: none;" class="accordion" id="accordionExample">
                     <div class="row">
                         <div id="collapseOne"
                              class="collapse"
@@ -81,9 +82,6 @@
                                                             multiple
                                                             class="qbeoperator form-select form-select-sm">
                                                         <option value=""></option>
-                                                        @foreach($brands as $brand)
-                                                            <option value="{{$brand->code}}">{{$brand->name}}</option>
-                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -658,11 +656,14 @@
 @endsection
 
 @push('scripts')
+    <script src="{{asset('application/modules/vehicleManagement/assets/js/lib.vehicle.data.js')}}"></script>
     <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
     <script>
         (function (tmsApp) {
             tmsApp.initDatatable("#kt_brands_table", false, true, []);
-            $('[name="brand"]').select2({})
+            $('[name="brand"]').select2({});
+
+            getVehicleBrands();
         })(window.tmsApp || {});
     </script>
 @endpush
