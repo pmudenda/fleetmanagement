@@ -927,7 +927,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item d-none">
+                        <li class="nav-item">
                             <a href="{{URL::signedRoute('accident.list')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>List</p>
