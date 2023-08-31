@@ -106,7 +106,7 @@
                                             <div class="form-group row">
                                                 <label
                                                         class="col-xs-12 col-sm-6 col-md-5
-                                                        col-lg-4 app-field-label field-required"
+                                                        col-lg-4 field-required"
                                                         for="staff_no">Date Reported:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -130,12 +130,12 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
                                     <div class="container-fluid pl-0">
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label
-                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
                                                         for="job_card_no">
                                                     Time Reported:
                                                 </label>
