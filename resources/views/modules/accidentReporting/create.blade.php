@@ -249,9 +249,12 @@
                     });
                 }
 
-                function getYearsDifferenceFromNow(targetDate) {
+                function getYearsDifferenceFromNow(licenseIssuedDate) {
+                    if (!licenseIssuedDate) {
+                        return 0;
+                    }
                     // Create a Date object for the specific target date
-                    const targetDateTime = new Date(targetDate);
+                    const targetDateTime = new Date(licenseIssuedDate);
 
                     // Get the current date and time
                     const now = new Date();
@@ -276,13 +279,8 @@
                         },
                         method: 'POST',
                         success: function (response) {
-                            // Code to execute when the AJAX request succeeds
-
-
                             if (response.success === 'true' || response.success) {
                                 const driverDetails = response.payload;
-
-
                                 let driverName = document.getElementById("driver_name")
                                 let yearsOfActivity = document.getElementById("yearsOfActivity")
 

@@ -42,8 +42,10 @@
                     <div class="container-fluid pl-0">
                         <div class="row">
                             <div class="form-group row">
-                                <label class="col-xs-12 col-sm-6 col-md-5"
-                                       for="">Name:</label>
+                                <label class="col-xs-12 col-sm-6 col-md-5 field-required"
+                                       for="">
+                                    Name:
+                                </label>
                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                     <input type="text"
                                            class="form-control form-control-sm"
@@ -63,9 +65,9 @@
                     <div class="container-fluid pl-0">
                         <div class="row">
                             <div class="form-group row">
-                                <label for="yearsOfActivity"
-                                       class="field-required">
-                                    Years Of Activity*:
+                                <label class="col-xs-12 col-sm-6 col-md-5 field-required"
+                                    for="yearsOfActivity">
+                                    Years Of Activity :
                                 </label>
 
                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
