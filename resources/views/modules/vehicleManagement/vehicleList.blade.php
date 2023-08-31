@@ -92,10 +92,10 @@
                                         <div class="">
                                             <div data-qbefield="systemname"
                                                  class="qbefield">
-                                                <i class="fa fa-remove"
+                                                {{--<i class="fa fa-remove"
                                                    title="Remove this field"
                                                    style="cursor:pointer;">
-                                                </i>
+                                                </i>--}}
                                                 <label class="qbefieldlabel" title="Module">Module</label>
                                                 <div class="qbeoperator">
                                                     <select class="qbeoperator">
@@ -122,10 +122,10 @@
                                             </div>
                                             <div data-qbefield="tasknumber"
                                                  class="qbefield">
-                                                <i class="fa fa-remove"
+                                                {{--<i class="fa fa-remove"
                                                    title="Remove this field"
                                                    style="cursor:pointer;">
-                                                </i>
+                                                </i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Task #">Task #
                                                 </label>
@@ -150,9 +150,9 @@
                                             <div
                                                 data-qbefield="originatoruser"
                                                 class="qbefield">
-                                                <i class="fa fa-remove"
+                                                {{--<i class="fa fa-remove"
                                                    title="Remove this field"
-                                                   style="cursor:pointer;"></i>
+                                                   style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Originator">
                                                     Originator
@@ -189,9 +189,9 @@
                                             </div>
                                             <div data-qbefield="dateopened"
                                                  class="qbefield">
-                                                <i class="fa fa-remove"
+                                               {{-- <i class="fa fa-remove"
                                                    title="Remove this field"
-                                                   style="cursor:pointer;"></i>
+                                                   style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel"
                                                     title="Date Opened">
@@ -245,8 +245,8 @@
                                                     id="dp1675929085276">
                                             </div>
                                             <div data-qbefield="tasksubject" class="qbefield">
-                                                <i class="fa fa-remove" title="Remove this field"
-                                                   style="cursor:pointer;"></i>
+                                               {{-- <i class="fa fa-remove" title="Remove this field"
+                                                   style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Subject">Subject
                                                 </label>
@@ -273,9 +273,9 @@
                                             </span>
                                             </div>
                                             <div data-qbefield="assigneeuser" class="qbefield">
-                                                <i class="fa fa-remove"
+                                               {{-- <i class="fa fa-remove"
                                                    title="Remove this field"
-                                                   style="cursor:pointer;"></i>
+                                                   style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Assignee">
                                                     Assignee
@@ -311,8 +311,8 @@
                                                 </i>
                                             </div>
                                             <div data-qbefield="datedue" class="qbefield">
-                                                <i class="fa fa-remove" title="Remove this field"
-                                                   style="cursor:pointer;"></i>
+                                                {{--<i class="fa fa-remove" title="Remove this field"
+                                                   style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Date Due">
                                                     Date Due
@@ -366,9 +366,9 @@
                                             </div>
                                             <div data-qbefield="datecompleted"
                                                  class="qbefield">
-                                                <i class="fa fa-remove"
+                                                {{--<i class="fa fa-remove"
                                                    title="Remove this field"
-                                                   style="cursor:pointer;"></i>
+                                                   style="cursor:pointer;"></i>--}}
                                                 <label class="qbefieldlabel"
                                                        title="Date Completed">
                                                     Date Completed
@@ -422,10 +422,10 @@
                                             </div>
                                             <div data-qbefield="dateclosed"
                                                  class="qbefield">
-                                                <i class="fa fa-remove"
+                                                {{--<i class="fa fa-remove"
                                                    title="Remove this field"
                                                    style="cursor:pointer;">
-                                                </i>
+                                                </i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Date Closed">Date Closed</label>
                                                 <div class="qbeoperator">
@@ -473,9 +473,9 @@
                                                     id="dp1675929085282"/>
                                             </div>
                                             <div data-qbefield="result" class="qbefield">
-                                                <i class="fa fa-remove"
+                                                {{--<i class="fa fa-remove"
                                                    title="Remove this field"
-                                                   style="cursor:pointer;"></i>
+                                                   style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Action">
                                                     Action
@@ -500,12 +500,6 @@
                                                     class="qbelabelin"
                                                     style="display:none">(use ; to separate values)
                                             </span>
-                                            </div>
-                                            <div style="clear:both">
-                                                <select class="extraqbe" style="visibility: visible;">
-                                                    <option value="">-- filter by another field --</option>
-                                                    <option value="description" label="Assignment">Assignment</option>
-                                                </select>
                                             </div>
                                         </div>
 
