@@ -58,7 +58,7 @@
                                                  <i class="fa fa-trash-o"></i>
                                                  Delete
                                              </a>--}}
-                                            <a class="btn btn-success btn-sm toolbarbutton">
+                                            <a class="btn btn-danger btn-sm toolbarbutton">
                                                 <i class="fa fa-undo"></i>
                                                 Reset
                                             </a>
