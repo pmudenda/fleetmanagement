@@ -12,6 +12,15 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
+                    <button class="btn btn-primary btn-sm text-left"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne"
+                            aria-expanded="true"
+                            aria-controls="collapseOne">
+                        <i class="fas fa-filter"></i>
+                        Filters
+                    </button>
                 </div>
                 <div class="card-toolbar justify-content-end">
                     <div class="d-flex" kt_table-toolbar="base">
@@ -29,21 +38,8 @@
             <!--begin::Card body-->
             <div class="card-body pt-0">
                 <div class="accordion" id="accordionExample">
-                    <div class="card px-0" style="display: none;">
-                        <div class="card-header" id="headingOne">
-                            <h2 class="mb-0">
-                                <button class="btn btn-primary btn-sm text-left"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne"
-                                        aria-expanded="true"
-                                        aria-controls="collapseOne">
-                                    <i class="fas fa-filter"></i>
-                                    Filters
-                                </button>
-                            </h2>
-                        </div>
-
+                    <div class="card px-0">
+                        <div class="card-header" id="headingOne"></div>
                         <div id="collapseOne"
                              class="collapse"
                              aria-labelledby="headingOne"
