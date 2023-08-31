@@ -286,7 +286,7 @@
                                 const driverDetails = response.payload;
                                 let driverName = document.getElementById("driver_name")
                                 let yearsOfActivity = document.getElementById("yearsOfActivity")
-
+                                $('[name="job_title"]').val(driverDetails?.job_title);
                                 driverName.value = driverDetails.name;
                                 yearsOfActivity.value = getYearsDifferenceFromNow(driverDetails.license_date_issued)
                                 tmsApp.showSystemMessage('Driver Search', response.message, null, 'success')
