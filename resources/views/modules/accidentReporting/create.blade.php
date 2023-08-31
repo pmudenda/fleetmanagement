@@ -43,7 +43,7 @@
                       method="POST">
                     @csrf
                     <h3 class="step-top step1-top">Vehicle Details</h3>
-                    @include('views.modules.accidentRecording.tabs.vehicleDetails')
+                    @include('accidentRecording.tabs.vehicleDetails')
 
                     <h3 class="step-top step2-top">Accident Details</h3>
                     <section class="second-section">
