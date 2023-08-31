@@ -97,6 +97,7 @@
                                                        class="qbeinput qbeinputin"
                                                        style=""/>--}}
                                             </div>
+
                                             <div data-qbefield="tasknumber"
                                                  class="qbefield">
                                                 <label
@@ -123,9 +124,6 @@
                                                        style="display:none">
                                             </div>
                                             <div data-qbefield="originatoruser" class="qbefield">
-                                                {{--<i class="fa fa-remove"
-                                                   title="Remove this field"
-                                                   style="cursor:pointer;"></i>--}}
                                                 <label
                                                     class="qbefieldlabel" title="Originator">
                                                     Originator
@@ -672,8 +670,9 @@
 @push('scripts')
     <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
     <script>
-        (function (appInstance) {
-            appInstance.initDatatable("#kt_brands_table", false);
+        (function (tmsApp) {
+            tmsApp.initDatatable("#kt_brands_table", false, true, []);
+            $('#brand').select2({})
         })(window.tmsApp || {});
     </script>
 @endpush
