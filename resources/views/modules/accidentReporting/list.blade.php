@@ -58,8 +58,8 @@
                                         <th>Reg. No.</th>
                                         <th>Description</th>
                                         <th>Driver</th>
-                                        <th>Date Acc.</th>
-                                        <th>Date Rpt.</th>
+                                        <th>Date/Time Acc.</th>
+                                        <th>Date/Time Rpt.</th>
                                         <th>Nature</th>
                                         {{-- <th>Status</th>--}}
                                         <th>Action</th>
@@ -78,12 +78,12 @@
                                                 {{$accident->driver}}
                                             </td>
                                             <td>
-                                                {{Carbon::parse($accident->date_of_accident)->format('d/M/Y')}} :
+                                                {{Carbon::parse($accident->date_of_accident)->format('d/m/Y')}}
                                                 {{Carbon::parse($accident->time_of_accident)->format('H:i')}}
                                             </td>
 
                                             <td>
-                                                {{Carbon::parse($accident->date_reported)->format('d/M/Y')}} :
+                                                {{Carbon::parse($accident->date_reported)->format('d/m/Y')}}
                                                 {{Carbon::parse($accident->time_reported)->format('H:i')}}
                                             </td>
                                             <td>
