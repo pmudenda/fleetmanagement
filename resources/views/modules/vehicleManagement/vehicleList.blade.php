@@ -33,10 +33,9 @@
                     </button>
                 </div>
                 <div class="card-toolbar justify-content-end">
-                    <div class="d-flex" kt_table-toolbar="base">
-
+                    <div class="d-flex">
                         <a href="{{route('new.vehicle')}}"
-                           class="btn btn-success">
+                           class="btn btn-success btn-sm">
                             <i class="fas fa-plus"></i>
                             Onboard Vehicle
                         </a>
@@ -55,7 +54,8 @@
                             <div class="card-body px-0">
                                 <div class="list-qbe">
                                     <div class="qbeinner" style="">
-                                        <div class="qbe-toolbar" style="visibility: visible;">
+                                        <div class="qbe-toolbar"
+                                             style="visibility: visible;">
                                             <a class="btn btn-danger btn-sm toolbarbutton mr-3">
                                                 <i class="fa fa-undo"></i>
                                                 Reset
@@ -68,7 +68,7 @@
                                             </a>
                                         </div>
 
-                                        <div class="d-flex">
+                                        <div class="d-flex mt-3">
                                             <div data-qbefield="systemname"
                                                  class="qbefield">
                                                 <label for="brand"
