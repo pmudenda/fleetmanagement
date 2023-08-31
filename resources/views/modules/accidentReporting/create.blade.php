@@ -42,6 +42,10 @@
                       action="{{route('accident.store')}}"
                       method="POST">
                     @csrf
+
+                    <h3 class="step-top step4-top">Attachments</h3>
+                    @include('modules.accidentReporting.tabs.attachments')
+
                     <h3 class="step-top step1-top">Vehicle Details</h3>
                     @include('modules.accidentReporting.tabs.vehicleDetails')
 
@@ -51,8 +55,7 @@
                     <h3 class="step-top step3-top">Accident Details</h3>
                     @include('modules.accidentReporting.tabs.accidentDetail')
 
-                    <h3 class="step-top step4-top">Attachments</h3>
-                    @include('modules.accidentReporting.tabs.attachments')
+
 
                 </form>
 
