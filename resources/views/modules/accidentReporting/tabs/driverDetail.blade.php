@@ -42,8 +42,10 @@
                     <div class="container-fluid pl-0">
                         <div class="row">
                             <div class="form-group row">
-                                <label class="col-xs-12 col-sm-6 col-md-5 field-required"
-                                       for="">
+                                <label
+                                    class="col-xs-12 col-sm-6 col-md-5
+                                                        col-lg-4 app-field-label field-required"
+                                    for="driver_name">
                                     Name:
                                 </label>
                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -65,11 +67,12 @@
                     <div class="container-fluid pl-0">
                         <div class="row">
                             <div class="form-group row">
-                                <label class="col-xs-12 col-sm-6 col-md-5 field-required"
+                                <label
+                                    class="col-xs-12 col-sm-6 col-md-5
+                                                        col-lg-4 app-field-label field-required"
                                     for="yearsOfActivity">
-                                    Years Of Activity :
+                                    Experience(Years):
                                 </label>
-
                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                     <div class="input-group">
                                         <input type="text"
