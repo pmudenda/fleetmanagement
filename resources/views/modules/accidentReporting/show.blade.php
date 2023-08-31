@@ -44,17 +44,704 @@
                     @csrf
 
                     <h3 class="step-top step1-top">Vehicle Details</h3>
-                    @include('modules.accidentReporting.tabs.vehicleDetails')
+                    <section class="section first-section mx-auto">
+                        <div class="row">
+                            <div style="border-right: 1px solid rgb(128,128,128);" class="col-7">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="staff_no">Registration #:
+                                                    </label>
+                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input name="registrationNo"
+                                                                   type="text"
+                                                                   value="{{$registration ?? ''}}"
+                                                                   data-action=""
+                                                                   class="form-control form-control-sm required"
+                                                                   id="registrationNo"
+                                                                   placeholder=""
+                                                                   required/>
+                                                            <div class="input-group-addon">
+                                                                <button type="button"
+                                                                        title="Search Vehicle Button"
+                                                                        id="vehicleSearchBtn"
+                                                                        name="vehicleSearchBtn"
+                                                                        class="btn btn-success btn-sm border-radius-0">
+                                                                    <i class="fas fa-search"></i>
+                                                                </button>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-6 d-none">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                        <input type="text"
+                                                               class="form-control form-control-sm"
+                                                               id="type_brand_model"
+                                                               readonly
+                                                               name="type_brand_model"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6
+                                                            col-md-5 col-lg-4 field-required"
+                                                        for="staff_no">
+                                                        Assigned To :
+                                                    </label>
+
+                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   class="form-control form-control-sm"
+                                                                   id="assignedTo"
+                                                                   readonly
+                                                                   value=""
+                                                                   name="assignedTo"
+                                                                   required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   required
+                                                                   readonly
+                                                                   name="assignedToDescription"
+                                                                   class="form-control form-control-sm"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="mileage">
+                                                        Odometer :
+                                                    </label>
+                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input name="mileage"
+                                                                   type="text"
+                                                                   class="form-control numberOnly"
+                                                                   id="mileage"
+                                                                   placeholder="Enter Current Odometer Reading"
+                                                                   required>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
+                                                                    <i class="fa fa-dashboard"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="insured" value="Y"/>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                        col-lg-4 field-required"
+                                                        for="staff_no">Date Reported:
+                                                    </label>
+                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   class="form-control form-control-sm"
+                                                                   id="date_of_req"
+                                                                   readonly
+                                                                   value="{{ date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                   name="date_of_req"
+                                                                   required>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
+                                                                    <i class="fas fa-calendar"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                        for="job_card_no">
+                                                        Time Reported:
+                                                    </label>
+                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   readonly
+                                                                   value="{{Carbon::now()->format('H:i:s')}}"
+                                                                   class="form-control
+                                                               form-control-sm when_valid number_input"
+                                                                   id="timeIn"
+                                                                   name="timeIn"
+                                                            />
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
+                                                                    <i class="fas fa-clock"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div id="vehicleDetailsContainer" style="display: none;"
+                                                     class="col-xs-12 col-sm-12 col-md-12 pl-0">
+                                                    <h1>Vehicle Details</h1>
+                                                    <div role="table"
+                                                         aria-label="Vehicle Details"
+                                                         class="table table-striped">
+                                                        <div id="vehicleDetails" class="vehicleDetails">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div id="image_view"
+                                                     class="card text-center py-5 my-2"
+                                                     style="display: none;">
+                                                    <div class="form-group">
+                                                        <div class="imagePreview"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
                     <h3 class="step-top step3-top">Driver Details</h3>
-                    @include('modules.accidentReporting.tabs.driverDetail')
+                    <section class="third-section">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                        col-lg-4 app-field-label field-required"
+                                                        for="staff_no">
+                                                        Staff Number:
+                                                    </label>
+                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   list="employee_list"
+                                                                   data-action="{{route('driver.search')}}"
+                                                                   class="form-control form-control-sm"
+                                                                   autocapitalize="characters"
+                                                                   id="driver_staff_number"
+                                                                   placeholder=""
+                                                                   name="driver_staff_number"/>
+                                                            <div class="input-group-addon">
+                                                                <button type="button" id="driverSearchBtn"
+                                                                        name="driverSearchBtn"
+                                                                        class="btn btn-success btn-sm border-radius-0">
+                                                                    <i class="fas fa-search"></i>
+                                                                </button>
+                                                            </div>
+                                                            <datalist id="employee_list">
+                                                            </datalist>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                        col-lg-4 app-field-label field-required"
+                                                        for="driver_name">
+                                                        Name:
+                                                    </label>
+                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                        <input type="text"
+                                                               class="form-control form-control-sm"
+                                                               id="driver_name"
+                                                               readonly
+                                                               name="driver_name"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                        col-lg-4 app-field-label field-required"
+                                                        for="job_title">
+                                                        Position:
+                                                    </label>
+                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   class="form-control form-control-sm"
+                                                                   id="job_title"
+                                                                   readonly
+                                                                   value=""
+                                                                   name="job_title"
+                                                                   required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                        col-lg-4 app-field-label field-required"
+                                                        for="experience">
+                                                        Experience(Years):
+                                                    </label>
+                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   class="form-control form-control-sm"
+                                                                   id="experience"
+                                                                   value=""
+                                                                   name="experience"
+                                                                   required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
 
                     <h3 class="step-top step3-top">Accident Details</h3>
-                    @include('modules.accidentReporting.tabs.accidentDetail')
+                    @php use Carbon\Carbon; @endphp
+                    <section class="second-section">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="accidentType">Type of Accident*:</label>
+                                    <select id="accidentType" name="accidentType" class="form-control required">
+                                        <option value="none">Select Incident type</option>
+                                    </select>
+                                    @error('accidentType')
+                                    <p>{{$message}}</p>
+
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="accidentNature">Nature of accident*:</label>
+                                <select id="accidentNature" name="accidentNature" class="form-control required">
+                                    <option value="none">Select Incident Nature</option>
+                                </select>
+                                @error('accidentNature')
+                                <p>{{$message}}</p>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="peopleInvolved">Number of people involved:</label>
+                                    <input name="peopleInvolved"
+                                           type="number"
+                                           class="form-control required"
+                                           id="peopleInvolved"
+                                           placeholder="Enter Number of people Involved"
+                                           required/>
+                                </div>
+                                @error('peopleInvolved')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="vehicleMake">Other People Involved:</label>
+                                    <select name="other_people_involved"
+                                            type="text"
+                                            class="form-control disableVehicle"
+                                            id="insurance_state" required>
+                                        <option selected disabled>-- Select --</option>
+                                        <option value="YES">Yes</option>
+                                        <option value="NO">No</option>
+                                    </select>
+                                    @error('other_people_involved')
+                                    <p>{{$message}}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="num_passengers">Number of Passengers:</label>
+                                    <input name="num_passengers"
+                                           type="number"
+                                           class="form-control required"
+                                           id="num_passengers"
+                                           placeholder="Enter Number of Passengers"
+                                           required/>
+                                </div>
+                                @error('num_passengers')
+                                <p>{{$message}}</p>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="other_vehicle_involved">Other Vehicles Involved:</label>
+                                    <select name="other_vehicle_involved" type="text"
+                                            class="form-control disableVehicle"
+                                            id="other_vehicle_involved" required>
+                                        <option selected disabled>-- Select --</option>
+                                        <option value="YES">Yes</option>
+                                        <option value="NO">No</option>
+                                    </select>
+                                    @error('property')
+                                    <p>{{$message}}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="death">Death:</label>
+                                    <select name="death"
+                                            type="text"
+                                            class="form-control disableVehicle"
+                                            id="death" required>
+                                        <option selected disabled>-- Select --</option>
+                                        <option value="YES">Yes</option>
+                                        <option value="NO">No</option>
+                                    </select>
+                                    @error('property')
+                                    <p>{{$message}}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="day_of_week">Day Of The Week:</label>
+                                    <select name="day_of_week" class="form-control required"
+                                            id="day_of_week" required>
+                                        <option selected disabled>Select Day Of Week</option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                        <option value="Sunday">Sunday</option>
+                                    </select>
+                                </div>
+                                @error('num_passengers')
+                                <p>{{$message}}</p>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="location">Location:</label>
+                                    <input name="location"
+                                           type="text"
+                                           class="form-control required"
+                                           id="location"
+                                           placeholder="Enter The Location Of The Accident"
+                                           required/>
+                                </div>
+                                @error('peopleInvolved')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="area">Area:</label>
+                                    <input name="area" type="text" class="form-control required" id="location"
+                                           placeholder="Enter The Area Of The Accident" required>
+                                </div>
+                                @error('peopleInvolved')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="property">Was There Property Damage ?:</label>
+                                    <select name="property" type="text" class="form-control disableVehicle"
+                                            id="property" required>
+                                        <option selected disabled>-- Select --</option>
+                                        <option value="YES">Yes</option>
+                                        <option value="NO">No</option>
+                                    </select>
+                                    @error('property')
+                                    <p>{{$message}}</p>
+
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label for="date">Date*:</label>
+                                    <div class="input-group">
+                                        <input name="date" type="date" class="form-control required"
+                                               onkeydown="return false" id="accident-date"
+                                               placeholder="00/00/0000"
+                                               max="{{date('Y-m-d', strtotime( Carbon::now()))}}"
+                                               min="{{date('Y-m-d', strtotime($minDate))}}"
+                                               required>
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                @error('date')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label for="time">Time*:</label>
+                                    <input name="time" type="time" class="form-control required" id="time"
+                                           placeholder="00:00" required>
+                                </div>
+                                @error('time')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+                            <div class="col-md-6 options policeNotification">
+                                <p class="test">Is The ZESCO Driver Guilty ?: </p>
+                                <label class="checkbox-inline mr-5">
+                                    <input type="radio" id="policeNotification-yes" name="guilty" value="yes">
+                                    <label for="policeNotification-yes">Yes</label>
+                                </label>
+                                <label class="checkbox-inline ml-2">
+                                    <input type="radio" id="policeNotification-no" name="guilty" value="no">
+                                    <label for="policeNotification-no">No</label>
+                                </label>
+                                @error('guilty')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+                        </div>
+                    </section>
+
 
                     <h3 class="step-top step4-top">Attachments</h3>
-                    @include('modules.accidentReporting.tabs.attachments')
+                    <section class="second-section">
+                        <div class="row">
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col pl-0">
+                                        <label for="inspectionDate"
+                                               class="fs-6 fw-semibold form-label field-required col-md-5"
+                                               style="padding-right: 0px;">
+                                            Police Report:
+                                            <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
+                                        </label>
+                                        <div class="col-md-7 fv-row">
+                                            <div class="col-md-9 pl-0">
+                                                <input type="file" accept="image/*,.pdf"
+                                                       required
+                                                       id="police_report"
+                                                       class="filer_input"
+                                                       name="police_report"/>
+                                            </div>
+                                        </div>
 
+                                        <canvas style="display: none;" id="motor_vehicle_certificatePdfViewer"></canvas>
+                                    </div>
+                                    <div class="col">
+                                        <label for="inspectionDate"
+                                               class="fs-6 fw-semibold form-label reqd col-md-5"
+                                               style="padding-right: 0px;">
+                                            Insurance Report:
+                                            <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
+                                        </label>
+
+                                        <div class="col-md-7 fv-row">
+                                            <div class="col-md-9 pl-0">
+                                                <input type="file" accept="image/*,.pdf"
+                                                       id="insurance_report"
+                                                       class="filer_input"
+                                                       name="insurance_report"/>
+                                            </div>
+                                        </div>
+
+                                        <canvas style="display: none;" id="insurance_cover_notePdfViewer"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="table-responsive" style="max-height:500px;">
+                                    <table data-model-name="Observations"
+                                           aria-label="accident attachments"
+                                           role="table"
+                                           class="table table-striped table-bordered"
+                                           id="observations">
+                                        <thead>
+                                        <tr class="bg-success">
+                                            <th scope="row">Attachment</th>
+                                            {{--<th scope="row">Remarks(Description)</th>--}}
+                                            <th scope="row"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    <button type="button" title="Select Image"
+                                                            data-toggle="tooltip"
+                                                            data-select="file"
+                                                            class="btn btn-primary btn-sm selectAttachment">
+                                                        <i class="fas fa-paperclip"></i>
+                                                    </button>
+                                                    <input type="file"
+                                                           accept="image/*"
+                                                           style="display: none;"
+                                                           class="fileElem"
+                                                           id="attachment"
+                                                           name="attachment[]"/>
+                                                </p>
+                                                <div class="imagePreview"
+                                                     style="display: none; min-height: 250px !important;">
+                                                    <button type="button"
+                                                            class="btn btn-xs clearImage"
+                                                            style="top: 1px;
+                                        position: relative;
+                                        right: 1px;
+                                        float: right;
+                                        padding: 2px;">
+                                                        <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            {{-- <td>
+                                                 <input type="text" name="observation[]" class="form-control">
+                                             </td>--}}
+                                            <td>
+                                                <button type="button"
+                                                        data-table-id="observations"
+                                                        class="btn btn-sm btn-danger"
+                                                        value="deleteRow">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <button type="button"
+                                            data-table-id="observations"
+                                            class="btn btn-sm btn-primary add pull-right"
+                                            value="insertRow">
+                                        <i class="fa fa-plus"></i> Add Row
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </form>
 
                 <input type="hidden"
@@ -72,52 +759,11 @@
         <script src="{{asset("libs/steps/jquery.steps.min.js")}}"></script>
         <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
         <script>
-            const observationRowTemplate = `<tr>
-                                    <td>
-                                        <p>
-                                            <button type="button" title="Select Image"
-                                                    data-toggle="tooltip"
-                                                    data-select="file"
-                                                    class="btn btn-primary btn-sm selectAttachment">
-                                                <i class="fas fa-paperclip"></i>
-                                            </button>
-                                            <input type="file"
-                                                   accept="image/*"
-                                                   style="display: none;"
-                                                   class="fileElem d-none"
-                                                   id="attachment"
-                                                   name="attachment[]"/>
-                                        </p>
-                                        <div class="imagePreview"
-                                             style="display: none; min-height: 100px !important;">
-                                            <button type="button"
-                                                    class="btn btn-xs clearImage"
-                                                    style="top: 1px;
-                                                                                                    position: relative;
-                                                                                                    right: 1px;
-                                                                                                    float: right;
-                                                                                                    padding: 2px;">
-                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="observation[]" class="form-control">
-                                    </td>
-                                    <td>
-                                        <button type="button"
-                                                data-table-id="observations"
-                                                class="btn btn-sm btn-danger"
-                                                value="deleteRow">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>`;
             (function (tmsApp, $) {
 
-                new tmsApp.fileUploader().makeSingleFileUploader();
+                /*new tmsApp.fileUploader().makeSingleFileUploader();
 
-                new ImageUpload().initRow();
+                new ImageUpload().initRow();*/
 
                 function initializeFormWizard() {
                     let formWizard = $('#my-form');
@@ -129,6 +775,7 @@
                         bodyTag: "section",
                         transitionEffect: "slideLeft",
                         autoFocus: true,
+                        enableFinishButton: false,
                         labels: {
                             finish: 'Submit'
                         },
