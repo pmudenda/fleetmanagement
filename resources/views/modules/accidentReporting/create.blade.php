@@ -29,20 +29,10 @@
             <div class="card-header">
                 <div class="card-title">
                     <h4>Accident Record</h4>
-                    {{--@if(!empty($details) && !empty($details->job_card_no))
-                        <span class="ml-2 indicator-pill whitespace-nowrap green">
-                            <span>Saved</span>
-                        </span>
-                    @else@endif--}}
-                    <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
+                    <span class="ml-2 indicator-pill whitespace-nowrap orange">
+                        <span>Not Saved</span>
+                    </span>
                 </div>
-                {{--
-                        @if(!empty($details) && !empty($details->job_card_no))
-                            <div class="card-toolbar justify-content-end">
-                                JOB CARD NUMBER: <span class="text-orange">{{ $details->job_card_no ?? '' }}</span>
-                            </div>
-                        @endif
-                 --}}
             </div>
 
             <div class="card-body pb-4 min-h-600px pt-0">
@@ -92,7 +82,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                    <div class="col-xs-12 col-sm-6 col-md-6 d-none">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
                                                 <div class="form-group row">
@@ -103,6 +93,67 @@
                                                                readonly
                                                                name="type_brand_model"
                                                                required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="container-fluid pl-0">
+                                        <div class="row">
+                                            <div class="form-group row">
+                                                <label
+                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                        col-lg-4 app-field-label field-required"
+                                                        for="staff_no">Date Reported:
+                                                </label>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <div class="input-group">
+                                                        <input type="text"
+                                                               class="form-control form-control-sm"
+                                                               id="date_of_req"
+                                                               readonly
+                                                               value="{{ date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                               name="date_of_req"
+                                                               required>
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <i class="fas fa-calendar"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="container-fluid pl-0">
+                                        <div class="row">
+                                            <div class="form-group row">
+                                                <label
+                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                        for="job_card_no">
+                                                    Time Reported:
+                                                </label>
+                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                    <div class="input-group">
+                                                        <input type="text"
+                                                               readonly
+                                                               value="{{Carbon::now()->format('H:i:s')}}"
+                                                               class="form-control
+                                                               form-control-sm when_valid number_input"
+                                                               id="timeIn"
+                                                               name="timeIn"
+                                                        />
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <i class="fas fa-clock"></i>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -191,95 +242,34 @@
                                 </div>
                             </div>
                             <div class="col-4">
-
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label
-                                                        class="col-xs-12 col-sm-6 col-md-5
-                                                        col-lg-4 app-field-label field-required"
-                                                        for="staff_no">Date Reported:
-                                                </label>
-                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                    <div class="input-group">
-                                                        <input type="text"
-                                                               class="form-control form-control-sm"
-                                                               id="date_of_req"
-                                                               readonly
-                                                               value="{{ date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                               name="date_of_req"
-                                                               required>
-                                                        <div class="input-group-append">
-                                                            <div class="input-group-text">
-                                                                <i class="fas fa-calendar"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label
-                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                        for="job_card_no">
-                                                    Time Reported:
-                                                </label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                    <div class="input-group">
-                                                        <input type="text"
-                                                               readonly
-                                                               value="{{Carbon::now()->format('H:i:s')}}"
-                                                               class="form-control
-                                                               form-control-sm when_valid number_input"
-                                                               id="timeIn"
-                                                               name="timeIn"
-                                                        />
-                                                        <div class="input-group-append">
-                                                            <div class="input-group-text">
-                                                                <i class="fas fa-clock"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-8">
                                 <div class="row">
-                                    <div class="col-6">
-                                        <div id="vehicleDetailsContainer" style="display: none;"
-                                             class="col-xs-12 col-sm-12 col-md-12 pl-0">
-                                            <h1>Vehicle Details</h1>
-                                            <div role="table"
-                                                 aria-label="Vehicle Details"
-                                                 class="table table-striped">
-                                                <div id="vehicleDetails" class="vehicleDetails">
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div id="vehicleDetailsContainer" style="display: none;"
+                                                     class="col-xs-12 col-sm-12 col-md-12 pl-0">
+                                                    <h1>Vehicle Details</h1>
+                                                    <div role="table"
+                                                         aria-label="Vehicle Details"
+                                                         class="table table-striped">
+                                                        <div id="vehicleDetails" class="vehicleDetails">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
-                                            <div class="form-group">
-                                                <div class="imagePreview"></div>
+                                            <div class="col-6">
+                                                <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
+                                                    <div class="form-group">
+                                                        <div class="imagePreview"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </section>
 
                     <h3 class="step-top step2-top">Accident Details</h3>
