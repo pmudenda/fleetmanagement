@@ -249,6 +249,11 @@
             let barCharOption = {
                 legend: {},
                 tooltip: {},
+                title: {
+                    text: 'Fuel Type By Year',
+                    subtext: 'Most Consumed',
+                    left: 'center'
+                },
                 dataset: {
                     dimensions: dataByYear.dimension,
                     source: dataByYear.source
