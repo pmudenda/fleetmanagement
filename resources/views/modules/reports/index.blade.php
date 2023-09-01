@@ -20,31 +20,59 @@
             <div class="row">
                 <!-- Left col -->
                 <div class="col-md-12 pl-0">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">
-                                <h4>Fuel Requisitions Report</h4>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h4>Fuel Requisitions Report</h4>
+                                </div>
+                                <div class="card-toolbar justify-content-end"></div>
                             </div>
-                            <div class="card-toolbar justify-content-end"></div>
-                        </div>
-                        <div class="card-body p-2">
-                            <div class="row">
-                                <div class="col-6">
+                            <div class="card-body p-2">
+                                <div class="row">
+
                                     <div id="bar_chart" style="height:400px;"></div>
-                                </div>
-                                <div class="col-6">
+
                                     <div id="pie" style="height:400px;"></div>
+
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div id="main" style="height:400px;"></div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div id="main" style="height:400px;"></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="table-responsive mt-10 ">
+                                <div class="table-responsive mt-10 ">
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h4>Fuel Requisitions Report</h4>
+                                </div>
+                                <div class="card-toolbar justify-content-end"></div>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="row">
+
+                                    <div id="bar_chart" style="height:400px;"></div>
+
+                                    <div id="pie" style="height:400px;"></div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div id="main" style="height:400px;"></div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive mt-10 ">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -179,8 +207,7 @@
                     }
                     if (valueObject.hasOwnProperty(datum['fuel_type'])) {
                         valueObject[datum['fuel_type']] += parseFloat(datum['cost']);
-                    }
-                    else {
+                    } else {
                         valueObject[datum['fuel_type']] = parseFloat(datum['cost']);
                     }
                 }
