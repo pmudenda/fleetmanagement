@@ -278,7 +278,8 @@
 
                 return {
                     dimension: ['product', ...years],
-                    source: sourceData
+                    source: sourceData,
+                    years: years
                 };
             }
 
@@ -286,16 +287,26 @@
             let bar_chartDom = document.querySelector("#bar_chart");
             let bar_chart = echarts.init(bar_chartDom);
             let barCharOption = {
-                legend: {},
-                tooltip: {},
                 title: {
                     text: 'Fuel Type By Year',
                     subtext: 'Most Consumed',
                     left: 'center'
                 },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                },
                 dataset: {
                     dimensions: dataByYear.dimension,
                     source: dataByYear.source
+                },
+                legend: {
+                    type: 'scroll',
+                    orient: 'vertical',
+                    right: 10,
+                    top: 20,
+                    bottom: 20,
+                    data: dataByYear.years
                 },
                 xAxis: {type: 'category'},
                 yAxis: {},
