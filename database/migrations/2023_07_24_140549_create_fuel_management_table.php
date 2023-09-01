@@ -79,7 +79,10 @@ return new class extends Migration {
                                 UPDATE vm_vehicle_header
                                 SET MILEAGE = :NEW.ODOMETER
                                 WHERE trim(REGISTRATION_NUMBER)= trim(:OLD.REG_NO);
-                                END;');
+                                END;
+                                /
+                                ALTER TRIGGER "TR_FUEL_ODOMETER_UPDATE" ENABLE;
+                                ');
 
         /*DB::unprepared('ALTER TRIGGER "TR_FUEL_ODOMETER_UPDATE" ENABLE;
 
