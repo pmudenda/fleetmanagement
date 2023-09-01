@@ -34,11 +34,9 @@ class SendJobCardCreatedEmail
             Log::info('Sending Mail Notification To Request Workshop Supervisor');
             $sender = $user;
 
-            $task = WorkflowTaskHeader::where('reference', '=', trim($reference))->first();
-
             $recipient = User::where('staff_no', trim($supervisor->staff_no))->first();
 
-            EmailNotificationService::sendNotification($recipient, $sender, $jobCard, $action, $task);
+            EmailNotificationService::sendNotification($recipient, $sender, $jobCard, $action);
         } catch (\Exception $e) {
             Log::info('Error When Sending Mail');
             Log::error($e);

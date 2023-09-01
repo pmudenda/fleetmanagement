@@ -320,7 +320,6 @@ class WorkflowService
             case 5:
             {
                 //send back
-                //DB::beginTransaction();
                 $previousStep = WorkflowStep::where('step_id', '=', $currentStep->previous_step)->first();
 
                 $previousStepLog = WorkflowLog::where('reference', '=', $taskDetail->reference)
@@ -344,7 +343,6 @@ class WorkflowService
                 //self::createUserNotification($task_detail, "Task Sent Back", $previousStep->action_page ?? "");
 
                 $taskDetail->save();
-                //DB::commit();
                 return [$taskDetail, '0'];
             }
             case 7:
@@ -373,7 +371,6 @@ class WorkflowService
                 }
 
                 $taskDetail->current_step_id = $verificationStep->step_id . ToString();
-
                 //save process and send notification
                 $taskDetail->save();
                 //new notification

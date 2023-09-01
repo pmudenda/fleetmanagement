@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class DriverOnboardingRequest extends FormRequest
 {
+    const REQUIRED_STRING_MAX_255 = 'required|string|max:255';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -26,14 +28,14 @@ class DriverOnboardingRequest extends FormRequest
             'employee_number' => 'required|string|max:255|unique:App\Models\Driver,staff_number',
             'driver_name' => 'required|string|max:100',
             'grade' => 'required|string|max:3',
-            'job_title' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
+            'job_title' => self::REQUIRED_STRING_MAX_255,
+            'location' => self::REQUIRED_STRING_MAX_255,
             'department' => 'required|string|max:150',
             'license_number' => 'required|string|max:255|unique:App\Models\Driver,license_number',
 
             'license_date_issued' => 'required|date_format:Y-m-d|before:license_date_expiry',
             'license_date_expiry' => 'required|date_format:Y-m-d|after:license_date_issued',
-            'license_class' => 'required|string|max:255',
+            'license_class' => self::REQUIRED_STRING_MAX_255,
             'license_front_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
             'license_back_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
             'isDesignatedDriver' => 'required|string',

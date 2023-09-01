@@ -7,11 +7,10 @@ use App\Enums\Constants;
 use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Settings\GeneralTable;
-use App\Models\Settings\WorkShop;
 use App\Models\Common\CostCenter;
 use App\Models\Reference\Area;
-use Illuminate\Contracts\View\Factory;
+use App\Models\Settings\GeneralTable;
+use App\Models\Settings\WorkShop;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
@@ -80,7 +79,7 @@ class WorkshopController extends Controller
 
     }
 
-    public function requisitions(): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function requisitions(): View|Application
     {
         $staff_no = auth()->user()->staff_no;
 

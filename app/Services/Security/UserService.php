@@ -27,7 +27,7 @@ class UserService
             //Remove profiles
             if ($employee->employee_status == config('constants.phris_user_not_active')) {
                 // find the user
-                $user = User::find($employee->id);
+                User::find($employee->id);
             }
 
             log::info('Update Successful' . $employee->id);
@@ -38,7 +38,6 @@ class UserService
     public static function syncEmployeeFullDetails($userId): void
     {
         $id = $userId;
-        //(int) ParameterEncryption::decrypt();
         Log::info('Start Syncing Data ' . $userId);
         self::sync($id);
     }

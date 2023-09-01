@@ -53,7 +53,6 @@ class PermissionsSeeder extends Seeder
         Permission::firstOrCreate(['description' => 'View Driver Detail', 'name' => 'view_driver_details', 'slug' => 'view_driver_details']);
 
 
-
         // Fuel Requisitions
         Permission::firstOrCreate(
             ['description' => 'Allows User to requisition for fuel',
@@ -68,37 +67,74 @@ class PermissionsSeeder extends Seeder
 
         // Workshop
         Permission::firstOrCreate(
-            ['description' => 'Create Workshop Section', 'name' => 'add_workshop_section', 'slug' => 'create_work_section']);
+            [
+                'description' => 'Create Workshop Section',
+                'name' => 'add_workshop_section',
+                'slug' => 'create_work_section']);
         Permission::firstOrCreate(
-            ['description' => 'Edit Workshop Section', 'name' => 'edit_workshop_section', 'slug' => 'edit_work_section']);
+            [
+                'description' => 'Edit Workshop Section',
+                'name' => 'edit_workshop_section',
+                'slug' => 'edit_work_section']);
         Permission::firstOrCreate(
-            ['description' => 'View Workshop Section', 'name' => 'view_workshop_section', 'slug' => 'view_work_section']);
+            [
+                'description' => 'View Workshop Section',
+                'name' => 'view_workshop_section',
+                'slug' => 'view_work_section']);
         Permission::firstOrCreate(
-            ['description' => 'View All Cleaned Vehicles', 'name' => 'all_cleaned_list', 'slug' => 'all_cleaned_list']);
+            [
+                'description' => 'View All Cleaned Vehicles',
+                'name' => 'all_cleaned_list',
+                'slug' => 'all_cleaned_list']);
         Permission::firstOrCreate(
-            ['description' => 'View All Cleaned Vehicles', 'name' => 'all_cleaned_list', 'slug' => 'all_cleaned_list']);
+            [
+                'description' => 'View All Cleaned Vehicles',
+                'name' => 'all_cleaned_list',
+                'slug' => 'all_cleaned_list']);
 
 
-        Permission::firstOrCreate(['description' => 'Create Job Card Request', 'name' => 'create_job_card', 'slug' => 'create_job_card']);
-        Permission::firstOrCreate(['description' => 'View Job Card Request', 'name' => 'view_job_card', 'slug' => 'view_job_card']);
-        Permission::firstOrCreate(['description' => 'Approve Job Card Requisition', 'name' => 'approve_workshop_requisition', 'slug' => 'approve_workshop_requisition']);
+        Permission::firstOrCreate([
+            'description' => 'Create Job Card Request',
+            'name' => 'create_job_card',
+            'slug' => 'create_job_card'
+        ]);
+        Permission::firstOrCreate([
+            'description' => 'View Job Card Request',
+            'name' => 'view_job_card',
+            'slug' => 'view_job_card'
+        ]);
+        Permission::firstOrCreate([
+            'description' => 'Approve Job Card Requisition',
+            'name' => 'approve_workshop_requisition',
+            'slug' => 'approve_workshop_requisition'
+        ]);
 
 
         // Permissions -Security
         Permission::firstOrCreate(
-            ['description' => 'Permission Access', 'name' => 'permission_access', 'slug' => 'permission_access']);
+            [
+                'description' => 'Permission Access',
+                'name' => 'permission_access',
+                'slug' => 'permission_access']);
         Permission::firstOrCreate(
-            ['description' => 'Permission Show', 'name' => 'permission_show', 'slug' => 'permission_show']);
+            ['description' => 'Permission Show',
+                'name' => 'permission_show',
+                'slug' => 'permission_show']);
         Permission::firstOrCreate(
-            ['description' => 'Can Edit Permission', 'name' => 'permission_edit', 'slug' => 'permission_edit']);
+            ['description' => 'Can Edit Permission',
+                'name' => 'permission_edit', 'slug' => 'permission_edit']);
         Permission::firstOrCreate(
-            ['description' => 'Permission Destroy', 'name' => 'permission_destroy', 'slug' => 'permission_destroy']);
+            ['description' => 'Permission Destroy',
+                'name' => 'permission_destroy', 'slug' => 'permission_destroy']);
         Permission::firstOrCreate(
-            ['description' => 'Create Permission', 'name' => 'permission_create', 'slug' => 'permission_create']);
+            ['description' => 'Create Permission',
+                'name' => 'permission_create', 'slug' => 'permission_create']);
         Permission::firstOrCreate(
-            ['description' => 'Assign Permission', 'name' => 'permission_attach', 'slug' => 'permission_attach']);
+            ['description' => 'Assign Permission',
+                'name' => 'permission_attach', 'slug' => 'permission_attach']);
         Permission::firstOrCreate(
-            ['description' => 'Permission Detach', 'name' => 'permission_revoke', 'slug' => 'permission_revoke']);
+            ['description' => 'Permission Detach',
+                'name' => 'permission_revoke', 'slug' => 'permission_revoke']);
         Permission::firstOrCreate(
             ['description' => 'Add General Tables Data', 'name' => 'add_general_table_data', 'slug' => 'add_general_table_data']);
         Permission::firstOrCreate(

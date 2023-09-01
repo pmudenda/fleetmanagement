@@ -15,20 +15,28 @@ class VehicleDetailsService
     public static function getAllVehicles(): Collection
     {
         try {
-            return DB::table('VM_VEHICLE_HEADER')
-                ->leftJoin('CONFIG_STATUSES', 'VM_VEHICLE_HEADER.status', '=', 'CONFIG_STATUSES.code')
-                ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
-                ->leftJoin('VM_CHASSIS_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_CHASSIS_DETAILS.vehicle_header_id')
+            return DB::table('VM_VEHICLE_HEADER v_header')
+                ->leftJoin('CONFIG_STATUSES',
+                    'v_header.status',
+                    '=', 'CONFIG_STATUSES.code')
+                ->leftJoin('v_asgnment',
+                    'v_header.id', '=',
+                    'v_asgnment.vehicle_header_id')
+                ->leftJoin('VM_CHASSIS_DETAILS',
+                    'v_header.id', '=',
+                    'VM_CHASSIS_DETAILS.vehicle_header_id')
                 ->leftJoin('VM_ENGINE_DETAILS',
-                    'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
+                    'v_header.id',
+                    '=',
+                    'VM_ENGINE_DETAILS.vehicle_header_id')
                 ->where('CONFIG_STATUSES.MODULE',
                     '=', Modules::VEHICLE->value)
-                ->select('VM_VEHICLE_HEADER.*',
-                    'VM_VEHICLE_HEADER.id as header_id',
-                    'VM_ASSIGNMENTS.*',
+                ->select('v_header.*',
+                    'v_header.id as header_id',
+                    'v_asgnment.*',
                     'VM_ENGINE_DETAILS.fuel_allocation',
                     'CONFIG_STATUSES.name as status_name',
-                    'VM_VEHICLE_HEADER.created_name as onboarded_by',
+                    'v_header.created_name as onboarded_by',
                     'VM_ENGINE_DETAILS.fuel_types'
                 )
                 ->orderBy('VM_VEHICLE_HEADER.created_at', 'desc')

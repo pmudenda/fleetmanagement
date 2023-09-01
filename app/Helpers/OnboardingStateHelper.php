@@ -5,12 +5,12 @@ namespace App\Helpers;
 class OnboardingStateHelper
 {
 
-    const assignment = 'ASSIGNMENT';
-    const generalData = 'GENERAL_DATA';
-    const technicalData = 'TECHNICAL_DATA';
-    const bodyDetails = "BODY_DATA";
-    const header_data = "HEADER_DATA";
+    const ASSIGNMENT = 'ASSIGNMENT';
+    const GENERAL_DATA = 'GENERAL_DATA';
+    const TECHNICAL_DATA = 'TECHNICAL_DATA';
+    const BODY_DATA = "BODY_DATA";
+    const HEADER_DATA = "HEADER_DATA";
 
-    const costing = "COSTING_DATA";
-    const accessoriesCheckin = "ACCESSORIES_CHECKIN";
+    const COSTING_DATA = "COSTING_DATA";
+    const ACCESSORIES_CHECKIN = "ACCESSORIES_CHECKIN";
 }

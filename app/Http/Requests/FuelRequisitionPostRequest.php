@@ -43,11 +43,16 @@ class FuelRequisitionPostRequest extends FormRequest
             'project_code' => 'exclude_unless:CostAssignedTo,ProjectBasedRequisition|required|string',
             'ProjectName' => 'exclude_unless:CostAssignedTo,ProjectBasedRequisition|required|string',
             // out of town specific validation
-            'departure_date' => 'exclude_unless:requisition_type,'.RequisitionTypes::OutOfTown->value.'|required|date_format:Y-m-d',
-            'return_date' => 'exclude_unless:requisition_type,'.RequisitionTypes::OutOfTown->value.'|required|date_format:Y-m-d',
-            'authorityToTravel' => 'exclude_unless:requisition_type,'.RequisitionTypes::OutOfTown->value.'|file|mimes:jpg,jpeg,png,pdf',
-            'destinationTown' => 'exclude_unless:requisition_type,'.RequisitionTypes::OutOfTown->value.'|required|string',
-            'departureTown' => 'exclude_unless:requisition_type,'.RequisitionTypes::OutOfTown->value.'|required|string',
+            'departure_date' => 'exclude_unless:requisition_type,'
+                .RequisitionTypes::OutOfTown->value.'|required|date_format:Y-m-d',
+            'return_date' => 'exclude_unless:requisition_type,'
+                .RequisitionTypes::OutOfTown->value.'|required|date_format:Y-m-d',
+            'authorityToTravel' => 'exclude_unless:requisition_type,'
+                .RequisitionTypes::OutOfTown->value.'|file|mimes:jpg,jpeg,png,pdf',
+            'destinationTown' => 'exclude_unless:requisition_type,'
+                .RequisitionTypes::OutOfTown->value.'|required|string',
+            'departureTown' => 'exclude_unless:requisition_type,'
+                .RequisitionTypes::OutOfTown->value.'|required|string',
         ];
     }
 }

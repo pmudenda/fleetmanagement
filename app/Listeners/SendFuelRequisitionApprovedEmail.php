@@ -36,8 +36,9 @@ class SendFuelRequisitionApprovedEmail
 
             EmailNotificationService::sendNotification($recipient, $sender,
                 ['req_no' => $reference,
-                    'spms_ref' => $event->requisitionNumber],
-                $action, $task);
+                    'spms_ref' => $event->requisitionNumber
+                ],
+                $action);
         } catch (\Exception $e) {
             Log::info('Error When Sending Mail');
             Log::error($e);

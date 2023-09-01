@@ -13,7 +13,7 @@ class EmailNotificationService
 {
     const NEW_TASK_NEEDS_YOUR_ATTENTION = "New Task Needs Your Attention";
 
-    public static function sendNotification($recipient, $sender, $record, $action, $task): bool
+    public static function sendNotification($recipient, $sender, $record, $action): bool
     {
         try {
             $recipientMail = config("mail.default_mail") ?? $recipient->email;
@@ -24,11 +24,14 @@ class EmailNotificationService
                 case 'requisition':
                     $details = [
                         'name' => $names,
-                        'systemLink' => URL::signedRoute('show.workshop.requisition', ['ref' => $record->req_no]),
+                        'systemLink' => URL::signedRoute('show.workshop.requisition', [
+                            'ref' => $record->req_no
+                        ]),
                         'identity' => $record->req_no,
                         'subject' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
                         'title' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
-                        'body' => "Please be informed that {$sender->name} has raised a request for spares, with reference
+                        'body' => "Please be informed that {$sender->name}
+                        has raised a request for spares, with reference
                                <strong>{$record->req_no}</strong>
                                in Fleet Master.
                                <br>Kindly click on the button below to login to ZFMS

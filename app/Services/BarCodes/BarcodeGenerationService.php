@@ -11,8 +11,109 @@ class BarcodeGenerationService extends BarCodePrint
     const BACK_SLASH = "222221";
     const EXCLAIMATION = "222122";
     const HASH = "121223";
-    const AMPERSAND = "121322";
+    const DOLLAR_SIGN = "121322";
     const PERCENTAGE = "131222";
+    const SINGLE_QUOTE = "122312";
+    const ASTERIX = "221312";
+    const Q = "211331";
+    const R = "231131";
+    const S = "213113";
+    const V = "311123";
+    const T = "213311";
+    const U = "213131";
+    const FNC = "114311";
+    const DEL = "114113";
+    const TILDA = "131141";
+    const PIPE = "111143";
+    const FNC_2 = "411113";
+    const SHIFT = "411311";
+    const RIGHT_CURLY_BRACE = "111341";
+    const LEFT_CURLY_BRACE = "412121";
+    const LOWER_Z = "214121";
+    const LOWER_Y = "212141";
+    const LOWER_X = "421211";
+    const LOWER_W = "421112";
+    const LOWER_V = "411212";
+    const UPPER_W = "311321";
+    const UPPER_X = "331121";
+    const UPPER_Y = "312113";
+    const UPPER_Z = "312311";
+    const UPPER_P = "313121";
+    const UPPER_O = "133121";
+    const UPPER_N = "113321";
+    const UPPER_M = "113123";
+    const UPPER_L = "132131";
+    const UPPER_K = "112331";
+    const UPPER_J = "112133";
+    const UPPER_I = "231311";
+    const UPPER_H = "231113";
+    const UPPER_G = "211313";
+    const UPPER_F = "132311";
+    const E = "132113";
+    const D = "112313";
+    const UPPER_C = "131321";
+    const UPPER_B = "131123";
+    const UPPER_A = "111323";
+    const AT = "232121";
+    const QUESTION_MARK = "212321";
+    const AMPERSAND = "122213";
+    const OPENNING_BRACE = "132212";
+    const CLOSING_BRACE = "221213";
+    const PLUS = "231212";
+    const COMMA = "112232";
+    const ZERO = "123122";
+    const ONE = "123221";
+    const FORWARD_SLASH = "113222";
+    const TWO = "223211";
+    const THREE = "221132";
+    const FOUR = "221231";
+    const FIVE = "213212";
+    const SIX = "223112";
+    const SEVEN = "312131";
+    const EIGHT = "311222";
+    const NINE = "321122";
+    const COLON = "321221";
+    const SEMI_COLON = "312212";
+    const EQUAL = "322211";
+    const GREATER_THAN = "212123";
+    const LESS_THAN = "322112";
+    const PERIOD = "122231";
+    const HYPHEN = "122132";
+    const LOWER_A = "121124";
+    const LOWER_B = "121421";
+    const LOWER_C = "141122";
+    const LOWER_D = "141221";
+    const LOWER_E = "112214";
+    const LOWER_K = "241211";
+    const LOWER_M = "413111";
+    const LOWER_O = "134111";
+    const LOWER_R = "121241";
+    const LOWER_U = "124211";
+    const LOWER_L = "221114";
+    const LOWER_N = "241112";
+    const LOWEP = "111242";
+    const LOWER_Q = "121142";
+    const LOWER_T = "124112";
+    const LOWER_S = "114212";
+    const LOWER_J = "142211";
+    const LOWER_G = "122114";
+    const LOWER_H = "122411";
+    const LOWER_I = "142112";
+    const LOWER_F = "112412";
+    const APOSTROPHE = "111422";
+    const UNDER_SCORE = "111224";
+    const EXPONENTION = "431111";
+    const RIGHT_SQUARE_BRACKET = "221411";
+    const LEFT_SQUARE_BRACKET = "332111";
+    const DOUBLE_BACK_SLASH = "314111";
+    const FNC_4 = "114131";
+    const CODE_A = "311141";
+    const START_A = "211412";
+    const START_C = "211232";
+    const START_B = "211214";
+    const STOP = "2331112";
+    const FNC_1 = "411131";
+    const CODE_C = "113141";
     protected $fileType;
     /**
      * Image file path
@@ -108,68 +209,109 @@ class BarcodeGenerationService extends BarCodePrint
                 "!" => self::EXCLAIMATION,
                 "\"" => self::BACK_SLASH,
                 "#" => self::HASH,
-                "$" => self::AMPERSAND,
+                "$" => self::DOLLAR_SIGN,
                 "%" => self::PERCENTAGE,
-                "&" => "122213",
-                "'" => "122312",
-                "(" => "132212",
-                ")" => "221213",
-                "*" => "221312",
-                "+" => "231212",
-                "," => "112232",
-                "-" => "122132",
-                "." => "122231",
-                "/" => "113222",
-                "0" => "123122",
-                "1" => "123221",
-                "2" => "223211",
-                "3" => "221132",
-                "4" => "221231",
-                "5" => "213212",
-                "6" => "223112",
-                "7" => "312131",
-                "8" => "311222",
-                "9" => "321122",
-                ":" => "321221",
-                ";" => "312212",
-                "<" => "322112",
-                "=" => "322211",
-                ">" => "212123",
-                "?" => "212321",
-                "@" => "232121",
-                "A" => "111323",
-                "B" => "131123",
-                "C" => "131321",
-                "D" => "112313",
-                "E" => "132113",
-                "F" => "132311",
-                "G" => "211313",
-                "H" => "231113",
-                "I" => "231311",
-                "J" => "112133",
-                "K" => "112331",
-                "L" => "132131",
-                "M" => "113123", "N" => "113321", "O" => "133121",
-                "P" => "313121", "Q" => "211331", "R" => "231131",
-                "S" => "213113", "T" => "213311", "U" => "213131",
-                "V" => "311123", "W" => "311321", "X" => "331121",
-                "Y" => "312113", "Z" => "312311", "[" => "332111",
-                "\\" => "314111", "]" => "221411", "^" => "431111",
-                "_" => "111224", "\`" => "111422", "a" => "121124",
-                "b" => "121421", "c" => "141122", "d" => "141221",
-                "e" => "112214", "f" => "112412", "g" => "122114",
-                "h" => "122411", "i" => "142112", "j" => "142211",
-                "k" => "241211", "l" => "221114", "m" => "413111",
-                "n" => "241112", "o" => "134111", "p" => "111242",
-                "q" => "121142", "r" => "121241", "s" => "114212",
-                "t" => "124112", "u" => "124211", "v" => "411212",
-                "w" => "421112", "x" => "421211", "y" => "212141",
-                "z" => "214121", "{" => "412121", "|" => "111143",
-                "}" => "111341", "~" => "131141", "DEL" => "114113",
-                "FNC 3" => "114311", "FNC 2" => "411113", "SHIFT" => "411311",
-                "CODE C" => "113141", "FNC 4" => "114131", "CODE A" => "311141",
-                "FNC 1" => "411131", "Start A" => "211412", "Start B" => "211214",
-                "Start C" => "211232", "Stop" => "2331112"
+                "&" => self::AMPERSAND,
+                "'" => self::SINGLE_QUOTE,
+                "(" => self::OPENNING_BRACE,
+                ")" => self::CLOSING_BRACE,
+                "*" => self::ASTERIX,
+                "+" => self::PLUS,
+                "," => self::COMMA,
+                "-" => self::HYPHEN,
+                "." => self::PERIOD,
+                "/" => self::FORWARD_SLASH,
+                "0" => self::ZERO,
+                "1" => self::ONE,
+                "2" => self::TWO,
+                "3" => self::THREE,
+                "4" => self::FOUR,
+                "5" => self::FIVE,
+                "6" => self::SIX,
+                "7" => self::SEVEN,
+                "8" => self::EIGHT,
+                "9" => self::NINE,
+                ":" => self::COLON,
+                ";" => self::SEMI_COLON,
+                "<" => self::LESS_THAN,
+                "=" => self::EQUAL,
+                ">" => self::GREATER_THAN,
+                "?" => self::QUESTION_MARK,
+                "@" => self::AT,
+                "A" => self::UPPER_A,
+                "B" => self::UPPER_B,
+                "C" => self::UPPER_C,
+                "D" => self::D,
+                "E" => self::E,
+                "F" => self::UPPER_F,
+                "G" => self::UPPER_G,
+                "H" => self::UPPER_H,
+                "I" => self::UPPER_I,
+                "J" => self::UPPER_J,
+                "K" => self::UPPER_K,
+                "L" => self::UPPER_L,
+                "M" => self::UPPER_M,
+                "N" => self::UPPER_N,
+                "O" => self::UPPER_O,
+                "P" => self::UPPER_P,
+                "Q" => self::Q,
+                "R" => self::R,
+                "S" => self::S,
+                "T" => self::T,
+                "U" => self::U,
+                "V" => self::V,
+                "W" => self::UPPER_W,
+                "X" => self::UPPER_X,
+                "Y" => self::UPPER_Y,
+                "Z" => self::UPPER_Z,
+                "[" => self::LEFT_SQUARE_BRACKET,
+                "\\" => self::DOUBLE_BACK_SLASH,
+                "]" => self::RIGHT_SQUARE_BRACKET,
+                "^" => self::EXPONENTION,
+                "_" => self::UNDER_SCORE,
+                "\`" => self::APOSTROPHE,
+                "a" => self::LOWER_A,
+                "b" => self::LOWER_B,
+                "c" => self::LOWER_C,
+                "d" => self::LOWER_D,
+                "e" => self::LOWER_E,
+                "f" => self::LOWER_F,
+                "g" => self::LOWER_G,
+                "h" => self::LOWER_H,
+                "i" => self::LOWER_I,
+                "j" => self::LOWER_J,
+                "k" => self::LOWER_K,
+                "l" => self::LOWER_L,
+                "m" => self::LOWER_M,
+                "n" => self::LOWER_N,
+                "o" => self::LOWER_O,
+                "p" => self::LOWEP,
+                "q" => self::LOWER_Q,
+                "r" => self::LOWER_R,
+                "s" => self::LOWER_S,
+                "t" => self::LOWER_T,
+                "u" => self::LOWER_U,
+                "v" => self::LOWER_V,
+                "w" => self::LOWER_W,
+                "x" => self::LOWER_X,
+                "y" => self::LOWER_Y,
+                "z" => self::LOWER_Z,
+                "{" => self::LEFT_CURLY_BRACE,
+                "|" => self::PIPE,
+                "}" => self::RIGHT_CURLY_BRACE,
+                "~" => self::TILDA,
+                "DEL" => self::DEL,
+                "FNC 3" => self::FNC,
+                "FNC 2" => self::FNC_2,
+                "SHIFT" => self::SHIFT,
+                "CODE C" => self::CODE_C,
+                "FNC 4" => self::FNC_4,
+                "CODE A" => self::CODE_A,
+                "FNC 1" => self::FNC_1,
+                "Start A" => self::START_A,
+                "Start B" => self::START_B,
+                "Start C" => self::START_C,
+                "Stop" => self::STOP
             );
 
             $code_keys = array_keys($code_array);
@@ -188,7 +330,7 @@ class BarcodeGenerationService extends BarCodePrint
 
             $this->code_string .= $code_array[$code_keys[($chksum - (intval($chksum / 103) * 103))]];
 
-            $this->code_string = "211214" . $this->code_string . "2331112";
+            $this->code_string = self::START_B . $this->code_string . self::STOP;
 
             return $this->code_string;
 
@@ -216,34 +358,34 @@ class BarcodeGenerationService extends BarCodePrint
 
             // Must not change order of array elements as the checksum depends on the array's key to validate final code
             $codesArray = array(" " => self::SPACE, "!" => self::EXCLAIMATION, "\"" => self::BACK_SLASH, "#" => self::HASH,
-                "$" => self::AMPERSAND, "%" => self::PERCENTAGE, "&" => "122213", "'" => "122312",
-                "(" => "132212", ")" => "221213", "*" => "221312", "+" => "231212",
-                "," => "112232", "-" => "122132", "." => "122231", "/" => "113222",
-                "0" => "123122", "1" => "123221", "2" => "223211", "3" => "221132",
-                "4" => "221231", "5" => "213212", "6" => "223112", "7" => "312131",
-                "8" => "311222", "9" => "321122", ":" => "321221", ";" => "312212",
-                "<" => "322112", "=" => "322211", ">" => "212123", "?" => "212321",
-                "@" => "232121", "A" => "111323", "B" => "131123", "C" => "131321",
-                "D" => "112313", "E" => "132113", "F" => "132311", "G" => "211313",
-                "H" => "231113", "I" => "231311", "J" => "112133", "K" => "112331",
-                "L" => "132131", "M" => "113123", "N" => "113321", "O" => "133121",
-                "P" => "313121", "Q" => "211331", "R" => "231131", "S" => "213113",
-                "T" => "213311", "U" => "213131", "V" => "311123", "W" => "311321",
-                "character" => "331121", "Y" => "312113",
-                "Z" => "312311", "[" => "332111",
-                "\\" => "314111", "]" => "221411", "^" => "431111", "_" => "111224",
-                "\`" => "111422", "a" => "121124", "b" => "121421", "c" => "141122",
-                "d" => "141221", "e" => "112214", "f" => "112412", "g" => "122114",
-                "h" => "122411", "i" => "142112", "j" => "142211", "k" => "241211",
-                "l" => "221114", "m" => "413111", "n" => "241112", "o" => "134111",
-                "p" => "111242", "q" => "121142", "r" => "121241", "s" => "114212",
-                "t" => "124112", "u" => "124211", "v" => "411212", "w" => "421112",
-                "x" => "421211", "y" => "212141", "z" => "214121", "{" => "412121",
-                "|" => "111143", "}" => "111341", "~" => "131141", "DEL" => "114113",
-                "FNC 3" => "114311", "FNC 2" => "411113", "SHIFT" => "411311",
-                "CODE C" => "113141", "FNC 4" => "114131", "CODE A" => "311141",
-                "FNC 1" => "411131", "Start A" => "211412", "Start B" => "211214",
-                "Start C" => "211232", "Stop" => "2331112"
+                "$" => self::DOLLAR_SIGN, "%" => self::PERCENTAGE, "&" => self::AMPERSAND, "'" => self::SINGLE_QUOTE,
+                "(" => self::OPENNING_BRACE, ")" => self::CLOSING_BRACE, "*" => self::ASTERIX, "+" => self::PLUS,
+                "," => self::COMMA, "-" => self::HYPHEN, "." => self::PERIOD, "/" => self::FORWARD_SLASH,
+                "0" => self::ZERO, "1" => self::ONE, "2" => self::TWO, "3" => self::THREE,
+                "4" => self::FOUR, "5" => self::FIVE, "6" => self::SIX, "7" => self::SEVEN,
+                "8" => self::EIGHT, "9" => self::NINE, ":" => self::COLON, ";" => self::SEMI_COLON,
+                "<" => self::LESS_THAN, "=" => self::EQUAL, ">" => self::GREATER_THAN, "?" => self::QUESTION_MARK,
+                "@" => self::AT, "A" => self::UPPER_A, "B" => self::UPPER_B, "C" => self::UPPER_C,
+                "D" => self::D, "E" => self::E, "F" => self::UPPER_F, "G" => self::UPPER_G,
+                "H" => self::UPPER_H, "I" => self::UPPER_I, "J" => self::UPPER_J, "K" => self::UPPER_K,
+                "L" => self::UPPER_L, "M" => self::UPPER_M, "N" => self::UPPER_N, "O" => self::UPPER_O,
+                "P" => self::UPPER_P, "Q" => self::Q, "R" => self::R, "S" => self::S,
+                "T" => self::T, "U" => self::U, "V" => self::V, "W" => self::UPPER_W,
+                "character" => self::UPPER_X, "Y" => self::UPPER_Y,
+                "Z" => self::UPPER_Z, "[" => self::LEFT_SQUARE_BRACKET,
+                "\\" => self::DOUBLE_BACK_SLASH, "]" => self::RIGHT_SQUARE_BRACKET, "^" => self::EXPONENTION, "_" => self::UNDER_SCORE,
+                "\`" => self::APOSTROPHE, "a" => self::LOWER_A, "b" => self::LOWER_B, "c" => self::LOWER_C,
+                "d" => self::LOWER_D, "e" => self::LOWER_E, "f" => self::LOWER_F, "g" => self::LOWER_G,
+                "h" => self::LOWER_H, "i" => self::LOWER_I, "j" => self::LOWER_J, "k" => self::LOWER_K,
+                "l" => self::LOWER_L, "m" => self::LOWER_M, "n" => self::LOWER_N, "o" => self::LOWER_O,
+                "p" => self::LOWEP, "q" => self::LOWER_Q, "r" => self::LOWER_R, "s" => self::LOWER_S,
+                "t" => self::LOWER_T, "u" => self::LOWER_U, "v" => self::LOWER_V, "w" => self::LOWER_W,
+                "x" => self::LOWER_X, "y" => self::LOWER_Y, "z" => self::LOWER_Z, "{" => self::LEFT_CURLY_BRACE,
+                "|" => self::PIPE, "}" => self::RIGHT_CURLY_BRACE, "~" => self::TILDA, "DEL" => self::DEL,
+                "FNC 3" => self::FNC, "FNC 2" => self::FNC_2, "SHIFT" => self::SHIFT,
+                "CODE C" => self::CODE_C, "FNC 4" => self::FNC_4, "CODE A" => self::CODE_A,
+                "FNC 1" => self::FNC_1, "Start A" => self::START_A, "Start B" => self::START_B,
+                "Start C" => self::START_C, "Stop" => self::STOP
             );
 
             $codeKeys = array_keys($codesArray);
@@ -262,7 +404,7 @@ class BarcodeGenerationService extends BarCodePrint
 
             $this->code_string .= $codesArray[$codeKeys[($chksum - (intval($chksum / 103) * 103))]];
 
-            $this->code_string = "211214" . $this->code_string . "2331112";
+            $this->code_string = self::START_B . $this->code_string . self::STOP;
 
             return $this->code_string;
         }
@@ -292,32 +434,32 @@ class BarcodeGenerationService extends BarCodePrint
 
             // Must not change order of array elements as the checksum depends on the array's key to validate final code
             $code_array = array(" " => self::SPACE, "!" => self::EXCLAIMATION, "\"" => self::BACK_SLASH, "#" => self::HASH,
-                "$" => self::AMPERSAND, "%" => self::PERCENTAGE, "&" => "122213", "'" => "122312",
-                "(" => "132212", ")" => "221213", "*" => "221312", "+" => "231212",
-                "," => "112232", "-" => "122132", "." => "122231", "/" => "113222",
-                "0" => "123122", "1" => "123221", "2" => "223211", "3" => "221132",
-                "4" => "221231", "5" => "213212", "6" => "223112", "7" => "312131",
-                "8" => "311222", "9" => "321122", ":" => "321221", ";" => "312212",
-                "<" => "322112", "=" => "322211", ">" => "212123", "?" => "212321",
-                "@" => "232121", "A" => "111323", "B" => "131123", "C" => "131321",
-                "D" => "112313", "E" => "132113", "F" => "132311", "G" => "211313",
-                "H" => "231113", "I" => "231311", "J" => "112133", "K" => "112331",
-                "L" => "132131", "M" => "113123", "N" => "113321", "O" => "133121",
-                "P" => "313121", "Q" => "211331", "R" => "231131", "S" => "213113",
-                "T" => "213311", "U" => "213131", "V" => "311123", "W" => "311321",
-                "X" => "331121", "Y" => "312113", "Z" => "312311", "[" => "332111",
-                "\\" => "314111", "]" => "221411", "^" => "431111", "_" => "111224",
-                "NUL" => "111422", "SOH" => "121124", "STX" => "121421", "ETX" => "141122",
-                "EOT" => "141221", "ENQ" => "112214", "ACK" => "112412", "BEL" => "122114",
-                "BS" => "122411", "HT" => "142112", "LF" => "142211", "VT" => "241211",
-                "FF" => "221114", "CR" => "413111", "SO" => "241112", "SI" => "134111",
-                "DLE" => "111242", "DC1" => "121142", "DC2" => "121241", "DC3" => "114212",
-                "DC4" => "124112", "NAK" => "124211", "SYN" => "411212", "ETB" => "421112",
-                "CAN" => "421211", "EM" => "212141", "SUB" => "214121", "ESC" => "412121",
-                "FS" => "111143", "GS" => "111341", "RS" => "131141", "US" => "114113",
-                "FNC 3" => "114311", "FNC 2" => "411113", "SHIFT" => "411311", "CODE C" => "113141",
-                "CODE B" => "114131", "FNC 4" => "311141", "FNC 1" => "411131", "Start A" => "211412",
-                "Start B" => "211214", "Start C" => "211232", "Stop" => "2331112"
+                "$" => self::DOLLAR_SIGN, "%" => self::PERCENTAGE, "&" => self::AMPERSAND, "'" => self::SINGLE_QUOTE,
+                "(" => self::OPENNING_BRACE, ")" => self::CLOSING_BRACE, "*" => self::ASTERIX, "+" => self::PLUS,
+                "," => self::COMMA, "-" => self::HYPHEN, "." => self::PERIOD, "/" => self::FORWARD_SLASH,
+                "0" => self::ZERO, "1" => self::ONE, "2" => self::TWO, "3" => self::THREE,
+                "4" => self::FOUR, "5" => self::FIVE, "6" => self::SIX, "7" => self::SEVEN,
+                "8" => self::EIGHT, "9" => self::NINE, ":" => self::COLON, ";" => self::SEMI_COLON,
+                "<" => self::LESS_THAN, "=" => self::EQUAL, ">" => self::GREATER_THAN, "?" => self::QUESTION_MARK,
+                "@" => self::AT, "A" => self::UPPER_A, "B" => self::UPPER_B, "C" => self::UPPER_C,
+                "D" => self::D, "E" => self::E, "F" => self::UPPER_F, "G" => self::UPPER_G,
+                "H" => self::UPPER_H, "I" => self::UPPER_I, "J" => self::UPPER_J, "K" => self::UPPER_K,
+                "L" => self::UPPER_L, "M" => self::UPPER_M, "N" => self::UPPER_N, "O" => self::UPPER_O,
+                "P" => self::UPPER_P, "Q" => self::Q, "R" => self::R, "S" => self::S,
+                "T" => self::T, "U" => self::U, "V" => self::V, "W" => self::UPPER_W,
+                "X" => self::UPPER_X, "Y" => self::UPPER_Y, "Z" => self::UPPER_Z, "[" => self::LEFT_SQUARE_BRACKET,
+                "\\" => self::DOUBLE_BACK_SLASH, "]" => self::RIGHT_SQUARE_BRACKET, "^" => self::EXPONENTION, "_" => self::UNDER_SCORE,
+                "NUL" => self::APOSTROPHE, "SOH" => self::LOWER_A, "STX" => self::LOWER_B, "ETX" => self::LOWER_C,
+                "EOT" => self::LOWER_D, "ENQ" => self::LOWER_E, "ACK" => self::LOWER_F, "BEL" => self::LOWER_G,
+                "BS" => self::LOWER_H, "HT" => self::LOWER_I, "LF" => self::LOWER_J, "VT" => self::LOWER_K,
+                "FF" => self::LOWER_L, "CR" => self::LOWER_M, "SO" => self::LOWER_N, "SI" => self::LOWER_O,
+                "DLE" => self::LOWEP, "DC1" => self::LOWER_Q, "DC2" => self::LOWER_R, "DC3" => self::LOWER_S,
+                "DC4" => self::LOWER_T, "NAK" => self::LOWER_U, "SYN" => self::LOWER_V, "ETB" => self::LOWER_W,
+                "CAN" => self::LOWER_X, "EM" => self::LOWER_Y, "SUB" => self::LOWER_Z, "ESC" => self::LEFT_CURLY_BRACE,
+                "FS" => self::PIPE, "GS" => self::RIGHT_CURLY_BRACE, "RS" => self::TILDA, "US" => self::DEL,
+                "FNC 3" => self::FNC, "FNC 2" => self::FNC_2, "SHIFT" => self::SHIFT, "CODE C" => self::CODE_C,
+                "CODE B" => self::FNC_4, "FNC 4" => self::CODE_A, "FNC 1" => self::FNC_1, "Start A" => self::START_A,
+                "Start B" => self::START_B, "Start C" => self::START_C, "Stop" => self::STOP
             );
             $code_keys = array_keys($code_array);
 
@@ -335,7 +477,7 @@ class BarcodeGenerationService extends BarCodePrint
 
             $this->code_string .= $code_array[$code_keys[($chksum - (intval($chksum / 103) * 103))]];
 
-            $this->code_string = "211412" . $this->code_string . "2331112";
+            $this->code_string = self::START_A . $this->code_string . self::STOP;
 
             return $this->code_string;
         }
@@ -412,23 +554,23 @@ class BarcodeGenerationService extends BarCodePrint
                 "1-1-3-3-1"
             );
 
-            for ($X = 1; $X <= strlen($this->text); $X++) {
+            for ($characterPosition = 1; $characterPosition <= strlen($this->text); $characterPosition++) {
 
                 for ($Y = 0; $Y < count($code_array1); $Y++) {
 
-                    if (substr($this->text, ($X - 1), 1) == $code_array1[$Y])
+                    if (substr($this->text, ($characterPosition - 1), 1) == $code_array1[$Y])
 
-                        $temp[$X] = $code_array2[$Y];
+                        $temp[$characterPosition] = $code_array2[$Y];
 
                 }
             }
-            for ($X = 1; $X <= strlen($this->text); $X += 2) {
+            for ($characterPosition = 1; $characterPosition <= strlen($this->text); $characterPosition += 2) {
 
-                if (isset($temp[$X]) && isset($temp[($X + 1)])) {
+                if (isset($temp[$characterPosition]) && isset($temp[($characterPosition + 1)])) {
 
-                    $temp1 = explode("-", $temp[$X]);
+                    $temp1 = explode("-", $temp[$characterPosition]);
 
-                    $temp2 = explode("-", $temp[($X + 1)]);
+                    $temp2 = explode("-", $temp[($characterPosition + 1)]);
 
                     for ($Y = 0; $Y < count($temp1); $Y++)
 
@@ -478,10 +620,9 @@ class BarcodeGenerationService extends BarCodePrint
 
                 for ($Y = 0; $Y < count($code_array1); $Y++) {
 
-                    if (substr($upper_text, ($X - 1), 1) == $code_array1[$Y])
-
+                    if (substr($upper_text, ($X - 1), 1) == $code_array1[$Y]) {
                         $this->code_string .= $code_array2[$Y] . "1";
-
+                    }
                 }
             }
 
@@ -547,11 +688,6 @@ class BarcodeGenerationService extends BarCodePrint
          */
         if (empty($this->filepath)) {
             // Draw barcode to the screen or save in a file
-            /*$path = public_path() . "/" . "deviceBarcodes";
-            if (!file_exists($path)) {
-                mkdir($path);
-            }*/
-
             if ($this->fileType === '.jpeg') {
                 header('Content-Type: image/jpeg');
                 imagejpeg($this->prepareImage(), public_path('storage' . "/" . $this->filename));
@@ -568,7 +704,7 @@ class BarcodeGenerationService extends BarCodePrint
                 //Storage::disk('local')->put(public_path() )
                 imagejpeg($this->prepareImage(), public_path('storage/' . $this->filepath . "/" . $this->filename));
             } else {
-                imagepng($this->prepareImage(), public_path('storage/'. $this->filepath . "/" . $this->filename));
+                imagepng($this->prepareImage(), public_path('storage/' . $this->filepath . "/" . $this->filename));
             }
         }
 
@@ -625,7 +761,7 @@ class BarcodeGenerationService extends BarCodePrint
 
         if ($this->print) {
 
-            imagestring($image, 5, 31, $img_height, "Reg No. ".$this->text, $black);
+            imagestring($image, 5, 31, $img_height, "Reg No. " . $this->text, $black);
 
         }
 
@@ -635,13 +771,12 @@ class BarcodeGenerationService extends BarCodePrint
 
             $cur_size = $location + (substr($this->code_string, ($position - 1), 1));
 
-            if (strtolower($this->orientation) == "horizontal")
+            if (strtolower($this->orientation) == "horizontal") {
 
                 imagefilledrectangle($image, $location * $this->sizefactor, 0, $cur_size * $this->sizefactor, $img_height, ($position % 2 == 0 ? $white : $black));
-
-            else
-
+            } else {
                 imagefilledrectangle($image, 0, $location * $this->sizefactor, $img_width, $cur_size * $this->sizefactor, ($position % 2 == 0 ? $white : $black));
+            }
 
             $location = $cur_size;
         }

@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('VM_ENGINE_DETAILS', function (Blueprint $table) {
             $table->id();
-            $table->string('actual_engine_power', 100);
-            $table->string('claimed_engine_power', 100);
+            $table->string('actual_engine_power', 100)->nullable();
+            $table->string('claimed_engine_power', 100)->nullable();
             $table->string('engine_brand', 100);
             $table->string('engine_capacity', 100);
             $table->string('engine_type', 100);
@@ -25,21 +25,19 @@ return new class extends Migration {
             $table->string('sub_tank_capacity', 100)->nullable()->default(0);
             $table->string('transmission_type', 100);
 
-            $table->string('battery_brand', 100);
+            $table->string('battery_brand', 100)->nullable();;
             $table->string('battery_size', 100);
             $table->string('battery_power', 100);
-            $table->integer('num_batteries');
+            $table->integer('num_batteries')->nullable();
 
-            $table->string('front_tyre_size', 100);
-            $table->string('number_of_tyres', 100);
-            $table->string('rear_tyre_size', 100);
+            $table->string('front_tyre_size', 100)->nullable();;
+            $table->string('number_of_tyres', 100)->nullable();;
+            $table->string('rear_tyre_size', 100)->nullable();;
             $table->string('tyre_brand', 100);
-            $table->timestamp('deleted_at')->nullable();
-
             $table->string('vehicle_header_id');
             $table->integer('created_by')->nullable();
             $table->string('created_name')->nullable();
-
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

@@ -34,7 +34,7 @@ class NotifyApproverOnRequisitionRaised
             $task = WorkflowTaskHeader::where('reference','=', trim($requisitionHeader->req_no))->first();
             $recipient = User::where('staff_no', trim($task->assigned_user))->first();
             $action = $event->action ?? 'requisition';
-            EmailNotificationService::sendNotification($recipient, $sender, $requisitionHeader, $action, $task);
+            EmailNotificationService::sendNotification($recipient, $sender, $requisitionHeader, $action);
         } catch (\Exception $e) {
             Log::info('Error When Sending Mail');
             Log::error($e);

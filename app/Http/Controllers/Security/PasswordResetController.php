@@ -27,7 +27,6 @@ class PasswordResetController extends Controller
 
         $user->password = Hash::make($request->otp);
         $user->password_changed = ConfigHelper::passwordNotChanged();
-        //config('constants.password_not_changed');
         $user->save();
 
         // send emails here but use ques

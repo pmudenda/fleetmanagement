@@ -76,5 +76,13 @@ abstract class BarCodePrint implements IBarcodeGenerator
      * @return mixed
      */
 
-    abstract function renderBarcode($text, $size, $orientation, $code_type, $print, $sizeFactor, $filename, $filepath, $fileType);
+    protected abstract function renderBarcode($text,
+                                    $size,
+                                    $orientation,
+                                    $code_type,
+                                    $print,
+                                    $sizeFactor,
+                                    $filename,
+                                    $filepath,
+                                    $fileType);
 }

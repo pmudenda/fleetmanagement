@@ -136,20 +136,6 @@ class GeneralTablesController extends Controller
     {
         $user = Auth::user();
         try {
-            //$savedData = null;
-
-            /*if (Constants::TYPE_KEY == ConfigurationTypes::VEHICLE_STATUS || Constants::TYPE_KEY == ConfigurationTypes::STATUS_GENERAL) {
-                $savedData = Status::firstOrCreate(
-                    [
-                        'code' => $request->get('code'),
-                    ],
-                    [
-                        'active' => 1,
-                        'name' => $request->get('name'),
-                        'module' => $request->get(Constants::VEHICLE_MODULE),
-                        'created_by' => $user->id,
-                    ]);
-            } */
 
             $dbRecord = GeneralTable::where('code', '=', $request->get('code'))
                 ->where('type', '=', $request->get(Constants::TYPE_KEY))->first();
@@ -177,7 +163,7 @@ class GeneralTablesController extends Controller
                 'message' => "Record created successfully",
             ];
 
-        } catch (\Throwable|Exception $exception) {
+        } catch (Exception $exception) {
             Log::error($exception);
             $message = ErrorMessages::getMessage('err_0005');
             if ($exception instanceof GeneralTableRecordException) {
@@ -218,7 +204,7 @@ class GeneralTablesController extends Controller
                 'message' => "Record Submitted Successfully",
             ]);
 
-        } catch (\Throwable|Exception $exception) {
+        } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
             $output = [
@@ -252,7 +238,7 @@ class GeneralTablesController extends Controller
                 'message' => "Record Removed Successfully",
             ]);
 
-        } catch (\Throwable|Exception $exception) {
+        } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
             return response()->json([

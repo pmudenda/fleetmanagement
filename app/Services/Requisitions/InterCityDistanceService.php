@@ -6,10 +6,6 @@ use App\Models\DistanceChart;
 
 class InterCityDistanceService
 {
-    public function __construct()
-    {
-    }
-
     /**
      * @return array
      */

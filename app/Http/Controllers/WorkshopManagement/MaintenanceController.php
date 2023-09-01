@@ -1552,7 +1552,6 @@ class MaintenanceController extends Controller
     {
         try {
             $user = auth()->user();
-            $pettyCashSystemReference = '';
             $imprestReferenceNumber = DocumentNumberGenerationService::generateReferenceNumber(
                 WorkflowModules::IMPREST_BUY
             );

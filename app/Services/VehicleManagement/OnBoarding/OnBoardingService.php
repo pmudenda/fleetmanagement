@@ -183,7 +183,7 @@ class OnBoardingService
         }
 
 
-        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::generalData);
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::GENERAL_DATA);
 
         DB::commit();
 
@@ -306,7 +306,7 @@ class OnBoardingService
                 'created_name' => $user->name
             ]);
 
-        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::technicalData);
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::TECHNICAL_DATA);
 
         DB::commit();
         return $model;
@@ -355,7 +355,7 @@ class OnBoardingService
                 'purchase_order_document' => $purchaseOrderDocument
             ]);
 
-        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::costing);
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::COSTING_DATA);
 
         DB::commit();
 
@@ -393,7 +393,7 @@ class OnBoardingService
             'created_name' => $user->name,
         ];
 
-        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::bodyDetails);
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::BODY_DATA);
 
         $model = BodyAndWeightDetail::updateOrCreate(
             [
@@ -454,7 +454,7 @@ class OnBoardingService
 
         $this->updateVehicleOnBoardingState(
             $request->input('headerId'),
-            OnboardingStateHelper::assignment
+            OnboardingStateHelper::ASSIGNMENT
         );
 
         $model = Assignment::updateOrCreate(
@@ -515,16 +515,16 @@ class OnBoardingService
         }
 
         $onboardingStatus = "";
-        if ($stage === OnboardingStateHelper::assignment) {
+        if ($stage === OnboardingStateHelper::ASSIGNMENT) {
             $onboardingStatus = StatusHelper::onboardingComplete();
             $vehicleHeader->status = StatusHelper::active();
-        } elseif (OnboardingStateHelper::generalData) {
+        } elseif (OnboardingStateHelper::GENERAL_DATA) {
             $onboardingStatus = StatusHelper::pendingTechnicalDataEntry();
-        } elseif (OnboardingStateHelper::technicalData) {
+        } elseif (OnboardingStateHelper::TECHNICAL_DATA) {
             $onboardingStatus = StatusHelper::pendingAccessoriesCheckin();
-        } elseif (OnboardingStateHelper::accessoriesCheckin) {
+        } elseif (OnboardingStateHelper::ACCESSORIES_CHECKIN) {
             $onboardingStatus = StatusHelper::pendingCostingDataEntry();
-        } elseif (OnboardingStateHelper::costing) {
+        } elseif (OnboardingStateHelper::COSTING_DATA) {
             $onboardingStatus = StatusHelper::pendingAssignment();
         }
 
@@ -561,7 +561,7 @@ class OnBoardingService
 
         $this->updateVehicleOnBoardingState(
             $request->input('headerId'),
-            OnboardingStateHelper::accessoriesCheckin
+            OnboardingStateHelper::ACCESSORIES_CHECKIN
         );
 
         return $request->all();

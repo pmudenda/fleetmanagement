@@ -45,7 +45,7 @@ class ReportsController extends Controller
     {
         $query = DB::table('zfm_fuel_cost');
 
-        /*$cost_by_year = $query
+        $cost_by_year = $query
             ->select(DB::raw('SUM(ttl) as cost, year, fuel_type'))
             ->groupBy('year', 'fuel_type')
             ->get();
@@ -58,17 +58,15 @@ class ReportsController extends Controller
         $cost_by_type = $query
             ->select(DB::raw('SUM(ttl) as cost, fuel_type'))
             ->groupBy('year', 'fuel_type')
-            ->get();*/
-
-        $data = $query->get();
+            ->get();
 
         return response()->json([
             'state' => 'success',
             'payload' => [
-                'data' => $data,
-                //'costByYear' => $cost_by_year,
-                //'costByUnit' => $cost_by_unit,
-                //'costByType' => $cost_by_type,
+                'data' => [],
+                'costByYear' => $cost_by_year,
+                'costByUnit' => $cost_by_unit,
+                'costByType' => $cost_by_type,
             ]
         ]);
     }

@@ -28,8 +28,6 @@ class SendWorkOrderCompletedNotification
 
             Log::info('Sending Notification To Workshop Supervisor');
 
-            $task = WorkflowTaskHeader::where('reference', '=', trim($workOrder->job_card_no))->first();
-
             if (empty($task)) {
                 return;
             }
@@ -40,7 +38,7 @@ class SendWorkOrderCompletedNotification
 
             $action = $event->action ?? 'job_card_closed';
 
-            EmailNotificationService::sendNotification($recipient, $sender, $workOrder, $action, $task);
+            EmailNotificationService::sendNotification($recipient, $sender, $workOrder, $action);
 
         } catch (\Exception $e) {
             Log::info('Error When Sending Mail');

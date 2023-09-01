@@ -26,17 +26,21 @@ return new class extends Migration
             $table->decimal('price', 18, 2);
             $table->string('ref_no',20)->nullable();
             $table->string('claimed',2)->nullable();
-            $table->date('date_created');
+            $table->string('wshp_act_code',20)->nullable();
+            $table->string('section_code',4)->nullable();
+
             $table->string('created_by', 10);
             $table->string('cost_centre', 15)->nullable();
             $table->string('stores_code', 15)->nullable();
             $table->string('movt_no', 15)->nullable();
-            //$table->string('cost_centre_name', 15)->nullable()->add();
-            //$table->string('project_name', 15)->nullable()->add();
+            $table->string('defect_no', 4)->nullable();
+            $table->string('project_no', 10)->nullable();
+            $table->string('document_no', 10)->nullable();
             $table->string('cost_centre_name', 255)->nullable();
             $table->string('project_name', 255)->nullable();
             $table->string('max_allowed', 15)->nullable();
             $table->Integer('quantity_issued')->default(0)->nullable();
+            $table->date('date_created');
             $table->timestamps();
         });
     }

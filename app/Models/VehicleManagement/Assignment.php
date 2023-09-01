@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Assignment extends Model
 {
-    //use SoftDeletes;
-
     protected $table = 'VM_ASSIGNMENTS';
     protected $fillable = [
 
