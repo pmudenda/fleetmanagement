@@ -19,16 +19,18 @@ class VehicleDetailsService
                 ->leftJoin('CONFIG_STATUSES',
                     'v_header.status',
                     '=', 'CONFIG_STATUSES.code')
-                ->leftJoin('v_asgnment',
-                    'v_header.id', '=',
-                    'v_asgnment.vehicle_header_id')
-                ->leftJoin('VM_CHASSIS_DETAILS',
-                    'v_header.id', '=',
-                    'VM_CHASSIS_DETAILS.vehicle_header_id')
-                ->leftJoin('VM_ENGINE_DETAILS',
-                    'v_header.id',
+                ->leftJoin( 'VM_ASSIGNMENTS v_asgnment',
+                    'v_header.registration_number',
                     '=',
-                    'VM_ENGINE_DETAILS.vehicle_header_id')
+                    'v_asgnment.reg_no')
+                ->leftJoin('VM_CHASSIS_DETAILS',
+                    'v_header.registration_number',
+                    '=',
+                    'VM_CHASSIS_DETAILS.reg_no')
+                ->leftJoin('VM_ENGINE_DETAILS',
+                    'v_header.registration_number',
+                    '=',
+                    'VM_ENGINE_DETAILS.reg_no')
                 ->where('CONFIG_STATUSES.MODULE',
                     '=', Modules::VEHICLE->value)
                 ->select('v_header.*',

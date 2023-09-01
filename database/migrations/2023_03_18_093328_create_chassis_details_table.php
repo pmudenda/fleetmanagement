@@ -14,15 +14,15 @@ return new class extends Migration {
             $table->id();
             $table->string('chassis_number', 100);
             $table->date('date_on_road');
-            $table->string('engine_number', 100);
+            $table->string('engine_number', 100)->nullable();
             $table->integer('initial_odometer_reading');
             $table->integer('current_odometer_reading');
             $table->date('inspection_date');
             $table->integer('lst_service_odometer_reading');
             $table->integer('nxt_service_odometer-reading');
             $table->boolean('odometer_reset');
-            $table->date('registration_date');
-            $table->string('min_req_driving_license', 2);
+            $table->date('registration_date')->nullable();
+            $table->string('min_req_driving_license', 2)->nullable();
             $table->string('status', 100);
             $table->string('sticker_registration_number', 50)->nullable();
             $table->decimal('vehicle_charge_out_rate', 19, 4)->nullable();
