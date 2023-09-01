@@ -10,16 +10,16 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('VM_VEHICLE_HEADER', function (Blueprint $table) {
+        Schema::create('VM_VEHICLE_HEADER', function (Blueprint $table){
             $table->id();
-            $table->string('brand_code')->nullable();
-            $table->string('brand_name');
-            $table->string('model_name');
-            $table->string('model_code');
-            $table->string('body_type_code');
-            $table->string('body_type_name');
+            $table->string('brand_code',2)->nullable();
+            $table->string('brand_name')->nullable();
+            $table->string('model_name')->nullable();
+            $table->string('model_code', 2);
+            $table->string('body_type_code', 2);
+            $table->string('body_type_name')->nullable();
             $table->string('barcode', 255)->nullable();
-            $table->string('has_tom_card')->default('N');
+            $table->string('has_tom_card', 1)->default('N');
             $table->string('on_boarding_status', 4)->nullable();
             $table->string('status', 4)->nullable();
             $table->decimal('mileage', 19, 4)->nullable();
@@ -29,7 +29,7 @@ return new class extends Migration {
             $table->string('business_unit_name');
             $table->integer('invalid_odometer_entry');
             $table->string('location_code', 200);
-            $table->string('location_name')->nullable();
+            $table->string('location_name', 100)->nullable();
             $table->string('registration_type', 4);
 
             $table->string('created_by');
