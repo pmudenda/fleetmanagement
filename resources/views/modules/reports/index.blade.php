@@ -30,13 +30,6 @@
                             <div class="row">
                                 <div id="bar_chart" style="height:400px;"></div>
                             </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div id="main" style="height:400px;"></div>
-                                </div>
-                            </div>
-                            <div class="table-responsive mt-10 ">
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -51,13 +44,6 @@
                         <div class="card-body p-2">
                             <div class="row">
                                 <div id="pie" style="height:400px;"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div id="main" style="height:400px;"></div>
-                                </div>
-                            </div>
-                            <div class="table-responsive mt-10 ">
                             </div>
                         </div>
                     </div>
