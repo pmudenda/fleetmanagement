@@ -207,24 +207,24 @@
                 let years = [];
                 let productValue = [];
 
-                for (const datum of window['data']) {
+                for (const datum of window['costByYear']) {
 
                     if (legendData.indexOf(datum['fuel_type']) === -1) {
                         legendData.push(datum['fuel_type']);
                     }
 
                     if (valueObject.hasOwnProperty(datum['fuel_type'])) {
-                        valueObject[datum['fuel_type']] += parseFloat(datum['ttl']);
+                        valueObject[datum['fuel_type']] += parseFloat(datum['cost']);
                     } else {
-                        valueObject[datum['fuel_type']] = parseFloat(datum['ttl']);
+                        valueObject[datum['fuel_type']] = parseFloat(datum['cost']);
                     }
 
                     let obj = productValue[datum.fuel_type] ?? {};
                     obj['product'] = datum['fuel_type'];
                     if (obj[datum['year']]) {
-                        obj[datum['year']] += parseFloat(datum['ttl']);
+                        obj[datum['year']] += parseFloat(datum['cost']);
                     } else {
-                        obj[datum['year']] = parseFloat(datum['ttl']);
+                        obj[datum['year']] = parseFloat(datum['cost']);
                     }
                     productValue[datum['fuel_type']] = obj;
 
