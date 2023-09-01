@@ -31,7 +31,7 @@ return new class extends Migration {
 
             $table->string('location_code', 200);
             $table->string('location_name', 100)->nullable();
-
+            $table->string('type_brand_model', 6)->nullable();
             $table->integer('invalid_odometer_entry');
             $table->string('on_boarding_status', 4)->nullable();
             $table->string('created_by');
