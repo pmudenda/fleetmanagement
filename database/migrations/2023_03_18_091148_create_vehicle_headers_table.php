@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('VM_VEHICLE_HEADER', function (Blueprint $table){
-            $table->id();
+            $table->id()->primary()->autoIncrement();
             $table->string('registration_number', 10);
             $table->string('brand_code',2)->nullable();
             $table->string('brand_name')->nullable();
