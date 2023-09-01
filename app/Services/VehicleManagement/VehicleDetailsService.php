@@ -19,7 +19,7 @@ class VehicleDetailsService
                 ->leftJoin('CONFIG_STATUSES',
                     'v_header.status',
                     '=', 'CONFIG_STATUSES.code')
-                ->leftJoin( 'VM_ASSIGNMENTS v_asgnment',
+                ->leftJoin('VM_ASSIGNMENTS v_asgnment',
                     'v_header.registration_number',
                     '=',
                     'v_asgnment.reg_no')
@@ -27,21 +27,21 @@ class VehicleDetailsService
                     'v_header.registration_number',
                     '=',
                     'VM_CHASSIS_DETAILS.reg_no')
-                ->leftJoin('VM_ENGINE_DETAILS',
+                ->leftJoin('VM_ENGINE_DETAILS eng_det',
                     'v_header.registration_number',
                     '=',
-                    'VM_ENGINE_DETAILS.reg_no')
+                    'eng_det.reg_no')
                 ->where('CONFIG_STATUSES.MODULE',
                     '=', Modules::VEHICLE->value)
                 ->select('v_header.*',
                     'v_header.id as header_id',
                     'v_asgnment.*',
-                    'VM_ENGINE_DETAILS.fuel_allocation',
+                    'eng_det.fuel_allocation',
+                    'eng_det.fuel_types',
                     'CONFIG_STATUSES.name as status_name',
-                    'v_header.created_name as onboarded_by',
-                    'VM_ENGINE_DETAILS.fuel_types'
+                    'v_header.created_name as onboarded_by'
                 )
-                ->orderBy('VM_VEHICLE_HEADER.created_at', 'desc')
+                ->orderBy('v_header.created_at', 'desc')
                 ->get();
         } catch (\Exception $e) {
             Log::info('Fetch vehicle details');
