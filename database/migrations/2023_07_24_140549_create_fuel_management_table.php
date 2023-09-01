@@ -48,7 +48,9 @@ return new class extends Migration {
         DB::unprepared('CREATE INDEX "INDFMVD" ON "FUEL_MANAGEMENT" ("FECH_ACT")');
         DB::unprepared('CREATE UNIQUE INDEX "IND_FM_DOC_NO" ON "FUEL_MANAGEMENT" ("DOCUMENT_NO")');
         DB::unprepared('CREATE INDEX "IND_VD" ON "FUEL_MANAGEMENT" ("VOUCHER_DATE")');
-        DB::unprepared('CREATE OR REPLACE TRIGGER "TR_FUEL_MANAGEMENT_INSERT"
+
+
+        /*DB::unprepared('CREATE OR REPLACE TRIGGER "TR_FUEL_MANAGEMENT_INSERT"
                                 AFTER INSERT
                                 ON FUEL_MANAGEMENT
                                 REFERENCING NEW AS NEW OLD AS OLD
@@ -82,7 +84,7 @@ return new class extends Migration {
                                 END;
                                 /
                                 ALTER TRIGGER "TR_FUEL_ODOMETER_UPDATE" ENABLE;
-                                ');
+                                ');*/
 
         /*DB::unprepared('ALTER TRIGGER "TR_FUEL_ODOMETER_UPDATE" ENABLE;
 
