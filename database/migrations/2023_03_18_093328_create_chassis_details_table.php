@@ -24,16 +24,16 @@ return new class extends Migration {
             $table->date('registration_date');
             $table->string('min_req_driving_license', 2);
             $table->string('status', 100);
-            $table->string('sticker_registration_number');
-            $table->string('vehicle_charge_out_rate');
-            $table->string('white_book_serial');
+            $table->string('sticker_registration_number', 50)->nullable();
+            $table->decimal('vehicle_charge_out_rate', 19, 4)->nullable();
+            $table->string('white_book_serial')->nullable();
             $table->integer('year_of_manufacture');
-            $table->integer('created_by');
-            $table->string('created_name')->nullable();
-            $table->timestamp('deleted_at')->nullable();
-
+            $table->string('created_by', 10)->nullable();
+            $table->string('created_name', 100)->nullable();
+            $table->string('reg_no', 10)->nullable();
             $table->string('vehicle_header_id');
 
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

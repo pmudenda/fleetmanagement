@@ -12,23 +12,26 @@ return new class extends Migration {
     {
         Schema::create('VM_BODY_AND_WEIGHT_DETAILS', function (Blueprint $table) {
             $table->id();
+
+            $table->decimal('height');
+            $table->decimal('length');
+            $table->decimal('width', 11, 2);
+            $table->integer('numberOfSeats');
+            $table->decimal('grossWeight', 11, 4);
+            $table->decimal('tareWeight', 11, 4);
+
+            $table->string('seatCapFront', 2)->nullable();
+            $table->string('seatCapRear', 2)->nullable();
+            $table->string('volumeOfBootTanker')->nullable();
+
+            $table->string('reg_no', 10)->nullable();
             $table->string('distanceAxle1')->nullable();
             $table->string('distanceAxle2')->nullable();
             $table->string('distanceAxle3')->nullable();
             $table->string('distanceAxle4')->nullable();
-            $table->string('height');
-            $table->string('length');
-            $table->string('numberOfSeats');
-            $table->string('seatCapFront');
-            $table->string('seatCapRear');
-            $table->string('volumeOfBootTanker');
-            $table->string('width');
-
-            $table->string('grossWeight');
-            $table->string('tareWeight');
-            $table->string('trailerWeight2');
-            $table->string('trailerWeight3');
-            $table->string('trailerWeight4');
+            $table->string('trailerWeight2')->nullable();
+            $table->string('trailerWeight3')->nullable();
+            $table->string('trailerWeight4')->nullable();
 
             $table->string('vehicle_header_id');
             $table->string('created_by', 100)->nullable();

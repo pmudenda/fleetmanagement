@@ -23,7 +23,8 @@ return new class extends Migration {
             $table->string('number_of_cylinders', 100);
             $table->string('tank_capacity', 100);
             $table->string('sub_tank_capacity', 100)->nullable()->default(0);
-            $table->string('transmission_type', 100);
+            $table->string('transmission_type', 100)->nullable();
+            $table->string('reg_no', 10)->nullable();
 
             $table->string('battery_brand', 100)->nullable();;
             $table->string('battery_size', 100);

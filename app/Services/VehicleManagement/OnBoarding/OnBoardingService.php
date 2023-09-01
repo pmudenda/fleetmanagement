@@ -461,7 +461,8 @@ class OnBoardingService
             [
                 'vehicle_header_id' => $request->input('headerId'),
             ],
-            $data);
+            $data
+        );
 
         DB::commit();
 

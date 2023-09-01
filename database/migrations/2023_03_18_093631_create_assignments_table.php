@@ -12,24 +12,28 @@ return new class extends Migration {
     {
         Schema::create('VM_ASSIGNMENTS', function (Blueprint $table) {
             $table->id();
+            $table->string('reg_no', 10)->nullable();
+            $table->string('vehicle_header_id');
 
             $table->string('businessArea');
-            $table->string('casualStaffNumber');
-            $table->string('casualStaffName');
             $table->string('costCenter');
             $table->string('directorate');
-            $table->string('isPoolVehicle');
-            $table->string('isTeamAssigned');
-            $table->string('mileageExempt');
-            $table->string('operatorName');
-            $table->string('operatorStaffNumber');
-            $table->string('superVisorName');
-            $table->string('superVisorStaffNumber');
 
+            $table->string('responsible_head_id', 10);
+            $table->string('responsible_head_name', 100);
 
-            $table->string('vehicle_header_id');
-            $table->integer('created_by');
-            $table->string('created_name');
+            $table->string('casualStaffNumber')->nullable();
+            $table->string('casualStaffName')->nullable();
+            $table->string('isPoolVehicle')->nullable();
+            $table->string('isTeamAssigned')->nullable();
+            $table->string('mileageExempt')->nullable();
+            $table->string('operatorName')->nullable();
+            $table->string('operatorStaffNumber')->nullable();
+
+            $table->string('superVisorName')->nullable();
+            $table->string('superVisorStaffNumber')->nullable();
+            $table->string('created_by', 10)->nullable();
+            $table->string('created_name', 191)->nullable();
             $table->timestamps();
         });
     }
