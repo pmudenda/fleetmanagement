@@ -26,16 +26,16 @@ return new class extends Migration {
             $table->decimal('mileage', 19, 4)->nullable();
             $table->string('registration_type', 4);
 
-            $table->string('business_unit_code');
-            $table->string('business_unit_name');
+            $table->string('business_unit_code')->nullable();
+            $table->string('business_unit_name')->nullable();
 
-            $table->string('location_code', 200);
+            $table->string('location_code', 200)->nullable();
             $table->string('location_name', 100)->nullable();
             $table->string('type_brand_model', 6)->nullable();
-            $table->integer('invalid_odometer_entry');
+            $table->integer('invalid_odometer_entry')->nullable();
             $table->string('on_boarding_status', 4)->nullable();
-            $table->string('created_by');
-            $table->string('created_name');
+            $table->string('created_by', 10)->nullable();
+            $table->string('created_name')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
