@@ -1,21 +1,16 @@
 @php use Carbon\Carbon; @endphp
-@php @endphp
 @extends('layouts.app')
-
-
 @push('styles')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
-
-
 @section('content')
-
-    <x-content-header :pageTitle="'Mechanics List'" :activeCrumb="'Mechanic'" :link="'home'"
+    <x-content-header :pageTitle="'Mechanics List'"
+                      :activeCrumb="'Mechanic'"
+                      :link="'home'"
                       :linkText="'Mechanics'"/>
-
     <!-- Main content -->
     <section class="content">
         <x-error-view/>
@@ -56,12 +51,11 @@
                                     <tr>
                                         <th>Reference</th>
                                         <th>Reg. No.</th>
-                                        <th>Description</th>
                                         <th>Driver</th>
                                         <th>Date/Time Acc.</th>
                                         <th>Date/Time Rpt.</th>
                                         <th>Nature</th>
-                                        {{-- <th>Status</th>--}}
+                                        <th>Type</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -112,14 +106,11 @@
             </div>
         </div>
     </section>
-
 @endsection
-
 @push('scripts')
     <script>
         (function (appInstance) {
             appInstance.initDatatable("#accidentsTable", true, true, []);
         })(window.tmsApp || {});
     </script>
-
 @endpush

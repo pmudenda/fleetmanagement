@@ -433,15 +433,15 @@
                 }
 
                 $(document).ready(function () {
+                    getAccidentNatures();
+
+                    getAccidentTypes();
+
                     $(document).on('click', '#driverSearchBtn', function (event) {
                         let $driverCtrl = $('#driver_staff_number');
                         fetchDriverDetails($driverCtrl.val(), $driverCtrl.attr('data-action'))
 
                     });
-
-                    getAccidentNatures();
-
-                    getAccidentTypes()
 
                     Inputmask({
                         "mask": "A{2,3} 9{1,4}"
@@ -454,6 +454,77 @@
                     $(document).on('click', 'button[value="insertRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
                         insertTableRow(tableId);
+                    });
+
+                    $(document).on('click', 'button[value="deleteRow"]', function (e) {
+                        tmsApp.confirm(
+                            "Are you sure ?",
+                            "The data entered on this line will be cleared out",
+                            "Yes",
+                            "No",
+                            function () {
+
+                                let btnEl = $(e.target);
+                                let tableId = $(btnEl).closest('table').attr('id');
+                                let valueId = $(btnEl).attr('data-value');
+                                let tableRow = btnEl.closest('tr');
+                                let table = btnEl.closest('table');
+
+                                $(tableRow).remove();
+                                return;
+
+                                let dataUrl = "";
+                                dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
+                                let formData = new FormData();
+                                formData.append('record_id', valueId);
+
+                                tmsApp.asyncPostFormData(
+                                    dataUrl,
+                                    formData,
+                                    function (asyncResponse) {
+                                        if ('success' in asyncResponse && !asyncResponse.success) {
+                                            if (asyncResponse.hasOwnProperty('errors')) {
+                                                toastr.error(
+                                                    asyncResponse.message
+                                                );
+                                                tmsApp.printErrorMsg(asyncResponse.errors);
+                                                return
+                                            }
+
+                                            setTimeout(function () {
+                                                    tmsApp.systemError(
+                                                        'System Configuration',
+                                                        asyncResponse['message'],
+                                                        function () {
+                                                        }, 'error');
+                                                },
+                                                300);
+                                            return;
+                                        }
+
+                                        if (asyncResponse.success) {
+                                            const entry = asyncResponse.payload;
+                                            tmsApp.showSystemMessage(
+                                                'System Configuration',
+                                                asyncResponse['message'],
+                                                function () {
+                                                    clearRows(table);
+                                                },
+                                                'success'
+                                            );
+                                        }
+                                    },
+                                    function (xhr, settings, error) {
+                                        setTimeout(
+                                            function () {
+                                                tmsApp.showErrorMessages(xhr, 'System Configuration');
+                                            },
+                                            300);
+                                    },
+                                    'POST',
+                                );
+                            });
+                        return false;
                     });
 
                     $(document).on('click', "#vehicleClear", function () {
