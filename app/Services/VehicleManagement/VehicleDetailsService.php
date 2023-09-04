@@ -18,7 +18,7 @@ class VehicleDetailsService
     {
         $query = (new VehicleDetailsService)->getVehicleDataQuery();
         return $query
-            ->orderBy('v_header.created_at', 'desc')
+            ->orderBy('v_header.status_name', 'asc')
             ->paginate(20);
 
     }
@@ -70,7 +70,6 @@ class VehicleDetailsService
                 'v_header.id as header_id',
                 'eng_det.fuel_allocation',
                 'eng_det.fuel_types',
-
                 'CONFIG_STATUSES.name as status_name',
                 'v_header.created_name as onboarded_by'
             );
