@@ -54,7 +54,7 @@
                              data-parent="#accordionExample">
                             <div class="card-body px-0">
                                 <div class="list-qbe">
-                                    <div class="qbeinner" style="">
+                                    <div class="qbeinner">
                                         <div class="qbe-toolbar"
                                              style="visibility: visible;">
                                             <a class="btn btn-danger btn-sm toolbarbutton mr-3">
@@ -137,7 +137,7 @@
                                                 </div>
                                                 <input type="text"
                                                        class="qbeinput qbeinputin"
-                                                       style=""/>
+                                                />
                                             </div>
                                             <div data-qbefield="dateopened"
                                                  class="qbefield">
@@ -214,7 +214,7 @@
                                                         <option value="18">not in</option>
                                                     </select>
                                                 </div>
-                                                <input type="text" class="qbeinput qbeinputin" style="">
+                                                <input type="text" class="qbeinput qbeinputin"/>
                                                 <span
                                                     class="qbelabelin"
                                                     style="display:none">
@@ -244,7 +244,7 @@
                                                         <option value="18">not in</option>
                                                     </select>
                                                 </div>
-                                                <input type="text" class="qbeinput qbeinputin" style="">
+                                                <input type="text" class="qbeinput qbeinputin"/>
                                             </div>
                                             <div data-qbefield="datedue" class="qbefield">
                                                 <label
@@ -427,7 +427,7 @@
                                                         <option value="18">not in</option>
                                                     </select>
                                                 </div>
-                                                <input type="text" class="qbeinput qbeinputin" style="">
+                                                <input type="text" class="qbeinput qbeinputin"/>
                                             </div>
                                         </div>
 
