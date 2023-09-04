@@ -661,7 +661,11 @@
         (function (tmsApp) {
             // tmsApp.initDatatable("#kt_brands_table", false, false, []);
             $('[name="brand"]').select2({});
-
+            new DataTable("#kt_brands_table", {
+                ajax: '../server_side/scripts/server_processing.php',
+                processing: true,
+                serverSide: true
+            });
             getVehicleBrands();
         })(window.tmsApp || {});
     </script>
