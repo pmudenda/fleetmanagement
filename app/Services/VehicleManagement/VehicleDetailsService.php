@@ -41,23 +41,6 @@ class VehicleDetailsService
     {
         $query = (new VehicleDetailsService)->getVehicleDataQuery();
         return $query
-            ->select(
-                'v_header.on_boarding_status',
-                'v_header.has_tom_card',
-                'v_header.registration_date',
-                'v_header.registration_number',
-                'v_header.body_type_name',
-                'v_header.model_name',
-                'v_header.model_code',
-                'v_header.brand_name',
-                //'v_header.*',
-                'v_header.id as header_id',
-                //'v_asgnment.*',
-                'eng_det.fuel_allocation',
-                'eng_det.fuel_types',
-                'CONFIG_STATUSES.name as status_name',
-                'v_header.created_name as onboarded_by'
-            )
             ->whereIn('v_header.status', $array)
             ->orderBy('v_header.created_at', 'desc')
             ->get();
@@ -82,7 +65,22 @@ class VehicleDetailsService
                 '=',
                 'eng_det.vehicle_header_id')
             ->where('CONFIG_STATUSES.MODULE',
-                '=', Modules::VEHICLE->value);
+                '=', Modules::VEHICLE->value)
+            ->select(
+                'v_header.on_boarding_status',
+                'v_header.has_tom_card',
+                'v_header.registration_date',
+                'v_header.registration_number',
+                'v_header.body_type_name',
+                'v_header.model_name',
+                'v_header.model_code',
+                'v_header.brand_name',
+                'v_header.id as header_id',
+                'eng_det.fuel_allocation',
+                'eng_det.fuel_types',
+                'CONFIG_STATUSES.name as status_name',
+                'v_header.created_name as onboarded_by'
+            );
     }
 
     public function getVehicleDetails($ref): object|null
