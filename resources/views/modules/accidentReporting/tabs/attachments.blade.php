@@ -53,8 +53,7 @@
                        id="observations">
                     <thead>
                     <tr class="bg-success">
-                        <th scope="row">Attachment</th>
-                        {{--<th scope="row">Remarks(Description)</th>--}}
+                        <th scope="row">Accident Pictures</th>
                         <th scope="row"></th>
                     </tr>
                     </thead>
@@ -88,9 +87,6 @@
                                 </button>
                             </div>
                         </td>
-                       {{-- <td>
-                            <input type="text" name="observation[]" class="form-control">
-                        </td>--}}
                         <td>
                             <button type="button"
                                     data-table-id="observations"
