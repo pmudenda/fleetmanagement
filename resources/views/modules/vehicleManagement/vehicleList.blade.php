@@ -647,6 +647,7 @@
 
                         </tbody>
                     </table>
+                    {{ $vehicleList->links() }}
                 </div>
             </div>
         </div>
@@ -658,7 +659,7 @@
     <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
     <script>
         (function (tmsApp) {
-            tmsApp.initDatatable("#kt_brands_table", false, false, []);
+            // tmsApp.initDatatable("#kt_brands_table", false, false, []);
             $('[name="brand"]').select2({});
 
             getVehicleBrands();
