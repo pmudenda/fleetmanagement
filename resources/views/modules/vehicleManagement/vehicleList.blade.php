@@ -652,6 +652,7 @@
             </div>
         </div>
     </section>
+
 @endsection
 
 @push('scripts')
@@ -659,13 +660,13 @@
     <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
     <script>
         (function (tmsApp) {
-            //tmsApp.initDatatable("#kt_brands_table", false, false, []);
+            tmsApp.initDatatable("#kt_brands_table", false, false, []);
             $('[name="brand"]').select2({});
-            $("#kt_brands_table").DataTable( {
+            /*$("#kt_brands_table").DataTable( {
                 ajax: '../server_side/scripts/server_processing.php',
                 processing: true,
                 serverSide: true
-            });
+            });*/
             getVehicleBrands();
         })(window.tmsApp || {});
     </script>

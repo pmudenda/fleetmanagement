@@ -7,7 +7,6 @@ use App\Constants\SystemMessages;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Settings\Accessory;
-use App\Models\Settings\vehicle\VehicleBrand;
 use App\Models\Settings\WorkShop;
 use App\Models\VehicleManagement\VehicleAccessory;
 use App\Models\WorkShopManagement\JobCardHeader;
@@ -243,6 +242,18 @@ class VehicleController extends Controller
         $vehicleList = $this->vehicleDetailsService->getAllVehicles();
         return view('modules.vehicleManagement.vehicleList')
             ->with(compact('vehicleList'));
+    }
+
+    public function record(Request $request): JsonResponse
+    {
+        $this->vehicleDetailsService->getAllVehicles();
+        $totalRecords = 0;
+        return response()->json([
+            "draw" => $request->draw,
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            "data" => []
+        ]);
     }
 
     public function register(Request $request): View

@@ -101,6 +101,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'vehicle-management'], functio
 
     Route::get('/vehicle/list', [VehicleController::class, 'list'])->name('vehicles.list');
 
+    Route::get('/vehicle/list/json', [VehicleController::class, 'record'])->name('vehicles.records.list');
+
     //Route::get('/vehicles', [VehicleController::class, 'register'])->name('vehicle.edit');
 
     Route::get('/accessories', [VehicleController::class, 'accessories'])

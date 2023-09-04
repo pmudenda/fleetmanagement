@@ -29,10 +29,6 @@
 
         }
 
-        /*.input-group {
-            justify-content: center !important;
-            align-items: center !important;
-        }*/
     </style>
     <link rel="stylesheet" href="{{asset('libs/handsontable/handsontable.full.min.css')}}"/>
 @endpush
@@ -88,7 +84,6 @@
                                                     <td style="font-size: x-small;">
                                                         <span id="description" class="text-extra-muted"
                                                               data-name="description"></span>
-                                                        {{--<span class="text-" data-name="model" id="model"></span>--}}
                                                     </td>
                                                     <td>
                                                     </td>
