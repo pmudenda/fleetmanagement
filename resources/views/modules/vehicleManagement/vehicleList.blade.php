@@ -46,7 +46,7 @@
 
             <!--begin::Card body-->
             <div class="card-body pt-0">
-                <div style="display: none;" class="accordion" id="accordionExample">
+                <div class="accordion" id="accordionExample">
                     <div class="row">
                         <div id="collapseOne"
                              class="collapse"
