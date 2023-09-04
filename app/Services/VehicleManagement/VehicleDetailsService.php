@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class VehicleDetailsService
 {
-    public static function getAllVehicles(): ?\Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public static function getAllVehicles(): Collection
     {
         try {
             $query = (new VehicleDetailsService)->getVehicleDataQuery();
@@ -24,15 +24,15 @@ class VehicleDetailsService
                     'v_asgnment.*',
                     'eng_det.fuel_allocation',
                     'eng_det.fuel_types',
-                    'stat.name as status_name',
+                    'CONFIG_STATUSES.name as status_name',
                     'v_header.created_name as onboarded_by'
                 )
                 ->orderBy('v_header.created_at', 'desc')
-                ->paginate(20);
+                ->get();
         } catch (\Exception $e) {
             Log::info('Fetch vehicle details');
             Log::error($e);
-            return null;
+            return collect([]);
         }
     }
 
@@ -51,7 +51,7 @@ class VehicleDetailsService
                 'v_asgnment.*',
                 'eng_det.fuel_allocation',
                 'eng_det.fuel_types',
-                'stat.name as status_name',
+                'CONFIG_STATUSES.name as status_name',
                 'v_header.created_name as onboarded_by'
             )
             ->whereIn('v_header.status', $array)
@@ -62,7 +62,7 @@ class VehicleDetailsService
     private function getVehicleDataQuery(): Builder
     {
         return DB::table('VM_VEHICLE_HEADER v_header')
-            ->leftJoin('CONFIG_STATUSES stat',
+            ->leftJoin('CONFIG_STATUSES',
                 'v_header.status',
                 '=', 'CONFIG_STATUSES.code')
             ->leftJoin('VM_ASSIGNMENTS v_asgnment',
@@ -77,7 +77,7 @@ class VehicleDetailsService
                 'v_header.id',
                 '=',
                 'eng_det.vehicle_header_id')
-            ->where('stat.MODULE',
+            ->where('CONFIG_STATUSES.MODULE',
                 '=', Modules::VEHICLE->value);
     }
 
