@@ -35,7 +35,7 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $approvalTasks = $this->workflowService->getMyApprovalTasks($user->staff_no);
-        $vehicleData = VehicleDetailsService::getAllVehicles();
+        $vehicleData = (new VehicleDetailsService)->getAllVehiclesByStatus(['01', '02', '04', '05', '09']);
         return view('dashboard.home')
             ->with(compact('approvalTasks',
                 'vehicleData'));
