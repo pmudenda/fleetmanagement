@@ -6,6 +6,7 @@ use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Models\Common\File;
 use App\Models\VehicleManagement\VehicleAccessory;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -13,27 +14,22 @@ use Illuminate\Support\Facades\Log;
 
 class VehicleDetailsService
 {
-    public static function getAllVehicles(): Collection
+    public static function getAllVehicles(): LengthAwarePaginator
     {
-        try {
-            $query = (new VehicleDetailsService)->getVehicleDataQuery();
-            return $query
-                ->select(
-                    'v_header.*',
-                    'v_header.id as header_id',
-                    'v_asgnment.*',
-                    'eng_det.fuel_allocation',
-                    'eng_det.fuel_types',
-                    'CONFIG_STATUSES.name as status_name',
-                    'v_header.created_name as onboarded_by'
-                )
-                ->orderBy('v_header.created_at', 'desc')
-                ->get();
-        } catch (\Exception $e) {
-            Log::info('Fetch vehicle details');
-            Log::error($e);
-            return collect([]);
-        }
+        $query = (new VehicleDetailsService)->getVehicleDataQuery();
+        return $query
+            ->select(
+                'v_header.*',
+                'v_header.id as header_id',
+                'v_asgnment.*',
+                'eng_det.fuel_allocation',
+                'eng_det.fuel_types',
+                'CONFIG_STATUSES.name as status_name',
+                'v_header.created_name as onboarded_by'
+            )
+            ->orderBy('v_header.created_at', 'desc')
+            ->paginate(20);
+
     }
 
     public static function getVehicleByReg(mixed $ref)
