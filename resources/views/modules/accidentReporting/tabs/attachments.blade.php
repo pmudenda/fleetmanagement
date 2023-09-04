@@ -43,7 +43,8 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <hr/>
+    <div class="row mt-10">
         <div class="col-6">
             <div class="table-responsive" style="max-height:500px;">
                 <table data-model-name="Observations"
