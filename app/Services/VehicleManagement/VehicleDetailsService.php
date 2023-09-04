@@ -54,7 +54,7 @@ class VehicleDetailsService
                 'CONFIG_STATUSES.name as status_name',
                 'v_header.created_name as onboarded_by'
             )
-            ->whereIn('status', $array)
+            ->whereIn('v_header.status', $array)
             ->orderBy('v_header.created_at', 'desc')
             ->get();
     }

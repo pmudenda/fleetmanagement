@@ -401,10 +401,14 @@
                                                         @foreach ($roles as $groupName)
                                                             @if($groupName == 'default')
                                                                 <option selected
-                                                                        value="{{$groupName->id}}">{{$groupName->description}}</option>
+                                                                        value="{{$groupName->id}}">
+                                                                    {{$groupName->description}}
+                                                                </option>
                                                             @else
                                                                 <option
-                                                                    value="{{$groupName->id}}">{{$groupName->description}}</option>
+                                                                    value="{{$groupName->id}}">
+                                                                    {{$groupName->description}}
+                                                                </option>
                                                             @endif
                                                         @endforeach
                                                     </select>
