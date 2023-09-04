@@ -18,7 +18,7 @@ class VehicleDetailsService
     {
         $query = (new VehicleDetailsService)->getVehicleDataQuery();
         return $query
-            ->orderBy('v_header.status_name', 'asc')
+            ->orderBy('v_header.status')
             ->paginate(20);
 
     }
