@@ -492,8 +492,6 @@
                             </th>
                         </tr>
                         </thead>
-
-
                         <tbody class="text-gray-600 fw-semibold">
                         @foreach($vehicleList as $vehicle)
                             <tr>
@@ -660,7 +658,7 @@
     <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
     <script>
         (function (tmsApp) {
-            tmsApp.initDatatable("#kt_brands_table", false, true, []);
+            tmsApp.initDatatable("#kt_brands_table", false, false, []);
             $('[name="brand"]').select2({});
 
             getVehicleBrands();
