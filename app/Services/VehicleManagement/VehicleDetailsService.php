@@ -60,7 +60,7 @@ class VehicleDetailsService
             ->select(
                 'v_header.on_boarding_status',
                 'v_header.has_tom_card',
-                'v_header.registration_date',
+                'v_header.created_at',
                 'v_header.registration_number',
                 'v_header.body_type_name',
                 'v_header.model_name',
