@@ -42,9 +42,17 @@ class VehicleDetailsService
         $query = (new VehicleDetailsService)->getVehicleDataQuery();
         return $query
             ->select(
-                'v_header.*',
+                'v_header.on_boarding_status',
+                'v_header.has_tom_card',
+                'v_header.registration_date',
+                'v_header.registration_number',
+                'v_header.body_type_name',
+                'v_header.model_name',
+                'v_header.model_code',
+                'v_header.brand_name',
+                //'v_header.*',
                 'v_header.id as header_id',
-                'v_asgnment.*',
+                //'v_asgnment.*',
                 'eng_det.fuel_allocation',
                 'eng_det.fuel_types',
                 'CONFIG_STATUSES.name as status_name',

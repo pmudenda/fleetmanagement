@@ -582,7 +582,7 @@
                                 </td>
 
                                 <td>
-                                    {{$vehicle->created_at }}
+                                    {{$vehicle->registration_date}}
                                 </td>
 
                                 <td>
