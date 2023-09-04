@@ -113,7 +113,7 @@
                                 </tr>`;
             (function (tmsApp, $) {
 
-                new tmsApp.fileUploader().makeSingleFileUploader();
+                //new tmsApp.fileUploader().makeSingleFileUploader();
 
                 new ImageUpload().initRow();
 
