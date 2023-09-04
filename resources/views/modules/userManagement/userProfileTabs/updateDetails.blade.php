@@ -151,10 +151,10 @@
                     <div class="input-group-append">
                         @if($allowUpdate)
                             <div
-                                    data-assignmenttype="single"
-                                    data-inputfield="staff_supervisor"
-                                    data-field="userSelection"
-                                    class="input-group-text">
+                                data-assignmenttype="single"
+                                data-inputfield="staff_supervisor"
+                                data-field="userSelection"
+                                class="input-group-text">
                                 <i class="fa fa-user"></i>
                             </div>
                             <div style="cursor: pointer;"
@@ -166,7 +166,7 @@
                             </div>
                         @else
                             <div
-                                    class="input-group-text">
+                                class="input-group-text">
                                 <i class="fa fa-user"></i>
                             </div>
                             <div style="cursor: pointer;"
@@ -194,13 +194,19 @@
                     required>
                 <option value>--Choose Profile--</option>
                 @foreach ($roles as $groupName)
-                    @if($groupName->id == $user->roles()->first()->id)
-                        <option selected
+                    @if(!empty($user->roles()->first()))
+                        @if($groupName->id == $user->roles()->first()->id)
+                            <option selected
+                                    value="{{$groupName->id}}">{{$groupName->description}}</option>
+                        @else
+                            <option
                                 value="{{$groupName->id}}">{{$groupName->description}}</option>
+                        @endif
                     @else
                         <option
-                                value="{{$groupName->id}}">{{$groupName->description}}</option>
+                            value="{{$groupName->id}}">{{$groupName->description}}</option>
                     @endif
+
                 @endforeach
             </select>
         </div>
