@@ -66,9 +66,11 @@ class VehicleDetailsService
                 'v_header.model_name',
                 'v_header.model_code',
                 'v_header.brand_name',
+                'v_header.status',
                 'v_header.id as header_id',
                 'eng_det.fuel_allocation',
                 'eng_det.fuel_types',
+
                 'CONFIG_STATUSES.name as status_name',
                 'v_header.created_name as onboarded_by'
             );
