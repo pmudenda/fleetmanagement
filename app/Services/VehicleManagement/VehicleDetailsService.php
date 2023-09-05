@@ -191,8 +191,8 @@ class VehicleDetailsService
         $query = (new VehicleDetailsService)->getVehicleDataQuery();
 
         if ($request->has('registrationNumber') && $request->filled('registrationNumber')) {
-            $registrationNumber = strtoupper(trim($request->has('registrationNumber')));
-            $regNumOperator = strtoupper(trim($request->has('regNumOperator')));
+            $registrationNumber = strtoupper(trim($request->get('registrationNumber')));
+            $regNumOperator = strtoupper(trim($request->get('regNumOperator')));
 
             Log::info("Filtering $registrationNumber with $regNumOperator");
 
@@ -209,13 +209,23 @@ class VehicleDetailsService
             });
         }
 
-        if ($request->has('brand') && $request->filled('brand')) {
-            $brand = strtoupper(trim($request->has('brand')));
+        if ($request->has('status') && $request->filled('status')) {
+            $status = strtoupper(trim($request->get('status')));
 
-            Log::info("Filtering with $brand");
+            Log::info("Filtering with Status $status");
+
+            $query->where(function ($q) use ($status) {
+                $q->where("v_header.status", "=", $status);
+            });
+        }
+
+        if ($request->has('brand') && $request->filled('brand')) {
+            $brand = $request->get('brand');
+
+            Log::info("Filtering with Brand $brand");
 
             $query->where(function ($q) use ($brand) {
-                $q->where("v_header.brand_code", "=", $brand);
+                $q->whereIn("v_header.brand_code", $brand);
             });
         }
 

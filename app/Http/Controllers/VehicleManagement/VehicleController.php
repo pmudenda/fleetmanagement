@@ -4,9 +4,11 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
+use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Settings\Accessory;
+use App\Models\Settings\general\Status;
 use App\Models\Settings\WorkShop;
 use App\Models\VehicleManagement\VehicleAccessory;
 use App\Models\WorkShopManagement\JobCardHeader;
@@ -246,8 +248,9 @@ class VehicleController extends Controller
             $vehicleList = $this->vehicleDetailsService->getAllVehicles();
         }
 
+        $statusList = Status::where('module', '=', Modules::VEHICLE->value)->get();
         return view('modules.vehicleManagement.vehicleList')
-            ->with(compact('vehicleList'));
+            ->with(compact('vehicleList', 'statusList'));
     }
 
     public function record(Request $request): JsonResponse

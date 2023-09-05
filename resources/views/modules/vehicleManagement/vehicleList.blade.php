@@ -123,34 +123,24 @@
                                                            placeholder=""
                                                            class="form-control-sm mt-3 qbeinputin"/>
                                                 </div>
-                                                {{--<div data-qbefield="originatoruser" class="qbefield">
+                                                <div data-qbefield="originatoruser" class="qbefield">
                                                     <label
                                                         class="qbefieldlabel" title="Originator">
-                                                        Originator
+                                                        Status
                                                     </label>
-                                                    <div class="qbeoperator">
-                                                        <select
-                                                            class="qbeoperator form-select form-select-sm">
-                                                            <option value="0">is</option>
-                                                            <option value="16">is not</option>
-                                                            <option value="13">Is Current User</option>
-                                                            <option value="41">User's Employees</option>
-                                                            <option value="1">starts with</option>
-                                                            <option value="2">ends with</option>
-                                                            <option value="3">contains</option>
-                                                            <option value="44">does not start with</option>
-                                                            <option value="45">does not end with</option>
-                                                            <option value="46">does not contain</option>
-                                                            <option value="6">is empty</option>
-                                                            <option value="5">is not empty</option>
-                                                            <option value="17">in</option>
-                                                            <option value="18">not in</option>
+                                                    <div class="qbeoperator mb-3">
+                                                        <select name="brandOperator"
+                                                                class="qbeoperator form-select form-select-sm">
+                                                            <option value="{{ComparisonOperator::EQUAL}}">
+                                                                Is
+                                                            </option>
                                                         </select>
                                                     </div>
-                                                    <input type="text"
-                                                           class="qbeinput qbeinputin"
-                                                    />
-                                                </div>--}}
+                                                    <select name="status"
+                                                            multiple
+                                                            class="qbeoperator form-select form-select-sm">
+                                                    </select>
+                                                </div>
 
                                                 {{--<div data-qbefield="tasksubject" class="qbefield">
                                                     <label
@@ -592,6 +582,9 @@
     <script src="{{asset('application/modules/vehicleManagement/assets/js/lib.vehicle.data.js')}}"></script>
     <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
     <script>
+        const statusList = {!! json_encode($statusList) !!};
+    </script>
+    <script>
         (function (tmsApp) {
             function eventFired(type) {
                 /*let n = document.querySelector('#demo_info');
@@ -600,6 +593,7 @@
                 n.scrollTop = n.scrollHeight;*/
             }
 
+            tmsApp.populateDropDownList([name="status"], statusList, 'code', ["name"]);
             $(document).on('click', '[name="getRecords"]', function () {
                 document.forms['dataFilterForm'].submit();
             });

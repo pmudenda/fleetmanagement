@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Status extends Model
 {
-    use HasFactory;
     use SoftDeletes;
 
     protected $table = 'CONFIG_STATUSES';
