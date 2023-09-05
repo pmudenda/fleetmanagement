@@ -161,7 +161,7 @@
                                                required
                                         />
                                         <label for="description" class="field-required">
-                                            PERMISSION NAME:
+                                            PERMISSION DESCRIPTION:
                                         </label>
                                         <textarea type="text"
                                                   style="min-height: 29px"
