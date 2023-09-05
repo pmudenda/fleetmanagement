@@ -61,15 +61,17 @@
                                                 Reset
                                             </a>
 
-                                            <a class="btn btn-success btn-sm toolbarbutton listrefreshbutton">
+                                            <button type="submit"
+                                                    name="getRecords"
+                                                    class="btn btn-success btn-sm toolbarbutton listrefreshbutton">
                                                 <i class="fa fa-hand-grab-o"></i>
                                                 Get
                                                 Records
-                                            </a>
+                                            </button>
                                         </div>
-
                                         <div class="d-flex mt-3">
                                             <div data-qbefield="systemname"
+                                                 style="min-width: 220px;"
                                                  class="qbefield">
                                                 <label for="brand"
                                                        class="qbefieldlabel"
@@ -429,7 +431,6 @@
                                                 <input type="text" class="qbeinput qbeinputin"/>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -665,6 +666,10 @@
                     '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
                 n.scrollTop = n.scrollHeight;*/
             }
+
+            $(document).on('click', function (){
+                //getRecords
+            });
 
             tmsApp.initDatatable("#kt_brands_table", false, false, []);
             /*$('[name="brand"]').select2({});
