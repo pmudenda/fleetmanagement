@@ -136,7 +136,6 @@
                                                         </select>
                                                     </div>
                                                     <select name="status"
-                                                            multiple
                                                             class="qbeoperator form-select form-select-sm">
                                                     </select>
                                                 </div>
@@ -592,12 +591,11 @@
                 n.scrollTop = n.scrollHeight;*/
             }
 
-            tmsApp.populateDropDownList([name="status"], statusList, 'code', ["name"]);
+            tmsApp.populateDropDownList([name="status"], statusList, 'code', ["name"], '', '');
             $(document).on('click', '[name="getRecords"]', function () {
                 document.forms['dataFilterForm'].submit();
             });
 
-            tmsApp.initDatatable("#kt_brands_table", false, false, []);
             /*$('[name="brand"]').select2({});
             $("#kt_brands_table").DataTable({
                 'order': [],
