@@ -45,14 +45,15 @@
 
             <!--begin::Card body-->
             <div class="card-body pt-0">
-                <form method="GET" name="dataFilterForm">
-                    <div class="accordion" id="accordionExample">
-                        <div class="row">
-                            <div id="collapseOne"
-                                 class="collapse"
-                                 aria-labelledby="headingOne"
-                                 data-parent="#accordionExample">
-                                <div class="card-body px-0">
+
+                <div class="accordion" id="accordionExample">
+                    <div class="row">
+                        <div id="collapseOne"
+                             class="collapse"
+                             aria-labelledby="headingOne"
+                             data-parent="#accordionExample">
+                            <div class="card-body px-0">
+                                <form method="GET" name="dataFilterForm">
                                     <div class="list-qbe">
                                         <div class="qbeinner">
                                             <div class="qbe-toolbar"
@@ -374,11 +375,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
+
                 <!--begin::Table-->
                 <div class="table-responsive">
                     <table aria-label="vehicles Tables"
