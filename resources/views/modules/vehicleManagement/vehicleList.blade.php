@@ -10,7 +10,7 @@
             margin-right: 23px;
         }
 
-        .qbeoperator {
+        .qbe_operator {
             margin-top: 10px;
         }
     </style>
@@ -83,7 +83,7 @@
                                                     <div class="qbe_operator">
                                                         <div class="qbe_operator mb-3">
                                                             <select name="brandOperator"
-                                                                    class="qbeoperator form-select form-select-sm">
+                                                                    class="qbe_operator form-select form-select-sm">
                                                                 <option value="{{ComparisonOperator::EQUAL}}">
                                                                     Is
                                                                 </option>
@@ -147,8 +147,8 @@
                                                         class="qbefieldlabel" title="Subject">
                                                         Subject
                                                     </label>
-                                                    <div class="qbeoperator">
-                                                        <select class="qbeoperator form-select form-select-sm">
+                                                    <div class="qbe_operator">
+                                                        <select class="qbe_operator form-select form-select-sm">
                                                             <option value="0">is</option>
                                                             <option value="16">is not</option>
                                                             <option value="1">starts with</option>
@@ -174,9 +174,9 @@
                                                         class="qbefieldlabel" title="Assignee">
                                                         Assignee
                                                     </label>
-                                                    <div class="qbeoperator">
+                                                    <div class="qbe_operator">
                                                         <select
-                                                            class="qbeoperator form-select form-select-sm">
+                                                            class="qbe_operator form-select form-select-sm">
                                                             <option value="0">is</option>
                                                             <option value="16">is not</option>
                                                             <option value="13">Is Current User</option>
@@ -200,8 +200,8 @@
                                                         class="qbefieldlabel" title="Date Due">
                                                         Date Due
                                                     </label>
-                                                    <div class="qbeoperator">
-                                                        <select class="qbeoperator form-select form-select-sm">
+                                                    <div class="qbe_operator">
+                                                        <select class="qbe_operator form-select form-select-sm">
                                                             <option value="12">&gt;=</option>
                                                             <option value="11">&lt;=</option>
                                                             <option value="10">&gt;</option>
@@ -253,8 +253,8 @@
                                                            title="Date Completed">
                                                         Date Completed
                                                     </label>
-                                                    <div class="qbeoperator">
-                                                        <select class="qbeoperator form-select form-select-sm">
+                                                    <div class="qbe_operator">
+                                                        <select class="qbe_operator form-select form-select-sm">
                                                             <option value="12">&gt;=</option>
                                                             <option value="11">&lt;=</option>
                                                             <option value="10">&gt;</option>
@@ -308,8 +308,8 @@
                                                     </i>--}}{{--
                                                     <label
                                                         class="qbefieldlabel" title="Date Closed">Date Closed</label>
-                                                    <div class="qbeoperator">
-                                                        <select class="qbeoperator form-select form-select-sm">
+                                                    <div class="qbe_operator">
+                                                        <select class="qbe_operator form-select form-select-sm">
                                                             <option value="12">&gt;=</option>
                                                             <option value="11">&lt;=</option>
                                                             <option value="10">&gt;</option>
