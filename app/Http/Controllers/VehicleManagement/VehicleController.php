@@ -239,7 +239,7 @@ class VehicleController extends Controller
     public function list(Request $request): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         if ($request->has('getRecords')) {
-
+            Log::debug("Get Records Present");
             $vehicleList = $this->vehicleDetailsService->getFilteredVehiclesInformation($request);
         } else {
             $vehicleList = $this->vehicleDetailsService->getAllVehicles();
