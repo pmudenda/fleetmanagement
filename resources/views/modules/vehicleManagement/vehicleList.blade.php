@@ -81,6 +81,14 @@
                                                         BRAND
                                                     </label>
                                                     <div class="qbeoperator">
+                                                        <div class="qbeoperator">
+                                                            <select name="brandOperator"
+                                                                    class="qbeoperator form-select form-select-sm">
+                                                                <option value="{{ComparisonOperator::EQUAL}}">
+                                                                    Is
+                                                                </option>
+                                                            </select>
+                                                        </div>
                                                         <select name="brand"
                                                                 multiple
                                                                 class="qbeoperator form-select form-select-sm">
