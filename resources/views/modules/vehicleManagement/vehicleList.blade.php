@@ -125,9 +125,8 @@
                                                 <div data-qbefield="status"
                                                      style="min-width: 220px;"
                                                      class="qbefield">
-                                                    <label
-                                                        class="control-label" title="Status">
-                                                        Status
+                                                    <label title="Status">
+                                                        STATUS
                                                     </label>
                                                     <div class="qbe_operator mb-3">
                                                         <select name="brandOperator"
