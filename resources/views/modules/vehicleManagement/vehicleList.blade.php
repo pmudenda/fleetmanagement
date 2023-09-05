@@ -610,7 +610,7 @@
                 n.scrollTop = n.scrollHeight;*/
             }
 
-            $(document).on('click', function () {
+            $(document).on('click', '#getRecords', function () {
                 document.forms['dataFilterForm'].submit();
             });
 
