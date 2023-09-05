@@ -2,6 +2,7 @@
 
 namespace App\Services\VehicleManagement;
 
+use App\Constants\ComparisonOperator;
 use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Models\Common\File;
@@ -194,15 +195,22 @@ class VehicleDetailsService
             $regNumOperator = strtoupper(trim($request->has('regNumOperator')));
 
             $query->where(function ($q) use ($registrationNumber, $regNumOperator) {
-                if ('EQUAL' == $regNumOperator) {
+                if (ComparisonOperator::EQUAL == $regNumOperator) {
                     $q->where("v_header.registration_number", "=", $registrationNumber);
-                } elseif ('StartsWith' == $regNumOperator) {
+                } elseif (ComparisonOperator::STARTS_WITH == $regNumOperator) {
                     $q->where("v_header.registration_number", "LIKE", "{$registrationNumber}%");
-                } elseif ('EndsWith' == $regNumOperator) {
+                } elseif (ComparisonOperator::ENDS_WITH == $regNumOperator) {
                     $q->where("v_header.registration_number", "LIKE", "%{$registrationNumber}");
-                } elseif ('Contains' == $regNumOperator) {
+                } elseif (ComparisonOperator::CONTAINS == $regNumOperator) {
                     $q->where("v_header.registration_number", "LIKE", "%{$registrationNumber}%");
                 }
+            });
+        }
+
+        if ($request->has('brand') && $request->filled('brand')) {
+            $brand = strtoupper(trim($request->has('brand')));
+            $query->where(function ($q) use ($brand) {
+                $q->where("v_header.brand_code", "=", $brand);
             });
         }
 
