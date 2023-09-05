@@ -23,7 +23,6 @@
             <div class="card-header">
                 <div class="card-title">
                     <button class="btn btn-primary btn-sm text-left"
-                            style="display: none"
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#collapseOne"
