@@ -152,7 +152,7 @@
                                                     />
                                                 </div>--}}
 
-                                                <div data-qbefield="tasksubject" class="qbefield">
+                                                {{--<div data-qbefield="tasksubject" class="qbefield">
                                                     <label
                                                         class="qbefieldlabel" title="Subject">
                                                         Subject
@@ -178,8 +178,8 @@
                                                         class="qbelabelin"
                                                         style="display:none">
                                             </span>
-                                                </div>
-                                                <div data-qbefield="assigneeuser" class="qbefield">
+                                                </div>--}}
+                                                {{--<div data-qbefield="assigneeuser" class="qbefield">
                                                     <label
                                                         class="qbefieldlabel" title="Assignee">
                                                         Assignee
@@ -204,8 +204,8 @@
                                                         </select>
                                                     </div>
                                                     <input type="text" class="qbeinput qbeinputin"/>
-                                                </div>
-                                                <div data-qbefield="datedue" class="qbefield">
+                                                </div>--}}
+                                                {{--<div data-qbefield="datedue" class="qbefield">
                                                     <label
                                                         class="qbefieldlabel" title="Date Due">
                                                         Date Due
@@ -256,8 +256,8 @@
                                                         class="qbeinputupper adddatepicker hasDatepicker"
                                                         style="display:none"
                                                         id="dp1675929085278"/>
-                                                </div>
-                                                <div data-qbefield="datecompleted"
+                                                </div>--}}
+                                                {{--<div data-qbefield="datecompleted"
                                                      class="qbefield">
                                                     <label class="qbefieldlabel"
                                                            title="Date Completed">
@@ -309,13 +309,13 @@
                                                         class="qbeinputupper adddatepicker hasDatepicker"
                                                         style="display:none"
                                                         id="dp1675929085280">
-                                                </div>
-                                                <div data-qbefield="dateclosed"
+                                                </div>--}}
+                                                {{--<div data-qbefield="dateclosed"
                                                      class="qbefield">
-                                                    {{--<i class="fa fa-remove"
+                                                    --}}{{--<i class="fa fa-remove"
                                                        title="Remove this field"
                                                        style="cursor:pointer;">
-                                                    </i>--}}
+                                                    </i>--}}{{--
                                                     <label
                                                         class="qbefieldlabel" title="Date Closed">Date Closed</label>
                                                     <div class="qbeoperator">
@@ -361,33 +361,7 @@
                                                         class="qbeinputupper adddatepicker hasDatepicker"
                                                         style="display:none"
                                                         id="dp1675929085282"/>
-                                                </div>
-                                                <div data-qbefield="result" class="qbefield">
-                                                    {{--<i class="fa fa-remove"
-                                                       title="Remove this field"
-                                                       style="cursor:pointer;"></i>--}}
-                                                    <label
-                                                        class="qbefieldlabel" title="Action">
-                                                        Action
-                                                    </label>
-                                                    <div class="qbeoperator">
-                                                        <select class="qbeoperator form-select form-select-sm">
-                                                            <option value="0">is</option>
-                                                            <option value="16">is not</option>
-                                                            <option value="1">starts with</option>
-                                                            <option value="2">ends with</option>
-                                                            <option value="3">contains</option>
-                                                            <option value="44">does not start with</option>
-                                                            <option value="45">does not end with</option>
-                                                            <option value="46">does not contain</option>
-                                                            <option value="6">is empty</option>
-                                                            <option value="5">is not empty</option>
-                                                            <option value="17">in</option>
-                                                            <option value="18">not in</option>
-                                                        </select>
-                                                    </div>
-                                                    <input type="text" class="qbeinput qbeinputin"/>
-                                                </div>
+                                                </div>--}}
                                             </div>
                                         </div>
                                     </div>

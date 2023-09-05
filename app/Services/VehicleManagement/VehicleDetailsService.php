@@ -194,6 +194,8 @@ class VehicleDetailsService
             $registrationNumber = strtoupper(trim($request->has('registrationNumber')));
             $regNumOperator = strtoupper(trim($request->has('regNumOperator')));
 
+            Log::info("Filtering $registrationNumber with $regNumOperator");
+
             $query->where(function ($q) use ($registrationNumber, $regNumOperator) {
                 if (ComparisonOperator::EQUAL == $regNumOperator) {
                     $q->where("v_header.registration_number", "=", $registrationNumber);
@@ -209,6 +211,9 @@ class VehicleDetailsService
 
         if ($request->has('brand') && $request->filled('brand')) {
             $brand = strtoupper(trim($request->has('brand')));
+
+            Log::info("Filtering with $brand");
+
             $query->where(function ($q) use ($brand) {
                 $q->where("v_header.brand_code", "=", $brand);
             });
