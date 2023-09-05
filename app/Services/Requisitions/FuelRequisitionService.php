@@ -889,6 +889,8 @@ class FuelRequisitionService
             throw new FuelRequisitionException("Business Unit Is Not Active");
         }
 
+        Log::info('Cost Center ' .$assignmentInfo->cost_center);
+
         $countCc = CostCenter::where('code_cost_center', $assignmentInfo->cost_center)
             ->where("status", "=", StatusHelper::organizationStructureActive())
             ->count();
