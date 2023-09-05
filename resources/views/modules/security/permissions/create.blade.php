@@ -36,7 +36,7 @@
                                         name="description"
                                         required
                                         maxlength="255"
-                              >{{$item->description}}</textarea>
+                              ></textarea>
                           </div>
                           <div class="form-group mt-4">
                               <label for="slug"
