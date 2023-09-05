@@ -93,7 +93,7 @@ class WorkshopController extends Controller
 
     public function sections(): View
     {
-        $type = ConfigurationTypes::WORK_SHOP_SECTION;
+        $type = ConfigurationTypes::WORK_SHOP_SECTION->value;
         $workshop_sections = GeneralTable::where(Constants::TYPE_KEY, $type)->get();
 
         return view('modules.configurations.generalTables.index')->with(
