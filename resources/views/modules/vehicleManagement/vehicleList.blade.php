@@ -49,7 +49,7 @@
                 <div class="accordion" id="accordionExample">
                     <div class="row">
                         <div id="collapseOne"
-                             class="collapse"
+                             class="collapse show"
                              aria-labelledby="headingOne"
                              data-parent="#accordionExample">
                             <div class="card-body px-0">
