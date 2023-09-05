@@ -660,13 +660,26 @@
     <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
     <script>
         (function (tmsApp) {
+            function eventFired(type) {
+                /*let n = document.querySelector('#demo_info');
+                n.innerHTML +=
+                    '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+                n.scrollTop = n.scrollHeight;*/
+            }
+
             tmsApp.initDatatable("#kt_brands_table", false, false, []);
-            $('[name="brand"]').select2({});
-            /*$("#kt_brands_table").DataTable( {
-                ajax: '../server_side/scripts/server_processing.php',
-                processing: true,
-                serverSide: true
-            });*/
+            /*$('[name="brand"]').select2({});
+            $("#kt_brands_table").DataTable({
+                'order': [],
+                "pageLength": 10,
+                "responsive": true,
+                "searchable": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                'columnDefs': [],
+                "buttons": []
+            }).on('search.dt', () => eventFired('Search'));*/
+
             getVehicleBrands();
         })(window.tmsApp || {});
     </script>

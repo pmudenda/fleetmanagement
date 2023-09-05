@@ -400,7 +400,7 @@
                         if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
                             setTimeout(function () {
                                 tmsApp.showSystemMessage(
-                                    'Fuel Requisition',
+                                    'User Detail Update',
                                     asyncResponse['message'],
                                     function () {
                                         window.location.reload();
@@ -415,7 +415,7 @@
                             }
                             setTimeout(function () {
                                 tmsApp.systemError(
-                                    'Fuel Requisition',
+                                    'User Detail Update',
                                     asyncResponse['message'],
                                     function () {
                                     }, 'error');
@@ -431,7 +431,7 @@
                                 }
                                 if (xhr.responseJSON.hasOwnProperty('message')) {
                                     tmsApp.systemError(
-                                        'Fuel Requisition',
+                                        'User Detail Update',
                                         xhr.responseJSON['message']
                                     );
                                 }
@@ -439,7 +439,7 @@
                             }
 
                             tmsApp.systemError(
-                                'Fuel Requisition',
+                                'User Detail Update',
                                 'We could not complete processing your request, please try again later');
                         }, 300)
                     });
@@ -457,7 +457,7 @@
                         if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
                             setTimeout(function () {
                                 tmsApp.showSystemMessage(
-                                    'Fuel Requisition',
+                                    'User Detail Update',
                                     asyncResponse['message'],
                                     function () {
                                         window.location.reload();
@@ -472,7 +472,7 @@
                             }
                             setTimeout(function () {
                                 tmsApp.systemError(
-                                    'Fuel Requisition',
+                                    'User Detail Update',
                                     asyncResponse['message'],
                                     function () {
                                     }, 'error');
@@ -488,7 +488,7 @@
                                 }
                                 if (xhr.responseJSON.hasOwnProperty('message')) {
                                     tmsApp.systemError(
-                                        'Fuel Requisition',
+                                        'User Detail Update',
                                         xhr.responseJSON['message']
                                     );
                                 }
@@ -496,7 +496,7 @@
                             }
 
                             tmsApp.systemError(
-                                'Fuel Requisition',
+                                'User Detail Update',
                                 'We could not complete processing your request, please try again later');
                         }, 300)
                     });
