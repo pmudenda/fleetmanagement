@@ -236,9 +236,15 @@ class VehicleController extends Controller
         }
     }
 
-    public function list(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function list(Request $request): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $vehicleList = $this->vehicleDetailsService->getAllVehicles();
+        if ($request->has('getRecords')) {
+
+            $vehicleList = $this->vehicleDetailsService->getFilteredVehiclesInformation($request);
+        } else {
+            $vehicleList = $this->vehicleDetailsService->getAllVehicles();
+        }
+
         return view('modules.vehicleManagement.vehicleList')
             ->with(compact('vehicleList'));
     }

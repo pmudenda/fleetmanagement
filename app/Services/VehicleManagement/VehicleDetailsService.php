@@ -8,6 +8,7 @@ use App\Models\Common\File;
 use App\Models\VehicleManagement\VehicleAccessory;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -182,5 +183,31 @@ class VehicleDetailsService
             Log::error($e);
             return collect([]);
         }
+    }
+
+    public function getFilteredVehiclesInformation(Request $request): LengthAwarePaginator
+    {
+        $query = (new VehicleDetailsService)->getVehicleDataQuery();
+
+        if ($request->has('registrationNumber') && $request->filled('registrationNumber')) {
+            $registrationNumber = strtoupper(trim($request->has('registrationNumber')));
+            $regNumOperator = strtoupper(trim($request->has('regNumOperator')));
+
+            $query->where(function ($q) use ($registrationNumber, $regNumOperator) {
+                if ('EQUAL' == $regNumOperator) {
+                    $q->where("v_header.registration_number", "=", $registrationNumber);
+                } elseif ('StartsWith' == $regNumOperator) {
+                    $q->where("v_header.registration_number", "LIKE", "{$registrationNumber}%");
+                } elseif ('EndsWith' == $regNumOperator) {
+                    $q->where("v_header.registration_number", "LIKE", "%{$registrationNumber}");
+                } elseif ('Contains' == $regNumOperator) {
+                    $q->where("v_header.registration_number", "LIKE", "%{$registrationNumber}%");
+                }
+            });
+        }
+
+        return $query
+            ->orderBy('v_header.status')
+            ->paginate(20);
     }
 }

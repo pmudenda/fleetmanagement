@@ -1,4 +1,4 @@
-@php use App\Helpers\StatusHelper; @endphp
+@php use App\Constants\ComparisonOperator;use App\Helpers\StatusHelper; @endphp
 @extends('layouts.app')
 @push('styles')
     <!-- DataTables -->
@@ -63,8 +63,9 @@
                                                     Reset
                                                 </a>
 
-                                                <button type="submit"
+                                                <button type="button"
                                                         name="getRecords"
+                                                        value="YES"
                                                         class="btn btn-success btn-sm toolbarbutton listrefreshbutton">
                                                     <i class="fa fa-hand-grab-o"></i>
                                                     Apply Filter
@@ -94,12 +95,20 @@
                                                         REG NUMBER
                                                     </label>
                                                     <div class="qbeoperator">
-                                                        <select name="regNumberOperator"
+                                                        <select name="regNumOperator"
                                                                 class="qbeoperator form-select form-select-sm">
-                                                            <option value="Equal">Is</option>
-                                                            <option value="StartsWith">Starts With</option>
-                                                            <option value="EndWith">End With</option>
-                                                            <option value="Contains">Contains</option>
+                                                            <option value="{{ComparisonOperator::EQUAL}}">
+                                                                Is
+                                                            </option>
+                                                            <option value="{{ComparisonOperator::STARTS_WITH}}">
+                                                                Starts With
+                                                            </option>
+                                                            <option value="{{ComparisonOperator::ENDS_WITH}}">
+                                                                End With
+                                                            </option>
+                                                            <option value="{{ComparisonOperator::CONTAINS}}">
+                                                                Contains
+                                                            </option>
                                                         </select>
                                                     </div>
                                                     <input type="text" name="registrationNumber"
