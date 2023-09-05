@@ -658,7 +658,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
             'order': [],
             "pageLength": 10,
             "responsive": true,
-            "searchable": searchable,
+            "searching": searchable,
             "lengthChange": false,
             "autoWidth": false,
             'columnDefs': orderColumns,
