@@ -33,6 +33,9 @@
                     </button>
                 </div>
                 <div class="card-toolbar justify-content-end">
+                    <div class="">
+
+                    </div>
                     <div class="d-flex">
                         <a href="{{route('new.vehicle')}}"
                            class="btn btn-success btn-sm">
@@ -601,17 +604,17 @@
                 document.forms['dataFilterForm'].submit();
             });
 
-            /*$('[name="brand"]').select2({});
+            $('[name="brand"]').select2({});
             $("#kt_brands_table").DataTable({
                 'order': [],
                 "pageLength": 10,
                 "responsive": true,
-                "searchable": true,
+                "searching": true,
                 "lengthChange": false,
                 "autoWidth": false,
                 'columnDefs': [],
                 "buttons": []
-            }).on('search.dt', () => eventFired('Search'));*/
+            }).on('search.dt', () => eventFired('Search'));
 
             getVehicleBrands();
         })(window.tmsApp || {});
