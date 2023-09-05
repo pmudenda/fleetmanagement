@@ -98,6 +98,7 @@
                                                                 class="qbeoperator form-select form-select-sm">
                                                             <option value="Equal">Is</option>
                                                             <option value="StartsWith">Starts With</option>
+                                                            <option value="EndWith">End With</option>
                                                             <option value="Contains">Contains</option>
                                                         </select>
                                                     </div>
