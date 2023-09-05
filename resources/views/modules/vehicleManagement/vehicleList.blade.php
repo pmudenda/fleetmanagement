@@ -67,8 +67,7 @@
                                                         name="getRecords"
                                                         class="btn btn-success btn-sm toolbarbutton listrefreshbutton">
                                                     <i class="fa fa-hand-grab-o"></i>
-                                                    Get
-                                                    Records
+                                                    Apply Filter
                                                 </button>
                                             </div>
                                             <div class="d-flex mt-3">
