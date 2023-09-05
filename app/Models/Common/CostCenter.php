@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CostCenter extends Model
 {
-    protected $table = 'REF_COST_CENTERS';
+    protected $table = 'zfm_cost_centers';
     protected $attributes = [
         'code_cost_center',
         'description',

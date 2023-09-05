@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('active');
             $table->string('code')->nullable();
-            $table->string('active')->change();
+            $table->string('code_unit', 10)->nullable();
+            $table->string('active', 2);
             $table->timestamps();
         });
     }
