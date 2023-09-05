@@ -72,7 +72,7 @@
                                                 </button>
                                             </div>
                                             <div class="d-flex mt-3">
-                                                <div data-qbefield="systemname"
+                                                <div data-qbefield="brand"
                                                      style="min-width: 220px;"
                                                      class="qbefield">
                                                     <label for="brand"
@@ -80,8 +80,8 @@
                                                            title="Module">
                                                         BRAND
                                                     </label>
-                                                    <div class="qbeoperator">
-                                                        <div class="qbeoperator mb-3">
+                                                    <div class="qbe_operator">
+                                                        <div class="qbe_operator mb-3">
                                                             <select name="brandOperator"
                                                                     class="qbeoperator form-select form-select-sm">
                                                                 <option value="{{ComparisonOperator::EQUAL}}">
@@ -90,7 +90,7 @@
                                                             </select>
                                                         </div>
                                                         <select name="brand"
-                                                                class="qbeoperator form-select form-select-sm">
+                                                                class="qbe_operator form-select form-select-sm">
                                                         </select>
                                                     </div>
                                                 </div>
@@ -98,12 +98,12 @@
                                                 <div data-qbefield="tasknumber"
                                                      class="qbefield">
                                                     <label
-                                                        class="qbefieldlabel" title="Task #">
+                                                        class="qbefieldlabel" title="Reg #">
                                                         REG NUMBER
                                                     </label>
-                                                    <div class="qbeoperator">
+                                                    <div class="qbe_operator">
                                                         <select name="regNumOperator"
-                                                                class="qbeoperator form-select form-select-sm">
+                                                                class="qbe_operator form-select form-select-sm">
                                                             <option value="{{ComparisonOperator::EQUAL}}">
                                                                 Is
                                                             </option>
@@ -118,14 +118,15 @@
                                                             </option>
                                                         </select>
                                                     </div>
-                                                    <input type="text" name="registrationNumber"
+                                                    <input type="text"
+                                                           name="registrationNumber"
                                                            placeholder=""
                                                            class="form-control-sm mt-3"/>
                                                 </div>
                                                 <div data-qbefield="status"
                                                      style="min-width: 220px;"
                                                      class="qbefield">
-                                                    <label title="Status">
+                                                    <label class="qbefieldlabel" title="Status">
                                                         STATUS
                                                     </label>
                                                     <div class="qbe_operator mb-3">
