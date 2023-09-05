@@ -580,7 +580,7 @@
     <script src="{{asset('application/modules/vehicleManagement/assets/js/lib.vehicle.data.js')}}"></script>
     <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
     <script>
-        const statusList = {!! json_encode($statusList) !!};
+        window.statusList = {!! json_encode($statusList) !!};
     </script>
     <script>
         (function (tmsApp) {
@@ -591,7 +591,10 @@
                 n.scrollTop = n.scrollHeight;*/
             }
 
-            tmsApp.populateDropDownList([name="status"], statusList, 'code', ["name"], '', '');
+            $(document).ready(function () {
+                tmsApp.populateDropDownList($('[name="status"]'), window.statusList, 'code', ["name"], '', '');
+            })
+
             $(document).on('click', '[name="getRecords"]', function () {
                 document.forms['dataFilterForm'].submit();
             });
