@@ -100,6 +100,7 @@
                                                         <option value="Contains">Contains</option>
                                                     </select>
                                                 </div>
+                                                <input type="text" class="form-control-sm qbeinputin"/>
                                             </div>
                                             {{--<div data-qbefield="originatoruser" class="qbefield">
                                                 <label
