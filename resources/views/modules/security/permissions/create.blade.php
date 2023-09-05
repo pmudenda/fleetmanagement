@@ -19,39 +19,44 @@
             <form name="device_from"
                   action="{{route('permissions.store')}}" method="post">
                 @csrf
+                <div class="card-header">
+                    <div class="card-title">
+                        Add System Permission <i class="fas fa-user-shield"></i>
+                    </div>
+                </div>
                 <div class="card-body">
                     <div class="row">
-                      <div class="col-6">
-                          <div class="form-group mt-4">
-                              <label for="description" class="field-required">
-                                  Description:
-                              </label>
-                              {{--<input type="text" class="form-control" id="name" name="name" required
-                                     maxlength="100"
-                                     placeholder="create-status">--}}
-                              <textarea type="text"
-                                        style="min-height: 29px"
-                                        class="form-control"
-                                        id="description"
-                                        name="description"
-                                        required
-                                        maxlength="255"
-                              ></textarea>
-                          </div>
-                          <div class="form-group mt-4">
-                              <label for="slug"
-                                     class="field-required">
-                                  Name:
-                              </label>
-                              <input type="text"
-                                     class="form-control"
-                                     id="name"
-                                     name="name"
-                                     required
-                                     maxlength="100"
-                                     placeholder="Enter Permission name">
-                          </div>
-                      </div>
+                        <div class="col-6">
+                            <div class="form-group mt-4">
+                                <label for="name"
+                                       class="field-required">
+                                    Name:
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="name"
+                                       name="name"
+                                       required
+                                       maxlength="100"
+                                       placeholder="Enter Permission name">
+                            </div>
+                            <div class="form-group mt-4">
+                                <label for="description" class="field-required">
+                                    Description:
+                                </label>
+                                {{--<input type="text" class="form-control" id="name" name="name" required
+                                       maxlength="100"
+                                       placeholder="create-status">--}}
+                                <textarea type="text"
+                                          style="min-height: 29px"
+                                          class="form-control"
+                                          id="description"
+                                          name="description"
+                                          required
+                                          maxlength="255"
+                                ></textarea>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
