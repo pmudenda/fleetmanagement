@@ -101,7 +101,9 @@
                                                             <option value="Contains">Contains</option>
                                                         </select>
                                                     </div>
-                                                    <input type="text" class="form-control-sm qbeinputin"/>
+                                                    <input type="text" name="registrationNumber"
+                                                           placeholder=""
+                                                           class="form-control-sm mt-2 qbeinputin"/>
                                                 </div>
                                                 {{--<div data-qbefield="originatoruser" class="qbefield">
                                                     <label
