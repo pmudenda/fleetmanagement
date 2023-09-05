@@ -120,23 +120,25 @@
                                                     </div>
                                                     <input type="text" name="registrationNumber"
                                                            placeholder=""
-                                                           class="form-control-sm mt-3 qbeinputin"/>
+                                                           class="form-control-sm mt-3"/>
                                                 </div>
-                                                <div data-qbefield="originatoruser" class="qbefield">
+                                                <div data-qbefield="status"
+                                                     style="min-width: 220px;"
+                                                     class="qbefield">
                                                     <label
-                                                        class="qbefieldlabel" title="Originator">
+                                                        class="control-label" title="Status">
                                                         Status
                                                     </label>
-                                                    <div class="qbeoperator mb-3">
+                                                    <div class="qbe_operator mb-3">
                                                         <select name="brandOperator"
-                                                                class="qbeoperator form-select form-select-sm">
+                                                                class="qbe_operator form-select form-select-sm">
                                                             <option value="{{ComparisonOperator::EQUAL}}">
                                                                 Is
                                                             </option>
                                                         </select>
                                                     </div>
                                                     <select name="status"
-                                                            class="qbeoperator form-select form-select-sm">
+                                                            class="qbe_operator form-select form-select-sm">
                                                     </select>
                                                 </div>
 
