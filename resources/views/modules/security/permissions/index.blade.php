@@ -41,14 +41,17 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="rightsTable"
+                                       aria-label="Permissions table"
+                                       role="table"
                                        class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
                                     <thead>
                                     <tr>
                                         <th>Description</th>
                                         <th>Name</th>
                                         <th>Date Created</th>
-                                        <th>Action</th>
-                                       {{-- @can(config('rights.permission_edit'))@endcan--}}
+                                        @canany(config('rights.permission_edit'),config('rights.permission_destroy'))
+                                            <th>Action</th>
+                                        @endcanany
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -57,52 +60,57 @@
                                             <td>
                                                 {{$item->description}}
                                             </td>
-                                            {{--@can(config('rights.permission_edit'))@endcan--}}
                                             <td>
                                                 {{$item->name}}
                                             </td>
                                             <td>
                                                 {{Carbon::parse($item->created_at)->format('d/m/y')}}
                                             </td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button
-                                                        class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
-                                                        type="button"
-                                                        id="dropdownMenuButton1"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Actions
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        @can(config('rights.permission_edit'))
-                                                            <li>
-                                                                <a href="#"
-                                                                   class="dropdown-item"
-                                                                   data-sent_data="{{$item}}"
-                                                                   data-bs-toggle="modal"
-                                                                   data-bs-target="#editModal{{$item->id}}">
-                                                                    <i class="fas fa-edit"> Edit</i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <hr class="dropdown-divider">
-                                                            </li>
-                                                        @endcan
-                                                        @can(config('rights.permission_destroy'))
-                                                            <li>
-                                                                <a href="#"
-                                                                   class="dropdown-item"
-                                                                   data-sent_data="{{$permissions}}"
-                                                                   data-bs-toggle="modal"
-                                                                   data-bs-target="#deleteModal{{$item->id}}">
-                                                                    <i class="fas fa-trash"> Remove</i>
-                                                                </a>
-                                                            </li>
-                                                        @endcan
-                                                    </ul>
-                                                </div>
-                                            </td>
-
+                                            @canany(config('rights.permission_edit'),
+                                                    config('rights.permission_destroy'))
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button
+                                                            class="btn btn-light
+                                                        btn-active-light-primary btn-sm dropdown-toggle"
+                                                            type="button"
+                                                            id="dropdownMenuButton1"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Actions
+                                                        </button>
+                                                        <ul class="dropdown-menu"
+                                                            aria-labelledby="dropdownMenuButton1">
+                                                            @can(config('rights.permission_edit'))
+                                                                <li>
+                                                                    <a href="#"
+                                                                       class="dropdown-item"
+                                                                       data-sent_data="{{$item}}"
+                                                                       data-bs-toggle="modal"
+                                                                       data-bs-target="#editModal{{$item->id}}">
+                                                                        <i class="fas fa-edit"></i>
+                                                                        Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <hr class="dropdown-divider">
+                                                                </li>
+                                                            @endcan
+                                                            @can(config('rights.permission_destroy'))
+                                                                <li>
+                                                                    <a href="#"
+                                                                       class="dropdown-item"
+                                                                       data-sent_data="{{$permissions}}"
+                                                                       data-bs-toggle="modal"
+                                                                       data-bs-target="#deleteModal{{$item->id}}">
+                                                                        <i class="fas fa-trash"></i>
+                                                                        Remove
+                                                                    </a>
+                                                                </li>
+                                                            @endcan
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            @endcanany
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -121,7 +129,6 @@
     </section>
 
     @foreach($permissions as $item)
-        <!-- Device Update Modal -->
         <div class="modal fade" id="editModal{{$item->id}}" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -137,17 +144,32 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
-                                        <input type="number" id="id" name="id" value="{{$item->id}}" required hidden>
-                                        <label for="name"> PERMISSION NAME: <span class="required">*</span></label>
-                                        <input type="text" class="form-control" value="{{$item->name}}" id="name"
-                                               name="name" required maxlength="100"
-                                        >
-                                    </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
-                                        <label for="slug"> SLUG: <span class="required">*</span></label>
-                                        <input type="text" class="form-control" value="{{$item->slug}}" id="slug"
-                                               name="slug" required maxlength="100"
-                                        >
+                                        <input type="hidden" id="id"
+                                               name="id"
+                                               value="{{$item->id}}"
+                                               required/>
+                                        <input type="hidden"
+                                               class="form-control"
+                                               value="{{$item->name}}" id="name"
+                                               name="name"
+                                               required
+                                        />
+                                        <input type="hidden"
+                                               class="form-control"
+                                               value="{{$item->slug}}" id="slug"
+                                               name="slug"
+                                               required
+                                        />
+                                        <label for="description" class="field-required">
+                                            PERMISSION NAME:
+                                        </label>
+                                        <textarea type="text"
+                                                  style="min-height: 29px"
+                                                  class="form-control"
+                                                  id="description"
+                                                  name="description"
+                                                  required maxlength="100"
+                                        >{{$item->description}}</textarea>
                                     </div>
                                 </div>
 
@@ -167,10 +189,8 @@
                     </div>
                 </div>
             </div>
-            <!-- /.col -->
         </div>
 
-        <!-- Status Delete Modal -->
         <div class="modal fade" id="deleteModal{{$item->id}}" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -190,18 +210,23 @@
                                         <input type="text" id="location_id_delete" value="{{$item->id}}" name="id"
                                                required hidden>
                                         <label for="name"> Name: <span class="required">*</span></label>
-                                        <input readonly type="text" class="form-control" value="{{$item->name}}"
-                                               id="name" name="name" required maxlength="100"
-                                        >
+                                        <textarea readonly type="text"
+                                                  class="form-control"
+                                                  id="description" name="description" required maxlength="100"
+                                        >{{$item->description}}</textarea>
                                     </div>
                                 </div>
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close
+                                <button type="button" class="btn btn-sm btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Close
                                 </button>
                                 @can(config('rights.permission_destroy'))
-                                    <button type="submit" class="btn btn-sm btn-danger">Yes</button>
+                                    <button type="submit"
+                                            class="btn btn-sm btn-danger">Yes
+                                    </button>
                                 @endcan
                             </div>
                         </form>
