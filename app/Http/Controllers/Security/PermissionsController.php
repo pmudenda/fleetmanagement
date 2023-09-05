@@ -8,13 +8,14 @@ use App\Http\Requests\SystemPermission;
 use App\Models\Security\Permission;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class PermissionsController extends Controller
 {
 
-    public function index()
+    public function index(): View
     {
         $permissions = Permission::all();
         return view('modules.security.permissions.index')
@@ -23,9 +24,9 @@ class PermissionsController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @return Application|Factory
+     * @return View
      */
-    public function create(): Application|Factory
+    public function create(): View
     {
         return view('modules.security.permissions.create');
     }
