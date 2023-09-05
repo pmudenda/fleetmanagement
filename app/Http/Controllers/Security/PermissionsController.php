@@ -38,7 +38,8 @@ class PermissionsController extends Controller
             [
                 'name' => $request->name,
                 'slug' => $slug,
-                'guard_name' => 'web'
+                'guard_name' => 'web',
+                'description' => $request->description
             ],
             [
                 'name' => $request->name,
