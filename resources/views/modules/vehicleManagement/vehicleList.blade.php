@@ -63,7 +63,7 @@
                                                     Reset
                                                 </a>
 
-                                                <button type="button"
+                                                <button type="submit"
                                                         name="getRecords"
                                                         value="YES"
                                                         class="btn btn-success btn-sm toolbarbutton listrefreshbutton">
