@@ -896,9 +896,11 @@ class FuelRequisitionService
             ->count();
 
         if ($countCc == 0) {
-            throw new FuelRequisitionException("Cost Center Is Not Active");
+            throw new FuelRequisitionException(
+                ErrorMessages::getMessage()
+            );
         }
-
+        // "Cost Center Is Not Active"
         $countUserUnit = OrganizationalUnit::where('code_unit', $assignmentInfo->user_unit)
             ->where("status", "=", StatusHelper::organizationStructureActive())
             ->count();

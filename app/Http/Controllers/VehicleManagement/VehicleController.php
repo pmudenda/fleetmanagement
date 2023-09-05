@@ -139,14 +139,13 @@ class VehicleController extends Controller
                 $vehicle_state = str_replace("@reg",
                     $vehicle->registration_number, SystemMessages::vehiclePendingOnboardingCompletion());
             } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
-                /*
-                $vehicle_state = str_replace("@reg",
-                    $vehicle->registration_number,
-                    SystemMessages::vehicleInWorkshop());
-                */
+                $jobCard = JobCardHeader::where('reg_no', $vehicle->registration_number)->first();
 
-                $workshopCode = JobCardHeader::where('reg_no', $vehicle->registration_number)->first()->workshop_code;
-                $workshopName = WorkShop::where('workshop_code', $workshopCode)->first()->workshop_name;
+                $workshopName = "";
+                if (!empty($jobCard) && !empty($jobCard->workshop_code)) {
+                    WorkShop::where('workshop_code', $jobCard->workshop_code)->first()->workshop_name;
+                }
+
                 $vehicle_state = str_replace("@reg",
                     $vehicle->registration_number,
                     str_replace("@workshop",
