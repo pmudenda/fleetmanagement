@@ -225,7 +225,7 @@ class VehicleDetailsService
             Log::info("Filtering with Brand $brand");
 
             $query->where(function ($q) use ($brand) {
-                $q->whereIn("v_header.brand_code", $brand);
+                $q->where("v_header.brand_code", '=', $brand);
             });
         }
 

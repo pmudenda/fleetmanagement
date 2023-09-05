@@ -90,7 +90,6 @@
                                                             </select>
                                                         </div>
                                                         <select name="brand"
-                                                                multiple
                                                                 class="qbeoperator form-select form-select-sm">
                                                         </select>
                                                     </div>
