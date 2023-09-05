@@ -45,327 +45,329 @@
 
             <!--begin::Card body-->
             <div class="card-body pt-0">
-                <div class="accordion" id="accordionExample">
-                    <div class="row">
-                        <div id="collapseOne"
-                             class="collapse"
-                             aria-labelledby="headingOne"
-                             data-parent="#accordionExample">
-                            <div class="card-body px-0">
-                                <div class="list-qbe">
-                                    <div class="qbeinner">
-                                        <div class="qbe-toolbar"
-                                             style="visibility: visible;">
-                                            <a class="btn btn-danger btn-sm toolbarbutton mr-3">
-                                                <i class="fa fa-undo"></i>
-                                                Reset
-                                            </a>
+                <form method="GET" name="dataFilterForm">
+                    <div class="accordion" id="accordionExample">
+                        <div class="row">
+                            <div id="collapseOne"
+                                 class="collapse"
+                                 aria-labelledby="headingOne"
+                                 data-parent="#accordionExample">
+                                <div class="card-body px-0">
+                                    <div class="list-qbe">
+                                        <div class="qbeinner">
+                                            <div class="qbe-toolbar"
+                                                 style="visibility: visible;">
+                                                <a class="btn btn-danger btn-sm toolbarbutton mr-3">
+                                                    <i class="fa fa-undo"></i>
+                                                    Reset
+                                                </a>
 
-                                            <button type="submit"
-                                                    name="getRecords"
-                                                    class="btn btn-success btn-sm toolbarbutton listrefreshbutton">
-                                                <i class="fa fa-hand-grab-o"></i>
-                                                Get
-                                                Records
-                                            </button>
-                                        </div>
-                                        <div class="d-flex mt-3">
-                                            <div data-qbefield="systemname"
-                                                 style="min-width: 220px;"
-                                                 class="qbefield">
-                                                <label for="brand"
-                                                       class="qbefieldlabel"
-                                                       title="Module">
-                                                    BRAND
-                                                </label>
-                                                <div class="qbeoperator">
-                                                    <select name="brand"
-                                                            multiple
+                                                <button type="submit"
+                                                        name="getRecords"
+                                                        class="btn btn-success btn-sm toolbarbutton listrefreshbutton">
+                                                    <i class="fa fa-hand-grab-o"></i>
+                                                    Get
+                                                    Records
+                                                </button>
+                                            </div>
+                                            <div class="d-flex mt-3">
+                                                <div data-qbefield="systemname"
+                                                     style="min-width: 220px;"
+                                                     class="qbefield">
+                                                    <label for="brand"
+                                                           class="qbefieldlabel"
+                                                           title="Module">
+                                                        BRAND
+                                                    </label>
+                                                    <div class="qbeoperator">
+                                                        <select name="brand"
+                                                                multiple
+                                                                class="qbeoperator form-select form-select-sm">
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div data-qbefield="tasknumber"
+                                                     class="qbefield">
+                                                    <label
+                                                        class="qbefieldlabel" title="Task #">
+                                                        REG NUMBER
+                                                    </label>
+                                                    <div class="qbeoperator">
+                                                        <select name="regNumberOperator"
+                                                                class="qbeoperator form-select form-select-sm">
+                                                            <option value="Equal">Is</option>
+                                                            <option value="StartsWith">Starts With</option>
+                                                            <option value="Contains">Contains</option>
+                                                        </select>
+                                                    </div>
+                                                    <input type="text" class="form-control-sm qbeinputin"/>
+                                                </div>
+                                                {{--<div data-qbefield="originatoruser" class="qbefield">
+                                                    <label
+                                                        class="qbefieldlabel" title="Originator">
+                                                        Originator
+                                                    </label>
+                                                    <div class="qbeoperator">
+                                                        <select
                                                             class="qbeoperator form-select form-select-sm">
-                                                    </select>
-                                                </div>
-                                            </div>
+                                                            <option value="0">is</option>
+                                                            <option value="16">is not</option>
+                                                            <option value="13">Is Current User</option>
+                                                            <option value="41">User's Employees</option>
+                                                            <option value="1">starts with</option>
+                                                            <option value="2">ends with</option>
+                                                            <option value="3">contains</option>
+                                                            <option value="44">does not start with</option>
+                                                            <option value="45">does not end with</option>
+                                                            <option value="46">does not contain</option>
+                                                            <option value="6">is empty</option>
+                                                            <option value="5">is not empty</option>
+                                                            <option value="17">in</option>
+                                                            <option value="18">not in</option>
+                                                        </select>
+                                                    </div>
+                                                    <input type="text"
+                                                           class="qbeinput qbeinputin"
+                                                    />
+                                                </div>--}}
 
-                                            <div data-qbefield="tasknumber"
-                                                 class="qbefield">
-                                                <label
-                                                    class="qbefieldlabel" title="Task #">
-                                                    REG NUMBER
-                                                </label>
-                                                <div class="qbeoperator">
-                                                    <select name="regNumberOperator"
-                                                        class="qbeoperator form-select form-select-sm">
-                                                        <option value="Equal">Is</option>
-                                                        <option value="StartsWith">Starts With</option>
-                                                        <option value="Contains">Contains</option>
-                                                    </select>
-                                                </div>
-                                                <input type="text" class="form-control-sm qbeinputin"/>
-                                            </div>
-                                            {{--<div data-qbefield="originatoruser" class="qbefield">
-                                                <label
-                                                    class="qbefieldlabel" title="Originator">
-                                                    Originator
-                                                </label>
-                                                <div class="qbeoperator">
-                                                    <select
-                                                        class="qbeoperator form-select form-select-sm">
-                                                        <option value="0">is</option>
-                                                        <option value="16">is not</option>
-                                                        <option value="13">Is Current User</option>
-                                                        <option value="41">User's Employees</option>
-                                                        <option value="1">starts with</option>
-                                                        <option value="2">ends with</option>
-                                                        <option value="3">contains</option>
-                                                        <option value="44">does not start with</option>
-                                                        <option value="45">does not end with</option>
-                                                        <option value="46">does not contain</option>
-                                                        <option value="6">is empty</option>
-                                                        <option value="5">is not empty</option>
-                                                        <option value="17">in</option>
-                                                        <option value="18">not in</option>
-                                                    </select>
-                                                </div>
-                                                <input type="text"
-                                                       class="qbeinput qbeinputin"
-                                                />
-                                            </div>--}}
-
-                                            <div data-qbefield="tasksubject" class="qbefield">
-                                                <label
-                                                    class="qbefieldlabel" title="Subject">
-                                                    Subject
-                                                </label>
-                                                <div class="qbeoperator">
-                                                    <select class="qbeoperator form-select form-select-sm">
-                                                        <option value="0">is</option>
-                                                        <option value="16">is not</option>
-                                                        <option value="1">starts with</option>
-                                                        <option value="2">ends with</option>
-                                                        <option value="3">contains</option>
-                                                        <option value="44">does not start with</option>
-                                                        <option value="45">does not end with</option>
-                                                        <option value="46">does not contain</option>
-                                                        <option value="6">is empty</option>
-                                                        <option value="5">is not empty</option>
-                                                        <option value="17">in</option>
-                                                        <option value="18">not in</option>
-                                                    </select>
-                                                </div>
-                                                <input type="text" class="qbeinput qbeinputin"/>
-                                                <span
-                                                    class="qbelabelin"
-                                                    style="display:none">
+                                                <div data-qbefield="tasksubject" class="qbefield">
+                                                    <label
+                                                        class="qbefieldlabel" title="Subject">
+                                                        Subject
+                                                    </label>
+                                                    <div class="qbeoperator">
+                                                        <select class="qbeoperator form-select form-select-sm">
+                                                            <option value="0">is</option>
+                                                            <option value="16">is not</option>
+                                                            <option value="1">starts with</option>
+                                                            <option value="2">ends with</option>
+                                                            <option value="3">contains</option>
+                                                            <option value="44">does not start with</option>
+                                                            <option value="45">does not end with</option>
+                                                            <option value="46">does not contain</option>
+                                                            <option value="6">is empty</option>
+                                                            <option value="5">is not empty</option>
+                                                            <option value="17">in</option>
+                                                            <option value="18">not in</option>
+                                                        </select>
+                                                    </div>
+                                                    <input type="text" class="qbeinput qbeinputin"/>
+                                                    <span
+                                                        class="qbelabelin"
+                                                        style="display:none">
                                             </span>
-                                            </div>
-                                            <div data-qbefield="assigneeuser" class="qbefield">
-                                                <label
-                                                    class="qbefieldlabel" title="Assignee">
-                                                    Assignee
-                                                </label>
-                                                <div class="qbeoperator">
-                                                    <select
-                                                        class="qbeoperator form-select form-select-sm">
-                                                        <option value="0">is</option>
-                                                        <option value="16">is not</option>
-                                                        <option value="13">Is Current User</option>
-                                                        <option value="41">User's Employees</option>
-                                                        <option value="1">starts with</option>
-                                                        <option value="2">ends with</option>
-                                                        <option value="3">contains</option>
-                                                        <option value="44">does not start with</option>
-                                                        <option value="45">does not end with</option>
-                                                        <option value="46">does not contain</option>
-                                                        <option value="6">is empty</option>
-                                                        <option value="5">is not empty</option>
-                                                        <option value="17">in</option>
-                                                        <option value="18">not in</option>
-                                                    </select>
                                                 </div>
-                                                <input type="text" class="qbeinput qbeinputin"/>
-                                            </div>
-                                            <div data-qbefield="datedue" class="qbefield">
-                                                <label
-                                                    class="qbefieldlabel" title="Date Due">
-                                                    Date Due
-                                                </label>
-                                                <div class="qbeoperator">
-                                                    <select class="qbeoperator form-select form-select-sm">
-                                                        <option value="12">&gt;=</option>
-                                                        <option value="11">&lt;=</option>
-                                                        <option value="10">&gt;</option>
-                                                        <option value="9">&lt;</option>
-                                                        <option value="0">is</option>
-                                                        <option value="4">is between</option>
-                                                        <option value="14">&lt;=current date</option>
-                                                        <option value="15">&gt;=current date</option>
-                                                        <option value="6">is empty</option>
-                                                        <option value="5">is not empty</option>
-                                                        <option value="21">this month</option>
-                                                        <option value="22">last month</option>
-                                                        <option value="23">Next Month</option>
-                                                        <option value="25">Yesterday</option>
-                                                        <option value="26">Today</option>
-                                                        <option value="27">Tomorrow</option>
-                                                        <option value="28">Next 7 Days</option>
-                                                        <option value="29">Last 7 Days</option>
-                                                        <option value="30">Next Week</option>
-                                                        <option value="31">This Week</option>
-                                                        <option value="32">Last Week</option>
-                                                        <option value="33">Next X Weeks</option>
-                                                        <option value="34">Last X Weeks</option>
-                                                        <option value="35">Next X Months</option>
-                                                        <option value="36">Last X Months</option>
-                                                        <option value="38">Next X Years</option>
-                                                        <option value="37">Last X Years</option>
-                                                        <option value="39">Year to Date</option>
-                                                        <option value="42">This Year</option>
-                                                        <option value="43">Previous Year</option>
-                                                    </select>
+                                                <div data-qbefield="assigneeuser" class="qbefield">
+                                                    <label
+                                                        class="qbefieldlabel" title="Assignee">
+                                                        Assignee
+                                                    </label>
+                                                    <div class="qbeoperator">
+                                                        <select
+                                                            class="qbeoperator form-select form-select-sm">
+                                                            <option value="0">is</option>
+                                                            <option value="16">is not</option>
+                                                            <option value="13">Is Current User</option>
+                                                            <option value="41">User's Employees</option>
+                                                            <option value="1">starts with</option>
+                                                            <option value="2">ends with</option>
+                                                            <option value="3">contains</option>
+                                                            <option value="44">does not start with</option>
+                                                            <option value="45">does not end with</option>
+                                                            <option value="46">does not contain</option>
+                                                            <option value="6">is empty</option>
+                                                            <option value="5">is not empty</option>
+                                                            <option value="17">in</option>
+                                                            <option value="18">not in</option>
+                                                        </select>
+                                                    </div>
+                                                    <input type="text" class="qbeinput qbeinputin"/>
                                                 </div>
-                                                <input type="text"
-                                                       class="qbeinput adddatepicker hasDatepicker"
-                                                       id="dp1675929085277"/>
-                                                <input
-                                                    type="text"
-                                                    class="qbeinputdatenum"
-                                                    style="display:none"/>
-                                                <input
-                                                    type="text"
-                                                    class="qbeinputupper adddatepicker hasDatepicker"
-                                                    style="display:none"
-                                                    id="dp1675929085278"/>
-                                            </div>
-                                            <div data-qbefield="datecompleted"
-                                                 class="qbefield">
-                                                <label class="qbefieldlabel"
-                                                       title="Date Completed">
-                                                    Date Completed
-                                                </label>
-                                                <div class="qbeoperator">
-                                                    <select class="qbeoperator form-select form-select-sm">
-                                                        <option value="12">&gt;=</option>
-                                                        <option value="11">&lt;=</option>
-                                                        <option value="10">&gt;</option>
-                                                        <option value="9">&lt;</option>
-                                                        <option value="0">is</option>
-                                                        <option value="4">is between</option>
-                                                        <option value="14">&lt;=current date</option>
-                                                        <option value="15">&gt;=current date</option>
-                                                        <option value="6">is empty</option>
-                                                        <option value="5">is not empty</option>
-                                                        <option value="21">this month</option>
-                                                        <option value="22">last month</option>
-                                                        <option value="23">Next Month</option>
-                                                        <option value="25">Yesterday</option>
-                                                        <option value="26">Today</option>
-                                                        <option value="27">Tomorrow</option>
-                                                        <option value="28">Next 7 Days</option>
-                                                        <option value="29">Last 7 Days</option>
-                                                        <option value="30">Next Week</option>
-                                                        <option value="31">This Week</option>
-                                                        <option value="32">Last Week</option>
-                                                        <option value="33">Next X Weeks</option>
-                                                        <option value="34">Last X Weeks</option>
-                                                        <option value="35">Next X Months</option>
-                                                        <option value="36">Last X Months</option>
-                                                        <option value="38">Next X Years</option>
-                                                        <option value="37">Last X Years</option>
-                                                        <option value="39">Year to Date</option>
-                                                        <option value="42">This Year</option>
-                                                        <option value="43">Previous Year</option>
-                                                    </select>
+                                                <div data-qbefield="datedue" class="qbefield">
+                                                    <label
+                                                        class="qbefieldlabel" title="Date Due">
+                                                        Date Due
+                                                    </label>
+                                                    <div class="qbeoperator">
+                                                        <select class="qbeoperator form-select form-select-sm">
+                                                            <option value="12">&gt;=</option>
+                                                            <option value="11">&lt;=</option>
+                                                            <option value="10">&gt;</option>
+                                                            <option value="9">&lt;</option>
+                                                            <option value="0">is</option>
+                                                            <option value="4">is between</option>
+                                                            <option value="14">&lt;=current date</option>
+                                                            <option value="15">&gt;=current date</option>
+                                                            <option value="6">is empty</option>
+                                                            <option value="5">is not empty</option>
+                                                            <option value="21">this month</option>
+                                                            <option value="22">last month</option>
+                                                            <option value="23">Next Month</option>
+                                                            <option value="25">Yesterday</option>
+                                                            <option value="26">Today</option>
+                                                            <option value="27">Tomorrow</option>
+                                                            <option value="28">Next 7 Days</option>
+                                                            <option value="29">Last 7 Days</option>
+                                                            <option value="30">Next Week</option>
+                                                            <option value="31">This Week</option>
+                                                            <option value="32">Last Week</option>
+                                                            <option value="33">Next X Weeks</option>
+                                                            <option value="34">Last X Weeks</option>
+                                                            <option value="35">Next X Months</option>
+                                                            <option value="36">Last X Months</option>
+                                                            <option value="38">Next X Years</option>
+                                                            <option value="37">Last X Years</option>
+                                                            <option value="39">Year to Date</option>
+                                                            <option value="42">This Year</option>
+                                                            <option value="43">Previous Year</option>
+                                                        </select>
+                                                    </div>
+                                                    <input type="text"
+                                                           class="qbeinput adddatepicker hasDatepicker"
+                                                           id="dp1675929085277"/>
+                                                    <input
+                                                        type="text"
+                                                        class="qbeinputdatenum"
+                                                        style="display:none"/>
+                                                    <input
+                                                        type="text"
+                                                        class="qbeinputupper adddatepicker hasDatepicker"
+                                                        style="display:none"
+                                                        id="dp1675929085278"/>
                                                 </div>
-                                                <input type="text"
-                                                       class="qbeinput adddatepicker hasDatepicker"
-                                                       id="dp1675929085279">
-                                                <input
-                                                    type="text"
-                                                    class="qbeinputdatenum"
-                                                    style="display:none">
-                                                <input
-                                                    type="text"
-                                                    class="qbeinputupper adddatepicker hasDatepicker"
-                                                    style="display:none"
-                                                    id="dp1675929085280">
-                                            </div>
-                                            <div data-qbefield="dateclosed"
-                                                 class="qbefield">
-                                                {{--<i class="fa fa-remove"
-                                                   title="Remove this field"
-                                                   style="cursor:pointer;">
-                                                </i>--}}
-                                                <label
-                                                    class="qbefieldlabel" title="Date Closed">Date Closed</label>
-                                                <div class="qbeoperator">
-                                                    <select class="qbeoperator form-select form-select-sm">
-                                                        <option value="12">&gt;=</option>
-                                                        <option value="11">&lt;=</option>
-                                                        <option value="10">&gt;</option>
-                                                        <option value="9">&lt;</option>
-                                                        <option value="0">is</option>
-                                                        <option value="4">is between</option>
-                                                        <option value="14">&lt;=current date</option>
-                                                        <option value="15">&gt;=current date</option>
-                                                        <option value="6">is empty</option>
-                                                        <option value="5">is not empty</option>
-                                                        <option value="21">this month</option>
-                                                        <option value="22">last month</option>
-                                                        <option value="23">Next Month</option>
-                                                        <option value="25">Yesterday</option>
-                                                        <option value="26">Today</option>
-                                                        <option value="27">Tomorrow</option>
-                                                        <option value="28">Next 7 Days</option>
-                                                        <option value="29">Last 7 Days</option>
-                                                        <option value="30">Next Week</option>
-                                                        <option value="31">This Week</option>
-                                                        <option value="32">Last Week</option>
-                                                        <option value="33">Next X Weeks</option>
-                                                        <option value="34">Last X Weeks</option>
-                                                        <option value="35">Next X Months</option>
-                                                        <option value="36">Last X Months</option>
-                                                        <option value="38">Next X Years</option>
-                                                        <option value="37">Last X Years</option>
-                                                        <option value="39">Year to Date</option>
-                                                        <option value="42">This Year</option>
-                                                        <option value="43">Previous Year</option>
-                                                    </select>
+                                                <div data-qbefield="datecompleted"
+                                                     class="qbefield">
+                                                    <label class="qbefieldlabel"
+                                                           title="Date Completed">
+                                                        Date Completed
+                                                    </label>
+                                                    <div class="qbeoperator">
+                                                        <select class="qbeoperator form-select form-select-sm">
+                                                            <option value="12">&gt;=</option>
+                                                            <option value="11">&lt;=</option>
+                                                            <option value="10">&gt;</option>
+                                                            <option value="9">&lt;</option>
+                                                            <option value="0">is</option>
+                                                            <option value="4">is between</option>
+                                                            <option value="14">&lt;=current date</option>
+                                                            <option value="15">&gt;=current date</option>
+                                                            <option value="6">is empty</option>
+                                                            <option value="5">is not empty</option>
+                                                            <option value="21">this month</option>
+                                                            <option value="22">last month</option>
+                                                            <option value="23">Next Month</option>
+                                                            <option value="25">Yesterday</option>
+                                                            <option value="26">Today</option>
+                                                            <option value="27">Tomorrow</option>
+                                                            <option value="28">Next 7 Days</option>
+                                                            <option value="29">Last 7 Days</option>
+                                                            <option value="30">Next Week</option>
+                                                            <option value="31">This Week</option>
+                                                            <option value="32">Last Week</option>
+                                                            <option value="33">Next X Weeks</option>
+                                                            <option value="34">Last X Weeks</option>
+                                                            <option value="35">Next X Months</option>
+                                                            <option value="36">Last X Months</option>
+                                                            <option value="38">Next X Years</option>
+                                                            <option value="37">Last X Years</option>
+                                                            <option value="39">Year to Date</option>
+                                                            <option value="42">This Year</option>
+                                                            <option value="43">Previous Year</option>
+                                                        </select>
+                                                    </div>
+                                                    <input type="text"
+                                                           class="qbeinput adddatepicker hasDatepicker"
+                                                           id="dp1675929085279">
+                                                    <input
+                                                        type="text"
+                                                        class="qbeinputdatenum"
+                                                        style="display:none">
+                                                    <input
+                                                        type="text"
+                                                        class="qbeinputupper adddatepicker hasDatepicker"
+                                                        style="display:none"
+                                                        id="dp1675929085280">
                                                 </div>
-                                                <input type="text" class="qbeinput adddatepicker hasDatepicker"
-                                                       id="dp1675929085281">
-                                                <input
-                                                    type="text" class="qbeinputdatenum" style="display:none">
-                                                <input
-                                                    type="text"
-                                                    class="qbeinputupper adddatepicker hasDatepicker"
-                                                    style="display:none"
-                                                    id="dp1675929085282"/>
-                                            </div>
-                                            <div data-qbefield="result" class="qbefield">
-                                                {{--<i class="fa fa-remove"
-                                                   title="Remove this field"
-                                                   style="cursor:pointer;"></i>--}}
-                                                <label
-                                                    class="qbefieldlabel" title="Action">
-                                                    Action
-                                                </label>
-                                                <div class="qbeoperator">
-                                                    <select class="qbeoperator form-select form-select-sm">
-                                                        <option value="0">is</option>
-                                                        <option value="16">is not</option>
-                                                        <option value="1">starts with</option>
-                                                        <option value="2">ends with</option>
-                                                        <option value="3">contains</option>
-                                                        <option value="44">does not start with</option>
-                                                        <option value="45">does not end with</option>
-                                                        <option value="46">does not contain</option>
-                                                        <option value="6">is empty</option>
-                                                        <option value="5">is not empty</option>
-                                                        <option value="17">in</option>
-                                                        <option value="18">not in</option>
-                                                    </select>
+                                                <div data-qbefield="dateclosed"
+                                                     class="qbefield">
+                                                    {{--<i class="fa fa-remove"
+                                                       title="Remove this field"
+                                                       style="cursor:pointer;">
+                                                    </i>--}}
+                                                    <label
+                                                        class="qbefieldlabel" title="Date Closed">Date Closed</label>
+                                                    <div class="qbeoperator">
+                                                        <select class="qbeoperator form-select form-select-sm">
+                                                            <option value="12">&gt;=</option>
+                                                            <option value="11">&lt;=</option>
+                                                            <option value="10">&gt;</option>
+                                                            <option value="9">&lt;</option>
+                                                            <option value="0">is</option>
+                                                            <option value="4">is between</option>
+                                                            <option value="14">&lt;=current date</option>
+                                                            <option value="15">&gt;=current date</option>
+                                                            <option value="6">is empty</option>
+                                                            <option value="5">is not empty</option>
+                                                            <option value="21">this month</option>
+                                                            <option value="22">last month</option>
+                                                            <option value="23">Next Month</option>
+                                                            <option value="25">Yesterday</option>
+                                                            <option value="26">Today</option>
+                                                            <option value="27">Tomorrow</option>
+                                                            <option value="28">Next 7 Days</option>
+                                                            <option value="29">Last 7 Days</option>
+                                                            <option value="30">Next Week</option>
+                                                            <option value="31">This Week</option>
+                                                            <option value="32">Last Week</option>
+                                                            <option value="33">Next X Weeks</option>
+                                                            <option value="34">Last X Weeks</option>
+                                                            <option value="35">Next X Months</option>
+                                                            <option value="36">Last X Months</option>
+                                                            <option value="38">Next X Years</option>
+                                                            <option value="37">Last X Years</option>
+                                                            <option value="39">Year to Date</option>
+                                                            <option value="42">This Year</option>
+                                                            <option value="43">Previous Year</option>
+                                                        </select>
+                                                    </div>
+                                                    <input type="text" class="qbeinput adddatepicker hasDatepicker"
+                                                           id="dp1675929085281">
+                                                    <input
+                                                        type="text" class="qbeinputdatenum" style="display:none">
+                                                    <input
+                                                        type="text"
+                                                        class="qbeinputupper adddatepicker hasDatepicker"
+                                                        style="display:none"
+                                                        id="dp1675929085282"/>
                                                 </div>
-                                                <input type="text" class="qbeinput qbeinputin"/>
+                                                <div data-qbefield="result" class="qbefield">
+                                                    {{--<i class="fa fa-remove"
+                                                       title="Remove this field"
+                                                       style="cursor:pointer;"></i>--}}
+                                                    <label
+                                                        class="qbefieldlabel" title="Action">
+                                                        Action
+                                                    </label>
+                                                    <div class="qbeoperator">
+                                                        <select class="qbeoperator form-select form-select-sm">
+                                                            <option value="0">is</option>
+                                                            <option value="16">is not</option>
+                                                            <option value="1">starts with</option>
+                                                            <option value="2">ends with</option>
+                                                            <option value="3">contains</option>
+                                                            <option value="44">does not start with</option>
+                                                            <option value="45">does not end with</option>
+                                                            <option value="46">does not contain</option>
+                                                            <option value="6">is empty</option>
+                                                            <option value="5">is not empty</option>
+                                                            <option value="17">in</option>
+                                                            <option value="18">not in</option>
+                                                        </select>
+                                                    </div>
+                                                    <input type="text" class="qbeinput qbeinputin"/>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -373,8 +375,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
+                </form>
                 <!--begin::Table-->
                 <div class="table-responsive">
                     <table aria-label="vehicles Tables"
@@ -604,8 +605,8 @@
                 n.scrollTop = n.scrollHeight;*/
             }
 
-            $(document).on('click', function (){
-                //getRecords
+            $(document).on('click', function () {
+                document.forms['dataFilterForm'].submit();
             });
 
             tmsApp.initDatatable("#kt_brands_table", false, false, []);
