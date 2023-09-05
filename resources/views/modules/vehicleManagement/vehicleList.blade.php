@@ -81,7 +81,7 @@
                                                         BRAND
                                                     </label>
                                                     <div class="qbeoperator">
-                                                        <div class="qbeoperator">
+                                                        <div class="qbeoperator mb-3">
                                                             <select name="brandOperator"
                                                                     class="qbeoperator form-select form-select-sm">
                                                                 <option value="{{ComparisonOperator::EQUAL}}">
@@ -121,7 +121,7 @@
                                                     </div>
                                                     <input type="text" name="registrationNumber"
                                                            placeholder=""
-                                                           class="form-control-sm mt-2 qbeinputin"/>
+                                                           class="form-control-sm mt-3 qbeinputin"/>
                                                 </div>
                                                 {{--<div data-qbefield="originatoruser" class="qbefield">
                                                     <label
