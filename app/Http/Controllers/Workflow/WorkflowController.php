@@ -19,6 +19,7 @@ use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
+use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\WorkflowService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -48,11 +49,23 @@ class WorkflowController extends Controller
         $this->procurementService = $procurementService;
     }
 
-    public function showWorkTask(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function showWorkTask(): View
     {
         $workTask = WorkflowTaskHeader:: orderBy('created_at', 'ASC')->get();
         return view('modules.workflow.approvals', compact(['workTask']))
             ->with('i', (request()->input('page', 1) - 1) * 10);
+    }
+
+    public function viewTasks(): View
+    {
+        $user = auth()->user();
+        $approvalTasks = $this->workflowService->getMyApprovalTasks($user->staff_no);
+
+        return view('dashboard.home')
+            ->with(compact('approvalTasks'));
+
+        /*return view('modules.workflow.tasks', compact(['workTask']))
+            ->with('i', (request()->input('page', 1) - 1) * 10);*/
     }
 
     public function processFuelRequisitionApproval(Request $request): JsonResponse

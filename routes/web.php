@@ -223,6 +223,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'workshop-management'], functi
 
     Route::post('approve/stores/requisition/', [WorkflowController::class, 'processStoresRequisitionApproval'])
         ->name('stores.requisition.approve');
+
+    Route::post('tasks/view', [WorkflowController::class, 'viewTasks'])
+        ->name('workflow.task');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'driver-management'], function () {
