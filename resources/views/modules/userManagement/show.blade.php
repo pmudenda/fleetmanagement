@@ -210,7 +210,7 @@
                                         <a class="nav-link"
                                            href="#userInfoUpdate"
                                            data-toggle="tab">
-                                            Update Details
+                                            Settings
                                         </a>
                                     </li>
                                 @endcanany
