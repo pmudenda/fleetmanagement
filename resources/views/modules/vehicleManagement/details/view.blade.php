@@ -72,34 +72,49 @@
                                     </td>
                                     <td class="pl-3" style="vertical-align: top;">
                                         <div>
-                                            <table role="none">
+                                            <table aria-label="vehicle description" role="none">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <span data-name="brand" class="text-bold" id="brand"></span>
+                                                            <span data-name="brand"
+                                                                  class="text-bold"
+                                                                  id="brand"></span>
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: x-small;">
-                                                        <span id="description" class="text-extra-muted"
-                                                              data-name="description"></span>
+                                                        <span id="description"
+                                                              class="text-extra-muted"
+                                                              data-name="description">
+                                                        </span>
                                                     </td>
                                                     <td>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <span data-name="vehicleMileage" style="font-size: smaller"
-                                                              id="vehicleMileage"></span>
+                                                        <table aria-label="vehicle status" role="table">
+                                                            <tr>
+                                                                <td>
+                                                                    <span data-name="vehicleMileage"
+                                                                          style="font-size: smaller"
+                                                                          id="vehicleMileage"></span>
+                                                                </td>
+                                                                <td class="pl-3">
+                                                                    <i class="ion ion-location ion-solid mr-1"
+                                                                       style="font-size: 16px; color: green;"></i>
+                                                                    <span data-name="vehicleLocation"
+                                                                          style="font-size: smaller"
+                                                                          id="vehicleLocation"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
                                                     </td>
-                                                    <td class="pl-0">
-                                                        <i class="ion ion-location ion-solid mr-1"
-                                                           style="font-size: 16px; color: green;"></i>
-                                                        <span data-name="vehicleLocation" style="font-size: smaller"
-                                                              id="vehicleLocation"></span>
-                                                    </td>
-                                                    <td class="pl-2 d-none" id="tom_cardRow">
+                                                    <td class="pl-0"></td>
+                                                    <td class="pl-2 d-none"
+                                                        id="tom_cardRow">
                                                         <i class="fa fa-credit-card-alt"
                                                            style="font-size: 18px; color: red;"></i>
                                                         <span data-name="tom_card">Tom Card</span>
@@ -107,7 +122,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <table role="presentation">
+                                                        <table aria-label="vehicle status"
+                                                               role="table">
                                                             <tr>
                                                                 <td>
                                                                     <span data-name="registrationNumber"
@@ -120,7 +136,6 @@
                                                                 </td>
                                                             </tr>
                                                         </table>
-
                                                     </td>
                                                     <td></td>
                                                 </tr>
@@ -342,7 +357,8 @@
                                                 <legend style="width: inherit;">
                                                     <h4 class="pt-2">Technical Details</h4>
                                                 </legend>
-                                                <table aria-label="Technical Details" role="presentation" class="gs-0 gy-3 my-0">
+                                                <table aria-label="Technical Details" role="presentation"
+                                                       class="gs-0 gy-3 my-0">
                                                     <tbody>
                                                     <tr>
                                                         <td class="frappe-control ">
@@ -1384,7 +1400,8 @@
                                                             </td>
                                                             <td class="frappe-control">
                                                                 <div class="clearfix">
-                                                                    <label for="rearTyreSize" class="control-label field-required"
+                                                                    <label for="rearTyreSize"
+                                                                           class="control-label field-required"
                                                                            style="padding-right: 0px;">
                                                                         Rear Size:
                                                                     </label>
@@ -2801,8 +2818,8 @@
         window.vehicle = `{!! $vehicle !!}`;
     </script>
     <script type="text/javascript" src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
-   {{-- <script type="text/javascript" src="{{asset('libs/handsontable/handsontable.full.min.js')}}"></script>
---}}
+    {{-- <script type="text/javascript" src="{{asset('libs/handsontable/handsontable.full.min.js')}}"></script>
+ --}}
     <script
         src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_over_view.js').'?v='.Carbon::now()->format('his')}}"></script>
     {{--<script

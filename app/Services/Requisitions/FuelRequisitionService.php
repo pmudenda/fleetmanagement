@@ -892,7 +892,7 @@ class FuelRequisitionService
         Log::info('Cost Center ' . $assignmentInfo->cost_center);
 
         $countCc = CostCenter::where('code_cost_center', $assignmentInfo->cost_center)
-            ->where("status", "=", StatusHelper::organizationStructureActive())
+            ->where("status", "=", StatusHelper::active())
             ->count();
 
         if ($countCc == 0) {
