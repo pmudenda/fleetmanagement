@@ -619,7 +619,7 @@
                 'order': [],
                 "pageLength": 10,
                 "responsive": true,
-                "searching": true,
+                "searching": false,
                 "lengthChange": false,
                 "autoWidth": false,
                 'columnDefs': [],
