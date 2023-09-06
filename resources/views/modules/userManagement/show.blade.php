@@ -201,7 +201,7 @@
                                 <li class="card-title">
                                     <a class="nav-link active" href="#activity"
                                        data-toggle="tab">
-                                        Details
+                                        Summary
                                     </a>
                                 </li>
 
@@ -210,7 +210,7 @@
                                         <a class="nav-link"
                                            href="#userInfoUpdate"
                                            data-toggle="tab">
-                                            Settings
+                                            Details
                                         </a>
                                     </li>
                                 @endcanany

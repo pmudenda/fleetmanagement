@@ -112,7 +112,7 @@
 
 <div class="post">
     <div class="user-block">
-        <span class="username ml-1"><a href="#">LINE SUPERVISOR</a> </span>
+        <span class="username ml-1"><a href="#">LINE SUPERVISOR</a></span>
     </div>
     <div class="row">
 

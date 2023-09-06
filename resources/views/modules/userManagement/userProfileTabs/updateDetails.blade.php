@@ -220,14 +220,14 @@
                     <button type="submit"
                             id="updateUserData"
                             class="btn btn-sm btn-success mr-3">
-                        Update
+                        Save Changes
                     </button>
 
                     <button type="button"
                             id="syncUserData"
                             data-href="{{ route('user.sync') }}"
                             class="btn btn-sm btn-default">
-                        Sync <i class="fas fa-sync"></i>
+                        Sync with HCMS <i class="fas fa-sync"></i>
                     </button>
                 </div>
             </div>
