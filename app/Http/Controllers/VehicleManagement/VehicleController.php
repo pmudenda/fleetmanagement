@@ -5,6 +5,7 @@ namespace App\Http\Controllers\VehicleManagement;
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Enums\Modules;
+use App\Exceptions\DataNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Settings\Accessory;
@@ -22,40 +23,34 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class VehicleController extends Controller
 {
+    public const VEHICLE_DETAILS_RETRIEVED_SUCCESSFULLY = 'Vehicle Details retrieved successfully';
     private VehicleDetailsService $vehicleDetailsService;
     private ProcurementSystemIntegrationService $procurementService;
 
     public function __construct(VehicleDetailsService               $vehicleDetailsService,
-                                ProcurementSystemIntegrationService $procurementService)
+                                ProcurementSystemIntegrationService $procurementService
+    )
     {
         $this->vehicleDetailsService = $vehicleDetailsService;
         $this->procurementService = $procurementService;
     }
 
-    public function getAllDetails(Request $request): JsonResponse
+    public function getVehicleOverViewDetails(Request $request): JsonResponse
     {
         try {
-            if (empty($request->has('reference'))) {
-                return response()->json([
-                    'success' => 'false',
-                    'statusDescription' => 'Bad Request',
-                    'message' => 'Missing required parameter'
-                ]);
-            }
-
             $ref = $request->get('reference');
+            Log::debug('reference is ' . $ref);
+            Log::debug('Fetching Vehicle Details ' . $ref);
 
-            Log::info('reference is ' . $ref);
-            if ($ref == 0) {
-                return redirect(
-                    route('vehicles.list')
-                )->with(['error' => 'Missing Required Parameters']);
+            if (empty($ref)) {
+                throw new BadRequestException(
+                    'Missing Vehicle Reference'
+                );
             }
-
-            Log::info('Fetching Vehicle Details ' . $ref);
 
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($ref);
 
@@ -67,7 +62,11 @@ class VehicleController extends Controller
 
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($ref);
 
-            $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$ref)->get();
+            $enteredAccessories = VehicleAccessory::where(
+                'vehicle_header_id',
+                '=',
+                (int)$ref
+            )->get();
 
             $fuel_cost_by_year = DB::table('zfm_fuel_cost')
                 ->where('reg_no', '=', $vehicle->registration_number)
@@ -93,14 +92,21 @@ class VehicleController extends Controller
                 ],
                 'success' => !empty($vehicle),
                 'message' => !empty($vehicle)
-                    ? 'Vehicle Details retrieved successfully'
+                    ? self::VEHICLE_DETAILS_RETRIEVED_SUCCESSFULLY
                     : 'Could not read vehicle details'
             ]);
         } catch (Exception $e) {
             Log::error($e);
+            $message = 'Missing Required Parameters';
+
+            if ($e instanceof BadRequestException
+                || $e instanceof DataNotFoundException) {
+                $message = ErrorMessages::getMessage('err_0005');
+            }
+
             return response()->json([
-                'success' => 'false',
-                'message' => ErrorMessages::getMessage('err_0005')
+                'success' => false,
+                'message' => $message
             ]);
         }
     }
@@ -108,24 +114,11 @@ class VehicleController extends Controller
     public function getVehicleDetailsByRegistration(Request $request): JsonResponse
     {
         try {
-            if (empty($request->vehicle_registration)) {
-                return response()->json([
-                    'success' => false,
-                    'statusDescription' => 'Bad Request',
-                    'message' => 'Missing required parameter'
-                ]);
-            }
+            $registrationNumber = $request->get('vehicle_registration');
 
-            // determine material type in form of fuel
-            $vehicle = $this->vehicleDetailsService->getBasicVehicleDetails($request->vehicle_registration);
-
-            if (empty($vehicle)) {
-                return response()->json([
-                    'success' => false,
-                    'statusDescription' => 'Not Found',
-                    'message' => 'Vehicle not found'
-                ]);
-            }
+            list($vehicle, $vehicle_state) = $this->getVehicleStateDetails(
+                $registrationNumber
+            );
 
             $vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
 
@@ -133,28 +126,7 @@ class VehicleController extends Controller
 
             $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
 
-
-            $vehicle_state = '';
             $vehicle_tom_card_message = '';
-
-            if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
-                $vehicle_state = str_replace("@reg",
-                    $vehicle->registration_number, SystemMessages::vehiclePendingOnboardingCompletion());
-            } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
-                $jobCard = JobCardHeader::where('reg_no', $vehicle->registration_number)->first();
-
-                $workshopName = "";
-                if (!empty($jobCard) && !empty($jobCard->workshop_code)) {
-                    WorkShop::where('workshop_code', $jobCard->workshop_code)->first()->workshop_name;
-                }
-
-                $vehicle_state = str_replace("@reg",
-                    $vehicle->registration_number,
-                    str_replace("@workshop",
-                        $workshopName,
-                        SystemMessages::vehicleInWorkshop())
-                );
-            }
 
             if ($vehicle->has_tom_card === 'Y') {
                 $vehicle_tom_card_message = str_replace("@reg",
@@ -171,13 +143,19 @@ class VehicleController extends Controller
                     'vehicle_tom_card_message' => $vehicle_tom_card_message
                 ],
                 'success' => !empty($vehicle),
-                'message' => 'Vehicle Details retrieved successfully'
+                'message' => self::VEHICLE_DETAILS_RETRIEVED_SUCCESSFULLY
             ]);
+
         } catch (Exception $e) {
             Log::error($e);
+            $message = ErrorMessages::getMessage('err_0005');
+            if ($e instanceof BadRequestException
+                || $e instanceof DataNotFoundException) {
+                $message = $e->getMessage();
+            }
             return response()->json([
                 'success' => false,
-                'message' => ErrorMessages::getMessage('err_0005')
+                'message' => $message
             ]);
         }
     }
@@ -186,40 +164,11 @@ class VehicleController extends Controller
     {
         try {
 
-            if (empty($request->vehicle_registration)) {
-                return response()->json([
-                    'success' => false,
-                    'statusDescription' => 'Bad Request',
-                    'message' => 'Missing required parameter'
-                ]);
-            }
+            $registrationNumber = $request->get('vehicle_registration');
 
-            // determine material type in form of fuel
-            $vehicle = $this->vehicleDetailsService->getBasicVehicleDetails($request->vehicle_registration);
-
-            if (empty($vehicle)) {
-                return response()->json([
-                    'success' => false,
-                    'statusDescription' => 'Not Found',
-                    'message' => 'Vehicle not found'
-                ]);
-            }
-
-            $vehicle_state = '';
-
-            if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
-                $vehicle_state = str_replace("@reg",
-                    $vehicle->registration_number, SystemMessages::vehiclePendingOnboardingCompletion());
-            } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
-                $workshopCode = JobCardHeader::where('reg_no', $vehicle->registration_number)->first()->workshop_code;
-                $workshopName = WorkShop::where('workshop_code', $workshopCode)->first()->workshop_name;
-                $vehicle_state = str_replace("@reg",
-                    $vehicle->registration_number,
-                    str_replace("@workshop",
-                        $workshopName,
-                        SystemMessages::vehicleInWorkshop())
-                );
-            }
+            list($vehicle, $vehicle_state) = $this->getVehicleStateDetails(
+                $registrationNumber
+            );
 
             return response()->json([
                 'payload' => [
@@ -227,20 +176,28 @@ class VehicleController extends Controller
                     'vehicle_state' => $vehicle_state
                 ],
                 'success' => !empty($vehicle),
-                'message' => 'Vehicle Details retrieved successfully'
+                'message' => self::VEHICLE_DETAILS_RETRIEVED_SUCCESSFULLY
             ]);
+
         } catch (Exception $e) {
             Log::error($e);
+            $message = ErrorMessages::getMessage(
+                'err_0005'
+            );
+            if ($e instanceof BadRequestException
+                || $e instanceof DataNotFoundException) {
+                $message = $e->getMessage();
+            }
             return response()->json([
                 'success' => false,
-                'message' => ErrorMessages::getMessage('err_0005')
+                'message' => $message
             ]);
         }
     }
 
     public function list(Request $request): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        Log::info('Has Get Records'. $request->has('getRecords'));
+        Log::info('Has Get Records' . $request->has('getRecords'));
         if ($request->has('getRecords')) {
             Log::debug("Get Records Present");
             $vehicleList = $this->vehicleDetailsService->getFilteredVehiclesInformation($request);
@@ -248,9 +205,17 @@ class VehicleController extends Controller
             $vehicleList = $this->vehicleDetailsService->getAllVehicles();
         }
 
-        $statusList = Status::where('module', '=', Modules::VEHICLE->value)->get();
+        $statusList = Status::where(
+            'module',
+            '=',
+            Modules::VEHICLE->value)
+            ->get();
+
         return view('modules.vehicleManagement.vehicleList')
-            ->with(compact('vehicleList', 'statusList'));
+            ->with(compact(
+                    'vehicleList',
+                    'statusList')
+            );
     }
 
     public function record(Request $request): JsonResponse
@@ -277,5 +242,55 @@ class VehicleController extends Controller
 
         return view('modules.vehicleManagement.general.accessories')
             ->with(compact('accessories'));
+    }
+
+    /**
+     * @param string $registrationNumber
+     * @return array
+     * @throws DataNotFoundException
+     */
+    public function getVehicleStateDetails(string $registrationNumber): array
+    {
+        if (empty($registrationNumber)) {
+            throw new BadRequestException(
+                'Missing required parameter'
+            );
+        }
+
+        // determine material type in form of fuel
+        $vehicle = $this->vehicleDetailsService->getBasicVehicleDetails(
+            $registrationNumber
+        );
+
+        if (empty($vehicle)) {
+            throw new DataNotFoundException('Vehicle not found');
+        }
+
+        $vehicle_state = '';
+        if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
+            $vehicle_state = str_replace(
+                "@reg",
+                $vehicle->registration_number,
+                SystemMessages::vehiclePendingOnboardingCompletion()
+            );
+        } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
+            $jobCard = JobCardHeader::where('reg_no',
+                '=',
+                $vehicle->registration_number)->first();
+
+            $workshopName = "";
+            if (!empty($jobCard) && !empty($jobCard->workshop_code)) {
+                $workshopName = WorkShop::where('workshop_code', $jobCard->workshop_code)
+                    ->first()->workshop_name;
+            }
+
+            $vehicle_state = str_replace("@reg",
+                $vehicle->registration_number,
+                str_replace("@workshop",
+                    $workshopName,
+                    SystemMessages::vehicleInWorkshop())
+            );
+        }
+        return array($vehicle, $vehicle_state);
     }
 }

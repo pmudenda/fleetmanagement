@@ -90,7 +90,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'vehicle-management'], functio
 
     });
 
-    Route::get('vehicle/all/details', [VehicleController::class, 'getAllDetails'])
+    Route::get('vehicle/all/details', [VehicleController::class, 'getVehicleOverViewDetails'])
         ->name('vehicle.details');
 
     Route::get('requisitions/vehicle/details', [VehicleController::class, 'getVehicleDetailsByRegistration'])
