@@ -76,7 +76,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
 
-    $('[data-name="registrationNumber"]').text(data['registration_number'])
+    $('[data-name="registrationNumber"]').text(data['registration_number']?.trim());
 
     generateBarcode(window.encodeURI($('[name="gatePassUrl"]').val() + '?ref=' + data['registration_number']));
 
