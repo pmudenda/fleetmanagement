@@ -89,6 +89,10 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td>
+                                                        <span data-name="vehicleMileage" style="font-size: smaller"
+                                                              id="vehicleMileage"></span>
+                                                    </td>
                                                     <td class="pl-0">
                                                         <i class="ion ion-location ion-solid mr-1"
                                                            style="font-size: 16px; color: green;"></i>

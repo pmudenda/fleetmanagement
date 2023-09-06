@@ -54,7 +54,9 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('[data-name="description"]').text(description);
 
-    $('[data-name="vehicleLocation"]').text(data['location_name']);
+    $('[data-name="vehicleLocation"]').text(data['location_name'] ?? '');
+
+    $('[data-name="vehicleMileage"]').text(data['mileage'] ?? 0);
 
     if (data['has_tom_card'] === 'Y') {
         $('#tom_cardRow').removeClass('d-none');
