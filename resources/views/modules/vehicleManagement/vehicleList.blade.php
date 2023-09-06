@@ -414,6 +414,10 @@
                             </th>
 
                             <th>
+                                Mileage
+                            </th>
+
+                            <th>
                                 Actions
                             </th>
                         </tr>
@@ -519,6 +523,12 @@
                                             No
                                         </div>
                                     @endif
+                                </td>
+
+                                <td>
+                                    <div class="badge badge-success">
+                                        {{$vehicle->mileage}} Km
+                                    </div>
                                 </td>
 
                                 <td class="text-start">
