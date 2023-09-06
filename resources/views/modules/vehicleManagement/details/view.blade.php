@@ -94,7 +94,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <table aria-label="vehicle status" role="table">
+                                                        <table aria-label="vehicle status"
+                                                               role="none">
                                                             <tr>
                                                                 <td>
                                                                     <span data-name="vehicleMileage"
@@ -132,7 +133,9 @@
                                                                 <td class="pl-3">
                                                                      <span class="badge badge-success badge-circle"
                                                                            style="height: 8px; width: 8px;"></span>
-                                                                    Active
+
+                                                                    <span data-name="vehicleState"
+                                                                          id="vehicleState"></span>
                                                                 </td>
                                                             </tr>
                                                         </table>

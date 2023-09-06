@@ -56,6 +56,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('[data-name="vehicleLocation"]').text(data['location_name'] || '');
 
+    $('[data-name="vehicleState"]').text(data['status_name'] || '');
+
     $('[data-name="vehicleMileage"]').text(accounting.formatNumber(data['mileage']) + ' Km');
 
     if (data['has_tom_card'] === 'Y') {
