@@ -145,7 +145,7 @@
 @push('scripts')
     <script>
         (function (appInstance) {
-            appInstance.initDatatable("#listTable", true);
+            appInstance.initDatatable("#listTable", true, true, []);
         })(window.tmsApp || {});
     </script>
 
