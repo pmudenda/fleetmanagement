@@ -57,7 +57,7 @@ class SystemMessages
 
     public static function vehicleInNotActive(): string
     {
-        return "The vehicle @reg is in @state Stat. Please Contact Fleet Master System Administrator on
+        return "The vehicle @reg is in @state. Please Contact Fleet Master System Administrator on
         3309,3350,3351,3306, fleetmaster@zesco.co.com for assistance";
     }
 
