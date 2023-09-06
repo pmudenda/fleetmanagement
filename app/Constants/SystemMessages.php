@@ -46,13 +46,19 @@ class SystemMessages
     {
         return
             "The vehicle @reg has not completed the onboarding process.
-            Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com";
+            Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com for assistance";
     }
 
     public static function vehicleInWorkshop(): string
     {
         return "The vehicle @reg is in the @workshop Please Contact Fleet Master System Administrator on
-        3309,3350,3351,3306, fleetmaster@zesco.co.com";
+        3309,3350,3351,3306, fleetmaster@zesco.co.com for assistance";
+    }
+
+    public static function vehicleInNotActive(): string
+    {
+        return "The vehicle @reg is in @state Stat. Please Contact Fleet Master System Administrator on
+        3309,3350,3351,3306, fleetmaster@zesco.co.com for assistance";
     }
 
     public static function userUpdateFailed(): string

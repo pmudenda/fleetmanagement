@@ -124,7 +124,7 @@
                                                     <input type="text"
                                                            name="registrationNumber"
                                                            placeholder=""
-                                                           class="form-control-sm mt-3"/>
+                                                           class="form-control form-control-sm mt-3"/>
                                                 </div>
                                                 <div data-qbefield="status"
                                                      style="min-width: 220px;"

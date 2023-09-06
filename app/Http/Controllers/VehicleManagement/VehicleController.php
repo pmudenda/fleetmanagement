@@ -129,8 +129,11 @@ class VehicleController extends Controller
             $vehicle_tom_card_message = '';
 
             if ($vehicle->has_tom_card === 'Y') {
-                $vehicle_tom_card_message = str_replace("@reg",
-                    $vehicle->registration_number, ErrorMessages::getMessage('err_0023'));
+                $vehicle_tom_card_message = str_replace(
+                    "@reg",
+                    $vehicle->registration_number,
+                    ErrorMessages::getMessage('err_0023')
+                );
             }
 
             return response()->json([
@@ -263,7 +266,9 @@ class VehicleController extends Controller
         );
 
         if (empty($vehicle)) {
-            throw new DataNotFoundException('Vehicle not found');
+            throw new DataNotFoundException(
+                'Vehicle not found'
+            );
         }
 
         $vehicle_state = '';
@@ -273,7 +278,8 @@ class VehicleController extends Controller
                 $vehicle->registration_number,
                 SystemMessages::vehiclePendingOnboardingCompletion()
             );
-        } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
+        }
+        elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
             $jobCard = JobCardHeader::where('reg_no',
                 '=',
                 $vehicle->registration_number)->first();
@@ -289,6 +295,14 @@ class VehicleController extends Controller
                 str_replace("@workshop",
                     $workshopName,
                     SystemMessages::vehicleInWorkshop())
+            );
+        }
+        elseif ($vehicle->status != StatusHelper::active()) {
+            $vehicle_state = str_replace("@reg",
+                $vehicle->registration_number,
+                str_replace("@state",
+                    $vehicle->status_name,
+                    SystemMessages::vehicleInNotActive())
             );
         }
         return array($vehicle, $vehicle_state);
