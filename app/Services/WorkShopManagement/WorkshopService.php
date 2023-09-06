@@ -72,11 +72,6 @@ class WorkshopService
             $details->workshop_code = $request->get("workshop");
             $details->repair_type = $request->get("repairType");
 
-            //$details->date_in = Carbon::parse(trim($request->get("date_of_req")));
-            //$details->time_in = Carbon::parse(trim($request->get("timeIn")))->format("H:i:s");
-            //$details->received_by = $user->staff_no;
-            //$details->receiving_section = $section->code;
-
             $details->accident_ref = $request->get("accident_number") ?? "N/A";
             $details->millage_in = $request->get("current_odometer");
             $details->fuel_level_in = $request->get("fuel_level");
@@ -136,10 +131,20 @@ class WorkshopService
     public function getJobCardDetails(mixed $reference)
     {
         $query = DB::table("WM_JOB_CARD_HEADER")
-            ->leftJoin("SEC_USERS", "WM_JOB_CARD_HEADER.received_by", "=", "SEC_USERS.staff_no")
-            ->leftJoin("CONFIG_GENERAL_TABLES", "WM_JOB_CARD_HEADER.receiving_section", "=", "CONFIG_GENERAL_TABLES.code")
-            ->leftJoin("CONFIG_STATUSES", "WM_JOB_CARD_HEADER.status", "=", "CONFIG_STATUSES.code")
-            ->where("CONFIG_GENERAL_TABLES.type", "=", ConfigurationTypes::WORK_SHOP_SECTION)
+            ->leftJoin("SEC_USERS", "WM_JOB_CARD_HEADER.received_by",
+                "=", "SEC_USERS.staff_no")
+            ->join("CONFIG_GENERAL_TABLES", function (JoinClause $joinClause) {
+                $joinClause->on("WM_JOB_CARD_HEADER.receiving_section",
+                    "=",
+                    "CONFIG_GENERAL_TABLES.code")
+                    ->where("CONFIG_GENERAL_TABLES.type",
+                        "=",
+                        ConfigurationTypes::WORK_SHOP_SECTION);
+            })
+            ->leftJoin("CONFIG_STATUSES",
+                "WM_JOB_CARD_HEADER.status",
+                "=",
+                "CONFIG_STATUSES.code")
             ->where("WM_JOB_CARD_HEADER.job_card_no", "=", $reference)
             ->select("WM_JOB_CARD_HEADER.*",
                 "CONFIG_GENERAL_TABLES.name as section_in_name",
@@ -158,8 +163,12 @@ class WorkshopService
         $jobCardVoucher = $request->get("job_card_voucher");
         $referenceNumber = $request->get("workshop_reference");
         $comment = $request->get("accessoriesRemarks");
-        $accessoryNames = Accessory::where("status", "=", StatusHelper::active())
-            ->get();
+        $accessoryNames = Accessory::where(
+            "status",
+            "=",
+            StatusHelper::active()
+        )->get();
+
         $user = auth()->user();
         Log::info("Saving Accessories on " . $jobCardVoucher);
 
@@ -183,7 +192,6 @@ class WorkshopService
         }
 
         $attachedFiles = $request->get('attachment');
-        // $observations = $request->get('observation');
         $uploadedFiles = [];
 
         if (!empty($attachedFiles)) {
@@ -318,7 +326,7 @@ class WorkshopService
                 $clause->on("header.repair_type", "=", "config.code")
                     ->where("config.type", "=", ConfigurationTypes::REPAIR_TYPE);
             })
-            //->leftJoin("CONFIG_WORKSHOP", "header.receiving_section", "=", "CONFIG_WORKSHOP.workshop_code")
+            ->leftJoin("CONFIG_WORKSHOP", "header.receiving_section", "=", "CONFIG_WORKSHOP.workshop_code")
             ->where("header.status", '=', $status)
             ->select("header.*",
                 "CONFIG_WORKSHOP.workshop_name",
