@@ -302,7 +302,7 @@ class VehicleController extends Controller
                 $vehicle->registration_number,
                 str_replace("@state",
                     $vehicle->status_name,
-                    SystemMessages::vehicleInNotActive())
+                    ErrorMessages::getMessage('err_0029'))
             );
         }
         return array($vehicle, $vehicle_state);
