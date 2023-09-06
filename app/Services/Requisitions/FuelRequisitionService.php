@@ -61,7 +61,7 @@ class FuelRequisitionService
      */
     private static function getFuelLastIssue(mixed $registrationNumber): mixed
     {
-        //
+        // 45 -cancelled, 03 -rejected , 01 - new , 02 - authorised
         $result = DB::table('gen_material_headers h')
             ->where('veh_reg_no', '=', $registrationNumber)
             ->where('is_fuel', '=', 'Y')
@@ -87,6 +87,7 @@ class FuelRequisitionService
             ->select(
                 'h.st_pur',
                 "h.req_no",
+                "h.form_order",
                 "h.created_at",
                 "h.odometer",
                 'h.valid_date_to'
@@ -97,10 +98,11 @@ class FuelRequisitionService
         if (empty($latestIssue)) {
             return [0, null];
         }
-        $quantityLastIssued = DB::table('gen_material_details')
-            ->where("req_no", "=", $latestIssue->req_no)
+
+        $quantityLastIssued = DB::table('fuel_management')
+            ->where("voucher_no", "=", $latestIssue->form_order)
             ->select(DB::raw("SUM(quantity) as quantity"))
-            ->groupBy('req_no')
+            ->groupBy('voucher_no')
             ->first();
 
         return [$quantityLastIssued->quantity ?? 0, $latestIssue];
@@ -137,10 +139,9 @@ class FuelRequisitionService
 
         $vehicle = $this->verifyVehicleStatusAndFetchData($registrationNumber);
 
-
         $latestOdometerLogsMaxOdometer = $this->getLatestOdometerLogsEntry($registrationNumber);
 
-        Log::info("Latest Mileage Return $latestOdometerLogsMaxOdometer");
+        Log::info("Last Odometer Log $latestOdometerLogsMaxOdometer");
 
         [$quantityLastIssued, $latestIssue] = $this->getFuelLastIssue($registrationNumber);
 
@@ -848,9 +849,10 @@ class FuelRequisitionService
             ->where("is_fuel", "=", "Y")
             ->whereIn('status', [
                 StatusHelper::partiallyReleased(),
-                '32',
+                StatusHelper::fuelReleased(),
                 StatusHelper::partiallyReleasedExpired(),
-                '46'])
+                StatusHelper::partiallyReleasedCancelled()
+                ])
             ->select(DB::raw('MAX(odometer) as odometer'))
             ->first()->odometer ?? 0;
     }

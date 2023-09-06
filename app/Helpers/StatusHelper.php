@@ -113,6 +113,11 @@ class StatusHelper
         return "39";
     }
 
+    public static function fuelReleased(): string
+    {
+        return "32";
+    }
+
     /* VEHICLE STATUS */
 
     public static function vehicleActive(): string
@@ -179,6 +184,11 @@ class StatusHelper
     public static function issued(): string
     {
         return "04";
+    }
+
+    public static function partiallyReleasedCancelled(): string
+    {
+        return '46';
     }
 
 

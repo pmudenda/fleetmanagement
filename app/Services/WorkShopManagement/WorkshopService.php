@@ -32,6 +32,7 @@ use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Logging\HistoryService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\Workflow\WorkflowService;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -307,20 +308,17 @@ class WorkshopService
                 "header.received_by",
                 "=",
                 "SEC_USERS.staff_no")
-            ->leftJoin("CONFIG_GENERAL_TABLES",
-                "header.receiving_section",
-                "=", "CONFIG_GENERAL_TABLES.code")
-            ->leftJoin("CONFIG_GENERAL_TABLES as config",
-                "header.repair_type",
-                "=",
-                "config.code")
-            ->leftJoin("CONFIG_WORKSHOP",
-                "header.receiving_section",
-                "=", "CONFIG_WORKSHOP.workshop_code")
-            ->where("CONFIG_GENERAL_TABLES.type",
-                "=", ConfigurationTypes::WORK_SHOP_SECTION)
-            ->where("config.type", "=",
-                ConfigurationTypes::REPAIR_TYPE)
+            ->leftJoin("CONFIG_GENERAL_TABLES", function (JoinClause $joinClause) {
+                $joinClause->on("header.receiving_section", "=", "CONFIG_GENERAL_TABLES.code")
+                    ->where("CONFIG_GENERAL_TABLES.type",
+                        "=",
+                        ConfigurationTypes::WORK_SHOP_SECTION);
+            })
+            ->leftJoin("CONFIG_GENERAL_TABLES as config", function (JoinClause $clause) {
+                $clause->on("header.repair_type", "=", "config.code")
+                    ->where("config.type", "=", ConfigurationTypes::REPAIR_TYPE);
+            })
+            //->leftJoin("CONFIG_WORKSHOP", "header.receiving_section", "=", "CONFIG_WORKSHOP.workshop_code")
             ->where("header.status", '=', $status)
             ->select("header.*",
                 "CONFIG_WORKSHOP.workshop_name",
