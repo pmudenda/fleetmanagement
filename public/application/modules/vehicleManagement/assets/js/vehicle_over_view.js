@@ -42,7 +42,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'registration_type', data['registration_type']);
     Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
 
-    let description = data['body_type_name']
+    let description = data['body_type_name'] || ''
         + ' : ' + data['year_of_manufacture']
         + ' ' + data['model_name']
         + ' ' + data['model_code']
@@ -54,9 +54,9 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('[data-name="description"]').text(description);
 
-    $('[data-name="vehicleLocation"]').text(data['location_name'] ?? '');
+    $('[data-name="vehicleLocation"]').text(data['location_name'] || '');
 
-    $('[data-name="vehicleMileage"]').text(data['mileage'] ?? 0);
+    $('[data-name="vehicleMileage"]').text(accounting.formatNumber(data['mileage']) + ' Km');
 
     if (data['has_tom_card'] === 'Y') {
         $('#tom_cardRow').removeClass('d-none');
