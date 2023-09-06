@@ -58,10 +58,20 @@
                                                 {{Carbon::parse($rec->date_acted)->format('d/m/Y')}}
                                             </td>
                                             <td>
-                                                <a href="{{URL::signedRoute($rec->url,['ref'=> $rec->reference])}}"
-                                                   class="btn btn-sm btn-success">
-                                                    Details
-                                                </a>
+                                                @canany(config('rights.manage_tasks'), config('rights.view_tasks'))
+                                                    <a href="{{URL::signedRoute($rec->url,['ref'=> $rec->reference])}}"
+                                                       class="btn btn-sm btn-success">
+                                                        Details
+                                                    </a>
+                                                @endcanany
+                                                @canany(config('rights.manage_tasks'))
+                                                    <a href="#"
+                                                       data-bs-target="#taskReassignment"
+                                                       data-bs-toggle="modal"
+                                                       class="btn btn-sm btn-success">
+                                                        Reassign
+                                                    </a>
+                                                @endcanany
                                             </td>
 
                                         </tr>

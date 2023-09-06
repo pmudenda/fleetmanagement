@@ -527,7 +527,7 @@
 
                                 <td>
                                     <div class="badge badge-success">
-                                        {{$vehicle->mileage}} Km
+                                        {{number_format($vehicle->mileage)}} Km
                                     </div>
                                 </td>
 

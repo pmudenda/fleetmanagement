@@ -927,24 +927,12 @@ config('rights.edit_vehicle_status')])
                 @endcanany
 
                 @php
-                    $configurationsPermissions  = [
-                        config('rights.add_vehicle_brand'),
-                        config('rights.add_vehicle_model'),
-                        config('rights.add_vehicle_type'),
-                        config('rights.set_vehicle_fuel_allocation'),
-                        config('rights.create_veh_accessories'),
-                        config('rights.create_veh_charge_out_rate'),
-                        config('rights.add_workshop_section'),
-                        config('rights.edit_workshop_section'),
-                        config('rights.view_workshop_section'),
-                        config('rights.add_workshop'),
-                        config('rights.edit_workshop'),
-                        config('rights.view_workshop'),
-                        config('rights.add_license_class'),
-                        config('rights.add_accident_nature')
+                    $workflowPermissions  = [
+                        config('rights.manage_tasks'),
+                        config('rights.view_tasks')
                     ];
                 @endphp
-                @canany($configurationsPermissions)
+                @canany($workflowPermissions)
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-code-fork nav-icon" style="font-size: 20px;"></i>
@@ -954,8 +942,7 @@ config('rights.edit_vehicle_status')])
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-
-                            @can(config('rights.view.tasks'))
+                            @canany($workflowPermissions)
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ URL::signedRoute('workflow.task') }}">
                                         <i class="far fa-circle nav-icon"></i>
@@ -964,7 +951,7 @@ config('rights.edit_vehicle_status')])
                                         </p>
                                     </a>
                                 </li>
-                            @endcan
+                            @endcanany
                         </ul>
                     </li>
                 @endcanany
