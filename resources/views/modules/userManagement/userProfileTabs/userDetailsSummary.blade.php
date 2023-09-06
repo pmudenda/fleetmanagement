@@ -75,9 +75,7 @@
                 @foreach ($roles as $groupName)
                     @if(!empty($user->roles()))
                         @if($groupName->id == $user->roles()->first()->id)
-                            <label>{{$groupName->description}}</label>
-                        @else
-                            <label>{{$groupName->description}}</label>
+                            <label>{{strtoupper($groupName->description)}}</label>
                         @endif
                     @endif
 
