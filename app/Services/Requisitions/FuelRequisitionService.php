@@ -867,15 +867,15 @@ class FuelRequisitionService
     /**
      * @param FuelRequisitionPostRequest $requisitionPostRequest
      * @param mixed $registrationNumber
-     * @param Carbon $validFrom
-     * @param Carbon $validTo
+     * @param  $validFrom
+     * @param  $validTo
      * @return string
      * @throws WorkflowTaskCreationFailedException
      */
     public function saveFuelRequisition(FuelRequisitionPostRequest $requisitionPostRequest,
                                         mixed                      $registrationNumber,
-                                        Carbon                     $validFrom,
-                                        Carbon                     $validTo): string
+                                                                   $validFrom,
+                                                                   $validTo): string
     {
 
         Log::info("Registration Number   $registrationNumber");
