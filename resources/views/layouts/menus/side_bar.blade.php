@@ -877,7 +877,7 @@
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('configuration.general.table',
-['ref'=>'repair-category']) }}">
+                                                        ['ref'=>'repair-category']) }}">
                                                     <p class="menu-title">
                                                         Repair Types
                                                     </p>
@@ -886,11 +886,11 @@
                                         @endcanany
 
                                         @canany([config('rights.add_store_movement'),
-config('rights.edit_store_movement')])
+                                                config('rights.edit_store_movement')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{URL::signedRoute('configuration.general.table',
-['ref'=>'store-movement-type']) }}">
+                                                    ['ref'=>'store-movement-type']) }}">
                                                 <span class="menu-bullet">
                                                     <span class="bullet bullet-dot">
                                                     </span>
@@ -904,11 +904,11 @@ config('rights.edit_store_movement')])
                                         @endcanany
 
                                         @canany([config('rights.add_vehicle_status'),
-config('rights.edit_vehicle_status')])
+                                                config('rights.edit_vehicle_status')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('configuration.general.table',
-['ref'=>'vehicle-status']) }}">
+                                                    ['ref'=>'vehicle-status']) }}">
                                                 <span class="menu-bullet">
                                                     <span class="bullet bullet-dot">
                                                     </span>
