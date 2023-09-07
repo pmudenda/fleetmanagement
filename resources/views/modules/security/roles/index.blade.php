@@ -31,7 +31,7 @@
                                     <button class="btn btn-sm btn-success m-1"
                                             data-sent_data="{{$roles}}"
                                             data-bs-toggle="modal" title="Create Group"
-                                            data-bs-target="#create-Device">
+                                            data-bs-target="#createProfileModal">
                                         <i class="fas fa-user-shield "></i>
                                         Create Profile
                                     </button>
@@ -232,13 +232,17 @@
 @endsection
 
 <!-- Device Update Modal -->
-<div class="modal fade" id="create-Device" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="createProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Role</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Create Role
+                </h5>
+                <button type="button" class="close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -248,13 +252,13 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="row">
-                                <div class="col-6 form-group mt-4">
+                                <div class="col-12 form-group mt-4">
                                     <label for="name"> ROLE NAME: <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="name" name="name" required
                                            maxlength="100"
                                            placeholder="e.g Administrator">
                                 </div>
-                                <div class="col-6 form-group mt-4">
+                                <div class="col-12 form-group mt-4">
                                     <label for="slug"> SLUG: <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="slug" name="slug" required
                                            maxlength="100"
@@ -265,9 +269,15 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button"
+                                class="btn btn-sm btn-secondary"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
                         @can(config('rights.role_create'))
-                            <button type="submit" title="Create New system Role" class="btn btn-success">
+                            <button type="submit"
+                                    title="Create New system Role"
+                                    class="btn btn-sm btn-success">
                                 Create
                             </button>
                         @endcan
