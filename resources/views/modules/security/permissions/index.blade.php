@@ -45,7 +45,7 @@
                                 <table id="rightsTable"
                                        aria-label="Permissions table"
                                        role="table"
-                                       class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                                       class="table align-middle table-row-dashed no-footer">
                                     <thead>
                                     <tr>
                                         <th>Description</th>
