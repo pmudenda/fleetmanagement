@@ -29,12 +29,14 @@
                         <div class="card-header">
                             <div class="card-tools">
                                 @can(config('rights.permission_create'))
-                                    <a href="{{route('permissions.create')}}"
+                                    <button href=""
+                                            data-bs-target="#addPermission"
+                                            data-bs-toggle="modal"
                                        title="Create New System Permission"
                                        class="btn btn-sm btn-success pull-right">
                                         <i class="fas fa-user-plus"></i>
                                         Add Access Right
-                                    </a>
+                                    </button>
                                 @endcan
                             </div>
                         </div>
@@ -87,7 +89,7 @@
                                                                        data-sent_data="{{$item}}"
                                                                        data-bs-toggle="modal"
                                                                        data-bs-target="#editModal{{$item->id}}">
-                                                                        <i class="fas fa-edit"></i>
+                                                                        <i class="fas fa-edit pull-right"></i>
                                                                         Edit
                                                                     </a>
                                                                 </li>
@@ -102,7 +104,7 @@
                                                                        data-sent_data="{{$permissions}}"
                                                                        data-bs-toggle="modal"
                                                                        data-bs-target="#deleteModal{{$item->id}}">
-                                                                        <i class="fas fa-trash"></i>
+                                                                        <i class="fas fa-trash pull-right"></i>
                                                                         Remove
                                                                     </a>
                                                                 </li>
@@ -127,6 +129,90 @@
         </div>
 
     </section>
+
+    <div class="modal fade" id="addPermission" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Add Permission
+                    </h5>
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <x-error-view/>
+                    <div class="card">
+                        <form name="device_from"
+                              action="{{route('permissions.store')}}" method="post">
+                            @csrf
+                            <div class="card-header">
+                                <div class="card-title">
+                                    Add System Permission <i class="fas fa-user-shield"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group mt-4">
+                                            <label for="name"
+                                                   class="field-required">
+                                                Name:
+                                            </label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   id="name"
+                                                   name="name"
+                                                   required
+                                                   maxlength="100"
+                                                   placeholder="Enter Permission name">
+                                        </div>
+                                        <div class="form-group mt-4">
+                                            <label for="description" class="field-required">
+                                                Description:
+                                            </label>
+                                            {{--<input type="text" class="form-control" id="name" name="name" required
+                                                   maxlength="100"
+                                                   placeholder="create-status">--}}
+                                            <textarea type="text"
+                                                      style="min-height: 29px"
+                                                      class="form-control"
+                                                      id="description"
+                                                      name="description"
+                                                      required
+                                                      maxlength="255"
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div id="submit_button" class="col-12 text-center">
+                                        @can(config('rights.permission_create'))
+                                            <input class="btn btn-lg btn-success"
+                                                   type="submit"
+                                                   value="Submit">
+                                        @endcan
+                                        <input
+                                            class="btn btn-lg btn-secondary"
+                                            type="reset"
+                                            value="Clear"
+                                            name="reset_form">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-footer-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @foreach($permissions as $item)
         <div class="modal fade" id="editModal{{$item->id}}" tabindex="-1" role="dialog"

@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Security;
 
-use App\Constants\SystemMessages;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SystemPermission;
 use App\Models\Security\Permission;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,8 +32,7 @@ class PermissionsController extends Controller
     public function store(SystemPermission $request): RedirectResponse
     {
         Log::info($request->des);
-
-        $slug = str_replace(' ', '-', $request->name);
+        $slug = strtolower(str_replace(' ', '-', $request->name));
         Permission::updateOrCreate(
             [
                 'name' => $request->name,
