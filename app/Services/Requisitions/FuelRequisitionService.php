@@ -137,7 +137,7 @@ class FuelRequisitionService
 
         $registrationNumber = $requisitionPostRequest->get("vehicle_registration");
 
-        $vehicle = $this->verifyVehicleStatusAndFetchData($registrationNumber);
+        $this->verifyVehicleStatusAndFetchData($registrationNumber);
 
         $latestOdometerLogsMaxOdometer = $this->getLatestOdometerLogsEntry($registrationNumber);
 
@@ -867,15 +867,15 @@ class FuelRequisitionService
     /**
      * @param FuelRequisitionPostRequest $requisitionPostRequest
      * @param mixed $registrationNumber
-     * @param bool|Carbon $validFrom
-     * @param bool|Carbon $validTo
+     * @param Carbon $validFrom
+     * @param Carbon $validTo
      * @return string
      * @throws WorkflowTaskCreationFailedException
      */
     public function saveFuelRequisition(FuelRequisitionPostRequest $requisitionPostRequest,
                                         mixed                      $registrationNumber,
-                                        bool|Carbon                $validFrom,
-                                        bool|Carbon                $validTo): string
+                                        Carbon                     $validFrom,
+                                        Carbon                     $validTo): string
     {
 
         Log::info("Registration Number   $registrationNumber");
