@@ -876,6 +876,10 @@ class FuelRequisitionService
                                         bool|Carbon                $validFrom,
                                         bool|Carbon                $validTo): string
     {
+
+        Log::info("Registration Number   $registrationNumber");
+        Log::info("Validity Period From   $validFrom");
+        Log::info("Validity Period To     $validTo");
         /******************************************* Save Data **************************************/
         $user = Auth()->user();
 
