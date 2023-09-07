@@ -359,7 +359,8 @@ class FuelRequisitionService
                 );
             }
 
-            // override is only valid from date of request to when the original requisition was suppoed to end
+            // override is only valid from date of request to when the original requisition was supposed to end
+            Log::info("Previous Requisition End Date $latestActiveRequisition->valid_date_to");
             $validFrom = Carbon::now();
             $validTo = $latestActiveRequisition->valid_date_to;
         }
