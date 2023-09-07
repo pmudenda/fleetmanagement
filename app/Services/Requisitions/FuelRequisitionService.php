@@ -171,77 +171,10 @@ class FuelRequisitionService
             $latestOdometerLogsMaxOdometer,
             $userProvidedOdometer
         );
-
-        Log::info("Calculating Maximum Distance that should have been covered by  $registrationNumber");
-        Log::debug('Consumption ' . $fuel_consumption);
-        Log::debug('Quantity Last Issued ' . $quantityLastIssued);
-        $maximumDistance = ($quantityLastIssued * ($fuel_consumption));
-        $newEstimatedOdometer = $maximumDistance + $odometerOnLastIssue;
-
-        Log::debug("Maximum Distance " . $maximumDistance);
-        Log::debug("Odometer Last Issue " . $odometerOnLastIssue);
-        Log::debug("Last Issue + Odometer On Last Issue " . $newEstimatedOdometer);
-
-        // check the value of deviation 5 - 8 = -3
-        $variance = $userProvidedOdometer - $newEstimatedOdometer;
-        Log::debug("Odometer Variance " . $variance);
-
-        if ($variance < 0) {
-            throw new FuelRequisitionException(
-                str_replace("@cur_odometer",
-                    $userProvidedOdometer,
-                    str_replace(self::ODOMETER,
-                        $latestIssue->odometer,
-                        str_replace(self::REQ_NO,
-                            $latestIssue->st_pur ?? $latestIssue->req_no,
-                            ErrorMessages::getMessage('err_0025')
-                        )
-                    )
-                )
-            );
-
-            /*$vehicleAge = Carbon::now()->diffInYears(Carbon::parse($vehicle->registration_date));
-            Log::debug("vehicle age  " . $vehicleAge);
-
-            if ($vehicleAge < (integer)config('systeminfo.vehicle_age')
-                && abs($variance) > $this->calculateVehicleConsumptionDegradation(
-                    $vehicle,
-                    $vehicleAge,
-                    $fuel_consumption,
-                    $newEstimatedOdometer)) {}*/
-        }
-
-        if (!empty($latestIssue)) {
-            // Maximum Distance You can Travel Before Issue
-            // [Mdbi] = [Tank Capacity - Quantity On Last Issue] * Fuel Consumption
-            // Maximum Distance You can With Issue [Mdwi] =
-            // [Odometer On Last Issue + ( Quantity On Last Issue * Fuel Consumption )]
-            // Maximum Odometer Acceptable (Moa) = [Mdbi]  + [Mdwi];
-            $maximumOdometerAcceptable = ($odometerOnLastIssue + ($quantityLastIssued * $fuel_consumption));
-            if ($quantityLastIssued < $tank_capacity) {
-                $maximumOdometerAcceptable += (($tank_capacity - $quantityLastIssued) * $fuel_consumption);
-            }
-            Log::info("Maximum Acceptable $maximumOdometerAcceptable vs $userProvidedOdometer");
-            if ($userProvidedOdometer > $maximumOdometerAcceptable) {
-                throw new FuelRequisitionException(
-                    str_replace("@cur_odometer",
-                        $userProvidedOdometer,
-                        str_replace(self::ODOMETER,
-                            $latestIssue->odometer,
-                            str_replace(self::REQ_NO,
-                                $latestIssue->st_pur ?? $latestIssue->req_no,
-                                ErrorMessages::getMessage('err_0026')
-                            )
-                        )
-                    )
-                );
-            }
-        }
+        DB::beginTransaction();
 
         $latestActiveRequisition =
             self::getLatestNonCancelledAndNonRejectedRequisitionByVehReg($registrationNumber);
-
-        DB::beginTransaction();
 
         // pick last requisition if any
         $openRequisitionStatusList = [
@@ -429,6 +362,75 @@ class FuelRequisitionService
             // override is only valid from date of request to when the original requisition was suppoed to end
             $validFrom = Carbon::now();
             $validTo = $latestActiveRequisition->valid_date_to;
+        }
+
+
+        Log::info("Calculating Maximum Distance that should have been covered by  $registrationNumber");
+        Log::debug('Consumption ' . $fuel_consumption);
+        Log::debug('Quantity Last Issued ' . $quantityLastIssued);
+        $maximumDistance = ($quantityLastIssued * ($fuel_consumption));
+        $newEstimatedOdometer = $maximumDistance + $odometerOnLastIssue;
+
+        Log::debug("Maximum Distance " . $maximumDistance);
+        Log::debug("Odometer Last Issue " . $odometerOnLastIssue);
+        Log::debug("Last Issue + Odometer On Last Issue " . $newEstimatedOdometer);
+
+        // check the value of deviation 5 - 8 = -3
+        $variance = $userProvidedOdometer - $newEstimatedOdometer;
+        Log::debug("Odometer Variance " . $variance);
+
+        if ($variance < 0) {
+            /*$vehicleAge = Carbon::now()->diffInYears(Carbon::parse($vehicle->registration_date));
+            Log::debug("vehicle age  " . $vehicleAge);
+
+            if ($vehicleAge < (integer)config('systeminfo.vehicle_age')
+                && abs($variance) > $this->calculateVehicleConsumptionDegradation(
+                    $vehicle,
+                    $vehicleAge,
+                    $fuel_consumption,
+                    $newEstimatedOdometer)) {}*/
+            throw new FuelRequisitionException(
+                str_replace("@cur_odometer",
+                    $userProvidedOdometer,
+                    str_replace(self::ODOMETER,
+                        $latestIssue->odometer,
+                        str_replace(self::REQ_NO,
+                            $latestIssue->st_pur ?? $latestIssue->req_no,
+                            ErrorMessages::getMessage('err_0025')
+                        )
+                    )
+                )
+            );
+        }
+
+        if (!empty($latestIssue)) {
+            Log::info("Odometer Used On Last Request  $latestIssue->odometer");
+            // Maximum Distance You can Travel Before Issue
+            // [Mdbi] = [Tank Capacity - Quantity On Last Issue] * Fuel Consumption
+            // Maximum Distance You can With Issue [Mdwi] =
+            // [Odometer On Last Issue + ( Quantity On Last Issue * Fuel Consumption )]
+            // Maximum Odometer Acceptable (Moa) = [Mdbi]  + [Mdwi];
+            $maximumOdometerAcceptable = ($odometerOnLastIssue + ($quantityLastIssued * $fuel_consumption));
+
+            if ($quantityLastIssued < $tank_capacity) {
+                $maximumOdometerAcceptable += (($tank_capacity - $quantityLastIssued) * $fuel_consumption);
+            }
+
+            Log::info("Maximum Acceptable $maximumOdometerAcceptable vs $userProvidedOdometer");
+            if ($userProvidedOdometer > $maximumOdometerAcceptable) {
+                throw new FuelRequisitionException(
+                    str_replace("@cur_odometer",
+                        $userProvidedOdometer,
+                        str_replace(self::ODOMETER,
+                            $latestIssue->odometer,
+                            str_replace(self::REQ_NO,
+                                $latestIssue->st_pur ?? $latestIssue->req_no,
+                                ErrorMessages::getMessage('err_0026')
+                            )
+                        )
+                    )
+                );
+            }
         }
 
         Log::info("Vehicle Reg Is $registrationNumber");
