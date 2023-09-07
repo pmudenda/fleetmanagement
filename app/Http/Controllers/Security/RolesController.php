@@ -17,7 +17,7 @@ class RolesController extends Controller
     public function index(): Factory|View|Application
     {
         $roles = Role::all();
-        return view('modules.security.roles.fancy_list_roles')
+        return view('modules.security.roles.index')
             ->with(compact('roles'));
     }
 
