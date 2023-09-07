@@ -91,7 +91,12 @@ class MaintenanceController extends Controller
     {
         $this->verifyRequestSignature($request);
 
-        $workshopsVehicleList = $this->workshopService->getJobCardHeader(StatusHelper::new());
+        if ($request->has('getRecords')) {
+            Log::debug("Get Records Present");
+            $workshopsVehicleList = $this->workshopService->getJobCardHeader(StatusHelper::new(), $request);
+        } else {
+            $workshopsVehicleList = $this->workshopService->getJobCardHeader(StatusHelper::new());
+        }
 
         return view("modules.workshopManagement.vehiclesInWorkshop")
             ->with(

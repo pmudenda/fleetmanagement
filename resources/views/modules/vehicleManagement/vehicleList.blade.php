@@ -583,6 +583,7 @@
 
                         </tbody>
                     </table>
+                    <div class=""
                     {{ $vehicleList->links() }}
                 </div>
             </div>

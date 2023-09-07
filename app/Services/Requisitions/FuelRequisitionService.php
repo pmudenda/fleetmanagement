@@ -187,8 +187,20 @@ class FuelRequisitionService
         Log::debug("Odometer Variance " . $variance);
 
         if ($variance < 0) {
+            throw new FuelRequisitionException(
+                str_replace("@cur_odometer",
+                    $userProvidedOdometer,
+                    str_replace(self::ODOMETER,
+                        $latestIssue->odometer,
+                        str_replace(self::REQ_NO,
+                            $latestIssue->st_pur ?? $latestIssue->req_no,
+                            ErrorMessages::getMessage('err_0025')
+                        )
+                    )
+                )
+            );
 
-            $vehicleAge = Carbon::now()->diffInYears(Carbon::parse($vehicle->registration_date));
+            /*$vehicleAge = Carbon::now()->diffInYears(Carbon::parse($vehicle->registration_date));
             Log::debug("vehicle age  " . $vehicleAge);
 
             if ($vehicleAge < (integer)config('systeminfo.vehicle_age')
@@ -196,21 +208,7 @@ class FuelRequisitionService
                     $vehicle,
                     $vehicleAge,
                     $fuel_consumption,
-                    $newEstimatedOdometer)) {
-
-                throw new FuelRequisitionException(
-                    str_replace("@cur_odometer",
-                        $userProvidedOdometer,
-                        str_replace(self::ODOMETER,
-                            $latestIssue->odometer,
-                            str_replace(self::REQ_NO,
-                                $latestIssue->st_pur ?? $latestIssue->req_no,
-                                ErrorMessages::getMessage('err_0025')
-                            )
-                        )
-                    )
-                );
-            }
+                    $newEstimatedOdometer)) {}*/
         }
 
         if (!empty($latestIssue)) {
@@ -434,116 +432,12 @@ class FuelRequisitionService
         }
 
         Log::info("Vehicle Reg Is $registrationNumber");
-        /******************************************* Save Data **************************************/
-        $user = Auth()->user();
 
-        $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(
-            WorkflowModules::FUEL_REQUISITION
-        );
-        $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(
-            WorkflowModules::STOCK_REQUISITION
-        );
-
-        $workflowProcess = "";
-        $description = "";
-
-        Log::info("Requisition Type " . $requisitionPostRequest->get("requisition_type"));
-
-        $townFrom = null;
-        $townTo = null;
-        if ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::OutOfTown->value) {
-            $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
-            $description = "Out Of Town ";
-            $townFrom = $requisitionPostRequest->get("departureTown") ?? '';
-            $townTo = $requisitionPostRequest->get("destinationTown") ?? '';
-        } elseif ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::Normal->value) {
-            $workflowProcess = WorkflowProcessCodes::NormalFuelRequisition->value;
-            $description = "Normal ";
-        } elseif ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::Override->value) {
-            $workflowProcess = WorkflowProcessCodes::OverrideFuelRequisition->value;
-            $description = "Override ";
-        }
-
-        $short_description = $description . "Fuel Requisition For Vehicle Reg No. " . $registrationNumber;
-        $long_description = $description . "Fuel Requisition Ref.No. "
-            . $requisition_reference_number
-            . " For Vehicle Reg No. " . $registrationNumber;
-
-        $this->workflowService->initiateWorkflowProcess(
-            $requisition_reference_number,
-            (int)$workflowProcess,
-            WorkflowActions::submit(),
-            $requisitionPostRequest->get("justification"),
-            $user,
-            $requisitionPostRequest->get("material_amount"),
-            $short_description,
-            $long_description
-        );
-
-        $costBearer = $requisitionPostRequest->get("CostAssignedTo") == "CostCenterBasedRequisition" ?
-            "CostCenter" : "Project";
-
-        $matHeader = MaterialHeader::create(
-            [
-                "is_fuel" => "Y",
-                "req_no" => $requisition_reference_number,
-                "form_order" => $form_order_number,
-                "status" => StatusHelper::new(),
-                "veh_reg_no" => $registrationNumber,
-                "cost_centre" => $requisitionPostRequest->get("cost_centre_code"),
-                "valid_date_from" => $validFrom,
-                "valid_date_to" => $validTo,
-                "odometer" => $requisitionPostRequest->get("odometer_reading"),
-                "town_from" => $townFrom,
-                "town_to" => $townTo,
-                "date_created" => Carbon::now(),
-                "created_by" => $user->id,
-                "project_name" => $requisitionPostRequest->get('ProjectName') ?? null,
-                "requested_by" => $user->staff_no,
-                "comments" => $requisitionPostRequest->get("justification"),
-                "requisition_type" => $requisitionPostRequest->get("requisition_type"),
-                "cost_assigned_to" => $costBearer
-            ]
-        );
-
-        $projectCode = $requisitionPostRequest->get("project_code")
-            ?? $requisitionPostRequest->get("projectCode");
-
-        MaterialDetail::create([
-            "created_by" => $user->staff_no,
-            "date_created" => Carbon::now(),
-            "req_no" => $requisition_reference_number,
-            "material_code" => $requisitionPostRequest->get("material_article_code"),
-            "quantity" => $requisitionPostRequest->get("material_quantity"),
-            "unit_of_measure" => $requisitionPostRequest->get("unit_of_measure"),
-            "specifications" => $requisitionPostRequest->get("material_description"),
-            "description" => $requisitionPostRequest->get("material_description"),
-            "project_code" => $projectCode,
-            "cost_centre" => $requisitionPostRequest->get("cost_centre_code"),
-            "cost_centre_name" => $requisitionPostRequest->get("cost_center_name"),
-            "reg_no" => $requisitionPostRequest->get("vehicle_registration"),
-            "amount" => $requisitionPostRequest->get("material_amount"),
-            "price" => $requisitionPostRequest->get("material_price"),
-            "max_allowed" => $requisitionPostRequest->get("fuel_allocation")
-        ]);
-
-        $files = $requisitionPostRequest->allFiles();
-        if (!empty($files)) {
-            FileUploadService::uploadFile(
-                $requisitionPostRequest,
-                'authorityToTravel',
-                'Attachments',
-                $requisition_reference_number,
-                'AuthorityToTravel',
-                'AuthorityToTravel',
-                $user
-            );
-        }
-
-        DB::commit();
-
-        RequisitionRaised::dispatch($matHeader, "fuel_requisition");
-        Log::info("Requisition " . $requisition_reference_number . " raised successfully");
+        $requisition_reference_number = $this->saveFuelRequisition(
+            $requisitionPostRequest,
+            $registrationNumber,
+            $validFrom,
+            $validTo);
 
         return response()->json([
             "success" => true,
@@ -668,9 +562,12 @@ class FuelRequisitionService
     {
         $results = DB::table("GEN_MATERIAL_HEADERS")
             ->where("GEN_MATERIAL_HEADERS.req_no", $req_no)
-            ->join("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
-            ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
-            ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by", "=", "SEC_USERS.staff_no")
+            ->join("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no",
+                "=", "GEN_MATERIAL_DETAILS.req_no")
+            ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status",
+                "=", "CONFIG_STATUSES.code")
+            ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by",
+                "=", "SEC_USERS.staff_no")
             ->where("CONFIG_STATUSES.MODULE", "=", "MAT")
             ->select("GEN_MATERIAL_HEADERS.*",
                 "GEN_MATERIAL_DETAILS.*",
@@ -957,5 +854,131 @@ class FuelRequisitionService
         mixed $newEstimatedOdometer): int
     {
         return 100;
+    }
+
+    /**
+     * @param FuelRequisitionPostRequest $requisitionPostRequest
+     * @param mixed $registrationNumber
+     * @param bool|Carbon $validFrom
+     * @param bool|Carbon $validTo
+     * @return string
+     * @throws WorkflowTaskCreationFailedException
+     */
+    public function saveFuelRequisition(FuelRequisitionPostRequest $requisitionPostRequest,
+                                        mixed                      $registrationNumber,
+                                        bool|Carbon                $validFrom,
+                                        bool|Carbon                $validTo): string
+    {
+        /******************************************* Save Data **************************************/
+        $user = Auth()->user();
+
+        $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(
+            WorkflowModules::FUEL_REQUISITION
+        );
+        $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(
+            WorkflowModules::STOCK_REQUISITION
+        );
+
+        $workflowProcess = "";
+        $description = "";
+
+        Log::info("Requisition Type " . $requisitionPostRequest->get("requisition_type"));
+
+        $townFrom = null;
+        $townTo = null;
+        if ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::OutOfTown->value) {
+            $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
+            $description = "Out Of Town ";
+            $townFrom = $requisitionPostRequest->get("departureTown") ?? '';
+            $townTo = $requisitionPostRequest->get("destinationTown") ?? '';
+        } elseif ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::Normal->value) {
+            $workflowProcess = WorkflowProcessCodes::NormalFuelRequisition->value;
+            $description = "Normal ";
+        } elseif ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::Override->value) {
+            $workflowProcess = WorkflowProcessCodes::OverrideFuelRequisition->value;
+            $description = "Override ";
+        }
+
+        $short_description = $description . "Fuel Requisition For Vehicle Reg No. " . $registrationNumber;
+        $long_description = $description . "Fuel Requisition Ref.No. "
+            . $requisition_reference_number
+            . " For Vehicle Reg No. " . $registrationNumber;
+
+        $this->workflowService->initiateWorkflowProcess(
+            $requisition_reference_number,
+            (int)$workflowProcess,
+            WorkflowActions::submit(),
+            $requisitionPostRequest->get("justification"),
+            $user,
+            $requisitionPostRequest->get("material_amount"),
+            $short_description,
+            $long_description
+        );
+
+        $costBearer = $requisitionPostRequest->get("CostAssignedTo") == "CostCenterBasedRequisition" ?
+            "CostCenter" : "Project";
+
+        $matHeader = MaterialHeader::create(
+            [
+                "is_fuel" => "Y",
+                "req_no" => $requisition_reference_number,
+                "form_order" => $form_order_number,
+                "status" => StatusHelper::new(),
+                "veh_reg_no" => $registrationNumber,
+                "cost_centre" => $requisitionPostRequest->get("cost_centre_code"),
+                "valid_date_from" => $validFrom,
+                "valid_date_to" => $validTo,
+                "odometer" => $requisitionPostRequest->get("odometer_reading"),
+                "town_from" => $townFrom,
+                "town_to" => $townTo,
+                "date_created" => Carbon::now(),
+                "created_by" => $user->id,
+                "project_name" => $requisitionPostRequest->get('ProjectName') ?? null,
+                "requested_by" => $user->staff_no,
+                "comments" => $requisitionPostRequest->get("justification"),
+                "requisition_type" => $requisitionPostRequest->get("requisition_type"),
+                "cost_assigned_to" => $costBearer
+            ]
+        );
+
+        $projectCode = $requisitionPostRequest->get("project_code")
+            ?? $requisitionPostRequest->get("projectCode");
+
+        MaterialDetail::create([
+            "created_by" => $user->staff_no,
+            "date_created" => Carbon::now(),
+            "req_no" => $requisition_reference_number,
+            "material_code" => $requisitionPostRequest->get("material_article_code"),
+            "quantity" => $requisitionPostRequest->get("material_quantity"),
+            "unit_of_measure" => $requisitionPostRequest->get("unit_of_measure"),
+            "specifications" => $requisitionPostRequest->get("material_description"),
+            "description" => $requisitionPostRequest->get("material_description"),
+            "project_code" => $projectCode,
+            "cost_centre" => $requisitionPostRequest->get("cost_centre_code"),
+            "cost_centre_name" => $requisitionPostRequest->get("cost_center_name"),
+            "reg_no" => $requisitionPostRequest->get("vehicle_registration"),
+            "amount" => $requisitionPostRequest->get("material_amount"),
+            "price" => $requisitionPostRequest->get("material_price"),
+            "max_allowed" => $requisitionPostRequest->get("fuel_allocation")
+        ]);
+
+        $files = $requisitionPostRequest->allFiles();
+        if (!empty($files)) {
+            FileUploadService::uploadFile(
+                $requisitionPostRequest,
+                'authorityToTravel',
+                'Attachments',
+                $requisition_reference_number,
+                'AuthorityToTravel',
+                'AuthorityToTravel',
+                $user
+            );
+        }
+
+        DB::commit();
+
+        RequisitionRaised::dispatch($matHeader, "fuel_requisition");
+        Log::info("Requisition " . $requisition_reference_number . " raised successfully");
+        return $requisition_reference_number;
     }
 }
