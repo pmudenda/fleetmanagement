@@ -23,8 +23,8 @@
 @push('scripts')
     <!-- page script -->
     <script>
-        (function (appInstance) {
-            appInstance.initDatatable("#example1", true);
+        (function (tmsApp) {
+            tmsApp.initDatatable("#example1", true);
         })(window.tmsApp || {});
     </script>
 

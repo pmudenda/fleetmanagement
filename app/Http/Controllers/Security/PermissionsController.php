@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SystemPermission;
 use App\Models\Security\Permission;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -29,26 +30,34 @@ class PermissionsController extends Controller
         return view('modules.security.permissions.create');
     }
 
-    public function store(SystemPermission $request): RedirectResponse
+    public function store(SystemPermission $request): JsonResponse
     {
-        Log::info($request->des);
-        $slug = strtolower(str_replace(' ', '-', $request->name));
-        Permission::updateOrCreate(
-            [
-                'name' => $request->name,
-                'slug' => $slug,
-                'guard_name' => 'web',
-                'description' => $request->description
-            ],
-            [
-                'name' => $request->name,
-                'slug' => $slug,
-                'guard_name' => 'web',
-                'description' => $request->description
-            ]
-        );
-        return redirect()->route('permissions.index')
-            ->with('message', 'User permission Successfully defined..');
+        try {
+            Log::info($request->des);
+            $slug = strtolower(str_replace(' ', '-', $request->name));
+            Permission::updateOrCreate(
+                [
+                    'slug' => $slug,
+                    'guard_name' => 'web',
+                ],
+                [
+                    'name' => $request->name,
+                    'slug' => $slug,
+                    'guard_name' => 'web',
+                    'description' => $request->description
+                ]
+            );
+            return response()->json([
+                'state' => 'success',
+                'message' => 'Permission Added..'
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'state' => 'failure',
+                'message' => 'Permission Added..'
+            ]);
+        }
     }
 
 

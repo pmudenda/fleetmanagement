@@ -30,10 +30,10 @@
                             <div class="card-tools">
                                 @can(config('rights.permission_create'))
                                     <button href=""
-                                            data-bs-target="#addPermission"
+                                            data-bs-target="#addPermissionModal"
                                             data-bs-toggle="modal"
-                                       title="Create New System Permission"
-                                       class="btn btn-sm btn-success pull-right">
+                                            title="Create New System Permission"
+                                            class="btn btn-sm btn-success pull-right">
                                         <i class="fas fa-user-plus"></i>
                                         Add Access Right
                                     </button>
@@ -130,7 +130,7 @@
 
     </section>
 
-    <div class="modal fade" id="addPermission" tabindex="-1" role="dialog"
+    <div class="modal fade" id="addPermissionModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -146,17 +146,17 @@
                 <div class="modal-body">
                     <x-error-view/>
                     <div class="card">
-                        <form name="device_from"
+                        <form name="addPermissionForm"
                               action="{{route('permissions.store')}}" method="post">
                             @csrf
                             <div class="card-header">
                                 <div class="card-title">
-                                    Add System Permission <i class="fas fa-user-shield"></i>
+                                    Add System Permission <i class="ml-2 fas fa-user-shield"></i>
                                 </div>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body pb-2">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-12">
                                         <div class="form-group mt-4">
                                             <label for="name"
                                                    class="field-required">
@@ -188,25 +188,23 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="card-footer">
-                                <div class="row">
+                            <div class="card-footer pt-2">
+                                <div class="row pull-left">
                                     <div id="submit_button" class="col-12 text-center">
                                         @can(config('rights.permission_create'))
-                                            <input class="btn btn-lg btn-success"
+                                            <input class="btn btn-sm btn-success"
                                                    type="submit"
                                                    value="Submit">
                                         @endcan
                                         <input
-                                            class="btn btn-lg btn-secondary"
+                                            class="btn btn-sm btn-secondary"
                                             type="reset"
                                             value="Clear"
                                             name="reset_form">
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.card-footer-->
                         </form>
                     </div>
                 </div>
@@ -324,26 +322,121 @@
     @endforeach
 @endsection
 
-
 @push('scripts')
 
     <!-- DataTables  & Plugins -->
     @include('layouts.partials.dataTableScripts')
     <!-- page script -->
     <script>
-        $(function () {
-            $("#rightsTable").DataTable({
-                "responsive": true, "lengthChange": true, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print"],
-                'columnDefs': [
-                    {
-                        "orderable": false,
-                        "searchable": false,
-                        "targets": [0]
+        (function (tmsApp) {
+            tmsApp.initDatatable("#rightsTable", true, true, [
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "targets": [0]
+                }
+            ]);
+
+            $('[name="addPermissionForm"]').on('submit', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                let $form = document.forms['addPermissionForm'];
+
+                if (!$($form).valid()) {
+                    toastr.warning("Sorry, the data did not pass validation check, check the data and try again.");
+                    return;
+                }
+
+                let myModalEl = document.querySelector('#addPermissionModal');
+                let modal =  null;
+                if (myModalEl) {
+                    modal = bootstrap.Modal.getOrCreateInstance(myModalEl);
+                }
+
+                let formData = new FormData($form);
+                tmsApp.play_alert('sound-submit');
+                tmsApp.asyncPostFormData(
+                    $form.action,
+                    formData,
+                    function (response) {
+                        console.log(response);
+                        window.loaderMessage = "Loading... please wait";
+                        if (response.hasOwnProperty("state") && response.state === 'success') {
+                            if (modal) {
+                                modal.hide();
+                            }
+                            const message = response.message > ""
+                                ? response.message
+                                : "Permission Defined Successfully";
+
+                            tmsApp.showSystemMessage(
+                                "Permission Definition",
+                                message,
+                                function () {
+                                    window.location.reload();
+
+                                },
+                                "success"
+                            );
+                        } else {
+                            tmsApp.play_alert('sound-error');
+                            if (!Util.isEmpty(response.errors)) {
+                                if (response.errors) {
+                                    tmsApp.printErrorMsg(response.errors);
+                                }
+                            } else if (!Util.isEmpty(response.message)) {
+                                tmsApp.systemError("Permission Definition", response.message);
+                            }
+
+                            if (modal) {
+                                modal.hide();
+                                //window.loaderVisible = false;
+                            }
+                        }
+                    },
+                    function (xhr) {
+                        console.log(xhr);
+                        tmsApp.play_alert('sound-error');
+                        tmsApp.showErrorMessages(xhr, "Permission Definition",);
+                    },
+                    'POST'
+                );
+            }).validate(
+                {
+                    errorClass: "error-class",
+                    validClass: "valid-class",
+                    errorElement: 'div',
+                    errorPlacement: function (error, element) {
+                        if (element.parent('.input-group').length) {
+                            error.insertAfter(element.parent());
+                        } else {
+                            error.insertAfter(element);
+                        }
+                    },
+                    onError: function () {
+                        $('.input-group.error-class').find('.help-block.form-error').each(function () {
+                            $(this).closest('.form-group').addClass('error-class').append($(this));
+                        });
+                    },
+                    rules: {
+                        name: {
+                            required: true
+                        },
+                        description: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        description: {
+                            required: "The description of the permission is required"
+                        },
+                        name: {
+                            required: "Permission name is required"
+                        },
                     }
-                ]
-            }).buttons().container().appendTo('#rightsTable_wrapper .col-md-6:eq(0)');
-        });
+                }
+            );
+        })(window.tmsApp || {});
     </script>
 
 @endpush
