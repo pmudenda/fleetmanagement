@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class PermissionsController extends Controller
@@ -35,6 +36,8 @@ class PermissionsController extends Controller
         try {
             Log::info($request->des);
             $slug = strtolower(str_replace(' ', '-', $request->name));
+
+            DB::beginTransaction();
             Permission::updateOrCreate(
                 [
                     'slug' => $slug,
@@ -47,6 +50,8 @@ class PermissionsController extends Controller
                     'description' => $request->description
                 ]
             );
+            DB::commit();
+
             return response()->json([
                 'state' => 'success',
                 'message' => 'Permission Added..'
@@ -63,17 +68,22 @@ class PermissionsController extends Controller
 
     public function update(Request $request, Permission $permission): RedirectResponse
     {
-        //$permission->name = $request->name ;
-        //$permission->slug = $request->slug ;
+        DB::beginTransaction();
         $permission->description = $request->description;
         $permission->save();
-        return redirect()->back()->with('message', 'Permission ' . $permission->name . ' Updated Successfully');
+        DB::commit();
+        return redirect()->back()
+            ->with('message',
+                'Permission ' . $permission->name . ' Updated Successfully'
+            );
     }
 
 
     public function destroy(Permission $permission): RedirectResponse
     {
+        DB::beginTransaction();
         Permission::destroy($permission->id);
+        DB::commit();
         return redirect()->back()->with('message', 'Deleted Successfully');
     }
 }

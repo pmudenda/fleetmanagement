@@ -84,7 +84,7 @@
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                         {{--@can(config('rights.permission_edit'))--}}
                                                         <li>
-                                                            <button class="btn btn-sm btn-outline-dark-primary m-1 "
+                                                            <button class="btn btn-sm m-1 "
                                                                     data-sent_data="{{$item}}"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#editModal{{$item->id}}">
@@ -118,7 +118,7 @@
                                                         </li>
                                                         <li>
                                                             <a href="{{route('roles.show', $item->id)}}"
-                                                               class="btn btn-sm btn-outline-success m-1">
+                                                               class="btn btn-sm m-1">
                                                                 <i class="fas fa-eye pull-right"></i>
                                                                 Details
                                                             </a>
@@ -147,7 +147,11 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Edit Role: {{$item->name}}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
                     </div>
                     <div class="modal-body">
                         <form name="db2" method="post" action="{{route('roles.update', $item->id )}}">
@@ -157,36 +161,47 @@
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
                                         <input type="number" id="id" name="id" value="{{$item->id}}" required hidden>
-                                        <label for="name"> Group: <span class="required">*</span></label>
-                                        <input type="text" class="form-control" value="{{$item->name}}" id="name"
+                                        <label for="name" class="field-required">
+                                            Group:
+                                        </label>
+                                        <input type="text"
+                                               class="form-control"
+                                               value="{{$item->name}}"
+                                               id="name"
                                                name="name" required maxlength="100"
-                                        >
+                                        />
                                     </div>
 
                                     <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
-                                        <label for="slug"> Name: <span class="required">*</span></label>
-                                        <input type="text" class="form-control" value="{{$item->slug}}" id="slug"
+                                        <label for="slug" class="field-required">
+                                            Name:
+                                        </label>
+                                        <input type="text"
+                                               class="form-control"
+                                               value="{{$item->slug}}"
+                                               id="slug"
                                                name="slug" required maxlength="100"
-                                        >
+                                        />
                                     </div>
                                 </div>
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close
+                                <button type="button"
+                                        class="btn btn-sm btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Close
                                 </button>
                                 @can(config('rights.role_update'))
-                                    <button type="submit" class="btn btn-warning">Update</button>
+                                    <button type="submit" class="btn btn-sm btn-warning">
+                                        Update
+                                    </button>
                                 @endcan
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-
-
-            <!-- /.col -->
         </div>
 
         <!-- Status Delete Modal -->
@@ -195,8 +210,14 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete Group: {{$item->name}}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title"
+                            id="exampleModalLabel">
+                            Delete Group: {{$item->name}}
+                        </h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form name="db2" method="post" action="{{route('roles.destroy', $item->id )}}">
@@ -217,8 +238,16 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-danger">
+                                    Delete
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -232,7 +261,11 @@
 @endsection
 
 <!-- Device Update Modal -->
-<div class="modal fade" id="createProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade"
+     id="createProfileModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -253,14 +286,26 @@
                         <div class="row">
                             <div class="row">
                                 <div class="col-12 form-group mt-4">
-                                    <label for="name"> ROLE NAME: <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="name" name="name" required
+                                    <label class="field-required" for="name">
+                                        ROLE NAME:
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="name"
+                                           name="name"
+                                           required
                                            maxlength="100"
                                            placeholder="e.g Administrator">
                                 </div>
                                 <div class="col-12 form-group mt-4">
-                                    <label for="slug"> SLUG: <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="slug" name="slug" required
+                                    <label class="field-required" for="slug">
+                                        SLUG:
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="slug"
+                                           name="slug"
+                                           required
                                            maxlength="100"
                                            placeholder="Enter Slug">
                                 </div>
@@ -293,7 +338,7 @@
 
     <script>
         (function (appInstance) {
-            appInstance.initDatatable("#groupsTable", true);
+            appInstance.initDatatable("#groupsTable", true, true, []);
         })(window.tmsApp || {});
     </script>
 @endpush

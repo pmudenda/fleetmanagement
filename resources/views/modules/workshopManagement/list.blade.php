@@ -29,8 +29,6 @@
                                     <th>Request Date</th>
                                     <th>Estimated Collection Date</th>
                                     <th>Originator</th>
-                                    {{--<th>Qty. Requested</th>--}}
-                                    {{--<th>Qty. Issued</th>--}}
                                     <th>Status</th>
                                     <th>Remarks</th>
                                     <th>Action</th>
@@ -70,15 +68,6 @@
                                         <td>
                                             {{$rec->originator?? '--'}}
                                         </td>
-
-                                        {{-- <td>
-                                             {{$rec->quantity}}
-                                         </td>--}}
-
-                                        {{-- <td>
-                                             {{$rec->quantity_issued ?? 0}}
-                                         </td>
-                                         --}}
 
                                         <td>
                                             {{$rec->status_name ?? ''}}

@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RolesController extends Controller
 {
@@ -30,17 +31,20 @@ class RolesController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        DB::beginTransaction();
+        $slug = strtolower(str_replace(' ', '-', $request->slug));
         Role::updateOrCreate(
             [
-                'name' => $request->name,
-                'slug' => $request->slug,
+                'slug' => $slug,
             ],
             [
-                'slug' => $request->slug,
+                'slug' => $slug,
+                'name' => $request->name,
                 'description' => $request->name,
                 'guard_name' => 'web'
             ]
         );
+        DB::commit();
         return redirect()->route('roles.index')
             ->with('message', 'Role Successfully defined..');
     }
@@ -58,8 +62,10 @@ class RolesController extends Controller
 
     public function assignPermission(Request $request): RedirectResponse
     {
+        DB::beginTransaction();
         $role = Role::find((int)$request->get('roleId'));
         $role->permissions()->syncWithoutDetaching($request->permission_ids);
+        DB::commit();
         return redirect()
             ->back()
             ->with('message', 'Permissions Assigned Successfully..');
@@ -67,8 +73,10 @@ class RolesController extends Controller
 
     public function revokePermission(Request $request): RedirectResponse
     {
+        DB::beginTransaction();
         $role = Role::find($request->get('roleId'));
         $role->permissions()->detach($request->permission_id);
+        DB::commit();
         return redirect()
             ->back()
             ->with('message', 'Permissions Successfully detached..');
@@ -76,9 +84,13 @@ class RolesController extends Controller
 
     public function update(Request $request, Role $role): RedirectResponse
     {
-        $role->name = $request->name;
+        DB::beginTransaction();
         $role->slug = $request->slug;
+        $role->name = $request->name;
+        $role->description = $request->name;
         $role->save();
+        DB::commit();
+
         return redirect()
             ->back()
             ->with('message', 'Role ' . $role->name . ' updated Successfully');
@@ -87,7 +99,10 @@ class RolesController extends Controller
 
     public function destroy(Role $role): RedirectResponse
     {
+        DB::beginTransaction();
         Role::destroy($role->id);
-        return redirect()->back()->with('message', 'Role Deleted Successfully');
+        DB::commit();
+        return redirect()->back()
+            ->with('message', 'Role Deleted Successfully');
     }
 }
