@@ -411,7 +411,7 @@ class FuelRequisitionService
             // [Odometer On Last Issue + ( Quantity On Last Issue * Fuel Consumption )]
             // Maximum Odometer Acceptable (Moa) = [Mdbi]  + [Mdwi];
             $maximumOdometerAcceptable = ($odometerOnLastIssue + ($quantityLastIssued * $fuel_consumption));
-            Log::info("Maximum Acceptable Based On Last Issued Amount $latestIssue->odometer");
+            Log::info("Maximum Acceptable Based On Last Issued Amount $maximumOdometerAcceptable");
 
             if ($quantityLastIssued < $tank_capacity) {
                 $distanceTravelledOnAmountInTank = (($tank_capacity - $quantityLastIssued) * $fuel_consumption);
@@ -419,7 +419,9 @@ class FuelRequisitionService
                 $maximumOdometerAcceptable += $distanceTravelledOnAmountInTank;
             }
 
-            Log::info("Maximum Acceptable $maximumOdometerAcceptable vs $userProvidedOdometer");
+            Log::info("Total Maximum Acceptable $maximumOdometerAcceptable
+                 vs What User Provided $userProvidedOdometer");
+
             if ($userProvidedOdometer > $maximumOdometerAcceptable) {
                 throw new FuelRequisitionException(
                     str_replace("@cur_odometer",
