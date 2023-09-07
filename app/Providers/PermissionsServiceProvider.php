@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 
 class PermissionsServiceProvider extends ServiceProvider
@@ -24,6 +25,9 @@ class PermissionsServiceProvider extends ServiceProvider
     public function boot(): void
     {
         try {
+            app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+            Cache::flush('spatie.permission.cache');
+            Cache::flush('spatie.role.cache');
             /*Permission::get()->map(function ($permission) {
                 Gate::define($permission->slug, function ($user) use ($permission) {
                     return $user->hasPermissionTo($permission);
@@ -33,25 +37,6 @@ class PermissionsServiceProvider extends ServiceProvider
             /*report($e);
             return false;*/
         }
-
-        //Blade directives
-        /*    Blade::directive('role', function ($role) {
-                return "if(auth()->check() && auth()->user()->hasRole({$role})) :"; //return this if statement inside php tag
-            });
-
-            Blade::directive('endrole', function ($role) {
-                return "endif;"; //return this endif statement inside php tag
-            });
-
-            Blade::directive('hasrole', function ($arguments) {
-                $roles = explode('|', $arguments);
-
-                return "<?php if (auth()->check() && in_array(auth()->user()->roles, {$roles})): ?>";
-            });
-
-            Blade::directive('endhasrole', function () {
-                return '<?php endif; ?>';
-            });*/
     }
 
 }
