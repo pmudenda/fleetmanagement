@@ -387,7 +387,7 @@
                         tmsApp.play_alert('sound-error');
                         tmsApp.showErrorMessages(xhr, appMessages.profileUpdateTitle);
                     },
-                    'PATCH'
+                    'POST'
                 );
             }).validate(
                 {
