@@ -94,7 +94,7 @@ class RolesController extends Controller
             Log::info("Role Name  $request->name");
             Log::info("Role Name  $request->id");
 
-            $role = Role::where('id', '=', $request->id)->get();
+            $role = Role::where('id', '=', $request->id)->first();
             if(empty($role)){
                 throw new DataNotFoundException("Role Not Found");
             }
