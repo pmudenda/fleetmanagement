@@ -487,6 +487,7 @@
                         config('rights.role_access'),
                         config('rights.role_show'),
                         config('rights.role_edit'),
+
                         config('rights.role_destroy'),
                         config('rights.role_attach'),
                         config('rights.role_detach')

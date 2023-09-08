@@ -9,8 +9,14 @@
 
 
 @section('content')
+
     @foreach(config('rights') as $right)
-        {{$right}}</br>
+        <table>
+            <tr>
+                <td>{{$right}}</td>
+                <td>{{Auth()->user()->can($right)}}</td>
+            </tr>
+        </table>
     @endforeach
 
     <x-content-header :pageTitle="'ROLE DETAILS'" :activeCrumb="'Role Details'" :link="'roles.index'"
