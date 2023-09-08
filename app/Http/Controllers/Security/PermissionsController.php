@@ -25,7 +25,7 @@ class PermissionsController extends Controller
     public function store(SystemPermission $request): JsonResponse
     {
         try {
-            Log::info($request->des);
+            Log::info("" .$request->description);
             $slug = strtolower(str_replace(' ', '-', $request->name));
 
             DB::beginTransaction();
