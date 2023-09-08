@@ -19,19 +19,6 @@
         </div>
 
         <div class="form-inline">
-            {{--<div class="input-group"
-                 data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar"
-                       type="search"
-                       placeholder="Search"
-                       aria-label="Search">
-                <div class="input-group-addon">
-                    <button
-                        class="btn btn-sm btn-sidebar border-radius-0">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-            </div>--}}
         </div>
 
         <nav class="mt-2">
@@ -44,6 +31,7 @@
                         config('rights.view_vehicle_details'),
                         config('rights.view_vehicle_docs'),
                         config('rights.on_board_vehicle'),
+                        config('rights.view_fleet'),
                         config('rights.edit_vehicle_details'),
                         ];
                 @endphp
@@ -66,7 +54,11 @@
                                 </li>
                             @endcan
 
-                            @canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
+                            @canany([
+                                    config('rights.view_vehicle_details'),
+                                    config('rights.edit_vehicle_details'),
+                                    config('rights.view_fleet'),
+                                ])
                                 <li class="nav-item pl-2">
                                     <a href="{{ URL::signedRoute('vehicles.list') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -75,12 +67,18 @@
                                 </li>
                             @endcanany
 
-                            <li class="nav-item pl-2">
-                                <a href="{{ URL::signedRoute('new.fleet.movement') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Odometer Logs</p>
-                                </a>
-                            </li>
+                            @canany([
+                               config('rights.view_vehicle_details'),
+                               config('rights.edit_vehicle_details'),
+                               config('rights.view_fleet'),
+                           ])
+                                <li class="nav-item pl-2">
+                                    <a href="{{ URL::signedRoute('new.fleet.movement') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Odometer Logs</p>
+                                    </a>
+                                </li>
+                            @endcanany
 
                             <li class="nav-item pl-2">
                                 <a href="{{ URL::signedRoute('assign.tom.card') }}" class="nav-link">

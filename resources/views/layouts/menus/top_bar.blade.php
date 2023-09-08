@@ -11,39 +11,50 @@
             </a>
         </li>
 
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#"
-               id="navbarDropdown"
-               role="button"
-               data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-list"></i> Documents Check
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item"
-                   data-toggle="modal"
-                   data-target="#modal-auditTrail"
-                   href="#">
-                    Document Audit Trail
-                </a>
-                <a class="dropdown-item"
-                   data-toggle="modal"
-                   data-target="#modal-followUp"
-                   href="#">
-                    Document Follow Up
+
+        @canany([config('rights.view_doc_follow_up'),config('rights.view_doc_audit')])
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#"
+                   id="navbarDropdown"
+                   role="button"
+                   data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-list"></i>
+                    Documents Check
                 </a>
 
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item"
-                   data-toggle="modal"
-                   data-target="#modal-taskFollowUp"
-                   href="#">
-                    Task Tracking
-                </a>
-            </div>
-        </li>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    @can([config('rights.view_doc_audit')])
+                        <a class="dropdown-item"
+                           data-toggle="modal"
+                           data-target="#modal-auditTrail"
+                           href="#">
+                            Document Audit Trail
+                        </a>
+                    @endcan
 
-       @can(config('rights.simulate_user'))
+                    @can([config('rights.view_doc_follow_up')])
+                        <a class="dropdown-item"
+                           data-toggle="modal"
+                           data-target="#modal-followUp"
+                           href="#">
+                            Document Follow Up
+                        </a>
+                    @endcan
+                    @canany([config('rights.view_doc_follow_up'),config('rights.view_doc_audit')])
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item"
+                           data-toggle="modal"
+                           data-target="#modal-taskFollowUp"
+                           href="#">
+                            Task Tracking
+                        </a>
+                    @endcanany
+                </div>
+            </li>
+        @endcan
+
+        @can(config('rights.simulate_user'))
             @if(session('simulating', false))
                 <li class="nav-item d-sm-inline-block">
                     <a href="#"
@@ -64,7 +75,7 @@
                     </a>
                 </li>
             @endif
-       @endcan
+        @endcan
 
     </ul>
 

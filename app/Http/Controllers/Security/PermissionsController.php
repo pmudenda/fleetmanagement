@@ -26,7 +26,7 @@ class PermissionsController extends Controller
     {
         try {
             Log::info("" .$request->description);
-            $slug = strtolower(str_replace(' ', '-', $request->name));
+            $slug = strtoupper(str_replace(' ', '-', $request->name));
 
             DB::beginTransaction();
             Permission::updateOrCreate(

@@ -100,7 +100,7 @@ class RolesController extends Controller
             }
 
             DB::beginTransaction();
-            $role->slug = strtolower(str_replace('', '-', $request->name));
+            $role->slug = strtoupper(str_replace('', '-', $request->name));
             $role->name = strtoupper($request->name);
             $role->description = strtoupper($request->name);
             $role->save();

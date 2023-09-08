@@ -8,14 +8,14 @@ use Illuminate\Support\ServiceProvider;
 
 class RightsServiceProvider extends ServiceProvider
 {
-
     public function boot(): void
     {
-        // dynamic constants
         try {
+
             $permissions = Permission::all();
+
             foreach ($permissions as $permission) {
-                config(['rights.' . $permission->slug => $permission->slug]);
+                config(['rights.' . strtolower($permission->slug) => strtolower($permission->slug)]);
             }
 
             $roles = Role::all();
