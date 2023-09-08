@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\WorkshopManagement;
+namespace App\Http\Controllers\WorkShopManagement;
 
 use App\Http\Controllers\Controller;
 use Codedge\Fpdf\Fpdf\Fpdf;

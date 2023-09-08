@@ -4,6 +4,7 @@ namespace App\Constants;
 
 class SystemMessages
 {
+    const RECORD_NOT_FOUND = "Record Not Found";
     const ODOMETER_VALIDATED_SUCCESSFULLY = "Odometer validated successfully";
     const VEHICLE_GENERAL_DATA_PROCESSED_SUCCESSFULLY = 'Vehicle General Data Processed Successfully';
     const VEHICLE_ONBOARDED_SUCCESSFULLY =

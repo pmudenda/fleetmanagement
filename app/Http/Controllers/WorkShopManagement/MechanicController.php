@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\WorkshopManagement;
+namespace App\Http\Controllers\WorkShopManagement;
 
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;

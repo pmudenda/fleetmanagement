@@ -11,14 +11,22 @@ use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\RemindersController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
-use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\UserManagement\UsersController;
 use App\Http\Controllers\Workflow\WorkflowController;
-use App\Http\Controllers\WorkshopManagement\MaintenanceController;
-use App\Http\Controllers\WorkshopManagement\PdfJobController;
-use App\Http\Controllers\WorkshopManagement\WorkshopController;
+use App\Http\Controllers\WorkShopManagement\BookingController;
+use App\Http\Controllers\WorkShopManagement\ImprestBuysController;
+use App\Http\Controllers\WorkShopManagement\JobCardAcknowledgementController;
+use App\Http\Controllers\WorkShopManagement\JobCardController;
+use App\Http\Controllers\WorkShopManagement\JobCardItemDeletionController;
+use App\Http\Controllers\WorkShopManagement\JobCardLinkingController;
+use App\Http\Controllers\WorkShopManagement\MaintenanceController;
+use App\Http\Controllers\WorkShopManagement\MaterialReservationController;
+use App\Http\Controllers\WorkShopManagement\PdfJobController;
+use App\Http\Controllers\WorkShopManagement\ServiceReservationController;
+use App\Http\Controllers\WorkShopManagement\WorkShopArticleController;
+use App\Http\Controllers\WorkShopManagement\WorkshopController;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -66,10 +74,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('searchProjects', [ProjectsController::class, 'findProjectByCode'])
         ->name('search.project');
 
-    Route::get('load/procurement/articles', [MaintenanceController::class, 'searchArticle'])
+    Route::get('load/procurement/articles', [WorkShopArticleController::class, 'searchArticle'])
         ->name('load.articles');
 
-    Route::get('get/procurement/articles', [MaintenanceController::class, 'getArticlesByType'])
+    Route::get('get/procurement/articles', [WorkShopArticleController::class, 'getArticlesByType'])
         ->name('get.articles');
 
     Route::get('load/article/details', [ProcurementSystemIntegrationController::class, "getArticleDetails"])
@@ -130,30 +138,30 @@ Route::group(['middleware' => 'auth', 'prefix' => 'workshop-management'], functi
         Route::post('vehicle/workshop/checkin', [MaintenanceController::class, 'createTaskForWorkShopSupervisor'])
             ->name('vehicle.workshop.checkin');
 
-        Route::post('assessment/acknowledgment', [MaintenanceController::class, "eSign"])
+        Route::post('assessment/acknowledgment', [JobCardAcknowledgementController::class, "eSign"])
             ->name('sign.assessment');
 
         // supporting
-        Route::get('vehicles-in-workshop/list', [MaintenanceController::class, 'list'])
+        Route::get('vehicles-in-workshop/list', [JobCardController::class, 'list'])
             ->name('workOrder.list');
 
-        Route::get('all/job-card/list', [MaintenanceController::class, 'list'])
+        Route::get('all/job-card/list', [JobCardController::class, 'list'])
             ->name('jobCard.list');
 
-        Route::get('closed/job-card/list', [MaintenanceController::class, 'viewClosedJobCards'])
+        Route::get('closed/job-card/list', [JobCardController::class, 'viewClosedJobCards'])
             ->name('closed.jobCard.list');
 
         Route::get('job-card/show', [MaintenanceController::class, 'showJobCard'])
             ->name('job.card.show');
 
         // delete defect
-        Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])
+        Route::post('/deleteRecord', [JobCardItemDeletionController::class, "deleteDefectRecord"])
             ->name('delete.defect.record');
 
-        Route::post('/deleteMaterialRecord', [MaintenanceController::class, "deleteMaterialRecord"])
+        Route::post('/deleteMaterialRecord', [JobCardItemDeletionController::class, "deleteMaterialRecord"])
             ->name('delete.material.record');
 
-        Route::post('/deleteServiceRecord', [MaintenanceController::class, "deleteServiceRecord"])
+        Route::post('/deleteServiceRecord', [JobCardItemDeletionController::class, "deleteServiceRecord"])
             ->name('delete.service.record');
 
         Route::post('save/job/card/header', [MaintenanceController::class, 'saveJobCardHeader'])
@@ -165,16 +173,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'workshop-management'], functi
         Route::post('save/job-card/defects', [MaintenanceController::class, 'saveJobCardDefects'])
             ->name('defects.job_card');
 
-        Route::post('save/material/requisition', [MaintenanceController::class, 'saveJobCardMaterialRequisition'])
+        Route::post('save/material/requisition', [MaterialReservationController::class, 'saveJobCardMaterialRequest'])
             ->name('process.requisition');
 
-        Route::post('save/material/reservation', [MaintenanceController::class, 'saveWorkShopMaterialReservation'])
+        Route::post('save/material/reservation', [MaterialReservationController::class, 'saveMaterialRequest'])
             ->name('save.material.reservation');
 
-        Route::post('save/services/requisition', [MaintenanceController::class, 'saveJobCardServiceRequest'])
+        Route::post('save/services/requisition', [ServiceReservationController::class, 'saveJobCardService'])
             ->name('process.service.requisition');
 
-        Route::post('save/service/reservation', [MaintenanceController::class, 'saveWorkShopServicesReservation'])
+        Route::post('save/service/reservation', [ServiceReservationController::class, 'saveServiceBooking'])
             ->name('save.service.reservation');
 
         Route::post('save/job/assignment', [MaintenanceController::class, 'saveJobCardWorkAssignments'])
@@ -195,25 +203,25 @@ Route::group(['middleware' => 'auth', 'prefix' => 'workshop-management'], functi
         Route::get('job-card/accessories', [MaintenanceController::class, 'showAccessoriesTab'])
             ->name('accessories.job.card');
 
-        Route::get('workOrder/job-card/defects', [MaintenanceController::class, 'defectsTab'])
-            ->name('defects.job.card');
+        /*Route::get('workOrder/job-card/defects', [MaintenanceController::class, 'defectsTab'])
+            ->name('defects.job.card');*/
 
-        Route::get('open/job-card/closure', [MaintenanceController::class, 'openJobCardClosure'])
-            ->name('show.workorder.closure');
+        /* Route::get('open/job-card/closure', [MaintenanceController::class, 'openJobCardClosure'])
+             ->name('show.workorder.closure');*/
 
         Route::post('get/reservations', [MaintenanceController::class, 'getReservedMaterialAndServices'])
             ->name('load.reservations');
 
-        Route::post('attach/to/job-card', [MaintenanceController::class, 'attachReservedArticlesToJobCard'])
+        Route::post('attach/to/job-card', [JobCardLinkingController::class, 'attachReservedArticlesToJobCard'])
             ->name('attach.reservations.card');
 
-        Route::post('store/petty-cash/item', [MaintenanceController::class, 'saveImprestBuyItems'])
+        Route::post('store/petty-cash/item', [ImprestBuysController::class, 'saveImprestBuyItems'])
             ->name('petty.cash.store');
 
     });
 
-    Route::get('/bookings/list', [ReservationController::class, 'list'])->name('list.booking');
-    Route::get('/workshop/booking', [ReservationController::class, 'create'])->name('new.booking');
+    /*Route::get('/bookings/list', [BookingController::class, 'list'])->name('list.booking');*/
+    Route::get('/workshop/booking', [BookingController::class, 'create'])->name('new.booking');
     Route::get('/workshop/requisitions', [WorkshopController::class, 'requisitions'])
         ->name('list.workshop.requisition');
 

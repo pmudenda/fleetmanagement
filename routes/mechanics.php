@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\WorkshopManagement\MechanicController;
+use App\Http\Controllers\WorkShopManagement\MechanicController;
 use App\Models\Reference\LabourRates;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

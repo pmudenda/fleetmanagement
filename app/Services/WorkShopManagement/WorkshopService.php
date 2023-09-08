@@ -16,6 +16,7 @@ use App\Http\Requests\WorkShopManagement\JobCardRequest;
 use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
 use App\Http\Requests\WorkShopManagement\JobCardTaskReassignment;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
+use App\Models\Common\File;
 use App\Models\MaterialHeader;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTable;
@@ -32,6 +33,7 @@ use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Logging\HistoryService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\Workflow\WorkflowService;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -160,6 +162,7 @@ class WorkshopService
     public function createJobCardAccessories(Request $request): void
     {
         DB::beginTransaction();
+
         $jobCardVoucher = $request->get("job_card_voucher");
         $referenceNumber = $request->get("workshop_reference");
         $comment = $request->get("accessoriesRemarks");
@@ -191,51 +194,12 @@ class WorkshopService
             );
         }
 
-        $attachedFiles = $request->get('attachment');
-        $uploadedFiles = [];
+        $uploadedFiles = $this->uploadAttachments($request, $referenceNumber, $user);
 
-        if (!empty($attachedFiles)) {
-            $uploadedFiles = FileUploadService::uploadFile(
-                $request,
-                "attachment",
-                "Assessment",
-                $referenceNumber,
-                "Observations",
-                "Observations",
-                $user
-            );
-        }
-
-        $toSave = [];
-        if ($request->has('observation')) {
-            for ($key = 0; $key < sizeof($request->observation); $key++) {
-                Log::info(($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : "No More Attachments");
-                $toSave[] = array(
-                    'observation' => $request->observation[$key],
-                    'file' => ($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : null);
-            }
-        }
-
-        if (!empty($toSave) && !empty($uploadedFiles)) {
-            foreach ($uploadedFiles as $uploadedFile) {
-                $toSave[] = array('observation' => null, 'file' => $uploadedFile->path);
-            }
-        }
-
-        Log::info("Number Of Items To Save " . sizeof($toSave));
-
-        if (!empty($toSave)) {
-            foreach ($toSave as $item) {
-                if (!empty($item['file']) && !empty($item['observation'])) {
-                    AssessmentObservation::create([
-                        'reference' => $request->get('workshop_reference'),
-                        'image_path' => $item['file'],
-                        'remarks' => $item['observation'],
-                        'reported_by' => $user->staff_no
-                    ]);
-                }
-            }
-        }
+        $this->saveJobCardAssessmentObservation($request,
+            $referenceNumber,
+            $user->staff_no,
+            $uploadedFiles);
 
         Log::info("General Comments  " . $request->get('accessoriesRemarks'));
         if (!empty($comment)) {
@@ -271,7 +235,8 @@ class WorkshopService
                 ->first();
 
             if (!empty($sameDefect)) {
-                throw new DuplicateDefectException("Defect already Registered for vehicle $vehicleRegistrationNumber");
+                throw new DuplicateDefectException(
+                    "Defect already Registered for vehicle $vehicleRegistrationNumber");
             }
 
             $dbDefect = WorkShopTable::where('parent', '=', $defect["defectCategory"])
@@ -576,5 +541,72 @@ class WorkshopService
             ->select("mat_header.*",
                 "mat_detail.*"
             )->get();
+    }
+
+    /**
+     * @param Request $request
+     * @param string $staffNumber
+     * @param $uploadedFiles
+     * @return void
+     */
+    public function saveJobCardAssessmentObservation(Request $request,
+                                                     string  $staffNumber,
+                                                             $uploadedFiles): void
+    {
+        $toSave = [];
+        if ($request->has('observation')) {
+            $key = 0;
+            foreach ($request->get('observation') as $observation) {
+                $toSave[] = array(
+                    'observation' => $observation,
+                    'file' => ($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : null);
+                $key++;
+            }
+        } elseif (!empty($uploadedFiles)) {
+            foreach ($uploadedFiles as $uploadedFile) {
+                $toSave[] = array('observation' => null, 'file' => $uploadedFile->path);
+            }
+        }
+
+        if (empty($toSave)) {
+            return;
+        }
+
+        foreach ($toSave as $item) {
+            if (!empty($item['file']) && !empty($item['observation'])) {
+                AssessmentObservation::create([
+                    'reference' => $request->get('workshop_reference'),
+                    'image_path' => $item['file'],
+                    'remarks' => $item['observation'],
+                    'reported_by' => $staffNumber
+                ]);
+            }
+        }
+
+    }
+
+    /**
+     * @param Request $request
+     * @param mixed $referenceNumber
+     * @param Authenticatable|null $user
+     * @return File[]|array
+     */
+    public function uploadAttachments(Request $request, mixed $referenceNumber, ?Authenticatable $user): array
+    {
+        $attachedFiles = $request->get('attachment');
+        $uploadedFiles = [];
+
+        if (!empty($attachedFiles)) {
+            $uploadedFiles = FileUploadService::uploadFile(
+                $request,
+                "attachment",
+                "Assessment",
+                $referenceNumber,
+                "Observations",
+                "Observations",
+                $user
+            );
+        }
+        return $uploadedFiles;
     }
 }

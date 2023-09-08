@@ -2,18 +2,28 @@
 
 namespace App\Http\Responses;
 
-class JsonResponse
+class FleetMasterJsonResponse
 {
-    private mixed $state;
+    private string $state;
     private mixed $request;
     private mixed $payload;
     private mixed $redirectUrl;
     private mixed $message;
+    private bool $success;
+
+    public function __construct($state, $success, $message, $payload = null, $redirectUrl = null)
+    {
+        $this->state = $state;
+        $this->success = $success;
+        $this->message = $message ?? "";
+        $this->payload = $payload ?? [];
+        $this->redirectUrl = $redirectUrl ?? "";
+    }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getState(): mixed
+    public function getState(): string
     {
         return $this->state;
     }
@@ -21,7 +31,7 @@ class JsonResponse
     /**
      * @param mixed $state
      */
-    public function setState(mixed $state): void
+    public function setState(string $state): void
     {
         $this->state = $state;
     }
