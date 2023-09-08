@@ -51,7 +51,7 @@
     <link rel="stylesheet" type="text/css"
           href="{{asset('assets/plugins/datatables/datetime/css/dataTables.dateTime.min.css')}}"/>
     <link rel="stylesheet" type="text/css"
-          href="{{asset('assets/plugins/datatables/searchbuilder/css/dataTables.searchBuilder.min.css')}}"/>
+          href="{{asset('assets/plugins/datatables/searchbuilder/css/searchBuilder.dataTables.min.css')}}"/>
     @stack('styles')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
