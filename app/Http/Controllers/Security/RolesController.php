@@ -85,10 +85,11 @@ class RolesController extends Controller
             ->with('message', 'Permissions Successfully detached..');
     }
 
-    public function update(Request $request, Role $role): JsonResponse
+    public function update(Request $request): JsonResponse
     {
         try {
-            Log::info($request->name);
+            Log::info("Role Name ", $request->name);
+            $role = Role::first($request->id);
             /*DB::beginTransaction();
             $role->slug = strtolower(str_replace('', '-', $request->name));
             $role->name = strtoupper($request->name);
