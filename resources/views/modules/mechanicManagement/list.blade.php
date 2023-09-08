@@ -130,7 +130,7 @@
                                             </td>
                                             {{--   @can(config('rights.user_show'))--}}
                                             <td>
-                                                <a href="{{URL::signedRoute('mechanic.show', ['ref'=>$mechanic->id])}}"
+                                                <a href="{{URL::signedRoute('mechanic.show', ['ref'=>$mechanic->mechanic_id])}}"
                                                    class="btn btn-sm btn-success m-1">
                                                     <i class="fas fa-eye">Details</i>
                                                 </a>

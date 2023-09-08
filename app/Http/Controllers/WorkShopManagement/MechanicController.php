@@ -37,6 +37,7 @@ class MechanicController extends Controller
             })
             ->select(
                 'mec.*',
+                'mec.id as mechanic_id',
                 'usr.*',
                 'wkshp_sec.name as wkshp_section_name',
                 'wkshp.workshop_name'
