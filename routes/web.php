@@ -261,7 +261,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'security'], function () {
 
     Route::resource('roles', RolesController::class);
 
-    Route::patch('roles/update', [RolesController::class, 'update'])
+    Route::patch('roles/update/{role}', [RolesController::class, 'update'])
         ->name('roles.update');
     /************ permission ************/
     Route::resource('permissions', PermissionsController::class);
