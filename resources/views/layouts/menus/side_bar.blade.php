@@ -957,33 +957,37 @@
                     </li>
                 @endcanany
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-car-crash nav-icon" style="font-size: 20px;"></i>
-                        <p>
-                            Accidents
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview pl-3">
-                        <li class="nav-item">
-                            <a href="{{URL::signedRoute('accident.reporting')}}"
-                               class="nav-link">
-                                <i class="fas fa-plus nav-icon" style="font-size: 20px;"></i>
-                                <p>
-                                    Report
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{URL::signedRoute('accident.list')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
+                @canany([
+                    config('rights.add_accident_report'),
+                    config('rights.view_accident_report')]
+                    )
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-car-crash nav-icon" style="font-size: 20px;"></i>
+                            <p>
+                                Accidents
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview pl-3">
+                            <li class="nav-item">
+                                <a href="{{URL::signedRoute('accident.reporting')}}"
+                                   class="nav-link">
+                                    <i class="fas fa-plus nav-icon" style="font-size: 20px;"></i>
+                                    <p>
+                                        Report
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{URL::signedRoute('accident.list')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcanany
                 <li class="nav-item d-none">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-bell" style="font-size: 20px;"></i>
@@ -1021,7 +1025,11 @@
                     </ul>
                 </li>
 
-                @canany(['add_toll_card','view_toll_card','update_toll_card'])
+                @canany([
+                        config('rights.add_toll_card'),
+                        config('rights.view_toll_card'),
+                        config('rights.update_toll_card')
+                    ])
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-credit-card" style="font-size: 20px;"></i>
@@ -1031,21 +1039,26 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview pl-3">
+
                             <li class="nav-item">
                                 <a href="{{URL::signedRoute('e-toll.card.report')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Usage</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{URL::signedRoute('e-toll.card')}}"
-                                   class="nav-link">
-                                    <i class="fas fa-plus nav-icon"></i>
-                                    <p>
-                                        Add
-                                    </p>
-                                </a>
-                            </li>
+
+                            @can(config('rights.add_toll_card'))
+                                <li class="nav-item">
+                                    <a href="{{URL::signedRoute('e-toll.card')}}"
+                                       class="nav-link">
+                                        <i class="fas fa-plus nav-icon"></i>
+                                        <p>
+                                            Add
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+
                             <li class="nav-item">
                                 <a href="{{URL::signedRoute('e-toll.card.transaction')}}"
                                    class="nav-link">
@@ -1055,12 +1068,7 @@
                                     </p>
                                 </a>
                             </li>
-                            {{--<li class="nav-item">
-                                <a href="{{URL::signedRoute('e-toll.card.list')}}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>List</p>
-                                </a>
-                            </li>--}}
+
                         </ul>
                     </li>
                 @endcanany
