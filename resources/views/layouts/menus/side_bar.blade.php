@@ -148,7 +148,8 @@
                                                 </a>
                                             </li>
                                         @endcan
-                                        @canany([config('rights.requisition_fuel'), config('rights.approve_fuel_requisition')])
+                                        @canany([config('rights.requisition_fuel'),
+                                        config('rights.approve_fuel_requisition')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('list.fuel.requisition') }}">
@@ -204,10 +205,20 @@
                                 <svg width="24" height="24" viewBox="0 0 24 24"
                                      fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                            d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z"
+                                            d="M20 14H18V10H20C20.6 10 21 10.4
+                                            21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21
+                                            16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21
+                                            19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8
+                                            21 7.6 21 7Z"
                                             fill="currentColor"></path>
                                     <path opacity="0.3"
-                                          d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z"
+                                          d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3
+                                          2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17
+                                          22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10
+                                          11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3
+                                          16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1
+                                          12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999
+                                          15.3 6.19999 16 7.39999 16H13.3Z"
                                           fill="currentColor"></path>
                                 </svg>
                             </span>
@@ -230,13 +241,6 @@
                                     </a>
                                     <ul class="nav nav-treeview pl-2">
                                         @canany([config('rights.create_job_card')])
-                                            {{--<li class="nav-item">
-                                                <a href="{{URL::signedRoute('show.job.card',['step'=> 1])}}"
-                                                   class="nav-link">
-                                                    <i class="fas fa-plus nav-icon"></i>
-                                                    <p>New</p>
-                                                </a>
-                                            </li>--}}
                                             <li class="nav-item">
                                                 <a href="{{URL::signedRoute('vehicle.workshop.checkin')}}"
                                                    class="nav-link">
@@ -271,18 +275,6 @@
                                 </li>
                             @endcanany
 
-                            {{--@can(config('rights.view_job_card'))
-                                <li class="nav-item pl-2">
-                                    <a href="{{URL::signedRoute('workOrder.list',['step'=> 1])}}"
-                                       class="nav-link">
-                                        <i class="fas fa-list nav-icon"></i>
-                                        <p>
-                                            In Workshop
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan--}}
-
                             <li class="nav-item pl-2">
                                 <a href="#" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -292,7 +284,6 @@
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview pl-2">
-                                    {{--@can(config('rights.requisition_fuel'))--}}
                                     <li class="nav-item">
                                         <a class="nav-link"
                                            href="{{ URL::signedRoute('new.booking') }}">
@@ -300,16 +291,6 @@
                                             <p>New</p>
                                         </a>
                                     </li>
-                                    {{--@endcan--}}
-                                    {{-- @canany(config('rights.requisition_fuel'),config('rights.approve_fuel_requisition'))--}}
-                                    {{--<li class="nav-item">
-                                        <a class="nav-link"
-                                           href="{{ URL::signedRoute('list.booking') }}">
-                                            <i class="fas fa-list nav-icon"></i>
-                                            <p>List</p>
-                                        </a>
-                                    </li>--}}
-                                    {{-- @endcanany--}}
                                 </ul>
                             </li>
 
@@ -594,10 +575,19 @@
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                            d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z"
+                                            d="M17.5 11H6.5C4 11 2 9 2
+                                            6.5C2 4 4 2 6.5 2H17.5C20 2 22 4
+                                            22 6.5C22 9 20 11 17.5 11ZM15
+                                            6.5C15 7.9 16.1 9 17.5 9C18.9 9
+                                            20 7.9 20 6.5C20 5.1 18.9
+                                            4 17.5 4C16.1 4 15 5.1 15 6.5Z"
                                             fill="currentColor"></path>
                                     <path opacity="0.3"
-                                          d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z"
+                                          d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15
+                                          4 13 6.5 13H17.5C20 13 22 15 22 17.5C22
+                                          20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5
+                                          20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5
+                                          15C5.1 15 4 16.1 4 17.5Z"
                                           fill="currentColor"></path>
                                 </svg>
                             </span>
@@ -649,7 +639,9 @@
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview pl-2">
-                                        @canany([config('rights.add_vehicle_brand'), config('rights.add_vehicle_model'), config('rights.add_vehicle_type')])
+                                        @canany([config('rights.add_vehicle_brand'),
+                                        config('rights.add_vehicle_model'),
+                                        config('rights.add_vehicle_type')])
                                             <li class="nav-item">
                                                 <a href="#" class="nav-link">
                                                     <i class="far fa-circle nav-icon"></i>
@@ -711,7 +703,9 @@
                                             </li>
                                         @endcanany
 
-                                        @canany([config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop')])
+                                        @canany([config('rights.add_workshop'),
+                                            config('rights.edit_workshop'),
+                                            config('rights.view_workshop')])
                                             <li class="nav-item">
                                                 <a href="#" class="nav-link">
                                                     <i class="far fa-circle nav-icon"></i>
@@ -721,7 +715,9 @@
                                                     </p>
                                                 </a>
                                                 <ul class="nav nav-treeview pl-2">
-                                                    @canany([config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop')])
+                                                    @canany([config('rights.add_workshop'),
+                                                        config('rights.edit_workshop'),
+                                                        config('rights.view_workshop')])
                                                         <li class="nav-item">
                                                             <a class="nav-link"
                                                                href="{{ URL::signedRoute('workshop.sections') }}">
@@ -731,7 +727,9 @@
                                                         </li>
                                                     @endcanany
 
-                                                    @canany([config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop')])
+                                                    @canany([config('rights.add_workshop'),
+                                                        config('rights.edit_workshop'),
+                                                        config('rights.view_workshop')])
                                                         <li class="nav-item">
                                                             <a href="{{ URL::signedRoute('workshop.list') }}"
                                                                class="nav-link">
@@ -759,7 +757,7 @@
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('configuration.general.table',
                                                             ['ref'=>'driver-license-class'])
-                                                                    }}">
+                                                          }}">
                                                     <i class="far fa-circle nav-icon"></i>
                                                     <p class="menu-title">
                                                         Driver License Class
@@ -1074,7 +1072,12 @@
                 @endcanany
 
                 @php
-                    $reportsPermissions  = [config('right.access_reports')];
+                    $reportsPermissions  = [
+                        config('rights.access_reports'),
+                        config('rights.access_fuel_reports'),
+                        config('rights.access_vehicle_status_reports'),
+                        config('rights.access_maintenance_reports'),
+                        ];
                 @endphp
                 @canany($reportsPermissions)
                     <li class="nav-item">
@@ -1086,32 +1089,33 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview pl-3">
-                            <li class="nav-item">
-                                <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"
-                                   class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Fuel
-                                    </p>
-                                </a>
-                            </li>
+                            @canany(config('rights.access_reports'),
+                                                    config('rights.access_fuel_reports'))
+                                <li class="nav-item">
+                                    <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"
+                                       class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Fuel
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcanany
 
-                            <li class="nav-item">
-                                <a href="{{URL::signedRoute('reports.vehicle.status',
-                                    ['step'=> 1
-                                    ])}}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Vehicles</p>
-                                </a>
-                            </li>
-                            {{--
-                            <li class="nav-item">
-                                <a href="{{URL::signedRoute('show.job.card', ['step'=> 1])}}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Maintenance Requisition</p>
-                                </a>
-                            </li>
-                            --}}
+                            @canany(config('rights.access_reports'),
+                                config('rights.access_vehicle_status_reports'))
+                                <li class="nav-item">
+                                    <a href="{{
+                                        URL::signedRoute('reports.vehicle.status',
+                                        ['step'=> 1]
+                                    )}}"
+                                       class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Vehicles</p>
+                                    </a>
+                                </li>
+                            @endcanany
+
                         </ul>
                     </li>
                 @endcanany
