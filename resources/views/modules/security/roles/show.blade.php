@@ -10,7 +10,7 @@
 
 @section('content')
     @foreach(config('rights') as $right)
-        {{$right}}
+        {{$right}}</br>
     @endforeach
 
     <x-content-header :pageTitle="'ROLE DETAILS'" :activeCrumb="'Role Details'" :link="'roles.index'"
