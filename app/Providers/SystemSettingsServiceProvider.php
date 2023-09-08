@@ -13,12 +13,12 @@ class SystemSettingsServiceProvider extends ServiceProvider
     {
         try {
 
-            $systemErrorMessages = SystemError::all();
+            $systemErrorMessages = SystemError::where('status', '=', '01')->get();
             foreach ($systemErrorMessages as $setting) {
                 config(['error_message.' . $setting->error_code => $setting->error_message]);
             }
 
-            $settings = SystemConfig::where('status', 1);
+            $settings = SystemConfig::where('status', 1)->get();
             foreach ($settings as $setting) {
                 if ($setting->data_type == 'bool') {
                     config([$setting->config_file_name . $setting->name => (bool)$setting->value]);

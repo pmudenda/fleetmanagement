@@ -19,7 +19,7 @@
     <!-- Main content -->
     <section class="content">
         <x-error-view/>
-        <div>System Version DB: {{config('systeminfo')}}</div>
+        <div>System Version DB: {{dd(config('systeminfo'))}}</div>
         <div class="container-fluid">
 
             <div class="row">
