@@ -15,7 +15,7 @@
            <tbody>
            <tr>
                <td>{{$right}}</td>
-               <td>{{Auth()->user()->can($right)}}</td>
+               <td>{{dd(Auth()->user()->can($right))}}</td>
            </tr>
            </tbody>
         </table>
