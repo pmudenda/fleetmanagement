@@ -43,26 +43,29 @@
             </div>
         </li>
 
-        @if(session('simulating', false))
-            <li class="nav-item d-sm-inline-block">
-                <a href="#"
-                   data-form-url="{{route('end.user.simulation')}}"
-                   data-action="endSimulation"
-                   class="nav-link">
-                    <i class="fas fa-sign-out-alt mr-2"></i>
-                    End Simulation
-                </a>
-            </li>
-        @else
-            <li class="nav-item d-sm-inline-block">
-                <a href="#"
-                   data-toggle="modal"
-                   data-target="#modalSimulateUser"
-                   class="nav-link"><i class="fas fa-user mr-2"></i>
-                    Simulator User
-                </a>
-            </li>
-        @endif
+       @can(config('rights.simulate_user'))
+            @if(session('simulating', false))
+                <li class="nav-item d-sm-inline-block">
+                    <a href="#"
+                       data-form-url="{{route('end.user.simulation')}}"
+                       data-action="endSimulation"
+                       class="nav-link">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        End Simulation
+                    </a>
+                </li>
+            @else
+                <li class="nav-item d-sm-inline-block">
+                    <a href="#"
+                       data-toggle="modal"
+                       data-target="#modalSimulateUser"
+                       class="nav-link"><i class="fas fa-user mr-2"></i>
+                        Simulator User
+                    </a>
+                </li>
+            @endif
+       @endcan
+
     </ul>
 
     <ul class="navbar-nav ml-auto">
