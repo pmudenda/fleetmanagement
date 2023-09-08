@@ -89,8 +89,8 @@ class RolesController extends Controller
         Log::info("Name & Description $request->name");
         DB::beginTransaction();
         $role->slug = $request->slug;
-        $role->name = $request->name;
-        $role->description = $request->name;
+        $role->name = strtoupper($request->name);
+        $role->description = strtoupper($request->name);
         $role->save();
         DB::commit();
 

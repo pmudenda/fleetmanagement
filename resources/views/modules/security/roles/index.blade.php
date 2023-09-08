@@ -47,10 +47,10 @@
                                     <thead>
                                     <tr>
                                         <th>Profile Name</th>
-                                        {{--@canany([config('rights.role_access'), config('rights.role_show')])--}}
                                         <th>Slug</th>
                                         <th>Rights</th>
                                         <th>Date Created</th>
+                                        {{--@canany([config('rights.role_access'), config('rights.role_show')])--}}
                                         <th>Action</th>
                                         {{--@endcanany--}}
                                     </tr>
@@ -73,41 +73,37 @@
                                             </td>
                                             <td>
                                                 <div class="dropdown">
-                                                    <button
-                                                        class="btn btn-light
-                                                        btn-active-light-primary btn-sm dropdown-toggle"
-                                                        type="button"
-                                                        id="dropdownMenuButton1"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-light
+                                                            btn-active-light-primary
+                                                            btn-sm dropdown-toggle"
+                                                            type="button"
+                                                            id="dropdownMenuButton1"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
                                                         Actions
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        {{--@can(config('rights.permission_edit'))--}}
-                                                        <li>
-                                                            <button class="btn btn-sm m-1 "
-                                                                    data-sent_data="{{$item}}"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#editModal{{$item->id}}">
-                                                                <i class="fas fa-pencil-alt pull-right"> </i>
-                                                                Edit
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <hr class="dropdown-divider">
-                                                        </li>
-
-                                                        <li>
-                                                            <hr class="dropdown-divider">
-                                                        </li>
-                                                        </li>
-                                                        <li>
-                                                            <a href="{{route('roles.show', $item->id)}}"
-                                                               class="btn btn-sm m-1">
-                                                                <i class="fas fa-eye pull-right"></i>
-                                                                Details
-                                                            </a>
-                                                        </li>
-                                                        {{-- @endcan--}}
+                                                        @can(config('rights.role_update'))
+                                                            <li>
+                                                                <button class="btn btn-sm m-1 "
+                                                                        data-sent_data="{{$item}}"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#editModal{{$item->id}}">
+                                                                    <i class="fas fa-pencil-alt pull-right"> </i>
+                                                                    Edit
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <hr class="dropdown-divider">
+                                                            </li>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{{route('roles.show', $item->id)}}"
+                                                                   class="btn btn-sm m-1">
+                                                                    <i class="fas fa-eye pull-right"></i>
+                                                                    Details
+                                                                </a>
+                                                            </li>
+                                                        @endcan
                                                     </ul>
                                                 </div>
                                             </td>
@@ -178,7 +174,8 @@
                                     Close
                                 </button>
                                 @can(config('rights.role_update'))
-                                    <button type="submit" class="btn btn-sm btn-warning">
+                                    <button type="submit"
+                                            class="btn btn-sm btn-warning">
                                         Update
                                     </button>
                                 @endcan
@@ -229,8 +226,8 @@
                                     Close
                                 </button>
                                 <button
-                                    type="submit"
-                                    class="btn btn-danger">
+                                        type="submit"
+                                        class="btn btn-danger">
                                     Delete
                                 </button>
                             </div>
