@@ -91,7 +91,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
     public function requisitions(): HasMany
     {
         return $this->hasMany(MaterialHeader::class, 'requested_by', 'staff_no');

@@ -10,7 +10,6 @@
 @section('content')
     <x-content-header :pageTitle="'ROLE DETAILS'" :activeCrumb="'Role Details'" :link="'roles.index'"
                       :linkText="'Roles'"/>
-    <!-- Main content -->
     <section class="content">
         <x-error-view></x-error-view>
 
@@ -162,7 +161,7 @@
 <!-- Device Delete Modal -->
 <div class="modal fade" id="attach-permission{{$role->id}}" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Delete Device: {{$role->name}}</h5>
