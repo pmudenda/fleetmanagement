@@ -92,7 +92,7 @@ class RolesController extends Controller
         $role = null;
         try {
             Log::info("Role Name  $request->name");
-            Log::info("Role Name  $request->id");
+            Log::info("Role Id  $request->id");
 
             $role = Role::where('id', '=', $request->id)->first();
             if(empty($role)){
