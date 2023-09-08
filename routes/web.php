@@ -261,10 +261,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'security'], function () {
 
     Route::resource('roles', RolesController::class);
 
+    Route::patch('roles/update', [RolesController::class, 'update'])
+        ->name('roles.update');
     /************ permission ************/
     Route::resource('permissions', PermissionsController::class);
-    Route::patch('permissions/update', [PermissionsController::class, 'update'])
-        ->name('roles.update');
+
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'system-configuration'], function () {
