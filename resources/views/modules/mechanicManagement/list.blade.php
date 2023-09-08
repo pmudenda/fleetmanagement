@@ -43,7 +43,7 @@
                                 </span>
                                     Filter
                                 </button>
-                                @can(config('rights.user_create'))
+                                @can(config('rights.add_mechanic'))
                                     <a href="{{route('mechanic.create')}}" class="btn btn-sm btn-success float-right">
                                         <i class="fas fa-user-plus"></i>
                                         Add Mechanic
@@ -53,7 +53,10 @@
                         </div>
                         <div class="card-body p-2">
                             <div class="table-responsive mt-10 ">
-                                <table id="listTable" class="table table-bordered">
+                                <table id="listTable"
+                                       role="table"
+                                       aria-label="Mechanics"
+                                       class="table table-bordered">
                                     <thead>
                                     <tr>
                                         <th>#</th>
@@ -64,9 +67,9 @@
                                         <th>Section</th>
                                         <th>Workshop Supervisor</th>
                                         <th>Status</th>
-                                        {{--@can(config('rights.user_show'))--}}
+                                        @can(config('rights.view_mechanic'))
                                         <th>Action</th>
-                                        {{-- @endcan--}}
+                                        @endcan
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -128,14 +131,17 @@
                                                 </span>
                                                 @endif
                                             </td>
-                                            {{--   @can(config('rights.user_show'))--}}
-                                            <td>
-                                                <a href="{{URL::signedRoute('mechanic.show', ['ref'=>$mechanic->mechanic_id])}}"
-                                                   class="btn btn-sm btn-success m-1">
-                                                    <i class="fas fa-eye">Details</i>
-                                                </a>
-                                            </td>
-                                            {{--@endcan--}}
+                                            @can(config('rights.view_mechanic'))
+                                                <td>
+                                                    <a href="{{URL::temporarySignedRoute(
+                                                    'mechanic.show',
+                                                    now()->addMinutes(30),
+                                                    ['ref'=>$mechanic->mechanic_id])}}"
+                                                       class="btn btn-sm btn-success m-1">
+                                                        <i class="fas fa-eye">Details</i>
+                                                    </a>
+                                                </td>
+                                            @endcan
                                         </tr>
                                     @endforeach
                                     </tbody>
