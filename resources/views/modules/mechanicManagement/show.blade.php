@@ -243,7 +243,7 @@
                                                     <b>
                                                         User Unit:
                                                     </b>
-                                                    @if (Auth::user()->type_id == config('constants.user_types.developer') ||
+                                                    {{--@if (Auth::user()->type_id == config('constants.user_types.developer') ||
                                                         Auth::user()->type_id == config('constants.user_types.mgt')
                                                         )
                                                         <a href="{{ route('logout') }}" class="text-dark"
@@ -257,15 +257,16 @@
                                                 </form>
                                                 @else
                                                     {{$user->user_unit ?? '' }}
-                                                @endif
+                                                @endif--}}
                                                 </p>
                                                 <p class="text-muted">
                                                     <b class="text-dark">
                                                         Business Unit Code:
                                                     </b>
-                                                    {{ $user->bu_code ?? '' }}
+                                                   {{-- {{ $user->bu_code ?? '' }}--}}
                                                 </p>
-                                                <p class="text-muted"><b>Cost Center:</b> {{ $user->cc_code ?? '' }}
+                                                <p class="text-muted"><b>Cost Center:</b>
+                                                   {{-- {{ $user->cc_code ?? '' }}--}}
                                                 </p>
                                             </div>
                                         </div>
@@ -279,11 +280,11 @@
                                             <div class="col-lg-6 col-sm-12">
                                                 <p class="text-muted">
                                                     <strong>Contract Type:</strong>
-                                                    {{ $user->contract_type ?? '' }}
+                                                    {{--{{ $user->contract_type ?? '' }}--}}
                                                 </p>
                                                 <p class="text-muted">
                                                     <strong>Grade:</strong>
-                                                    {{ $user->grade ?? '' }}
+                                                    {{--{{ $user->grade ?? '' }}--}}
                                                 </p>
                                                 {{--<p class="text-muted">
                                                     <strong>Category:</strong>
@@ -291,7 +292,7 @@
                                                 </p>--}}
                                                 <p class="text-muted">
                                                     <strong>User Position:</strong>
-                                                    {{ $user->job_title ?? '' }}
+                                                    {{--{{ $user->job_title ?? '' }}--}}
                                                 </p>
                                                 {{-- <p class="text-muted ">
                                                      <strong class="text-orange ">
@@ -300,31 +301,6 @@
                                                      {{ $user->job_code ?? '' }}
                                                  </p>--}}
                                             </div>
-
-                                            @if(!empty($user_acting->acting_date_from))
-                                                <div class="col-lg-6 col-sm-12">
-                                                    <p class="text-muted">
-                                                        <strong>Acting Period :</strong>
-                                                        {{ Carbon\Carbon::parse($user_acting->acting_date_from ?? '0')->format('d-M-Y') ?? '' }}
-                                                        To
-                                                        {{ Carbon\Carbon::parse($user_acting->acting_date_to ?? '0')->format('d-M-Y') ?? ('' ?? '') }}
-                                                    </p>
-                                                    <p class="text-muted">
-                                                        <b>Acting Grade:</b>
-                                                        {{ $user_acting->grade->name ?? '' }}
-                                                    </p>
-                                                    <p class="text-muted">
-                                                        <b>Acting Category:</b>
-                                                        {{ $user_acting->grade->category->name ?? '' }}
-                                                    </p>
-                                                    <p class="text-muted">
-                                                        <b>
-                                                            Acting Position:
-                                                        </b>
-                                                        {{ $user_acting->acting_position ?? '' }}
-                                                    </p>
-                                                </div>
-                                            @endif
                                         </div>
                                     </div>
                                     <div class="post">
@@ -348,7 +324,7 @@
                                 </div>
 
                                 <div class="tab-pane" id="userInfoUpdate">
-                                    @php $allowUpdate = false;  @endphp
+                               {{--     @php $allowUpdate = false;  @endphp
                                     @if(auth()->user()->can(config('rights.user_update')))
                                         @php $allowUpdate = true;  @endphp
                                     @endif
@@ -403,16 +379,16 @@
                                             </div>
                                         </div>
 
-                                        {{--<div class="form-group row">
+                                        --}}{{--<div class="form-group row">
                                             <label for="inputjob_code" class="col-sm-2 col-form-label">Job
                                                 Code</label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="job_code"
                                                        placeholder="job_code" value="{{ $mechanic->job_code }}">
                                             </div>
-                                        </div>--}}
+                                        </div>--}}{{--
 
-                                        {{--<div class="form-group row">
+                                        --}}{{--<div class="form-group row">
                                             <label for="inputName2" class="col-sm-2 col-form-label text-orange">
                                                 User Unit
                                             </label>
@@ -436,7 +412,7 @@
                                                     @endif
                                                 </select>
                                             </div>
-                                        </div>--}}
+                                        </div>--}}{{--
 
 
                                         <div class="form-group row">
@@ -467,7 +443,7 @@
                                                         @else form-control  @endif"
                                                         id="area"
                                                         name="area">
-                                                    {{--@foreach(Area::get() as $area)
+                                                    --}}{{--@foreach(Area::get() as $area)
                                                         @if($area->area == $mechanic->area_code)
                                                             <option value="{{$area->area}}">
                                                                 {{$area->description}}
@@ -477,7 +453,7 @@
                                                                 {{$area->description}}
                                                             </option>
                                                         @endif
-                                                    @endforeach--}}
+                                                    @endforeach--}}{{--
                                                 </select>
                                             </div>
                                         </div>
@@ -555,7 +531,7 @@
                                                         @else form-control @endif"
                                                         required>
                                                     <option value>--Choose Profile--</option>
-                                                    {{--@foreach ($roles as $groupName)
+                                                    --}}{{--@foreach ($roles as $groupName)
                                                         @if($groupName->id == $mechanic->roles()->first()->id)
                                                             <option selected
                                                                     value="{{$groupName->id}}">
@@ -567,7 +543,7 @@
                                                                 {{$groupName->description}}
                                                             </option>
                                                         @endif
-                                                    @endforeach--}}
+                                                    @endforeach--}}{{--
                                                 </select>
                                             </div>
                                         </div>
@@ -593,7 +569,7 @@
                                                 </div>
                                             @endcanany
                                         </div>
-                                    </form>
+                                    </form>--}}
                                     <x-employee-search-modal/>
 
                                 </div>
@@ -610,7 +586,7 @@
 @push('scripts')
     <script>
         (function (appInstance) {
-            appInstance.initDatatable("#groupsTable", false);
+            appInstance.initDatatable("#groupsTable", false, false, []);
         })(window.tmsApp || {});
     </script>
 @endpush

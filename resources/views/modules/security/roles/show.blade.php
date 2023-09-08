@@ -177,7 +177,10 @@
                         <div class="row">
                             <span class="text-danger">Select Permissions to Attach</span>
                         </div>
-                        <table id="permissionsTable" class="table">
+                        <table id="permissionsTable"
+                               aria-label="permission table"
+                               role="table"
+                               class="table">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -185,7 +188,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($permissions->whereNotIn( 'id', $role->permissions->pluck('id')->toArray()) as $item)
+                            @foreach($permissions->whereNotIn( 'id',
+                                $role->permissions->pluck('id')->toArray()) as $item)
                                 <tr>
                                     <td>
                                         <input type="checkbox"
@@ -202,7 +206,10 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button"
+                                class="btn btn-default"
+                                data-dismiss="modal">Close
+                        </button>
                         @can(config('rights.permission_attach'))
                             <button type="submit" class="btn btn-sm btn-success">
                                 <i class="fas fa-save"></i>
@@ -221,36 +228,37 @@
 
     <script>
         (function (appInstance) {
-            //appInstance.initDatatable("#attachedPermissions", true, true, []);
+            let $permissionsTable = '';
+
+            $(document).ready(function () {
+                $('#attachedPermissions').DataTable({
+                    'order': [],
+                    "pageLength": 10,
+                    "responsive": true,
+                    "searchable": true,
+                    "lengthChange": false,
+                    "autoWidth": false,
+                    'columnDefs': [],
+                    "buttons": []
+                })
+                    .buttons().container()
+                    .appendTo('#attachedPermissions' + '_wrapper .col-md-6:eq(0)');
+
+                $permissionsTable = $('#permissionsTable').DataTable({
+                    'order': [],
+                    "pageLength": 10,
+                    "responsive": true,
+                    "searchable": true,
+                    "lengthChange": false,
+                    "autoWidth": false,
+                    'columnDefs': [],
+                    "buttons": []
+                })
+                    .buttons().container()
+                    .appendTo('#permissionsTable' + '_wrapper .col-md-6:eq(0)');
+
+
+            });
         })(window.tmsApp || {});
     </script>
-    <!-- page script -->
-    <script>
-        $(document).ready(function () {
-            $('#attachedPermissions').DataTable({
-                /*"info": false,*/
-                'order': [],
-                "pageLength": 10,
-                "responsive": true,
-                "searchable": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                'columnDefs': [],
-                "buttons": []
-            }).buttons().container().appendTo('#attachedPermissions' + '_wrapper .col-md-6:eq(0)');
-
-            $('#permissionsTable').DataTable({
-                /*"info": false,*/
-                'order': [],
-                "pageLength": 10,
-                "responsive": true,
-                "searchable": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                'columnDefs': [],
-                "buttons": []
-            }).buttons().container().appendTo('#permissionsTable' + '_wrapper .col-md-6:eq(0)');
-        });
-    </script>
-
 @endpush
