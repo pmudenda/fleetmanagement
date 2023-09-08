@@ -655,6 +655,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
         }
         $(selector).DataTable({
             /*"info": false,*/
+            colReorder: true,
             'order': [],
             "pageLength": 10,
             "responsive": true,
