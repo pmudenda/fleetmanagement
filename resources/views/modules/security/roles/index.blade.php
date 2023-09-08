@@ -46,12 +46,12 @@
                                        class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
                                     <thead>
                                     <tr>
-                                        <th>Profile Name</th>
-                                        <th>Slug</th>
-                                        <th>Rights</th>
-                                        <th>Date Created</th>
+                                        <th>NAME</th>
+                                        <th>SYSTEM ID</th>
+                                        <th>PERMISSIONS</th>
+                                        <th>DATE REGISTERED</th>
                                         {{--@canany([config('rights.role_access'), config('rights.role_show')])--}}
-                                        <th>Action</th>
+                                        <th>ACTION</th>
                                         {{--@endcanany--}}
                                     </tr>
                                     </thead>
