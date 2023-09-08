@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class RolesController extends Controller
 {
@@ -84,6 +85,8 @@ class RolesController extends Controller
 
     public function update(Request $request, Role $role): RedirectResponse
     {
+        Log::info("Slug $request->slug");
+        Log::info("Name & Description $request->name");
         DB::beginTransaction();
         $role->slug = $request->slug;
         $role->name = $request->name;

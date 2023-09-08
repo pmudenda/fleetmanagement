@@ -59,11 +59,11 @@
                                     @foreach($roles as $item)
                                         <tr>
                                             <td>
-                                                {{$item->description}}
+                                                {{$item->name}}
                                             </td>
                                             {{-- @canany([config('rights.role_access'), config('rights.role_show')])--}}
                                             <td>
-                                                {{$item->name}}
+                                                {{$item->slug}}
                                             </td>
                                             <td>
                                                 {{$item->permissions->count() }}
@@ -95,22 +95,6 @@
                                                         <li>
                                                             <hr class="dropdown-divider">
                                                         </li>
-
-                                                        {{-- @endcan
-                                                         @can(config('rights.permission_destroy'))--}}
-                                                        {{--<li><a href="#"
-                                                           class="dropdown-item"
-                                                           data-sent_data="{{$roles}}"
-                                                           data-bs-toggle="modal"
-                                                           data-bs-target="#deleteModal{{$item->id}}">
-                                                            <i class="fas fa-trash"> Remove</i>
-                                                        </a>--}}
-                                                        {{--<button class="btn btn-sm btn-danger m-1"
-                                                                data-sent_data="{{$roles}}"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#deleteModal{{$item->id}}">
-                                                            <i class="fas fa-trash">&nbsp;Remove</i>
-                                                        </button></li>--}}
 
                                                         <li>
                                                             <hr class="dropdown-divider">
