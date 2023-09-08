@@ -107,7 +107,7 @@ class RolesController extends Controller
             DB::commit();
             return response()
                 ->json(
-                    new FleetMasterJsonResponse(
+                    FleetMasterJsonResponse::response(
                         'success',
                         true,
                         'Role ' . $role->name . ' updated Successfully'
