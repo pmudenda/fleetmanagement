@@ -208,7 +208,7 @@
                     </div>
                     <div class="modal-body">
                         <form name="roleUpdateForm" method="post" action="{{route('roles.update', $item->id )}}">
-                            {{method_field('PATCH')}}
+                            {{method_field('POST')}}
                             @csrf
                             <div class="card-body">
                                 <div class="row">
