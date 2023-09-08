@@ -316,7 +316,7 @@
 @push('scripts')
 
     <script>
-        (function (appInstance) {
+        (function (tmsApp) {
             const appMessages = {
                 profileUpdateTitle: "Profile Update",
                 validationFailureMessage: "Sorry, the data did not pass validation check," +
@@ -324,7 +324,7 @@
                 profileUpdateDefaultMessage: "Profile Updated Successfully"
             };
 
-            appInstance.initDatatable("#groupsTable", true, true, []);
+            tmsApp.initDatatable("#groupsTable", true, true, []);
 
             $('[name="roleUpdateForm"]').on('submit', function (e) {
                 e.preventDefault();
