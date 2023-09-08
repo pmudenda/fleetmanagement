@@ -11,4 +11,4 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/datatables/datetime/js/dataTables.dateTime.min.js')}}"></script>
-<script src="{{ asset('assets/plugins/datatables/searchbuilder/dataTables.searchBuilder.min.js')}}"></script>
+<script src="{{ asset('assets/plugins/datatables/searchbuilder/js/dataTables.searchBuilder.min.js')}}"></script>

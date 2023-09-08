@@ -48,6 +48,10 @@
             z-index: 9003 !important;
         }
     </style>
+    <link rel="stylesheet" type="text/css"
+          href="{{asset('assets/plugins/datatables/datetime/css/dataTables.dateTime.min.css')}}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{asset('assets/plugins/datatables/searchbuilder/css/dataTables.searchBuilder.min.css')}}"/>
     @stack('styles')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
