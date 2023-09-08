@@ -11,7 +11,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class RolesController extends Controller
 {
@@ -85,18 +84,21 @@ class RolesController extends Controller
 
     public function update(Request $request, Role $role): RedirectResponse
     {
-        Log::info("Slug $request->slug");
-        Log::info("Name & Description $request->name");
-        DB::beginTransaction();
-        $role->slug = $request->slug;
-        $role->name = strtoupper($request->name);
-        $role->description = strtoupper($request->name);
-        $role->save();
-        DB::commit();
-
-        return redirect()
-            ->back()
-            ->with('message', 'Role ' . $role->name . ' updated Successfully');
+        try {
+            DB::beginTransaction();
+            $role->slug = strtolower(str_replace('', '-', $request->slug));
+            $role->name = strtoupper($request->name);
+            $role->description = strtoupper($request->name);
+            $role->save();
+            DB::commit();
+            return redirect()
+                ->back()
+                ->with('message', 'Role ' . $role->name . ' updated Successfully');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Role ' . $role->name . ' Could Not Be Updated');
+        }
     }
 
 
