@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
 
-
 @section('content')
     <x-content-header :pageTitle="'ROLE DETAILS'" :activeCrumb="'Role Details'" :link="'roles.index'"
                       :linkText="'Roles'"/>

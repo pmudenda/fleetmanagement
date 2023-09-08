@@ -84,7 +84,7 @@
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                         @can(config('rights.role_update'))
                                                             <li>
-                                                                <button class="btn btn-sm m-1 "
+                                                                <button class="btn btn-sm"
                                                                         data-sent_data="{{$item}}"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#editModal{{$item->id}}">
@@ -98,9 +98,9 @@
                                                             </li>
                                                             <li>
                                                                 <a href="{{route('roles.show', $item->id)}}"
-                                                                   class="btn btn-sm m-1">
+                                                                   class="btn btn-sm">
                                                                     <i class="fas fa-eye pull-right"></i>
-                                                                    Details
+                                                                    Permissions
                                                                 </a>
                                                             </li>
                                                         @endcan
