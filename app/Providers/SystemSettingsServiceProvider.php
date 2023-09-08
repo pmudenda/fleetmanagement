@@ -33,6 +33,7 @@ class SystemSettingsServiceProvider extends ServiceProvider
                 ]
             ]);
         } catch (\Exception $e) {
+            Log::error($e);
             Log::error('Loading System Config and Error Messages');
         }
     }
