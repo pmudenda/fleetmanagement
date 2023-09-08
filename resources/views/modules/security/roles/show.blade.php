@@ -11,11 +11,13 @@
 @section('content')
 
     @foreach(config('rights') as $right)
-        <table>
-            <tr>
-                <td>{{$right}}</td>
-                <td>{{Auth()->user()->can($right)}}</td>
-            </tr>
+        <table class="table table-bordered">
+           <tbody>
+           <tr>
+               <td>{{$right}}</td>
+               <td>{{Auth()->user()->can($right)}}</td>
+           </tr>
+           </tbody>
         </table>
     @endforeach
 
