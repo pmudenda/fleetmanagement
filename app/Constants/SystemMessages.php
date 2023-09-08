@@ -23,6 +23,8 @@ class SystemMessages
     const TOM_CARD_REVOCATION_FAILED = "Tom Card Revokation Failed";
     const TOM_CARD_REVOKED = "Tom Card Revoked Successfully";
 
+    const PURCHASE_ORDER_RETRIEVED = 'Purchase Order Data Retrieved Successfully';
+
     public static function chargeOutRateAddedSuccessfully(): string
     {
         return "Record Added Successfully";
@@ -47,7 +49,8 @@ class SystemMessages
     {
         return
             "The vehicle @reg has not completed the onboarding process.
-            Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com for assistance";
+            Please Contact Fleet Master System Administrator on 3309,3350,3351,3306,
+            fleetmaster@zesco.co.com for assistance";
     }
 
     public static function vehicleInWorkshop(): string

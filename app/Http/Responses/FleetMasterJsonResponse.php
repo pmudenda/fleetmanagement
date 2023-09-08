@@ -11,6 +11,13 @@ class FleetMasterJsonResponse
     private mixed $message;
     private bool $success;
 
+    /**
+     * @param $state
+     * @param $success
+     * @param $message
+     * @param $payload
+     * @param $redirectUrl
+     */
     public function __construct($state, $success, $message, $payload = null, $redirectUrl = null)
     {
         $this->state = $state;

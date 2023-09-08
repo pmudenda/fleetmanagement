@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Constants\ErrorMessages;
+use App\Constants\SystemMessages;
+use App\Exceptions\InvalidPurchaseOrderNumber;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Reference\Article;
 use App\Models\Reference\BatteryModel;
 use App\Models\Reference\PurchaseOrder;
@@ -12,6 +15,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class ProcurementSystemIntegrationController extends \App\Http\Controllers\Controller
 {
@@ -26,34 +30,43 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
     {
 
         try {
+
             $document_number = $request->get('document_number');
             if (empty($document_number)) {
-                return response()->json([
-                    'state' => 'false',
-                    'payload' => [],
-                    'message' => 'Bad request, data missing'
-                ]);
+                throw new BadRequestException('Bad request, data missing');
             }
-            $purchaseOrder = PurchaseOrder::where('document_no', '=', $document_number)->get();
+
+            $purchaseOrder = PurchaseOrder::where('document_no',
+                '=',
+                $document_number)->get();
             if (empty($purchaseOrder)) {
-                return response()->json([
-                    'state' => 'false',
-                    'payload' => [],
-                    'message' => 'Invalid Purchase Order Number, The Purchase Order Number did not match any record'
-                ]);
+                throw new InvalidPurchaseOrderNumber('Invalid Purchase Order Number,
+                The Purchase Order Number did not match any record');
             }
-            return response()->json([
-                'state' => 'success',
-                'payload' => $purchaseOrder,
-                'message' => 'Purchase Order Data Retrieved Successfully'
-            ]);
+
+            return response()->json(
+                new FleetMasterJsonResponse(
+                    'success',
+                    true,
+                    SystemMessages::PURCHASE_ORDER_RETRIEVED,
+                    $purchaseOrder
+                ));
+
         } catch (Exception $e) {
+            $message = ErrorMessages::getMessage('err_0005');
+            if ($e instanceof BadRequestException ||
+                $e instanceof InvalidPurchaseOrderNumber) {
+                $message = $e->getMessage();
+            }
             Log::error($e->getMessage());
-            return response()->json([
-                'state' => 'false',
-                'payload' => [],
-                'message' => ErrorMessages::getMessage('err_0005')
-            ]);
+
+            return response()->json(
+                new FleetMasterJsonResponse(
+                    'false',
+                    false,
+                    $message
+                )
+            );
         }
     }
 
