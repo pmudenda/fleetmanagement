@@ -18,7 +18,7 @@ class SystemSettingsServiceProvider extends ServiceProvider
                 config(['error_message.' . $setting->error_code => $setting->error_message]);
             }
 
-            $settings = SystemConfig::where('status', 1)->get();
+            $settings = SystemConfig::where('status', '=', '1')->get();
             foreach ($settings as $setting) {
                 if ($setting->data_type == 'bool') {
                     config([$setting->config_file_name . $setting->name => (bool)$setting->value]);
