@@ -45,7 +45,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
             }
 
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'success',
                     true,
                     SystemMessages::PURCHASE_ORDER_RETRIEVED,
@@ -61,7 +61,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
             Log::error($e->getMessage());
 
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'false',
                     false,
                     $message

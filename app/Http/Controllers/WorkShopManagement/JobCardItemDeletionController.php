@@ -38,7 +38,7 @@ class JobCardItemDeletionController extends Controller
             $entry->save();
             DB::commit();
 
-            return response()->json(new FleetMasterJsonResponse(
+            return response()->json(FleetMasterJsonResponse::response(
                 'success',
                 true,
                 self::RECORD_REMOVED_SUCCESSFULLY
@@ -47,7 +47,7 @@ class JobCardItemDeletionController extends Controller
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'failure',
                     false,
                     ErrorMessages::getMessage('err_0005')
@@ -72,7 +72,7 @@ class JobCardItemDeletionController extends Controller
             DB::commit();
 
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     null,
                     true,
                     self::RECORD_REMOVED_SUCCESSFULLY)
@@ -82,7 +82,7 @@ class JobCardItemDeletionController extends Controller
             Log::error($exception->getMessage());
 
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     null,
                     false,
                     ErrorMessages::getMessage('err_0005'))
@@ -106,7 +106,7 @@ class JobCardItemDeletionController extends Controller
             DB::commit();
 
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'success',
                     true,
                     self::RECORD_REMOVED_SUCCESSFULLY
@@ -117,7 +117,7 @@ class JobCardItemDeletionController extends Controller
             Log::error($exception->getMessage());
 
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'failure',
                     false,
                     ErrorMessages::getMessage('err_0005'))

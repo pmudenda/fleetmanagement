@@ -116,7 +116,7 @@ class RolesController extends Controller
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'failure',
                     false,
                     'Role ' . $role->name . ' Could Not Be Updated'

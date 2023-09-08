@@ -222,7 +222,7 @@ class MaintenanceController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'failure',
                     false,
                     ErrorMessages::getMessage("err_0005")
@@ -556,7 +556,7 @@ class MaintenanceController extends Controller
     public function getFuelLevels(): JsonResponse
     {
         return response()->json(
-            new FleetMasterJsonResponse(
+            FleetMasterJsonResponse::response(
                 'success',
                 true,
                 null,
@@ -571,7 +571,7 @@ class MaintenanceController extends Controller
         try {
             $response = $this->workshopService->createJobCard($request);
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'success',
                     true,
                     null,
@@ -585,7 +585,7 @@ class MaintenanceController extends Controller
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'failure',
                     false,
                     ErrorMessages::getMessage("err_0005"),
@@ -610,7 +610,7 @@ class MaintenanceController extends Controller
             }
 
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'failure',
                     false,
                     $message
@@ -624,7 +624,7 @@ class MaintenanceController extends Controller
         try {
             $this->workshopService->createJobCardAccessories($request);
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'success',
                     true,
                     SystemMessages::accessoriesCheckedIn(),
@@ -636,7 +636,7 @@ class MaintenanceController extends Controller
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'failure',
                     false,
                     ErrorMessages::getMessage("err_0005")
@@ -650,7 +650,7 @@ class MaintenanceController extends Controller
         try {
             $this->workshopService->createJobCardDefects($request);
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'success',
                     true,
                     SystemMessages::defectRecorded(),
@@ -673,7 +673,7 @@ class MaintenanceController extends Controller
                 Log::error($e);
             }
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'failure',
                     false,
                     $message
@@ -697,7 +697,7 @@ class MaintenanceController extends Controller
             }
 
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'success',
                     false,
                     $message
@@ -721,7 +721,7 @@ class MaintenanceController extends Controller
             }
 
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'failure',
                     false,
                     $message
@@ -791,7 +791,7 @@ class MaintenanceController extends Controller
         try {
             if (!$request->has("workshop_code")) {
                 return response()->json(
-                    new FleetMasterJsonResponse(
+                    FleetMasterJsonResponse::response(
                         'failure',
                         false,
                         null
@@ -805,7 +805,7 @@ class MaintenanceController extends Controller
             Log::info("Value Received " . $workshopCode);
 
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'success',
                     true,
                     null,
@@ -815,7 +815,7 @@ class MaintenanceController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'failure',
                     false,
                     null
@@ -839,7 +839,7 @@ class MaintenanceController extends Controller
     {
         if (!$request->has('vehicleRegistration')) {
             return response()->json(
-                new FleetMasterJsonResponse(
+                FleetMasterJsonResponse::response(
                     'failure',
                     false,
                     null
@@ -852,7 +852,7 @@ class MaintenanceController extends Controller
         $details = $this->workshopService->getReservedMaterialsAndServices($vehicleRegistration);
 
         return response()->json(
-            new FleetMasterJsonResponse(
+            FleetMasterJsonResponse::response(
                 'success',
                 true,
                 null,
