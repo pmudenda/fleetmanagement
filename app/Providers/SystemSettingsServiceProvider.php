@@ -19,6 +19,7 @@ class SystemSettingsServiceProvider extends ServiceProvider
             }
 
             $settings = SystemConfig::where('status', '=', '1')->get();
+
             foreach ($settings as $setting) {
                 if ($setting->data_type == 'bool') {
                     config([$setting->config_file_name . '.' . $setting->name => (bool)$setting->value]);
