@@ -306,7 +306,8 @@
                                            readonly
                                            title="{{$material->article_specification ?? ''}}"
                                            value="{{$material->article_specification ?? ''}}"
-                                           class="form-control form-control-sm technical_specification"/>
+                                           class="form-control form-control-sm
+                                           technical_specification"/>
                                 </td>
                                 <th>
                                     <input type="text"
@@ -381,14 +382,16 @@
                                     name="registration"
                                     required
                                     value="{{$details->reg_no ?? ''}}"
-                                    class="form-control form-control-sm registration"/>
+                                    class="form-control form-control-sm
+                                    registration"/>
                             </td>
                             <td>
                                 <select disabled
                                         name="articles"
                                         required
                                         data-value=""
-                                        class="form-control form-control-sm articlesDropDownList">
+                                        class="form-control form-control-sm
+                                        articlesDropDownList">
                                     <option></option>
                                 </select>
                             </td>
@@ -403,7 +406,8 @@
                                 <input
                                     name="technical_specification"
                                     required
-                                    class="form-control form-control-sm technical_specification"/>
+                                    class="form-control form-control-sm
+                                    technical_specification"/>
                             </td>
                             <td></td>
                             <td>
@@ -412,7 +416,8 @@
                                     min="1"
                                     name="quantity"
                                     required
-                                    class="form-control form-control-sm quantity number_input"/>
+                                    class="form-control form-control-sm
+                                    quantity number_input"/>
                             </td>
 
                             <td>

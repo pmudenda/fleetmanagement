@@ -90,12 +90,6 @@
                 @endforeach
             @endif
             </tbody>
-            <tfoot>
-            <tr>
-                <th>
-                </th>
-            </tr>
-            </tfoot>
         </table>
         <button type="button" class="btn btn-sm btn-success pull-right" data-bs-target="#pettyCashModal"
                 data-bs-toggle="modal">
@@ -111,7 +105,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Imprest Buy</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button"
+                        class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="create_form"
@@ -120,13 +115,14 @@
                       method="post"
                       enctype="multipart/form-data">
                     @csrf
-                    {{-- <div class="card-body"></div>
-                     <div class="card-footer mb-4"></div>--}}
-                    <table border="1" width="100%" cellspacing="0" cellpadding="0" align="Centre"
+
+                    <table role="table"
+                           aria-label="document header"
+                           style="border: 1px; width: 100%; text-align: center; mso-cellspacing: 0;"
                            class="mt-2 mb-4">
                         <thead>
                         <tr>
-                            <th width="33%" colspan="1"
+                            <th scope="row" style="width:33%" colspan="1"
                                 class="text-center">
                                 <a href="#">
                                     <img src="{{ asset('assets/dist/img/zesco1.png')}}"
@@ -134,8 +130,13 @@
                                          width="25%"/>
                                 </a>
                             </th>
-                            <th width="33%" colspan="4" class="text-center">Petty Cash Voucher</th>
-                            <th width="34%" colspan="1" class="p-3">Doc Number:<br>CO.14900.FORM.00165<br>Version: 3
+                            <th scope="row" style="width:33%" colspan="4" class="text-center">
+                                Petty Cash Voucher
+                            </th>
+                            <th scope="row" style="width:34%" colspan="1" class="p-3">
+                                Doc Number:
+                                <br>CO.14900.FORM.00165
+                                <br>Version: 3
                             </th>
                         </tr>
                         </thead>
@@ -146,18 +147,19 @@
                             <div class="col-lg-3 col-sm-12">
                                 <div class="row">
                                     <div class="col-lg-12 col-sm-12 col-sm-12">
-                                        <label class="field-required">Date:</label>
+                                        <label for="date" class="field-required">Date:</label>
                                     </div>
                                     <div class="col-lg-12 col-sm-12 col-sm-12">
                                         <input value="{{ date('Y-m-d H:i:s') }}"
                                                type="text" name="date"
-                                               readonly class="form-control"></div>
+                                               readonly class="form-control">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-12">
                                 <div class="row">
                                     <div class="col-lg-12 col-sm-12 ">
-                                        <label class="field-required">Cost Center:</label></div>
+                                        <label for="cost_center" class="field-required">Cost Center:</label></div>
                                     <div class="col-lg-12 col-sm-12 col-sm-12">
                                         <input type="text" name="cost_center"
                                                class="form-control"
@@ -399,7 +401,8 @@
                                                        class="form-control form-control-sm"
                                                        readonly
                                                        id="pettyCashStoreName"
-                                                       value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
+                                                       value="{{$officeDetails->store_code ?? ''}}:
+                                                       {{$officeDetails->store_name ?? ''}}"
                                                        placeholder=""
                                                        name="pettyCashStoreName"/>
                                             </div>
@@ -414,7 +417,7 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                     for="staff_no">
                                                 Collection Date:
                                             </label>
@@ -424,7 +427,9 @@
                                                            class="form-control form-control-sm"
                                                            id="imprest_date_expected"
                                                            min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                           value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
+                                                           value="{{date('Y-m-d',
+                                                            strtotime(Carbon::parse($materialsHeader->collection_date)
+                                                            ->format('Y-m-d')))}}"
                                                            name="imprets_date_expected"
                                                     />
 
@@ -433,7 +438,8 @@
                                                            class="form-control form-control-sm"
                                                            id="imprest_date_expected"
                                                            min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                           value="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
+                                                           value="{{date('Y-m-d',
+                                                           strtotime(Carbon::now()->addDays(7)))}}"
                                                            name="imprest_date_expected"
                                                     />
                                                 @endif
@@ -450,34 +456,25 @@
                         <div class="row">
                             <div class="table-responsive">
                                 <table id="pettyCashItemsTable"
+                                       aria-label="Imprest Items"
                                        data-model-name="PettyCash"
                                        data-form-url="{{route('petty.cash.store')}}"
                                        class="table pettyCashItemsTable">
                                     <thead>
                                     <tr class="bg-green">
-                                        <th style="width: 6%;" class="pl-2">Reg. No</th>
-                                        <th style="width: 25%;">Article</th>
-                                        <th style="width: 10%;">Article Code</th>
-                                        <th style="width: 25%;">Tech. Specification</th>
-                                        <th style="width: 4%; max-width: 4%;">Qty.</th>
-                                        <th style="width: 5%;">UOM</th>
-                                        <th style="width: 6%;">Unit Price</th>
-                                        <th style="width: 8%;">Total</th>
-                                        <th style="width: 3%;"></th>
+                                        <th scope="row" style="width: 6%;" class="pl-2">Reg. No</th>
+                                        <th scope="row" style="width: 25%;">Article</th>
+                                        <th scope="row" style="width: 10%;">Article Code</th>
+                                        <th scope="row" style="width: 25%;">Tech. Specification</th>
+                                        <th scope="row" style="width: 4%; max-width: 4%;">Qty.</th>
+                                        <th scope="row" style="width: 5%;">UOM</th>
+                                        <th scope="row" style="width: 6%;">Unit Price</th>
+                                        <th scope="row" style="width: 8%;">Total</th>
+                                        <th scope="row" style="width: 3%;"></th>
                                     </tr>
                                     </thead>
-                                    {{--<tr>
-                                        <th></th>
-                                        <th>DETAILS OF PAYMENT</th>
-                                        <th>AMOUNT</th>
-                                    </tr>
-                                     class="table table-striped"
-                                    </thead>--}}
                                     <tbody>
                                     <tr>
-                                        {{-- <td>
-                                             <input type="checkbox" name="chk"/>
-                                         </td>--}}
                                         <td class="showNumber">
                                             <input
                                                     readonly
@@ -502,13 +499,13 @@
                                                    class="form-control form-control-sm articleCode"/>
                                         </td>
                                         <td>
-                                <textarea rows="4"
-                                          type="text"
-                                          name="imprestArticleDescription"
-                                          class="form-control amount"
-                                          placeholder="Item Details / Description"
-                                          id="imprestArticleDescription"
-                                          required></textarea>
+                                            <textarea rows="4"
+                                                      type="text"
+                                                      name="imprestArticleDescription"
+                                                      class="form-control amount"
+                                                      placeholder="Item Details / Description"
+                                                      id="imprestArticleDescription"
+                                                      required></textarea>
                                         </td>
                                         <td>
                                             <input type="text"

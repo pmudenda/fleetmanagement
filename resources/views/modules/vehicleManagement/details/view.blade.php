@@ -62,7 +62,14 @@
                           class="form mb-5">
                         <input type="hidden" name="doctype" value="VehicleHeader"/>
                         <div class="row">
-                            <table role="presentation">
+                            <table role="table"
+                                   aria-label="header data">
+                                <thead class="d-none">
+                                <tr>
+                                    <th scope="row"></th>
+                                    <th scope="row"></th>
+                                </tr>
+                                </thead>
                                 <tr>
                                     <td style="vertical-align: baseline; width:15%;">
                                         <div v-if="images && images.frontView">
@@ -72,7 +79,15 @@
                                     </td>
                                     <td class="pl-3" style="vertical-align: top;">
                                         <div>
-                                            <table aria-label="vehicle description" role="none">
+                                            <table
+                                                    aria-label="vehicle description"
+                                                    role="table">
+                                                <thead class="d-none">
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
                                                 <tr>
                                                     <td>
                                                         <div class="row">
@@ -95,7 +110,13 @@
                                                 <tr>
                                                     <td>
                                                         <table aria-label="vehicle status"
-                                                               role="none">
+                                                               role="table">
+                                                            <thead class="d-none">
+                                                            <tr>
+                                                                <th></th>
+                                                                <th></th>
+                                                            </tr>
+                                                            </thead>
                                                             <tr>
                                                                 <td>
                                                                     <span data-name="vehicleMileage"
@@ -123,8 +144,15 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <table aria-label="vehicle status"
-                                                               role="table">
+                                                        <table
+                                                                aria-label="vehicle status"
+                                                                role="table">
+                                                            <thead class="d-none">
+                                                            <tr>
+                                                                <th></th>
+                                                                <th></th>
+                                                            </tr>
+                                                            </thead>
                                                             <tr>
                                                                 <td>
                                                                     <span data-name="registrationNumber"
@@ -360,8 +388,15 @@
                                                 <legend style="width: inherit;">
                                                     <h4 class="pt-2">Technical Details</h4>
                                                 </legend>
-                                                <table aria-label="Technical Details" role="presentation"
+                                                <table aria-label="Technical Details"
+                                                       role="table"
                                                        class="gs-0 gy-3 my-0">
+                                                    <thead class="d-none">
+                                                    <tr>
+                                                        <th scope="row"></th>
+                                                        <th scope="row"></th>
+                                                    </tr>
+                                                    </thead>
                                                     <tbody>
                                                     <tr>
                                                         <td class="frappe-control ">
@@ -501,19 +536,18 @@
                                                                          style="position: relative;">
                                                                         <div class="">
                                                                             <input
-                                                                                date-format="YYYY"
-                                                                                class="input-with-feedback
+                                                                                    date-format="YYYY"
+                                                                                    class="input-with-feedback
                                                                                 form-control
                                                                                 number_input view_mode"
-                                                                                type="number" min="1990"
-                                                                                max="{{date('Y')}}"
-                                                                                step="1"
-                                                                                required
-                                                                                id="yearOfManufacture"
-                                                                                name="yearOfManufacture"
-                                                                                v-model="chassisDetails.yearOfManufacture"
-                                                                                placeholder=""
-                                                                                data-doctype="ChassisDetails"/>
+                                                                                    type="number" min="1990"
+                                                                                    max="{{date('Y')}}"
+                                                                                    step="1"
+                                                                                    required
+                                                                                    id="yearOfManufacture"
+                                                                                    name="yearOfManufacture"
+                                                                                    placeholder=""
+                                                                                    data-doctype="ChassisDetails"/>
                                                                         </div>
 
                                                                     </div>
@@ -528,16 +562,19 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            {{--min="{{ date('Y-m-d', strtotime($form->trip->date_to)) }}"--}}
                                                             <div class="control-input-wrapper">
                                                                 <div class="control-input">
                                                                     <div class="link-field ui-front"
                                                                          style="position: relative;">
                                                                         <div class="">
                                                                             <input type="date"
-                                                                                   max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                                                                   max="{{
+                                                                                         date('Y-m-d',
+                                                                                         strtotime(Carbon::now()))
+                                                                                        }}"
                                                                                    required
-                                                                                   class="input-with-feedback form-control view_mode"
+                                                                                   class="input-with-feedback
+                                                                                   form-control view_mode"
                                                                                    data-fieldname="registrationDate"
                                                                                    name="registrationDate"
                                                                                    id="registrationDate"
@@ -566,7 +603,8 @@
                                                                     <input type="date" name="dateOnRoad" id="dateOnRoad"
                                                                            disabled
                                                                            autocomplete="off"
-                                                                           class="input-with-feedback form-control view_mode"
+                                                                           class="input-with-feedback
+                                                                           form-control view_mode"
                                                                            data-fieldtype="Datetime"
                                                                            data-fieldname="first_date_on_road"
                                                                            placeholder=""
@@ -591,19 +629,15 @@
                                                                     <div class="link-field ui-front"
                                                                          style="position: relative;">
                                                                         <div class="input-group">
-                                                                            {{--v-model="chassisDetails."--}}
                                                                             <input type="text"
                                                                                    name="chargeOutRate"
                                                                                    id="chargeOutRate"
-                                                                                   class="input-with-feedback form-control view_mode"
+                                                                                   class="input-with-feedback
+                                                                                   form-control view_mode"
                                                                                    required
                                                                                    placeholder=""
                                                                                    data-doctype="ChassisDetails"
                                                                                    autocomplete="off"/>
-                                                                            {{-- <div
-                                                                                     class="input-group-append align-self-center pr-2">
-
-                                                                             </div>--}}
                                                                         </div>
 
                                                                     </div>
@@ -627,29 +661,20 @@
                                                                          style="position: relative;">
                                                                         <div class="">
                                                                             <select
-                                                                                class="form-control form-control-sm view_mode"
-                                                                                required
-                                                                                name="requiredMinimumDrivingLicense"
-                                                                                id="requiredMinimumDrivingLicense"
-                                                                                v-model="chassisDetails.requiredMinimumDrivingLicense"
-                                                                                data-doctype="ChassisDetails"
-                                                                                :placeholder="'License Class'">
+                                                                                    class="form-control
+                                                                                    form-control-sm view_mode"
+                                                                                    required
+                                                                                    name="requiredMinimumDrivingLicense"
+                                                                                    id="requiredMinimumDrivingLicense"
+                                                                                    data-doctype="ChassisDetails">
                                                                                 <option>--Select Licence Class--
                                                                                 </option>
                                                                                 <option
-                                                                                    v-for="licenseClass in licenseTypes"
-                                                                                    :value="licenseClass.code">
-                                                                                    @{{ licenseClass.name}}
+                                                                                        v-for="license in licenseTypes"
+                                                                                        :value="license.code">
+                                                                                    @{{ license.name}}
                                                                                 </option>
                                                                             </select>
-
-                                                                            {{-- <input type="hidden"
-                                                                                    class="input-with-feedback form-control"
-                                                                                    required
-                                                                                    data-fieldtype="Link"
-                                                                                    :value="chassisDetails.requiredMinimumDrivingLicense"
-                                                                                    placeholder=""
-                                                                                    autocomplete="licenseTypes"/>--}}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -671,10 +696,11 @@
                                                                     <div class="link-field ui-front"
                                                                          style="position: relative;">
                                                                         <input type="number"
-                                                                               v-model="chassisDetails.initialOdometerReading"
+
                                                                                name="initialOdometerReading"
                                                                                id="initialOdometerReading"
-                                                                               class="input-with-feedback number_input form-control view_mode"
+                                                                               class="input-with-feedback
+                                                                               number_input form-control view_mode"
                                                                                placeholder=""
                                                                                required
                                                                                data-doctype="ChassisDetails"
@@ -699,12 +725,12 @@
                                                                          style="position: relative;">
                                                                         <div class="">
                                                                             <input type="text"
-                                                                                   class="input-with-feedback number_input form-control view_mode"
+                                                                                   class="input-with-feedback
+                                                                                   number_input form-control view_mode"
                                                                                    required
                                                                                    name="currentOdometerReading"
                                                                                    id="currentOdometerReading"
                                                                                    value="0"
-                                                                                   {{--v-model="chassisDetails.currentOdometerReading"--}}
                                                                                    placeholder=""
                                                                                    data-doctype="ChassisDetails"
                                                                                    autocomplete="off"/>
@@ -732,7 +758,8 @@
                                                                                name="odometerReadingLastService"
                                                                                id="odometerReadingLastService"
                                                                                value="0"
-                                                                               class="input-with-feedback number_input form-control view_mode"
+                                                                               class="input-with-feedback
+                                                                               number_input form-control view_mode"
                                                                                required
                                                                                placeholder=""
                                                                                data-doctype="ChassisDetails"
@@ -758,7 +785,8 @@
                                                                          style="position: relative;">
 
                                                                         <input type="text"
-                                                                               class="input-with-feedback number_input form-control "
+                                                                               class="input-with-feedback
+                                                                               number_input form-control "
                                                                                required
                                                                                name="nextServiceOdometerReading"
                                                                                id="nextServiceOdometerReading"
@@ -786,13 +814,15 @@
                                                                     <div class="link-field ui-front"
                                                                          style="position: relative;">
                                                                         <input type="date"
-                                                                               max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
-                                                                               v-model="chassisDetails.inspectionDate"
+                                                                               max="{{ date('Y-m-d',
+                                                                                strtotime(Carbon::now())) }}"
                                                                                name="inspectionDate"
                                                                                id="inspectionDate"
-                                                                               value="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                                                               value="{{ date('Y-m-d',
+                                                                                strtotime(Carbon::now()))}}"
                                                                                required
-                                                                               class="input-with-feedback form-control  view_mode"
+                                                                               class="input-with-feedback
+                                                                               form-control  view_mode"
                                                                                placeholder=""
                                                                                data-doctype="ChassisDetails"
                                                                                autocomplete="off">
@@ -816,7 +846,8 @@
                                                                     <div class="link-field ui-front"
                                                                          style="position: relative;">
                                                                         <input type="checkbox"
-                                                                               class="input-with-feedback form-check-input "
+                                                                               class="input-with-feedback
+                                                                               form-check-input "
                                                                                disabled
                                                                                name="odometerReset"
                                                                                id="odometerReset"
@@ -842,7 +873,8 @@
                                                 <legend style="width: inherit;">
                                                     <h4 id="documents" class="pt-2">Documents</h4>
                                                 </legend>
-                                                <table aria-describedby="documents" role="none" class="">
+                                                <table aria-describedby="documents"
+                                                       role="table" class="">
                                                     <thead>
                                                     <tr class="bg-dark">
                                                         <th scope="row">Document Type</th>
@@ -851,11 +883,11 @@
                                                     </thead>
                                                     <tr>
                                                         <td class="pl-3">Motor Vehicle Certificate</td>
-                                                        {{-- <td>@{{ documents.certificate?.originalDocumentName }}</td>--}}
                                                         <td class="pl-3">
                                                             <button data-zfm-view-file="certificate"
                                                                     type="button"
-                                                                    :data-document-url="'/storage'+documents.certificate?.path"
+                                                                    :data-document-url="'/storage'
+                                                                    +documents.certificate?.path"
                                                                     class="btn btn-sm btn-success">
                                                                 <i class="fa fa-paperclip"></i>
                                                                 View File
@@ -864,11 +896,11 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="pl-3">Insurance Cover Note</td>
-                                                        {{-- <td>@{{ documents.insurance?.originalDocumentName }}</td>--}}
                                                         <td class="pl-3">
                                                             <button data-zfm-view-file="insurance"
                                                                     type="button"
-                                                                    :data-document-url="'/storage'+documents.insurance?.path"
+                                                                    :data-document-url="'/storage'
+                                                                    +documents.insurance?.path"
                                                                     class="btn btn-sm btn-success">
                                                                 <i class="fa fa-paperclip"></i>
                                                                 View File
@@ -898,7 +930,15 @@
                                                     <h4 class="pt-2">Engine Details</h4>
                                                 </legend>
                                                 <div class="col-xs-12 col-sm-12 col-md-12 pl-0">
-                                                    <table class="align-middle gs-0 gy-3 my-0">
+                                                    <table role="table"
+                                                           aria-label="engine details"
+                                                           class="align-middle gs-0 gy-3 my-0">
+                                                        <thead class="d-none">
+                                                        <tr>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                        </thead>
                                                         <tbody>
                                                         <tr>
                                                             <td class="frappe-control ">
@@ -920,7 +960,9 @@
                                                                                        required
                                                                                        id="numberOfCylinders"
                                                                                        name="numberOfCylinders"
-                                                                                       class="input-with-feedback form-control  number_input view_mode"
+                                                                                       class="input-with-feedback
+                                                                                       form-control
+                                                                                       number_input view_mode"
                                                                                        data-fieldtype="Link"
                                                                                        data-fieldname="company"
                                                                                        data-doctype="EngineDetails"
@@ -948,7 +990,10 @@
                                                                              style="position: relative;">
                                                                             <div class="input-group">
                                                                                 <input type="number"
-                                                                                       class="input-with-feedback form-control  number_input view_mode"
+                                                                                       class="input-with-feedback
+                                                                                       form-control
+                                                                                       number_input
+                                                                                       view_mode"
                                                                                        max="10000"
                                                                                        required
                                                                                        data-fieldtype="Link"
@@ -957,10 +1002,6 @@
                                                                                        name="engineCapacity"
                                                                                        placeholder=""
                                                                                        data-doctype="EngineDetails"/>
-                                                                                {{--<div
-                                                                                        class="input-group-addon align-self-center pl-3 pr-3">
-
-                                                                                </div>--}}
                                                                             </div>
 
                                                                         </div>
@@ -986,20 +1027,17 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div class="input-group">
-                                                                                {{--v-model="engineDetails.actualEnginePower"--}}
                                                                                 <input type="number"
                                                                                        required
-                                                                                       class="input-with-feedback form-control  number_input view_mode"
+                                                                                       class="input-with-feedback
+                                                                                       form-control  number_input
+                                                                                       view_mode"
                                                                                        maxlength="140"
                                                                                        name="actualEnginePower"
                                                                                        id="actualEnginePower"
                                                                                        placeholder=""
                                                                                        data-doctype="EngineDetails"
-                                                                                       autocomplete="off">
-                                                                                {{--  <div
-                                                                                          class="input-group-append pl-3 pr-3 align-self-center">
-
-                                                                                  </div>--}}
+                                                                                       autocomplete="off"/>
                                                                             </div>
 
                                                                         </div>
@@ -1021,10 +1059,11 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div class="input-group">
-                                                                                {{--v-model="engineDetails.claimedEnginePower"--}}
                                                                                 <input type="number"
                                                                                        required
-                                                                                       class="input-with-feedback form-control number_input view_mode"
+                                                                                       class="input-with-feedback
+                                                                                       form-control
+                                                                                       number_input view_mode"
                                                                                        maxlength="140"
                                                                                        value="0"
                                                                                        data-fieldname="company"
@@ -1034,8 +1073,8 @@
                                                                                        data-doctype="EngineDetails"
                                                                                        data-target="Company"
                                                                                        autocomplete="off"/>
-                                                                                <div
-                                                                                    class="input-group-append pl-3 pr-3 align-self-center">
+                                                                                <div class="input-group-append
+                                                                                        pl-3 pr-3 align-self-center">
                                                                                     hp
                                                                                 </div>
                                                                             </div>
@@ -1061,17 +1100,20 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div>
-                                                                                {{--v-model="engineDetails.fuelTypes"--}}
                                                                                 <select
-                                                                                    required
-                                                                                    class="input-with-feedback form-control view_mode"
-                                                                                    id="fuelTypes"
-                                                                                    name="fuelTypes"
-                                                                                    data-doctype="EngineDetails">
+                                                                                        required
+                                                                                        class="input-with-feedback
+                                                                                        form-control view_mode"
+                                                                                        id="fuelTypes"
+                                                                                        name="fuelTypes"
+                                                                                        data-doctype="EngineDetails">
                                                                                     <option
-                                                                                        v-for="fuelType in fuelTypes"
-                                                                                        :value="fuelType.code_article"
-                                                                                        :key="fuelType.code_article">
+                                                                                            v-for="fuelType in
+                                                                                            fuelTypes"
+                                                                                            :value="fuelType.
+                                                                                            code_article"
+                                                                                            :key="fuelType.
+                                                                                            code_article">
                                                                                         @{{ fuelType.description }}
                                                                                     </option>
                                                                                 </select>
@@ -1121,15 +1163,16 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <input
-                                                                                required
-                                                                                class="input-with-feedback form-control view_mode"
-                                                                                data-fieldtype="Link"
-                                                                                data-fieldname="company"
-                                                                                placeholder="e.g 1NZ"
-                                                                                id="engineType"
-                                                                                name="engineType"
-                                                                                v-model="engineDetails.engineType"
-                                                                                data-doctype="EngineDetails"/>
+                                                                                    required
+                                                                                    class="input-with-feedback
+                                                                                    form-control view_mode"
+                                                                                    data-fieldtype="Link"
+                                                                                    data-fieldname="company"
+                                                                                    placeholder="e.g 1NZ"
+                                                                                    id="engineType"
+                                                                                    name="engineType"
+                                                                                    v-model="engineDetails.engineType"
+                                                                                    data-doctype="EngineDetails"/>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1147,17 +1190,16 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <select
-                                                                                required
-                                                                                id="transmission_type"
-                                                                                name="transmission_type"
-                                                                                class="form-control form-control-sm view_mode"
-                                                                                v-model="engineDetails.transmissionType"
-                                                                                data-doctype="EngineDetails"
-                                                                                @change="transmissionTypeChanged">
-                                                                                {{--<option value="">--Select Transmission--</option>--}}
+                                                                                    required
+                                                                                    id="transmission_type"
+                                                                                    name="transmission_type"
+                                                                                    class="form-control
+                                                                                    form-control-sm view_mode"
+                                                                                    data-doctype="EngineDetails"
+                                                                                    @change="transmissionTypeChanged">
                                                                                 <option
-                                                                                    v-for="transType in transmissionTypes"
-                                                                                    :value="transType.code">
+                                                                                        v-for="t in transmissionTypes"
+                                                                                        :value="t.code">
                                                                                     @{{ transType.name }}
                                                                                 </option>
                                                                             </select>
@@ -1187,10 +1229,10 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div class="input-group">
-                                                                                {{--v-model="engineDetails.fuelConsumption"--}}
                                                                                 <input type="text"
                                                                                        required
-                                                                                       class="input-with-feedback form-control view_mode"
+                                                                                       class="input-with-feedback
+                                                                                       form-control view_mode"
                                                                                        maxlength="4"
                                                                                        max="25"
                                                                                        name="fuelConsumption"
@@ -1198,10 +1240,6 @@
                                                                                        placeholder=""
                                                                                        data-doctype="EngineDetails"
                                                                                        autocomplete="off">
-                                                                                {{--<div
-                                                                                        class="input-group-append pl-3 pr-3 align-self-center">
-
-                                                                                </div>--}}
                                                                             </div>
 
                                                                         </div>
@@ -1209,36 +1247,9 @@
                                                                     <p class="help-box small text-muted"></p>
                                                                 </div>
                                                             </td>
-
                                                             <td class="frappe-control ">
-                                                                {{--<label for="fuelAllocation"
-                                                                       class="control-label reqd"
-                                                                       style="padding-right: 0px;">
-                                                                    Fuel Allocation:
-                                                                </label>--}}
                                                             </td>
                                                             <td>
-                                                                {{-- <div class="control-input-wrapper">
-                                                                     <div class="control-input">
-                                                                         <div class="link-field ui-front" style="position: relative;">
-                                                                             <div class="input-group">
-                                                                                 <input type="text"
-                                                                                        required
-                                                                                        class="input-with-feedback form-control "
-                                                                                        maxlength="140"
-                                                                                        v-model="engineDetails.fuelAllocation"
-                                                                                        name="fuelAllocation"
-                                                                                        id="fuelAllocation"
-                                                                                        placeholder=""
-                                                                                        autocomplete="off">
-                                                                                 <div
-                                                                                     class="input-group-append pl-3 pr-3 align-self-center">
-                                                                                     Ltrs-Daily
-                                                                                 </div>
-                                                                             </div>
-                                                                         </div>
-                                                                     </div>
-                                                                 </div>--}}
                                                             </td>
                                                         </tr>
 
@@ -1260,7 +1271,9 @@
                                                                              style="position: relative;">
                                                                             <div class="input-group">
                                                                                 <input type="number"
-                                                                                       class="input-with-feedback number_input form-control view_mode"
+                                                                                       class="input-with-feedback
+                                                                                       number_input
+                                                                                       form-control view_mode"
                                                                                        maxlength="4"
                                                                                        required
                                                                                        name="tank_capacity"
@@ -1290,7 +1303,9 @@
                                                                             <div class="input-group">
                                                                                 <input type="number"
                                                                                        maxlength="4"
-                                                                                       class="input-with-feedback number_input form-control view_mode"
+                                                                                       class="input-with-feedback
+                                                                                       number_input
+                                                                                       form-control view_mode"
                                                                                        name="sub_tank_capacity"
                                                                                        id="sub_tank_capacity"
                                                                                        placeholder=""
@@ -1313,7 +1328,15 @@
                                                     <h4 class="pt-2">Tyres</h4>
                                                 </legend>
                                                 <div class="col-xs-12 col-sm-8 col-md-8 pl-0">
-                                                    <table class="align-middle gs-0 gy-3 my-0">
+                                                    <table aria-label="tyre data"
+                                                           role="table"
+                                                           class="align-middle gy-3 my-0">
+                                                        <thead class="d-none">
+                                                        <tr>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                        </thead>
                                                         <tbody>
                                                         <tr>
                                                             <td class="frappe-control ">
@@ -1328,12 +1351,15 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div class="fv-row">
-                                                                                {{--v-model="otherDetails.numberOfTyres"--}}
                                                                                 <input type="number"
-                                                                                       title="The number of tyres the vehicle has"
+                                                                                       title="The number of tyres
+                                                                                       the vehicle has"
                                                                                        id="numberOfTyres"
                                                                                        name="numberOfTyres"
-                                                                                       class="input-with-feedback form-control number_input view_mode"
+                                                                                       class="input-with-feedback
+                                                                                       form-control
+                                                                                       number_input
+                                                                                       view_mode"
                                                                                        maxlength="140"
                                                                                        placeholder=""
                                                                                        data-doctype="EngineDetails"
@@ -1391,7 +1417,8 @@
                                                                              style="position: relative;">
                                                                             <div>
                                                                                 <input type="text"
-                                                                                       class="form-control tyre-size view_mode"
+                                                                                       class="form-control
+                                                                                       tyre-size view_mode"
                                                                                        required
                                                                                        id="frontTyreSize"
                                                                                        name="frontTyreSize"
@@ -1418,7 +1445,8 @@
                                                                              style="position: relative;">
                                                                             <div>
                                                                                 <input type="text"
-                                                                                       class="form-control tyre-size view_mode"
+                                                                                       class="form-control
+                                                                                       tyre-size view_mode"
                                                                                        name="rearTyreSize"
                                                                                        id="rearTyreSize"/>
                                                                             </div>
@@ -1439,11 +1467,20 @@
                                                     <h4 class="pt-2">Battery</h4>
                                                 </legend>
                                                 <div class="col-xs-12 col-sm-8 col-md-8 pl-0">
-                                                    <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+                                                    <table role="table"
+                                                           aria-label="battery data"
+                                                           class="table table-row-dashed align-middle gy-3 my-0">
+                                                        <thead class="d-none">
+                                                        <tr>
+                                                            <th scope="row"></th>
+                                                            <th scope="row"></th>
+                                                        </tr>
+                                                        </thead>
                                                         <tbody>
                                                         <tr>
                                                             <td class="frappe-control ">
-                                                                <label for="batteryBrand" class="control-label reqd"
+                                                                <label for="batteryBrand"
+                                                                       class="control-label reqd"
                                                                        style="padding-right: 0px;">
                                                                     Brand:
                                                                 </label>
@@ -1457,7 +1494,8 @@
                                                                                 <input type="text"
                                                                                        id="batteryBrand"
                                                                                        name="batteryBrand"
-                                                                                       class="input-with-feedback form-control view_mode"
+                                                                                       class="input-with-feedback
+                                                                                       form-control view_mode"
                                                                                        data-fieldtype="Link"
                                                                                        data-fieldname="company"
                                                                                        data-doctype="OtherDetails"
@@ -1482,12 +1520,14 @@
                                                                              style="position: relative;">
                                                                             <div>
                                                                                 <input
-                                                                                    class="form-control input-with-feedback view_mode"
-                                                                                    data-fieldtype="Link"
-                                                                                    data-fieldname="company"
-                                                                                    id="batterySize"
-                                                                                    name="batterySize"
-                                                                                    data-doctype="OtherDetails"/>
+                                                                                        class="form-control
+                                                                                        input-with-feedback
+                                                                                        view_mode"
+                                                                                        data-fieldtype="Link"
+                                                                                        data-fieldname="company"
+                                                                                        id="batterySize"
+                                                                                        name="batterySize"
+                                                                                        data-doctype="OtherDetails"/>
                                                                             </div>
 
                                                                         </div>
@@ -1539,7 +1579,8 @@
                                             <div class="card text-center my-2">
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage" + images.frontView.path + ")",}'>
+                                                         :style='{backgroundImage: "url(/storage"
+                                                         + images.frontView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Front View
                                                         </p>
@@ -1551,7 +1592,8 @@
                                             <div class="card-px text-center my-2">
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage" + images.rearView.path + ")",}'>
+                                                         :style='{backgroundImage: "url(/storage"
+                                                         + images.rearView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Rear View
                                                         </p>
@@ -1564,7 +1606,8 @@
 
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage" + images.rightView.path + ")",}'>
+                                                         :style='{backgroundImage: "url(/storage"
+                                                         + images.rightView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Right View
                                                         </p>
@@ -1572,12 +1615,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" v-if="images && images.leftView">
+                                        <div class="col-md-6"
+                                             v-if="images && images.leftView">
                                             <div class="card text-center my-2">
 
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage" + images.leftView.path + ")",}'>
+                                                         :style='{backgroundImage: "url(/storage"
+                                                         + images.leftView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Left View
                                                         </p>
@@ -1602,7 +1647,15 @@
                                            value="{{$vehicle->weightDetailsId ?? 0}}"/>
                                     <x-error-view/>
                                     <div class="col-6">
-                                        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+                                        <table role="table"
+                                               aria-label="dimensions"
+                                               class="table table-row-dashed align-middle gy-3 my-0">
+                                            <thead class="d-none">
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
                                             <tbody>
                                             <tr>
                                                 <td class="frappe-control ">
@@ -1618,7 +1671,8 @@
                                                                  style="position: relative;">
                                                                 <div>
                                                                     <input type="text"
-                                                                           class="input-with-feedback number_input form-control view_mode"
+                                                                           class="input-with-feedback
+                                                                           number_input form-control view_mode"
                                                                            maxlength="4"
                                                                            data-fieldtype="Link"
                                                                            data-fieldname="company"
@@ -1641,7 +1695,8 @@
                                                 </td>
                                                 <td>
                                                     <input type="text"
-                                                           class="input-with-feedback number_input form-control view_mode"
+                                                           class="input-with-feedback
+                                                           number_input form-control view_mode"
                                                            maxlength="140"
                                                            required
                                                            data-fieldtype="Link"
@@ -1668,7 +1723,8 @@
                                                                  style="position: relative;">
                                                                 <div>
                                                                     <input type="text"
-                                                                           class="input-with-feedback number_input form-control view_mode"
+                                                                           class="input-with-feedback
+                                                                           number_input form-control view_mode"
                                                                            maxlength="140"
                                                                            required
                                                                            data-fieldtype="Link"
@@ -1708,7 +1764,8 @@
                                                                  style="position: relative;">
                                                                 <div>
                                                                     <input type="text"
-                                                                           class="input-with-feedback form-control view_mode"
+                                                                           class="input-with-feedback
+                                                                           form-control view_mode"
                                                                            maxlength="15"
                                                                            id="seatCapFront"
                                                                            name="seatCapFront"
@@ -1722,201 +1779,22 @@
                                                     </div>
                                                 </td>
                                                 <td class="frappe-control">
-                                                    {{--<div class="clearfix" style="display: none;">
-                                                        <label for="seatCapRear" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Seat Cap/Rear:
-                                                        </label>
-                                                        <span class="help"></span>
-                                                    </div>--}}
                                                 </td>
                                                 <td>
-                                                    {{--<div class="control-input-wrapper" style="display: none;">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front" style="position: relative;">
-                                                                <div>
-                                                                    <input type="number"
-                                                                           class="input-with-feedback form-control"
-                                                                           value="0"
-                                                                           v-model="bodyDetails.seatCapRear"
-                                                                           name="seatCapRear"
-                                                                           id="seatCapRear"
-                                                                           data-doctype="BodyDetails"
-                                                                           autocomplete="off">
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <p class="help-box small text-muted"></p>
-                                                    </div>--}}
                                                 </td>
                                             </tr>
 
                                             <tr>
                                                 <td class="frappe-control">
-                                                    {{-- <label for="volumeOfBootTanker" class="control-label reqd" style="display: none;"
-                                                            style="padding-right: 0px;">
-                                                         Vol. Boot/Tanker:
-                                                     </label>--}}
                                                 </td>
                                                 <td>
-                                                    {{--<div class="control-input-wrapper" style="display: none;">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front" style="position: relative;">
-                                                                <div>
-                                                                    <input type="text"
-                                                                           v-model="bodyDetails.volumeOfBootTanker"
-                                                                           class="input-with-feedback form-control"
-                                                                           value="300"
-                                                                           id="volumeOfBootTanker"
-                                                                           name="volumeOfBootTanker"
-                                                                           placeholder=""
-                                                                           data-doctype="BodyDetails"
-                                                                           autocomplete="off"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>--}}
+
                                                 </td>
                                                 <td class="frappe-control">
-                                                    {{--<div class="clearfix" style="display: none;">
-                                                        <label for="numberOfSeats" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            No. Of Seats :
-                                                        </label>
-                                                        <span class="help"></span>
-                                                    </div>--}}
                                                 </td>
                                                 <td>
-                                                    {{-- <div class="control-input-wrapper">
-                                                         <div class="control-input">
-                                                             <div class="link-field ui-front" style="position: relative;">
-                                                                 <div>
-                                                                     <input type="text"
-                                                                            class="input-with-feedback form-control"
-                                                                            value="0"
-                                                                            data-fieldtype="Link"
-                                                                            data-fieldname="company"
-                                                                            id="numberOfSeats"
-                                                                            name="numberOfSeats"
-                                                                            data-doctype="BodyDetails"
-                                                                            v-model="bodyDetails.numberOfSeats"
-                                                                            placeholder=""/>
-                                                                 </div>
-
-                                                             </div>
-                                                         </div>
-                                                     </div>--}}
                                                 </td>
                                             </tr>
-
-                                            {{-- <tr>
-                                                 <td colspan="2">
-                                                     <h4>Exterior</h4>
-                                                 </td>
-                                             </tr>
-                                             <tr>
-                                                 <td class="frappe-control ">
-                                                     <label for="distanceAxle1" class="control-label"
-                                                            style="padding-right: 0px;">
-                                                         Dist Axle 1:
-                                                     </label>
-                                                 </td>
-                                                 <td>
-                                                     <div class="control-input-wrapper">
-                                                         <div class="control-input">
-                                                             <div class="link-field ui-front"
-                                                                  style="position: relative;">
-                                                                 <input type="text"
-                                                                        class="input-with-feedback form-control view_mode"
-                                                                        maxlength="140"
-                                                                        id="distanceAxle1"
-                                                                        name="distanceAxle1"
-                                                                        data-doctype="BodyDetails"
-                                                                        v-model="bodyDetails.distanceAxle1"
-                                                                        placeholder=""
-                                                                        data-target="Company">
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </td>
-
-                                                 <td class="frappe-control ">
-                                                     <label for="distanceAxle2" class="control-label"
-                                                            style="padding-right: 0px;">
-                                                         Dist Axle 2:
-                                                     </label>
-                                                 </td>
-                                                 <td>
-                                                     <div class="control-input-wrapper">
-                                                         <div class="control-input">
-                                                             <div class="link-field ui-front"
-                                                                  style="position: relative;">
-                                                                 <input type="text"
-                                                                        class="input-with-feedback form-control view_mode"
-                                                                        maxlength="140"
-                                                                        id="distanceAxle2"
-                                                                        name="distanceAxle2"
-                                                                        data-doctype="BodyDetails"
-                                                                        v-model="bodyDetails.distanceAxle2"
-                                                                        placeholder=""/>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </td>
-
-                                             </tr>
-                                             <tr>
-                                                 <td class="frappe-control ">
-                                                     <label for="distanceAxle3" class="control-label"
-                                                            style="padding-right: 0px;">
-                                                         Dist Axle 3:
-                                                     </label>
-                                                 </td>
-                                                 <td>
-                                                     <div class="control-input-wrapper">
-                                                         <div class="control-input">
-                                                             <div class="link-field ui-front"
-                                                                  style="position: relative;">
-                                                                 <input type="text"
-                                                                        class="input-with-feedback form-control view_mode"
-                                                                        maxlength="140"
-                                                                        id="distanceAxle3"
-                                                                        name="distanceAxle3"
-                                                                        v-model="bodyDetails.distanceAxle3"
-                                                                        placeholder=""
-                                                                        data-doctype="BodyDetails"
-                                                                        data-target="Company">
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </td>
-
-                                                 <td class="frappe-control ">
-                                                     <label for="distanceAxle5" class="control-label"
-                                                            style="padding-right: 0px;">
-                                                         Dist Axle 4 Rda/Ult:
-                                                     </label>
-                                                 </td>
-                                                 <td>
-                                                     <div class="control-input-wrapper">
-                                                         <div class="control-input">
-                                                             <div class="link-field ui-front"
-                                                                  style="position: relative;">
-                                                                 <input type="text"
-                                                                        class="input-with-feedback form-control view_mode"
-                                                                        maxlength="140"
-                                                                        id="distanceAxle4"
-                                                                        name="distanceAxle4"
-                                                                        v-model="bodyDetails.distanceAxle4"
-                                                                        placeholder=""/>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </td>
-
-                                             </tr>--}}
-
                                             <tr>
                                                 <td colspan="2">
                                                     <h4>Weight</h4>
@@ -1938,7 +1816,8 @@
                                                                 <div>
                                                                     <input type="text"
                                                                            required
-                                                                           class="input-with-feedback form-control view_mode weight_control"
+                                                                           class="input-with-feedback
+                                                                           form-control view_mode weight_control"
                                                                            maxlength="140"
                                                                            data-fieldtype="Link"
                                                                            data-fieldname="company"
@@ -1961,7 +1840,9 @@
                                                 </td>
                                                 <td>
                                                     <input type="text"
-                                                           class="input-with-feedback form-control view_mode weight_control"
+                                                           class="input-with-feedback
+                                                           form-control view_mode
+                                                           weight_control"
                                                            maxlength="140"
                                                            required
                                                            data-fieldtype="Link"
@@ -1991,7 +1872,13 @@
                                        value="{{$vehicle->costAndValuationId ?? 0}}"/>
                                 <x-error-view/>
                                 <div class="col-8">
-                                    <table class="">
+                                    <table class="" role="table" aria-label="cost">
+                                        <thead class="d-none">
+                                        <tr>
+                                            <th scope="row"></th>
+                                            <th scope="row"></th>
+                                        </tr>
+                                        </thead>
                                         <tbody>
                                         <tr>
                                             <td class="frappe-control d-none">
@@ -2049,14 +1936,16 @@
                                                                     <div class="input-group-addon">
                                                                         <select name="bookValueCurrency"
                                                                                 class="form-control form-control-sm"
-                                                                                style="height: 2.5em; border-radius: 0;">
+                                                                                style="height: 2.5em;
+                                                                                border-radius: 0;">
                                                                             <option value="001">ZMW</option>
                                                                             <option value="002">USD</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
                                                                 <input type="text"
-                                                                       class="input-with-feedback form-control view_mode"
+                                                                       class="input-with-feedback
+                                                                       form-control view_mode"
                                                                        maxlength="15"
                                                                        data-a-sign="ZMW "
                                                                        id="costPrice"
@@ -2083,7 +1972,8 @@
                                                             <div class="input-group">
                                                                 <input type="number" min="1990" max="{{date('Y')}}"
                                                                        step="1"
-                                                                       class="input-with-feedback form-control number_input view_mode"
+                                                                       class="input-with-feedback
+                                                                       form-control number_input view_mode"
                                                                        maxlength="4"
                                                                        name="yearOfPurchase"
                                                                        id="yearOfPurchase"
@@ -2113,15 +2003,18 @@
                                                                 <div class="input-group-prepend">
                                                                     <div class="input-group-addon">
                                                                         <select name="bookValueCurrency"
-                                                                                class="form-control form-control-sm"
-                                                                                style="height: 2.5em; border-radius: 0;">
+                                                                                class="form-control
+                                                                                form-control-sm"
+                                                                                style="height: 2.5em;
+                                                                                border-radius: 0;">
                                                                             <option value="001">ZMW</option>
                                                                             <option value="002">USD</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
                                                                 <input type="text"
-                                                                       class="input-with-feedback form-control view_mode"
+                                                                       class="input-with-feedback
+                                                                       form-control view_mode"
                                                                        id="bookValue"
                                                                        data-a-sign="ZMW "
                                                                        name="bookValue"
@@ -2148,7 +2041,8 @@
                                                         <div class="link-field ui-front" style="position: relative;">
                                                             <div>
                                                                 <input type="text"
-                                                                       class="input-with-feedback form-control view_mode"
+                                                                       class="input-with-feedback
+                                                                       form-control view_mode"
                                                                        maxlength="140"
                                                                        data-fieldtype="Link"
                                                                        data-fieldname="company"
@@ -2182,7 +2076,8 @@
                                                                     </div>
                                                                 </div>
                                                                 <input type="text"
-                                                                       class="input-with-feedback form-control number_input view_mode"
+                                                                       class="input-with-feedback
+                                                                       form-control number_input view_mode"
                                                                        id="costOfLicense"
                                                                        data-a-sign="ZMW"
                                                                        name="costOfLicense"
@@ -2212,7 +2107,8 @@
                                                                     </div>
                                                                 </div>
                                                                 <input type="text"
-                                                                       class="input-with-feedback form-control view_mode"
+                                                                       class="input-with-feedback
+                                                                       form-control view_mode"
                                                                        maxlength="140"
                                                                        id="premium"
                                                                        name="premium"
@@ -2249,25 +2145,17 @@
                                     </table>
 
                                     <div class="create_mode">
-                                        {{-- <button type="submit" id="tms_save_costing"
-                                                 class="btn btn-success btn-sm">
-                                             <i class="fas fa-paper-plane"></i>
-                                             <div class="indicator-label">
-                                                 Save
-                                             </div>
-                                             <div class="indicator-progress">
-                                                 Please wait...
-                                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                             </div>
-                                         </button>--}}
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <table
-                                        class="table align-middle table-row-dashed dataTable no-footer">
+                                    <table role="table"
+                                           aria-label="attached documents"
+                                           class="table align-middle table-row-dashed dataTable no-footer">
                                         <thead>
                                         <tr class="bg-dark">
-                                            <th v-if="documents && documents.purchase_order">Document No.</th>
+                                            <th v-if="documents && documents.purchase_order">
+                                                Document No.
+                                            </th>
                                             <th>Document Type</th>
                                             <th>File Name</th>
                                             <th></th>
@@ -2285,7 +2173,8 @@
                                                     <div class="input-group-addon">
                                                         <button type="button" id="poSearchBtn"
                                                                 name="poSearchBtn"
-                                                                class="btn btn-primary btn-sm border-radius-0 view_mode">
+                                                                class="btn btn-primary btn-sm
+                                                                border-radius-0 view_mode">
                                                             <i class="fas fa-search"></i>
                                                         </button>
                                                     </div>
@@ -2341,14 +2230,16 @@
                                                 <div class="row">
 
                                                     <div class="col">
-                                                        <table
-                                                            class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                        <table aria-label="accessories"
+                                                               role="tab"
+                                                               class="table table-row-dashed
+                                                               align-middle gs-0 table-bordered">
                                                             <thead>
                                                             <tr class="bg-dark">
-                                                                <th class="pl-2">Item</th>
-                                                                <th>Present</th>
-                                                                <th class="pr-2">Not Present</th>
-                                                                <th class="pr-2">Remarks</th>
+                                                                <th scope="row" class="pl-2">Item</th>
+                                                                <th scope="row">Present</th>
+                                                                <th scope="row" class="pr-2">Not Present</th>
+                                                                <th scope="row" class="pr-2">Remarks</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -2356,19 +2247,31 @@
                                                                 @if(($key%2) == 0)
                                                                     <tr>
                                                                         <td class="pl-2"
-                                                                            style="width: 35%;">{{$accessory->name}}</td>
-                                                                        <td><input type="radio" value="YES" required
-                                                                                   disabled
-                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
+                                                                            style="width: 35%;">
+                                                                            {{$accessory->name}}
                                                                         </td>
-                                                                        <td><input type="radio" value="NO" required
+                                                                        <td>
+                                                                            <input type="radio" value="YES" required
                                                                                    disabled
-                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
+                                                                                   name="{{str_replace(' ','',
+                                                                                    $accessory->code)}}">
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="radio" value="NO" required
+                                                                                   disabled
+                                                                                   name="{{
+                                                                                    str_replace(' ','',
+                                                                                    $accessory->code)
+                                                                                    }}"/>
                                                                         </td>
                                                                         <td style="width: 45%;">
                                                                             <input typeof="text"
-                                                                                   name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
-                                                                                   class="form-control form-control-sm"/>
+                                                                                   name="COMMENT_{{
+                                                                                    str_replace(' ','',
+                                                                                    $accessory->code)
+                                                                                   }}"
+                                                                                   class="form-control
+                                                                                   form-control-sm"/>
                                                                         </td>
                                                                     </tr>
                                                                 @endif
@@ -2377,8 +2280,9 @@
                                                         </table>
                                                     </div>
                                                     <div class="col">
-                                                        <table
-                                                            class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                        <table role="table" aria-label="accessories"
+                                                               class="table table-row-dashed align-middle
+                                                                 gs-0 table-bordered">
                                                             <thead>
                                                             <tr class="bg-dark">
                                                                 <th class="pl-2">Item</th>
@@ -2394,17 +2298,23 @@
                                                                         <td class="pl-2" style="width: 35%;">
                                                                             {{$accessory->name}}
                                                                         </td>
-                                                                        <td><input type="radio" required value="YES"
+                                                                        <td>
+                                                                            <input type="radio"
+                                                                                   required value="YES"
                                                                                    disabled
-                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
+                                                                                   name="{{str_replace(' ','',
+                                                                                    $accessory->code)}}">
                                                                         </td>
-                                                                        <td><input type="radio" required value="NO"
+                                                                        <td>
+                                                                            <input type="radio" required value="NO"
                                                                                    disabled
-                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
+                                                                                   name="{{str_replace(' ','',
+                                                                                    $accessory->code)}}">
                                                                         </td>
                                                                         <td style="width: 45%;">
                                                                             <input typeof="text"
-                                                                                   name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
+                                                                                   name="COMMENT_{{str_replace(' ','',
+                                                                                     $accessory->code)}}"
                                                                                    class="form-control form-control-sm">
                                                                         </td>
                                                                     </tr>
@@ -2414,7 +2324,6 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -2448,295 +2357,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="odometerHistory" role="tabpanel">
-                            <div class="container-fluid pl-0">
-                                <form class=""
-                                      name="newFleetEntryMovementForm"
-                                      action=""
-                                      id="newFleetEntryMovementForm"
-                                      method="post">
-                                    @csrf
-                                    <input type="hidden" name="relatedReference" id="relatedReference"
-                                           value="{{$relatedReference ?? ''}}"/>
-                                    <div class="errorTxt"></div>
-                                    <x-error-view></x-error-view>
 
-                                    <label class="app-required-marker"></label>
-
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <fieldset style="" class="form-group border p-3">
-                                                <legend>General Information:</legend>
-                                                <table class="app_form_table table">
-                                                    <tr>
-                                                        <td>
-                                                            <label class="app-field-label">
-                                                                Registration No.
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <div class="app-field-input">
-                                                                <div class="input-group">
-                                                                    <input type="text"
-                                                                           id="vehicleRegistration"
-                                                                           required
-                                                                           autocomplete="off"
-                                                                           name="vehicleRegistration"
-                                                                           class="form-control form-control-sm"/>
-                                                                    <div class="input-group-append">
-                                                                        <button type="button"
-                                                                                id="vehicleDetailsBtn"
-                                                                                class="btn btn-sm btn-success">
-                                                                            <i class="fas fa-search"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="pl-5">
-                                                            <label class="app-field-label">
-                                                                Machinery Type.
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <select disabled name="machineryType"
-                                                                    class="form-select form-select-sm">
-                                                                <option selected value="VEHICLE">VEHICLE</option>
-                                                                <option value="PLANT EQUIPMENT">PLANT EQUIPMENT</option>
-                                                                <option value="BOAT">BOAT</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label class="app-field-label">
-                                                                Meter Date :
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                        </td>
-                                                        <div class="app-field-input">
-                                                            <div class="input-group">
-                                                                <input type="text"
-                                                                       readonly
-                                                                       value="{{Carbon::now()->format('d/m/Y')}}"
-                                                                       name="vehicleRegistration"
-                                                                       class="form-control form-control-sm"/>
-                                                                <div class="input-group-append">
-                                                                    <div class="input-group-text">
-                                                                        <i class="fas fa-calender"></i>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </tr>
-                                                </table>
-                                            </fieldset>
-
-                                        </div>
-                                        <div class="col-6">
-                                            <fieldset style="" class="form-group border p-3">
-                                                <legend>Odometer Information:</legend>
-                                                <table class="app_form_table table" id="vehicleTable">
-                                                    <tr>
-                                                        <td>
-                                                            <label class="app-field-label">
-                                                                Opening Reading (Km)
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <div class="app-field-input">
-                                                                <div class="input-group">
-                                                                    <input type="text"
-                                                                           id="vehOpeningReading"
-                                                                           required
-                                                                           name="vehOpeningReading"
-                                                                           class="form-control"/>
-                                                                    <div class="input-group-addon">
-                                                                        <div>
-                                                                            <i class="fas fa-dashboard"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label class="app-field-label">
-                                                                Current Reading (Km)
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <div class="app-field-input">
-                                                                <div class="input-group">
-                                                                    <input type="text"
-                                                                           id="vehClosingReading"
-                                                                           required
-                                                                           name="vehClosingReading"
-                                                                           class="form-control"/>
-                                                                    <div class="input-group-addon">
-                                                                        <div>
-                                                                            <i class="fas fa-dashboard"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label class="app-field-label">
-                                                                Difference (Km)
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <div class="app-field-input">
-                                                                <div class="input-group">
-                                                                    <input type="text"
-                                                                           id="vehDifference"
-                                                                           required
-                                                                           name="vehDifference"
-                                                                           class="form-control"/>
-                                                                    <div class="input-group-addon">
-                                                                        <div>
-                                                                            <i class="fas fa-dashboard"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <table class="app_form_table table" id="OtherMachineryTable"
-                                                       style="display: none">
-                                                    <tr>
-                                                        <td>
-                                                            <label class="app-field-label">
-                                                                Start Hour (Hrs)
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <div class="app-field-input">
-                                                                <div class="input-group">
-                                                                    <input type="text"
-                                                                           id="openingReading"
-                                                                           required
-                                                                           name="openingReading"
-                                                                           class="form-control"/>
-                                                                    <div class="input-group-addon">
-                                                                        <div>
-                                                                            <i class="fas fa-dashboard"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label class="app-field-label">
-                                                                Current Reading (Hrs)
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <div class="app-field-input">
-                                                                <div class="input-group">
-                                                                    <input type="text"
-                                                                           id="closingReading"
-                                                                           required
-                                                                           name="closingReading"
-                                                                           class="form-control"/>
-                                                                    <div class="input-group-addon">
-                                                                        <div>
-                                                                            <i class="fas fa-dashboard"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label class="app-field-label">
-                                                                Difference (Hrs)
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <div class="app-field-input">
-                                                                <div class="input-group">
-                                                                    <input type="text"
-                                                                           id="difference"
-                                                                           required
-                                                                           name="difference"
-                                                                           class="form-control"/>
-                                                                    <div class="input-group-addon">
-                                                                        <div>
-                                                                            <i class="fas fa-dashboard"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <table class="app_form_table table">
-                                            <thead>
-                                            <tr>
-                                                <th>Start Odometer</th>
-                                                <th>Closing Odometer</th>
-                                                <th>Km Done</th>
-                                                <th>Place From</th>
-                                                <th>Place To</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <th>
-                                                    <input class="form-control"/>
-                                                </th>
-                                                <th>Closing Odometer</th>
-                                                <th>Km Done</th>
-                                                <th>Place From</th>
-                                                <th>Place To</th>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <table class="app_form_table table">
-                                            <tr>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="4">
-                                                    <label class="app-field-label" data-field="typeia">
-                                                        Comments
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="background: none;" colspan="4">
-                                                    <div class="app-field-input">
-                                                    <textarea name="comments" id="comments"
-                                                              class="form-control"></textarea>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-
-                                </form>
-                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="renewalReminder" role="tabpanel">
@@ -2777,10 +2398,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Vehicle Disk</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center" id="diskArea">
-                    <img class="img-fluid" src="{{asset('assets/dist/img/disc.jpg')}}"/>
+                    <img class="img-fluid"
+                         alt="Disk"
+                         src="{{asset('assets/dist/img/disc.jpg')}}"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="print" class="btn btn-primary btn-sm">
@@ -2804,7 +2429,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <iframe id="documentView" src="" style="border: none;" width="100%" height="600px;"></iframe>
+                    <iframe title="file viewer" id="documentView" src="" style="border: none;" width="100%"
+                            height="600px;"></iframe>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-bs-dismiss="modal" class="btn btn-default">Close</button>
@@ -2820,13 +2446,8 @@
         window.reference = `{!! $reference !!}`;
         window.vehicle = `{!! $vehicle !!}`;
     </script>
-    <script type="text/javascript" src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    {{-- <script type="text/javascript" src="{{asset('libs/handsontable/handsontable.full.min.js')}}"></script>
- --}}
     <script
-        src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_over_view.js').'?v='.Carbon::now()->format('his')}}"></script>
-    {{--<script
-        src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>--}}
+            src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_over_view.js')}}"></script>
     <script>
         $(document).ready(function () {
             let elements = document.querySelectorAll('.view_mode');

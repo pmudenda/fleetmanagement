@@ -48,9 +48,9 @@
                 </div>
                 <div class="col">
                     <table
-                        aria-label="Accessories Table 2"
-                        role="table"
-                        class="table table-row-dashed align-middle gs-0 table-bordered">
+                            aria-label="Accessories Table 2"
+                            role="table"
+                            class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
                             <th scope="row" class="pl-2">Item</th>
@@ -90,8 +90,8 @@
                 <div class="col">
                     <div class="form-group">
                         <label
-                            class="col-xs-12 col-sm-6 col-md-6 col-lg-6 pl-0"
-                            for="accessoriesRemarks">
+                                class="col-xs-12 col-sm-6 col-md-6 col-lg-6 pl-0"
+                                for="accessoriesRemarks">
                             General Comments and Observation (Damages):
                         </label>
                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -118,14 +118,15 @@
                     <div class="row">
                         <div class="table-responsive" style="max-height:500px;">
                             <table data-model-name="Observations"
+                                   aria-label="Accessories"
                                    role="table"
                                    class="table table-striped"
                                    id="observations">
                                 <thead>
                                 <tr class="bg-success">
-                                    <th scope="row" >Attachment</th>
-                                    <th scope="row" >Remarks</th>
-                                    <th scope="row" ></th>
+                                    <th scope="row">Attachment</th>
+                                    <th scope="row">Remarks</th>
+                                    <th scope="row"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -134,7 +135,9 @@
                                         <tr data-record-id="{{$item->id}}">
                                             <td>
                                                 <div class="imagePreview"
-                                                     style="min-height: 100px !important; background-image: url('/storage{{$item->image_path}}'); display: block; background-size: cover">
+                                                     style="min-height: 100px !important;
+                                                     background-image: url('/storage{{$item->image_path}}');
+                                                     display: block; background-size: cover">
                                                 </div>
                                             </td>
                                             <td>
@@ -212,30 +215,21 @@
             </div>
 
             <div class="row mt-10 d-none">
-                <table aria-label="PreparedBy"
-                       role="none"
-                       class="mt-10 table">
-                    <tbody>
-                    <tr>
-                        <td scope="col" class="text-left">
-                            <strong id="srfTotal" class="input-number">Prepared By:</strong>
-                            <b id="section" class="input-number">RECEPTION</b>
-                        </td>
-                        <td>
-
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-sm btn-success pull-right"
-                                    id="saveAssessment"
-                                    name="saveAssessment"
-                                    type="button">
-                                <i class="fas fa-save"></i>
-                                Save
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="row">
+                    <div class="text-left">
+                        <strong id="srfTotal" class="input-number">Prepared By:</strong>
+                        <b id="section" class="input-number">RECEPTION</b>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-sm btn-success pull-right"
+                                id="saveAssessment"
+                                name="saveAssessment"
+                                type="button">
+                            <i class="fas fa-save"></i>
+                            Save
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

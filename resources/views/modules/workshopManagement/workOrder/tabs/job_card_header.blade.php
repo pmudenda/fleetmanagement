@@ -52,7 +52,10 @@
                                            class="form-control form-control-sm"
                                            id="date_of_req"
                                            readonly
-                                           value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
+                                           value="@if($details) {{
+                                            Carbon::parse($details->date_in)->format('d/m/Y')
+                                            }} @else {{
+                                            date('Y-m-d', strtotime(Carbon::now()))}} @endif"
                                            name="date_of_req"
                                            required>
                                 </div>
@@ -105,7 +108,11 @@
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <input type="text"
                                            readonly
-                                           value="@if($details){{Carbon::parse($details->time_in)->format('H:i:s')}}@else{{Carbon::now()->format('H:i:s')}}@endif"
+                                           value="@if($details){{
+                                            Carbon::parse($details->time_in)->format('H:i:s')
+                                            }}@else{{
+                                            Carbon::now()->format('H:i:s')
+                                            }}@endif"
                                            class="form-control form-control-sm when_valid number_input"
                                            id="timeIn"
                                            name="timeIn"
@@ -253,9 +260,14 @@
                                     <input type="text"
                                            class="form-control form-control-sm"
                                            id="date_expected_out"
-                                           value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
+                                           value="@if($details){{
+                                            date('Y-m-d',strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))
+                                            }}
+                                            @else{{
+                                            date('Y-m-d', strtotime(Carbon::now()))}}
+                                            @endif"
                                            name="date_of_req"
-                                    >
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -365,10 +377,10 @@
             <div id="vehicleDetailsContainer" style="display: none;"
                  class="col-xs-12 col-sm-12 col-md-12 pl-0">
                 <h1>Vehicle Details</h1>
-                <table class="table table-striped">
-                    <tbody id="vehicleDetails" class="vehicleDetails">
-                    </tbody>
-                </table>
+                <div role="none" aria-label="Vehicle Details" class="table table-striped">
+                    <div id="vehicleDetails" class="vehicleDetails">
+                    </div>
+                </div>
             </div>
 
             <div id="image_view" class="card text-center py-5 my-2" style="display: none;">

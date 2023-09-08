@@ -1167,9 +1167,11 @@
                                                 <div class="row">
                                                     <div style="max-height:500px; overflow-x: auto;">
                                                         <table id="material_table"
+                                                               aria-label="Job card materials"
                                                                data-form-url="{{route("process.requisition")}}"
                                                                data-model-name="PartsHeader"
-                                                               class="table dataTable table-row-dashed align-middle gs-0 nowrap">
+                                                               class="table dataTable table-row-dashed
+                                                               align-middle gs-0 nowrap">
                                                             <thead>
                                                             <tr class="bg-success-subtle">
                                                                 <th style="width: 6%;" class="pl-2">Reg. No</th>
@@ -1192,18 +1194,23 @@
                                                                                 name="registration"
                                                                                 required
                                                                                 value="{{$details->reg_no ?? ''}}"
-                                                                                class="form-control form-control-sm registration"/>
+                                                                                class="form-control
+                                                                                form-control-sm registration"/>
                                                                         </td>
                                                                         <td>
                                                                             <select readonly
                                                                                     name="articles"
                                                                                     required
-                                                                                    data-text="{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}"
+                                                                                    data-text="{{$material->material_code ?? ''}}
+                                                                                     : {{$material->specifications ?? ''}}"
                                                                                     data-value="{{$material->material_code ?? ''}}"
-                                                                                    class="form-control form-control-sm DropDownList">
+                                                                                    class="form-control form-control-sm
+                                                                                    DropDownList">
                                                                                 <option
-                                                                                    value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
-                                                                                    : {{$material->specifications ?? ''}}</option>
+                                                                                    value="{{$material->material_code ?? ''}}">
+                                                                                    {{$material->material_code ?? ''}}
+                                                                                    :{{$material->specifications ?? ''}}
+                                                                                </option>
                                                                             </select>
                                                                         </td>
                                                                         <td>
@@ -1212,7 +1219,8 @@
                                                                                 value="{{$material->material_code ?? ''}}"
                                                                                 required
                                                                                 readonly
-                                                                                class="form-control form-control-sm articleCode"/>
+                                                                                class="form-control
+                                                                                form-control-sm articleCode"/>
                                                                         </td>
                                                                         <td>
                                                                             <input type="text"
@@ -1221,7 +1229,8 @@
                                                                                    required
                                                                                    readonly
                                                                                    value="{{$material->specifications ?? ''}}"
-                                                                                   class="form-control form-control-sm technical_specification"/>
+                                                                                   class="form-control form-control-sm
+                                                                                   technical_specification"/>
                                                                         </td>
 
                                                                         <td>
@@ -1231,7 +1240,8 @@
                                                                                    required
                                                                                    readonly
                                                                                    value="{{$material->quantity ?? ''}}"
-                                                                                   class="form-control form-control-sm quantity number_input"/>
+                                                                                   class="form-control form-control-sm
+                                                                                   quantity number_input"/>
                                                                         </td>
 
                                                                         <td>
@@ -1240,7 +1250,8 @@
                                                                                 required
                                                                                 value="{{$material->unit_of_measure ?? ''}}"
                                                                                 readonly
-                                                                                class="form-control form-control-sm unit_of_measure"/>
+                                                                                class="form-control form-control-sm
+                                                                                unit_of_measure"/>
                                                                         </td>
 
                                                                         <td>
@@ -1248,18 +1259,22 @@
                                                                                    required
                                                                                    value="{{$material->price ?? ''}}"
                                                                                    readonly
-                                                                                   class="form-control form-control-sm unit_price"/>
+                                                                                   class="form-control
+                                                                                   form-control-sm unit_price"/>
                                                                         </td>
 
                                                                         <td>
                                                                             <span
-                                                                                id="total_price">{{$material->amount ?? ''}}</span>
+                                                                                id="total_price">
+                                                                                {{$material->amount ?? ''}}
+                                                                            </span>
                                                                             <input name="total_price"
                                                                                    type="hidden"
                                                                                    required
                                                                                    value="{{$material->amount ?? ''}}"
                                                                                    readonly
-                                                                                   class="form-control form-control-sm total_price"/>
+                                                                                   class="form-control
+                                                                                   form-control-sm total_price"/>
                                                                         </td>
                                                                     </tr>
                                                                 @endforeach

@@ -4,5 +4,5 @@ return [
     'enableDriverModule' => false,
     'enableSingleSessionManagement' => false,
     'vehicle_age' => 5,
-    'petty_cash_url' => 'http://dev.zesco.co.zm/api/petty_cash'
+    'petty_cash_url' => 'https://dev.zesco.co.zm/api/petty_cash'
 ];

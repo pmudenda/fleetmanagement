@@ -311,16 +311,16 @@
                                 </div>
                             </div>
                             <div id="newApproval_DIVWait" style="visibility: hidden; display: none">
-                                <table border="0" style="width:100%; height:100%;">
-                                    <tr>
-                                        <td align="center">
+                                <div style="width:100%; height:100%; border:none;">
+                                    <div class="row">
+                                        <div style="text-align: center">
                                             Please wait . . .
                                             <br/>
                                             <br/>
                                             Signature being verified.
-                                        </td>
-                                    </tr>
-                                </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -391,7 +391,9 @@
                                         <option></option>
                                         @foreach($workshop_sections as $workshop_section)
                                             <option
-                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                    value="{{$workshop_section->code}}">
+                                                {{$workshop_section->name}}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -471,6 +473,16 @@
         window.defects = {!! json_encode($defects) !!};
         window.materials = {!! json_encode($materials) !!};
         window.step_id = {!! $step !!};
+        window.appMessages = {
+            articleNoPrice: 'The Article @articleNumber - @description has no price. ' +
+                ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306,' +
+                ' fleetmaster@zesco.co.com',
+            storeHasNoStock: 'The Store @store '
+                + ' does not have  @articleNumber'
+                + ' - description  in stock. ' +
+                'You may have to wait until the stock is ' +
+                'received before your request can be processed'
+        }
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
@@ -621,54 +633,52 @@
                 </button>
             </td>
         </tr>`;
-        const defectTableRowTemplate = `<tr class="increment">
-                                <td class="showNumber">
-                                    <select name="vehicleSystem"
-                                             required
-                                            class="form-select form-select-sm select_2_control vehicleSystem">
-                                        <option></option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="defectCategory"
-                                            required
-                                            class="form-select form-select-sm select_2_control defectCategory">
-                                        <option></option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="defect"
-                                             required
-                                            class="form-select form-select-sm select_2_control defect">
-                                        <option></option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="workshopSection"  required class="form-select form-select-sm workshopSection">
-                                        <option></option>
-                                        @foreach($workshop_sections as $workshop_section)
-        <option
-                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                                                    @endforeach
-        </select>
-    </td>
-    <td>
-        <input name="date_def"
-               readonly="readonly"
-               value="@if($details){{date('Y-m-d',strtotime(Carbon::parse($details->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
-                                                                       class="tabledit-input form-control input-sm input-number"
-                                                                       type="text">
-                                                            </td>
+        const defectTableRowTemplate = `
+                                <tr class="increment">
+                                    <td class="showNumber">
+                                        <select name="vehicleSystem"
+                                                 required
+                                                class="form-select form-select-sm select_2_control vehicleSystem">
+                                            <option></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="defectCategory"
+                                                required
+                                                class="form-select form-select-sm select_2_control defectCategory">
+                                            <option></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="defect"
+                                                 required
+                                                class="form-select form-select-sm select_2_control defect">
+                                            <option></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="workshopSection"
+                                        required class="form-select form-select-sm workshopSection">
+                                            <option></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input name="date_def"
+                                               readonly="readonly"
+                                               value=""
+                                               class="tabledit-input form-control input-sm input-number"
+                                               type="text" />
+                                    </td>
 
-                                                            <td class="view-mode">
-                                                                <button type="button"
-                                                                        value="deleteRow"
-                                                                        data-value="0"
-                                                                        class="btn btn-danger p-2">
-                                                                    <i class="fas fa-trash m-0"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>`;
+                                    <td class="view-mode">
+                                        <button type="button"
+                                                value="deleteRow"
+                                                data-value="0"
+                                                class="btn btn-danger p-2">
+                                            <i class="fas fa-trash m-0"></i>
+                                        </button>
+                                    </td>
+                                </tr>`;
 
         (function (tmsApp, $) {
             let form = $('#jobCardForm').show();
@@ -829,14 +839,15 @@
                             const description = selectedArticleObject?.technical_specifications ?
                                 selectedArticleObject?.technical_specifications : "";
                             Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'The Article '
-                                    + selectedArticleObject?.code_article
-                                    + ' - ' + description + ' has no price. ' +
-                                    ' Please Contact Fleet Master System Administrator ' +
-                                    'on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
-                            });
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: window.messages. 'The Article '
+                                + selectedArticleObject?.code_article
+                                + ' - ' + description + ' has no price. ' +
+                                ' Please Contact Fleet Master System Administrator ' +
+                                'on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
+                        })
+                            ;
                             return;
                         }
                         console.log(parseInt(selectedArticleObject?.quantity_in_store));
@@ -1211,18 +1222,23 @@
                         if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
                             console.log("Record with " + $(row).attr('data-record-id'));
                         } else {
-                            $(row).find('input[name][type!=hidden], select[name],textarea[name]').each(function (i, item) {
-                                let val = item.value.replace(/,/g, '');
+                            $(row).find('input[name][type!=hidden], select[name],textarea[name]')
+                                .each(function (i, item) {
+                                    let val = item.value.replace(/,/g, '');
 
-                                if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
-                                    let dateField = val;
-                                    dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+                                    if (item.name === 'endDate'
+                                        || item.name === 'startDate'
+                                        || item.name === 'invoiceDate') {
+                                        let dateField = val;
+                                        dateField = DateFormatter.format(
+                                            new Date(moment(val, 'DD/MM/yyyy')),
+                                            DateFormatter.ISO);
 
-                                    obj[item.name] = dateField;
-                                } else {
-                                    obj[item.name] = item.value;
-                                }
-                            });
+                                        obj[item.name] = dateField;
+                                    } else {
+                                        obj[item.name] = item.value;
+                                    }
+                                });
                             arr.push(obj);
                         }
 
@@ -1517,13 +1533,13 @@
                             dataStore.setItem(index, newIndex);
                             return true;
                         }
-
-                        if (currentIndex === 0 || currentIndex === 2 && $('[name="job_card_number"]').val()) {
+                        let jobCardNumber = $('[name="job_card_number"]').val();
+                        if (currentIndex === 0 || currentIndex === 2 && jobCardNumber) {
                             dataStore.setItem(index, newIndex);
                             return true;
                         }
 
-                        if (currentIndex === 3 && $('[name="job_card_number"]').val()) {
+                        if (currentIndex === 3 && jobCardNumber) {
                             dataStore.setItem(index, newIndex);
                             return true;
                         }
@@ -1577,7 +1593,6 @@
                             );
                         } else {
                             $('a[role="#finish"]').enableBtn();
-                            //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
                         }
 
                     },
@@ -1594,9 +1609,11 @@
                             }
                         },
                         onError: function () {
-                            $('.input-group.error-class').find('.help-block.form-error').each(function () {
-                                $(this).closest('.form-group').addClass('error-class').append($(this));
-                            });
+                            $('.input-group.error-class')
+                                .find('.help-block.form-error')
+                                .each(function () {
+                                    $(this).closest('.form-group').addClass('error-class').append($(this));
+                                });
                         },
                         rules: {
                             vehicle_registration: {
@@ -1628,9 +1645,14 @@
                 );
 
                 $(document).on('click', '#saveMaterials', function () {
-                    // $('a[href="#finish"]').disableBtn();
+
                     if (form.valid()) {
-                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                        tmsApp.confirm(
+                            'Confirm',
+                            'Do you want to save the changes ?',
+                            'Yes',
+                            'No',
+                            function () {
                                 postData(
                                     $('#material_table'),
                                     true
@@ -1643,28 +1665,36 @@
 
                 $(document).on('click', '#saveDefects', function () {
                     if (form.valid()) {
-                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                            postData(
-                                $('#part8'),
-                                true
-                            );
-                        }, function () {
-                        });
+                        tmsApp.confirm(
+                            'Confirm',
+                            'Do you want to save the changes ?',
+                            'Yes',
+                            'No',
+                            function () {
+                                postData(
+                                    $('#part8'),
+                                    true
+                                );
+                            }, function () {
+                            });
                     }
                 });
 
                 $(document).on('click', '#saveServices', function () {
-                    // $('a[href="#finish"]').disableBtn();
+
                     if (form.valid()) {
-                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                        tmsApp.confirm('Confirm',
+                            'Do you want to save the changes ?',
+                            'Yes',
+                            'No',
+                            function () {
+                                postData(
+                                    $('#services_table'),
+                                    true
+                                );
 
-                            postData(
-                                $('#services_table'),
-                                true
-                            );
-
-                        }, function () {
-                        });
+                            }, function () {
+                            });
                     }
                 });
             }
@@ -1725,32 +1755,32 @@
                 }).off('select2:select').on('select2:select', function (e) {
                     let article = e.params['data'];
                     const row = $(e.currentTarget).closest('tr');
-                    if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
+
+                    if ($('[name="stockItemCode"]').val() === $("#itemType").val()) {
 
                         if (!article?.price_map) {
-                            const description = article?.technical_specifications ? article?.technical_specifications : "";
+                            const description = article?.technical_specifications
+                                ? article?.technical_specifications : "";
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: 'The Article '
-                                    + article?.id
-                                    + ' - ' + description + ' has no price. ' +
-                                    ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
+                                text: window['appMessages'].articleNoPrice
+                                    .replace('@articleNumber', article?.id)
+                                    .replace('@description', description)
                             });
                             return;
                         }
 
                         if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
-                            const description = article?.technical_specifications ? article?.technical_specifications : "";
+                            const description = article?.technical_specifications
+                                ? article?.technical_specifications : "";
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: 'The Store '
-                                    + $("#store_name").val()
-                                    + ' does not have '
-                                    + article?.id
-                                    + ' - ' + description + ' in stock. ' +
-                                    'You may have to wait until the stock is received before your request can be processed'
+                                text: window['appMessages'].storeHasNoStockItem
+                                    .replace('@store', $("#store_name").val())
+                                    .replace('@articleNumber', article?.id)
+                                    .replace('@description', description)
                             });
                         }
                     }
@@ -2365,7 +2395,7 @@
 
                 document.querySelector('#image_view').style.display = 'none';
 
-                $('tbody#vehicleDetails').html('');
+                $('#vehicleDetails').html('');
             }
 
             function enableWebUIControls() {
@@ -2415,19 +2445,37 @@
 
                 $('[name="current_odometer"]').val(vehicle['mileage']);
 
-                let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
-                               <tr>
-                                    <th>Model</th>
-                                    <td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
-                               </tr>
-                               <tr style="">
-                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
-                                </tr>
-                                <tr style="">
-                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
-                                </tr>`;
+                let row = `<div><div><strong>Make</strong></div>
+                                <div id="make">${vehicle['brand_name']}</div>
+                            </div>
+                               <div>
+                                    <div>
+                                        <strong>Model</strong>
+                                    </div>
+                                    <div id="model">
+                                        ${vehicle['model_name']}
+                                        ${vehicle['model_code']}
+                                    </div>
+                               </div>
+                               <div style="">
+                                    <div>
+                                        <strong>Type</strong>
+                                    </div>
+                                    <div id="registration">
+                                        ${vehicle['body_type_name']}
+                                    </div>
+                                </div>
+                                <div style="">
+                                     <div>
+                                         <strong>State:</strong>
+                                    </div>
+                                    <div id="registration">
+                                        ${vehicle['status_name']}
+                                    </div>
+                                </div>
+                            </div>`;
 
-                $('tbody#vehicleDetails').html(row);
+                $('#vehicleDetails').html(row);
 
                 enableWebUIControls();
 
@@ -3050,7 +3098,8 @@
 
                 tmsApp.confirm(
                     "Are you sure ?",
-                    "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
+                    "The data entered on this line will be cleared out, if not saved already," +
+                    " you will not be able to recover it",
                     "Yes",
                     "No",
                     function () {
@@ -3522,7 +3571,10 @@
 
             getFuelLevels();
 
-            loadData('VEH_SYS', document.querySelector('#systemsUrl').value + '?key=VEH_SYS', $('select[name="vehicleSystem"]'));
+            loadData('VEH_SYS',
+                document.querySelector('#systemsUrl').value + '?key=VEH_SYS',
+                $('select[name="vehicleSystem"]')
+            );
 
             initEventHandlers();
 

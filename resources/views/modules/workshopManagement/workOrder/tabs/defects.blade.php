@@ -6,6 +6,7 @@
             <div class="row">
                 <div class="table-responsive px-2" style="max-height:500px;">
                     <table id="part8"
+                           aria-label="Defects"
                            data-form-url="{{route("defects.job_card")}}"
                            data-model-name="Defects"
                            class="table table-row-dashed align-middle gs-0">
@@ -25,15 +26,15 @@
                                 <tr class="savedRecord" data-record-id="{{$defect->id}}">
                                     <td class="showNumber">
                                         <input
-                                            readonly
-                                            value="{{$defect->system_name}}"
-                                            class="form-control form-control-sm"/>
+                                                readonly
+                                                value="{{$defect->system_name}}"
+                                                class="form-control form-control-sm"/>
                                     </td>
                                     <td>
                                         <input
-                                            readonly
-                                            value="{{$defect->defect_category_name}}"
-                                            class="form-control form-control-sm"/>
+                                                readonly
+                                                value="{{$defect->defect_category_name}}"
+                                                class="form-control form-control-sm"/>
                                     </td>
                                     <td>
                                         <input readonly
@@ -48,11 +49,15 @@
                                             @foreach($workshop_sections as $workshop_section)
                                                 @if($defect->section_code == $workshop_section->code)
                                                     <option
-                                                        selected
-                                                        value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                            selected
+                                                            value="{{$workshop_section->code}}">
+                                                        {{$workshop_section->name}}
+                                                    </option>
                                                 @else
                                                     <option
-                                                        value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                            value="{{$workshop_section->code}}">
+                                                        {{$workshop_section->name}}
+                                                    </option>
                                                 @endif
                                             @endforeach
                                         </select>
@@ -106,7 +111,9 @@
                                         <option></option>
                                         @foreach($workshop_sections as $workshop_section)
                                             <option
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                    value="{{$workshop_section->code}}">
+                                                {{$workshop_section->name}}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -151,8 +158,8 @@
             <div class="row">
                 <div class="form-group">
                     <label
-                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                        for="remarks">
+                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                            for="remarks">
                         Comments (optional):
                     </label>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -161,7 +168,9 @@
                                       id="remarks"
                                       name="remarks"
                                       style="height: 129px;"
-                                      class="form-control form-control-sm">{{$comments->where('type','=','DEF')->first()->remarks ??''}}</textarea>
+                                      class="form-control form-control-sm">
+                                {{$comments->where('type','=','DEF')->first()->remarks ??''}}
+                            </textarea>
                         @else
                             <textarea type="text"
                                       id="remarks"
@@ -173,27 +182,22 @@
                     </div>
                 </div>
             </div>
-            <table class="mt-10 table">
-                <tbody>
-                <tr>
-                    <td class="text-left">
-                        <strong id="srfTotal" class="input-number">Prepared By:</strong>
-                        <b id="section" class="input-number">RECEPTION</b>
-                    </td>
-                    <td>
 
-                    </td>
-                    <td class="text-right">
-                        <button class="btn btn-sm btn-success pull-right"
-                                id="saveDefects"
-                                name="saveDefects"
-                                type="button">
-                            <i class="fas fa-save"></i>
-                            Save
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
+            <div class="row">
+                <div class="text-left col-4">
+                    <strong id="srfTotal" class="input-number">Prepared By:</strong>
+                    <b id="section" class="input-number">RECEPTION</b>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-sm btn-success pull-right"
+                            id="saveDefects"
+                            name="saveDefects"
+                            type="button">
+                        <i class="fas fa-save"></i>
+                        Save
+                    </button>
+                </div>
+            </div>
             </table>
         </div>
     </div>

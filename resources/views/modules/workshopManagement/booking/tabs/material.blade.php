@@ -4,6 +4,7 @@
         <div class="row">
             <div style="max-height:500px; overflow-x: auto;">
                 <table id="material_table"
+                       aria-label="Job Card Stock And Non-Stock Articles"
                        data-form-url="{{route("save.material.reservation")}}"
                        data-model-name="PartsHeader"
                        class="table dataTable table-row-dashed align-middle gs-0 nowrap">

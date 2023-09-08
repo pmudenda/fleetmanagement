@@ -24,9 +24,12 @@ class SendWorkOrderCompletedNotification
     public function handle(WorkOrderCompleted $event): void
     {
         try {
+
             $workOrder = $event->workOrder;
 
             Log::info('Sending Notification To Workshop Supervisor');
+
+            $task = WorkflowTaskHeader::where('reference', '=', trim($workOrder->job_card_no))->first();
 
             if (empty($task)) {
                 return;
