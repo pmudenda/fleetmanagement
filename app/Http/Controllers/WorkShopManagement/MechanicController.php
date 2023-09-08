@@ -99,13 +99,15 @@ class MechanicController extends Controller
                         'WORK_SHOP_SEC'
                     );
             })
-            ->leftJoin("$employee emp","mec.staff_no", "=", 'emp.alt_per_no' )
+            ->leftJoin("$employee emp", "mec.staff_no", "=", 'emp.alt_per_no')
             ->where('mec.id', '=', $staffId)
             ->select(
                 'mec.*',
                 'wkshp_sec.name as wkshp_section_name',
                 'wkshp.workshop_name'
             )->first();
+
+        dd($mechanic);
         return view('modules.mechanicManagement.show')
             ->with(compact('mechanic'));
     }
