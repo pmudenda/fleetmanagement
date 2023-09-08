@@ -120,8 +120,81 @@
 
     </section>
 
+    <!-- Profile Addition Modal -->
+    <div class="modal fade"
+         id="createProfileModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Create Role
+                    </h5>
+                    <button type="button" class="close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form name="db2" method="post" action="{{route('roles.store')}}">
+                        @csrf
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-12 form-group mt-4">
+                                        <label class="field-required" for="name">
+                                            ROLE NAME:
+                                        </label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="name"
+                                               name="name"
+                                               required
+                                               maxlength="100"
+                                               placeholder="e.g Administrator">
+                                    </div>
+                                    <div class="col-12 form-group mt-4">
+                                        <label class="field-required" for="slug">
+                                            SLUG:
+                                        </label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="slug"
+                                               name="slug"
+                                               required
+                                               maxlength="100"
+                                               placeholder="Enter Slug">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-sm btn-secondary"
+                                    data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            @can(config('rights.role_create'))
+                                <button type="submit"
+                                        title="Create New system Role"
+                                        class="btn btn-sm btn-success">
+                                    Create
+                                </button>
+                            @endcan
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @foreach($roles as $item)
-        <div class="modal fade" id="editModal{{$item->id}}" tabindex="-1" role="dialog"
+        <div class="modal fade profileEditModal" id="editModal{{$item->id}}" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -134,7 +207,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form name="db2" method="post" action="{{route('roles.update', $item->id )}}">
+                        <form name="roleUpdateForm" method="post" action="{{route('roles.update', $item->id )}}">
                             {{method_field('PATCH')}}
                             @csrf
                             <div class="card-body">
@@ -143,7 +216,7 @@
                                         <input type="number" id="id" name="id"
                                                value="{{$item->id}}" required hidden>
                                         <label for="name" class="field-required">
-                                            Name:
+                                            Profile Name:
                                         </label>
                                         <input type="text"
                                                class="form-control"
@@ -152,8 +225,7 @@
                                                name="name" required maxlength="100"
                                         />
                                     </div>
-
-                                    <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
+                                    {{--<div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
                                         <label for="slug" class="field-required">
                                             System Name(slug):
                                         </label>
@@ -161,11 +233,10 @@
                                                class="form-control"
                                                value="{{$item->slug}}"
                                                id="slug"
-                                               name="slug" required maxlength="100"
+                                               name="slug"  maxlength="100"
                                         />
-                                    </div>
+                                    </div>--}}
                                 </div>
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button"
@@ -242,85 +313,116 @@
     @endforeach
 @endsection
 
-<!-- Device Update Modal -->
-<div class="modal fade"
-     id="createProfileModal"
-     tabindex="-1"
-     role="dialog"
-     aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                    Create Role
-                </h5>
-                <button type="button" class="close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form name="db2" method="post" action="{{route('roles.store')}}">
-                    @csrf
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="row">
-                                <div class="col-12 form-group mt-4">
-                                    <label class="field-required" for="name">
-                                        ROLE NAME:
-                                    </label>
-                                    <input type="text"
-                                           class="form-control"
-                                           id="name"
-                                           name="name"
-                                           required
-                                           maxlength="100"
-                                           placeholder="e.g Administrator">
-                                </div>
-                                <div class="col-12 form-group mt-4">
-                                    <label class="field-required" for="slug">
-                                        SLUG:
-                                    </label>
-                                    <input type="text"
-                                           class="form-control"
-                                           id="slug"
-                                           name="slug"
-                                           required
-                                           maxlength="100"
-                                           placeholder="Enter Slug">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button"
-                                class="btn btn-sm btn-secondary"
-                                data-bs-dismiss="modal">
-                            Close
-                        </button>
-                        @can(config('rights.role_create'))
-                            <button type="submit"
-                                    title="Create New system Role"
-                                    class="btn btn-sm btn-success">
-                                Create
-                            </button>
-                        @endcan
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- /.col -->
-</div>
-
 @push('scripts')
 
     <script>
         (function (appInstance) {
+            const appMessages = {
+                profileUpdateTitle: "Profile Update",
+                validationFailureMessage: "Sorry, the data did not pass validation check," +
+                    "check the data and try again.",
+                profileUpdateDefaultMessage: "Profile Updated Successfully"
+            };
+
             appInstance.initDatatable("#groupsTable", true, true, []);
+
+            $('[name="roleUpdateForm"]').on('submit', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                let $form = document.forms['roleUpdateForm'];
+
+                if (!$($form).valid()) {
+                    toastr.warning(appMessages.validationFailureMessage);
+                    return;
+                }
+
+                let element = document.querySelector('.profileEditModal');
+                let modal = null;
+                if (element) {
+                    modal = bootstrap.Modal.getOrCreateInstance(element);
+                }
+
+                let formData = new FormData($form);
+                tmsApp.play_alert('sound-submit');
+                tmsApp.asyncPostFormData(
+                    $form.action,
+                    formData,
+                    function (response) {
+                        window.loaderMessage = "Loading... please wait";
+                        if (response.hasOwnProperty("state") && response.state === 'success') {
+                            if (modal) {
+                                modal.hide();
+                            }
+                            const message = response.message > ""
+                                ? response.message
+                                : appMessages.profileUpdateDefaultMessage;
+
+                            tmsApp.showSystemMessage(
+                                appMessages.profileUpdateTitle,
+                                message,
+                                function () {
+                                    window.location.reload();
+
+                                },
+                                "success"
+                            );
+                        } else {
+                            tmsApp.play_alert('sound-error');
+                            if (!Util.isEmpty(response.errors)) {
+                                if (response.errors) {
+                                    tmsApp.printErrorMsg(response.errors);
+                                }
+                            } else if (!Util.isEmpty(response.message)) {
+                                tmsApp.systemError(appMessages.profileUpdateTitle,
+                                    response.message);
+                            }
+
+                            if (modal) {
+                                modal.hide();
+                            }
+                        }
+                    },
+                    function (xhr) {
+                        console.log(xhr);
+                        tmsApp.play_alert('sound-error');
+                        tmsApp.showErrorMessages(xhr, appMessages.profileUpdateTitle);
+                    },
+                    'PATCH'
+                );
+            }).validate(
+                {
+                    errorClass: "error-class",
+                    validClass: "valid-class",
+                    errorElement: 'div',
+                    errorPlacement: function (error, element) {
+                        if (element.parent('.input-group').length) {
+                            error.insertAfter(element.parent());
+                        } else {
+                            error.insertAfter(element);
+                        }
+                    },
+                    onError: function () {
+                        $('.input-group.error-class')
+                            .find('.help-block.form-error')
+                            .each(function () {
+                                $(this).closest('.form-group')
+                                    .addClass('error-class')
+                                    .append($(this));
+                            });
+                    },
+                    rules: {
+                        name: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        name: {
+                            required: "Permission name is required"
+                        }
+                    }
+                }
+            );
+
         })(window.tmsApp || {});
     </script>
 @endpush

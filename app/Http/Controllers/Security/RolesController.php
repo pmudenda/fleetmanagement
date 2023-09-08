@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Security;
 
 use App\Http\Controllers\Controller;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Security\Permission;
 use App\Models\Security\Role;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class RolesController extends Controller
 {
@@ -82,22 +85,32 @@ class RolesController extends Controller
             ->with('message', 'Permissions Successfully detached..');
     }
 
-    public function update(Request $request, Role $role): RedirectResponse
+    public function update(Request $request, Role $role): JsonResponse
     {
         try {
             DB::beginTransaction();
-            $role->slug = strtolower(str_replace('', '-', $request->slug));
+            $role->slug = strtolower(str_replace('', '-', $request->name));
             $role->name = strtoupper($request->name);
             $role->description = strtoupper($request->name);
             $role->save();
             DB::commit();
-            return redirect()
-                ->back()
-                ->with('message', 'Role ' . $role->name . ' updated Successfully');
+            return response()
+                ->json(
+                    new FleetMasterJsonResponse(
+                        'success',
+                        true,
+                        'Role ' . $role->name . ' updated Successfully'
+                    )
+                );
         } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', 'Role ' . $role->name . ' Could Not Be Updated');
+            Log::error($e);
+            return response()->json(
+                new FleetMasterJsonResponse(
+                    'failure',
+                    false,
+                    'Role ' . $role->name . ' Could Not Be Updated'
+                )
+            );
         }
     }
 

@@ -20,7 +20,6 @@
     <section class="content">
         <x-error-view/>
         <div class="container-fluid">
-
             <div class="row">
                 <!-- Left col -->
                 <div class="col-md-12">
@@ -73,11 +72,11 @@
                                                 <td>
                                                     <div class="dropdown">
                                                         <button
-                                                            class="btn btn-light
+                                                                class="btn btn-light
                                                         btn-active-light-primary btn-sm dropdown-toggle"
-                                                            type="button"
-                                                            id="dropdownMenuButton1"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                                type="button"
+                                                                id="dropdownMenuButton1"
+                                                                data-bs-toggle="dropdown" aria-expanded="false">
                                                             Actions
                                                         </button>
                                                         <ul class="dropdown-menu"
@@ -125,7 +124,6 @@
                 </div>
 
             </div>
-
         </div>
 
     </section>
@@ -198,10 +196,10 @@
                                                    value="Submit">
                                         @endcan
                                         <input
-                                            class="btn btn-sm btn-secondary"
-                                            type="reset"
-                                            value="Clear"
-                                            name="reset_form">
+                                                class="btn btn-sm btn-secondary"
+                                                type="reset"
+                                                value="Clear"
+                                                name="reset_form">
                                     </div>
                                 </div>
                             </div>
@@ -348,7 +346,7 @@
                 }
 
                 let myModalEl = document.querySelector('#addPermissionModal');
-                let modal =  null;
+                let modal = null;
                 if (myModalEl) {
                     modal = bootstrap.Modal.getOrCreateInstance(myModalEl);
                 }

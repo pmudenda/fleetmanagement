@@ -22,15 +22,6 @@ class PermissionsController extends Controller
             ->with(compact('permissions'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return View
-     */
-    public function create(): View
-    {
-        return view('modules.security.permissions.create');
-    }
-
     public function store(SystemPermission $request): JsonResponse
     {
         try {
