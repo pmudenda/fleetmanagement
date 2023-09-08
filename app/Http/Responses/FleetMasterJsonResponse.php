@@ -20,11 +20,13 @@ class FleetMasterJsonResponse
      */
     public function __construct($state, $success, $message, $payload = null, $redirectUrl = null)
     {
-        $this->state = $state;
-        $this->success = $success;
-        $this->message = $message ?? "";
-        $this->payload = $payload ?? [];
-        $this->redirectUrl = $redirectUrl ?? "";
+        return [
+            'state' => $state,
+            'success' => $success,
+            'message' => $message ?? "",
+            'payload' => $payload ?? [],
+            'redirectUrl' => $redirectUrl ?? "",
+        ];
     }
 
     /**
