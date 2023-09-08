@@ -53,7 +53,7 @@
                         </div>
                         <div class="card-body p-2">
                             <div class="table-responsive mt-10 ">
-                                <table id="listTable"
+                                <table id="mechanicsTable"
                                        role="table"
                                        aria-label="Mechanics"
                                        class="table table-bordered">
@@ -68,7 +68,7 @@
                                         <th>Workshop Supervisor</th>
                                         <th>Status</th>
                                         @can(config('rights.view_mechanic'))
-                                        <th>Action</th>
+                                            <th>Action</th>
                                         @endcan
                                     </tr>
                                     </thead>
@@ -159,7 +159,17 @@
 @push('scripts')
     <script>
         (function (appInstance) {
-            appInstance.initDatatable("#listTable", true);
+            appInstance.initDatatable("#mechanicsTable", true, true,
+                [{
+                    "targets": 0,
+                    "searchable": false,
+                    'sortable': false
+                },
+                    {
+                        "targets": 1,
+                        "searchable": false,
+                        'sortable': false
+                    }]);
         })(window.tmsApp || {});
     </script>
 
