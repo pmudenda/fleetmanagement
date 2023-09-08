@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\DataCleanUp;
 use App\Models\Reference\TMSDataCleanUp;
 use App\Services\VehicleManagement\VehicleDetailsService;
@@ -63,14 +64,18 @@ class ReportsController extends Controller
             ->orderBy('year')
             ->get();
 
-        return response()->json([
-            'state' => 'success',
-            'payload' => [
-                'data' => [],
-                'costByYear' => $costByYear,
-                'costByUnit' => $costByUnit,
-                'costByType' => $costByType,
-            ]
-        ]);
+        return response()->json(
+            FleetMasterJsonResponse::response(
+                'success',
+                true,
+                null,
+                [
+                    'data' => [],
+                    'costByYear' => $costByYear,
+                    'costByUnit' => $costByUnit,
+                    'costByType' => $costByType,
+                ]
+            )
+        );
     }
 }
