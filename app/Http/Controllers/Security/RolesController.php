@@ -89,12 +89,12 @@ class RolesController extends Controller
     {
         try {
             Log::info($request->name);
-            DB::beginTransaction();
+            /*DB::beginTransaction();
             $role->slug = strtolower(str_replace('', '-', $request->name));
             $role->name = strtoupper($request->name);
             $role->description = strtoupper($request->name);
             $role->save();
-            DB::commit();
+            DB::commit();*/
             return response()
                 ->json(
                     new FleetMasterJsonResponse(
