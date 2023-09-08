@@ -9,18 +9,6 @@
 
 
 @section('content')
-
-    @foreach(config('rights') as $right)
-        <table class="table table-bordered">
-           <tbody>
-           <tr>
-               <td>{{$right}}</td>
-               <td>@php var_dump( (Auth()->user()->can($right)) );@endphp</td>
-           </tr>
-           </tbody>
-        </table>
-    @endforeach
-
     <x-content-header :pageTitle="'ROLE DETAILS'" :activeCrumb="'Role Details'" :link="'roles.index'"
                       :linkText="'Roles'"/>
     <!-- Main content -->
