@@ -87,15 +87,16 @@ class RolesController extends Controller
 
     public function updateRole(Request $request): JsonResponse
     {
+        $role = null;
         try {
             Log::info("Role Name  $request->name");
             $role = Role::first($request->id);
-            /*DB::beginTransaction();
+            DB::beginTransaction();
             $role->slug = strtolower(str_replace('', '-', $request->name));
             $role->name = strtoupper($request->name);
             $role->description = strtoupper($request->name);
             $role->save();
-            DB::commit();*/
+            DB::commit();
             return response()
                 ->json(
                     new FleetMasterJsonResponse(
