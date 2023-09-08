@@ -144,9 +144,10 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
-                                        <input type="number" id="id" name="id" value="{{$item->id}}" required hidden>
+                                        <input type="number" id="id" name="id"
+                                               value="{{$item->id}}" required hidden>
                                         <label for="name" class="field-required">
-                                            Group:
+                                            Name:
                                         </label>
                                         <input type="text"
                                                class="form-control"
@@ -158,7 +159,7 @@
 
                                     <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
                                         <label for="slug" class="field-required">
-                                            Name:
+                                            System Name(slug):
                                         </label>
                                         <input type="text"
                                                class="form-control"
