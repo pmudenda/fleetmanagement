@@ -15,7 +15,7 @@
            <tbody>
            <tr>
                <td>{{$right}}</td>
-               <td>@php echo (Auth()->user()->can($right)) @endphp</td>
+               <td>@php var_dump( (Auth()->user()->can($right)) );@endphp</td>
            </tr>
            </tbody>
         </table>
