@@ -623,13 +623,16 @@ class MaintenanceController extends Controller
     {
         try {
             $this->workshopService->createJobCardAccessories($request);
-            return response()->json([
-                "success" => true,
-                "message" => SystemMessages::accessoriesCheckedIn(),
-                "redirectUrl" =>
+            return response()->json(
+                new FleetMasterJsonResponse(
+                    'success',
+                    true,
+                    SystemMessages::accessoriesCheckedIn(),
+                    null,
                     URL::signedRoute("vehicle.workshop.checkin",
-                        ["step" => 3, "reference" => $request->get("job_card_voucher")]),
-            ]);
+                        ["step" => 3, "reference" => $request->get("job_card_voucher")])
+                )
+            );
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
@@ -646,12 +649,18 @@ class MaintenanceController extends Controller
     {
         try {
             $this->workshopService->createJobCardDefects($request);
-            return response()->json([
-                "success" => true,
-                "message" => SystemMessages::defectRecorded(),
-                "redirectUrl" => URL::signedRoute("show.job.card",
-                    ["step" => 4, "reference" => $request->get("job_card_no")]),
-            ]);
+            return response()->json(
+                new FleetMasterJsonResponse(
+                    'success',
+                    true,
+                    SystemMessages::defectRecorded(),
+                    null,
+                    URL::signedRoute("show.job.card",
+                        ["step" => 4, "reference" => $request->get("job_card_no")]
+                    )
+                )
+            );
+
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
             if ($e instanceof MaterialReservationException
@@ -688,11 +697,11 @@ class MaintenanceController extends Controller
             }
 
             return response()->json(
-                [
-                    "success" => false,
-                    "payload" => [],
-                    "message" => $message
-                ]
+                new FleetMasterJsonResponse(
+                    'success',
+                    false,
+                    $message
+                )
             );
         }
     }
@@ -774,7 +783,6 @@ class MaintenanceController extends Controller
             $observation
         );
     }
-
 
 
     public function getStoreAndPurchaseOffice(Request $request): JsonResponse

@@ -381,15 +381,7 @@ class FuelRequisitionService
         Log::debug("Odometer Variance " . $variance);
 
         if ($variance < 0) {
-            /*$vehicleAge = Carbon::now()->diffInYears(Carbon::parse($vehicle->registration_date));
-            Log::debug("vehicle age  " . $vehicleAge);
 
-            if ($vehicleAge < (integer)config('systeminfo.vehicle_age')
-                && abs($variance) > $this->calculateVehicleConsumptionDegradation(
-                    $vehicle,
-                    $vehicleAge,
-                    $fuel_consumption,
-                    $newEstimatedOdometer)) {}*/
             throw new FuelRequisitionException(
                 str_replace("@cur_odometer",
                     $userProvidedOdometer,

@@ -558,9 +558,9 @@ class BarcodeGenerationService extends BarCodePrint
 
                 for ($Y = 0; $Y < count($code_array1); $Y++) {
 
-                    if (substr($this->text, ($characterPosition - 1), 1) == $code_array1[$Y])
-
+                    if (substr($this->text, ($characterPosition - 1), 1) == $code_array1[$Y]) {
                         $temp[$characterPosition] = $code_array2[$Y];
+                    }
 
                 }
             }
@@ -797,7 +797,12 @@ class BarcodeGenerationService extends BarCodePrint
      * @param string $sizeFactor
      * @return BarcodeGenerationService
      */
-    public function renderBarcode($text, $size, $orientation, $code_type, $print, $sizeFactor,
+    public function renderBarcode($text,
+                                  $size,
+                                  $orientation,
+                                  $code_type,
+                                  $print,
+                                  $sizeFactor,
                                   $filename, $filepath = "", $fileType = ".jpeg")
     {
         $this->text = $text;

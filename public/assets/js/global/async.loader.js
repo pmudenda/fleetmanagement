@@ -21,8 +21,7 @@ $.ajaxSetup({
      */
     window.loaderVisible = false;
     window.showLoaderModal = function (displayModal) {
-        //if (window.loaderVisible && displayModal) return;
-        window.loaderMessage = (!!window.loaderMessage) ? window.loaderMessage : "Please wait...";
+        window.loaderMessage = (!window.loaderMessage) ? window.loaderMessage : "Please wait...";
         $("#loading-message").html(window.loaderMessage);
         let modal = ''
         if (displayModal) {
@@ -53,10 +52,10 @@ $.ajaxSetup({
                 modal.hide();
                 window.loaderVisible = false;
             }
-            //$('#page-loader').modal('hide');
+
             setTimeout(function () {
                 window.loaderVisible = false;
-                //$('#page-loader').modal('hide');
+
                 if(modal){
                     modal.hide();
                 }
@@ -110,18 +109,24 @@ $.ajaxSetup({
         show: function (loadingMessage) {
 
             if ($("#app_loading_message").length > 0) {
-                $("#app_loading_message").html(`<p><div className="spinner-grow" style="width: 3rem; height: 3rem;" role="status"><span className="visually-hidden">Loading...</span></div> ${loadingMessage} ...<\/p>`);
+                $("#app_loading_message").html(`<p>
+                    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="visually-hidden">
+                    Loading...</span>
+                    </div> ${loadingMessage} ...
+                    </p>`
+                );
             } else {
                 $(document.body)
                     .append(`<div id="app_loading_message" class="sys-overlay">
-                                    <p><div className="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-                                            <span className="visually-hidden">Loading...</span>
+                                    <p><div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                                            <span class="visually-hidden">Loading...</span>
                                         </div>
                                             ${loadingMessage} ...
-                                    <\/p>
-                                <\/div>`);
+                                    </p>
+                                </div>`);
                 $("#app_loading_message")
-                    .append($(`<div style="float:right"><i class="fa fa-times"><\/i><\/div>`))
+                    .append($(`<div style="float:right"><i class="fa fa-times"></i></div>`))
                     .on("click", function () {
                         $(this).parent().remove()
                     });

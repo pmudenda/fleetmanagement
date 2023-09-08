@@ -8,6 +8,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class FuelRequisitionPostRequest extends FormRequest
 {
+    const REQUIRED_NUMERIC = 'required|numeric';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -28,16 +30,16 @@ class FuelRequisitionPostRequest extends FormRequest
             'vehicle_description' => 'required',
             'CostAssignedTo' => 'required',
             'requisition_type' => 'required|string',
-            'odometer_reading' => 'required|numeric',
-            'fuel_allocation' => 'required|numeric',
+            'odometer_reading' => self::REQUIRED_NUMERIC,
+            'fuel_allocation' => self::REQUIRED_NUMERIC,
             'request_date' => 'required|date_format:d/m/Y',
             'next_fuel_date' => 'required|date_format:d/m/Y',
             'justification' => 'required|max:255',
             'material_description' => 'required|max:255',
             'unit_of_measure' => 'required',
-            'material_quantity' => 'required|numeric',
-            'material_price' => 'required|numeric',
-            'material_amount' => 'required|numeric',
+            'material_quantity' => self::REQUIRED_NUMERIC,
+            'material_price' => self::REQUIRED_NUMERIC,
+            'material_amount' => self::REQUIRED_NUMERIC,
             'cost_center_name' => 'exclude_unless:CostAssignedTo,CostCenterBasedRequisition|required|string',
             'cost_centre_code' => 'exclude_unless:CostAssignedTo,CostCenterBasedRequisition|required|string',
             'project_code' => 'exclude_unless:CostAssignedTo,ProjectBasedRequisition|required|string',

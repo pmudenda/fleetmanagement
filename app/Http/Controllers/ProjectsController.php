@@ -17,7 +17,6 @@ class ProjectsController extends Controller
 
     public function findProjectByCode(Request $request): JsonResponse
     {
-        $period = date('M-Y');
 
         $searchCriteria = strtoupper(trim($request->input('search')));
 

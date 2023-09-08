@@ -9,7 +9,10 @@
     <input type="hidden" name="assignmentId" value="{{$vehicle->assignmentId ?? 0}}"/>
     <x-error-view/>
     <div class="col-7">
-        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+        <table
+            aria-label="Assignment Details"
+            role="table"
+            class="table table-row-dashed align-middle gs-0 gy-3 my-0">
             <tbody>
 
             <tr>
@@ -343,108 +346,6 @@
                 <td></td>
                 <td></td>
             </tr>
-
-
-            {{--      <tr>
-                      <td class="frappe-control ">
-                          <label for="operator" class="control-label reqd"
-                                 style="padding-right: 0px;">
-                              Casual Operator:
-                          </label>
-                      </td>
-                      <td>
-                          <table>
-                              <tr>
-                                  <td>
-                                      <div class="control-input-wrapper">
-                                          <div class="control-input">
-                                              <div class="link-field ui-front"
-                                                   style="position: relative;">
-                                                  <div>
-                                                      <input type="text"
-                                                             class="input-with-feedback form-control bold"
-                                                             required
-                                                             title="Enter Staff number in previous input and name will auto populate"
-                                                             id="casual_staff_number"
-                                                             name="casual_staff_number"
-                                                             v-model="assignmentDetails.casualStaffNumber"
-                                                             placeholder=""
-                                                             list="employee_list"
-                                                             data-emp="staff_number"
-                                                             data-doctype="AssignmentDetails"
-                                                             autocomplete="off"/>
-
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td style="width:80%">
-                                      <div class="control-input">
-                                          <div class="link-field ui-front"
-                                               style="position: relative;">
-                                              <div>
-                                                  <input type="text"
-                                                         class="input-with-feedback form-control bold"
-                                                         required
-
-                                                         id="casual_staff_name"
-                                                         title="Enter Staff number in previous input and name will auto populate"
-                                                         name="casual_staff_name"
-                                                         v-model="assignmentDetails.casualStaffName"
-                                                         placeholder=""
-                                                         data-emp="name"
-                                                         data-doctype="AssignmentDetails"
-                                                         autocomplete="off"/>
-
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </td>
-                              </tr>
-                          </table>
-                      </td>
-                      <td class="frappe-control">
-
-                      </td>
-                      <td>
-                      </td>
-                  </tr>--}}
-
-            {{--  <tr>
-                  <td class="frappe-control ">
-                      <label for="assignedToTeam" class="control-label reqd"
-                             style="padding-right: 0px;">
-                          Team:
-                      </label>
-                  </td>
-                  <td>
-                      <div class="control-input-wrapper">
-                          <div class="control-input">
-                              <div class="link-field ui-front" style="position: relative;">
-                                  <label class="form-check-inline"> <input type="radio"
-                                                                           class="list-row-checkbox bold"
-                                                                           name="isTeamAssigned"
-                                                                           value="Y"
-                                                                           v-model="assignmentDetails.isTeamAssigned"
-                                                                           placeholder=""
-                                                                           data-target="Company">
-                                      Yes</label>
-                                  <label class="form-check-inline"> <input type="radio"
-                                                                           class="list-row-checkbox bold"
-                                                                           name="isTeamAssigned"
-                                                                           value="N"
-                                                                           checked
-                                                                           v-model="assignmentDetails.isTeamAssigned"
-                                                                           placeholder=""
-                                                                           data-target="Company">
-                                      No</label>
-                              </div>
-                          </div>
-                      </div>
-                  </td>
-
-              </tr>--}}
             </tbody>
         </table>
     </div>
