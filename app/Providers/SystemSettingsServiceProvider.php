@@ -13,7 +13,7 @@ class SystemSettingsServiceProvider extends ServiceProvider
     {
         try {
 
-            $systemErrorMessages = SystemError::where('status', '=', '01')->get();
+            $systemErrorMessages = SystemError::all();
             foreach ($systemErrorMessages as $setting) {
                 config(['error_message.' . $setting->error_code => $setting->error_message]);
             }
