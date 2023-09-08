@@ -88,7 +88,7 @@ class RolesController extends Controller
     public function update(Request $request): JsonResponse
     {
         try {
-            Log::info("Role Name ", $request->name);
+            Log::info("Role Name "+ $request->name);
             $role = Role::first($request->id);
             /*DB::beginTransaction();
             $role->slug = strtolower(str_replace('', '-', $request->name));
