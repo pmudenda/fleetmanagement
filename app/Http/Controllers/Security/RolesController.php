@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Security;
 
+use App\Exceptions\DataNotFoundException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RoleUpdate;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Security\Permission;
 use App\Models\Security\Role;
@@ -85,12 +87,18 @@ class RolesController extends Controller
             ->with('message', 'Permissions Successfully detached..');
     }
 
-    public function updateRole(Request $request): JsonResponse
+    public function updateRole(RoleUpdate $request): JsonResponse
     {
         $role = null;
         try {
             Log::info("Role Name  $request->name");
-            $role = Role::first($request->id);
+            Log::info("Role Name  $request->id");
+
+            $role = Role::where('id', '=', $request->id)->get();
+            if(empty($role)){
+                throw new DataNotFoundException("Role Not Found");
+            }
+
             DB::beginTransaction();
             $role->slug = strtolower(str_replace('', '-', $request->name));
             $role->name = strtoupper($request->name);
