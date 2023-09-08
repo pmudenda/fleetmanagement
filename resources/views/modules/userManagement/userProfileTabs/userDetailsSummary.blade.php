@@ -73,7 +73,7 @@
             <p class="text-muted">
                 <strong>System Profile:</strong>
                 @foreach ($roles as $groupName)
-                    @if(!empty($user->roles()))
+                    @if(!empty($user->roles()->first()))
                         @if($groupName->id == $user->roles()->first()->id)
                             {{strtoupper($groupName->description)}}
                         @endif
