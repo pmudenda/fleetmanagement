@@ -86,19 +86,19 @@
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
                                              src="{{ asset('storage/user_avatar/' . $mechanic->avatar) }}"
                                              alt="Image not found"
-                                             @if(Auth::user()->id==$mechanic->id)
+                                             {{--@if(auth::user()->id==$mechanic->id)
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
-                                             data-target="#modal-edit-profile"@endif
+                                             data-target="#modal-edit-profile"@endif--}}
                                         />
                                     @else
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
                                              src="{{ asset('assets/media/avatars/avatar.png') }}"
                                              alt="Image not found"
-                                             @if(Auth::user()->id==$mechanic->id)
+                                            {{-- @if(Auth::user()->id==$mechanic->id)
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
-                                             data-target="#modal-edit-profile"@endif
+                                             data-target="#modal-edit-profile"@endif--}}
                                         />
                                     @endif
                                 </a>
