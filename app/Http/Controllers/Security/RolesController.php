@@ -85,7 +85,7 @@ class RolesController extends Controller
             ->with('message', 'Permissions Successfully detached..');
     }
 
-    public function update(Request $request): JsonResponse
+    public function updateRole(Request $request): JsonResponse
     {
         try {
             Log::info("Role Name  $request->name");
