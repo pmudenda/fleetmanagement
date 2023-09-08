@@ -655,6 +655,8 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
         }
         $(selector).DataTable({
             /*"info": false,*/
+            dom: 'Qlfrtip',
+            stateSave: true,
             colReorder: true,
             'order': [],
             "pageLength": 10,
