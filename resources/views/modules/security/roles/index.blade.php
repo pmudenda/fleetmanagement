@@ -329,7 +329,7 @@
             $('[name="roleUpdateForm"]').on('submit', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                let $form = document.forms['roleUpdateForm'];
+                let $form = this;
 
                 if (!$($form).valid()) {
                     toastr.warning(appMessages.validationFailureMessage);
