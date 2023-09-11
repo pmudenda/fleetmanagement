@@ -161,14 +161,15 @@ class UserService
     public function createUser(UserOnboardingRequest $request): mixed
     {
         $validateWithHCMS = config('systeminfo.enableUserValidation');
-        DB::beginTransaction();
+
+        // move logic to database function
         if ($validateWithHCMS) {
             try {
                 $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_number)
                     ->where('con_st_code', '=', 'ACT')
                     ->first();
                 if (empty($employee_phcms)) {
-                    throw new \_HumbugBoxbdf58a3ca165\Symfony\Component\Config\Definition\Exception\Exception("User Not Found");
+                    throw new UserNotFoundException("User Not Found");
                 }
             } catch (\Exception $ex) {
                 Log::error($ex);
@@ -179,6 +180,7 @@ class UserService
                     )
                 );
             }
+            DB::beginTransaction();
             $user = User::firstOrCreate(
                 [
                     'staff_no' => $request->staff_number,
@@ -189,7 +191,8 @@ class UserService
                     'email' => strtoupper($request->staff_email),
                     'username' => $request->login_name,
                     'phone' => $request->mobile_no,
-
+                    'guid' => Str::uuid(),
+                    'area_code' => $request->get('business_area'),
                     'functional_section' => $request->user_unit,
                     'bu_code' => $request->business_unit_code,
                     'cc_code' => $request->cost_center_code,
@@ -209,11 +212,12 @@ class UserService
                     'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
                     'pay_point' => $employee_phcms->pay_point,
                     'job_code' => $employee_phcms->job_code ?? "--",
-                    'area_code' => $request->get('business_area'),
-                    'guid' => Str::uuid()
                 ]
             );
+            DB::commit();
         } else {
+
+            DB::beginTransaction();
             $user = User::firstOrCreate(
                 [
                     'staff_no' => $request->staff_number,
@@ -240,13 +244,12 @@ class UserService
                     'area_code' => $request->get('business_area'),
                 ],
             );
+            DB::commit();
         }
 
         if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
             $user->roles()->syncWithoutDetaching((int)$request->get('user_profile'));
         }
-
-        DB::commit();
 
         return true;
     }

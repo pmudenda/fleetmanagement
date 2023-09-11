@@ -50,8 +50,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                for="staff_no">Registration #:
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            for="staff_no">Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
@@ -89,8 +89,8 @@
                                                         </div>
                                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                             <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
-                                                                    for="staff_no">Status:
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                for="staff_no">Status:
                                                             </label>
                                                             <span id="vehicle_status" class="ml-3 badge badge-success"
                                                                   data-name="vehicle_status"></span>
@@ -107,7 +107,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -159,7 +159,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -175,7 +175,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6 d-none project_view_item">
+                                                        <div
+                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-6 d-none project_view_item">
                                                             <select disabled type="text" name="project_code"
                                                                     class="form-select mt-1 project-code-ajax"
                                                                     id="project_code">
@@ -209,8 +210,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Requisition Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -221,7 +222,7 @@
                                                                 <option value="">--Select--</option>
                                                                 @foreach ($requisitionTypes as $requisitionType)
                                                                     <option
-                                                                            value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -235,8 +236,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Current Odometer Reading :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -264,8 +265,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Driver:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -320,8 +321,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Departure Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Departure Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group date"
                                                                  data-target-input="nearest">
@@ -357,8 +358,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Return Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Return Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group date"
                                                                  data-target-input="nearest">
@@ -397,8 +398,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Departure Town:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Departure Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <select required class="form-control city select2"
                                                                     name="departureTown"
@@ -415,8 +416,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Destination Town:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Destination Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <select required
                                                                     class="form-control city select2"
@@ -438,8 +439,8 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                    for="covered_kilometers">Estimated Distance (Km):
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="covered_kilometers">Estimated Distance (Km):
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <input type="text" required
@@ -471,8 +472,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Allocation Per Week:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Allocation Per Week:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group input-group-sm">
                                                                 <input type="text" class="form-control form-control-sm"
@@ -495,8 +496,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Request Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Request Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="request_date"
@@ -516,8 +517,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                                for="next_fuel_date">
+                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                            for="next_fuel_date">
                                                             Next Refueling Date :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
@@ -539,8 +540,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Purpose:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Purpose:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <textarea type="text"
                                                                   id="justification"
@@ -559,8 +560,8 @@
                                                 <div class="row d-none" id="authorityToTravelContainer">
                                                     <div class="form-group row">
                                                         <label
-                                                                id="authority"
-                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 field-required">
+                                                            id="authority"
+                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 field-required">
                                                             Authority To Travel(<small>Any Authorization
                                                                 Document</small>)
                                                         </label>
@@ -682,6 +683,7 @@
     <script>
         window.citiesMap = {!! json_encode($cities) !!};
         window.citiesFrom = {!! json_encode($citiesFrom) !!};
+        window.tripPeriodLimit = {!! config('maxTripPeriod') !!};
 
         $(document).on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
@@ -692,6 +694,20 @@
     <script>
         (function (tmsApp, $) {
             let hasOpenRequisition = false;
+
+            const appMessages = {
+                permissionAlertWindowTitle: "Permission Assignment",
+                validationFailureMessage: "Sorry, the data did not pass validation check," +
+                    "check the data and try again.",
+                permissionsAttachedDefaultMessage: "Permission Assigned Successfully",
+                noFuelAllocation: 'Vehicle has no not been assigned Fuel Allocation, '
+                    + 'Request System Administrator to assign allocation',
+                inactiveEmployee: 'Employee with Staff_no @staff is not active',
+                vehicleNotFound: ' No Vehicle Found, Check your input and try again',
+                generalError: 'We could not complete processing your request, please try again later',
+                invalidTripPeriod: 'You have selected more than the 7 Days Limit' +
+                    'If your trip is more than 7 days, you will have to create a second trip '
+            };
 
             function removeSubmissionAndDetailsOptions() {
                 let elements = document.querySelectorAll('.when_valid');
@@ -734,14 +750,15 @@
 
                 if (!vehicle.fuel_allocation) {
                     tmsApp.showSystemMessage("Vehicle State",
-                        'Vehicle has no not been assigned Fuel Allocation, Request System Administrator to assign allocation', () => {
+                        appMessages.noFuelAllocation,
+                        () => {
                         },
                         "error")
 
                     return;
                 }
 
-                if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                if (vehicle['status'] !== $('[name="vehicleActive"]').val()) {
                     tmsApp.showSystemMessage("Vehicle State",
                         vehicle_state,
                         () => {
@@ -766,27 +783,15 @@
                 $("#vehicle_description").val(vLabel);
                 $("#vehicle_status").text(vehicle['status_name']);
 
-                /*let row = `<tr> <th>Make:</th><td id="make">${vehicle.brand_name}</td></tr>
-                               <tr>
-                                    <th>Model:</th><td id="model">${vehicle['model_name']} ${vehicle.model_code}</td>
-                               </tr>
-                               <tr style="">
-                                     <th>Type:</th><td id="registration">${vehicle['body_type_name']}</td>
-                                </tr>
-                                <tr style="">
-                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
-                                </tr>`;
-
-                $('tbody#vehicleDetails').html(row);*/
-
                 if (vehicle.fuel_allocation) {
                     let perWeekAllocation = vehicle.fuel_allocation * 7;
                     document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
                     document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
 
-                    document.querySelector('[name="material_quantity"]').setAttribute('max', perWeekAllocation?.toString());
-                    document.querySelector('[name="material_quantity"]').setAttribute('data-max', perWeekAllocation?.toString());
-                    document.querySelector('[name="material_quantity"]').setAttribute('min', vehicle.fuel_allocation);
+                    $('[name="material_quantity"]')
+                        .attr('max', perWeekAllocation?.toString())
+                        .attr('data-max', perWeekAllocation?.toString())
+                        .attr('min', vehicle.fuel_allocation);
 
                     $('#totalQty').text(tmsApp.numberFormat(perWeekAllocation));
                 }
@@ -803,10 +808,6 @@
                     /* Unit Of Measure */
                     $("#unit_of_measure").text(article['description']);
                     $('input[name="unit_of_measure"]').val(article['description']);
-
-
-                    //$("#material_amount").text(tmsApp.formatMoney('', 2));
-                    //$('input[name="material_amount"]').val(tmsApp.formatMoney('', 2)).trigger('change');
 
                     /* Material Price*/
                     $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
@@ -837,7 +838,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         body: formData,
-                        referrer: window.baseUrl,
+                        referrer: window['baseUrl'],
                         mode: 'cors',
                         credentials: 'same-origin',
                     }
@@ -850,15 +851,16 @@
                         return response.json();
                     })
                     .then(response => {
-                        //console.log(response);
-
                         if (!response.success || response.payload.length === 0) {
                             tmsApp.systemError('Driver Verification', response['message']);
                             return;
                         }
 
-                        if (response.payload.con_st_code != '01' && response.payload.con_st_code != 'ACT') {
-                            tmsApp.systemError('Driver Verification', 'Employee with Staff_no ' + staff_number + ' is not active');
+                        if (response.payload['con_st_code'] !== '01'
+                            && response.payload['con_st_code'] !== 'ACT') {
+                            tmsApp.systemError('Driver Verification',
+                                appMessages.inactiveEmployee.replace('@staff', staff_number)
+                            );
                             return;
                         }
 
@@ -885,13 +887,13 @@
                             removeSubmissionAndDetailsOptions();
                             let $message = response_data['message']
                                 ? response_data['message']
-                                : ' No Vehicle Found, Check your input and try again';
+                                : appMessages.vehicleNotFound;
                             tmsApp.systemError('Vehicle', $message);
                         }
                     },
                     function (xhr) {
                         tmsApp.systemError('System Message',
-                            'We could not complete processing your request, please try again later');
+                            appMessages.generalError);
                     }
                 )
             }
@@ -909,7 +911,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         body: formData,
-                        referrer: window.baseUrl,
+                        referrer: window['baseUrl'],
                         mode: 'cors',
                         credentials: 'same-origin',
                     }
@@ -926,14 +928,12 @@
                         console.log(response);
 
                         if (!response.success || response.payload.length === 0) {
-                            //tmsApp.systemError('Driver Verification', response['message']);
                             return;
                         }
-
-                        //hasOpenRequisition
                     })
                     .catch(function (xhr, settings, error) {
-                        tmsApp.showErrorMessages(xhr, 'Driver Validation');
+                        tmsApp.showErrorMessages(xhr,
+                            'Driver Validation');
                     });
             }
 
@@ -1126,16 +1126,15 @@
                     odometer_reading: {
                         required: 'You must declare the odometer reading'
                     },
-                    /* driver_staff_number: {
-                         required: "You need to provide driver details"
-                     },*/
                 }
             );
 
             $('#submitRequisitionBtn').on('click', function () {
                 let $form = document.forms['fuelRequisitionForm'];
                 if (!$($form).valid()) {
-                    tmsApp.systemError('Data Validation', 'One or more input has invalid or missing data', null);
+                    tmsApp.systemError('Data Validation',
+                        'One or more input has invalid or missing data',
+                        null);
                     return;
                 }
 
@@ -1203,7 +1202,8 @@
 
                                     tmsApp.systemError(
                                         'Fuel Requisition',
-                                        'We could not complete processing your request, please try again later');
+                                        appMessages.generalError
+                                    );
                                 }, 300)
                             }
                         )
@@ -1247,7 +1247,6 @@
 
                     $('#nextRefuelingDateContainer').addClass('d-none');
 
-                    //document.querySelector('[name="next_fuel_date"]').style.display = 'none';
                 } else {
                     $(".outOfTown").addClass('d-none');
                     $("#allocationContainer").removeClass('d-none');
@@ -1263,7 +1262,8 @@
                     $('#authorityToTravel').trigger("filer.reset")
 
                     document.querySelector('[name="material_quantity"]')
-                        .setAttribute('max', document.querySelector('[name="material_quantity"]').getAttribute('data-max'));
+                        .setAttribute('max', document.querySelector('[name="material_quantity"]')
+                            .getAttribute('data-max'));
 
                     $('#nextRefuelingDateContainer').removeClass('d-none');
                 }
@@ -1371,10 +1371,9 @@
                     return;
                 }
 
-                if (diffInDays > 7) {
+                if (diffInDays > window.tripPeriodLimit) {
                     new Swal('Day Limit',
-                        'You have selected more than the 7 Days Limit' +
-                        'If your trip is more than 7 days, you will have to create a second trip ',
+                        appMessages.invalidTripPeriod,
                         'info');
 
                     determineAppropriateEndDate();
@@ -1403,8 +1402,6 @@
 
                 for (const value of otherCities) {
                     const option = document.createElement("option");
-                    //option.value = key;
-                    //option.text = key;
                     option.value = value['town_to'];
                     option.text = value['town_to'];
                     option.dataset.distance = value['distance'];
