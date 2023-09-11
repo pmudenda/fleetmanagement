@@ -111,7 +111,8 @@
                             <p class="text-muted">
                                 <strong>System Profile:</strong>
                                 @foreach ($user->roles() as $groupName)
-                                    {{strtoupper($groupName->description)}}
+
+                                    {{--{{strtoupper($groupName->description)}}--}}
                                 @endforeach
                             </p>
                         </div>
