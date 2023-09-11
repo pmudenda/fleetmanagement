@@ -3,10 +3,8 @@
 namespace App\Services\Logging;
 
 use App\Models\ActivityLogsModel;
-use App\Services\LoggingServices\SystemErrorModel;
 use Exception;
 use hisorange\BrowserDetect\Parser as Browser;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Torann\GeoIP\Facades\GeoIP;
 
