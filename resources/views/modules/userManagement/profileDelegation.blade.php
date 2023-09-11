@@ -75,7 +75,7 @@
                                             <!-- form start -->
                                             <form role="form-new"
                                                   method="post"
-                                                  action="{{route('main.profile.delegation.store')}}">
+                                                  action="{{route('user.profile.delegation.store')}}">
                                                 @csrf
                                                 <div class="modal-body">
 
