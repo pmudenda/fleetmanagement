@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Log;
 
 class ImprestBuysController extends Controller
 {
+    const RESULT = ':result';
+
     public function saveImprestBuyItems(PettyCashItems $request): JsonResponse
     {
         try {
@@ -64,9 +66,16 @@ class ImprestBuysController extends Controller
 
             DB::commit();
 
-            $eformsPettyCashUrl = config('systeminfo.petty_cash_url');
-            Log::info("Posting Data To $eformsPettyCashUrl");
+            $pdo = DB::getPdo();
+            $staffNumber = auth()->user()->staff_no;
+            $stmt = $pdo->prepare("begin :result := fn_create_imprest_req(:p_imprest_reference,
+            :p_current_user); end;");
+            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(":p_current_user", $staffNumber);
+            $stmt->bindParam(":p_imprest_reference", $imprestReferenceNumber);
+            $stmt->execute();
 
+            Log::info("Posting Data");
             Log::info("Logging Response From Petty Cash System");
 
             return response()->json(

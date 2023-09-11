@@ -94,7 +94,7 @@
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
                                              src="{{ asset('assets/media/avatars/avatar.png') }}"
                                              alt="Image not found"
-                                             @if( Auth::user()->id==$user->id)
+                                             @if(Auth::user()->id==$user->id)
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"

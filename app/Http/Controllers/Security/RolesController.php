@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Security;
 
-use App\Exceptions\DataNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleUpdate;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Security\Permission;
 use App\Models\Security\Role;
+use App\Services\Security\RoleService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -19,6 +19,12 @@ use Illuminate\Support\Facades\Log;
 
 class RolesController extends Controller
 {
+    private readonly RoleService $roleService;
+
+    public function __construct(RoleService $roleService)
+    {
+        $this->roleService = $roleService;
+    }
 
     public function index(): Factory|View|Application
     {
@@ -36,20 +42,10 @@ class RolesController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        DB::beginTransaction();
-        $slug = strtolower(str_replace(' ', '-', $request->slug));
-        Role::updateOrCreate(
-            [
-                'slug' => $slug,
-            ],
-            [
-                'slug' => $slug,
-                'name' => $request->name,
-                'description' => $request->name,
-                'guard_name' => 'web'
-            ]
-        );
-        DB::commit();
+        $slug = $request->name;
+        $roleName = $request->name;
+        $roleDescription = $request->name;
+        $this->roleService->createRole($slug, $roleName, $roleDescription);
         return redirect()->route('roles.index')
             ->with('message', 'Role Successfully defined..');
     }
@@ -89,37 +85,27 @@ class RolesController extends Controller
 
     public function updateRole(RoleUpdate $request): JsonResponse
     {
-        $role = null;
+        $roleName = null;
         try {
-            Log::info("Role Name  $request->name");
-            Log::info("Role Id  $request->id");
+            $slug = $request->name;
+            $roleName = $request->name;
+            $roleDescription = $request->name;
 
-            $role = Role::where('id', '=', (int)$request->id)->first();
-            if(empty($role)){
-                throw new DataNotFoundException("Role Not Found");
-            }
+            $response = $this->roleService->updateRoles(
+                (int)$request->get('id'),
+                $slug,
+                $roleName,
+                $roleDescription
+            );
 
-            DB::beginTransaction();
-            $role->slug = strtoupper(str_replace('', '-', $request->name));
-            $role->name = strtoupper($request->name);
-            $role->description = strtoupper($request->name);
-            $role->save();
-            DB::commit();
-            return response()
-                ->json(
-                    FleetMasterJsonResponse::response(
-                        'success',
-                        true,
-                        'Role ' . $role->name . ' updated Successfully'
-                    )
-                );
+            return response()->json($response);
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
                 FleetMasterJsonResponse::response(
                     'failure',
                     false,
-                    'Role ' . $role->name . ' Could Not Be Updated'
+                    'Role ' . $roleName . ' Could Not Be Updated'
                 )
             );
         }
@@ -128,9 +114,7 @@ class RolesController extends Controller
 
     public function destroy(Role $role): RedirectResponse
     {
-        DB::beginTransaction();
-        Role::destroy($role->id);
-        DB::commit();
+        $this->roleService->deleteRole($role->id);
         return redirect()->back()
             ->with('message', 'Role Deleted Successfully');
     }

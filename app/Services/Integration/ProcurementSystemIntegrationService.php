@@ -49,18 +49,6 @@ class ProcurementSystemIntegrationService
 
             $pdo = DB::getPdo();
 
-            Log::info("p ref_no  $docNumber");
-            Log::info("p reg_no  $vehRegNumber");
-            Log::info("p store_code  $storeCode");
-            Log::info("p user_requesting  $user");
-            Log::info("p job_card  $jobCardNumber");
-            Log::info("p system_origin  $systemOfOrigin");
-            Log::info("p fleet_req_code  $storesRequisitionNumber");
-            Log::info("p req_acc_number  $account");
-            Log::info("p delivery_site  $deliverySite");
-            Log::info("p transaction_type  $transactionType");
-            Log::info("p current_user  $user");
-
             $stmt = $pdo->prepare("begin :result := fn_create_stores_req(:p_ref_no, :p_reg_no,
             :p_store_code, :p_user_requesting, :p_job_card, :p_system_origin, :p_fleet_req_code,
             :p_req_acc_number, :p_delivery_site, :p_transaction_type, :p_current_user); end;");

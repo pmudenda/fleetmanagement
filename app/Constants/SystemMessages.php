@@ -24,6 +24,8 @@ class SystemMessages
     const TOM_CARD_REVOKED = "Tom Card Revoked Successfully";
 
     const PURCHASE_ORDER_RETRIEVED = 'Purchase Order Data Retrieved Successfully';
+    const REQUISITION_RAISED = "Reservation @ref Submitted Successfully. Task generated for Authorisation";
+    const DUPLICATE_ARTICLE = "Article @article has been already selected for vehicle @reg. Check your article";
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

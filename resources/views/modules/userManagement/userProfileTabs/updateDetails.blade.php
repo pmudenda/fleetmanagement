@@ -190,6 +190,9 @@
                     @if(!$allowUpdate)
                         disabled
                     @endif
+                    @if(Auth::user()->id==$user->id)
+                        disabled
+                    @endif
                     class="@if($allowUpdate) form-select form-select-sm @else form-control  @endif"
                     required>
                 <option value>--Choose Profile--</option>
