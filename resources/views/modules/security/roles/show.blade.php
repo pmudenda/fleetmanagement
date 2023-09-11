@@ -116,7 +116,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form name="attachPermissionsForm" method="post" action="{{route('roles.assign.permission')}}">
+                    <form name="attachPermissionsForm"
+                          method="post"
+                          action="{{route('roles.assign.permission')}}">
                         @csrf
                         <input type="hidden" value="{{$role->id}}" name="roleId">
                         <div class="card-body">
@@ -229,6 +231,13 @@
         (function (appInstance) {
             let $permissionsTable = '';
 
+            const appMessages = {
+                permissionAlertWindowTitle: "Permission Assignment",
+                validationFailureMessage: "Sorry, the data did not pass validation check," +
+                    "check the data and try again.",
+                permissionsAttachedDefaultMessage: "Permission Assigned Successfully"
+            };
+
             $(document).ready(function () {
                 $('#attachedPermissions').DataTable({
                     'order': [],
@@ -256,18 +265,79 @@
                     .buttons().container()
                     .appendTo('#permissionsTable' + '_wrapper .col-md-6:eq(0)');
 
-               /* $('[name="attachPermissionsForm"]').on('submit', function(e){
+                $('[name="attachPermissionsForm"]').on('submit', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
 
+                    let $form = this;
+
                     let $checkboxes = $permissionsTable.$('input[type=checkbox]:checked');
+                    const formData = {
+                        roleId: $('[name="roleId"]').val()
+                    };
+
+                    let obj = {};
                     for (const $checkbox of $checkboxes) {
                         console.log($checkbox.value);
+                        obj.push({'permissionId': $checkbox.value});
                     }
 
-                    return false;
-                })*/
+                    formData['permissionIds'] = obj;
 
+                    let element = document.querySelector('.profileEditModal');
+                    let modal = null;
+                    if (element) {
+                        modal = bootstrap.Modal.getOrCreateInstance(element);
+                    }
+
+                    tmsApp.asyncPostFormData(
+                        $form.action,
+                        formData,
+                        function (response) {
+                            window.loaderMessage = "Loading... please wait";
+                            if (response.hasOwnProperty("state") && response.state === 'success') {
+                                if (modal) {
+                                    modal.hide();
+                                }
+                                const message = response.message > ""
+                                    ? response.message
+                                    : appMessages.permissionsAttachedDefaultMessage;
+
+                                tmsApp.showSystemMessage(
+                                    appMessages.permissionAlertWindowTitle,
+                                    message,
+                                    function () {
+                                        window.location.reload();
+
+                                    },
+                                    "success"
+                                );
+                            } else {
+                                tmsApp.play_alert('sound-error');
+                                if (!Util.isEmpty(response.errors)) {
+                                    if (response.errors) {
+                                        tmsApp.printErrorMsg(response.errors);
+                                    }
+                                } else if (!Util.isEmpty(response.message)) {
+                                    tmsApp.systemError(appMessages.permissionAlertWindowTitle,
+                                        response.message);
+                                }
+
+                                if (modal) {
+                                    modal.hide();
+                                }
+                            }
+                        },
+                        function (xhr) {
+                            console.log(xhr);
+                            tmsApp.play_alert('sound-error');
+                            tmsApp.showErrorMessages(xhr, appMessages.permissionAlertWindowTitle);
+                        },
+                        'POST'
+                    );
+
+                    return false;
+                });
 
             });
         })(window.tmsApp || {});

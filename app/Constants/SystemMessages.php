@@ -28,6 +28,8 @@ class SystemMessages
     const DUPLICATE_ARTICLE = "Article @article has been already selected for vehicle @reg. Check your article";
     const USER_NOT_CREATED
         = "User Failed to be created because the Staff number (@user_name) could not be verified with PHCMS.";
+    const PERMISSIONS_ATTACHED = 'Permissions Assigned Successfully..';
+    const PERMISSIONS_DETACHED = 'Permissions Successfully detached..';
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

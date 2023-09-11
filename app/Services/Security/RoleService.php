@@ -4,6 +4,7 @@ namespace App\Services\Security;
 
 use App\Exceptions\DataNotFoundException;
 use App\Helpers\StatusHelper;
+use App\Http\Requests\PermissionAssignment;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Security\Role;
 use Illuminate\Database\Eloquent\Collection;
@@ -52,26 +53,24 @@ class RoleService
             'p_guard_name' => 'web',
             'p_name' => $roleName
         ]);
-
-        /*DB::beginTransaction();
-        $slug = strtolower(str_replace(' ', '-', $request->slug));
-        Role::updateOrCreate(
-            [
-                'slug' => $slug,
-            ],
-            [
-                'slug' => $slug,
-                'name' => $request->name,
-                'description' => $request->name,
-                'guard_name' => 'web'
-            ]
-        );
-        DB::commit();*/
     }
 
     public function get(): Collection
     {
-       return Role::all();
+        return Role::all();
+    }
+
+    public function assignRoles(PermissionAssignment $request): void
+    {
+        DB::beginTransaction();
+        $role = Role::find((int)$request->get('roleId'));
+
+        $permissionIdArray = [];
+        foreach ($request->get('permissionIds') as $id) {
+            $permissionIdArray[] = $id;
+        }
+        $role->permissions()->syncWithoutDetaching($permissionIdArray);
+        DB::commit();
     }
 
 }

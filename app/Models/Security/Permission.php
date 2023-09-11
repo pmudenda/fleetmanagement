@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Permission extends Model
 {
-    use HasFactory;
-
     protected $fillable = ['name', 'value', 'slug', 'guard_name', 'status', 'description'];
     protected $table = 'SEC_PERMISSIONS';
 

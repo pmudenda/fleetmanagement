@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Security;
 
+use App\Constants\SystemMessages;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PermissionAssignment;
 use App\Http\Requests\RoleUpdate;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Security\Permission;
@@ -61,32 +63,46 @@ class RolesController extends Controller
             ));
     }
 
-    public function assignPermission(Request $request): RedirectResponse
+    public function assignPermission(PermissionAssignment $request): JsonResponse
     {
-        DB::beginTransaction();
-        $role = Role::find((int)$request->get('roleId'));
-        $role->permissions()->syncWithoutDetaching($request->permission_ids);
-        DB::commit();
-        return redirect()
-            ->back()
-            ->with('message', 'Permissions Assigned Successfully..');
+
+        try {
+            $this->roleService->assignRoles($request);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'success',
+                    true,
+                    SystemMessages::PERMISSIONS_ATTACHED
+                )
+            );
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    'Permissions Could Not Be Updated'
+                )
+            );
+        }
     }
 
     public function revokePermission(Request $request): RedirectResponse
     {
         DB::beginTransaction();
         $role = Role::find($request->get('roleId'));
-        $role->permissions()->detach($request->permission_id);
+        $role->permissions()->detach($request->get('permission_id'));
         DB::commit();
         return redirect()
             ->back()
-            ->with('message', 'Permissions Successfully detached..');
+            ->with('message', SystemMessages::PERMISSIONS_DETACHED);
     }
 
     public function updateRole(RoleUpdate $request): JsonResponse
     {
         $roleName = null;
         try {
+
             $slug = $request->name;
             $roleName = $request->name;
             $roleDescription = $request->name;
