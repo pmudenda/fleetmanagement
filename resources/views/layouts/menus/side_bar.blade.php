@@ -134,10 +134,10 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview pl-3">
-                            @canany(
+                            @canany([
                                 config('rights.set_vehicle_fuel_allocation'),
                                 config('rights.view_fuel'),
-                                config('rights.approve_fuel_requisition'))
+                                config('rights.approve_fuel_requisition')])
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
