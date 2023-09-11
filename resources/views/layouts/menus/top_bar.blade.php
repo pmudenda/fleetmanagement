@@ -191,10 +191,12 @@
             <div class="user-panel mt-1 pb-1 d-flex">
                 <div class="image">
                     @if(isset(Auth::user()->avatar) && !empty(Auth::user()->avatar))
-                        <img src="{{asset('storage/user_avatar/'.Auth::user()->avatar)}}" class="img-circle elevation-2"
+                        <img src="{{asset('storage/user_avatar/'.Auth::user()->avatar)}}"
+                             class="img-circle elevation-2"
                              alt="User Image">
                     @else
-                        <img src="{{asset('assets/dist/img/avatar.png')}}" class="img-circle elevation-2"
+                        <img src="{{asset('assets/dist/img/avatar.png')}}"
+                             class="img-circle elevation-2"
                              alt="User Image">
                     @endif
 
@@ -206,15 +208,18 @@
             <a class="nav-link" data-toggle="dropdown" href="#">
                 {{Auth::user()->name}}</a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="{{URL::signedRoute('profile',['key'=> ParameterEncryption::encrypt( Auth::user()->id) ]) }}"
+                <a href="{{URL::signedRoute('profile',[
+                        'key'=> ParameterEncryption::encrypt( Auth::user()->id) ])
+                        }}"
                    class="dropdown-item">
                     <i class="fas fa-user-circle mr-2"></i>
                     My Profile
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="{{URL::signedRoute('user.profile.delegation',[
-                        'key'=> ParameterEncryption::encrypt( Auth::user()->id) ])
-                         }}"
+                        'key'=> ParameterEncryption::encrypt( Auth::user()->id),
+                        'self'=> true
+                        ])}}"
                    class="dropdown-item">
                     <i class="fas fa-user-friends mr-2"></i>
                     Delegation
@@ -223,7 +228,8 @@
                 <a href="{{ route('logout') }}"
                    class="dropdown-item"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    Logout
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf

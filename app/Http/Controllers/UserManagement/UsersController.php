@@ -192,9 +192,14 @@ class UsersController extends Controller
 
         $id = (int)ParameterEncryption::decrypt($request->get('key'));
         $user = User::where('id', '=', $id)->first();
+        $selfDelegation = $request->get('self');
         $profiles = (new RoleService())->get();
         return view('modules.userManagement.profileDelegation')
-            ->with(compact('user', 'profiles'));
+            ->with(compact(
+                'user',
+                'profiles',
+                'selfDelegation'
+            ));
     }
 
     public function search(Request $request): JsonResponse
