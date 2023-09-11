@@ -16,7 +16,16 @@
             <div class="row">
                 <!-- Left col -->
                 <div class="col-xs-12 col-sm-4 pl-0">
+
                     <div class="card card-outline">
+                        <div class="card-header">
+                            <div class="card-tools">
+                                {{--<button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                        data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fas fa-minus"></i></button>--}}
+                            </div>
+                        </div>
                         <div class="card-body box-profile">
                             <div class="text-center">
                                 <a href="#">
@@ -57,7 +66,6 @@
                                 <li class="list-group-item">
                                     <b>NRC</b> <a class="float-right">{{ $user->nrc }}</a>
                                 </li>
-                                {{-- @endif --}}
                                 <li class="list-group-item">
                                     <b>Phone</b> <a class="float-right">{{ $user->mobile_no }}</a>
                                 </li>
@@ -162,14 +170,6 @@
 
                                     <!-- Default box -->
                                     <div class="card">
-                                        {{--<div class="card-header">
-                                            <div class="card-tools">
-                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                                        data-toggle="tooltip"
-                                                        title="Collapse">
-                                                    <i class="fas fa-minus"></i></button>
-                                            </div>
-                                        </div>--}}
                                         <!-- /.card-header -->
                                         <div class="card-body">
                                             <!-- form start -->
