@@ -1,4 +1,4 @@
-@php use App\Services\Security\ParameterEncryption;use Carbon\Carbon;  @endphp
+@php use Carbon\Carbon;  @endphp
 @extends('layouts.app')
 @push('styles')
     <!-- DataTables -->
@@ -130,9 +130,9 @@
                                             </td>
                                             @can(config('rights.user_show'))
                                                 <td>
-                                                    <a href="{{URL::signedRoute('user.show',[
-                                                            'id' => $user->id
-                                                            ])
+                                                    <a href="{{URL::signedRoute('user.show',
+                                                            $user->id
+                                                            )
                                                         }}"
                                                        class="btn btn-sm btn-success m-1">
                                                         Details
