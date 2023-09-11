@@ -134,7 +134,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-12 pl-0">
+                <div class="col-md-12 col-sm-7 pl-0">
                     <div class="card">
                         <div class="card-header ">
                             <div class="card-title">
