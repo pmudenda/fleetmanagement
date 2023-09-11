@@ -230,7 +230,7 @@
 @push('scripts')
 
     <script>
-        (function (appInstance) {
+        (function (tmsApp) {
             let $permissionsTable = '';
 
             const appMessages = {
