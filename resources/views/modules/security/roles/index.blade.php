@@ -68,7 +68,7 @@
                                                 {{$item->permissions->count() }}
                                             </td>
                                             <td>
-                                                {{Carbon::parse($item->created_at)->format('dd/m/y')}}
+                                                {{Carbon::parse($item->created_at)->format('d/m/Y')}}
                                             </td>
                                             <td>
                                                 <div class="dropdown">
