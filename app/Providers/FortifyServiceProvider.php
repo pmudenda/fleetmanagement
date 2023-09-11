@@ -61,6 +61,7 @@ class FortifyServiceProvider extends ServiceProvider
                 $user->total_logins = ($user->total_logins ?? 0) + 1;
                 $user->last_login = Carbon::now();
                 User::swapping($user);
+                $user->save();
                 return $user;
             }
 
@@ -71,7 +72,6 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
-
 
         RateLimiter::for('login', function (Request $request) {
             $email = (string)$request->username;
