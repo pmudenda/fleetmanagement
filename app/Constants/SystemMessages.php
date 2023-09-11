@@ -26,6 +26,8 @@ class SystemMessages
     const PURCHASE_ORDER_RETRIEVED = 'Purchase Order Data Retrieved Successfully';
     const REQUISITION_RAISED = "Reservation @ref Submitted Successfully. Task generated for Authorisation";
     const DUPLICATE_ARTICLE = "Article @article has been already selected for vehicle @reg. Check your article";
+    const USER_NOT_CREATED
+        = "User Failed to be created because the Staff number (@user_name) could not be verified with PHCMS.";
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

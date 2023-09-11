@@ -3,16 +3,21 @@
 namespace App\Services\Security;
 
 use App\Constants\ErrorMessages;
+use App\Constants\SystemMessages;
 use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserNotFoundException;
+use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
+use App\Http\Requests\UserOnboardingRequest;
 use App\Http\Requests\UserProfileUpdate;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\User;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class UserService
 {
@@ -122,7 +127,7 @@ class UserService
         return $dataset;
     }
 
-    public static function updateUserDetails(UserProfileUpdate $request): void
+    public function updateUserDetails(UserProfileUpdate $request): void
     {
         DB::beginTransaction();
 
@@ -146,6 +151,104 @@ class UserService
 
         DB::commit();
 
+    }
+
+    /**
+     * @param UserOnboardingRequest $request
+     * @return mixed
+     * @throws UserOnBoardingException
+     */
+    public function createUser(UserOnboardingRequest $request): mixed
+    {
+        $validateWithHCMS = config('systeminfo.enableUserValidation');
+        DB::beginTransaction();
+        if ($validateWithHCMS) {
+            try {
+                $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_number)
+                    ->where('con_st_code', '=', 'ACT')
+                    ->first();
+                if (empty($employee_phcms)) {
+                    throw new \_HumbugBoxbdf58a3ca165\Symfony\Component\Config\Definition\Exception\Exception("User Not Found");
+                }
+            } catch (\Exception $ex) {
+                Log::error($ex);
+                throw new UserOnBoardingException(
+                    str_replace('@user_name',
+                        $request->staff_number,
+                        SystemMessages::USER_NOT_CREATED
+                    )
+                );
+            }
+            $user = User::firstOrCreate(
+                [
+                    'staff_no' => $request->staff_number,
+                ],
+                [
+                    'con_st_code' => StatusHelper::active(),
+                    'password' => Hash::make($request->password),
+                    'email' => strtoupper($request->staff_email),
+                    'username' => $request->login_name,
+                    'phone' => $request->mobile_no,
+
+                    'functional_section' => $request->user_unit,
+                    'bu_code' => $request->business_unit_code,
+                    'cc_code' => $request->cost_center_code,
+                    'directorate' => $request->directorate,
+                    'user_unit' => $request->user_unit,
+                    'supervisor_code' => $request->staff_supervisorId,
+                    'supervisor_name' => $request->staff_supervisor,
+
+                    'staff_no' => $employee_phcms->con_per_no,
+                    'contract_type' => $employee_phcms->contract_type,
+                    'name' => $employee_phcms->name,
+                    'nrc' => $employee_phcms->nrc,
+                    'mobile_no' => $employee_phcms->mobile_no,
+                    'group_type' => $employee_phcms->group_type,
+                    'job_title' => $employee_phcms->job_title,
+                    'grade' => $employee_phcms->grade,
+                    'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
+                    'pay_point' => $employee_phcms->pay_point,
+                    'job_code' => $employee_phcms->job_code ?? "--",
+                    'area_code' => $request->get('business_area'),
+                    'guid' => Str::uuid()
+                ]
+            );
+        } else {
+            $user = User::firstOrCreate(
+                [
+                    'staff_no' => $request->staff_number,
+                ],
+                [
+                    'con_st_code' => StatusHelper::active(),
+                    'password' => Hash::make($request->password),
+                    'name' => $request->name,
+                    'staff_no' => $request->staff_number,
+                    'email' => $request->staff_email,
+                    'username' => $request->login_name,
+                    'phone' => $request->mobile_no,
+                    'mobile_no' => $request->mobile_no,
+                    'functional_section' => $request->user_unit,
+                    'grade' => $request->grade,
+                    'bu_code' => $request->business_unit_code,
+                    'cc_code' => $request->cost_center_code,
+                    'directorate' => $request->directorate,
+                    'user_unit' => $request->user_unit,
+                    'supervisor_code' => $request->staff_supervisorId,
+                    'supervisor_name' => $request->staff_supervisor,
+                    'job_title' => $request->job_title,
+                    'guid' => Str::uuid(),
+                    'area_code' => $request->get('business_area'),
+                ],
+            );
+        }
+
+        if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
+            $user->roles()->syncWithoutDetaching((int)$request->get('user_profile'));
+        }
+
+        DB::commit();
+
+        return true;
     }
 
 }

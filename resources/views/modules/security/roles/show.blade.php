@@ -104,126 +104,125 @@
             </div>
         </div>
     </section>
-@endsection
 
-
-@foreach($role->permissions as $item)
-    <!-- Device Delete Modal -->
-    <div class="modal fade" id="detach-permission{{$item->id}}" tabindex="-1" role="dialog"
+    <div class="modal fade" id="attach-permission{{$role->id}}" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detach Permission: {{$item->name}}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Attach Permission: {{$role->name}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form name="db2" method="post" action="{{route('roles.revoke.permission')}}">
+                    <form name="attachPermissionsForm" method="post" action="{{route('roles.assign.permission')}}">
                         @csrf
                         <input type="hidden" value="{{$role->id}}" name="roleId">
                         <div class="card-body">
                             <div class="row">
-                                <span class="text-danger">Are you sure you want to detach?</span>
+                            <span class="text-danger">
+                                Select the permissions you want to assign
+                            </span>
                             </div>
-
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
-                                    <label for="name">Permission Name: <span class="required">*</span></label>
-                                    <input type="text" class="form-control" value="{{$item->name}}" id="name"
-                                           name="name" required>
-                                    <input type="hidden"
-                                           class="form-control"
-                                           value="{{$item->id}}"
-                                           id="permission_id"
-                                           name="permission_id"
-                                           required readonly/>
-                                </div>
-                            </div>
-
+                            <table id="permissionsTable"
+                                   aria-label="permission table"
+                                   role="table"
+                                   class="table">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($permissions->whereNotIn( 'id',
+                                    $role->permissions->pluck('id')->toArray()) as $item)
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox"
+                                                   id="permission_ids"
+                                                   name="permission_ids[]"
+                                                   value="{{$item->id}}">
+                                        </td>
+                                        <td>
+                                            {{$item->description}}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            @can(config('rights.permission_revoke'))
-                                <button type="submit" class="btn btn-danger">Revoke Permission</button>
+                            <button type="button"
+                                    class="btn btn-default"
+                                    data-dismiss="modal">Close
+                            </button>
+                            @can(config('rights.permission_attach'))
+                                <button type="submit" class="btn btn-sm btn-success">
+                                    <i class="fas fa-save"></i>
+                                    Attach
+                                </button>
                             @endcan
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <!-- /.col -->
     </div>
 
-@endforeach
-
-<!-- Device Delete Modal -->
-<div class="modal fade" id="attach-permission{{$role->id}}" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Attach Permission: {{$role->name}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form name="attachPermissionsForm" method="post" action="{{route('roles.assign.permission')}}">
-                    @csrf
-                    <input type="hidden" value="{{$role->id}}" name="roleId">
-                    <div class="card-body">
-                        <div class="row">
-                            <span class="text-danger">Select Permissions to Attach</span>
-                        </div>
-                        <table id="permissionsTable"
-                               aria-label="permission table"
-                               role="table"
-                               class="table">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($permissions->whereNotIn( 'id',
-                                $role->permissions->pluck('id')->toArray()) as $item)
-                                <tr>
-                                    <td>
-                                        <input type="checkbox"
-                                               id="permission_ids"
-                                               name="permission_ids[]"
-                                               value="{{$item->id}}">
-                                    </td>
-                                    <td>
-                                        {{$item->description}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button"
-                                class="btn btn-default"
-                                data-dismiss="modal">Close
+    @foreach($role->permissions as $item)
+        <!-- Device Delete Modal -->
+        <div class="modal fade" id="detach-permission{{$item->id}}" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detach Permission: {{$item->name}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
                         </button>
-                        @can(config('rights.permission_attach'))
-                            <button type="submit" class="btn btn-sm btn-success">
-                                <i class="fas fa-save"></i>
-                                Attach
-                            </button>
-                        @endcan
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- /.col -->
-</div>
+                    <div class="modal-body">
+                        <form name="db2" method="post" action="{{route('roles.revoke.permission')}}">
+                            @csrf
+                            <input type="hidden" value="{{$role->id}}" name="roleId">
+                            <div class="card-body">
+                                <div class="row">
+                                    <span class="text-danger">Are you sure you want to detach?</span>
+                                </div>
 
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
+                                        <label for="name">Permission Name: <span class="required">*</span></label>
+                                        <input type="text" class="form-control" value="{{$item->name}}" id="name"
+                                               name="name" required>
+                                        <input type="hidden"
+                                               class="form-control"
+                                               value="{{$item->id}}"
+                                               id="permission_id"
+                                               name="permission_id"
+                                               required readonly/>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                @can(config('rights.permission_revoke'))
+                                    <button type="submit" class="btn btn-danger">Revoke Permission</button>
+                                @endcan
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+
+    @endforeach
+
+@endsection
 @push('scripts')
 
     <script>

@@ -18,7 +18,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('users/resetPassword', [PasswordResetController::class, 'resetPassword'])
             ->name('user.reset.password');
 
-        // user.store
         Route::resource('/user', UsersController::class);
 
         Route::post('/get-employee-data', [UsersController::class, 'search'])->name('user.search');
@@ -27,6 +26,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('user/detach', [UsersController::class, 'detach'])->name('user.detach');
 
         Route::post('user/sync', [UsersController::class, 'sync'])->name('user.sync');
+
+        Route::post('user/profile/delegation', [UsersController::class, 'delegation'])->name('user.profile.delegation');
 
         Route::post('user/update', [UsersController::class, 'update'])->name('user.update');
 

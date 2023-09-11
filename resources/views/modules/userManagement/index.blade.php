@@ -120,9 +120,11 @@
                                             </td>
                                             @can(config('rights.user_show'))
                                                 <td>
-                                                    <a href="{{URL::signedRoute('user.show', $user->id)}}"
+                                                    <a href="{{URL::signedRoute('profile',[
+                                                            'key'=> ParameterEncryption::encrypt( Auth::user()->id) ])
+                                                        }}"
                                                        class="btn btn-sm btn-success m-1">
-                                                        Details <i class="fas fa-eye"></i>
+                                                        Details <i class="fas fa-eye pull-right"></i>
                                                     </a>
                                                 </td>
                                             @endcan
@@ -135,7 +137,7 @@
                     </div>
                 </div>
             </div>
-
+            {{--URL::signedRoute('user.show', $user->id)--}}
         </div>
 
     </section>

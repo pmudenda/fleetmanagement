@@ -212,6 +212,14 @@
                     My Profile
                 </a>
                 <div class="dropdown-divider"></div>
+                <a href="{{URL::signedRoute('user.profile.delegation',[
+                        'key'=> ParameterEncryption::encrypt( Auth::user()->id) ])
+                         }}"
+                   class="dropdown-item">
+                    <i class="fas fa-user-circle mr-2"></i>
+                    Delegation
+                </a>
+                <div class="dropdown-divider"></div>
                 <a href="{{ route('logout') }}"
                    class="dropdown-item"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

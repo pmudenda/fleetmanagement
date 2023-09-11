@@ -190,9 +190,6 @@
         </div>
     </div>
 
-
-
-    {{--Edit modal--}}
     <div class="modal fade" id="editRecordModal" tabindex="-1" aria-labelledby="editRecordModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
