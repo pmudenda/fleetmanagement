@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 <form
     id="tms_chassis_details_form"
     name="tmsChassisDetailsForm"
@@ -54,7 +55,6 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
-                                        {{--v-model="chassisDetails.engineNumber"--}}
                                         <input type="text"
                                                required
                                                class="input-with-feedback form-control view_mode"
@@ -85,7 +85,6 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
-                                        {{--v-model="chassisDetails.whiteBookSerial"--}}
                                         <input type="text"
                                                class="input-with-feedback form-control view_mode"
                                                maxlength="50"
@@ -168,13 +167,12 @@
                         </div>
                     </td>
                     <td>
-                        {{--min="{{ date('Y-m-d', strtotime($form->trip->date_to)) }}"--}}
                         <div class="control-input-wrapper">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
                                         <input type="date"
-                                               max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                               max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                required
                                                class="input-with-feedback form-control view_mode"
                                                data-fieldname="registrationDate"
@@ -231,7 +229,6 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="input-group bg-gray-300">
-                                        {{--v-model="chassisDetails."--}}
                                         <input type="text"
                                                name="chargeOutRate"
                                                id="chargeOutRate"
@@ -276,14 +273,6 @@
                                                 @{{ licenseClass.name}}
                                             </option>
                                         </select>
-
-                                        {{-- <input type="hidden"
-                                                class="input-with-feedback form-control bold"
-                                                required
-                                                data-fieldtype="Link"
-                                                :value="chassisDetails.requiredMinimumDrivingLicense"
-                                                placeholder=""
-                                                autocomplete="licenseTypes"/>--}}
                                     </div>
                                 </div>
                             </div>
@@ -334,7 +323,6 @@
                                                name="currentOdometerReading"
                                                id="currentOdometerReading"
                                                value="0"
-                                               {{--v-model="chassisDetails.currentOdometerReading"--}}
                                                placeholder=""
                                                data-doctype="ChassisDetails"
                                                autocomplete="off"/>
@@ -360,7 +348,6 @@
                                            name="odometerReadingLastService"
                                            id="odometerReadingLastService"
                                            value="0"
-                                           {{--v-model="chassisDetails.odometerReadingLastService"--}}
                                            class="input-with-feedback number_input form-control bold view_mode"
                                            required
                                            placeholder=""
@@ -412,11 +399,11 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <input type="date"
-                                           max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                           max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                            v-model="chassisDetails.inspectionDate"
                                            name="inspectionDate"
                                            id="inspectionDate"
-                                           value="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                           value="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                            required
                                            class="input-with-feedback form-control bold view_mode"
                                            placeholder=""

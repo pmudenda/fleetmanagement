@@ -164,13 +164,13 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Device: {{$role->name}}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Attach Permission: {{$role->name}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form name="db2" method="post" action="{{route('roles.assign.permission')}}">
+                <form name="attachPermissionsForm" method="post" action="{{route('roles.assign.permission')}}">
                     @csrf
                     <input type="hidden" value="{{$role->id}}" name="roleId">
                     <div class="card-body">
@@ -256,6 +256,18 @@
                 })
                     .buttons().container()
                     .appendTo('#permissionsTable' + '_wrapper .col-md-6:eq(0)');
+
+                $('[name="attachPermissionsForm"]').on('click', function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    let $checkboxes = $permissionsTable.$('input[type=checkbox]:checked');
+                    for (const $checkbox of $checkboxes) {
+                        console.log($checkbox.value);
+                    }
+
+                    return false;
+                })
 
 
             });
