@@ -334,7 +334,9 @@
                             <div class="row">
                                 <span class="text-danger">Select Profile:</span>
                             </div>
-                            <table id="example11" class="table table-bordered">
+                            <table id="example11"
+                                   role="table"
+                                   class="table table-bordered">
                                 <thead>
                                 <tr>
                                     <th>#</th>
@@ -361,7 +363,9 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close
+                            <button type="button"
+                                    class="btn btn-sm btn-secondary"
+                                    data-bs-dismiss="modal">Close
                             </button>
 
                             @can(config('rights.role_attach'))

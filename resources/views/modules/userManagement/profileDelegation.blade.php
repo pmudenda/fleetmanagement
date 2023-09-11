@@ -108,6 +108,16 @@
                                 </li>
                             </ul>
 
+                            <p class="text-muted">
+                                <strong>System Profile:</strong>
+                                @foreach ($profiles as $groupName)
+                                    @if(!empty($user->roles()->first()))
+                                        @if($groupName->id == $user->roles()->first()->id)
+                                            {{strtoupper($groupName->description)}}
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </p>
                         </div>
                         <!-- /.card-body -->
                         @can('rights.search_user')
@@ -266,7 +276,7 @@
 
 @endsection
 @push('scripts')
-
+    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
     <script>
         (function (tmsApp, $) {
             let id = 0;

@@ -11,16 +11,13 @@
             <p class="text-muted">
                 <b>Directorate:</b> {{ $user->directorate ?? '--' }}
             </p>
-            {{--
-                <p class="text-muted">
-                    <b>PayPoint:</b> {{ $user->pay_point->name ?? '' }}
-                </p>
-             --}}
             <p class="text-muted"><b>Location:</b> {{ $user->functional_section ?? '' }}</p>
             <p class="text-muted"><b>Area:</b>
                 @foreach(Area::get() as $area)
                     @if($area->area == $user->area_code)
-                        <b value="{{$area->area}}">{{$area->description}}</b>
+                        <b data-value="{{$area->area}}">
+                            {{$area->description}}
+                        </b>
                     @endif
                 @endforeach
             </p>
@@ -30,9 +27,9 @@
                 <b>
                     User Unit:
                 </b>
-                @if (Auth::user()->type_id == config('constants.user_types.developer') ||
-                    Auth::user()->type_id == config('constants.user_types.mgt')
-                    )
+                {{$user->user_unit ?? '' }}
+                {{--@if (Auth::user()->type_id == config('constants.user_types.developer')
+                    || Auth::user()->type_id == config('constants.user_types.mgt'))
                     <a href="{{ route('logout') }}" class="text-dark"
                        onclick="event.preventDefault(); document.getElementById('search-form12').submit();">
                         {{ $user->user_unit ?? ''}}
@@ -43,11 +40,18 @@
                 @csrf
             </form>
             @else
-                {{$user->user_unit ?? '' }}
-            @endif
+            @endif--}}
             </p>
-            <p class="text-muted"><b class="text-dark">Business Unit Code:</b> {{ $user->bu_code ?? '' }}</p>
-            <p class="text-muted"><b>Cost Center:</b> {{ $user->cc_code ?? '' }} </p>
+            <p class="text-muted">
+                <b class="text-dark">
+                    Business Unit Code:
+                </b>
+                {{ $user->bu_code ?? '' }}
+            </p>
+            <p class="text-muted">
+                <b>Cost Center:</b>
+                {{ $user->cc_code ?? '' }}
+            </p>
         </div>
     </div>
 </div>
