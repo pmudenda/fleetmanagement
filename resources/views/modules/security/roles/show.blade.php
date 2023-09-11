@@ -241,7 +241,8 @@
             };
 
             $(document).ready(function () {
-                $('#attachedPermissions').DataTable({
+                $('#attachedPermissions')
+                    .DataTable({
                     'order': [],
                     "pageLength": 10,
                     "responsive": true,
