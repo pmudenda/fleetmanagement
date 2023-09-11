@@ -130,7 +130,7 @@
                                             </td>
                                             @can(config('rights.user_show'))
                                                 <td>
-                                                    <a href="{{URL::signedRoute('profile',[
+                                                    <a href="{{URL::signedRoute('user.show',[
                                                             'key'=> ParameterEncryption::encrypt( Auth::user()->id) ])
                                                         }}"
                                                        class="btn btn-sm btn-success m-1">
