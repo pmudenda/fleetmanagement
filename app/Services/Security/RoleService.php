@@ -6,6 +6,7 @@ use App\Exceptions\DataNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Security\Role;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class RoleService
@@ -66,6 +67,11 @@ class RoleService
             ]
         );
         DB::commit();*/
+    }
+
+    public function get(): Collection
+    {
+       return Role::all();
     }
 
 }

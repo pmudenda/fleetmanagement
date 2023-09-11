@@ -16,6 +16,7 @@ use App\Models\Security\Role;
 use App\Models\Security\User;
 use App\Services\Logging\ActivityLogsService;
 use App\Services\Security\ParameterEncryption;
+use App\Services\Security\RoleService;
 use App\Services\Security\UserService;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -191,8 +192,9 @@ class UsersController extends Controller
 
         $id = (int)ParameterEncryption::decrypt($request->get('key'));
         $user = User::where('id', '=', $id)->first();
+        $profiles = (new RoleService())->get();
         return view('modules.userManagement.profileDelegation')
-            ->with(compact('user'));
+            ->with(compact('user', 'profiles'));
     }
 
     public function search(Request $request): JsonResponse
