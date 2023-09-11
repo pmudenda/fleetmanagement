@@ -257,7 +257,7 @@
                     .buttons().container()
                     .appendTo('#permissionsTable' + '_wrapper .col-md-6:eq(0)');
 
-                $('[name="attachPermissionsForm"]').on('click', function(e){
+                $('[name="attachPermissionsForm"]').on('submit', function(e){
                     e.preventDefault();
                     e.stopPropagation();
 
