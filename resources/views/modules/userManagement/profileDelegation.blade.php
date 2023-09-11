@@ -140,23 +140,6 @@
                             <div class="card-title">
                                 <span>Select User to delegate your profile</span>
                             </div>
-                            <ul class="nav nav-pills card-header-pills justify-content-end">
-                                <li class="nav-item">
-                                    <button class="btn btn-success btn-sm myBtns btn1"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#createRecordModal"
-                                            data-bs-whatever="@mdo" href="#">
-                                        <i class="fas fa-plus"></i>
-                                        Add
-                                    </button>
-                                </li>
-                                {{--<li class="nav-item">
-                                    <button class="btn btn-sm btn-outline-primary myBtns btn2" href="#">
-                                        <i class="fas fa-upload"></i>
-                                        Bulk Upload
-                                    </button>
-                                </li>--}}
-                            </ul>
                         </div>
                         <div class="card-body ">
                             <div class="table-wrap">
