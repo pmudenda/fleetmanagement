@@ -101,11 +101,11 @@ class UsersController extends Controller
 
     }
 
-    public function show(Request $request): Factory|View|Application
+    public function show(Request $request, $id): Factory|View|Application
     {
         $this->verifyRequestSignature($request);
 
-        $id = (int)ParameterEncryption::decrypt($request->get('key'));
+        //$id = (int)ParameterEncryption::decrypt($request->get('key'));
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
         return view('modules.userManagement.show')
