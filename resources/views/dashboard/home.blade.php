@@ -12,61 +12,64 @@
     <x-content-header :pageTitle="'Dashboard'"/>
     <section class="content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-3 col-6">
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3 class="text-white">{{$vehicleData->count()}}</h3>
-                            <p>Total Fleet</p>
+
+            @can(config('rights.view_dashboard'))
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3 class="text-white">{{$vehicleData->count()}}</h3>
+                                <p>Total Fleet</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="fas fa-truck"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
-                </div>
 
-                <div class="col-lg-3 col-6">
+                    <div class="col-lg-3 col-6">
 
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3 class="text-white">{{Mechanic::get()->count()}} <sup style="font-size: 20px"></sup></h3>
-                            <p>Mechanics</p>
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3 class="text-white">{{Mechanic::get()->count()}} <sup style="font-size: 20px"></sup></h3>
+                                <p>Mechanics</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-wrench"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="fas fa-wrench"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
-                </div>
 
-                <div class="col-lg-3 col-6">
-                    <div class="small-box bg-warning">
-                        <div class="inner">
-                            <h3 class="text-white">{{User::where('con_st_code','=', StatusHelper::active())->count()}}</h3>
-                            <p class="text-white">Active Users</p>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3 class="text-white">{{User::where('con_st_code','=', StatusHelper::active())->count()}}</h3>
+                                <p class="text-white">Active Users</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-person-add"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
-                </div>
 
-                <div class="col-lg-3 col-6">
-                    <div class="small-box bg-danger">
-                        <div class="inner">
-                            <h3 class="text-white">{{Driver::get()->count()}}</h3>
-                            <p>Registered Drivers</p>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3 class="text-white">{{Driver::get()->count()}}</h3>
+                                <p>Registered Drivers</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-drivers-license"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="fa fa-drivers-license"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
-                </div>
 
-            </div>
+                </div>
+            @endcan
 
             <div class="row mb-3">
                 <div class="col-md-3">
