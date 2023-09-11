@@ -45,7 +45,10 @@
                             <h3 class="my-3 text-uppercase">Attached Permissions</h3>
 
                             <div class="table-responsive mt-10 ">
-                                <table id="attachedPermissions" class="table table-striped">
+                                <table aria-label="unassigned permissions"
+                                       role="table"
+                                       id="attachedPermissions"
+                                       class="table table-striped">
                                     <thead>
                                     <tr>
                                         <th>Name</th>
