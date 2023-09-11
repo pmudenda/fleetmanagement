@@ -279,7 +279,7 @@
                         roleId: $('[name="roleId"]').val()
                     };
 
-                    let obj = {};
+                    let obj = [];
                     for (const $checkbox of $checkboxes) {
                         console.log($checkbox.value);
                         obj.push({'permissionId': $checkbox.value});
