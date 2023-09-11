@@ -179,14 +179,14 @@
 
                                     <!-- Default box -->
                                     <div class="card">
-                                        <div class="card-header">
+                                        {{--<div class="card-header">
                                             <div class="card-tools">
                                                 <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                                         data-toggle="tooltip"
                                                         title="Collapse">
                                                     <i class="fas fa-minus"></i></button>
                                             </div>
-                                        </div>
+                                        </div>--}}
                                         <!-- /.card-header -->
                                         <div class="card-body">
                                             <!-- form start -->
@@ -200,7 +200,8 @@
                                                         <div class="col-6">
                                                             <div class="form-group">
                                                                 <label>Select User</label>
-                                                                <select class="form-control select2" name="user_id"
+                                                                <select class="form-control select2"
+                                                                        name="user_id"
                                                                         required
                                                                         style="width: 100%;">
                                                                     <option disabled value="" selected>
@@ -223,8 +224,6 @@
                                                                     @foreach($profiles as $profile)
                                                                         <option
                                                                             value="{{$profile->profiles->id ?? ''}}">
-                                                                            {{$profile->form->name  ?? ""}} :
-                                                                            {{$profile->profiles->code ?? ''}} :
                                                                             {{$profile->profiles->name ?? ''}}
                                                                         </option>
                                                                     @endforeach
@@ -234,7 +233,7 @@
                                                         </div>
                                                         <div class="col-6 ">
                                                             <div class="form-group">
-                                                                <label>Select E-Form</label>
+                                                                <label for="eform_id">Select E-Form</label>
                                                                 <select class="form-control select2"
                                                                         id="eform_select"
                                                                         name="eform_id" required
@@ -245,7 +244,9 @@
                                                         </div>
                                                         <div class="col-6 ">
                                                             <div class="form-group">
-                                                                <label>Delegation End-Date</label>
+                                                                <label for="delegation_end_date">
+                                                                    Delegation End-Date
+                                                                </label>
                                                                 <input type="date"
                                                                        class="form-control"
                                                                        name="delegation_end_date"
