@@ -256,7 +256,7 @@
                     .buttons().container()
                     .appendTo('#permissionsTable' + '_wrapper .col-md-6:eq(0)');
 
-                $('[name="attachPermissionsForm"]').on('submit', function(e){
+               /* $('[name="attachPermissionsForm"]').on('submit', function(e){
                     e.preventDefault();
                     e.stopPropagation();
 
@@ -266,7 +266,7 @@
                     }
 
                     return false;
-                })
+                })*/
 
 
             });
