@@ -138,7 +138,7 @@
                     <div class="card">
                         <div class="card-header ">
                             <div class="card-title">
-
+                                <span>Select User to delegate your profile</span>
                             </div>
                             <ul class="nav nav-pills card-header-pills justify-content-end">
                                 <li class="nav-item">
@@ -180,8 +180,6 @@
                                     <!-- Default box -->
                                     <div class="card">
                                         <div class="card-header">
-                                            <span>Select User to delegate your profile</span>
-
                                             <div class="card-tools">
                                                 <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                                         data-toggle="tooltip"

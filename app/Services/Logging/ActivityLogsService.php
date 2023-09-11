@@ -5,6 +5,7 @@ namespace App\Services\Logging;
 use App\Models\ActivityLogsModel;
 use Exception;
 use hisorange\BrowserDetect\Parser as Browser;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Torann\GeoIP\Facades\GeoIP;
 
@@ -35,6 +36,7 @@ class ActivityLogsService
             $ipAddress = $request->getClientIp();
             $location = GeoIP::getLocation($ipAddress);
 
+            DB::beginTransaction();
             ActivityLogsModel::create([
                 'user_id' => $request->user()->id,
                 'staff_no' => $request->user()->staff_no,
@@ -68,6 +70,7 @@ class ActivityLogsService
                 'currency' => $location->currency,
                 'value' => $location->iso_code,
             ]);
+            DB::commit();
 
         } catch (Exception $e) {
             //save system errors
