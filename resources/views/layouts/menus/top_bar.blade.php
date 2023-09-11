@@ -216,7 +216,7 @@
                         'key'=> ParameterEncryption::encrypt( Auth::user()->id) ])
                          }}"
                    class="dropdown-item">
-                    <i class="fas fa-user-circle mr-2"></i>
+                    <i class="fas fa-user-friends mr-2"></i>
                     Delegation
                 </a>
                 <div class="dropdown-divider"></div>
