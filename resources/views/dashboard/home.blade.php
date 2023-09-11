@@ -1,4 +1,5 @@
-@php use App\Helpers\StatusHelper;use App\Models\Driver;use App\Models\MaterialHeader;use App\Models\Security\User;use App\Models\WorkShopManagement\Mechanic;use Carbon\Carbon; @endphp
+@php use App\Helpers\StatusHelper;use App\Models\Driver;use App\Models\MaterialHeader;use App\Models\Security\User;use App\Models\WorkShopManagement\Mechanic;use Carbon\Carbon;
+@endphp
 @extends('layouts.app')
 
 @push('styles')
@@ -32,20 +33,26 @@
 
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3 class="text-white">{{Mechanic::get()->count()}} <sup style="font-size: 20px"></sup></h3>
+                                <h3 class="text-white">
+                                    {{Mechanic::get()->count()}}
+                                    <sup style="font-size: 20px"></sup></h3>
                                 <p>Mechanics</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-wrench"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">
+                                More info
+                                <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3 class="text-white">{{User::where('con_st_code','=', StatusHelper::active())->count()}}</h3>
+                                <h3 class="text-white">
+                                    {{User::where('con_st_code','=', StatusHelper::active())->count()
+                                    }}</h3>
                                 <p class="text-white">Active Users</p>
                             </div>
                             <div class="icon">
@@ -115,18 +122,25 @@
                             <div class="d-flex flex-column">
                                 <div>
                                     <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">Vehicle Requisition <span class="float-right"><strong>0</strong></span></a>
+                                    <a href="#">Vehicle Requisition
+                                        <span class="float-right"><strong>0</strong></span>
+                                    </a>
                                 </div>
                                 <div>
                                     <i class="fas fa fa-caret-right text-success"></i>
                                     <a href="#">Maintenance Requisition<span
-                                                class="float-right"><strong>0</strong></span></a>
+                                            class="float-right"><strong>0</strong></span></a>
                                 </div>
                                 <div>
                                     <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">Fuel Requisition<span class="float-right"><strong>
-                                        {{MaterialHeader::whereDate('date_created','=' ,Carbon::now())->count()}}
-                                    </strong></span></a>
+                                    <a href="#">Fuel Requisition
+                                        <span class="float-right">
+                                            <strong>
+                                                {{MaterialHeader::whereDate('date_created','=' ,Carbon::now())
+                                                ->count()}}
+                                            </strong>
+                                        </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +159,9 @@
                             <div class="d-flex flex-column">
                                 <div>
                                     <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">License Soon Expire <span class="float-right"><strong>0</strong></span></a>
+                                    <a href="#">
+                                        License Soon Expire <span class="float-right"><strong>0</strong></span>
+                                    </a>
                                 </div>
                                 <div>
                                     <i class="fas fa fa-caret-right text-success"></i>
@@ -270,7 +286,7 @@
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path
-                                                d="M19.0759 3H4.72777C3.95892 3
+                                            d="M19.0759 3H4.72777C3.95892 3
                                             3.47768 3.83148 3.86067 4.49814L8.56967
                                             12.6949C9.17923 13.7559 9.5 14.9582 9.5
                                             16.1819V19.5072C9.5 20.2189 10.2223
@@ -278,7 +294,7 @@
                                             19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5
                                             12.8089 14.8171 11.8056 15.408 10.964L19.8943
                                             4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
-                                                fill="currentColor"></path>
+                                            fill="currentColor"></path>
                                     </svg>
                                 </span>
                                     Filter
