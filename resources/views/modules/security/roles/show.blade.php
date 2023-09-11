@@ -261,8 +261,9 @@
                     "autoWidth": false,
                     'columnDefs': [],
                     "buttons": []
-                })
-                    .buttons().container()
+                });
+
+                $permissionsTable.buttons().container()
                     .appendTo('#permissionsTable' + '_wrapper .col-md-6:eq(0)');
 
                 $('[name="attachPermissionsForm"]').on('submit', function (e) {
