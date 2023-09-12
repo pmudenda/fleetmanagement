@@ -15,7 +15,7 @@ class RightsServiceProvider extends ServiceProvider
             $permissions = Permission::all();
 
             foreach ($permissions as $permission) {
-                config(['rights.' . strtolower($permission->slug) => strtolower($permission->slug)]);
+                config(['rights.' . trim(strtolower($permission->slug)) => trim(strtolower($permission->slug))]);
             }
 
             $roles = Role::all();
