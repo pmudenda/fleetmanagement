@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\StatusHelper;
+use App\Models\Driver;
+use App\Models\Security\User;
+use App\Models\WorkShopManagement\Mechanic;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\WorkflowService;
 use Illuminate\Contracts\View\Factory;
@@ -36,8 +40,11 @@ class HomeController extends Controller
         $user = auth()->user();
         $approvalTasks = $this->workflowService->getMyApprovalTasks($user->staff_no);
         $vehicleData = (new VehicleDetailsService)->getAllVehiclesByStatus(['01', '02', '04', '05', '09']);
+        $mechanics = Mechanic::get()->count();
+        $activeUsers = User::where('con_st_code', '=', StatusHelper::active())->count();
+        $activeDrivers = Driver::get()->count();
         return view('dashboard.home')
             ->with(compact('approvalTasks',
-                'vehicleData'));
+                'vehicleData', 'mechanics', 'activeUsers', 'activeDrivers'));
     }
 }

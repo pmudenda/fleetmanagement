@@ -1,5 +1,4 @@
-@php use App\Helpers\StatusHelper;use App\Models\Driver;use App\Models\MaterialHeader;use App\Models\Security\User;use App\Models\WorkShopManagement\Mechanic;use Carbon\Carbon;
-@endphp
+@php use App\Models\Driver;use App\Models\MaterialHeader;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 @push('styles')
@@ -13,7 +12,7 @@
     <x-content-header :pageTitle="'Dashboard'"/>
     <section class="content">
         <div class="container-fluid">
-{{dd(auth()->user()->roles())}}
+            {{dd(auth()->user()->roles())}}
             @can(config('rights.view_dashboard'))
                 <div class="row">
                     <div class="col-lg-3 col-6">
@@ -34,7 +33,7 @@
                         <div class="small-box bg-info">
                             <div class="inner">
                                 <h3 class="text-white">
-                                    {{Mechanic::get()->count()}}
+                                    {{$mechanics}}
                                     <sup style="font-size: 20px"></sup></h3>
                                 <p>Mechanics</p>
                             </div>
@@ -51,8 +50,7 @@
                         <div class="small-box bg-warning">
                             <div class="inner">
                                 <h3 class="text-white">
-                                    {{User::where('con_st_code','=', StatusHelper::active())->count()
-                                    }}</h3>
+                                    {{$activeUsers}}</h3>
                                 <p class="text-white">Active Users</p>
                             </div>
                             <div class="icon">
@@ -65,7 +63,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3 class="text-white">{{Driver::get()->count()}}</h3>
+                                <h3 class="text-white">{{$activeDrivers}}</h3>
                                 <p>Registered Drivers</p>
                             </div>
                             <div class="icon">
