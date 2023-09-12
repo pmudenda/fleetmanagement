@@ -278,7 +278,7 @@
                 }
 
                 return {
-                    dimension: ['product', ...legendData],
+                    dimension: ['product', ...years],
                     source: sourceData,
                     years: years
                 };
