@@ -110,14 +110,11 @@ class MechanicController extends Controller
                 "mec.section_code",
                 "mec.status",
                 "mec.is_supervisor",
-                "mec.wkshp_section_name",
-                "mec.workshop_name",
                 'emp.*',
                 'wkshp_sec.name as wkshp_section_name',
                 'wkshp.workshop_name'
             )->first();
 
-        dd($mechanic);
         return view('modules.mechanicManagement.show')
             ->with(compact('mechanic'));
     }
