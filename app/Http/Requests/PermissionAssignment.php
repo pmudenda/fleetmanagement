@@ -24,7 +24,7 @@ class PermissionAssignment extends FormRequest
     {
         return [
             'roleId' => 'required|numeric',
-            'permissionIds.*.permissionId' => 'required'
+            'permissionIds' => 'required'
         ];
     }
 }
