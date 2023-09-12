@@ -283,7 +283,7 @@
                     let obj = [];
                     for (const $checkbox of $checkboxes) {
                         console.log($checkbox.value);
-                        obj.push({'permissionId': $checkbox.value});
+                        obj.push($checkbox.value);
                     }
 
                     formData['permissionIds'] = obj;
