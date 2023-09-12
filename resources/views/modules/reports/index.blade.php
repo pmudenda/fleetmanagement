@@ -296,7 +296,7 @@
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: function (params) {
+                    formatter(params) {
                         return '{params.data.name} <br/> ' +
                             '{accounting.formatMoney(params.data.value)}'
                     }
@@ -320,7 +320,7 @@
                 yAxis: {
                     type: 'value'
                 },
-                series: [ {
+                series: [{
                     data: [120, 200, 150, 80, 70, 110, 130],
                     type: 'bar',
                     showBackground: true,
