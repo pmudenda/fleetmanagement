@@ -312,8 +312,13 @@
                     bottom: 20,
                     data: dataByYear.years
                 },
-                xAxis: {type: 'category'},
-                yAxis: {},
+                xAxis: {
+                    type: 'category',
+                    data: dataByYear.years
+                },
+                yAxis: {
+                    type: 'value'
+                },
                 series: [{type: 'bar'}, {type: 'bar'}, {type: 'bar'}]
             };
 
