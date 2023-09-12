@@ -338,9 +338,9 @@
                                                             @endif
                                                             required
                                                             placeholder="Name"
-                                                            value="{{ $mechanic->name }}">
+                                                            value="{{ $mechanic->mechanic_name }}">
                                                      <input type="hidden" id="userId" name="userId" required
-                                                            value="{{ $mechanic->id}}">
+                                                            value="{{ $mechanic->mechanic}}">
                                                  </div>
                                              </div>
                                              <div class="form-group row">
