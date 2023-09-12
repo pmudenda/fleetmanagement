@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\WorkShopManagement;
 
+use App\Enums\ConfigurationTypes;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Reference\PHCMSEmployee;
@@ -97,7 +98,7 @@ class MechanicController extends Controller
                     'wkshp_sec.code')
                     ->where('wkshp_sec.type',
                         '=',
-                        'WORK_SHOP_SEC'
+                        ConfigurationTypes::WORK_SHOP_SECTION
                     );
             })
             ->leftJoin("$employee emp", "mec.staff_no", "=", 'emp.alt_per_no')

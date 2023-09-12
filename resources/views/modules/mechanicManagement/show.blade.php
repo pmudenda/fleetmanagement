@@ -211,7 +211,7 @@
                                                 <a href="javascript:void(0);">COMPANY</a>
                                             </div>
                                         </div>
-                                       <!-- /. user-block -->
+                                        <!-- /. user-block -->
                                         <div class="row">
                                             <div class="col-6">
                                                 <p class="text-muted">
@@ -243,10 +243,10 @@
                                                     <b class="text-dark">
                                                         Business Unit Code:
                                                     </b>
-                                                     {{ $mechanic->bu_code ?? '' }}
+                                                    {{ $mechanic->bu_code ?? '' }}
                                                 </p>
                                                 <p class="text-muted"><b>Cost Center:</b>
-                                                     {{ $mechanic->cc_code ?? '' }}
+                                                    {{ $mechanic->cc_code ?? '' }}
                                                 </p>
                                             </div>
                                         </div>
@@ -266,7 +266,7 @@
                                                     <strong>Grade:</strong>
                                                     {{ $mechanic->grade ?? '' }}
                                                 </p>
-                                              <p class="text-muted">
+                                                <p class="text-muted">
                                                     <strong>Category:</strong>
                                                     {{ $user->group_type ?? '' }}
                                                 </p>
@@ -319,234 +319,229 @@
                                 </div>
 
                                 <div class="tab-pane" id="userInfoUpdate">
-                                         @php $allowUpdate = false;  @endphp
-                                         @if(auth()->user()->can(config('rights.edit_mechanic')))
-                                             @php $allowUpdate = true;  @endphp
-                                         @endif
-                                         <form class="form-horizontal" name="updateDataUpdate" method="post"
-                                               action="{{ route('user.update') }}">
-                                             @csrf
-                                             <div class="form-group row">
-                                                 <label for="inputName"
-                                                        class="col-sm-2 col-form-label field-required">Name:</label>
-                                                 <div class="col-sm-10">
-                                                     <input type="text"
-                                                            class="form-control"
-                                                            name="name"
-                                                            @if(!$allowUpdate)
-                                                                readonly
-                                                            @endif
-                                                            required
-                                                            placeholder="Name"
-                                                            value="{{ $mechanic->mechanic_name }}">
-                                                     <input type="hidden" id="userId" name="userId" required
-                                                            value="{{ $mechanic->mechanic_id}}">
-                                                 </div>
-                                             </div>
-                                             <div class="form-group row">
-                                                 <label for="email"
-                                                        class="col-sm-2 col-form-label field-required">
-                                                     Email:
-                                                 </label>
-                                                 <div class="col-sm-10">
-                                                     <input type="email"
-                                                            class="form-control"
-                                                            name="email"
-                                                            @if(!$allowUpdate)
-                                                                readonly
-                                                            @endif
-                                                            required
-                                                            placeholder="Email"
-                                                            value="{{ $mechanic->staff_email ?? '' }}">
-                                                 </div>
-                                             </div>
+                                    @php $allowUpdate = false;  @endphp
+                                    @if(auth()->user()->can(config('rights.edit_mechanic')))
+                                        @php $allowUpdate = true;  @endphp
+                                    @endif
+                                    <form class="form-horizontal" name="updateDataUpdate" method="post"
+                                          action="{{ route('user.update') }}">
+                                        @csrf
+                                        <div class="form-group row">
+                                            <label for="inputName"
+                                                   class="col-sm-2 col-form-label field-required">Name:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text"
+                                                       class="form-control"
+                                                       name="name"
+                                                       @if(!$allowUpdate)
+                                                           readonly
+                                                       @endif
+                                                       required
+                                                       placeholder="Name"
+                                                       value="{{ $mechanic->mechanic_name }}">
+                                                <input type="hidden" id="userId" name="userId" required
+                                                       value="{{ $mechanic->mechanic_id}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="email"
+                                                   class="col-sm-2 col-form-label field-required">
+                                                Email:
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input type="email"
+                                                       class="form-control"
+                                                       name="email"
+                                                       @if(!$allowUpdate)
+                                                           readonly
+                                                       @endif
+                                                       required
+                                                       placeholder="Email"
+                                                       value="{{ $mechanic->staff_email ?? '' }}">
+                                            </div>
+                                        </div>
 
-                                             <div class="form-group row">
-                                                 <label for="inputName2"
-                                                        class="col-sm-2 col-form-label">Extension:</label>
-                                                 <div class="col-sm-10">
-                                                     <input type="text"
-                                                            class="form-control"
-                                                            name="phone"
-                                                            @if(!$allowUpdate)
-                                                                readonly
-                                                            @endif
-                                                            placeholder="extension"
-                                                            value="{{ $mechanic->extension ?? '' }}"/>
-                                                 </div>
-                                             </div>
+                                        <div class="form-group row">
+                                            <label for="inputName2"
+                                                   class="col-sm-2 col-form-label">Extension:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text"
+                                                       class="form-control"
+                                                       name="phone"
+                                                       @if(!$allowUpdate)
+                                                           readonly
+                                                       @endif
+                                                       placeholder="extension"
+                                                       value="{{ $mechanic->extension ?? '' }}"/>
+                                            </div>
+                                        </div>
 
-                                             <div class="form-group row">
-                                                 <label for="inputjob_code" class="col-sm-2 col-form-label">
-                                                     Job Code
-                                                 </label>
-                                                 <div class="col-sm-10">
-                                                     <input type="text" class="form-control"
-                                                            name="job_code"
-                                                            placeholder="job_code" value="{{ $mechanic->job_code }}">
-                                                 </div>
-                                             </div>
+                                        <div class="form-group row">
+                                            <label for="inputjob_code" class="col-sm-2 col-form-label">
+                                                Job Code
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control"
+                                                       name="job_code"
+                                                       placeholder="job_code" value="{{ $mechanic->job_code }}">
+                                            </div>
+                                        </div>
 
-                                             <div class="form-group row">
-                                                 <label for="inputName2" class="col-sm-2 col-form-label text-orange">
-                                                     User Unit
-                                                 </label>
-                                                 <div class="col-sm-10">
-                                                    {{-- <select id="user_unit_new" class="form-control user_unit_new"
-                                                             name="user_unit_new">
-                                                         <option value="{{ $mechanic->user_unit->id ?? '' }} ">
-                                                             {{ $mechanic->user_unit->user_unit_description ?? '' }}
-                                                             :
-                                                             {{ $mechanic->user_unit->user_unit_code ?? 'Please Select User Unit' }}
-                                                         </option>
-                                                         Auth::user()->type_id == config('constants.user_types.developer')
-                                                         @if (Auth::user()->id == $mechanic->id ||
-                                                              \App\Helpers\Authorise::hasDeveloperUserType(Auth::user()))
-                                                             @foreach ($mechanic_unit_new as $item)
-                                                                 <option value="{{ $item->id }}">
-                                                                     {{ $item->user_unit_description }}
-                                                                     : {{ $item->user_unit_code }}
-                                                                 </option>
-                                                             @endforeach
-                                                         @endif
-                                                     </select>--}}
-                                                 </div>
-                                             </div>
+                                        <div class="form-group row">
+                                            <label for="inputName2"
+                                                   class="col-sm-2 col-form-label">Staff No:</label>
+                                            <div class="col-sm-10">
+                                                <input disabled type="text"
+                                                       class="form-control"
+                                                       name="staff_no"
+                                                       required
+                                                       @if(!$allowUpdate)
+                                                           readonly
+                                                       @endif
+                                                       placeholder="Staff No"
+                                                       value="{{ $mechanic->staff_no }}">
+                                            </div>
+                                        </div>
 
-
-                                             <div class="form-group row">
-                                                 <label for="inputName2"
-                                                        class="col-sm-2 col-form-label">Staff No:</label>
-                                                 <div class="col-sm-10">
-                                                     <input disabled type="text"
-                                                            class="form-control"
-                                                            name="staff_no"
-                                                            required
-                                                            @if(!$allowUpdate)
-                                                                readonly
-                                                            @endif
-                                                            placeholder="Staff No"
-                                                            value="{{ $mechanic->staff_no }}">
-                                                 </div>
-                                             </div>
-
-                                             {{--<div class="form-group row">
-                                                 <label for="inputExperience" class="col-sm-2 col-form-label field-required">
-                                                     Business Area:
-                                                 </label>
-                                                 <div class="col-sm-10">
-                                                     <select @if(!$allowUpdate)
-                                                                 disabled
-                                                             @endif
-                                                             class="@if($allowUpdate)
+                                        <div class="form-group row">
+                                            <label for="inputExperience"
+                                                   class="col-sm-2 col-form-label field-required">
+                                                Workshop:
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <select @if(!$allowUpdate)
+                                                            disabled
+                                                        @endif
+                                                        class="@if($allowUpdate)
                                                              form-select form-select-sm
                                                              @else form-control  @endif"
-                                                             id="area"
-                                                             name="area">
-                                                         @foreach(Area::get() as $area)
-                                                             @if($area->area == $mechanic->area_code)
-                                                                 <option value="{{$area->area}}">
-                                                                     {{$area->description}}
-                                                                 </option>
-                                                             @else
-                                                                 <option value="{{$area->area}}">
-                                                                     {{$area->description}}
-                                                                 </option>
-                                                             @endif
-                                                         @endforeach
-                                                     </select>
-                                                 </div>
-                                             </div>--}}
+                                                        id="area"
+                                                        name="area">
+                                                    @foreach(WorkShop::get() as $workshop)
+                                                        @if($workshop->workshop_code == $mechanic->workshop_code)
+                                                            <option value="{{$workshop->workshop_code}}">
+                                                                {{$workshop->workshop_name}}
+                                                            </option>
+                                                        @else
+                                                            <option value="{{$workshop->area}}">
+                                                                {{$workshop->workshop_name}}
+                                                            </option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
 
-                                             {{--<div class="form-group row">
-                                                 <label class="col-sm-2 col-form-label"
-                                                        for="mobile_no">Supervisor:</label>
-                                                 <div class="col-sm-10">
-                                                     @canany([config('rights.user_update')])
-                                                         <div class="input-group">
-                                                             <input type="text"
-                                                                    id="staff_supervisor"
-                                                                    @if(!$allowUpdate)
-                                                                        readonly
-                                                                    @endif
-                                                                    name="staff_supervisor"
-                                                                    value="{{$mechanic->supervisor_name ?? ''}}"
-                                                                    data-bs-toggle="modal"
-                                                                    autocomplete="off"
-                                                                    data-bs-target="#searchEmployeeModal"
+                                        <div class="form-group row">
+                                            <label for="inputExperience"
+                                                   class="col-sm-2 col-form-label field-required">
+                                                Section:
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <select @if(!$allowUpdate)
+                                                            disabled
+                                                        @endif
+                                                        class="@if($allowUpdate)
+                                                             form-select form-select-sm
+                                                             @else form-control  @endif"
+                                                        id="work_shop_section"
+                                                        name="work_shop_section">
+                                                    @foreach(GeneralTable::where('wkshp_sec.type','=',
+                                                               ConfigurationTypes::WORK_SHOP_SECTION)->get()
+                                                               as $workshop_section)
+                                                        @if($workshop->code == $mechanic->section_code)
+                                                            <option value="{{$workshop_section->code}}">
+                                                                {{$workshop_section->name}}
+                                                            </option>
+                                                        @else
+                                                            <option value="{{$workshop_section->code}}">
+                                                                {{$workshop_section->name}}
+                                                            </option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label"
+                                                   for="mobile_no">Supervisor:</label>
+                                            <div class="col-sm-10">
+                                                @canany([config('rights.user_update')])
+                                                    <div class="input-group">
+                                                        <input type="text"
+                                                               id="staff_supervisor"
+                                                               @if(!$allowUpdate)
+                                                                   readonly
+                                                               @endif
+                                                               name="staff_supervisor"
+                                                               value="{{$mechanic->supervisor_name ?? ''}}"
+                                                               data-bs-toggle="modal"
+                                                               autocomplete="off"
+                                                               data-bs-target="#searchEmployeeModal"
+                                                               data-assignmenttype="single"
+                                                               data-inputfield="staff_supervisor"
+                                                               class="form-control form-control-sm"/>
+
+                                                        <input type="hidden"
+                                                               value="{{$mechanic->supervisor_code ?? ''}}"
+                                                               data-assignmenttype="single"
+                                                               data-inputfield="staff_supervisorId"
+                                                               id="staff_supervisorId"
+                                                               name="staff_supervisorId"/>
+                                                        <div class="input-group-append">
+                                                            @if($allowUpdate)
+                                                                <div
                                                                     data-assignmenttype="single"
                                                                     data-inputfield="staff_supervisor"
-                                                                    class="form-control form-control-sm"/>
+                                                                    data-field="userSelection"
+                                                                    class="input-group-text">
+                                                                    <i class="fa fa-user"></i>
+                                                                </div>
+                                                                <div style="cursor: pointer;"
+                                                                     title="clear selection"
+                                                                     data-action="clearUsers"
+                                                                     class="input-group-text">
+                                                                    <i data-action="clearUsers"
+                                                                       class="fa fa-eraser"></i>
+                                                                </div>
+                                                            @else
+                                                                <div
+                                                                    class="input-group-text">
+                                                                    <i class="fa fa-user"></i>
+                                                                </div>
+                                                                <div style="cursor: pointer;"
+                                                                     title="clear selection"
+                                                                     class="input-group-text">
+                                                                    <i class="fa fa-eraser"></i>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                @endcanany
+                                            </div>
+                                        </div>
+                                        <div class="form-group justify-content-end">
+                                            @canany([config('rights.user_update')])
+                                                <div class="col-md-12">
+                                                    <div class="d-flex justify-content-end">
+                                                        <button type="submit"
+                                                                id="updateUserData"
+                                                                class="btn btn-sm btn-success mr-3">
+                                                            Save
+                                                        </button>
 
-                                                             <input type="hidden"
-                                                                    value="{{$mechanic->supervisor_code ?? ''}}"
-                                                                    data-assignmenttype="single"
-                                                                    data-inputfield="staff_supervisorId"
-                                                                    id="staff_supervisorId"
-                                                                    name="staff_supervisorId"/>
-                                                             <div class="input-group-append">
-                                                                 @if($allowUpdate)
-                                                                     <div
-                                                                             data-assignmenttype="single"
-                                                                             data-inputfield="staff_supervisor"
-                                                                             data-field="userSelection"
-                                                                             class="input-group-text">
-                                                                         <i class="fa fa-user"></i>
-                                                                     </div>
-                                                                     <div style="cursor: pointer;"
-                                                                          title="clear selection"
-                                                                          data-action="clearUsers"
-                                                                          class="input-group-text">
-                                                                         <i data-action="clearUsers"
-                                                                            class="fa fa-eraser"></i>
-                                                                     </div>
-                                                                 @else
-                                                                     <div
-                                                                             class="input-group-text">
-                                                                         <i class="fa fa-user"></i>
-                                                                     </div>
-                                                                     <div style="cursor: pointer;"
-                                                                          title="clear selection"
-                                                                          class="input-group-text">
-                                                                         <i class="fa fa-eraser"></i>
-                                                                     </div>
-                                                                 @endif
-                                                             </div>
-                                                         </div>
-                                                     @endcanany
-                                                 </div>
-                                             </div>--}}
-
-                                             <div class="form-group row">
-                                                 <label class="col-sm-2 field-required col-form-label"
-                                                        for="user_profile">Profile: </label>
-                                                 <div class="col-sm-10">
-
-                                                 </div>
-                                             </div>
-
-
-                                             <div class="form-group justify-content-end">
-                                                 @canany([config('rights.user_update')])
-                                                     <div class="col-md-12">
-                                                         <div class="d-flex justify-content-end">
-                                                             <button type="submit"
-                                                                     id="updateUserData"
-                                                                     class="btn btn-sm btn-success mr-3">
-                                                                 Save
-                                                             </button>
-
-                                                             <button type="button"
-                                                                     id="syncUserData"
-                                                                     data-href="{{ route('user.sync') }}"
-                                                                     class="btn btn-sm btn-default">
-                                                                 Sync <i class="fas fa-sync"></i>
-                                                             </button>
-                                                         </div>
-                                                     </div>
-                                                 @endcanany
-                                             </div>
-                                         </form>
+                                                        <button type="button"
+                                                                id="syncUserData"
+                                                                data-href="{{ route('user.sync') }}"
+                                                                class="btn btn-sm btn-default">
+                                                            Sync <i class="fas fa-sync"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @endcanany
+                                        </div>
+                                    </form>
                                     <x-employee-search-modal/>
 
                                 </div>
