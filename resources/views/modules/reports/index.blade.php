@@ -166,7 +166,7 @@
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: function(params){
+                    formatter: function (params) {
                         //'{a} <br/>{b} : {c} ({d}%)'
                         console.log(params);
                     }
@@ -266,6 +266,7 @@
                     } else {
                         obj[datum['year']] = parseFloat(datum['cost']);
                     }
+
                     productValue[datum['fuel_type']] = obj;
 
                     if (years.indexOf(datum['year']) === -1) {
@@ -295,9 +296,9 @@
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: function(params){
-                        //'{a} <br/>{b} : {c} ({d}%)'
-                        console.log(params);
+                    formatter: function (params) {
+                        return '{params.data.name} <br/> ' +
+                            '{accounting.formatMoney(params.data.value)}'
                     }
                 },
                 dataset: {
@@ -314,12 +315,19 @@
                 },*/
                 xAxis: {
                     type: 'category',
-                    data: dataByYear.years
+                    data: dataByYear.legendData
                 },
                 yAxis: {
                     type: 'value'
                 },
-                series: [{type: 'bar'}, {type: 'bar'}, {type: 'bar'}]
+                series: [ {
+                    data: [120, 200, 150, 80, 70, 110, 130],
+                    type: 'bar',
+                    showBackground: true,
+                    backgroundStyle: {
+                        color: 'rgba(180, 180, 180, 0.2)'
+                    }
+                }]
             };
 
             bar_chart.setOption(barCharOption)
