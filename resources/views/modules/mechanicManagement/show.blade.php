@@ -462,64 +462,6 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label"
-                                                   for="mobile_no">Supervisor:</label>
-                                            <div class="col-sm-10">
-                                                @canany([config('rights.user_update')])
-                                                    <div class="input-group">
-                                                        <input type="text"
-                                                               id="staff_supervisor"
-                                                               @if(!$allowUpdate)
-                                                                   readonly
-                                                               @endif
-                                                               name="staff_supervisor"
-                                                               value="{{$mechanic->supervisor_name ?? ''}}"
-                                                               data-bs-toggle="modal"
-                                                               autocomplete="off"
-                                                               data-bs-target="#searchEmployeeModal"
-                                                               data-assignmenttype="single"
-                                                               data-inputfield="staff_supervisor"
-                                                               class="form-control form-control-sm"/>
-
-                                                        <input type="hidden"
-                                                               value="{{$mechanic->supervisor_code ?? ''}}"
-                                                               data-assignmenttype="single"
-                                                               data-inputfield="staff_supervisorId"
-                                                               id="staff_supervisorId"
-                                                               name="staff_supervisorId"/>
-                                                        <div class="input-group-append">
-                                                            @if($allowUpdate)
-                                                                <div
-                                                                    data-assignmenttype="single"
-                                                                    data-inputfield="staff_supervisor"
-                                                                    data-field="userSelection"
-                                                                    class="input-group-text">
-                                                                    <i class="fa fa-user"></i>
-                                                                </div>
-                                                                <div style="cursor: pointer;"
-                                                                     title="clear selection"
-                                                                     data-action="clearUsers"
-                                                                     class="input-group-text">
-                                                                    <i data-action="clearUsers"
-                                                                       class="fa fa-eraser"></i>
-                                                                </div>
-                                                            @else
-                                                                <div
-                                                                    class="input-group-text">
-                                                                    <i class="fa fa-user"></i>
-                                                                </div>
-                                                                <div style="cursor: pointer;"
-                                                                     title="clear selection"
-                                                                     class="input-group-text">
-                                                                    <i class="fa fa-eraser"></i>
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                @endcanany
-                                            </div>
-                                        </div>
                                         <div class="form-group justify-content-end">
                                             @canany([config('rights.user_update')])
                                                 <div class="col-md-12">
