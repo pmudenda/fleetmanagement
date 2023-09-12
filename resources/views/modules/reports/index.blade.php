@@ -272,6 +272,12 @@
                     if (years.indexOf(datum['year']) === -1) {
                         years.push(datum['year']);
                     }
+
+                    /*countryTfmList.push({
+                        value: country.tfm.replace(',', ''),
+                        name: datum['fuel_type'],
+                        year: datum['year']
+                    });*/
                 }
 
                 for (const key in productValue) {
@@ -323,8 +329,9 @@
                     type: 'value'
                 },
                 series: [{
-                    data: [120, 200, 150, 80, 70, 110, 130],
+                    data: dataByYear.source,
                     type: 'bar',
+                    colorBy: 'data' ,
                     showBackground: true,
                     backgroundStyle: {
                         color: 'rgba(180, 180, 180, 0.2)'
