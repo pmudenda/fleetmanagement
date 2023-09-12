@@ -70,7 +70,7 @@
                       :activeCrumb="'Mechanic Details'"
                       :link="'mechanic.list'"
                       :linkText="'Mechanic'"/>
-
+{{ dd($mechanic)}}
     <!-- Main content -->
     <section class="content">
         <x-error-view/>
