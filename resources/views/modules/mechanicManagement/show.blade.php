@@ -238,21 +238,6 @@
                                                         User Unit:
                                                     </b>
                                                     {{$mechanic->location}}
-                                                    {{--@if (Auth::user()->type_id == config('constants.user_types.developer') ||
-                                                        Auth::user()->type_id == config('constants.user_types.mgt')
-                                                        )
-                                                        <a href="{{ route('logout') }}" class="text-dark"
-                                                           onclick="event.preventDefault(); document.getElementById('search-form12').submit();">
-                                                            {{ $user->user_unit ?? ''}}
-                                                        </a>
-                                                <form id="search-form12"
-                                                      action="#"
-                                                      method="post" class="d-none">
-                                                    @csrf
-                                                </form>
-                                                @else
-                                                    {{$user->user_unit ?? '' }}
-                                                @endif--}}
                                                 </p>
                                                 <p class="text-muted">
                                                     <b class="text-dark">
@@ -292,48 +277,50 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="post">
-                                        <div class="user-block">
-                                            <span class="username ml-1"><a href="#">LINE SUPERVISOR</a> </span>
-                                        </div>
-                                        <div class="row">
+                                    <div class="row">
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <span class="username ml-1"><a href="#">LINE SUPERVISOR</a> </span>
+                                            </div>
+                                            <div class="row">
 
-                                            <div class="col-lg-6 col-sm-12">
-                                                <p class="text-muted">
-                                                    <strong>Name:</strong>
-                                                    {{--{{ $user->supervisor_name ?? '' }}--}}
-                                                </p>
-                                                <p class="text-muted">
-                                                    <strong>Staff No.:</strong>
-                                                    {{--{{ $user->supervisor_code ?? '' }}--}}
-                                                </p>
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <p class="text-muted">
+                                                        <strong>Name:</strong>
+                                                        {{--{{ $user->supervisor_name ?? '' }}--}}
+                                                    </p>
+                                                    <p class="text-muted">
+                                                        <strong>Staff No.:</strong>
+                                                        {{--{{ $user->supervisor_code ?? '' }}--}}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="post">
-                                        <div class="user-block">
-                                            <span class="username ml-1"><a href="#">WORKSHOP</a> </span>
-                                        </div>
-                                        <div class="row">
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <span class="username ml-1"><a href="#">WORKSHOP</a> </span>
+                                            </div>
+                                            <div class="row">
 
-                                            <div class="col-lg-6 col-sm-12">
-                                                <p class="text-muted">
-                                                    <strong>Name:</strong>
-                                                    {{ $mechanic->workshop_name ?? '' }}
-                                                </p>
-                                                <p class="text-muted">
-                                                    <strong>Section .:</strong>
-                                                    {{ $mechanic->wkshp_section_name ?? '' }}
-                                                </p>
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <p class="text-muted">
+                                                        <strong>Name:</strong>
+                                                        {{ $mechanic->workshop_name ?? '' }}
+                                                    </p>
+                                                    <p class="text-muted">
+                                                        <strong>Section .:</strong>
+                                                        {{ $mechanic->wkshp_section_name ?? '' }}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="tab-pane" id="userInfoUpdate">
-                                    {{--     @php $allowUpdate = false;  @endphp
-                                         @if(auth()->user()->can(config('rights.user_update')))
+                                         @php $allowUpdate = false;  @endphp
+                                         @if(auth()->user()->can(config('rights.edit_mechanic')))
                                              @php $allowUpdate = true;  @endphp
                                          @endif
                                          <form class="form-horizontal" name="updateDataUpdate" method="post"
@@ -369,12 +356,14 @@
                                                                 readonly
                                                             @endif
                                                             required
-                                                            placeholder="Email" value="{{ $mechanic->email ?? '' }}">
+                                                            placeholder="Email"
+                                                            value="{{ $mechanic->staff_email ?? '' }}">
                                                  </div>
                                              </div>
 
                                              <div class="form-group row">
-                                                 <label for="inputName2" class="col-sm-2 col-form-label">Extension:</label>
+                                                 <label for="inputName2"
+                                                        class="col-sm-2 col-form-label">Extension:</label>
                                                  <div class="col-sm-10">
                                                      <input type="text"
                                                             class="form-control"
@@ -387,21 +376,23 @@
                                                  </div>
                                              </div>
 
-                                             --}}{{--<div class="form-group row">
-                                                 <label for="inputjob_code" class="col-sm-2 col-form-label">Job
-                                                     Code</label>
+                                             <div class="form-group row">
+                                                 <label for="inputjob_code" class="col-sm-2 col-form-label">
+                                                     Job Code
+                                                 </label>
                                                  <div class="col-sm-10">
-                                                     <input type="text" class="form-control" name="job_code"
+                                                     <input type="text" class="form-control"
+                                                            name="job_code"
                                                             placeholder="job_code" value="{{ $mechanic->job_code }}">
                                                  </div>
-                                             </div>--}}{{--
+                                             </div>
 
-                                             --}}{{--<div class="form-group row">
+                                             <div class="form-group row">
                                                  <label for="inputName2" class="col-sm-2 col-form-label text-orange">
                                                      User Unit
                                                  </label>
                                                  <div class="col-sm-10">
-                                                     <select id="user_unit_new" class="form-control user_unit_new"
+                                                    {{-- <select id="user_unit_new" class="form-control user_unit_new"
                                                              name="user_unit_new">
                                                          <option value="{{ $mechanic->user_unit->id ?? '' }} ">
                                                              {{ $mechanic->user_unit->user_unit_description ?? '' }}
@@ -418,13 +409,14 @@
                                                                  </option>
                                                              @endforeach
                                                          @endif
-                                                     </select>
+                                                     </select>--}}
                                                  </div>
-                                             </div>--}}{{--
+                                             </div>
 
 
                                              <div class="form-group row">
-                                                 <label for="inputName2" class="col-sm-2 col-form-label">Staff No:</label>
+                                                 <label for="inputName2"
+                                                        class="col-sm-2 col-form-label">Staff No:</label>
                                                  <div class="col-sm-10">
                                                      <input disabled type="text"
                                                             class="form-control"
@@ -438,7 +430,7 @@
                                                  </div>
                                              </div>
 
-                                             <div class="form-group row">
+                                             {{--<div class="form-group row">
                                                  <label for="inputExperience" class="col-sm-2 col-form-label field-required">
                                                      Business Area:
                                                  </label>
@@ -451,7 +443,7 @@
                                                              @else form-control  @endif"
                                                              id="area"
                                                              name="area">
-                                                         --}}{{--@foreach(Area::get() as $area)
+                                                         @foreach(Area::get() as $area)
                                                              @if($area->area == $mechanic->area_code)
                                                                  <option value="{{$area->area}}">
                                                                      {{$area->description}}
@@ -461,12 +453,12 @@
                                                                      {{$area->description}}
                                                                  </option>
                                                              @endif
-                                                         @endforeach--}}{{--
+                                                         @endforeach
                                                      </select>
                                                  </div>
-                                             </div>
+                                             </div>--}}
 
-                                             <div class="form-group row">
+                                             {{--<div class="form-group row">
                                                  <label class="col-sm-2 col-form-label"
                                                         for="mobile_no">Supervisor:</label>
                                                  <div class="col-sm-10">
@@ -523,7 +515,7 @@
                                                          </div>
                                                      @endcanany
                                                  </div>
-                                             </div>
+                                             </div>--}}
 
                                              <div class="form-group row">
                                                  <label class="col-sm-2 field-required col-form-label"
@@ -539,7 +531,7 @@
                                                              @else form-control @endif"
                                                              required>
                                                          <option value>--Choose Profile--</option>
-                                                         --}}{{--@foreach ($roles as $groupName)
+                                                         @foreach ($roles as $groupName)
                                                              @if($groupName->id == $mechanic->roles()->first()->id)
                                                                  <option selected
                                                                          value="{{$groupName->id}}">
@@ -551,7 +543,7 @@
                                                                      {{$groupName->description}}
                                                                  </option>
                                                              @endif
-                                                         @endforeach--}}{{--
+                                                         @endforeach
                                                      </select>
                                                  </div>
                                              </div>
@@ -577,7 +569,7 @@
                                                      </div>
                                                  @endcanany
                                              </div>
-                                         </form>--}}
+                                         </form>
                                     <x-employee-search-modal/>
 
                                 </div>
