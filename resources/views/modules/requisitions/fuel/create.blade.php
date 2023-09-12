@@ -697,7 +697,7 @@
     <script>
         window.citiesMap = {!! json_encode($cities) !!};
         window.citiesFrom = {!! json_encode($citiesFrom) !!};
-        window.tripPeriodLimit = {!! config('maxTripPeriod') !!};
+        window.tripPeriodLimit = {!! config('maxTripPeriod') !!} || 7;
 
         $(document).on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
