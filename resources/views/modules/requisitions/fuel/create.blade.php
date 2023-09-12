@@ -50,13 +50,14 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="staff_no">Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
                                                                 <input type="text"
-                                                                       data-action="{{route('requisition.vehicle.details')}}"
+                                                                       data-action="
+                                                                       {{route('requisition.vehicle.details')}}"
                                                                        class="form-control form-control-sm"
                                                                        autocapitalize="characters"
                                                                        id="vehicle_registration"
@@ -65,7 +66,8 @@
                                                                 <div class="input-group-addon">
                                                                     <button type="button" id="vehicleSearchBtn"
                                                                             name="vehicleSearchBtn"
-                                                                            class="btn btn-success btn-sm border-radius-0">
+                                                                            class="btn btn-success
+                                                                            btn-sm border-radius-0">
                                                                         <i class="fas fa-search"></i>
                                                                     </button>
                                                                 </div>
@@ -89,7 +91,8 @@
                                                         </div>
                                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                app-field-label"
                                                                 for="staff_no">Status:
                                                             </label>
                                                             <span id="vehicle_status" class="ml-3 badge badge-success"
@@ -107,14 +110,16 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                            control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
                                                                     <label class="form-check-inline">
                                                                         <input type="radio"
                                                                                id="costOnCostCentre"
-                                                                               class="list-row-checkbox bold mr-3 when_valid"
+                                                                               class="list-row-checkbox bold mr-3
+                                                                               when_valid"
                                                                                name="CostAssignedTo"
                                                                                value="CostCenterBasedRequisition"
                                                                                checked>
@@ -159,14 +164,16 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                            control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
                                                                     <label class="form-check-inline">
                                                                         <input type="radio"
                                                                                id="projectInput"
-                                                                               class="list-row-checkbox bold mr-3 when_valid"
+                                                                               class="list-row-checkbox
+                                                                               bold mr-3 when_valid"
                                                                                autocomplete="off"
                                                                                name="CostAssignedTo"
                                                                                value="ProjectBasedRequisition">
@@ -176,7 +183,8 @@
                                                             </div>
                                                         </div>
                                                         <div
-                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-6 d-none project_view_item">
+                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-6
+                                                            d-none project_view_item">
                                                             <select disabled type="text" name="project_code"
                                                                     class="form-select mt-1 project-code-ajax"
                                                                     id="project_code">
@@ -222,7 +230,9 @@
                                                                 <option value="">--Select--</option>
                                                                 @foreach ($requisitionTypes as $requisitionType)
                                                                     <option
-                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                        value="{{$requisitionType->code}}">
+                                                                        {{$requisitionType->name}}
+                                                                    </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -244,9 +254,10 @@
                                                             <input type="number"
                                                                    min="1"
                                                                    data-url="{{route('fuel.odometer.validation')}}"
-                                                                   data-validation-method="fuelRequisitionOdometerReading"
+                                                                   data-validation="fuelRequisitionOdometerReading"
                                                                    data-params="[odometerNumber, vehicleRegistration]"
-                                                                   class="form-control form-control-sm when_valid number_input"
+                                                                   class="form-control form-control-sm when_valid
+                                                                   number_input"
                                                                    id="odometer_reading"
                                                                    disabled
                                                                    required
@@ -282,7 +293,8 @@
                                                                 <div class="input-group-addon">
                                                                     <button type="button" id="employeeSearchBtn"
                                                                             name="employeeSearchBtn"
-                                                                            class="btn btn-success btn-sm border-radius-0">
+                                                                            class="btn btn-success
+                                                                            btn-sm border-radius-0">
                                                                         <i class="fas fa-search"></i>
                                                                     </button>
                                                                 </div>
@@ -327,11 +339,13 @@
                                                             <div class="input-group date"
                                                                  data-target-input="nearest">
                                                                 <input type="date"
-                                                                       min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
+                                                                       min="{{ date('Y-m-d',
+                                                                       strtotime(Carbon::now())) }}"
                                                                        name="departure_date"
                                                                        id="departure_date"
                                                                        autocomplete="off"
-                                                                       class="form-control form-control-sm date_input datetimepicker-opened"
+                                                                       class="form-control form-control-sm
+                                                                       date_input datetimepicker-opened"
                                                                        data-target="#dateOpened"/>
                                                                 <div class="input-group-append"
                                                                      data-target="#dateOpened"
@@ -344,9 +358,6 @@
                                                                            class="fa fa-calendar"></i>
                                                                     </div>
                                                                 </div>
-                                                                {{--<div type="button" data-action="clearDate" class="input-group-text">
-                                                                    <i data-action="clearDate" class="fa fa-eraser"></i>
-                                                                </div>--}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -364,11 +375,13 @@
                                                             <div class="input-group date"
                                                                  data-target-input="nearest">
                                                                 <input type="date"
-                                                                       min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
+                                                                       min="{{ date('Y-m-d',
+                                                                        strtotime(Carbon::now())) }}"
                                                                        name="return_date"
                                                                        id="return_date"
                                                                        autocomplete="off"
-                                                                       class="form-control form-control-sm date_input datetimepicker-opened"
+                                                                       class="form-control form-control-sm
+                                                                       date_input datetimepicker-opened"
                                                                        data-target="#dateOpened"/>
                                                                 <div class="input-group-append"
                                                                      data-target="#dateOpened"
@@ -381,9 +394,6 @@
                                                                            class="fa fa-calendar"></i>
                                                                     </div>
                                                                 </div>
-                                                                {{--<div type="button" data-action="clearDate" class="input-group-text">
-                                                                    <i data-action="clearDate" class="fa fa-eraser"></i>
-                                                                </div>--}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -439,7 +449,8 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                field-required"
                                                                 for="covered_kilometers">Estimated Distance (Km):
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -448,7 +459,13 @@
                                                                        name="covered_kilometers" id="covered_kilometers"
                                                                        readonly
                                                                        placeholder="Enter the Kilometers to be Covered">
-                                                                <table id="trip_path">
+                                                                <table id="trip_path" aria-label="Distance Chart">
+                                                                    <thead class="d-none">
+                                                                    <tr>
+                                                                        <th scope="row"></th>
+                                                                        <th scope="row"></th>
+                                                                    </tr>
+                                                                    </thead>
                                                                     <tr>
                                                                         <td id="one_way"></td>
                                                                         <td id="one_way_distance"></td>
@@ -524,7 +541,8 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="next_fuel_date"
-                                                                   value="{{Carbon::now()->add('days', $daysToNextRefuel)->format('d/m/Y')}}"
+                                                                   value="{{Carbon::now()->add('days',
+                                                                   $daysToNextRefuel)->format('d/m/Y')}}"
                                                                    name="next_fuel_date"
                                                                    readonly required>
                                                         </div>
@@ -548,7 +566,8 @@
                                                                   name="justification"
                                                                   disabled
                                                                   style="height: 129px;"
-                                                                  class="form-control form-control-sm when_valid"></textarea>
+                                                                  class="form-control
+                                                                  form-control-sm when_valid"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -561,7 +580,8 @@
                                                     <div class="form-group row">
                                                         <label
                                                             id="authority"
-                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 field-required">
+                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12
+                                                            field-required">
                                                             Authority To Travel(<small>Any Authorization
                                                                 Document</small>)
                                                         </label>
@@ -578,15 +598,9 @@
                                 <div class="col-3">
                                     <div id="vehicleDetailsContainer" style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12">
-                                        {{--<h1>Vehicle Details</h1>
-                                         <table class="table">
-                                             <tbody id="vehicleDetails" class="vehicleDetails">
-                                             </tbody>
-                                         </table>--}}
                                     </div>
 
                                     <div id="image_view" class="card text-center my-2" style="display: none;">
-                                        {{--  <h2 class="fs-2x fw-bold mb-10">Front View</h2>--}}
                                         <div class="form-group">
                                             <div class="imagePreview"></div>
                                         </div>
@@ -856,8 +870,16 @@
                             return;
                         }
 
-                        if (response.payload['con_st_code'] !== '01'
-                            && response.payload['con_st_code'] !== 'ACT') {
+                        if (response.payload.hasOwnProperty('con_st_code')
+                            && ['01', 'ACT'].indexOf(response.payload['con_st_code']) === -1) {
+                            tmsApp.systemError('Driver Verification',
+                                appMessages.inactiveEmployee.replace('@staff', staff_number)
+                            );
+                            return;
+                        }
+
+                        if (response.payload.hasOwnProperty('status')
+                            && ['01', 'ACT'].indexOf(response.payload['status']) === -1) {
                             tmsApp.systemError('Driver Verification',
                                 appMessages.inactiveEmployee.replace('@staff', staff_number)
                             );
@@ -1065,10 +1087,6 @@
             $('.select2').select2({
                 theme: 'bootstrap4'
             });
-
-            Inputmask({
-                "mask": "AAA 9{1,4}"
-            }).mask("#vehicle_registration");
 
             tmsApp.appFormValidator('form[name="fuelRequisitionForm"]',
                 {
@@ -1432,6 +1450,12 @@
 
             });
         })(window.tmsApp || {}, jQuery)
+
+        $(document).ready(function(){
+            Inputmask({
+                "mask": "AAA 9{1,4}"
+            }).mask("#vehicle_registration");
+        });
     </script>
 
 @endpush
