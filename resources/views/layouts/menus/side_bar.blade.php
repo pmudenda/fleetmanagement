@@ -397,7 +397,7 @@
                                 config('rights.add_mechanic'),
                                 config('rights.view_mechanics'),
                                 config('rights.view_mechanic')
-                                ])
+                                ])@endcanany
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-users"></i>
@@ -429,7 +429,7 @@
                                         @endcanany
                                     </ul>
                                 </li>
-                            @endcanany
+
                         </ul>
                     </li>
                 @endcanany
