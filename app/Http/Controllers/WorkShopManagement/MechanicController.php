@@ -103,7 +103,7 @@ class MechanicController extends Controller
             ->leftJoin("$employee emp", "mec.staff_no", "=", 'emp.alt_per_no')
             ->where('mec.id', '=', $staffId)
             ->select(
-
+                "mec.staff_no",
                 "mec.id as mechanic_id",
                 "mec.name as mechanic_name",
                 "mec.workshop_code",
