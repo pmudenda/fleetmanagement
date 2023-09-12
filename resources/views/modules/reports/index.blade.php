@@ -272,6 +272,8 @@
                     }
                 }
 
+                console.log(years);
+
                 for (const key in productValue) {
                     sourceData.push(productValue[key]);
                 }
