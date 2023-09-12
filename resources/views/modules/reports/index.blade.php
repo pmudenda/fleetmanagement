@@ -272,16 +272,18 @@
                     if (years.indexOf(datum['year']) === -1) {
                         years.push(datum['year']);
                     }
-
-                    /*countryTfmList.push({
-                        value: country.tfm.replace(',', ''),
-                        name: datum['fuel_type'],
-                        year: datum['year']
-                    });*/
                 }
 
+                let series = [];
+                series.push({
+                    value: country.tfm.replace(',', ''),
+                    name: datum['fuel_type'],
+                    year: datum['year']
+                });
+
                 for (const key in productValue) {
-                    sourceData.push(productValue[key]);
+                    const dat = productValue[key];
+                    sourceData.push(dat);
                 }
 
                 return {
@@ -323,7 +325,7 @@
                 },*/
                 xAxis: {
                     type: 'category',
-                    data: dataByYear.legendData
+                    data: dataByYear.years
                 },
                 yAxis: {
                     type: 'value'
@@ -331,7 +333,7 @@
                 series: [{
                     data: dataByYear.source,
                     type: 'bar',
-                    colorBy: 'data' ,
+                    colorBy: 'data',
                     showBackground: true,
                     backgroundStyle: {
                         color: 'rgba(180, 180, 180, 0.2)'
