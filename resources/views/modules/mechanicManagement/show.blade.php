@@ -120,17 +120,12 @@
                                 <li class="list-group-item">
                                     <b>Phone</b> <a class="float-right">{{ $mechanic->mobile_no }}</a>
                                 </li>
-                                {{--<li class="list-group-item">
-                                    <b>Extension</b> <a class="float-right">{{ $mechanic->phone ?? '' }}</a>
-                                </li>--}}
                                 <li class="list-group-item">
                                     <b>
                                         Station
                                     </b>
                                     <a class="float-right">
                                         {{$mechanic->station}}
-                                        {{--<span class="badge badge-success">
-                                        </span>--}}
                                     </a>
                                 </li>
                                 <li class="list-group-item">
@@ -216,11 +211,11 @@
                                                 <a href="javascript:void(0);">COMPANY</a>
                                             </div>
                                         </div>
-                                        <!-- /. user-block -->
+                                       <!-- /. user-block -->
                                         <div class="row">
                                             <div class="col-6">
                                                 <p class="text-muted">
-                                                    <b>Directorate:</b> {{ $user->directorate ?? '--' }}
+                                                    <b>Directorate:</b> {{ $mechanic->directorate ?? '--' }}
                                                 </p>
                                                 {{--
                                                     <p class="text-muted">
@@ -228,7 +223,7 @@
                                                     </p>
                                                  --}}
                                                 <p class="text-muted">
-                                                    <b>Location:</b> {{ $user->functional_section ?? '' }}</p>
+                                                    <b>Location:</b> {{ $mechanic->functional_section ?? '' }}</p>
                                                 <p class="text-muted"><b>Area:</b>
                                                     {{--@foreach(Area::get() as $area)
                                                         @if($area->area == $user->area_code)
@@ -262,10 +257,10 @@
                                                     <b class="text-dark">
                                                         Business Unit Code:
                                                     </b>
-                                                    {{-- {{ $user->bu_code ?? '' }}--}}
+                                                     {{ $mechanic->bu_code ?? '' }}
                                                 </p>
                                                 <p class="text-muted"><b>Cost Center:</b>
-                                                    {{-- {{ $user->cc_code ?? '' }}--}}
+                                                     {{ $mechanic->cc_code ?? '' }}
                                                 </p>
                                             </div>
                                         </div>
@@ -279,11 +274,11 @@
                                             <div class="col-lg-6 col-sm-12">
                                                 <p class="text-muted">
                                                     <strong>Contract Type:</strong>
-                                                    {{--{{ $user->contract_type ?? '' }}--}}
+                                                    {{ $mechanic->contract_type ?? '' }}
                                                 </p>
                                                 <p class="text-muted">
                                                     <strong>Grade:</strong>
-                                                    {{--{{ $user->grade ?? '' }}--}}
+                                                    {{ $mechanic->grade ?? '' }}
                                                 </p>
                                                 {{--<p class="text-muted">
                                                     <strong>Category:</strong>
@@ -293,12 +288,6 @@
                                                     <strong>User Position:</strong>
                                                     {{--{{ $user->job_title ?? '' }}--}}
                                                 </p>
-                                                {{-- <p class="text-muted ">
-                                                     <strong class="text-orange ">
-                                                         Job Code:
-                                                     </strong>
-                                                     {{ $user->job_code ?? '' }}
-                                                 </p>--}}
                                             </div>
                                         </div>
                                     </div>
@@ -316,6 +305,25 @@
                                                 <p class="text-muted">
                                                     <strong>Staff No.:</strong>
                                                     {{--{{ $user->supervisor_code ?? '' }}--}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="post">
+                                        <div class="user-block">
+                                            <span class="username ml-1"><a href="#">WORKSHOP</a> </span>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-lg-6 col-sm-12">
+                                                <p class="text-muted">
+                                                    <strong>Name:</strong>
+                                                    {{ $mechanic->workshop_name ?? '' }}
+                                                </p>
+                                                <p class="text-muted">
+                                                    <strong>Section .:</strong>
+                                                    {{ $mechanic->wkshp_section_name ?? '' }}
                                                 </p>
                                             </div>
                                         </div>
