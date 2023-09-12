@@ -294,7 +294,7 @@
                         modal = bootstrap.Modal.getOrCreateInstance(element);
                     }
 
-                    tmsApp.asyncPostFormData(
+                    tmsApp.asyncPostJson(
                         $form.action,
                         formData,
                         function (response) {
