@@ -60,11 +60,10 @@
                         <div class="card-body p-2">
                             <div class="row">
                                 <div class="col-6">
-                                    <div id="main_" style="height:400px;"></div>
+                                    <div id="user_unit" style="height:400px;"></div>
                                 </div>
                             </div>
-                            <div class="table-responsive mt-10 ">
-                            </div>
+                            <div class="table-responsive mt-10"></div>
                         </div>
                     </div>
                 </div>
@@ -82,8 +81,7 @@
                                     <div id="main" style="height:400px;"></div>
                                 </div>
                             </div>
-                            <div class="table-responsive mt-10 ">
-                            </div>
+                            <div class="table-responsive mt-10"></div>
                         </div>
                     </div>
                 </div>
@@ -168,7 +166,10 @@
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    formatter: function(params){
+                        //'{a} <br/>{b} : {c} ({d}%)'
+                        console.log(params);
+                    }
                 },
                 legend: {
                     type: 'scroll',
@@ -272,14 +273,12 @@
                     }
                 }
 
-                console.log(years);
-
                 for (const key in productValue) {
                     sourceData.push(productValue[key]);
                 }
 
                 return {
-                    dimension: ['product', ...years],
+                    dimension: ['product', ...legendData],
                     source: sourceData,
                     years: years
                 };
@@ -296,7 +295,10 @@
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    formatter: function(params){
+                        //'{a} <br/>{b} : {c} ({d}%)'
+                        console.log(params);
+                    }
                 },
                 dataset: {
                     dimensions: dataByYear.dimension,
@@ -304,7 +306,7 @@
                 },
                 legend: {
                     type: 'scroll',
-                    orient: 'vertical',
+                    orient: 'horizontal',
                     right: 10,
                     top: 20,
                     bottom: 20,
@@ -332,6 +334,7 @@
                     window.costByYear = response.payload['costByYear'];
                     window.costByUnit = response.payload['costByUnit'];
                     window.costByType = response.payload['costByType'];
+// user_unit
                     //fuelExpensesByVehicle();
                     fuelExpenseTotalsByType();
                     fuelExpensesByYear();
