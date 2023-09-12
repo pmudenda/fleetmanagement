@@ -276,7 +276,7 @@
 
                 let series = [];
                 series.push({
-                    value: country.tfm.replace(',', ''),
+                    value: obj[datum['year']],
                     name: datum['fuel_type'],
                     year: datum['year']
                 });
