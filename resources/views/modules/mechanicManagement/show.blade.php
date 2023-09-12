@@ -103,7 +103,7 @@
                                 </a>
                             </div>
 
-                            <h3 class="profile-username text-center">{{$mechanic->name}}</h3>
+                            <h3 class="profile-username text-center">{{$mechanic->mechanic_name}}</h3>
 
                             <p class="text-muted text-center">{{ $mechanic->job_title ?? 'Position' }}</p>
 
@@ -280,13 +280,13 @@
                                                     <strong>Grade:</strong>
                                                     {{ $mechanic->grade ?? '' }}
                                                 </p>
-                                                {{--<p class="text-muted">
+                                              <p class="text-muted">
                                                     <strong>Category:</strong>
-                                                    {{ $user->grade->category->name ?? '' }}
-                                                </p>--}}
+                                                    {{ $user->group_type ?? '' }}
+                                                </p>
                                                 <p class="text-muted">
                                                     <strong>User Position:</strong>
-                                                    {{--{{ $user->job_title ?? '' }}--}}
+                                                    {{ $mechanic->job_title ?? '' }}
                                                 </p>
                                             </div>
                                         </div>

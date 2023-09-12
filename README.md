@@ -95,3 +95,37 @@ The ZFMS is propitiatory software developed for use under strict [license]().
 # run the command to install redis server
 redis-server
 
++"": "MARGRET - CHIKANKATA MABWANA"
++"workshop_code": "01"
++"section_code": "02"
++"status": "01"
++"is_supervisor": null
++"con_per_no": "15644"
++"alt_per_no": "72257"
++"contract_type": "PERMANENT CONTRACT"
++"con_st_code": "ACT"
++"con_wef_date": "2012-07-09 00:00:00"
++"con_wet_date": "2037-11-21 00:00:00"
++"name": "MARGRET  CHIKANKATA MABWANA"
++"nrc": "307399/16/1"
++"": "UNIONISED"
++"job_title": "SENIOR MOTOR MECHANIC"
++"grade": "GP3"
++"function_section_code": "M&TWS"
++"functional_section": "MECHANICAL&TRANSPORT WORKSHOPS"
++"directorate": "COMPANY SECRETARIAT DIRECTORATE"
++"location_code": "MECH_T"
++"location": "FLEET MANAGEMENT"
++"pay_point": "CORPORATE SUPPORT SERVICES"
++"bu_code": "15100"
++"cc_code": "14618"
+
+                                                +"job_code": "SNRMM"
+                                                +"dob": "1982-11-22 00:00:00"
+                                                +"sex": "F"
+                                                +"mobile_no": "0975474186"
+                                                +"": "LUSAKA"
+                                                +"union_affiliation": null
+                                                +"account_number": "0101626819900"
+                                                +"branch_code": "060043"
+                                                +"bank_code": "06"
