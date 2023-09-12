@@ -12,7 +12,6 @@
     <x-content-header :pageTitle="'Dashboard'"/>
     <section class="content">
         <div class="container-fluid">
-            {{dd(auth()->user()->roles())}}
             @can(config('rights.view_dashboard'))
                 <div class="row">
                     <div class="col-lg-3 col-6">
