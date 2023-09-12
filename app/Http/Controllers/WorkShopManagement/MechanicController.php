@@ -6,6 +6,8 @@ use App\Enums\ConfigurationTypes;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Reference\PHCMSEmployee;
+use App\Models\Settings\GeneralTable;
+use App\Models\Settings\WorkShop;
 use App\Models\WorkShopManagement\Mechanic;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -87,6 +89,12 @@ class MechanicController extends Controller
     {
         $employee = config("tables.table_names.employee");
         $staffId = $request->get('ref');
+
+        $workshopList = WorkShop::get();
+
+        $workshopSectionList = GeneralTable::where('wkshp_sec.type', '=',
+            ConfigurationTypes::WORK_SHOP_SECTION)->get();
+
         $mechanic = DB::table('wm_mechanics mec')
             ->leftJoin('config_workshop wkshp',
                 'mec.workshop_code',
@@ -117,6 +125,8 @@ class MechanicController extends Controller
             )->first();
 
         return view('modules.mechanicManagement.show')
-            ->with(compact('mechanic'));
+            ->with(compact('mechanic',
+                'workshopList',
+                'workshopSectionList'));
     }
 }

@@ -417,7 +417,7 @@
                                                              @else form-control  @endif"
                                                         id="area"
                                                         name="area">
-                                                    @foreach(WorkShop::get() as $workshop)
+                                                    @foreach($workshopList as $workshop)
                                                         @if($workshop->workshop_code == $mechanic->workshop_code)
                                                             <option value="{{$workshop->workshop_code}}">
                                                                 {{$workshop->workshop_name}}
@@ -446,8 +446,7 @@
                                                              @else form-control  @endif"
                                                         id="work_shop_section"
                                                         name="work_shop_section">
-                                                    @foreach(GeneralTable::where('wkshp_sec.type','=',
-                                                               ConfigurationTypes::WORK_SHOP_SECTION)->get()
+                                                    @foreach($workshopSectionList
                                                                as $workshop_section)
                                                         @if($workshop->code == $mechanic->section_code)
                                                             <option value="{{$workshop_section->code}}">
