@@ -81,7 +81,7 @@ trait HasPermissionsTrait
 
     protected function hasPermission($permission): bool
     {
-        return (bool)$this->permissions->where('slug', $permission->slug)->count();
+        return (bool)$this->permissions->where('slug', strtolower(trim($permission->slug)))->count();
     }
 
     protected function getAllPermissions(array $permissions)
