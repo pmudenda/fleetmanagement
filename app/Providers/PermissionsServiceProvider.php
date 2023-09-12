@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Auth\Access\Gate;
+
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
-use Spatie\Permission\Models\Permission;
+use App\Models\Security\Permission;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 
 class PermissionsServiceProvider extends ServiceProvider
 {
