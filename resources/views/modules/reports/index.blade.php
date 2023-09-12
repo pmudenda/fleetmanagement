@@ -246,7 +246,7 @@
                 let valueObject = {};
                 let years = [];
                 let productValue = [];
-
+                let series = [];
                 for (const datum of window['costByYear']) {
 
                     if (legendData.indexOf(datum['fuel_type']) === -1) {
@@ -272,14 +272,13 @@
                     if (years.indexOf(datum['year']) === -1) {
                         years.push(datum['year']);
                     }
-                }
 
-                let series = [];
-                series.push({
-                    value: obj[datum['year']],
-                    name: datum['fuel_type'],
-                    year: datum['year']
-                });
+                    series.push({
+                        value: obj[datum['year']],
+                        name: datum['fuel_type'],
+                        year: datum['year']
+                    });
+                }
 
                 for (const key in productValue) {
                     const dat = productValue[key];
