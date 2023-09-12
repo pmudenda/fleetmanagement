@@ -14,6 +14,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('mechanic/save', [MechanicController::class, 'store'])
             ->name('mechanic.save');
 
+        Route::post('mechanic/update', [MechanicController::class, 'update'])
+            ->name('mechanic.update');
+
         Route::get('mechanic/show', [MechanicController::class, 'show'])
             ->name('mechanic.show');
 
@@ -22,6 +25,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('mechanic/find', [MechanicController::class, 'find'])
             ->name('mechanic.search');
+
+        Route::post('mechanic/sync', [MechanicController::class, 'sync'])
+            ->name('mechanic.sync');
 
         Route::post('labour/rates', function (Request $request) {
             try {

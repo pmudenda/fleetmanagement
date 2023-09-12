@@ -192,12 +192,14 @@
                                     </a>
                                 </li>
 
-                                <li class="card-title">
-                                    <a class="nav-link"
-                                       href="#userInfoUpdate" data-toggle="tab">
-                                        Settings
-                                    </a>
-                                </li>
+                                @can(config('rights.edit_mechanic'))
+                                    <li class="card-title">
+                                        <a class="nav-link"
+                                           href="#userInfoUpdate" data-toggle="tab">
+                                            Data Update
+                                        </a>
+                                    </li>
+                                @endcan
                             </ul>
                         </div>
                         <div class="card-body">
@@ -217,20 +219,10 @@
                                                 <p class="text-muted">
                                                     <b>Directorate:</b> {{ $mechanic->directorate ?? '--' }}
                                                 </p>
-                                                {{--
-                                                    <p class="text-muted">
-                                                        <b>PayPoint:</b> {{ $user->pay_point->name ?? '' }}
-                                                    </p>
-                                                 --}}
                                                 <p class="text-muted">
-                                                    <b>Location:</b> {{ $mechanic->functional_section ?? '' }}</p>
-                                                {{--<p class="text-muted"><b>Area:</b>
-                                                    @foreach(Area::get() as $area)
-                                                        @if($area->area == $user->area_code)
-                                                            <b value="{{$area->area}}">{{$area->description}}</b>
-                                                        @endif
-                                                    @endforeach
-                                                </p>--}}
+                                                    <b>Location:</b>
+                                                    {{ $mechanic->functional_section ?? '' }}
+                                                </p>
                                             </div>
                                             <div class="col-6">
                                                 <p class="text-muted">
@@ -324,7 +316,7 @@
                                         @php $allowUpdate = true;  @endphp
                                     @endif
                                     <form class="form-horizontal" name="updateDataUpdate" method="post"
-                                          action="{{ route('user.update') }}">
+                                          action="{{ route('mechanic.update') }}">
                                         @csrf
                                         <div class="form-group row">
                                             <label for="inputName"
@@ -338,9 +330,12 @@
                                                        @endif
                                                        required
                                                        placeholder="Name"
-                                                       value="{{ $mechanic->mechanic_name }}">
-                                                <input type="hidden" id="userId" name="userId" required
-                                                       value="{{ $mechanic->mechanic_id}}">
+                                                       value="{{ $mechanic->mechanic_name ?? ''}}">
+                                                <input type="hidden"
+                                                       id="mechanicId"
+                                                       name="mechanicId"
+                                                       required
+                                                       value="{{$mechanic->mechanic_id ?? '--'}}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -357,7 +352,7 @@
                                                        @endif
                                                        required
                                                        placeholder="Email"
-                                                       value="{{ $mechanic->staff_email ?? '' }}">
+                                                       value="{{ $mechanic->staff_email ?? '' }}"/>
                                             </div>
                                         </div>
 
@@ -415,8 +410,8 @@
                                                         class="@if($allowUpdate)
                                                              form-select form-select-sm
                                                              @else form-control  @endif"
-                                                        id="area"
-                                                        name="area">
+                                                        id="workshop_code"
+                                                        name="workshop_code">
                                                     @foreach($workshopList as $workshop)
                                                         @if($workshop->workshop_code == $mechanic->workshop_code)
                                                             <option value="{{$workshop->workshop_code}}">
@@ -463,7 +458,7 @@
                                         </div>
 
                                         <div class="form-group justify-content-end">
-                                            @canany([config('rights.user_update')])
+                                            @canany([config('rights.edit_mechanic')])
                                                 <div class="col-md-12">
                                                     <div class="d-flex justify-content-end">
                                                         <button type="submit"
@@ -474,7 +469,7 @@
 
                                                         <button type="button"
                                                                 id="syncUserData"
-                                                                data-href="{{ route('user.sync') }}"
+                                                                data-href="{{ route('mechanic.sync') }}"
                                                                 class="btn btn-sm btn-default">
                                                             Sync <i class="fas fa-sync"></i>
                                                         </button>

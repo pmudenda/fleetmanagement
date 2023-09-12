@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers\WorkShopManagement;
 
+use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
+use App\Exceptions\UserNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserProfileUpdate;
+use App\Http\Requests\UserSync;
 use App\Models\Reference\PHCMSEmployee;
+use App\Models\Security\User;
 use App\Models\Settings\GeneralTable;
 use App\Models\Settings\WorkShop;
 use App\Models\WorkShopManagement\Mechanic;
+use App\Services\Logging\ActivityLogsService;
+use App\Services\Security\UserService;
+use App\Services\WorkShopManagement\MechanicsService;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +29,14 @@ use Illuminate\Support\Facades\Log;
 
 class MechanicController extends Controller
 {
+
+    private MechanicsService $mechanicsService;
+
+    public function __construct(MechanicsService $mechanicsService)
+    {
+        $this->mechanicsService = $mechanicsService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -128,5 +145,45 @@ class MechanicController extends Controller
             ->with(compact('mechanic',
                 'workshopList',
                 'workshopSectionList'));
+    }
+
+    public function update(Request $request): JsonResponse
+    {
+        try {
+            $this->mechanicsService->updateDetails($request);
+            ActivityLogsService::store($request, 'Updating of User', 'update', ' user updated');
+            return response()->json([
+                'state' => 'success',
+                'message' => SystemMessages::userUpdateSuccessful()
+            ]);
+        } catch (Exception $e) {
+            $message = SystemMessages::userUpdateFailed();
+            Log::info($message);
+            Log::error($e);
+            return response()->json([
+                'state' => 'error',
+                'error' => $message
+            ]);
+        }
+    }
+
+    public function sync(UserSync $request): JsonResponse
+    {
+        try {
+            Log::info('User Data Update: User Id ' . $request->userId);
+            $this->mechanicsService->syncMechanicFullDetails($request->userId);
+            return response()->json([
+                'state' => 'success',
+                'message' => SystemMessages::userUpdateSuccessful()
+            ]);
+        } catch (Exception $e) {
+            $message = SystemMessages::userUpdateFailed();
+            Log::info($message);
+            Log::error($e);
+            return response()->json([
+                'state' => 'error',
+                'error' => $message
+            ]);
+        }
     }
 }
