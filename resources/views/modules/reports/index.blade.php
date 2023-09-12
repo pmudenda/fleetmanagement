@@ -295,7 +295,7 @@
                     left: 'center'
                 },
                 tooltip: {
-                    trigger: 'item',
+                    trigger: 'axis',
                     formatter(params) {
                         return '{params.data.name} <br/> ' +
                             '{accounting.formatMoney(params.data.value)}'
