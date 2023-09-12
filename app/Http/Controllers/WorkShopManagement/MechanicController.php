@@ -104,6 +104,16 @@ class MechanicController extends Controller
             ->where('mec.id', '=', $staffId)
             ->select(
                 'mec.*',
+                "mec.id as mechanic_id",
+
+                "mec.name as mechanic_name",
+                "mec.workshop_code",
+                "mec.section_code",
+                "mec.status",
+                "mec.is_supervisor",
+                "mec.wkshp_section_name",
+                "mec.workshop_name",
+                'emp.',
                 'wkshp_sec.name as wkshp_section_name',
                 'wkshp.workshop_name'
             )->first();
