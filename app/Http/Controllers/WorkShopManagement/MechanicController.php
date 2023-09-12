@@ -92,7 +92,7 @@ class MechanicController extends Controller
 
         $workshopList = WorkShop::get();
 
-        $workshopSectionList = GeneralTable::where('wkshp_sec.type', '=',
+        $workshopSectionList = GeneralTable::where('type', '=',
             ConfigurationTypes::WORK_SHOP_SECTION)->get();
 
         $mechanic = DB::table('wm_mechanics mec')
