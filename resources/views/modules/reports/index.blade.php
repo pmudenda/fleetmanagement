@@ -304,14 +304,14 @@
                     dimensions: dataByYear.dimension,
                     source: dataByYear.source
                 },
-                legend: {
+                /*legend: {
                     type: 'scroll',
                     orient: 'horizontal',
                     right: 10,
                     top: 20,
                     bottom: 20,
                     data: dataByYear.years
-                },
+                },*/
                 xAxis: {
                     type: 'category',
                     data: dataByYear.years
