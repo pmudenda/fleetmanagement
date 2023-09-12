@@ -313,6 +313,8 @@
                         config('rights.user_attach'),
                         config('rights.add_driver'),
                         config('rights.view_drivers'),
+                        config('rights.view_mechanics'),
+                        config('rights.add_mechanic')
                     ];
                 @endphp
 
