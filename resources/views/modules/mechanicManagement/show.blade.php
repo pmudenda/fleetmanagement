@@ -340,7 +340,7 @@
                                                             placeholder="Name"
                                                             value="{{ $mechanic->mechanic_name }}">
                                                      <input type="hidden" id="userId" name="userId" required
-                                                            value="{{ $mechanic->mechanic}}">
+                                                            value="{{ $mechanic->mechanic_id}}">
                                                  </div>
                                              </div>
                                              <div class="form-group row">
