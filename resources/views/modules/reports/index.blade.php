@@ -297,6 +297,8 @@
                 tooltip: {
                     trigger: 'axis',
                     formatter(params) {
+                        console.log(params[0].data);
+
                         return `${params[0].data.name} <br/> ' +
                             ${accounting.formatMoney(params[0].data.value)}`;
                     }
