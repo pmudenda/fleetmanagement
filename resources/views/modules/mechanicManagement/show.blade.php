@@ -224,19 +224,20 @@
                                                  --}}
                                                 <p class="text-muted">
                                                     <b>Location:</b> {{ $mechanic->functional_section ?? '' }}</p>
-                                                <p class="text-muted"><b>Area:</b>
-                                                    {{--@foreach(Area::get() as $area)
+                                                {{--<p class="text-muted"><b>Area:</b>
+                                                    @foreach(Area::get() as $area)
                                                         @if($area->area == $user->area_code)
                                                             <b value="{{$area->area}}">{{$area->description}}</b>
                                                         @endif
-                                                    @endforeach--}}
-                                                </p>
+                                                    @endforeach
+                                                </p>--}}
                                             </div>
                                             <div class="col-6">
                                                 <p class="text-muted">
                                                     <b>
                                                         User Unit:
                                                     </b>
+                                                    {{$mechanic->location}}
                                                     {{--@if (Auth::user()->type_id == config('constants.user_types.developer') ||
                                                         Auth::user()->type_id == config('constants.user_types.mgt')
                                                         )
