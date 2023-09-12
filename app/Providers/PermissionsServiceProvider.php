@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Permission\Models\Permission;
 
 class PermissionsServiceProvider extends ServiceProvider
 {
@@ -28,11 +30,12 @@ class PermissionsServiceProvider extends ServiceProvider
             app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
             Cache::flush('spatie.permission.cache');
             Cache::flush('spatie.role.cache');
-            /*Permission::get()->map(function ($permission) {
-                Gate::define($permission->slug, function ($user) use ($permission) {
+
+            Permission::get()->map(function ($permission) {
+                Gate::define(trim(strtolower($permission->slug)), function ($user) use ($permission) {
                     return $user->hasPermissionTo($permission);
                 });
-            });*/
+            });
         } catch (\Exception $e) {
             /*report($e);
             return false;*/
