@@ -292,7 +292,8 @@
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                     <input type="hidden" name="cost_center_code">
                                                     <input type="hidden" name="nrc">
-                                                    <select type="text" class="form-select form-control-sm"
+                                                    <select type="text"
+                                                            class="form-select form-control-sm"
                                                             id="cc_code"
                                                             name="cc_code"
                                                             required disabled>
@@ -301,7 +302,7 @@
                                                             <option
                                                                 value="{{$costCenter->code_cost_center}}">
                                                                 {{$costCenter->code_cost_center}}
-                                                                -> {{$costCenter->description}}
+                                                                -> {{strtoupper($costCenter->description)}}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -323,13 +324,13 @@
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                     <select
-                                                        class="form-select form-select-sm"
+                                                        class="form-select form-select-sm select2"
                                                         id="workshopCode"
                                                         name="workshopCode">
                                                         <option>--Select Workshop--</option>
                                                         @foreach($workshopList as $workshop)
                                                             <option value="{{$workshop->workshop_code}}">
-                                                                {{$workshop->workshop_name}}
+                                                                {{strtoupper($workshop->workshop_name)}}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -348,7 +349,7 @@
                                                     Section:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <select class="form-select form-select-sm"
+                                                    <select class="form-select form-select-sm select2"
                                                             id="workShopSection"
                                                             name="workShopSection">
                                                         <option>--Select Section--</option>
@@ -368,27 +369,9 @@
 
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-5">
-                                    {{--<div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="user_profile">
-                                                    Profile :
-                                                </label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <select name="user_profile" id="user_profile"
-                                                            disabled
-                                                            class="form-control form-select-sm"
-                                                            required>
-                                                        <option value="{{$role->id}}">
-                                                            {{$role->name}}
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>--}}
-                                    <input type="hidden" id="login_name" name="login_name"/>
+                                    <input type="hidden"
+                                           id="login_name"
+                                           name="login_name"/>
                                 </div>
                             </div>
 
@@ -402,8 +385,9 @@
                                                     Business Area:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <select name="businessArea" id="business_area"
-                                                            class="form-control form-select-sm"
+                                                    <select name="businessArea"
+                                                            id="business_area"
+                                                            class="form-control form-select-sm select2"
                                                             required>
                                                         <option value>--Choose Business Area--</option>
                                                     </select>
@@ -430,4 +414,9 @@
 @push('scripts')
     <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
     <script src="{{asset('application/modules/userManagement/users/add_user.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select({});
+        });
+    </script>
 @endpush
