@@ -10,7 +10,9 @@
                 <div class="card-title">
                     <h4>Add Mechanic</h4>
                 </div>
-                <div id="actionButtonsContainer" class="card-toolbar justify-content-end" style="display: none;">
+                <div id="actionButtonsContainer"
+                     class="card-toolbar justify-content-end"
+                     style="display: none;">
                     <button type="button" id="submitUserBtn" class="btn btn-success btn-sm mr-3">
                         <i class="fas fa-save"></i> Save
                     </button>
@@ -317,25 +319,63 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="mobile_no">Password:</label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text"
-                                                           required
-                                                           class="form-control form-control-sm"
-                                                           name="password"/>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div class="form-group row">
+                                    <label for="inputExperience"
+                                           class="col-sm-2 col-form-label field-required">
+                                        Workshop:
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <select @if(!$allowUpdate)
+                                                    disabled
+                                                @endif
+                                                class="@if($allowUpdate)
+                                                             form-select form-select-sm
+                                                             @else form-control  @endif"
+                                                id="workshop_code"
+                                                name="workshop_code">
+                                            @foreach($workshopList as $workshop)
+                                                @if($workshop->workshop_code == $mechanic->workshop_code)
+                                                    <option value="{{$workshop->workshop_code}}">
+                                                        {{$workshop->workshop_name}}
+                                                    </option>
+                                                @else
+                                                    <option value="{{$workshop->area}}">
+                                                        {{$workshop->workshop_name}}
+                                                    </option>
+                                                @endif
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-
+                                <div class="form-group row">
+                                    <label for="inputExperience"
+                                           class="col-sm-2 col-form-label field-required">
+                                        Section:
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <select @if(!$allowUpdate)
+                                                    disabled
+                                                @endif
+                                                class="@if($allowUpdate)
+                                                             form-select form-select-sm
+                                                             @else form-control  @endif"
+                                                id="work_shop_section"
+                                                name="work_shop_section">
+                                            @foreach($workshopSectionList
+                                                       as $workshop_section)
+                                                @if($workshop->code == $mechanic->section_code)
+                                                    <option value="{{$workshop_section->code}}">
+                                                        {{$workshop_section->name}}
+                                                    </option>
+                                                @else
+                                                    <option value="{{$workshop_section->code}}">
+                                                        {{$workshop_section->name}}
+                                                    </option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
 
