@@ -25,9 +25,9 @@ class MechanicOnboarding extends FormRequest
         return [
             'business_unit_code' => 'required',
             'cost_center_code' => 'required',
-            'password' => 'required',
-            'staff_supervisor' => 'required',
-            'user_profile' => 'required',
+           /* 'password' => 'required',*/
+           /* 'staff_supervisor' => 'required',*/
+          /*  'user_profile' => 'required',*/
             'business_area' => 'required|string|max:2'
         ];
     }
