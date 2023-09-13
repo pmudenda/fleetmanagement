@@ -34,7 +34,7 @@ class MechanicController extends Controller
 
     public function create(): View
     {
-        $roles = Role::get();
+        $roles = Role::where('name', '=', 'MECHANIC')->first();
         $businessUnits = (new StructureService)->getBusinessUnits();
         $costCenters = (new StructureService)->getCostCenters();
 

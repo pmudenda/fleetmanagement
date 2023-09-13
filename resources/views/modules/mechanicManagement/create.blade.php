@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <h4>Add User</h4>
+                    <h4>Add Mechanic</h4>
                 </div>
                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end" style="display: none;">
                     <button type="button" id="submitUserBtn" class="btn btn-success btn-sm mr-3">
@@ -396,19 +396,11 @@
                                                     <select name="user_profile" id="user_profile"
                                                             class="form-control form-select-sm"
                                                             required>
-                                                        <option value>--Choose Profile--</option>
                                                         @foreach ($roles as $groupName)
-                                                            @if($groupName == 'default')
-                                                                <option selected
-                                                                        value="{{$groupName->id}}">
-                                                                    {{$groupName->description}}
-                                                                </option>
-                                                            @else
-                                                                <option
+                                                            <option selected
                                                                     value="{{$groupName->id}}">
-                                                                    {{$groupName->description}}
-                                                                </option>
-                                                            @endif
+                                                                {{$groupName->description}}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
