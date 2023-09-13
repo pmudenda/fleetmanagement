@@ -395,7 +395,7 @@
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                     <select name="businessArea"
                                                             id="business_area"
-                                                            class="form-control form-select-sm select2"
+                                                            class="form-control form-select-sm"
                                                             required>
                                                         <option value>--Choose Business Area--</option>
                                                     </select>
