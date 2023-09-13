@@ -36,7 +36,7 @@ class MechanicController extends Controller
 
     public function create(): View
     {
-        $roles = Role::where('name', '=', 'MECHANIC')->first();
+        $role = Role::where('name', '=', 'MECHANIC')->first();
         $businessUnits = (new StructureService)->getBusinessUnits();
         $costCenters = (new StructureService)->getCostCenters();
 
@@ -48,7 +48,7 @@ class MechanicController extends Controller
 
         return view('modules.mechanicManagement.create')
             ->with(compact(
-                'roles',
+                'role',
                 'businessUnits',
                 'costCenters',
                 'workshopList',

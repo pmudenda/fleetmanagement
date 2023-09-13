@@ -326,6 +326,7 @@
                                                         class="form-select form-select-sm"
                                                         id="workshopCode"
                                                         name="workshopCode">
+                                                        <option>--Select Section--</option>
                                                         @foreach($workshopList as $workshop)
                                                             <option value="{{$workshop->workshop_code}}">
                                                                 {{$workshop->workshop_name}}
@@ -350,7 +351,7 @@
                                                     <select class="form-select form-select-sm"
                                                             id="workShopSection"
                                                             name="workShopSection">
-
+                                                        <option>--Select Section--</option>
                                                         @foreach($workshopSectionList
                                                                    as $workshop_section)
                                                             <option value="{{$workshop_section->code}}">
@@ -378,11 +379,9 @@
                                                     <select name="user_profile" id="user_profile"
                                                             class="form-control form-select-sm"
                                                             required>
-                                                        @foreach ($roles as $item)
-                                                            {{--<option value="{{$item->id}}">
-                                                                {{$item->name}}
-                                                            </option>--}}
-                                                        @endforeach
+                                                        <option value="{{$role->id}}">
+                                                            {{$role->name}}
+                                                        </option>
                                                     </select>
                                                 </div>
                                             </div>
