@@ -387,6 +387,8 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <input type="hidden" id="login_name" name="login_name"/>
                                 </div>
                             </div>
 
