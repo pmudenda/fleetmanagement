@@ -365,10 +365,9 @@
                                                     <select name="user_profile" id="user_profile"
                                                             class="form-control form-select-sm"
                                                             required>
-                                                        @foreach ($roles as $groupName)
-                                                            <option selected
-                                                                    value="{{$groupName->id}}">
-                                                                {{$groupName->description}}
+                                                        @foreach ($roles as $role)
+                                                            <option value="{{$role->id}}">
+                                                                {{$role->description}}
                                                             </option>
                                                         @endforeach
                                                     </select>
