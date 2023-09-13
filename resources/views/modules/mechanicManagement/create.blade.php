@@ -313,41 +313,53 @@
                             </div>
 
                             <div class="row">
-                                <div class="form-group row">
-                                    <label for="workshop_code"
-                                           class="col-sm-2 col-form-label field-required">
-                                        Workshop:
-                                    </label>
-                                    <div class="col-sm-10">
-                                        <select
-                                            class="form-select form-select-sm"
-                                            id="workshopCode"
-                                            name="workshopCode">
-                                            @foreach($workshopList as $workshop)
-                                                <option value="{{$workshop->workshop_code}}">
-                                                    {{$workshop->workshop_name}}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                <div class="col-xs-12 col-sm-6 col-md-5">
+                                    <div class="container-fluid pl-0">
+                                        <div class="row">
+                                            <div class="form-group row">
+                                                <label for="workshopCode"
+                                                       class="col-sm-2 col-form-label field-required">
+                                                    Workshop:
+                                                </label>
+                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                    <select
+                                                        class="form-select form-select-sm"
+                                                        id="workshopCode"
+                                                        name="workshopCode">
+                                                        @foreach($workshopList as $workshop)
+                                                            <option value="{{$workshop->workshop_code}}">
+                                                                {{$workshop->workshop_name}}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label for="workShopSection"
-                                           class="col-sm-2 col-form-label field-required">
-                                        Section:
-                                    </label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select form-select-sm"
-                                                id="workShopSection"
-                                                name="workShopSection">
-                                            @foreach($workshopSectionList
-                                                       as $workshop_section)
-                                                    <option value="{{$workshop_section->code}}">
-                                                        {{$workshop_section->name}}
-                                                    </option>
-                                            @endforeach
-                                        </select>
+                                <div class="col-xs-12 col-sm-6 col-md-5">
+                                    <div class="container-fluid pl-0">
+                                        <div class="row">
+                                            <div class="form-group row">
+                                                <label for="workShopSection"
+                                                       class="col-sm-2 col-form-label field-required">
+                                                    Section:
+                                                </label>
+                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                    <select class="form-select form-select-sm"
+                                                            id="workShopSection"
+                                                            name="workShopSection">
+                                                        @foreach($workshopSectionList
+                                                                   as $workshop_section)
+                                                            <option value="{{$workshop_section->code}}">
+                                                                {{$workshop_section->name}}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
