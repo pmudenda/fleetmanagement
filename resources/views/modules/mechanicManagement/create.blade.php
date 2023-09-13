@@ -326,7 +326,7 @@
                                                         class="form-select form-select-sm"
                                                         id="workshopCode"
                                                         name="workshopCode">
-                                                        <option>--Select Section--</option>
+                                                        <option>--Select Workshop--</option>
                                                         @foreach($workshopList as $workshop)
                                                             <option value="{{$workshop->workshop_code}}">
                                                                 {{$workshop->workshop_name}}
