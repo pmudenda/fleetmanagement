@@ -377,6 +377,7 @@
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                     <select name="user_profile" id="user_profile"
+                                                            disabled
                                                             class="form-control form-select-sm"
                                                             required>
                                                         <option value="{{$role->id}}">
