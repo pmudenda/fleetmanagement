@@ -418,7 +418,7 @@
                                                                 {{$workshop->workshop_name}}
                                                             </option>
                                                         @else
-                                                            <option value="{{$workshop->area}}">
+                                                            <option value="{{$workshop->workshop_code}}">
                                                                 {{$workshop->workshop_name}}
                                                             </option>
                                                         @endif

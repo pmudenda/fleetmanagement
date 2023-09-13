@@ -89,24 +89,6 @@
                                     </div>
                                 </div>
 
-                                {{--<div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="staff_email"> Last Name:
-                                                </label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           id="last_name"
-                                                           name="last_name"
-                                                           required readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>--}}
-
                             </div>
 
                             <div class="row">
@@ -131,20 +113,20 @@
 
                                 <div class="col-xs-12 col-sm-6 col-md-5">
                                     <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="staff_name">
-                                                    Login Name:
-                                                </label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           id="login_name"
-                                                           name="login_name"
-                                                           required readonly>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {{--   <div class="row">
+                                               <div class="form-group row">
+                                                   <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                          for="staff_name">
+                                                       Login Name:
+                                                   </label>
+                                                   <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                       <input type="text" class="form-control form-control-sm"
+                                                              id="login_name"
+                                                              name="login_name"
+                                                              required readonly>
+                                                   </div>
+                                               </div>
+                                           </div>--}}
                                     </div>
                                 </div>
                             </div>
@@ -175,11 +157,12 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="staff_name">
+                                                       for="job_title">
                                                     Position:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="job_title"
                                                            name="job_title"
                                                            required readonly>
@@ -341,15 +324,9 @@
                                             id="workshopCode"
                                             name="workshopCode">
                                             @foreach($workshopList as $workshop)
-                                                @if($workshop->workshop_code == $mechanic->workshop_code)
-                                                    <option value="{{$workshop->workshop_code}}">
-                                                        {{$workshop->workshop_name}}
-                                                    </option>
-                                                @else
-                                                    <option value="{{$workshop->area}}">
-                                                        {{$workshop->workshop_name}}
-                                                    </option>
-                                                @endif
+                                                <option value="{{$workshop->workshop_code}}">
+                                                    {{$workshop->workshop_name}}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
