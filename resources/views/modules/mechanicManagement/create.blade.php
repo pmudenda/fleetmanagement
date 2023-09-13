@@ -333,7 +333,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="inputExperience"
+                                    <label for="workShopSection"
                                            class="col-sm-2 col-form-label field-required">
                                         Section:
                                     </label>
