@@ -40,11 +40,19 @@ class MechanicController extends Controller
         $businessUnits = (new StructureService)->getBusinessUnits();
         $costCenters = (new StructureService)->getCostCenters();
 
+        $workshopList = WorkShop::get();
+
+        $workshopSectionList = GeneralTable::where('type', '=',
+            ConfigurationTypes::WORK_SHOP_SECTION)->get();
+
+
         return view('modules.mechanicManagement.create')
             ->with(compact(
                 'roles',
                 'businessUnits',
-                'costCenters'));
+                'costCenters',
+                'workshopList',
+                'workshopSectionList'));
     }
 
     public function store(MechanicOnboarding $request): JsonResponse
