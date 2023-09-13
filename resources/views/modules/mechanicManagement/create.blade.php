@@ -2,8 +2,11 @@
 @push('styles')
 @endpush
 @section('content')
+    <x-content-header
+        :activeCrumb="'Onboard Mechanic'"
+        :linkText="'Booking'"
+        :pageTitle="'New Reservation'"/>
 
-    <x-content-header/>
     <section id="tms_app_main" class="content">
         <div class="card">
             <div class="card-header">
@@ -13,11 +16,13 @@
                 <div id="actionButtonsContainer"
                      class="card-toolbar justify-content-end"
                      style="display: none;">
-                    <button type="button" id="submitUserBtn" class="btn btn-success btn-sm mr-3">
+                    <button type="button" id="submitUserBtn"
+                            class="btn btn-success btn-sm mr-3">
                         <i class="fas fa-save"></i> Save
                     </button>
-                    <button type="button" id="resetUserFormBtn" class="btn btn-danger btn-sm mr-3">
-                        <i class="fas fa-undo"></i> Cancel
+                    <button type="button" id="resetUserFormBtn"
+                            class="btn btn-danger btn-sm mr-3">
+                        <i class="fas fa-undo"></i> Clear Data
                     </button>
                 </div>
             </div>
@@ -28,7 +33,7 @@
 
                 <form name="tms_user_definition"
                       data-action="{{route('user.search')}}"
-                      action="{{route('mechanic.store')}}"
+                      action="{{route('mechanic.save')}}"
                       method="post">
                     @csrf
                     <div class="card-header">
