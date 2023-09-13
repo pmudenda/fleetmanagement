@@ -270,7 +270,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="post">
+                                        <div class="post d-none">
                                             <div class="user-block">
                                                 <span class="username ml-1"><a href="#">LINE SUPERVISOR</a> </span>
                                             </div>
@@ -372,11 +372,13 @@
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="inputjob_code" class="col-sm-2 col-form-label">
+                                            <label for="job_code"
+                                                   class="col-sm-2 col-form-label">
                                                 Job Code
                                             </label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control"
+                                                <input type="text"
+                                                       class="form-control"
                                                        name="job_code"
                                                        placeholder="job_code" value="{{ $mechanic->job_code }}">
                                             </div>
@@ -428,7 +430,7 @@
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="inputExperience"
+                                            <label for="workShopSection"
                                                    class="col-sm-2 col-form-label field-required">
                                                 Section:
                                             </label>
@@ -440,7 +442,7 @@
                                                              form-select form-select-sm
                                                              @else form-control  @endif"
                                                         id="work_shop_section"
-                                                        name="work_shop_section">
+                                                        name="workShopSection">
                                                     @foreach($workshopSectionList
                                                                as $workshop_section)
                                                         @if($workshop->code == $mechanic->section_code)
