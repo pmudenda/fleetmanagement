@@ -307,8 +307,10 @@
                                                         <option></option>
                                                         @foreach ($costCenters as $costCenter)
                                                             <option
-                                                                value="{{$costCenter->code_cost_center}}">{{$costCenter->code_cost_center}}
-                                                                -> {{$costCenter->description}}</option>
+                                                                value="{{$costCenter->code_cost_center}}">
+                                                                {{$costCenter->code_cost_center}}
+                                                                -> {{$costCenter->description}}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -380,52 +382,6 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
-                                                       for="mobile_no">Supervisor:</label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <div class="input-group">
-                                                        <input type="text"
-                                                               id="staff_supervisor"
-                                                               name="staff_supervisor"
-                                                               data-bs-toggle="modal"
-                                                               autocomplete="off"
-                                                               data-bs-target="#searchEmployeeModal"
-                                                               data-assignmenttype="single"
-                                                               data-inputfield="staff_supervisor"
-                                                               class="form-control form-control-sm"/>
-
-                                                        <input type="hidden"
-                                                               data-assignmenttype="single"
-                                                               data-inputfield="staff_supervisorId"
-                                                               id="staff_supervisorId"
-                                                               name="staff_supervisorId"/>
-                                                        <div class="input-group-append">
-                                                            <div
-                                                                data-assignmenttype="single"
-                                                                data-inputfield="staff_supervisor"
-                                                                data-field="userSelection"
-                                                                class="input-group-text">
-                                                                <i class="fa fa-user"></i>
-                                                            </div>
-                                                            <div style="cursor: pointer;"
-                                                                 title="clear selection"
-                                                                 data-action="clearUsers"
-                                                                 class="input-group-text">
-                                                                <i data-action="clearUsers"
-                                                                   class="fa fa-eraser"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="col-xs-12 col-sm-6 col-md-5">
                                     <div class="container-fluid pl-0">
                                         <div class="row">
