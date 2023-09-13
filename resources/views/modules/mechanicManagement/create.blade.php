@@ -393,7 +393,7 @@
                                                     Business Area:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <select name="businessArea"
+                                                    <select name="business_area"
                                                             id="business_area"
                                                             class="form-control form-select-sm"
                                                             required>
