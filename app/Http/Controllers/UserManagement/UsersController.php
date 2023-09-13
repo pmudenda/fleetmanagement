@@ -53,9 +53,6 @@ class UsersController extends Controller
 
     public function get(Request $request): JsonResponse
     {
-        $sortField = $request->input('sortField');
-        $sortOrder = $request->input('sortOrder');
-        $pageIndex = $request->input('pageIndex');
         $ageSize = $request->input('pageSize');
         $users = User::paginate($ageSize);
         return response()->json(

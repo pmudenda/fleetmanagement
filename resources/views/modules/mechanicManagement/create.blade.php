@@ -279,8 +279,10 @@
                                                         <option></option>
                                                         @foreach ($businessUnits as $businessUnit)
                                                             <option
-                                                                value="{{$businessUnit->code_bu}}">{{$businessUnit->code_bu}}
-                                                                -> {{$businessUnit->description}}</option>
+                                                                value="{{$businessUnit->code_bu}}">
+                                                                {{$businessUnit->code_bu}}
+                                                                -> {{$businessUnit->description}}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
