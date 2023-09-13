@@ -318,7 +318,7 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label for="workshopCode"
-                                                       class="col-sm-2 col-form-label field-required">
+                                                       class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required">
                                                     Workshop:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -343,7 +343,7 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label for="workShopSection"
-                                                       class="col-sm-2 col-form-label field-required">
+                                                       class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required">
                                                     Section:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
