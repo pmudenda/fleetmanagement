@@ -424,7 +424,7 @@
     <script src="{{asset('application/modules/userManagement/users/add_user.js')}}"></script>
     <script>
         $(document).ready(function () {
-            $('.select2').select({});
+            $('.select2').select2({});
         });
     </script>
 @endpush
