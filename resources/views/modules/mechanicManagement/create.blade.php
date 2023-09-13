@@ -379,9 +379,9 @@
                                                             class="form-control form-select-sm"
                                                             required>
                                                         @foreach ($roles as $role)
-                                                           {{-- <option value="{{$role->id}}">
-                                                                {{$role->description}}
-                                                            </option>--}}
+                                                            <option value="{{$role->id}}">
+                                                                {{$role->name}}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
