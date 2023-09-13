@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserOnboardingRequest;
 use App\Http\Requests\UserProfileUpdate;
 use App\Http\Requests\UserSync;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Security\Role;
 use App\Models\Security\User;
 use App\Services\Logging\ActivityLogsService;
@@ -40,7 +41,8 @@ class UsersController extends Controller
     public function index(): Factory|View|Application
     {
         $users = User::select('*')->get();
-        return view('modules.userManagement.index')->with(compact('users'));
+        return view('modules.userManagement.index')
+            ->with(compact('users'));
     }
 
     public function getCurrentUserDetails(): JsonResponse
@@ -70,29 +72,38 @@ class UsersController extends Controller
         $costCenters = (new StructureService)->getCostCenters();
 
         return view('modules.userManagement.addUser')
-            ->with(compact('roles', 'businessUnits', 'costCenters'));
+            ->with(compact('roles',
+                    'businessUnits',
+                    'costCenters')
+            );
     }
 
     public function store(UserOnboardingRequest $request): JsonResponse
     {
         try {
             $this->userService->createUser($request);
-            return response()->json([
-                'success' => true,
-                'message' => SystemMessages::userCreateSuccessful()
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'success',
+                    true,
+                    SystemMessages::userCreateSuccessful()
+                )
+            );
 
         } catch (\Exception $ex) {
             Log::error($ex);
-            $message = "User Failed to be created because of an error";
+            $message = SystemMessages::USER_CREATION_FAILED;
             if ($ex instanceof UserOnBoardingException) {
                 $message = $ex->getMessage();
             }
 
-            return response()->json([
-                'success' => false,
-                'message' => $message
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    $message
+                )
+            );
         }
 
     }

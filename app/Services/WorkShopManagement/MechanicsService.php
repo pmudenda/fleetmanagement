@@ -12,6 +12,7 @@ use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
+use App\Http\Requests\MechanicOnboarding;
 use App\Http\Requests\UserProfileUpdate;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
@@ -128,5 +129,10 @@ class MechanicsService
             Log::info('Error Occurred while Attempting to access PHRIS View');
             Log::error($e);
         }
+    }
+
+    public function createMechanic(MechanicOnboarding $request)
+    {
+
     }
 }

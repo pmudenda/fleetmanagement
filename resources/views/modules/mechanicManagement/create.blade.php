@@ -26,7 +26,9 @@
 
                 <x-error-view/>
 
-                <form name="tms_user_definition" data-action="{{route('user.search')}}" action="{{route('user.store')}}"
+                <form name="tms_user_definition"
+                      data-action="{{route('user.search')}}"
+                      action="{{route('mechanic.store')}}"
                       method="post">
                     @csrf
                     <div class="card-header">
@@ -324,19 +326,15 @@
 
                             <div class="row">
                                 <div class="form-group row">
-                                    <label for="inputExperience"
+                                    <label for="workshop_code"
                                            class="col-sm-2 col-form-label field-required">
                                         Workshop:
                                     </label>
                                     <div class="col-sm-10">
-                                        <select @if(!$allowUpdate)
-                                                    disabled
-                                                @endif
-                                                class="@if($allowUpdate)
-                                                             form-select form-select-sm
-                                                             @else form-control  @endif"
-                                                id="workshop_code"
-                                                name="workshop_code">
+                                        <select
+                                            class="form-select form-select-sm"
+                                            id="workshopCode"
+                                            name="workshopCode">
                                             @foreach($workshopList as $workshop)
                                                 @if($workshop->workshop_code == $mechanic->workshop_code)
                                                     <option value="{{$workshop->workshop_code}}">
@@ -358,14 +356,9 @@
                                         Section:
                                     </label>
                                     <div class="col-sm-10">
-                                        <select @if(!$allowUpdate)
-                                                    disabled
-                                                @endif
-                                                class="@if($allowUpdate)
-                                                             form-select form-select-sm
-                                                             @else form-control  @endif"
-                                                id="work_shop_section"
-                                                name="work_shop_section">
+                                        <select class="form-select form-select-sm"
+                                                id="workShopSection"
+                                                name="workShopSection">
                                             @foreach($workshopSectionList
                                                        as $workshop_section)
                                                 @if($workshop->code == $mechanic->section_code)
@@ -389,7 +382,9 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="user_profile">Profile :</label>
+                                                       for="user_profile">
+                                                    Profile :
+                                                </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                     <select name="user_profile" id="user_profile"
                                                             class="form-control form-select-sm"
@@ -414,9 +409,11 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="user_profile">Business Area:</label>
+                                                       for="businessArea">
+                                                    Business Area:
+                                                </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <select name="business_area" id="business_area"
+                                                    <select name="businessArea" id="business_area"
                                                             class="form-control form-select-sm"
                                                             required>
                                                         <option value>--Choose Business Area--</option>

@@ -155,14 +155,15 @@ class UserService
 
     /**
      * @param UserOnboardingRequest $request
-     * @return mixed
+     * @return bool
      * @throws UserOnBoardingException
      */
-    public function createUser(UserOnboardingRequest $request): mixed
+    public function createUser(UserOnboardingRequest $request): bool
     {
         $validateWithHCMS = config('systeminfo.enableUserValidation');
 
         // move logic to database function
+        DB::beginTransaction();
         if ($validateWithHCMS) {
             try {
                 $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_number)
@@ -180,72 +181,68 @@ class UserService
                     )
                 );
             }
-            DB::beginTransaction();
-            $user = User::firstOrCreate(
-                [
-                    'staff_no' => $request->staff_number,
-                ],
-                [
-                    'con_st_code' => StatusHelper::active(),
-                    'password' => Hash::make($request->password),
-                    'email' => strtoupper($request->staff_email),
-                    'username' => $request->login_name,
-                    'phone' => $request->mobile_no,
-                    'guid' => Str::uuid(),
-                    'area_code' => $request->get('business_area'),
-                    'functional_section' => $request->user_unit,
-                    'bu_code' => $request->business_unit_code,
-                    'cc_code' => $request->cost_center_code,
-                    'directorate' => $request->directorate,
-                    'user_unit' => $request->user_unit,
-                    'supervisor_code' => $request->staff_supervisorId,
-                    'supervisor_name' => $request->staff_supervisor,
 
-                    'staff_no' => $employee_phcms->con_per_no,
-                    'contract_type' => $employee_phcms->contract_type,
-                    'name' => $employee_phcms->name,
-                    'nrc' => $employee_phcms->nrc,
-                    'mobile_no' => $employee_phcms->mobile_no,
-                    'group_type' => $employee_phcms->group_type,
-                    'job_title' => $employee_phcms->job_title,
-                    'grade' => $employee_phcms->grade,
-                    'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
-                    'pay_point' => $employee_phcms->pay_point,
-                    'job_code' => $employee_phcms->job_code ?? "--",
-                ]
-            );
-            DB::commit();
+            $data = [
+                'con_st_code' => StatusHelper::active(),
+                'password' => Hash::make($request->password),
+                'email' => strtoupper($request->staff_email),
+                'username' => $request->login_name,
+                'phone' => $request->mobile_no,
+                'guid' => Str::uuid(),
+                'area_code' => $request->get('business_area'),
+                'functional_section' => $request->user_unit,
+                'bu_code' => $request->business_unit_code,
+                'cc_code' => $request->cost_center_code,
+                'directorate' => $request->directorate,
+                'user_unit' => $request->user_unit,
+                'supervisor_code' => $request->staff_supervisorId,
+                'supervisor_name' => $request->staff_supervisor,
+
+                'staff_no' => $employee_phcms->con_per_no,
+                'contract_type' => $employee_phcms->contract_type,
+                'name' => $employee_phcms->name,
+                'nrc' => $employee_phcms->nrc,
+                'mobile_no' => $employee_phcms->mobile_no,
+                'group_type' => $employee_phcms->group_type,
+                'job_title' => $employee_phcms->job_title,
+                'grade' => $employee_phcms->grade,
+                'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
+                'pay_point' => $employee_phcms->pay_point,
+                'job_code' => $employee_phcms->job_code ?? "--",
+            ];
+
         } else {
-
-            DB::beginTransaction();
-            $user = User::firstOrCreate(
-                [
-                    'staff_no' => $request->staff_number,
-                ],
-                [
-                    'con_st_code' => StatusHelper::active(),
-                    'password' => Hash::make($request->password),
-                    'name' => $request->name,
-                    'staff_no' => $request->staff_number,
-                    'email' => $request->staff_email,
-                    'username' => $request->login_name,
-                    'phone' => $request->mobile_no,
-                    'mobile_no' => $request->mobile_no,
-                    'functional_section' => $request->user_unit,
-                    'grade' => $request->grade,
-                    'bu_code' => $request->business_unit_code,
-                    'cc_code' => $request->cost_center_code,
-                    'directorate' => $request->directorate,
-                    'user_unit' => $request->user_unit,
-                    'supervisor_code' => $request->staff_supervisorId,
-                    'supervisor_name' => $request->staff_supervisor,
-                    'job_title' => $request->job_title,
-                    'guid' => Str::uuid(),
-                    'area_code' => $request->get('business_area'),
-                ],
-            );
-            DB::commit();
+            $data = [
+                'con_st_code' => StatusHelper::active(),
+                'password' => Hash::make($request->password),
+                'name' => $request->name,
+                'staff_no' => $request->staff_number,
+                'email' => $request->staff_email,
+                'username' => $request->login_name,
+                'phone' => $request->mobile_no,
+                'mobile_no' => $request->mobile_no,
+                'functional_section' => $request->user_unit,
+                'grade' => $request->grade,
+                'bu_code' => $request->business_unit_code,
+                'cc_code' => $request->cost_center_code,
+                'directorate' => $request->directorate,
+                'user_unit' => $request->user_unit,
+                'supervisor_code' => $request->staff_supervisorId,
+                'supervisor_name' => $request->staff_supervisor,
+                'job_title' => $request->job_title,
+                'guid' => Str::uuid(),
+                'area_code' => $request->get('business_area'),
+            ];
         }
+
+        $user = User::firstOrCreate(
+            [
+                'staff_no' => $request->staff_number,
+            ],
+            $data
+        );
+
+        DB::commit();
 
         if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
             $user->roles()->syncWithoutDetaching((int)$request->get('user_profile'));

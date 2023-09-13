@@ -30,6 +30,7 @@ class SystemMessages
         = "User Failed to be created because the Staff number (@user_name) could not be verified with PHCMS.";
     const PERMISSIONS_ATTACHED = 'Permissions Assigned Successfully..';
     const PERMISSIONS_DETACHED = 'Permissions Successfully detached..';
+    const USER_CREATION_FAILED = "User Failed to be created because of an error";
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

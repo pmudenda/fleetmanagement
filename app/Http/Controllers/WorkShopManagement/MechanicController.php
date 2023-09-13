@@ -4,8 +4,10 @@ namespace App\Http\Controllers\WorkShopManagement;
 
 use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
+use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MechanicOnboarding;
 use App\Http\Requests\UserSync;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\Role;
@@ -45,9 +47,30 @@ class MechanicController extends Controller
                 'costCenters'));
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    public function store(MechanicOnboarding $request): JsonResponse
+    {
+        try {
+            $this->mechanicsService->createMechanic($request);
+            return response()->json([
+                'success' => true,
+                'message' => SystemMessages::userCreateSuccessful()
+            ]);
+
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            $message = "User Failed to be created because of an error";
+            if ($ex instanceof UserOnBoardingException) {
+                $message = $ex->getMessage();
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => $message
+            ]);
+        }
+
+    }
+
     public function list(): View
     {
         $mechanics = DB::table('wm_mechanics mec')
