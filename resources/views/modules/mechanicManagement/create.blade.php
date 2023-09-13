@@ -343,15 +343,9 @@
                                                 name="workShopSection">
                                             @foreach($workshopSectionList
                                                        as $workshop_section)
-                                                @if($workshop->code == $mechanic->section_code)
                                                     <option value="{{$workshop_section->code}}">
                                                         {{$workshop_section->name}}
                                                     </option>
-                                                @else
-                                                    <option value="{{$workshop_section->code}}">
-                                                        {{$workshop_section->name}}
-                                                    </option>
-                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
