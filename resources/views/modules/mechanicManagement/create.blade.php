@@ -378,9 +378,9 @@
                                                     <select name="user_profile" id="user_profile"
                                                             class="form-control form-select-sm"
                                                             required>
-                                                        @foreach ($roles as $role)
-                                                            <option value="{{$role->id}}">
-                                                                {{$role->name}}
+                                                        @foreach ($roles as $item)
+                                                            <option value="{{$item->id}}">
+                                                                {{$item->name}}
                                                             </option>
                                                         @endforeach
                                                     </select>
