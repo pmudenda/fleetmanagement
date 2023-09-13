@@ -42,15 +42,17 @@
                                 <div class="container-fluid pl-0">
                                     <div class="row">
                                         <div class="form-group row">
-                                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 app-field-label"
-                                                   for="staff_no">Find By:
+                                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
+                                                   for="employee_search_criteria">Find By:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                 <div class="input-group">
                                                     <input type="text" class="form-control form-control-sm"
                                                            id="employee_search_criteria"
                                                            placeholder="Enter staff number"
-                                                           name="employee_search_criteria" required>
+                                                           name="employee_search_criteria"
+                                                           required
+                                                    />
                                                     <div class="input-group-addon">
                                                         <button type="button" id="employeeSearchBtn"
                                                                 name="userSearchBtn"
@@ -75,14 +77,15 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="staff_name">
+                                                       for="name">
                                                     Name:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="nane"
                                                            name="name"
-                                                           required readonly>
+                                                           required readonly/>
                                                 </div>
                                             </div>
                                         </div>
@@ -97,14 +100,17 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="mobile_no">Staff Number:</label>
+                                                       for="staff_number">
+                                                    Staff Number:
+                                                </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="staff_number"
                                                            readonly
                                                            name="staff_number"
                                                            autocomplete="off"
-                                                    >
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -113,20 +119,7 @@
 
                                 <div class="col-xs-12 col-sm-6 col-md-5">
                                     <div class="container-fluid pl-0">
-                                        {{--   <div class="row">
-                                               <div class="form-group row">
-                                                   <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                          for="staff_name">
-                                                       Login Name:
-                                                   </label>
-                                                   <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                       <input type="text" class="form-control form-control-sm"
-                                                              id="login_name"
-                                                              name="login_name"
-                                                              required readonly>
-                                                   </div>
-                                               </div>
-                                           </div>--}}
+
                                     </div>
                                 </div>
                             </div>
@@ -138,14 +131,15 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="mobile_no">Grade:</label>
+                                                       for="grade">Grade:</label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="grade"
                                                            readonly
                                                            name="grade"
                                                            autocomplete="off"
-                                                    >
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -165,7 +159,8 @@
                                                            class="form-control form-control-sm"
                                                            id="job_title"
                                                            name="job_title"
-                                                           required readonly>
+                                                           required
+                                                           readonly/>
                                                 </div>
                                             </div>
                                         </div>
@@ -181,13 +176,15 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="staff_email"> Email Address:
+                                                       for="staff_email">
+                                                    Email Address:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                     <input type="text" class="form-control form-control-sm"
                                                            id="staff_email"
                                                            name="staff_email"
-                                                           required readonly>
+                                                           required
+                                                           readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -201,9 +198,11 @@
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
                                                        for="mobile_no">Mobile Number:</label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="mobile_no"
-                                                           name="mobile_no">
+                                                           name="mobile_no"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -222,9 +221,13 @@
                                                        for="directorate"> Directorate:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="directorate"
-                                                           name="directorate" readonly required>
+                                                           name="directorate"
+                                                           readonly
+                                                           required
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -240,10 +243,12 @@
                                                     Department :
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="user_unit"
                                                            name="user_unit"
-                                                           readonly required>
+                                                           readonly
+                                                           required>
                                                 </div>
                                             </div>
                                         </div>
@@ -258,10 +263,11 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="mobile_no">Business Unit:</label>
+                                                       for="bc_code">Business Unit:</label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                     <input type="hidden" name="business_unit_code">
-                                                    <select type="text" class="form-select form-control-sm"
+                                                    <select type="text"
+                                                            class="form-select form-control-sm"
                                                             id="bc_code"
                                                             disabled
                                                             name="bu_code"
@@ -271,7 +277,8 @@
                                                             <option
                                                                 value="{{$businessUnit->code_bu}}">
                                                                 {{$businessUnit->code_bu}}
-                                                                -> {{$businessUnit->description}}
+                                                                :
+                                                                {{strtoupper($businessUnit->description)}}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -286,7 +293,7 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="staff_name">
+                                                       for="cc_code">
                                                     Cost Center:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -302,7 +309,8 @@
                                                             <option
                                                                 value="{{$costCenter->code_cost_center}}">
                                                                 {{$costCenter->code_cost_center}}
-                                                                -> {{strtoupper($costCenter->description)}}
+                                                                :
+                                                                {{strtoupper($costCenter->description)}}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -381,7 +389,7 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="businessArea">
+                                                       for="business_area">
                                                     Business Area:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
