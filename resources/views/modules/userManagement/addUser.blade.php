@@ -17,7 +17,6 @@
                     <button type="button" id="resetUserFormBtn" class="btn btn-danger btn-sm mr-3">
                         <i class="fas fa-undo"></i> Cancel
                     </button>
-
                 </div>
             </div>
 

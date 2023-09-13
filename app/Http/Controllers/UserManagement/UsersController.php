@@ -10,11 +10,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserOnboardingRequest;
 use App\Http\Requests\UserProfileUpdate;
 use App\Http\Requests\UserSync;
-use App\Models\Common\BusinessUnit;
-use App\Models\Common\CostCenter;
 use App\Models\Security\Role;
 use App\Models\Security\User;
 use App\Services\Logging\ActivityLogsService;
+use App\Services\Organization\StructureService;
 use App\Services\Security\ParameterEncryption;
 use App\Services\Security\RoleService;
 use App\Services\Security\UserService;
@@ -70,8 +69,8 @@ class UsersController extends Controller
     public function create(): View
     {
         $roles = Role::get();
-        $businessUnits = BusinessUnit::where('status', '=', '01')->get();
-        $costCenters = CostCenter::where('status', '=', '01')->get();
+        $businessUnits = (new StructureService)->getBusinessUnits();
+        $costCenters = (new StructureService)->getCostCenters();
 
         return view('modules.userManagement.addUser')
             ->with(compact('roles', 'businessUnits', 'costCenters'));
@@ -160,14 +159,20 @@ class UsersController extends Controller
     {
         $user = User::find($request->id);
         $user->roles()->detach($request->role_id);
-        return redirect()->back()->with('message', SystemMessages::roleAssignedSuccessful());
+        return redirect()->back()
+            ->with('message',
+                SystemMessages::roleAssignedSuccessful()
+            );
     }
 
     public function update(UserProfileUpdate $request): JsonResponse
     {
         try {
             $this->userService->updateUserDetails($request);
-            ActivityLogsService::store($request, 'Updating of User', 'update', ' user updated');
+            ActivityLogsService::store($request,
+                'Updating of User',
+                'update',
+                ' user updated');
             return response()->json([
                 'state' => 'success',
                 'message' => SystemMessages::userUpdateSuccessful()

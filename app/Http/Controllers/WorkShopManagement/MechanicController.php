@@ -4,24 +4,19 @@ namespace App\Http\Controllers\WorkShopManagement;
 
 use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
-use App\Exceptions\UserNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserProfileUpdate;
 use App\Http\Requests\UserSync;
 use App\Models\Reference\PHCMSEmployee;
-use App\Models\Security\User;
+use App\Models\Security\Role;
 use App\Models\Settings\GeneralTable;
 use App\Models\Settings\WorkShop;
 use App\Models\WorkShopManagement\Mechanic;
 use App\Services\Logging\ActivityLogsService;
-use App\Services\Security\UserService;
+use App\Services\Organization\StructureService;
 use App\Services\WorkShopManagement\MechanicsService;
 use Exception;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,10 +32,23 @@ class MechanicController extends Controller
         $this->mechanicsService = $mechanicsService;
     }
 
+    public function create(): View
+    {
+        $roles = Role::get();
+        $businessUnits = (new StructureService)->getBusinessUnits();
+        $costCenters = (new StructureService)->getCostCenters();
+
+        return view('modules.mechanicManagement.create')
+            ->with(compact(
+                'roles',
+                'businessUnits',
+                'costCenters'));
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function list(): View|\Illuminate\Foundation\Application|Factory|Application
+    public function list(): View
     {
         $mechanics = DB::table('wm_mechanics mec')
             ->leftJoin('config_workshop wkshp',
@@ -102,7 +110,7 @@ class MechanicController extends Controller
         }
     }
 
-    public function show(Request $request): View|\Illuminate\Foundation\Application|Factory|Application
+    public function show(Request $request): View
     {
         $employee = config("tables.table_names.employee");
         $staffId = $request->get('ref');
