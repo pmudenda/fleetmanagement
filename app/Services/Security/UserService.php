@@ -62,14 +62,14 @@ class UserService
             }
 
             $pdo = DB::getPdo();
-            $currentUser = auth()->user();
+            $modifiedBy = auth()->user()->staff_no;
             $stmt = $pdo->prepare(
                 "begin :result := pkg_employee.proc_sync_user(:p_staff_no, :p_modified_by); end;"
             );
 
             $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_staff_no", $user->staff_no);
-            $stmt->bindParam(":p_modified_by", $currentUser->staff_no);
+            $stmt->bindParam(":p_modified_by", $modifiedBy);
 
         } catch (QueryException $exception) {
             Log::info('Query For User Details Failed');
