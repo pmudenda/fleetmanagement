@@ -4,6 +4,7 @@ namespace App\Services\Security;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
+use App\Exceptions\UserDataSyncException;
 use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserOnBoardingException;
@@ -64,13 +65,17 @@ class UserService
             $pdo = DB::getPdo();
             $modifiedBy = auth()->user()->staff_no;
             $stmt = $pdo->prepare(
-                "begin pkg_employee.proc_sync_user(:p_staff_no, :p_modified_by); end;"
+                "begin :result := pkg_employee.fn_sync_user(:p_staff_no, :p_modified_by); end;"
             );
 
             $userToSync = $user->staff_no;
-            //$stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_staff_no", $userToSync);
             $stmt->bindParam(":p_modified_by", $modifiedBy);
+
+            if (str_starts_with($results, "success")) {
+                throw new UserDataSyncException($results);
+            }
 
         } catch (QueryException $exception) {
             Log::info('Query For User Details Failed');
