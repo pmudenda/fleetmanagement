@@ -12,7 +12,7 @@ use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\VehicleDefectsRequest;
+use App\Http\Requests\VehicleDefects;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
 use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
 use App\Http\Requests\WorkShopManagement\JobCardTaskReassignment;
@@ -645,7 +645,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function saveJobCardDefects(VehicleDefectsRequest $request): JsonResponse
+    public function saveJobCardDefects(VehicleDefects $request): JsonResponse
     {
         try {
             $this->workshopService->createJobCardDefects($request);

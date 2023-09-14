@@ -24,6 +24,9 @@ class WorkflowService
 {
     const Approve = 3;
     const Reject = 2;
+    const APPROVAL_PROCESS_HEADING_DATA_NOT_FOUND = "Approval Process Heading Data Not Found";
+    const APPROVAL_PROCESS_CURRENT_STATE_DATA_IS_MISSING = "Approval Process Current State Data Is Missing";
+    const APPROVAL_PROCESS_CURRENT_STATE_RECORD_NOT_FOUND = "Approval Process Current State Record Not Found";
 
     /**
      * Initialize Approval task
@@ -172,28 +175,43 @@ class WorkflowService
             ->first();
 
         if (empty($taskDetail)) {
-            throw new WorkflowTaskCreationFailedException("Approval Process Details Not Found", 100);
+            throw new WorkflowTaskCreationFailedException(
+                "Approval Process Details Not Found",
+                100
+            );
         }
 
         if (empty($taskHeader)) {
-            throw new WorkflowTaskCreationFailedException("Approval Process Heading Data Not Found", 100);
+            throw new WorkflowTaskCreationFailedException(
+                self::APPROVAL_PROCESS_HEADING_DATA_NOT_FOUND,
+                100
+            );
         }
 
         if (empty($taskDetail->current_step_id)) {
-            throw new WorkflowTaskCreationFailedException("Approval Process Current State Data Is Missing", 101);
+            throw new WorkflowTaskCreationFailedException(
+                self::APPROVAL_PROCESS_CURRENT_STATE_DATA_IS_MISSING,
+                101
+            );
         }
 
         $processStatus = '';
 
         // always start at current position
-        $currentStep = WorkflowStep::where('step_id', '=', $taskDetail->current_step_id)
+        $currentStep = WorkflowStep::where(
+            'step_id',
+            '=', $taskDetail->current_step_id
+        )
             ->where('process_id', '=', $process_id)
             ->first();
 
 
-        //update workflow log
+        // update workflow log
         if (empty($currentStep)) {
-            throw new WorkflowTaskCreationFailedException("Approval Process Current State Record Not Found", 102);
+            throw new WorkflowTaskCreationFailedException(
+                self::APPROVAL_PROCESS_CURRENT_STATE_RECORD_NOT_FOUND,
+                102
+            );
         }
 
         Log::info("Action Passed is " . $action);
@@ -208,115 +226,27 @@ class WorkflowService
                 // resubmission
                 break;
             case self::Reject:
-                DB::beginTransaction();
-                WorkflowLog::create([
-                    'remarks' => $comment,
-                    'action_date' => Carbon::now(),
-                    'actioning_officer' => $currentUser->staff_no,
-                    'action' => $action,
-                    'activity' => $actionTaken,
-                    'status' => StatusHelper::rejected(),
-                    'previous_step' => $currentStep->previous_step,
-                    'step_id' => $currentStep->step_id,
-                    'reference' => $reference
-                ]);
+                return $this->rejectRequest(
+                    $comment,
+                    $action,
+                    $actionTaken,
+                    $currentStep,
+                    $reference,
+                    $taskHeader,
+                    $taskDetail);
 
-                $taskHeader->date_ended = Carbon::now();
-                $taskHeader->status = StatusHelper::rejected();
-                $taskHeader->save();
-
-                $taskDetail->date_ended = Carbon::now();
-                $taskDetail->save();
-                DB::commit();
-                return [100, "0"];
             case self::Approve:
                 // approved
-                if ($currentStep->is_final_step
-                    || $currentStep->is_final_step == '1'
-                    || $currentStep->is_final_step == 1
-                    || $currentStep == $lastStep) {
-                    Log::info("Final Step Approving and Ending Process");
-
-                    WorkflowLog::create([
-                        'remarks' => $comment,
-                        'action_date' => Carbon::now(),
-                        'actioning_officer' => $currentUser->staff_no,
-                        'action' => $action,
-                        'activity' => $actionTaken,
-                        'status' => StatusHelper::authorised(),
-                        'previous_step' => $currentStep->previous_step,
-                        'step_id' => $currentStep->step_id,
-                        'reference' => $reference
-                    ]);
-
-                    $taskHeader->date_ended = Carbon::now();
-                    $taskHeader->status = StatusHelper::approved();
-                    $taskHeader->save();
-
-                    $taskDetail->date_ended = Carbon::now();
-                    $taskDetail->save();
-                    //DB::commit();
-                    return [100, '0'];
-                }
-
-                Log::info("Workflow Step Not Final ");
-                // get step
-                $nextStep = WorkflowStep::where('step_id', '=', $currentStep->next_step)
-                    ->where('process_id', '=', $process_id)
-                    ->first();
-
-                Log::info("Next Step Determined As " . $nextStep->step_id);
-
-                if (empty($nextStep)) {
-                    throw new WorkflowTaskCreationFailedException("Approval Process Next State Record Not Found", 102);
-                }
-
-                // create partial authorisation log
-                Log::info("Creating Approval Log ");
-                WorkflowLog::create([
-                    'remarks' => $comment,
-                    'action_date' => Carbon::now(),
-                    'actioning_officer' => $currentUser->staff_no,
-                    'action' => $action,
-                    'activity' => $actionTaken,
-                    'status' => StatusHelper::partiallyAuthorised(),
-                    'previous_step' => $currentStep->previous_step,
-                    'step_id' => $currentStep->step_id,
-                    'reference' => $reference
-                ]);
-
-                $taskDetail->current_step_id = $nextStep->step_id;
-                //send notification to actioning officer
-
-                //find current_user with role
-                if ($nextStep->privilege != null) {
-                    // find people with privilege
-                    /*userRoles = _context . UserRoles
-                        . include(usr => usr . User)
-                    .Where(ur => ur . RoleId == nextStep . Role)
-                    .ToList();*/
-                }
-
-                // is supervisor of
-                $approvingOfficer = $this->getApprovingOfficer($currentUser);
-
-                $assignToUser = $approvingOfficer;
-                Log::info("Next Approver Determine as " . $assignToUser->staff_no);
-
-                if ($assignToUser->staff_no != 0) {
-                    $taskDetail->actioning_officer = $assignToUser->staff_no;
-                }
-
-                // save process and send notification
-                $taskDetail->save();
-
-                $taskHeader->assigned_user = $assignToUser->staff_no;
-                $taskHeader->save();
-
-                Log::info("Returning Next Step Id " . $nextStep->step_id);
-
-                DB::commit();
-                return [$nextStep->step_id, $assignToUser->staff_no];
+                return $this->approveRequest(
+                    $currentStep,
+                    $lastStep,
+                    $comment,
+                    $action,
+                    $actionTaken,
+                    $reference,
+                    $taskHeader,
+                    $taskDetail,
+                    $process_id);
             case 5:
             {
                 //send back
@@ -351,7 +281,6 @@ class WorkflowService
                 $taskDetail->save();
 
                 self::closePreviousTasks($taskDetail);
-
 
                 //process is finished
                 return [$taskDetail, '0'];
@@ -448,6 +377,157 @@ class WorkflowService
         return $assignToUser;
     }
 
+    /**
+     * @param string $comment
+     * @param int $action
+     * @param string $actionTaken
+     * @param $currentStep
+     * @param string $reference
+     * @param $taskHeader
+     * @param $taskDetail
+     * @return array
+     */
+    public function rejectRequest(string $comment,
+                                  int    $action,
+                                  string $actionTaken,
+                                         $currentStep,
+                                  string $reference,
+                                         $taskHeader,
+                                         $taskDetail): array
+    {
+        $currentUser = auth()->user();
+
+        WorkflowLog::create([
+            'remarks' => $comment,
+            'action_date' => Carbon::now(),
+            'actioning_officer' => $currentUser->staff_no,
+            'action' => $action,
+            'activity' => $actionTaken,
+            'status' => StatusHelper::rejected(),
+            'previous_step' => $currentStep->previous_step,
+            'step_id' => $currentStep->step_id,
+            'reference' => $reference
+        ]);
+
+        $taskHeader->date_ended = Carbon::now();
+        $taskHeader->status = StatusHelper::rejected();
+        $taskHeader->save();
+
+        $taskDetail->date_ended = Carbon::now();
+        $taskDetail->save();
+
+        return [100, "0"];
+    }
+
+    /**
+     * @param $currentStep
+     * @param string $lastStep
+     * @param string $comment
+     * @param int $action
+     * @param string $actionTaken
+     * @param string $reference
+     * @param $taskHeader
+     * @param $taskDetail
+     * @param string $process_id
+     * @return array
+     * @throws WorkflowTaskCreationFailedException
+     */
+    public function approveRequest($currentStep,
+                                   string $lastStep,
+                                   string $comment,
+                                   int $action,
+                                   string $actionTaken,
+                                   string $reference,
+        $taskHeader, $taskDetail,
+                                   string $process_id): array
+    {
+        $currentUser = auth()->user();
+        if ($currentStep->is_final_step
+            || $currentStep->is_final_step == '1'
+            || $currentStep->is_final_step == 1
+            || $currentStep == $lastStep) {
+            Log::info("Final Step Approving and Ending Process");
+
+            WorkflowLog::create([
+                'remarks' => $comment,
+                'action_date' => Carbon::now(),
+                'actioning_officer' => $currentUser->staff_no,
+                'action' => $action,
+                'activity' => $actionTaken,
+                'status' => StatusHelper::authorised(),
+                'previous_step' => $currentStep->previous_step,
+                'step_id' => $currentStep->step_id,
+                'reference' => $reference
+            ]);
+
+            $taskHeader->date_ended = Carbon::now();
+            $taskHeader->status = StatusHelper::approved();
+            $taskHeader->save();
+
+            $taskDetail->date_ended = Carbon::now();
+            $taskDetail->save();
+            return [100, '0'];
+        }
+
+        Log::info("Workflow Step Not Final ");
+        // get step
+        $nextStep = WorkflowStep::where('step_id', '=', $currentStep->next_step)
+            ->where('process_id', '=', $process_id)
+            ->first();
+
+        Log::info("Next Step Determined As " . $nextStep->step_id);
+
+        if (empty($nextStep)) {
+            throw new WorkflowTaskCreationFailedException("Approval Process Next State Record Not Found", 102);
+        }
+
+        // create partial authorisation log
+        Log::info("Creating Approval Log ");
+        WorkflowLog::create([
+            'remarks' => $comment,
+            'action_date' => Carbon::now(),
+            'actioning_officer' => $currentUser->staff_no,
+            'action' => $action,
+            'activity' => $actionTaken,
+            'status' => StatusHelper::partiallyAuthorised(),
+            'previous_step' => $currentStep->previous_step,
+            'step_id' => $currentStep->step_id,
+            'reference' => $reference
+        ]);
+
+        $taskDetail->current_step_id = $nextStep->step_id;
+        //send notification to actioning officer
+
+        //find current_user with role
+        if ($nextStep->privilege != null) {
+            // find people with privilege
+            /*userRoles = _context . UserRoles
+                . include(usr => usr . User)
+            .Where(ur => ur . RoleId == nextStep . Role)
+            .ToList();*/
+        }
+
+        // is supervisor of
+        $approvingOfficer = $this->getApprovingOfficer($currentUser);
+
+        $assignToUser = $approvingOfficer;
+        Log::info("Next Approver Determine as " . $assignToUser->staff_no);
+
+        if ($assignToUser->staff_no != 0) {
+            $taskDetail->actioning_officer = $assignToUser->staff_no;
+        }
+
+        // save process and send notification
+        $taskDetail->save();
+
+        $taskHeader->assigned_user = $assignToUser->staff_no;
+        $taskHeader->save();
+
+        Log::info("Returning Next Step Id " . $nextStep->step_id);
+
+        return [$nextStep->step_id, $assignToUser->name];
+    }
+
     private function createUserNotification(string $taskReference, int $actioningOfficer, string $title, string $actionPage, $longDescription): void
     {
         $currentUser = auth()->user();
@@ -529,53 +609,15 @@ class WorkflowService
         //get workflow process
         $process = WorkflowTaskDetail::where('reference', '=', $reference);
 
-        if ($process == null) return false;
+        if ($process == null) {
+            return false;
+        }
 
         $process->current_step_id = null;
         $process->actioning_officer = null;
         $process->save();
 
         return true;
-    }
-
-    public
-    function writeDocumentCreationWorkflowLogEntry
-    (
-        int $status,
-            $requestId,
-            $requestReference,
-            $user,
-            $formType,
-            $remarks = "Raise Request"
-    ): void
-    {
-        /*switch ($formType) {
-            case config('constants.eforms_id.kilometer_allowance'):
-                $remarks = 'Request for Kilometer Allowance';
-                break;
-            case config('constants.eforms_id.subsistence'):
-                $remarks = 'Request for Subsistence Allowance';
-                break;
-            case config('constants.eforms_id.hotel_accommodation'):
-                $remarks = 'Request for Hotel Accommodation';
-                break;
-            default:
-                break;
-        }
-
-        EformApprovalsModel::Create([
-            'profile' => $user->profile_id,
-            'name' => $user->name,
-            'staff_no' => $user->staff_no,
-            'reason' => $remarks,
-            'action' => "Create Document",
-            'current_status_id' => $status,
-            'action_status_id' => $status,
-            'config_eform_id' => $formType,
-            'eform_id' => $requestId,
-            'eform_code' => $requestReference,
-            'created_by' => $user->id,
-        ]);*/
     }
 
     /**

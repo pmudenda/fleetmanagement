@@ -11,7 +11,7 @@ use App\Events\WorkOrderCompleted;
 use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
-use App\Http\Requests\VehicleDefectsRequest;
+use App\Http\Requests\VehicleDefects;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
 use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
 use App\Http\Requests\WorkShopManagement\JobCardTaskReassignment;
@@ -221,7 +221,7 @@ class WorkshopService
     /**
      * @throws DuplicateDefectException
      */
-    public function createJobCardDefects(VehicleDefectsRequest $request): void
+    public function createJobCardDefects(VehicleDefects $request): void
     {
         DB::beginTransaction();
         $vehicleRegistrationNumber = $request->get('vehicle_registration');
