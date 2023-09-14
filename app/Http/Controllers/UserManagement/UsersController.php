@@ -86,7 +86,7 @@ class UsersController extends Controller
                 FleetMasterJsonResponse::response(
                     'success',
                     true,
-                    SystemMessages::userCreateSuccessful()
+                    SystemMessages::USER_ONBOARDING_SUCCESS
                 )
             );
 

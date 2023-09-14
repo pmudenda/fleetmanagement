@@ -387,7 +387,7 @@
                                 <div class="col-xs-12 col-sm-6 col-md-5">
                                     <div class="container-fluid pl-0">
                                         <div class="row">
-                                            <div class="form-group row">
+                                            {{--<div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
                                                        for="business_area">
                                                     Business Area:
@@ -400,7 +400,7 @@
                                                         <option value>--Choose Business Area--</option>
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div>--}}
                                         </div>
                                     </div>
                                 </div>

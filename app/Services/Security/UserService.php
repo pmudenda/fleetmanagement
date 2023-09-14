@@ -21,6 +21,8 @@ use Illuminate\Support\Str;
 
 class UserService
 {
+    const RESULT = ":result";
+
     public static function synchronizeData()
     {
         $employees = User::select('*')
@@ -52,41 +54,21 @@ class UserService
         try {
             $user = User::find($id);
 
-            $employee = PHCMSEmployee::where('con_per_no', $user->staff_no)
-                ->where('con_st_code', '=', 'ACT')
-                ->first();
+            Log::info('Syncing User Data For ' . $user->staff_no);
 
-            Log::info('Syncing User Data For ' . $employee->con_per_no);
-
-            if (empty($employee)) {
+            if (empty($user)) {
                 throw new UserNotFoundException("User Not Found");
             }
 
-            DB::beginTransaction();
-            User::where('staff_no', '=', $user->staff_no)
-                ->update(
-                    [
-                        'con_st_code' => StatusHelper::active(),
-                        'email' => strtoupper($employee->staff_email),
-                        'functional_section' => $employee->functional_section,
-                        'directorate' => $employee->directorate,
-                        'user_unit' => $employee->functional_section,
-                        'bu_code' => $employee->bu_code,
-                        'cc_code' => $employee->cc_code,
-                        'staff_no' => $employee->con_per_no,
-                        'name' => $employee->name,
-                        'nrc' => $employee->nrc,
-                        'mobile_no' => $employee->mobile_no,
-                        'group_type' => $employee->group_type,
-                        'job_title' => $employee->job_title,
-                        'grade' => $employee->grade,
-                        'location' => $employee->location ?? $employee->functional_section,
-                        'pay_point' => $employee->pay_point,
-                        'job_code' => $employee->job_code ?? "--",
-                    ]
-                );
-            DB::commit();
+            $pdo = DB::getPdo();
+            $currentUser = auth()->user();
+            $stmt = $pdo->prepare(
+                "begin :result := pkg_employee.proc_sync_user(:p_staff_no, :p_modified_by); end;"
+            );
 
+            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(":p_staff_no", $user->staff_no);
+            $stmt->bindParam(":p_modified_by", $currentUser->staff_no);
 
         } catch (QueryException $exception) {
             Log::info('Query For User Details Failed');
@@ -177,7 +159,7 @@ class UserService
                 throw new UserOnBoardingException(
                     str_replace('@user_name',
                         $request->staff_number,
-                        SystemMessages::USER_NOT_CREATED
+                        SystemMessages::USER_NOT_VERIFIED
                     )
                 );
             }

@@ -25,9 +25,17 @@ class MechanicOnboarding extends FormRequest
         return [
             'business_unit_code' => 'required',
             'cost_center_code' => 'required',
-           /* 'password' => 'required',*/
-           /* 'staff_supervisor' => 'required',*/
-          /*  'user_profile' => 'required',*/
+            'name' => 'required',
+            'staff_number' => 'required|string|max:10',
+            'grade' => 'required|string|max:3',
+            'job_title' => 'required|string',
+            'staff_email' => 'required|string',
+            'mobile_no' => 'required|string',
+            'directorate' => 'required|string',
+            'user_unit' => 'required|string',
+            'nrc' => 'required|string',
+            'workshopCode' => 'required|string',
+            'workShopSection' => 'required|string',
             'business_area' => 'required|string|max:2'
         ];
     }

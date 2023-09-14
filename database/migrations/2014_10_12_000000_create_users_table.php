@@ -15,9 +15,9 @@ return new class extends Migration
         Schema::create('SEC_USERS', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('contract_type')->nullable();
-            $table->string('con_st_code')->nullable();
-            $table->string('nrc')->nullable();
+            $table->string('contract_type', 90)->nullable();
+            $table->string('con_st_code', 4)->nullable();
+            $table->string('nrc', 18)->nullable();
 
             $table->string('avatar')->nullable();
             $table->string('phone')->nullable();
@@ -40,17 +40,18 @@ return new class extends Migration
             $table->integer('password_changed')->default('0');
             $table->string('supervisor_code',255)->nullable();
             $table->string('supervisor_name', 200)->nullable();
-            $table->string('group_type',255)->nullable();
+            $table->string('group_type',55)->nullable();
             $table->string('job_title',255)->nullable();
             $table->string('location',255)->nullable();
-            $table->string('grade',255)->nullable();
+            $table->string('grade',4)->nullable();
             $table->string('directorate',255)->nullable();
             $table->string('functional_section',255)->nullable();
             $table->string('pay_point',255)->nullable();
-            $table->string('bu_code',255)->nullable();
-            $table->string('cc_code',255)->nullable();
-            $table->string('mobile_no',255)->nullable();
-            $table->string('area_code',4)->nullable()->add();
+            $table->string('bu_code',20)->nullable();
+            $table->string('cc_code',20)->nullable();
+            $table->string('mobile_no',25)->nullable();
+            $table->string('area_code',4)->nullable();
+            $table->string('job_code',50)->nullable();
             $table->string('profile_code', 191)->nullable();
             $table->string('profile_name', 191)->nullable();
 

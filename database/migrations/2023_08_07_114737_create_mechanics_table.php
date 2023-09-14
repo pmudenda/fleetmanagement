@@ -15,11 +15,32 @@ return new class extends Migration
             $table->id();
             $table->string('staff_no', 10);
             $table->string('name', 255);
-            $table->string('is_supervisor', 2);
+            $table->string('is_supervisor', 2)->nullable();
             $table->string('workshop_code', 4)->nullable();
             $table->string('section_code', 4)->nullable();
             $table->string('status', 2);
+            $table->string('staff_email')->unique();
+
+
+            $table->string('extension')->unique();
+            $table->string('area_code',4)->nullable();
+            $table->string('functional_section',255)->nullable();
+            $table->string('bu_code',20)->nullable();
+            $table->string('cc_code',20)->nullable();
+            $table->string('directorate',255)->nullable();
+            $table->string('user_unit',255)->nullable();
+            $table->string('contract_type', 90)->nullable();
+            $table->string('nrc', 18)->nullable();
+            $table->string('mobile_no',25)->nullable();
+            $table->string('group_type',55)->nullable();
+            $table->string('job_title',255)->nullable();
+            $table->string('grade',4)->nullable();
+            $table->string('location',255)->nullable();
+            $table->string('pay_point',255)->nullable();
+            $table->string('job_code',50)->nullable();
+
             $table->string('created_by', 10)->nullable();
+            $table->string('modified_by', 10)->nullable();
             $table->timestamps();
         });
     }

@@ -26,11 +26,15 @@ class SystemMessages
     const PURCHASE_ORDER_RETRIEVED = 'Purchase Order Data Retrieved Successfully';
     const REQUISITION_RAISED = "Reservation @ref Submitted Successfully. Task generated for Authorisation";
     const DUPLICATE_ARTICLE = "Article @article has been already selected for vehicle @reg. Check your article";
-    const USER_NOT_CREATED
+    const USER_NOT_VERIFIED
         = "User Failed to be created because the Staff number (@user_name) could not be verified with PHCMS.";
     const PERMISSIONS_ATTACHED = 'Permissions Assigned Successfully..';
     const PERMISSIONS_DETACHED = 'Permissions Successfully detached..';
     const USER_CREATION_FAILED = "User Failed to be created because of an error";
+
+    const MECHANIC_ONBOARDED = "Mechanic Onboarded Successfully";
+
+    const USER_ONBOARDING_SUCCESS = 'User Defined successfully..';
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

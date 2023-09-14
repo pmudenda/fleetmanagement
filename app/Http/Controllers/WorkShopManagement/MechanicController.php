@@ -61,7 +61,7 @@ class MechanicController extends Controller
             $this->mechanicsService->createMechanic($request);
             return response()->json([
                 'success' => true,
-                'message' => SystemMessages::userCreateSuccessful()
+                'message' => SystemMessages::MECHANIC_ONBOARDED
             ]);
 
         } catch (\Exception $ex) {

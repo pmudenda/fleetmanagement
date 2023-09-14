@@ -14,6 +14,7 @@ class Mechanic extends Model
         'section_code',
         'status',
         'created_by',
+        'modified_by',
         'is_supervisor'
     ];
 

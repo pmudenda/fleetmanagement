@@ -3,54 +3,16 @@
 namespace App\Services\WorkShopManagement;
 
 use App\Constants\SystemMessages;
-use App\Enums\ConfigurationTypes;
-use App\Enums\Modules;
-use App\Enums\RequisitionItemTypes;
-use App\Enums\WorkflowProcessCodes;
-use App\Events\WorkOrderCompleted;
-use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\UserNotFoundException;
-use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\MechanicOnboarding;
 use App\Http\Requests\UserProfileUpdate;
-use App\Http\Requests\VehicleDefectsRequest;
-use App\Http\Requests\WorkShopManagement\JobCardRequest;
-use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
-use App\Http\Requests\WorkShopManagement\JobCardTaskReassignment;
-use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
-use App\Models\Common\File;
-use App\Models\MaterialHeader;
 use App\Models\Reference\PHCMSEmployee;
-use App\Models\Security\User;
-use App\Models\Settings\Accessory;
-use App\Models\Settings\GeneralTable;
-use App\Models\VehicleManagement\VehicleHeader;
-use App\Models\WorkShopManagement\AssessmentObservation;
-use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\Mechanic;
-use App\Models\WorkShopManagement\WorkShopComment;
-use App\Models\WorkShopManagement\WorkshopLabour;
-use App\Models\WorkShopManagement\WorkShopTable;
-use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
-use App\Models\WorkShopManagement\WorkShopVehicleDefect;
-use App\Services\FileUploads\FileUploadService;
-use App\Services\Integration\ProcurementSystemIntegrationService;
-use App\Services\Logging\HistoryService;
-use App\Services\Workflow\DocumentNumberGenerationService;
-use App\Services\Workflow\WorkflowService;
 use Exception;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\URL;
 
 class MechanicsService
 {
@@ -90,7 +52,7 @@ class MechanicsService
                 ->where('con_st_code', '=', 'ACT')
                 ->first();
 
-            Log::info('Syncing User Data For ' . $employee->con_per_no);
+            Log::info('Syncing User Data For ' . $user->staff_no);
 
             if (empty($employee)) {
                 throw new UserNotFoundException("User Not Found");
@@ -99,9 +61,9 @@ class MechanicsService
             DB::beginTransaction();
             Mechanic::where('staff_no', '=', $user->staff_no)
                 ->update(
-                    /*[
-                        'con_st_code' => StatusHelper::active(),
-                        'email' => strtoupper($employee->staff_email),
+                    [
+                        'status' => StatusHelper::active(),
+                        'staff_email' => strtoupper($employee->staff_email),
                         'functional_section' => $employee->functional_section,
                         'directorate' => $employee->directorate,
                         'user_unit' => $employee->functional_section,
@@ -117,7 +79,7 @@ class MechanicsService
                         'location' => $employee->location ?? $employee->functional_section,
                         'pay_point' => $employee->pay_point,
                         'job_code' => $employee->job_code ?? "--",
-                    ]*/
+                    ]
                 );
             DB::commit();
 
@@ -131,8 +93,74 @@ class MechanicsService
         }
     }
 
-    public function createMechanic(MechanicOnboarding $request)
+    /**
+     * @throws UserNotFoundException
+     */
+    public function createMechanic(MechanicOnboarding $request): bool
     {
+        DB::beginTransaction();
+
+        $employee_phcms = PHCMSEmployee::where(
+            'con_per_no',
+            '=',
+            $request->staff_number
+        )->where('con_st_code',
+            '=',
+            'ACT')->first();
+
+        if (empty($employee_phcms)) {
+            throw new UserNotFoundException(str_replace('@user_name',
+                $request->staff_number,
+                SystemMessages::USER_NOT_VERIFIED
+            ));
+        }
+
+        $user = auth()->user();
+
+        $data = [
+            'staff_email' => strtoupper($request->staff_email),
+            'extension' => $request->mobile_no,
+            'area_code' => $request->get('business_area'),
+            'functional_section' => $request->user_unit,
+            'bu_code' => $request->business_unit_code,
+            'cc_code' => $request->cost_center_code,
+            'directorate' => $request->directorate,
+            'user_unit' => $request->user_unit,
+
+            'staff_no' => $employee_phcms->con_per_no,
+            'name' => $employee_phcms->name,
+            'workshop_code' => $request->workshopCode,
+            'section_code' => $request->workShopSection,
+            'status' => StatusHelper::active(),
+            'created_by' => $user->staff_no,
+
+            'contract_type' => $employee_phcms->contract_type,
+            'nrc' => $employee_phcms->nrc,
+            'mobile_no' => $employee_phcms->mobile_no,
+            'group_type' => $employee_phcms->group_type,
+            'job_title' => $employee_phcms->job_title,
+            'grade' => $employee_phcms->grade,
+
+            'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
+            'pay_point' => $employee_phcms->pay_point,
+            'job_code' => $employee_phcms->job_code ?? "--",
+
+            /*
+             * supervisor_code' => $request->staff_supervisorId
+             * supervisor_name' => $request->staff_supervisor,
+            */
+        ];
+
+        Mechanic::firstOrCreate(
+            [
+                'staff_no' => $request->staff_number,
+            ],
+            $data
+        );
+
+        DB::commit();
+
+        return true;
 
     }
 }
