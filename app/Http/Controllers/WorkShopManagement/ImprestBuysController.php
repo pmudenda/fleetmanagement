@@ -6,6 +6,7 @@ use App\Constants\WorkflowModules;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkShopManagement\PettyCashItems;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\WorkShopManagement\ImprestBuyDetail;
 use App\Models\WorkShopManagement\ImprestBuyHeader;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -84,19 +85,21 @@ class ImprestBuysController extends Controller
             Log::info("Logging Response From Petty Cash System");
 
             return response()->json(
-                [
-                    'success' => true,
-                    'payload' => $request->all()
-                ]
-            );
+                FleetMasterJsonResponse::response(
+                    'success',
+                    true,
+                    'Imprest Requested Successfully',
+                    $request->all()
+                ));
 
         } catch (Exception $e) {
             Log::error($e);
             return response()->json(
-                [
-                    'success' => false,
-                    'payload' => $request->all()
-                ]
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    $request->all()
+                )
             );
         }
     }
