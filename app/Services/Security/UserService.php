@@ -67,8 +67,9 @@ class UserService
                 "begin :result := pkg_employee.proc_sync_user(:p_staff_no, :p_modified_by); end;"
             );
 
+            $userToSync = $user->staff_no;
             $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
-            $stmt->bindParam(":p_staff_no", $user->staff_no);
+            $stmt->bindParam(":p_staff_no", $userToSync);
             $stmt->bindParam(":p_modified_by", $modifiedBy);
 
         } catch (QueryException $exception) {
