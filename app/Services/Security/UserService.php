@@ -72,6 +72,7 @@ class UserService
             $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_staff_no", $userToSync);
             $stmt->bindParam(":p_modified_by", $modifiedBy);
+            $stmt->execute();
 
             Log::info($results);
 
