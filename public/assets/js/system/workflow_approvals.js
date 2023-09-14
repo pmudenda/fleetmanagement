@@ -109,7 +109,6 @@
         }
 
         let approvalModeApproveGuid = signAsUser, approvalUserGuid;
-        //let templateId = settings.options.templateId;
 
         let approvalResponse = {
             result: false,
@@ -246,11 +245,13 @@
 
                     if (parsedResponse.result) {
                         modal.hide();
-                        appInstance.showSystemMessage('Approval', parsedResponse.message, () => {
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 300);
-                        }, 'success');
+                        appInstance.showSystemMessage(
+                            'Approval',
+                            parsedResponse.message, () => {
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 300);
+                            }, 'success');
                     } else {
                         window.top.tmsApp.systemError('', parsedResponse);
                     }

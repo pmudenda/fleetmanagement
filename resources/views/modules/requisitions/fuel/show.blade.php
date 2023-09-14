@@ -677,7 +677,7 @@
                                     <button type="button"
                                             id="sendBackRequisitionBtn"
                                             class="btn btn-primary btn-sm mr-3">
-                                        <i class="fas fa-thumbs-down"></i>
+                                        <i class="fas fa-arrow-left"></i>
                                         Send Back To Originator
                                     </button>
                                 </div>
@@ -700,13 +700,23 @@
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
         (function (tmsApp, $) {
+            const processData = {
+                documentType: 'FuelRequisition',
+                actions: {
+                    'approve': 'approve',
+                    'reject': 'reject',
+                    'sendBack': 'send_back',
+                }
+
+            };
+
             $('#approveRequisitionBtn').on('click', function () {
                 tmsApp.approval.dialog(
                     {
                         options: {
                             'recordId': document.querySelector("#taskReference").value,
-                            'documentType': 'FuelRequisition',
-                            'action': 'approve'
+                            'documentType': processData.documentType,
+                            'action': processData.actions.approve
                         }
                     },
                     'fuelRequisition',
@@ -739,8 +749,8 @@
                 tmsApp.approval.dialog({
                         options: {
                             'recordId': document.querySelector("#taskReference").value,
-                            'documentType': 'FuelRequisition',
-                            'action': 'reject'
+                            'documentType': processData.documentType,
+                            'action': processData.actions.reject
                         }
                     },
                     'fuelRequisition',
@@ -771,8 +781,8 @@
                 tmsApp.approval.dialog({
                         options: {
                             'recordId': document.querySelector("#taskReference").value,
-                            'documentType': 'FuelRequisition',
-                            'action': 'sendBack'
+                            'documentType': processData.documentType,
+                            'action': processData.actions.sendBack
                         }
                     },
                     'fuelRequisition',
@@ -781,7 +791,7 @@
                         if (ajaxResponse.success) {
                             setTimeout(function () {
                                 tmsApp.showSystemMessage(
-                                    'Rejection',
+                                    'Send Back',
                                     ajaxResponse.message,
                                     function () {
                                         setTimeout(function () {
@@ -792,7 +802,7 @@
                             }, 300);
                         } else {
                             setTimeout(function () {
-                                tmsApp.systemError('Requisition Approval', ajaxResponse.message);
+                                tmsApp.systemError('Requisition Send Back', ajaxResponse.message);
                             }, 300);
                         }
                     },
