@@ -20,7 +20,10 @@
                     </div>
                     <div class="card-body p-2">
                         <div class="table-responsive mt-10 ">
-                            <table id="listTable" class="table table-bordered">
+                            <table id="fuelRequisitionsTable"
+                                   aria-label="Fuel Requisitions Tables"
+                                   role="table"
+                                   class="table table-bordered">
                                 <thead>
                                 <tr>
                                     <th>Reference #</th>
@@ -42,7 +45,9 @@
                                 @foreach($requisitions as $rec)
                                     <tr>
                                         <td>
-                                            <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->req_no])}}">
+                                            <a href="{{URL::signedRoute('show.fuel.requisition',
+                                                ['ref'=>  $rec->req_no]
+                                                )}}">
                                                 {{$rec->req_no}}
                                             </a>
                                         </td>
@@ -86,7 +91,9 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->req_no])}}">
+                                            <a href="{{URL::signedRoute('show.fuel.requisition',
+                                               ['ref'=>  $rec->req_no])
+                                               }}">
                                                 <i class="fas fa-eye"></i> Open
                                             </a>
                                         </td>
@@ -109,7 +116,9 @@
 
     <script>
         (function (appInstance) {
-            appInstance.initDatatable("#listTable", false);
+            appInstance.initDatatable("#fuelRequisitionsTable", false, true, [
+                {'orderable': false, targets: 11},
+            ]);
         })(window.tmsApp || {});
     </script>
 @endpush

@@ -346,18 +346,6 @@
                         <div class="row">
                             <div class="col">
                                 <label>
-                                    <select class="form-select" name="property">
-                                        <option value="" disabled>--Select--</option>
-                                        <option value="userUnit">User Unit</option>
-                                        <option value="workshopSection">Section</option>
-                                        <option value="workshop">Workshop</option>
-                                        <option value="dateIn">Date In</option>
-                                        <option value="dateOut">Date Out</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="col">
-                                <label>
                                     <select class="form-select" name="operator">
                                         <option value="=">Is</option>
                                         <option value="<>">Is not</option>
