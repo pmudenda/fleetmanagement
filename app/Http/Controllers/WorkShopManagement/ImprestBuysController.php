@@ -69,8 +69,10 @@ class ImprestBuysController extends Controller
 
             $pdo = DB::getPdo();
             $staffNumber = auth()->user()->staff_no;
-            $stmt = $pdo->prepare("begin :result := pkg_imprest_buy.fn_create_imprest_req(:p_imprest_reference,
-            :p_current_user); end;");
+            $stmt = $pdo->prepare(
+                "begin :result := pkg_imprest_buy.fn_create_imprest_req(:p_imprest_reference,
+            :p_current_user); end;"
+            );
             $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_current_user", $staffNumber);
             $stmt->bindParam(":p_imprest_reference", $imprestReferenceNumber);
