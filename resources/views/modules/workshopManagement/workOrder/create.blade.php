@@ -473,7 +473,7 @@
         window.defects = {!! json_encode($defects) !!};
         window.materials = {!! json_encode($materials) !!};
         window.step_id = {!! $step !!};
-        window.appMessages = {
+        window.jobCardProcessData = {
             articleNoPrice: 'The Article @articleNumber - @description has no price. ' +
                 ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306,' +
                 ' fleetmaster@zesco.co.com',
@@ -844,7 +844,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: window.messages.articleNoPrice
+                                text: window.jobCardProcessData.articleNoPrice
                                     .replace('@articleNumber', selectedArticleObject?.code_article)
                                     .replace('@description', description)
                             })
@@ -858,7 +858,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: window.messages.articleInStore
+                                text: window.jobCardProcessData.articleInStore
                                     .replace('@articleNumber', selectedArticleObject?.code_article)
                                     .replace('@description', description)
                                     .replace('@store', $("#pettyCashStoreName").val())
@@ -1762,7 +1762,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: window['appMessages'].articleNoPrice
+                                text: window.jobCardProcessData.articleNoPrice
                                     .replace('@articleNumber', article?.id)
                                     .replace('@description', description)
                             });
@@ -1775,7 +1775,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: window['appMessages'].storeHasNoStockItem
+                                text: window.jobCardProcessData.storeHasNoStock
                                     .replace('@store', $("#store_name").val())
                                     .replace('@articleNumber', article?.id)
                                     .replace('@description', description)
