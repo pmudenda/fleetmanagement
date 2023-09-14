@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class WorkflowLog extends Model
 {
-    use HasFactory;
-
     protected $table = 'WFL_WORKFLOW_LOGS';
     protected $fillable = [
         'reference',

@@ -166,7 +166,6 @@ class WorkshopRequisitionService
             (int)$workflowProcess,
             WorkflowActions::submit(),
             $requisitionPostRequest->remarks,
-            $user,
             $requisitionPostRequest->total_amount ?? 0,
             $short_description,
             $long_description
@@ -411,7 +410,6 @@ class WorkshopRequisitionService
             (int)$workflowProcess,
             WorkflowActions::submit(),
             $materialReservationRequest->get('remarks'),
-            $user,
             $materialReservationRequest->total_amount ?? 0,
             $short_description,
             $long_description
@@ -615,7 +613,6 @@ class WorkshopRequisitionService
             (int)$workflowProcess,
             WorkflowActions::submit(),
             $justification,
-            $user,
             $requisitionPostRequest->total_amount ?? 0,
             $shortDescription,
             $longDescription
@@ -805,7 +802,6 @@ class WorkshopRequisitionService
             (int)$workflowProcess,
             WorkflowActions::submit(),
             $serviceReservationRequest->remarks,
-            $user,
             $serviceReservationRequest->total_amount ?? 0,
             $shortDescription,
             $longDescription
@@ -1257,7 +1253,6 @@ class WorkshopRequisitionService
             (int)$processCode,
             WorkflowActions::submit(),
             $comments,
-            $user,
             0,
             $shortDescription,
             $longDescription,

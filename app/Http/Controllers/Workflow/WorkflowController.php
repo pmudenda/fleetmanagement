@@ -109,14 +109,18 @@ class WorkflowController extends Controller
             }
 
             $requisitionNumber = null;
-            if ($nextStepId == 100 && $action == WorkflowActions::approve()) {
-                $requisitionNumber = $this->fuelRequisitionService->createStoresRequisition($request->get('reference'));
-                $message = $message . ' Stores Requisition No.: ' . $requisitionNumber;
-                $this->fuelRequisitionService->updateStatus($reference, StatusHelper::authorised());
-            } elseif ($nextStepId == 100 && $action == WorkflowActions::reject()) {
-                $status = StatusHelper::rejected();
-                $message = 'Request Rejected.';
-                $this->fuelRequisitionService->updateStatus($reference, $status);
+            if ($nextStepId == 100) {
+                if ($action == WorkflowActions::approve()) {
+                    $requisitionNumber = $this->fuelRequisitionService->createStoresRequisition(
+                        $request->get('reference')
+                    );
+                    $message = $message . ' Stores Requisition No.: ' . $requisitionNumber;
+                    $this->fuelRequisitionService->updateStatus($reference, StatusHelper::authorised());
+                } elseif ($action == WorkflowActions::reject()) {
+                    $status = StatusHelper::rejected();
+                    $message = 'Request Rejected.';
+                    $this->fuelRequisitionService->updateStatus($reference, $status);
+                }
             } else {
                 $status = '';
                 if (strtolower(trim($request->get('Approved'))) == 'approve') {
@@ -222,46 +226,50 @@ class WorkflowController extends Controller
                 $nextUser = '';
             }
 
-            if ($nextStepId == 100 && $action == WorkflowActions::approve()) {
-                switch ($requisitionDetail->item_type) {
-                    case RequisitionItemTypes::SERVICE:
-                        $purchaseProcessNumber = $this->workshopRequisitionService
-                            ->createWorkshopServicePurchaseProcess(
-                                $request->get('reference')
-                            );
-                        $message = $message
-                            . ' Purchase Process No.: ' . $purchaseProcessNumber;
-                        break;
-                    case RequisitionItemTypes::NON_STOCK_ITEM:
-                        $purchaseProcessNumber = $this->workshopRequisitionService
-                            ->createWorkshopNonStockPurchaseProcess(
-                                $request->get('reference'));
-                        $message = $message . ' Purchase Process No.: ' . $purchaseProcessNumber;
-                        break;
-                    case RequisitionItemTypes::STOCK_ITEM:
-                        $reservationNumber = $this->workshopRequisitionService
-                            ->createWorkshopMaterialStoresReservation(
-                                $request->get('reference'));
-                        $message = $message . ' Stores Reservation No.: ' . $reservationNumber;
-                        break;
-                    default:
-                        throw new MaterialReservationException("ITEM TYPE NOT");
+            $status = '';
+            if ($nextStepId == 100) {
+                if ($action == WorkflowActions::approve()) {
+                    switch ($requisitionDetail->item_type) {
+                        case RequisitionItemTypes::SERVICE:
+                            $purchaseProcessNumber = $this->workshopRequisitionService
+                                ->createWorkshopServicePurchaseProcess(
+                                    $request->get('reference')
+                                );
+                            $message = $message
+                                . ' Purchase Process No.: ' . $purchaseProcessNumber;
+                            break;
+                        case RequisitionItemTypes::NON_STOCK_ITEM:
+                            $purchaseProcessNumber = $this->workshopRequisitionService
+                                ->createWorkshopNonStockPurchaseProcess(
+                                    $request->get('reference'));
+                            $message = $message . ' Purchase Process No.: ' . $purchaseProcessNumber;
+                            break;
+                        case RequisitionItemTypes::STOCK_ITEM:
+                            $reservationNumber = $this->workshopRequisitionService
+                                ->createWorkshopMaterialStoresReservation(
+                                    $request->get('reference'));
+                            $message = $message . ' Stores Reservation No.: ' . $reservationNumber;
+                            break;
+                        default:
+                            throw new MaterialReservationException("ITEM TYPE NOT");
+                    }
+                    $status = StatusHelper::authorised();
+                } elseif ($action == WorkflowActions::reject()) {
+                    $status = StatusHelper::rejected();
+                    $message = 'Request Rejected';
                 }
-
-                $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
-            } elseif ($nextStepId == 100 && $action == WorkflowActions::reject()) {
-                $this->workshopRequisitionService->updateStatus($reference, StatusHelper::rejected());
-                $message = 'Request Rejected';
             } else {
-                $status = '';
+
                 if (strtolower(trim($request->get('Approved'))) == 'approve') {
                     $message = 'Request Approved and Submitted to the Next Authority For Approval '
                         . $nextUser;
                     $status = StatusHelper::partiallyAuthorised();
+                } elseif ($action == WorkflowActions::sendBack()) {
+                    $status = StatusHelper::sentBack();
+                    $message = 'Request Returned to Originator';
                 }
-                $this->workshopRequisitionService->updateStatus($reference, $status);
             }
-
+            $this->workshopRequisitionService->updateStatus($reference, $status);
             DB::commit();
             return response()->json([
                 'requestPayload' => $request->all(),

@@ -913,7 +913,6 @@ class FuelRequisitionService
             (int)$workflowProcess,
             WorkflowActions::submit(),
             $requisitionPostRequest->get("justification"),
-            $user,
             $requisitionPostRequest->get("material_amount"),
             $short_description,
             $long_description
