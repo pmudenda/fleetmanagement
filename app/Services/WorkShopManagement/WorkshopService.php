@@ -553,6 +553,10 @@ class WorkshopService
                                                      string  $staffNumber,
                                                              $uploadedFiles): void
     {
+        if (!is_array($uploadedFiles)) {
+            $uploadedFiles = [];
+        }
+
         $toSave = [];
         if ($request->has('observation')) {
             $key = 0;
