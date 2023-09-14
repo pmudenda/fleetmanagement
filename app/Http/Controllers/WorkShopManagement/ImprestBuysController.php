@@ -25,11 +25,13 @@ class ImprestBuysController extends Controller
     {
         try {
             $user = auth()->user();
+
+            DB::beginTransaction();
+
             $imprestReferenceNumber = DocumentNumberGenerationService::generateReferenceNumber(
                 WorkflowModules::IMPREST_BUY
             );
 
-            DB::beginTransaction();
             ImprestBuyHeader::firstOrCreate(
                 [
                     'work_order_number' => $request->get('imprestProjectNumber'),
@@ -68,21 +70,7 @@ class ImprestBuysController extends Controller
 
             DB::commit();
 
-            $pdo = DB::getPdo();
-            $staffNumber = auth()->user()->staff_no;
-            $stmt = $pdo->prepare(
-                "begin :result := pkg_imprest_buy.fn_create_imprest_req(:p_imprest_reference,
-            :p_current_user); end;"
-            );
-
-            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
-            $stmt->bindParam(":p_current_user", $staffNumber);
-            $stmt->bindParam(":p_imprest_reference", $imprestReferenceNumber);
-            $stmt->execute();
-
-            Log::info("Posting Data");
-            Log::info($results);
-            Log::info("Logging Response From Petty Cash System");
+            $this->postToPettyCashSystem($imprestReferenceNumber);
 
             return response()->json(
                 FleetMasterJsonResponse::response(
@@ -102,6 +90,28 @@ class ImprestBuysController extends Controller
                 )
             );
         }
+    }
+
+    /**
+     * @param string $imprestReferenceNumber
+     */
+    public function postToPettyCashSystem(string $imprestReferenceNumber): void
+    {
+        $pdo = DB::getPdo();
+        $staffNumber = auth()->user()->staff_no;
+        $stmt = $pdo->prepare(
+            "begin :result := pkg_imprest_buy.fn_create_imprest_req(:p_imprest_reference,
+            :p_current_user); end;"
+        );
+
+        $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
+        $stmt->bindParam(":p_current_user", $staffNumber);
+        $stmt->bindParam(":p_imprest_reference", $imprestReferenceNumber);
+        $stmt->execute();
+
+        Log::info("Posting Data");
+        Log::info($results);
+        Log::info("Logging Response From Petty Cash System");
     }
 
 }
