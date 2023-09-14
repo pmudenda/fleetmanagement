@@ -64,7 +64,7 @@ class UserService
             $pdo = DB::getPdo();
             $modifiedBy = auth()->user()->staff_no;
             $stmt = $pdo->prepare(
-                "begin :result := pkg_employee.proc_sync_user(:p_staff_no, :p_modified_by); end;"
+                "begin pkg_employee.proc_sync_user(:p_staff_no, :p_modified_by); end;"
             );
 
             $userToSync = $user->staff_no;
