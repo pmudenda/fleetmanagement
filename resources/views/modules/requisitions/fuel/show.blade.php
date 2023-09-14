@@ -37,41 +37,59 @@
                     @csrf
                     {{-- <div class="card-body user-data">--}}
 
-                    <table border="1" width="100%" data-height="100px" cellspacing="0" cellpadding="0"
-                           align="Centre"
-                           class="border-0">
+                    <table
+                        aria-label="header"
+                        role="table"
+                        style="width: 100%;
+                        border: 1px;
+                        text-align: center"
+                        data-height="100px"
+                        class="border-0">
                         <thead>
                         <tr class="border-0">
-                            <th width="33%" colspan="4" style="border:none;" class="text-left">
+                            <th style="width:33%; border:none;" colspan="4" class="text-left">
                                 @if(!empty($requestDetails)  && !empty($requestDetails->proc_ref))
                                     REQUISITION NUMBER: <span
-                                        class="text-orange">{{ $requestDetails->proc_ref }}</span>
+                                        class="text-orange">
+                                        {{ $requestDetails->proc_ref }}
+                                    </span>
                                 @endif
                             </th>
-                            <th width="33%" colspan="4" style="border:none;" class="text-center"></th>
-                            <th width="34%" colspan="1" style="border:none; text-align:right;"
+                            <th style="width:33%; border:none;"
+                                colspan="4"
+                                class="text-center">
+                            </th>
+                            <th colspan="1"
+                                style="width:34%; border:none; text-align:right;"
                                 class="p-3 text-right">
                                 DOCUMENT REFERENCE NUMBER: <span
-                                    class="text-orange">{{ $requestDetails->req_no }}</span>
+                                    class="text-orange">
+                                    {{ $requestDetails->req_no }}
+                                </span>
                             </th>
                         </tr>
                         </thead>
                     </table>
-                    <table border="1" width="100%" data-height="100px" cellspacing="0" cellpadding="0"
-                           align="Centre"
-                           class="mb-4 ">
+                    <table
+                        aria-label="sub header"
+                        role="table"
+                        data-height="100px"
+                        style="width: 100%;
+                        border: 1px;
+                        text-align: center"
+                        class="mb-4 ">
                         <thead>
                         <tr class="border-success">
-                            <th width="33%" class="text-center"><a href="#">
+                            <th style="width: 33%;" class="text-center"><a href="#">
                                     {{--<img src="{{ asset('assets/dist/img/zesco1.png') }}"
                                          title="ZESCO" alt="ZESCO"
                                          width="30%">--}}
                                 </a>
                             </th>
-                            <th width="33%" colspan="4" class="text-center" style="font-size: 26px;">
+                            <th style="width: 33%; font-size: 26px;" colspan="4" class="text-center">
                                 FUEL REQUISITION
                             </th>
-                            <th width="34%" colspan="1" class="p-3">
+                            <th style="width: 34%;" colspan="1" class="p-3">
                             </th>
                         </tr>
                         </thead>
@@ -87,7 +105,7 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                         for="staff_no">Registration #:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -99,7 +117,8 @@
                                                                    autocapitalize="characters"
                                                                    id="vehicle_registration"
                                                                    placeholder=""
-                                                                   name="vehicle_registration" required>
+                                                                   name="vehicle_registration"
+                                                                   required/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -116,7 +135,8 @@
                                                                id="vehicle_description"
                                                                value=""
                                                                name="vehicle_description"
-                                                               required readonly>
+                                                               required
+                                                               readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -131,7 +151,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                            control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -141,7 +162,8 @@
                                                                                class="list-row-checkbox bold mr-3"
                                                                                name="CostAssignedTo"
                                                                                value="CostCenterBasedRequisition"
-                                                                               @if($requestDetails->cost_assigned_to =='CostCenter')
+                                                                               @if($requestDetails->cost_assigned_to
+                                                                                =='CostCenter')
                                                                                    checked
                                                                             @endif
                                                                         />
@@ -178,14 +200,15 @@
                                         </div>
                                     </div>
                                 @else
-                                    {{--@if($requestDetails->cost_assigned_to =='Project')--}}
+
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                            control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -196,7 +219,8 @@
                                                                                class="list-row-checkbox bold mr-3"
                                                                                autocomplete="off"
                                                                                name="CostAssignedTo"
-                                                                               @if($requestDetails->cost_assigned_to == 'Project')
+                                                                               @if($requestDetails->cost_assigned_to
+                                                                                == 'Project')
                                                                                    checked
                                                                                @endif
                                                                                value="ProjectBasedRequisition">
@@ -206,7 +230,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="text" class="form-control form-control-sm" readonly
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   readonly
                                                                    value="{{$requestDetails->project_code}}"/>
                                                         </div>
                                                     </div>
@@ -248,12 +273,17 @@
                                                                 required>
                                                             <option value=""> --Select--</option>
                                                             @foreach ($requisitionTypes as $requisitionType)
-                                                                @if($requestDetails->requisition_type == $requisitionType->code)
+                                                                @if($requestDetails->requisition_type
+                                                                    == $requisitionType->code)
                                                                     <option selected
-                                                                            value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                            value="{{$requisitionType->code}}">
+                                                                        {{$requisitionType->name}}
+                                                                    </option>
                                                                 @else
                                                                     <option
-                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                        value="{{$requisitionType->code}}">
+                                                                        {{$requisitionType->name}}
+                                                                    </option>
                                                                 @endif
                                                             @endforeach
                                                         </select>
@@ -269,7 +299,7 @@
                                                 <div class="form-group row">
                                                     <label
                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                        for="staff_name">
+                                                        for="odometer_reading">
                                                         Odometer Reading :
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -300,14 +330,16 @@
                                                             <input type="date" class="form-control form-control-sm"
                                                                    id="departure_date"
                                                                    readonly
-                                                                   value="{{ date('Y-m-d', strtotime($requestDetails->valid_date_from)) }}"
+                                                                   value="{{ date('Y-m-d',
+                                                                    strtotime($requestDetails->valid_date_from))
+                                                                    }}"
                                                                    name="departure_date"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- max="{{  }}"--}}
+
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -316,11 +348,13 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="request_date">Return Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            {{--max="{{ }}"--}}
+
                                                             <input type="date" class="form-control form-control-sm"
                                                                    id="return_date"
                                                                    readonly
-                                                                   value="{{date('Y-m-d', strtotime($requestDetails->valid_date_to))  }}"
+                                                                   value="{{date('Y-m-d',
+                                                                   strtotime($requestDetails->valid_date_to))
+                                                                   }}"
                                                                    name="return_date">
                                                         </div>
                                                     </div>
@@ -409,8 +443,11 @@
                                                         <input type="text" class="form-control form-control-sm"
                                                                id="request_date"
                                                                readonly
-                                                               value="{{Carbon::parse($requestDetails->valid_date_from)->format('d/m/Y')}}"
-                                                               data-value="{{date('Y-m-d', strtotime($requestDetails->valid_date_from))}}"
+                                                               value="{{Carbon::parse($requestDetails->valid_date_from)
+                                                                ->format('d/m/Y')}}"
+                                                               data-value="{{date('Y-m-d',
+                                                                strtotime($requestDetails->valid_date_from))
+                                                                }}"
                                                                name="request_date">
                                                     </div>
                                                 </div>
@@ -433,7 +470,8 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="next_fuel_date"
-                                                                   value="{{date('Y-m-d', strtotime($requestDetails->valid_date_to))}}"
+                                                                   value="{{date('Y-m-d',
+                                                                   strtotime($requestDetails->valid_date_to))}}"
                                                                    name="next_fuel_date"
                                                                    readonly required>
                                                         </div>
@@ -477,7 +515,9 @@
                                                                   id="justification"
                                                                   name="justification"
                                                                   style="height: 129px;"
-                                                                  class="form-control form-control-sm">{{$requestDetails->comments}}</textarea>
+                                                                  class="form-control form-control-sm">
+                                                            {{$requestDetails->comments}}
+                                                        </textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -501,7 +541,9 @@
                                             style="width:100%; height: 500px "
                                             title="{{ $supportingDocument->originaldocumentname }}">
                                     </iframe>
-                                    <span>Size:{{ number_format($supportingDocument->file_size, 2) }}MB Name: {{ $supportingDocument->originaldocumentname }} </span>
+                                    <span>Size:{{ number_format($supportingDocument->file_size, 2) }}
+                                        MB Name: {{ $supportingDocument->originaldocumentname }}
+                                    </span>
                                     <span> | </span>
                                     <a target="_blank" style="cursor: pointer;"
                                        href="{{ asset('storage/Attachments/' . $supportingDocument->name) }}">View</a>
@@ -509,7 +551,15 @@
                                     <div id="vehicleDetailsContainer" style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12">
                                         <h1>Vehicle Details</h1>
-                                        <table class="table">
+                                        <table aria-label="vehicle details"
+                                               role="table"
+                                               class="table">
+                                            <thead class="d-none">
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
                                             <tbody id="vehicleDetails" class="vehicleDetails">
                                             </tbody>
                                         </table>
@@ -521,7 +571,9 @@
 
                     <div class="container-fluid">
                         <div id="materialDetailsContainer" class="table-responsive mt-3">
-                            <table id="materialDetailsTable" class="table table-bordered">
+                            <table aria-label="Material Table"
+                                   role="table"
+                                   id="materialDetailsTable" class="table table-bordered">
                                 <thead>
                                 <tr class="bg-dark">
                                     <th>Material Description</th>
@@ -538,7 +590,9 @@
                                 <tr>
                                     <td>
                                             <span data-material-input="material_description"
-                                                  id="material_description">{{$requestDetails->specifications}}</span>
+                                                  id="material_description">
+                                                {{$requestDetails->specifications}}
+                                            </span>
                                     </td>
                                     @if($requestDetails->cost_assigned_to !='CostCenter')
                                         <td>
@@ -549,19 +603,27 @@
                                     @endif
                                     <td>
                                             <span name="material_quantity"
-                                                  id="material_quantity">{{number_format($requestDetails->quantity)}}</span>
+                                                  id="material_quantity">
+                                                {{number_format($requestDetails->quantity)}}
+                                            </span>
                                     </td>
                                     <td>
                                             <span data-material-input="unit_of_measure"
-                                                  id="unit_of_measure">{{$requestDetails->unit_of_measure}}</span>
+                                                  id="unit_of_measure">
+                                                {{$requestDetails->unit_of_measure}}
+                                            </span>
                                     </td>
                                     <td>
                                             <span data-material-input="material_price"
-                                                  id="material_price">{{number_format($requestDetails->price, 2)}}</span>
+                                                  id="material_price">
+                                                {{number_format($requestDetails->price, 2)}}
+                                            </span>
                                     </td>
                                     <td>
                                             <span data-material-input="material_amount"
-                                                  id="material_amount">{{number_format($requestDetails->amount, 2)}}</span>
+                                                  id="material_amount">
+                                                {{number_format($requestDetails->amount, 2)}}
+                                            </span>
                                         <input type="hidden" name="material_amount">
                                     </td>
                                 </tr>
@@ -595,7 +657,8 @@
                     {{--</div>--}}
 
                     @if(!empty($workflowTask->assigned_user))
-                        @if( (auth()->user()->staff_no == $workflowTask->assigned_user && empty($workflowTask->date_ended))
+                        @if( (auth()->user()->staff_no == $workflowTask->assigned_user
+                            && empty($workflowTask->date_ended))
                             ||
                             (auth()->user()->hasRole('final_authoriser')&& empty($workflowTask->date_ended))
                             )
@@ -609,6 +672,13 @@
                                             id="declineRequisitionBtn"
                                             class="btn btn-danger btn-sm mr-3">
                                         <i class="fas fa-thumbs-down"></i> Reject
+                                    </button>
+
+                                    <button type="button"
+                                            id="sendBackRequisitionBtn"
+                                            class="btn btn-primary btn-sm mr-3">
+                                        <i class="fas fa-thumbs-down"></i>
+                                        Send Back To Originator
                                     </button>
                                 </div>
                             </div>
@@ -671,6 +741,38 @@
                             'recordId': document.querySelector("#taskReference").value,
                             'documentType': 'FuelRequisition',
                             'action': 'reject'
+                        }
+                    },
+                    'fuelRequisition',
+                    document.querySelector('#approvalUrl').value,
+                    function (ajaxResponse) {
+                        if (ajaxResponse.success) {
+                            setTimeout(function () {
+                                tmsApp.showSystemMessage(
+                                    'Rejection',
+                                    ajaxResponse.message,
+                                    function () {
+                                        setTimeout(function () {
+                                            window.location.href = ajaxResponse['redirectUrl'];
+                                        }, 300);
+                                    },
+                                    'success');
+                            }, 300);
+                        } else {
+                            setTimeout(function () {
+                                tmsApp.systemError('Requisition Approval', ajaxResponse.message);
+                            }, 300);
+                        }
+                    },
+                );
+            });
+
+            $('#sendBackRequisitionBtn').on('click', function () {
+                tmsApp.approval.dialog({
+                        options: {
+                            'recordId': document.querySelector("#taskReference").value,
+                            'documentType': 'FuelRequisition',
+                            'action': 'sendBack'
                         }
                     },
                     'fuelRequisition',
