@@ -15,15 +15,13 @@ use App\Exceptions\ServiceRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
-use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\WorkflowService;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,9 +61,6 @@ class WorkflowController extends Controller
 
         return view('dashboard.home')
             ->with(compact('approvalTasks'));
-
-        /*return view('modules.workflow.tasks', compact(['workTask']))
-            ->with('i', (request()->input('page', 1) - 1) * 10);*/
     }
 
     public function processFuelRequisitionApproval(Request $request): JsonResponse
@@ -109,6 +104,9 @@ class WorkflowController extends Controller
                 $actionTaken,
                 $request->get('Comments')
             );
+            if (empty($nextUser)) {
+                $nextUser = '';
+            }
 
             $requisitionNumber = null;
             if ($nextStepId == 100 && $action == WorkflowActions::approve()) {
@@ -123,7 +121,11 @@ class WorkflowController extends Controller
                 $status = '';
                 if (strtolower(trim($request->get('Approved'))) == 'approve') {
                     $status = StatusHelper::partiallyAuthorised();
-                    $message = 'Request Approved and Submitted to the Next Authority For Approval';
+                    $message = 'Request Approved and Submitted to the Next Authority For Approval ' .
+                        $nextUser;
+                } elseif ($action == WorkflowActions::sendBack()) {
+                    $status = StatusHelper::sentBack();
+                    $message = 'Request Returned to Originator';
                 }
                 $this->fuelRequisitionService->updateStatus($reference, $status);
             }
@@ -133,26 +135,38 @@ class WorkflowController extends Controller
             if ($nextStepId == 100) {
                 FuelRequisitionApproved::dispatch($reference, Auth::user(), 'fullyAuthorised', $requisitionNumber);
             } else {
-                FuelRequisitionApproved::dispatch($reference, Auth::user(), 'partiallyAuthorised', null);
+                if ($action == WorkflowActions::sendBack()) {
+                    FuelRequisitionApproved::dispatch($reference, Auth::user(), 'sendBack', null);
+                } else {
+                    FuelRequisitionApproved::dispatch($reference, Auth::user(), 'partiallyAuthorised', null);
+                }
             }
 
-            return response()->json([
-                'requestPayload' => $request->all(),
-                'success' => true,
-                'redirectUrl' => route('home'),
-                'message' => $message
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'success',
+                    true,
+                    $message,
+                    null,
+                    route('home')
+                )
+            );
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
-            if ($e instanceof FuelRequisitionException || $e instanceof WorkflowTaskCreationFailedException) {
+
+            if ($e instanceof FuelRequisitionException
+                || $e instanceof WorkflowTaskCreationFailedException) {
                 $message = $e->getMessage();
             }
 
-            return response()->json([
-                'success' => false,
-                'message' => $message
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    $message
+                )
+            );
         }
     }
 
@@ -204,13 +218,19 @@ class WorkflowController extends Controller
                 $request->get('Comments')
             );
 
+            if (empty($nextUser)) {
+                $nextUser = '';
+            }
+
             if ($nextStepId == 100 && $action == WorkflowActions::approve()) {
                 switch ($requisitionDetail->item_type) {
                     case RequisitionItemTypes::SERVICE:
                         $purchaseProcessNumber = $this->workshopRequisitionService
                             ->createWorkshopServicePurchaseProcess(
-                                $request->get('reference'));
-                        $message = $message . ' Purchase Process No.: ' . $purchaseProcessNumber;
+                                $request->get('reference')
+                            );
+                        $message = $message
+                            . ' Purchase Process No.: ' . $purchaseProcessNumber;
                         break;
                     case RequisitionItemTypes::NON_STOCK_ITEM:
                         $purchaseProcessNumber = $this->workshopRequisitionService
@@ -235,7 +255,8 @@ class WorkflowController extends Controller
             } else {
                 $status = '';
                 if (strtolower(trim($request->get('Approved'))) == 'approve') {
-                    $message = 'Request Approved and Submitted to the Next Authority For Approval';
+                    $message = 'Request Approved and Submitted to the Next Authority For Approval '
+                        . $nextUser;
                     $status = StatusHelper::partiallyAuthorised();
                 }
                 $this->workshopRequisitionService->updateStatus($reference, $status);

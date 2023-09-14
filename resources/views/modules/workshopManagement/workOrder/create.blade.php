@@ -34,9 +34,9 @@
 @section('content')
 
     <x-content-header
-            :activeCrumb="'New Job Card'"
-            :linkText="'Job Card'"
-            :pageTitle="'Workshop Management'"/>
+        :activeCrumb="'New Job Card'"
+        :linkText="'Job Card'"
+        :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -293,11 +293,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                        required
-                                                        id="acceptance"
-                                                        name="acceptance"
-                                                        type="checkbox"
-                                                        class="checkbox">
+                                                    required
+                                                    id="acceptance"
+                                                    name="acceptance"
+                                                    type="checkbox"
+                                                    class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -391,7 +391,7 @@
                                         <option></option>
                                         @foreach($workshop_sections as $workshop_section)
                                             <option
-                                                    value="{{$workshop_section->code}}">
+                                                value="{{$workshop_section->code}}">
                                                 {{$workshop_section->name}}
                                             </option>
                                         @endforeach
@@ -480,8 +480,11 @@
             storeHasNoStock: 'The Store @store '
                 + ' does not have  @articleNumber'
                 + ' - description  in stock. ' +
-                'You may have to wait until the stock is ' +
-                'received before your request can be processed'
+                'You may have to wait until the item is ' +
+                'received before your request can be processed. ' +
+                'Alternatively, You may use Imprest Buys',
+            articleInStore: 'The Article  @articleNumber - @description  is available in  @store'
+                + 'You can proceed to request from stores'
         }
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
@@ -839,36 +842,31 @@
                             const description = selectedArticleObject?.technical_specifications ?
                                 selectedArticleObject?.technical_specifications : "";
                             Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: window.messages. 'The Article '
-                                + selectedArticleObject?.code_article
-                                + ' - ' + description + ' has no price. ' +
-                                ' Please Contact Fleet Master System Administrator ' +
-                                'on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
-                        })
-                            ;
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: window.messages.articleNoPrice
+                                    .replace('@articleNumber', selectedArticleObject?.code_article)
+                                    .replace('@description', description)
+                            })
+
                             return;
                         }
-                        console.log(parseInt(selectedArticleObject?.quantity_in_store));
+
                         if (parseInt(selectedArticleObject?.quantity_in_store) !== 0) {
                             const description = selectedArticleObject?.technical_specifications
                                 ? selectedArticleObject?.technical_specifications : "";
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: 'The Article '
-                                    + selectedArticleObject?.code_article
-                                    + ' - ' + description + ' is available in '
-                                    + $("#pettyCashStoreName").val()
-                                    + '.' +
-                                    'You can proceed to request from stores'
+                                text: window.messages.articleInStore
+                                    .replace('@articleNumber', selectedArticleObject?.code_article)
+                                    .replace('@description', description)
+                                    .replace('@store', $("#pettyCashStoreName").val())
                             });
                             return;
                         }
                     }
 
-                    //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
                     $($row).find('[name="imprestArticleCode"]').val(selectedArticleObject['code_article']);
                     $($row).find('[name="imprestItemUnitPrice"]').val(selectedArticleObject['price']);
                     $($row).find('[name="imprestArticleDescription"]')

@@ -8,6 +8,11 @@ class StatusHelper
         return '99';
     }
 
+    public static function sentBack(): string
+    {
+        return '99';
+    }
+
     public static function pendingVerification(): string
     {
         return "021";
