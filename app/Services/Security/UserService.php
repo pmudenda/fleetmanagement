@@ -76,7 +76,7 @@ class UserService
 
             Log::info($results);
 
-            if (str_starts_with($results, "success")) {
+            if (str_starts_with($results, "0")) {
                 throw new UserDataSyncException($results);
             }
 
