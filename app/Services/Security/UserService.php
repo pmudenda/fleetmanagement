@@ -73,6 +73,8 @@ class UserService
             $stmt->bindParam(":p_staff_no", $userToSync);
             $stmt->bindParam(":p_modified_by", $modifiedBy);
 
+            Log::info($results);
+
             if (str_starts_with($results, "success")) {
                 throw new UserDataSyncException($results);
             }
