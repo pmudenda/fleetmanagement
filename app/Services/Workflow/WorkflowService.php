@@ -22,8 +22,8 @@ use Illuminate\Support\Facades\Log;
 
 class WorkflowService
 {
-    const Approve = 3;
-    const Reject = 2;
+    const APPROVE = 3;
+    const REJECT = 2;
     const APPROVAL_PROCESS_HEADING_DATA_NOT_FOUND = "Approval Process Heading Data Not Found";
     const APPROVAL_PROCESS_CURRENT_STATE_DATA_IS_MISSING = "Approval Process Current State Data Is Missing";
     const APPROVAL_PROCESS_CURRENT_STATE_RECORD_NOT_FOUND = "Approval Process Current State Record Not Found";
@@ -225,7 +225,7 @@ class WorkflowService
             case 1:
                 // resubmission
                 break;
-            case self::Reject:
+            case self::REJECT:
                 return $this->rejectRequest(
                     $comment,
                     $action,
@@ -235,7 +235,7 @@ class WorkflowService
                     $taskHeader,
                     $taskDetail);
 
-            case self::Approve:
+            case self::APPROVE:
                 // approved
                 return $this->approveRequest(
                     $currentStep,
@@ -528,7 +528,11 @@ class WorkflowService
         return [$nextStep->step_id, $assignToUser->name];
     }
 
-    private function createUserNotification(string $taskReference, int $actioningOfficer, string $title, string $actionPage, $longDescription): void
+    private function createUserNotification(string $taskReference,
+                                            int $actioningOfficer,
+                                            string $title,
+                                            string $actionPage,
+                                            $longDescription): void
     {
         $currentUser = auth()->user();
 
