@@ -270,7 +270,7 @@
             })
             .catch(function (xhr, settings, error) {
                 tmsApp.showErrorMessages(xhr,
-                    'Driver Validation');
+                    'Previous Requisition Check');
             });
     }
 
