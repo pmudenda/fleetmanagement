@@ -123,11 +123,9 @@ class FuelRequisitionController extends Controller
         }
     }
 
-    public function show(Request $request): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function show(Request $request): View
     {
-        if (!$request->hasValidSignature()) {
-            abort(401);
-        }
+        $this->verifyRequestSignature($request);
 
         $requisitionNumber = $request->get('ref');
         $user = Auth::user();
@@ -151,6 +149,42 @@ class FuelRequisitionController extends Controller
         $approvalHistory = [];
 
         return view('modules.requisitions.fuel.show')
+            ->with(compact(
+                'user',
+                'requisitionTypes',
+                'requestDetails',
+                'daysToNextRefuel',
+                'approvalHistory',
+                'workflowTask',
+                'supportingDocument'
+            ));
+    }
+    public function edit(Request $request): View
+    {
+        $this->verifyRequestSignature($request);
+
+        $requisitionNumber = $request->get('ref');
+        $user = Auth::user();
+
+        $requestDetails = $this->requisitionService->getRequisitionDetail($requisitionNumber);
+
+        $supportingDocument = File::where('reference_number', '=', $requisitionNumber)
+            ->first();
+
+        if ($requestDetails == null) {
+            abort(404);
+        }
+
+
+        $workflowTask = WorkflowTaskHeader::where('reference', '=', $requisitionNumber)->first();
+
+        $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
+
+        $daysToNextRefuel = config('settings.fuel_requisition_validity');
+
+        $approvalHistory = [];
+
+        return view('modules.requisitions.fuel.edit')
             ->with(compact(
                 'user',
                 'requisitionTypes',
@@ -205,5 +239,16 @@ class FuelRequisitionController extends Controller
             ));
         }
 
+    }
+
+    /**
+     * @param Request $request
+     * @return void
+     */
+    public function verifyRequestSignature(Request $request): void
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
     }
 }

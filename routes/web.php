@@ -314,6 +314,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'requisitions'], function () {
     Route::get('/fuel/approve', [FuelRequisitionController::class, 'show'])
         ->name('show.fuel.requisition');
 
+    Route::get('/fuel/edit', [FuelRequisitionController::class, 'edit'])
+        ->name('edit.fuel.requisition');
+
     Route::post('/fuel/save', [FuelRequisitionController::class, 'store'])
         ->name('save.fuel.requisition');
 
