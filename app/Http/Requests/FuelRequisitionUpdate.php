@@ -23,7 +23,7 @@ class FuelRequisitionUpdate extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'reference' => 'required|string'
         ];
     }
 }

@@ -535,12 +535,14 @@ class FuelRequisitionService
 
     /**
      * @param $previousRequisition
-     * @param bool|Carbon $valid_from
+     * @param $valid_from
      * @param $reg_num
      * @return void
      * @throws FuelRequisitionException
      */
-    public function checkIfPreviousRequisitionPeriodElapsed($previousRequisition, bool|Carbon $valid_from, $reg_num): void
+    public function checkIfPreviousRequisitionPeriodElapsed($previousRequisition,
+                                                            $valid_from,
+                                                            $reg_num): void
     {
         // check if previous requisition period elapsed
         if ($valid_from->lessThanOrEqualTo(Carbon::parse($previousRequisition->valid_date_to))) {
@@ -848,18 +850,16 @@ class FuelRequisitionService
         ];
     }
 
-    public function processRequisitionUpdate(FuelRequisitionUpdate $request)
+    public function processRequisitionUpdate(FuelRequisitionUpdate $request): JsonResponse
     {
-        Log::info("Update Here");
-    }
 
-    private function calculateVehicleConsumptionDegradation(
-        $vehicle,
-        int $vehicleAge,
-        mixed $fuel_consumption,
-        mixed $newEstimatedOdometer): int
-    {
-        return 100;
+        $requisitionReferenceNumber = $request->get('reference');
+        Log::info("Update Here $requisitionReferenceNumber");
+        return response()->json([
+            "success" => true,
+            "message" => "Requisition Resubmitted For Approval.",
+            "redirectUrl" => URL::signedRoute("show.fuel.requisition", ["ref" => $requisitionReferenceNumber])
+        ]);
     }
 
     /**
