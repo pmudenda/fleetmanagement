@@ -16,12 +16,10 @@ use App\Models\Common\File;
 use App\Models\Common\OrganizationalUnit;
 use App\Models\RequisitionType;
 use App\Models\Town;
-use App\Models\VehicleManagement\ChassisDetail;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\InterCityDistanceService;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -35,7 +33,8 @@ class FuelRequisitionController extends Controller
     private FuelRequisitionService $requisitionService;
     private InterCityDistanceService $interCityDistanceService;
 
-    public function __construct(FuelRequisitionService $requisitionService, \App\Services\Requisitions\InterCityDistanceService $interCityDistanceService)
+    public function __construct(FuelRequisitionService   $requisitionService,
+                                InterCityDistanceService $interCityDistanceService)
     {
         $this->requisitionService = $requisitionService;
         $this->interCityDistanceService = $interCityDistanceService;
@@ -93,7 +92,7 @@ class FuelRequisitionController extends Controller
         $cities = $interCityDistanceService->getInterCityDistanceArray();
         $citiesFrom = Town::orderBy('town_name')->get();
 
-        return view('modules.fuelManagement.requisitions.fuel.create')
+        return view('modules.fuelManagement.requisitions.create')
             ->with(
                 compact(
                     'user',
@@ -169,7 +168,7 @@ class FuelRequisitionController extends Controller
 
         $approvalHistory = [];
 
-        return view('modules.fuelManagement.requisitions.fuel.show')
+        return view('modules.fuelManagement.requisitions.show')
             ->with(compact(
                 'user',
                 'requisitionTypes',
@@ -180,6 +179,7 @@ class FuelRequisitionController extends Controller
                 'supportingDocument'
             ));
     }
+
     public function edit(Request $request): View
     {
         $this->verifyRequestSignature($request);
@@ -209,7 +209,7 @@ class FuelRequisitionController extends Controller
         $cities = $this->interCityDistanceService->getInterCityDistanceArray();
         $citiesFrom = Town::orderBy('town_name')->get();
 
-        return view('modules.fuelManagement.requisitions.fuel.edit')
+        return view('modules.fuelManagement.requisitions.edit')
             ->with(compact(
                 'user',
                 'requisitionTypes',
