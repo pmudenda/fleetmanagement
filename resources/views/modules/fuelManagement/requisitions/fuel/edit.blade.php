@@ -31,7 +31,9 @@
 
                 <x-error-view/>
 
-                <form name="fuelRequisitionForm" id="fuelRequisitionForm" action="{{route('save.fuel.requisition')}}"
+                <form name="fuelRequisitionForm"
+                      id="fuelRequisitionForm"
+                      action="{{route('save.fuel.requisition')}}"
                       method="post">
                     @csrf
                     <table

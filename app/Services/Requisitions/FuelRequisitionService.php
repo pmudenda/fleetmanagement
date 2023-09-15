@@ -15,6 +15,7 @@ use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\FuelRequisitionPostRequest;
+use App\Http\Requests\FuelRequisitionUpdate;
 use App\Models\Common\BusinessUnit;
 use App\Models\Common\CostCenter;
 use App\Models\Common\OrganizationalUnit;
@@ -845,6 +846,11 @@ class FuelRequisitionService
             $consumptionData->fuel_consumption ?? 0,
             $consumptionData->tank_capacity ?? 0
         ];
+    }
+
+    public function processRequisitionUpdate(FuelRequisitionUpdate $request)
+    {
+        Log::info("Update Here");
     }
 
     private function calculateVehicleConsumptionDegradation(

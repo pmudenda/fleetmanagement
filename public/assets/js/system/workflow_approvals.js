@@ -88,7 +88,6 @@
         const action = settings.options['action'];
 
         if (action === 'approve') {
-
             document.querySelector("#approveSelectedPass").checked = true;
             document.querySelector("#approveSelectedFail").checked = false;
             document.querySelector("#approveSendBack").checked = false;
@@ -115,7 +114,6 @@
             $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i>Send Requisition Back To Originator');
             $("#remarksTitle").text('Remarks to Originator');
         } else if (action === 'resubmit') {
-
             document.querySelector("#approveResubmit").checked = true;
             document.querySelector("#approveSendBack").checked = false;
             document.querySelector("#approveSelectedFail").checked = false;
@@ -133,7 +131,6 @@
             $("#remarksTitle").text('Cancellation Justification');
         }
 
-
         if (settings['approvals']) {
             description = settings.approvals.approvalName(approvalType);
             canFail = settings.approvals.canFail(approvalType);
@@ -141,7 +138,7 @@
         }
 
         let approvalModeApproveGuid = signAsUser, approvalUserGuid;
-
+        let extraData = settings.options?.extraPayload || {};
         let approvalResponse = {
             result: false,
             approvalId: null,
@@ -214,23 +211,31 @@
 
             window.loaderMessage = '"Submitting Approval Please wait..."';
             modal.hide();
+
+            let requestPayload = {
+                reference: workflowReference,
+                ApprovalType: approvalType,
+                Description: description,
+                Comments: remarks,
+                Approved: requestApproved,
+                sig: signature,
+                approvalGuid: approvalGuid || "",
+                signAs: signAsUser,
+                loginId: loginId,
+                loginPass: password,
+                ApprovalModeApproveGUID: approvalModeApproveGuid,
+                ApprovalUserGUID: approvalUserGuid,
+                docType: docType
+            };
+
+            requestPayload = {
+                ...requestPayload,
+                ...extraData
+            }
+
             appInstance.asyncPostJson(
                 postUrl,
-                {
-                    reference: workflowReference,
-                    ApprovalType: approvalType,
-                    Description: description,
-                    Comments: remarks,
-                    Approved: requestApproved,
-                    sig: signature,
-                    approvalGuid: approvalGuid || "",
-                    signAs: signAsUser,
-                    loginId: loginId,
-                    loginPass: password,
-                    ApprovalModeApproveGUID: approvalModeApproveGuid,
-                    ApprovalUserGUID: approvalUserGuid,
-                    docType: docType
-                },
+                requestPayload,
                 function (ajaxResponse) {
                     document.querySelector("#btnNewApprovalSign")
                         .removeAttribute('disabled');

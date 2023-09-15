@@ -44,7 +44,8 @@
                     documentType: processData.documentType,
                     action: processData.actions.approve,
                     title: 'Requisition Approval',
-                    mainTitle: 'Approval'
+                    mainTitle: 'Approval',
+                    extraPayload: {}
                 }
             },
             processData.approvalType,
@@ -60,7 +61,8 @@
                     documentType: processData.documentType,
                     action: processData.actions.reject,
                     title: 'Requisition Rejection',
-                    mainTitle: 'Rejection'
+                    mainTitle: 'Rejection',
+                    extraPayload: {}
                 }
             },
             processData.approvalType,
@@ -76,7 +78,8 @@
                     documentType: processData.documentType,
                     action: processData.actions.sendBack,
                     title: 'Requisition Send Back',
-                    mainTitle: 'Send Back'
+                    mainTitle: 'Send Back',
+                    extraPayload: {}
                 }
             },
             processData.approvalType,
@@ -86,13 +89,18 @@
     });
 
     $('#resubmitRequisitionBtn').on('click', function () {
+        let payload = {}
+        let formData = new FormData(document.forms['fuelRequisitionForm']);
+        formData.forEach((value, key) => payload[key] = value);
+
         tmsApp.approval.dialog({
                 options: {
                     recordId: document.querySelector("#taskReference").value,
                     documentType: processData.documentType,
                     action: processData.actions.resubmit,
                     title: 'Resubmit Requisition',
-                    mainTitle: 'Resubmit'
+                    mainTitle: 'Resubmit',
+                    extraPayload: payload || {}
                 }
             },
             processData.approvalType,
@@ -108,7 +116,8 @@
                     documentType: processData.documentType,
                     action: processData.actions.cancel,
                     title: 'Requisition Cancellation',
-                    mainTitle: 'Cancel'
+                    mainTitle: 'Cancel',
+                    extraPayload: {}
                 }
             },
             processData.approvalType,

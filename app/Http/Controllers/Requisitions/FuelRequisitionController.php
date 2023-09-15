@@ -10,6 +10,7 @@ use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
+use App\Http\Requests\FuelRequisitionUpdate;
 use App\Http\Requests\VehicleManagement\OdometerValidationRequest;
 use App\Models\Common\File;
 use App\Models\Common\OrganizationalUnit;
@@ -126,7 +127,7 @@ class FuelRequisitionController extends Controller
     public function update(FuelRequisitionUpdate $request): JsonResponse
     {
         try {
-            return $this->requisitionService->processRequest($request);
+            return $this->requisitionService->processRequisitionUpdate($request);
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
