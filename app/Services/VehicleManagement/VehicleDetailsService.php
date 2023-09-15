@@ -253,7 +253,7 @@ class VehicleDetailsService
         Log::info("Insurance Record $insurance->period_to");
 
 
-        if (Carbon::now()->isAfter($insurance->period_to)) {
+        if (Carbon::now()->isAfter(Carbon::parse($insurance->period_to))) {
             return [InsuranceState::Expired, $insurance];
         }
 
