@@ -553,7 +553,8 @@
                                                 <th></th>
                                             </tr>
                                             </thead>
-                                            <tbody id="vehicleDetails" class="vehicleDetails">
+                                            <tbody id="vehicleDetails"
+                                                   class="vehicleDetails">
                                             </tbody>
                                         </table>
                                     </div>
@@ -595,16 +596,27 @@
                                         </td>
                                     @endif
                                     <td>
-                                            <span id="span_material_quantity">
-                                                {{number_format($requestDetails->quantity)}}
-                                            </span>
-                                        <input type="number"
-                                               name="material_quantity"
-                                               max=""
-                                               min=""
-                                               disabled
-                                               id="material_quantity"
-                                               class="form-control form-control-sm when_valid"/>
+                                        <span style="display: none;"
+                                              id="span_material_quantity">
+                                            {{number_format($requestDetails->quantity)}}
+                                        </span>
+                                        @if($requestDetails->requisition_type != RequisitionTypes::OutOfTown->value)
+                                            <input type="number"
+                                                   name="material_quantity"
+                                                   max=""
+                                                   min=""
+                                                   value="{{number_format($requestDetails->quantity)}}"
+                                                   id="material_quantity"
+                                                   class="form-control form-control-sm when_valid"/>
+                                        @else
+                                            <input type="number"
+                                                   name="material_quantity"
+                                                   max=""
+                                                   min=""
+                                                   value="{{number_format($requestDetails->quantity)}}"
+                                                   id="material_quantity"
+                                                   class="form-control form-control-sm when_valid"/>
+                                        @endif
                                     </td>
                                     <td>
                                             <span data-material-input="unit_of_measure"
@@ -675,7 +687,10 @@
                     @endif
                 </form>
 
-                <input type="hidden" value="{{ route('workflow.approve') }}" id="approvalUrl">
+                <input type="hidden"
+                       value="{{route('update.fuel.requisition')}}"
+                       data-url="{{ route('workflow.approve') }}"
+                       id="approvalUrl">
                 <input type="hidden" value="{{ $requestDetails->req_no }}" id="taskReference">
             </div>
         </div>
@@ -686,6 +701,11 @@
     </section>
 @endsection
 @push('scripts')
+    <script>
+        window.citiesMap = {!! json_encode($cities) !!};
+        window.citiesFrom = {!! json_encode($citiesFrom) !!};
+        window.tripPeriodLimit = {!! config('maxTripPeriod') ?? 7 !!};
+    </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset('modules/fuelManagement/requisitions/workflow.js')}}"></script>
     <script src="{{asset('modules/fuelManagement/requisitions/create.js')}}"></script>

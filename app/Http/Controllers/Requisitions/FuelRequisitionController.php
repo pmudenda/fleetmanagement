@@ -123,6 +123,25 @@ class FuelRequisitionController extends Controller
         }
     }
 
+    public function update(FuelRequisitionUpdate $request): JsonResponse
+    {
+        try {
+            return $this->requisitionService->processRequest($request);
+        } catch (\Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::getMessage('err_0005');
+
+            if ($e instanceof FuelRequisitionException
+                || $e instanceof WorkflowTaskCreationFailedException) {
+                $message = $e->getMessage();
+            }
+            return response()->json([
+                'success' => false,
+                'message' => $message
+            ]);
+        }
+    }
+
     public function show(Request $request): View
     {
         $this->verifyRequestSignature($request);

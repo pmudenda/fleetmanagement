@@ -320,6 +320,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'requisitions'], function () {
     Route::post('/fuel/save', [FuelRequisitionController::class, 'store'])
         ->name('save.fuel.requisition');
 
+    Route::post('/fuel/update', [FuelRequisitionController::class, 'update'])
+        ->name('update.fuel.requisition');
+
     Route::get('/fuel-requisitions/list', [FuelRequisitionController::class, 'index'])
         ->name('list.fuel.requisition');
 
