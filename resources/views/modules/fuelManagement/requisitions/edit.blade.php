@@ -605,16 +605,14 @@
                                         @if($requestDetails->requisition_type != RequisitionTypes::OutOfTown->value)
                                             <input type="number"
                                                    name="material_quantity"
-                                                   max=""
-                                                   min=""
+                                                   max="{{$requestDetails->max_allowed}}"
+                                                   min="{{$requestDetails->max_allowed}}"
                                                    value="{{number_format($requestDetails->quantity)}}"
                                                    id="material_quantity"
                                                    class="form-control form-control-sm when_valid"/>
                                         @else
                                             <input type="number"
                                                    name="material_quantity"
-                                                   max=""
-                                                   min=""
                                                    value="{{number_format($requestDetails->quantity)}}"
                                                    id="material_quantity"
                                                    class="form-control form-control-sm when_valid"/>
@@ -631,7 +629,10 @@
                                                   id="material_price">
                                                 {{number_format($requestDetails->price, 2)}}
                                             </span>
-                                        <input type="hidden" name="material_price" value="12">
+                                        <input type="hidden"
+                                               name="material_price"
+                                               value="{{number_format($requestDetails->price, 2)}}"
+                                        />
                                     </td>
                                     <td>
                                             <span data-material-input="material_amount"
