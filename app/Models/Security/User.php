@@ -11,7 +11,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -98,6 +97,9 @@ class User extends Authenticatable
 
     public static function swapping($user): void
     {
+        Log::info(
+            "Single Session Enabled " . config('systeminfo.enableSingleSessionManagement')
+        );
         if (config('systeminfo.enableSingleSessionManagement')) {
             Log::info('Checking Other Session For User ' . $user->staff_no);
             try {
