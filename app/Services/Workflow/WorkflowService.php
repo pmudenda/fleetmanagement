@@ -241,10 +241,12 @@ class WorkflowService
                 break;
             case self::SEND_BACK:
                 $response = $this->sendBackRequest(
-                    $reference,
-                    $processId,
+                    $comment,
+                    $action,
+                    $actionTaken,
                     $taskHeader,
-                    $taskDetail
+                    $taskDetail,
+                    $currentStep
                 );
                 break;
             case self::RESUBMIT:
@@ -519,17 +521,22 @@ class WorkflowService
         return $ou->code_unit;
     }
 
-    private function sendBackRequest($reference, $processId, $taskHeader ,$taskDetail): array
+    private function sendBackRequest($comment,
+                                     $action,
+                                     $actionTaken,
+                                     $taskHeader,
+                                     $taskDetail,
+                                     $currentStep): array
     {
         Log::info("Sending Request Back ");
-        Log::info("Reference " . $reference);
-        Log::info("Process Code " . $processId);
+        Log::info("Reference " . $taskHeader->reference);
+        Log::info("Process Code " . $taskHeader->process_code);
 
         // send back
         $firstStep = WorkflowStep::where(
             'process_id',
             '=',
-            $processId
+            $taskHeader->process_code
         )->where(
             'is_initial_step',
             '=',
@@ -539,12 +546,23 @@ class WorkflowService
         $firstStepLog = WorkflowLog::where(
             'reference',
             '=',
-            $reference
+            $taskHeader->reference
         )->where(
             'step_id',
             '=',
             $firstStep->step_id
         )->first();
+
+        $currentUser = auth()->user();
+        $this->createLog(
+            $comment,
+            $currentUser,
+            $action,
+            $actionTaken,
+            StatusHelper::rejected(),
+            $currentStep,
+            $taskDetail->reference
+        );
 
         $taskDetail->current_step_id = $firstStep->step_id;
         $taskDetail->actioning_officer = $firstStepLog->actioning_officer;
