@@ -129,7 +129,7 @@ class VehicleController extends Controller
 
             $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
 
-            $insuranceState = $this->vehicleDetailsService->getCheckInsurance($registrationNumber);
+            list($insuranceState, $insurance) = $this->vehicleDetailsService->getCheckInsurance($registrationNumber);
 
             $vehicleInsuranceMessage = '';
             $hasValidInsurance = true;
@@ -165,7 +165,8 @@ class VehicleController extends Controller
                         'vehicle_state' => $vehicle_state,
                         'vehicle_tom_card_message' => $vehicleTomCardMessage,
                         'insurance_message' => $vehicleInsuranceMessage,
-                        'hasValidInsurance' => $hasValidInsurance
+                        'hasValidInsurance' => $hasValidInsurance,
+                        'insurance'
                     ]
                 )
             );

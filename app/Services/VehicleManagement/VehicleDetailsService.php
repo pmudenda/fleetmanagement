@@ -240,7 +240,7 @@ class VehicleDetailsService
             ->paginate(20);
     }
 
-    public function getCheckInsurance(mixed $registrationNumber): InsuranceState
+    public function getCheckInsurance(mixed $registrationNumber): array
     {
         Log::info("Checking Insurance State for $registrationNumber - " . Carbon::today()->toDateString());
         $insurance = Insurance::where('reg_no', '=', $registrationNumber)
@@ -248,15 +248,15 @@ class VehicleDetailsService
             ->first();
 
         if (empty($insurance)) {
-            return InsuranceState::Expired;
+            return [InsuranceState::Expired, null];
         }
         Log::info("Insurance Record $insurance->period_to");
 
 
         if (Carbon::now()->isAfter($insurance->period_to)) {
-            return InsuranceState::Expired;
+            return [InsuranceState::Expired, $insurance];
         }
 
-        return InsuranceState::Valid;
+        return [InsuranceState::Valid, $insurance];
     }
 }
