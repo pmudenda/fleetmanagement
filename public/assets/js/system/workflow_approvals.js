@@ -88,23 +88,49 @@
         const action = settings.options['action'];
 
         if (action === 'approve') {
+
             document.querySelector("#approveSelectedPass").checked = true;
             document.querySelector("#approveSelectedFail").checked = false;
             document.querySelector("#approveSendBack").checked = false;
+            document.querySelector("#approveCancel").checked = false;
+            document.querySelector("#approveResubmit").checked = false;
             $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i> Approve Requisition');
             $("#remarksTitle").text('Approval Remarks');
         } else if (action === 'reject') {
+
             document.querySelector("#approveSelectedFail").checked = true;
             document.querySelector("#approveSelectedPass").checked = false;
             document.querySelector("#approveSendBack").checked = false;
+            document.querySelector("#approveCancel").checked = false;
+            document.querySelector("#approveResubmit").checked = false;
             $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i>Reject Requisition');
             $("#remarksTitle").text('Rejection Remarks');
         } else if (action === 'send_back') {
+
             document.querySelector("#approveSendBack").checked = true;
             document.querySelector("#approveSelectedFail").checked = false;
             document.querySelector("#approveSelectedPass").checked = false;
+            document.querySelector("#approveCancel").checked = false;
+            document.querySelector("#approveResubmit").checked = false;
             $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i>Send Requisition Back To Originator');
             $("#remarksTitle").text('Remarks to Originator');
+        } else if (action === 'resubmit') {
+
+            document.querySelector("#approveResubmit").checked = true;
+            document.querySelector("#approveSendBack").checked = false;
+            document.querySelector("#approveSelectedFail").checked = false;
+            document.querySelector("#approveSelectedPass").checked = false;
+            document.querySelector("#approveCancel").checked = false;
+            $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i>Resubmit to Previous Authority');
+            $("#remarksTitle").text('Remarks to Previous Authority');
+        } else if (action === 'cancel') {
+            document.querySelector("#approveCancel").checked = true;
+            document.querySelector("#approveSendBack").checked = false;
+            document.querySelector("#approveSelectedFail").checked = false;
+            document.querySelector("#approveSelectedPass").checked = false;
+            document.querySelector("#approveResubmit").checked = false;
+            $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i>Cancel Requisition');
+            $("#remarksTitle").text('Cancellation Justification');
         }
 
 
@@ -142,7 +168,8 @@
         $("#btnNewApprovalSign").off('click').on('click', function () {
 
             //this.setAttribute('disabled', true);
-            document.querySelector("#btnNewApprovalSign").setAttribute('disabled', 'disabled');
+            document.querySelector("#btnNewApprovalSign")
+                .setAttribute('disabled', 'disabled');
 
             let signature = document.getElementById("eSignaturePasswordInput").value;
             let remarks = document.getElementById("newApproval_Remarks").value;
@@ -156,7 +183,8 @@
             if (!postUrl) {
                 toastr.warning('No Url has been configured for this type of request');
                 //re-enable the button
-                document.querySelector("#btnNewApprovalSign").removeAttribute('disabled');
+                document.querySelector("#btnNewApprovalSign")
+                    .removeAttribute('disabled');
                 return;
             }
 
@@ -170,7 +198,6 @@
                 $approvalMessage.empty().append("You must supply comments when sending back this item.");
                 return false;
             }
-
 
             if (signOnBehalf) {
                 if (loginId === "") {
@@ -205,11 +232,13 @@
                     docType: docType
                 },
                 function (ajaxResponse) {
-                    document.querySelector("#btnNewApprovalSign").removeAttribute('disabled');
+                    document.querySelector("#btnNewApprovalSign")
+                        .removeAttribute('disabled');
                     successCallBack(ajaxResponse, modal, settings);
                 },
                 function (xhr, opts, errorThrown) {
-                    document.querySelector("#btnNewApprovalSign").removeAttribute('disabled');
+                    document.querySelector("#btnNewApprovalSign")
+                        .removeAttribute('disabled');
                     cancelCallBack(xhr, opts, errorThrown);
                 });
         })

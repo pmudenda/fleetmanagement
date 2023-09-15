@@ -53,13 +53,30 @@
                                            id="approveSendBack"/>
                                     Send Back
                                 </span>
+                                <span id="spanCancelBtn">
+                                    <input type="radio"
+                                           name="optApprove"
+                                           value="cancel"
+                                           id="approveCancel"/>
+                                    Cancel
+                                </span>
+                                <span id="spanResubmitBtn">
+                                    <input type="radio"
+                                           name="optApprove"
+                                           value="resubmit"
+                                           id="approveResubmit"/>
+                                    Cancel
+                                </span>
                                 <br/>
                                 <br/>
                             </div>
                         </div>
 
                         <div class="signAsElement" style="display:none;">
-                            <label class="app-label field-required app-field-null">Login ID</label>
+                            <label for="loginIdInput"
+                                   class="app-label field-required app-field-null">
+                                Login ID
+                            </label>
                             <div>
                                 <input class="zqEditMode form-control"
                                        type="text"
@@ -68,24 +85,34 @@
                             </div>
                         </div>
                         <div class="signAsElement" style="display:none;">
-                            <label class="app-label field-required app-field-null">Login Password</label>
+                            <label for="loginPasswordInput"
+                                   class="app-label field-required app-field-null">
+                                Login Password
+                            </label>
                             <div>
-                                <input type="password" id="loginPasswordInput"
+                                <input type="password"
+                                       id="loginPasswordInput"
                                        class="form-control"
                                        size="25" maxlength="25"/><br/>
                             </div>
                         </div>
                         <div style="display: none;">
-                            <label class="app-label field-required app-field-null">eSignature Password</label>
+                            <label for="eSignaturePasswordInput"
+                                   class="app-label field-required app-field-null">
+                                eSignature Password
+                            </label>
                             <div>
                                 <input type="password"
                                        class="form-control"
-                                       id="eSignaturePasswordInput" size="25" maxlength="25"/>
+                                       id="eSignaturePasswordInput"
+                                       size="25"
+                                       maxlength="25"/>
                             </div>
                         </div>
                     </div>
                     <div id="newApproval_DIVWait" style="visibility: hidden; display: none">
-                        <table role="none" aria-label="loader"
+                        <table role="none"
+                               aria-label="loader"
                                style="width:100%; height:100%; border: 0;">
                             <tr>
                                 <td style="text-align: center">
@@ -102,7 +129,7 @@
             <div class="modal-footer justify-content-end">
                 <button id="btnNewApprovalSign" class="btn btn-sm btn-success mr-3">
                     <i class="fas fa-save"></i>
-                    Save
+                    Submit
                 </button>
                 <button class="btn btn-sm btn-danger"
                         data-bs-target="#approval-modal"
