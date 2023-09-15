@@ -623,6 +623,11 @@
     });
 
     (function (tmsApp, $) {
+
+        const mainProcessMetaData = {
+
+        };
+
         $(document).on('keypress', '.number_input', function (event) {
             tmsApp.numberOnly(event);
         });
@@ -658,8 +663,10 @@
             });
         });
 
-        $(document).on("click", 'button[value="applyAuditTrailFilter"]', function (event) {
-            console.log("Here");
+        $(document).on(
+            "click",
+            'button[value="applyAuditTrailFilter"]',
+            function (event) {
             const form = document.querySelector('form[name="documentAuditTrail"]');
             const formData = new FormData(form);
             let postData = {};
@@ -680,7 +687,10 @@
             $.ajax(settings).done(function (response) {
                 showDocumentAuditTrailResults(response);
             }).fail(function (xhr) {
-                tmsApp.showErrorMessages(xhr, 'Document Audit Trail')
+                tmsApp.showErrorMessages(
+                    xhr,
+                    'Document Audit Trail'
+                );
             });
         });
 

@@ -72,7 +72,13 @@
         }
     }
 
-    function openApprovalDialog(settings, approvalType, cancelCallBack, successCallBack, approvalGuid, signAsUser, postUrl) {
+    function openApprovalDialog(settings,
+                                approvalType,
+                                cancelCallBack,
+                                successCallBack,
+                                approvalGuid,
+                                signAsUser,
+                                postUrl) {
         let requireRemarks = true;
         let workflowReference = settings.options.recordId || "0";
         let docType = settings.options['documentType'];
