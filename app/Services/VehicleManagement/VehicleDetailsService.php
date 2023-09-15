@@ -3,10 +3,13 @@
 namespace App\Services\VehicleManagement;
 
 use App\Constants\ComparisonOperator;
+use App\Enums\InsuranceState;
 use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Models\Common\File;
+use App\Models\VehicleManagement\Insurance;
 use App\Models\VehicleManagement\VehicleAccessory;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -235,5 +238,18 @@ class VehicleDetailsService
         return $query
             ->orderBy('v_header.status')
             ->paginate(20);
+    }
+
+    public function getCheckInsurance(mixed $registrationNumber): InsuranceState
+    {
+        $insurance = Insurance::where('reg_no', '=', $registrationNumber)
+            ->whereDate('period_to', '>', Carbon::now())
+            ->first();
+
+        if (empty($insurance)) {
+            return InsuranceState::Expired;
+        }
+
+        return InsuranceState::Valid;
     }
 }

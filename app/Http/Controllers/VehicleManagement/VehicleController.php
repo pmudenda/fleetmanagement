@@ -4,10 +4,12 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
+use App\Enums\InsuranceState;
 use App\Enums\Modules;
 use App\Exceptions\DataNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\general\Status;
 use App\Models\Settings\WorkShop;
@@ -126,28 +128,47 @@ class VehicleController extends Controller
 
             $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
 
-            $vehicle_tom_card_message = '';
+            $insuranceState = $this->vehicleDetailsService->getCheckInsurance($registrationNumber);
+
+            $vehicleInsuranceMessage = '';
+            $hasValidInsurance = true;
+            if ($insuranceState->value == InsuranceState::Expired) {
+                $hasValidInsurance = false;
+                $vehicleInsuranceMessage = str_replace(
+                    "@reg",
+                    $vehicle->registration_number,
+                    ErrorMessages::getMessage('err_0031')
+                );
+            }
+
+
+            $vehicleTomCardMessage = '';
 
             if ($vehicle->has_tom_card === 'Y') {
-                $vehicle_tom_card_message = str_replace(
+                $vehicleTomCardMessage = str_replace(
                     "@reg",
                     $vehicle->registration_number,
                     ErrorMessages::getMessage('err_0023')
                 );
             }
 
-            return response()->json([
-                'payload' => [
-                    'vehicle' => $vehicle,
-                    'article' => $article,
-                    'images' => $vehicleImages,
-                    'accessories' => $accessories,
-                    'vehicle_state' => $vehicle_state,
-                    'vehicle_tom_card_message' => $vehicle_tom_card_message
-                ],
-                'success' => !empty($vehicle),
-                'message' => self::VEHICLE_DETAILS_RETRIEVED_SUCCESSFULLY
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    !empty($vehicle) ? 'success' : 'failure',
+                    !empty($vehicle),
+                    self::VEHICLE_DETAILS_RETRIEVED_SUCCESSFULLY,
+                    [
+                        'vehicle' => $vehicle,
+                        'article' => $article,
+                        'images' => $vehicleImages,
+                        'accessories' => $accessories,
+                        'vehicle_state' => $vehicle_state,
+                        'vehicle_tom_card_message' => $vehicleTomCardMessage,
+                        'insurance_message' => $vehicleInsuranceMessage,
+                        'hasValidInsurance' => $hasValidInsurance
+                    ]
+                )
+            );
 
         } catch (Exception $e) {
             Log::error($e);
@@ -156,10 +177,13 @@ class VehicleController extends Controller
                 || $e instanceof DataNotFoundException) {
                 $message = $e->getMessage();
             }
-            return response()->json([
-                'success' => false,
-                'message' => $message
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    $message
+                )
+            );
         }
     }
 
@@ -278,8 +302,7 @@ class VehicleController extends Controller
                 $vehicle->registration_number,
                 SystemMessages::vehiclePendingOnboardingCompletion()
             );
-        }
-        elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
+        } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
             $jobCard = JobCardHeader::where('reg_no',
                 '=',
                 $vehicle->registration_number)->first();
@@ -296,8 +319,7 @@ class VehicleController extends Controller
                     $workshopName,
                     SystemMessages::vehicleInWorkshop())
             );
-        }
-        elseif ($vehicle->status != StatusHelper::active()) {
+        } elseif ($vehicle->status != StatusHelper::active()) {
             $vehicle_state = str_replace("@reg",
                 $vehicle->registration_number,
                 str_replace("@state",

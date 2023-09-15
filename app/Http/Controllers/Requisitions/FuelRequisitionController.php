@@ -33,13 +33,15 @@ use Mockery\CountValidator\Exception;
 class FuelRequisitionController extends Controller
 {
     private FuelRequisitionService $requisitionService;
+    private InterCityDistanceService $interCityDistanceService;
 
-    public function __construct(FuelRequisitionService $requisitionService)
+    public function __construct(FuelRequisitionService $requisitionService, \App\Services\Requisitions\InterCityDistanceService $interCityDistanceService)
     {
         $this->requisitionService = $requisitionService;
+        $this->interCityDistanceService = $interCityDistanceService;
     }
 
-    public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function index(): View
     {
         $requisitions = $this->requisitionService->getMyRequisitions(null);
         $requisitionType = "FUEL";
@@ -49,7 +51,8 @@ class FuelRequisitionController extends Controller
 
     public function validateOdometer(OdometerValidationRequest $request): JsonResponse
     {
-        $vehicle = VehicleHeader::where('registration_number', trim($request->get('vehicle_registration')))->first();
+        $vehicle = VehicleHeader::where('registration_number', trim($request->get('vehicle_registration')))
+            ->first();
 
         if (empty($vehicle)) {
             return response()->json([
@@ -59,9 +62,7 @@ class FuelRequisitionController extends Controller
             ]);
         }
 
-        $chassisDetail = ChassisDetail::where('vehicle_header_id', '=', $vehicle->id)->first();
-
-        $valid = $request->get('odometer_reading') > $chassisDetail->initial_odometer_reading;
+        $valid = $request->get('odometer_reading') > $vehicle->mileage;
 
         return response()->json([
             'success' => $valid,
@@ -204,6 +205,10 @@ class FuelRequisitionController extends Controller
 
         $approvalHistory = [];
 
+
+        $cities = $this->interCityDistanceService->getInterCityDistanceArray();
+        $citiesFrom = Town::orderBy('town_name')->get();
+
         return view('modules.fuelManagement.requisitions.fuel.edit')
             ->with(compact(
                 'user',
@@ -212,7 +217,9 @@ class FuelRequisitionController extends Controller
                 'daysToNextRefuel',
                 'approvalHistory',
                 'workflowTask',
-                'supportingDocument'
+                'supportingDocument',
+                'cities',
+                'citiesFrom'
             ));
     }
 

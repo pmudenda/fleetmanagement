@@ -3,10 +3,23 @@
 namespace App\Models\VehicleManagement;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Insurance extends Model
 {
-    use SoftDeletes;
     protected $table = 'vm_insurance';
+
+    public $fillable = [
+        'reg_no',
+        'policy_no',
+        'period_from',
+        'period_to',
+        'insured_amount',
+        'premium',
+        'payment_date',
+        'certificate_number',
+        'insurance_sub_type',
+        'created_by',
+        'modified_by',
+        'deleted_at',
+    ];
 }

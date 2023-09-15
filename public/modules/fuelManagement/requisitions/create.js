@@ -47,8 +47,10 @@
         let vehicle = payload['vehicle'];
         let article = payload['article'];
         let images = payload['images'];
+        const hasValidInsurance = payload['hasValidInsurance'];
         let vehicle_state = payload['vehicle_state'];
         let vehicle_tom_card_message = payload['vehicle_tom_card_message'];
+        let insurance_message = payload['insurance_message'];
 
         if (!vehicle || !vehicle.brand_name) {
             return;
@@ -77,6 +79,16 @@
         if (vehicle['has_tom_card'] === 'Y') {
             tmsApp.showSystemMessage("Vehicle Has A Tom Card",
                 vehicle_tom_card_message,
+                () => {
+                },
+                "error"
+            );
+            return;
+        }
+
+        if (hasValidInsurance) {
+            tmsApp.showSystemMessage("Vehicle Has Expired Insurance",
+                insurance_message,
                 () => {
                 },
                 "error"
