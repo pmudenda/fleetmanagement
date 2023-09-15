@@ -243,6 +243,7 @@ class WorkflowService
                 $response = $this->sendBackRequest(
                     $reference,
                     $processId,
+                    $taskHeader,
                     $taskDetail
                 );
                 break;
@@ -518,7 +519,7 @@ class WorkflowService
         return $ou->code_unit;
     }
 
-    private function sendBackRequest($reference, $processId, $taskDetail): array
+    private function sendBackRequest($reference, $processId, $taskHeader ,$taskDetail): array
     {
         Log::info("Sending Request Back ");
         Log::info("Reference " . $reference);
@@ -548,6 +549,10 @@ class WorkflowService
         $taskDetail->current_step_id = $firstStep->step_id;
         $taskDetail->actioning_officer = $firstStepLog->actioning_officer;
         $taskDetail->save();
+
+        $taskHeader->url = $firstStep->action_page;
+        $taskHeader->assigned_user = $firstStepLog->actioning_officer;
+        $taskHeader->save();
 
         return [$taskDetail->current_step_id, $firstStepLog->actioning_officer];
     }
