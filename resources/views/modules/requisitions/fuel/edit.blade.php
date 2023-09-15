@@ -105,7 +105,8 @@
                                                 <div class="form-group row">
                                                     <label
                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                        for="staff_no">Registration #:
+                                                        for="vehicle_registration">
+                                                        Registration #:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                         <div class="input-group">
@@ -130,7 +131,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                        <input type="hidden" class="form-control form-control-sm"
+                                                        <input type="hidden"
+                                                               class="form-control form-control-sm"
                                                                id="vehicle_description"
                                                                value=""
                                                                name="vehicle_description"
@@ -169,7 +171,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="text" class="form-control form-control-sm"
+                                                            <input type="text"
+                                                                   class="form-control form-control-sm"
                                                                    id="cost_centre_code"
                                                                    value="{{$requestDetails->cost_centre}}"
                                                                    name="cost_centre_code"
