@@ -96,7 +96,7 @@
             return;
         }
 
-        let vLabel = vehicle['body_type_name']
+        let vLabel = vehicle['body_type_name'] ? vehicle['body_type_name'] : ''
             + ' ' + vehicle['brand_name']
             + ' ' + vehicle['model_name']
             + ' ' + vehicle['model_code'];
