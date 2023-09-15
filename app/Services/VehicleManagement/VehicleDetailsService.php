@@ -242,13 +242,10 @@ class VehicleDetailsService
     public function getCheckInsurance(mixed $registrationNumber): InsuranceState
     {
         Log::info("Checking Insurance State for $registrationNumber - " . Carbon::today()->toDateString());
-        $insurance = DB::table('vm_insurance')
-            ->where(function ($query) use ($registrationNumber) {
-                $query->where(DB::raw('where period_to > sysdate order by created_at desc fetch first row only'))
-                    ->where('reg_no', '=', $registrationNumber);
-            })
-            ->select('*')
-            ->first();
+        $insurance = DB::select("select * from VM_INSURANCE
+                        where REG_NO = '$registrationNumber'
+                        and period_to > sysdate
+                        order by created_at desc fetch first row only");
 
         if (empty($insurance)) {
 
