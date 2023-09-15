@@ -14,6 +14,7 @@
         invalidTripPeriod: 'You have selected more than the 7 Days Limit' +
             'If your trip is more than 7 days, you will have to create a second trip '
     };
+    let previousRequisition = {};
 
     function removeSubmissionAndDetailsOptions() {
         let elements = document.querySelectorAll('.when_valid');
@@ -263,6 +264,7 @@
                 if (response.message === 'Not Found') {
                     hasPreviousRequisition = false;
                 } else {
+                    previousRequisition = response.payload;
                     hasPreviousRequisition = true;
                 }
             })
