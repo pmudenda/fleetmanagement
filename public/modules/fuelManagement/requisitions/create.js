@@ -1,6 +1,6 @@
 (function (tmsApp, $) {
     let hasOpenRequisition = false;
-
+    let $vehicleRegistrationCtl = $('#vehicle_registration');
     const appMessages = {
         permissionAlertWindowTitle: "Permission Assignment",
         validationFailureMessage: "Sorry, the data did not pass validation check," +
@@ -86,7 +86,7 @@
             return;
         }
 
-        if (hasValidInsurance) {
+        if (!hasValidInsurance) {
             tmsApp.showSystemMessage("Vehicle Has Expired Insurance",
                 insurance_message,
                 () => {
@@ -202,12 +202,12 @@
     }
 
     function findVehicle() {
-        const numberPlate = document.querySelector('#vehicle_registration').value
+        const numberPlate = $vehicleRegistrationCtl.val();
         let formData = new FormData();
         formData.append('vehicle_registration', numberPlate);
 
         tmsApp.asyncGetFormData(
-            $('#vehicle_registration').attr('data-action') + '?vehicle_registration=' + numberPlate,
+            $vehicleRegistrationCtl.attr('data-action') + '?vehicle_registration=' + numberPlate,
             formData,
             function (response_data) {
                 if (response_data.success === 'true' || response_data.success === true) {
@@ -254,9 +254,8 @@
                 return response.json();
             })
             .then(response => {
-
                 console.log(response);
-
+                hasOpenRequisition = true;
                 if (!response.success || response.payload.length === 0) {
                     return;
                 }
@@ -299,6 +298,7 @@
                     summaryTotal += tmsApp.getFloat(it.value);
                 });
                 $('#totalAmount').text(tmsApp.numberFormat(summaryTotal, 2));
+                break;
             default:
                 break;
         }
@@ -368,6 +368,15 @@
         }, 300);
     });
 
+    $vehicleRegistrationCtl.on('paste', function () {
+        if (!this.value || this.value.indexOf('_') > -1) {
+            return;
+        }
+        setTimeout(function () {
+            findEmployee();
+        }, 300);
+    });
+
     $('#employeeSearchBtn').on('click', function () {
         if (!document.querySelector("#driver_staff_number").value
             || document.querySelector("#driver_staff_number").value.length < 5) {
@@ -382,7 +391,7 @@
 
     $('#vehicleSearchBtn').on('click', function () {
         if (!document.querySelector('#vehicle_registration').value
-            || document.querySelector('#vehicle_registration') < 8) {
+            || document.querySelector('#vehicle_registration').indexOf('_') > -1) {
             return;
         }
         removeSubmissionAndDetailsOptions();
