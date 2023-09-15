@@ -30,6 +30,7 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 class VehicleController extends Controller
 {
     public const VEHICLE_DETAILS_RETRIEVED_SUCCESSFULLY = 'Vehicle Details retrieved successfully';
+    const REG = "@reg";
     private VehicleDetailsService $vehicleDetailsService;
     private ProcurementSystemIntegrationService $procurementService;
 
@@ -135,18 +136,17 @@ class VehicleController extends Controller
             if ($insuranceState->value == InsuranceState::Expired) {
                 $hasValidInsurance = false;
                 $vehicleInsuranceMessage = str_replace(
-                    "@reg",
+                    self::REG,
                     $vehicle->registration_number,
-                    ErrorMessages::getMessage('err_0031')
+                    ErrorMessages::getMessage('err_0030')
                 );
             }
-
 
             $vehicleTomCardMessage = '';
 
             if ($vehicle->has_tom_card === 'Y') {
                 $vehicleTomCardMessage = str_replace(
-                    "@reg",
+                    self::REG,
                     $vehicle->registration_number,
                     ErrorMessages::getMessage('err_0023')
                 );
@@ -239,8 +239,7 @@ class VehicleController extends Controller
             ->get();
 
         return view('modules.vehicleManagement.vehicleList')
-            ->with(compact(
-                    'vehicleList',
+            ->with(compact('vehicleList',
                     'statusList')
             );
     }
@@ -298,7 +297,7 @@ class VehicleController extends Controller
         $vehicle_state = '';
         if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
             $vehicle_state = str_replace(
-                "@reg",
+                self::REG,
                 $vehicle->registration_number,
                 SystemMessages::vehiclePendingOnboardingCompletion()
             );
@@ -313,14 +312,14 @@ class VehicleController extends Controller
                     ->first()->workshop_name;
             }
 
-            $vehicle_state = str_replace("@reg",
+            $vehicle_state = str_replace(self::REG,
                 $vehicle->registration_number,
                 str_replace("@workshop",
                     $workshopName,
                     SystemMessages::vehicleInWorkshop())
             );
         } elseif ($vehicle->status != StatusHelper::active()) {
-            $vehicle_state = str_replace("@reg",
+            $vehicle_state = str_replace(self::REG,
                 $vehicle->registration_number,
                 str_replace("@state",
                     $vehicle->status_name,
