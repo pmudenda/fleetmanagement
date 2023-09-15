@@ -79,9 +79,6 @@
                         <tr class="border-success" style="border-width: 1px;">
                             <th style="width: 33%;" class="text-center">
                                 <a href="#">
-                                    {{--<img src="{{ asset('assets/dist/img/zesco1.png') }}"
-                                         title="ZESCO" alt="ZESCO"
-                                         width="30%">--}}
                                 </a>
                             </th>
                             <th style="width: 33%; font-size: 26px;" colspan="4" class="text-center">
@@ -585,10 +582,10 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                            <span data-material-input="material_description"
-                                                  id="material_description">
-                                                {{$requestDetails->specifications}}
-                                            </span>
+                                        <span data-material-input="material_description"
+                                              id="material_description">
+                                            {{$requestDetails->specifications}}
+                                        </span>
                                     </td>
                                     @if($requestDetails->cost_assigned_to !='CostCenter')
                                         <td>
@@ -598,10 +595,16 @@
                                         </td>
                                     @endif
                                     <td>
-                                            <span name="material_quantity"
-                                                  id="material_quantity">
+                                            <span id="span_material_quantity">
                                                 {{number_format($requestDetails->quantity)}}
                                             </span>
+                                        <input type="number"
+                                               name="material_quantity"
+                                               max=""
+                                               min=""
+                                               disabled
+                                               id="material_quantity"
+                                               class="form-control form-control-sm when_valid"/>
                                     </td>
                                     <td>
                                             <span data-material-input="unit_of_measure"
@@ -614,6 +617,7 @@
                                                   id="material_price">
                                                 {{number_format($requestDetails->price, 2)}}
                                             </span>
+                                        <input type="hidden" name="material_price" value="12">
                                     </td>
                                     <td>
                                             <span data-material-input="material_amount"
