@@ -243,7 +243,7 @@ class VehicleDetailsService
     {
         $insurance = Insurance::where(
             'reg_no', '=', $registrationNumber
-        )->where(DB::raw('period_to > sysdate'))
+        )->whereDate('period_to', '>', date('Y-m-d'))
             ->first();
 
         if (empty($insurance)) {
