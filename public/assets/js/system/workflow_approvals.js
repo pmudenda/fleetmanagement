@@ -122,7 +122,8 @@
             dataIsland: "",
             approvalStructure: ""
         };
-        let customAttributes = (approvalUserGuid > "" && approvalUserGuid !== appInstance.loggedUser.guid() ? 'data-forceSignAs="true"' : "");
+        let customAttributes = (approvalUserGuid > ""
+        && approvalUserGuid !== appInstance.loggedUser.guid() ? 'data-forceSignAs="true"' : "");
         customAttributes += ' data-requireComments="' + requireRemarks + '" data-canFail="' + canFail;
         //customAttributes
 
@@ -164,12 +165,6 @@
                 return false;
             }
 
-            // re-introduce when signatures are present
-            if (signature === "") {
-                //$approvalMessage.empty().append("Please complete required fields.");
-                //document.getElementById("eSignaturePasswordInput").focus();
-                //return
-            }
 
             if (signOnBehalf) {
                 if (loginId === "") {
@@ -205,11 +200,11 @@
                 },
                 function (ajaxResponse) {
                     document.querySelector("#btnNewApprovalSign").removeAttribute('disabled');
-                    successCallBack(ajaxResponse, modal);
+                    successCallBack(ajaxResponse, modal, settings);
                 },
-                function (xhr, settings, errorThrown) {
+                function (xhr, opts, errorThrown) {
                     document.querySelector("#btnNewApprovalSign").removeAttribute('disabled');
-                    cancelCallBack(xhr, settings, errorThrown);
+                    cancelCallBack(xhr, opts, errorThrown);
                 });
         })
 

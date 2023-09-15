@@ -322,7 +322,7 @@
 
 @push('scripts')
     <script
-            src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
+            src="{{asset('modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
 
     <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
     <!-- page script -->

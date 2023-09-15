@@ -2447,7 +2447,7 @@
         window.vehicle = `{!! $vehicle !!}`;
     </script>
     <script
-            src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_over_view.js')}}"></script>
+            src="{{asset('modules/vehicleManagement/assets/js/vehicle_over_view.js')}}"></script>
     <script>
         $(document).ready(function () {
             let elements = document.querySelectorAll('.view_mode');

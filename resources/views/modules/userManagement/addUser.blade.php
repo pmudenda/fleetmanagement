@@ -456,6 +456,6 @@
            value="{{ route('business.areas') }}">
 @endsection
 @push('scripts')
-    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
-    <script src="{{asset('application/modules/userManagement/users/add_user.js')}}"></script>
+    <script src="{{asset('modules/userManagement/employee.search.js')}}"></script>
+    <script src="{{asset('modules/userManagement/users/add_user.js')}}"></script>
 @endpush

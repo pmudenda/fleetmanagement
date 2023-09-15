@@ -42,7 +42,7 @@ class FuelRequisitionController extends Controller
     {
         $requisitions = $this->requisitionService->getMyRequisitions(null);
         $requisitionType = "FUEL";
-        return view("modules.requisitions.fuel.list")
+        return view("modules.fuelManagement.requisitions.list")
             ->with(compact('requisitions', 'requisitionType'));
     }
 
@@ -91,7 +91,7 @@ class FuelRequisitionController extends Controller
         $cities = $interCityDistanceService->getInterCityDistanceArray();
         $citiesFrom = Town::orderBy('town_name')->get();
 
-        return view('modules.requisitions.fuel.create')
+        return view('modules.fuelManagement.requisitions.fuel.create')
             ->with(
                 compact(
                     'user',
@@ -148,7 +148,7 @@ class FuelRequisitionController extends Controller
 
         $approvalHistory = [];
 
-        return view('modules.requisitions.fuel.show')
+        return view('modules.fuelManagement.requisitions.fuel.show')
             ->with(compact(
                 'user',
                 'requisitionTypes',
@@ -184,7 +184,7 @@ class FuelRequisitionController extends Controller
 
         $approvalHistory = [];
 
-        return view('modules.requisitions.fuel.edit')
+        return view('modules.fuelManagement.requisitions.fuel.edit')
             ->with(compact(
                 'user',
                 'requisitionTypes',

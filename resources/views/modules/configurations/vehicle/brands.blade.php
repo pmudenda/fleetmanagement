@@ -240,5 +240,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('application/modules/configurations/assets/js/brand.definition.js') }}"></script>
+    <script src="{{ asset('modules/configurations/assets/js/brand.definition.js') }}"></script>
 @endpush

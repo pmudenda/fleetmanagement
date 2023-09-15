@@ -195,10 +195,10 @@
 
 @push('scripts')
 
-    <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
+    <script src="{{asset('modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
     <script>
         (function (appInstance) {
-            appInstance.initDatatable("#kt_brands_table", true);
+            appInstance.initDatatable("#kt_brands_table", true, true, []);
         })(window.tmsApp || {});
     </script>
 @endpush

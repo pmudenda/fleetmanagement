@@ -194,7 +194,7 @@
 
 @push('scripts')
     <script src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <script src="{{asset('application/modules/vehicleManagement/assets/js/lib.vehicle.data.js')}}"></script>
-    <script src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js')}}"></script>
-    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
+    <script src="{{asset('modules/vehicleManagement/assets/js/lib.vehicle.data.js')}}"></script>
+    <script src="{{asset('modules/vehicleManagement/assets/js/new-vehicle-registration.js')}}"></script>
+    <script src="{{asset('modules/userManagement/employee.search.js')}}"></script>
 @endpush

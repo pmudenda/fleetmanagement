@@ -272,5 +272,5 @@
 @endsection
 @push('scripts')
     <script src="{{asset("libs/steps/jquery.steps.min.js")}}"></script>
-    <script src="{{asset("application/modules/vehicleManagement/accidentRecording.formWizard.js")}}"></script>
+    <script src="{{asset("modules/vehicleManagement/accidentRecording.formWizard.js")}}"></script>
 @endpush

@@ -349,7 +349,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
+    <script src="{{asset('modules/userManagement/employee.search.js')}}"></script>
     <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
     <!-- page script -->
     <script>

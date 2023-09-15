@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @push('styles')
-    <link href="{{ asset('application/modules/vehicleManagement/assets/css/vehicle_migration.css') }}" rel="stylesheet"
+    <link href="{{ asset('modules/vehicleManagement/assets/css/vehicle_migration.css') }}" rel="stylesheet"
           type="text/css"/>
     <link href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}" rel="stylesheet"
           type="text/css"/>
@@ -753,7 +753,7 @@
     @include('modules.vehicleManagement.partial.data_end_point')
 @endsection
 @push('scripts')
-    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
+    <script src="{{asset('modules/userManagement/employee.search.js')}}"></script>
     <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
     <script>
         window.vehicleMakes = {!! json_encode($vehicleMakes) !!};

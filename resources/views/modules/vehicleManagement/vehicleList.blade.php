@@ -593,8 +593,8 @@
 @endsection
 
 @push('scripts')
-    <script src="{{asset('application/modules/vehicleManagement/assets/js/lib.vehicle.data.js')}}"></script>
-    <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
+    <script src="{{asset('modules/vehicleManagement/assets/js/lib.vehicle.data.js')}}"></script>
+    <script src="{{asset('modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
     <script>
         window.statusList = {!! json_encode($statusList) !!};
     </script>

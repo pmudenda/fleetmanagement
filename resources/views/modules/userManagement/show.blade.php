@@ -384,11 +384,11 @@
 @endsection
 
 @push('scripts')
-    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
+    <script src="{{asset('modules/userManagement/employee.search.js')}}"></script>
     <!-- page script -->
     <script>
         (function (tmsApp) {
-            tmsApp.initDatatable("#groupsTable", false);
+            tmsApp.initDatatable("#groupsTable", false, true, []);
 
             $(document).on('submit', 'form[name="updateDataUpdate"]', function (e) {
                 e.preventDefault();
