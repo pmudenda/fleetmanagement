@@ -7,6 +7,7 @@ use App\Enums\InsuranceState;
 use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Models\Common\File;
+use App\Models\VehicleManagement\Insurance;
 use App\Models\VehicleManagement\VehicleAccessory;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -242,16 +243,14 @@ class VehicleDetailsService
     public function getCheckInsurance(mixed $registrationNumber): InsuranceState
     {
         Log::info("Checking Insurance State for $registrationNumber - " . Carbon::today()->toDateString());
-        $insurance = DB::raw(
-            "select * from VM_INSURANCE
-                        where REG_NO = '$registrationNumber'
-                        and period_to > sysdate order by created_at desc fetch first row only"
-        );
+        $insurance = Insurance::where('reg_no', '=', $registrationNumber)
+            ->get()->orderBy('created_at', 'desc')
+            ->first();
 
         if (empty($insurance)) {
             return InsuranceState::Expired;
         } else {
-            Log::info("Insurance Record $insurance->id");
+            Log::info("Insurance Record $insurance->period_to");
         }
 
         return InsuranceState::Valid;
