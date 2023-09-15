@@ -306,6 +306,9 @@
 
     function loadTowns() {
         let selector = document.querySelector('#departureTown');
+        if (!selector) {
+            return;
+        }
         for (const value of window['citiesFrom']) {
             const option = document.createElement("option");
             option.value = value['town_name'];
