@@ -306,7 +306,7 @@
 
     function loadTowns() {
         let selector = document.querySelector('#departureTown');
-        if (!selector) {
+        if (!selector || selector?.type === "text") {
             return;
         }
         for (const value of window['citiesFrom']) {
