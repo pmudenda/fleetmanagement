@@ -391,7 +391,7 @@
 
     $('#vehicleSearchBtn').on('click', function () {
         if (!document.querySelector('#vehicle_registration').value
-            || document.querySelector('#vehicle_registration').indexOf('_') > -1) {
+            || document.querySelector('#vehicle_registration').value.indexOf('_') > -1) {
             return;
         }
         removeSubmissionAndDetailsOptions();
