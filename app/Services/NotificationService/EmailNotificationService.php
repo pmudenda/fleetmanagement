@@ -114,7 +114,7 @@ class EmailNotificationService
                         'subject' => "Requisition Approval Update",
                         'title' => "Requisition Approval Update",
                         'body' => "Please be informed that fuel requisition, Ref. No.
-                        <strong>{$record['req_no']} has raised a partially authorised
+                        <strong>{$record['req_no']} you raised has been partially authorised
                         and submitted for further approval.
                         <br>To Take action immediately, click on the button below
                         .<br>Regards. "
@@ -134,7 +134,21 @@ class EmailNotificationService
                                .<br>Regards. "
                     ];
                     break;
-                default:
+                case 'sendBack':
+                    $details = [
+                        'name' => $names,
+                        'systemLink' => URL::signedRoute('edit.fuel.requisition', ['ref' => $record['req_no']]),
+                        'identity' => $record['req_no'],
+                        'subject' => "Requisition Approval Update",
+                        'title' => "Requisition Approval Update",
+                        'body' => "Please be informed that fuel requisition, Ref. No.
+                        <strong>{$record['req_no']} you raised has been sent back.
+                        The details can be viewed on the task.
+                        <br>To Take action immediately, click on the button below
+                        .<br>Regards. "
+                    ];
+                    break;
+                    default:
                     return false;
             }
 

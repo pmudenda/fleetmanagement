@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Log;
 
 class WorkflowController extends Controller
 {
+    const APPROVED = 'Request Approved and Submitted to the Next Authority For Approval ';
     private FuelRequisitionService $fuelRequisitionService;
     private WorkshopRequisitionService $workshopRequisitionService;
     private WorkflowService $workflowService;
@@ -125,8 +126,7 @@ class WorkflowController extends Controller
                 $status = '';
                 if (strtolower(trim($request->get('Approved'))) == 'approve') {
                     $status = StatusHelper::partiallyAuthorised();
-                    $message = 'Request Approved and Submitted to the Next Authority For Approval ' .
-                        $nextUser;
+                    $message = self::APPROVED . $nextUser;
                 } elseif ($action == WorkflowActions::sendBack()) {
                     $status = StatusHelper::sentBack();
                     $message = 'Request Returned to Originator';
@@ -261,7 +261,7 @@ class WorkflowController extends Controller
             } else {
 
                 if (strtolower(trim($request->get('Approved'))) == 'approve') {
-                    $message = 'Request Approved and Submitted to the Next Authority For Approval '
+                    $message = self::APPROVED
                         . $nextUser;
                     $status = StatusHelper::partiallyAuthorised();
                 } elseif ($action == WorkflowActions::sendBack()) {
