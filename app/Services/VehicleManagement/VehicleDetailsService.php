@@ -244,9 +244,11 @@ class VehicleDetailsService
         Log::info("Checking Insurance State for $registrationNumber - " . Carbon::today()->toDateString());
         $insurance = DB::select(DB::raw(
             "select * from VM_INSURANCE
-                        where REG_NO = '$registrationNumber'
+                        where REG_NO = :reg_no
                         and period_to > sysdate
                         order by created_at desc fetch first row only"
+        ), array(
+            'reg_no' => $registrationNumber,
         ));
 
         if (empty($insurance)) {
