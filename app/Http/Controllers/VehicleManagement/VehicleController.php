@@ -166,7 +166,7 @@ class VehicleController extends Controller
                         'vehicle_tom_card_message' => $vehicleTomCardMessage,
                         'insurance_message' => $vehicleInsuranceMessage,
                         'hasValidInsurance' => $hasValidInsurance,
-                        'insurance'
+                        'insurance' => $insurance
                     ]
                 )
             );
