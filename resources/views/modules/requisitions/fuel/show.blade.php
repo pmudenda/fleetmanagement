@@ -162,10 +162,7 @@
                                                                                class="list-row-checkbox bold mr-3"
                                                                                name="CostAssignedTo"
                                                                                value="CostCenterBasedRequisition"
-                                                                               @if($requestDetails->cost_assigned_to
-                                                                                =='CostCenter')
-                                                                                   checked
-                                                                            @endif
+                                                                               checked
                                                                         />
                                                                         User Department
                                                                     </label>
@@ -219,10 +216,7 @@
                                                                                class="list-row-checkbox bold mr-3"
                                                                                autocomplete="off"
                                                                                name="CostAssignedTo"
-                                                                               @if($requestDetails->cost_assigned_to
-                                                                                == 'Project')
-                                                                                   checked
-                                                                               @endif
+                                                                               checked
                                                                                value="ProjectBasedRequisition">
                                                                         Project
                                                                     </label>
@@ -325,7 +319,7 @@
                                                     <div class="form-group row">
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Departure Date:</label>
+                                                            for="departure_date">Departure Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="date" class="form-control form-control-sm"
                                                                    id="departure_date"
@@ -508,16 +502,17 @@
                                                 <div class="form-group row">
                                                     <label
                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                        for="mobile_no">Purpose:</label>
+                                                        for="justification">
+                                                        Purpose:
+                                                    </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <textarea type="text"
                                                                   readonly
                                                                   id="justification"
                                                                   name="justification"
                                                                   style="height: 129px;"
-                                                                  class="form-control form-control-sm">
-                                                            {{$requestDetails->comments}}
-                                                        </textarea>
+                                                                  class="form-control form-control-sm"
+                                                        >{{$requestDetails->comments}}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -541,7 +536,7 @@
                                             style="width:100%; height: 500px "
                                             title="{{ $supportingDocument->originaldocumentname }}">
                                     </iframe>
-                                    <span>Size:{{ number_format($supportingDocument->file_size, 2) }}
+                                    <span>Size: {{ number_format($supportingDocument->file_size, 2) }}
                                         MB Name: {{ $supportingDocument->originaldocumentname }}
                                     </span>
                                     <span> | </span>
