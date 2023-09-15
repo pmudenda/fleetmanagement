@@ -244,7 +244,7 @@ class VehicleDetailsService
     {
         Log::info("Checking Insurance State for $registrationNumber - " . Carbon::today()->toDateString());
         $insurance = Insurance::where('reg_no', '=', $registrationNumber)
-            ->get()->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->first();
 
         if (empty($insurance)) {
