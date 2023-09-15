@@ -743,7 +743,6 @@
         if (this.name === 'quantity') {
             $(this).val(tmsApp.numberFormat(this.value));
         }
-
     });
 })(window.tmsApp || {}, jQuery)
 

@@ -684,4 +684,5 @@
 @push('scripts')
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset('modules/fuelManagement/requisitions/workflow.js')}}"></script>
+    <script src="{{asset('modules/fuelManagement/requisitions/create.js')}}"></script>
 @endpush
