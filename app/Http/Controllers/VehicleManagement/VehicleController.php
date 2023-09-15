@@ -131,6 +131,8 @@ class VehicleController extends Controller
 
             list($insuranceState, $insurance) = $this->vehicleDetailsService->getCheckInsurance($registrationNumber);
 
+            Log::info("Insurance State $insuranceState");
+
             $vehicleInsuranceMessage = '';
             $hasValidInsurance = true;
             if ($insuranceState->value == InsuranceState::Expired) {
