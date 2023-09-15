@@ -854,6 +854,8 @@ class FuelRequisitionService
     {
 
         $requisitionReferenceNumber = $request->get('reference');
+
+
         Log::info("Update Here $requisitionReferenceNumber");
         return response()->json([
             "success" => true,

@@ -23,7 +23,19 @@ class FuelRequisitionUpdate extends FormRequest
     public function rules(): array
     {
         return [
-            'reference' => 'required|string'
+            'reference' => 'required|string',
+            'Comments' => 'required|string',
+            'material_quantity' => 'required|numeric',
+            'material_price' => 'required|numeric',
+            'material_amount' => 'required|numeric',
+            'departureTown' => 'nullable|string',
+            'destinationTown' => 'nullable|string',
+            'justification' => 'nullable|string',
+            'cost_centre_code' => 'nullable|string',
+            'CostAssignedTo' => 'nullable|string',
+            'departure_date' => 'nullable|string',
+            'return_date' => 'nullable|string',
+            'odometer_reading' => 'nullable|string'
         ];
     }
 }

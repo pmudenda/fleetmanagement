@@ -50,27 +50,42 @@ class FuelRequisitionController extends Controller
 
     public function validateOdometer(OdometerValidationRequest $request): JsonResponse
     {
-        $vehicle = VehicleHeader::where('registration_number', trim($request->get('vehicle_registration')))
-            ->first();
+        try {
+            $vehicle = VehicleHeader::where('registration_number',
+                '=',
+                trim($request->get('vehicle_registration'))
+            )->first();
 
-        if (empty($vehicle)) {
+            if (empty($vehicle)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Vehicle not found"
+                ]);
+            }
+
+            $userProvidedOdometer = $request->get('odometer_reading');
+
+            Log::debug("Validating Odometer Usr $userProvidedOdometer against Veh $vehicle->mileage");
+
+            $valid = (int)$userProvidedOdometer > $vehicle->mileage;
             return response()->json([
-                'success' => false,
-                'message' => "Vehicle not found",
+                'success' => $valid,
+                'valid' => $valid,
+                'message' => $valid ?
+                    SystemMessages::ODOMETER_VALIDATED_SUCCESSFULLY
+                    : ErrorMessages::getMessage("err_0018"),
                 'requestPayload' => $request->all()
             ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json(
+                [
+                    'success' => false,
+                    'valid' => null,
+                    'message' => ErrorMessages::getMessage("err_0005")
+                ]
+            );
         }
-
-        $valid = $request->get('odometer_reading') > $vehicle->mileage;
-
-        return response()->json([
-            'success' => $valid,
-            'valid' => $valid,
-            'message' => $valid ?
-                SystemMessages::ODOMETER_VALIDATED_SUCCESSFULLY
-                : ErrorMessages::getMessage("err_0018"),
-            'requestPayload' => $request->all()
-        ]);
     }
 
     public function create(): View|Application

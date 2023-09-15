@@ -126,7 +126,7 @@ class WorkflowService
             'url' => $actionPage,
             'reference' => $taskReference,
             'priority' => Priority::high(),
-            'description' => $comment, //'You have received a fuel requisition approval task ',
+            'description' => $comment,
             'long_description' => $long_description,
             'created_by' => $currentUser->id,
             'date_acted' => Carbon::now(),
@@ -603,7 +603,7 @@ class WorkflowService
             'activity' => $activity,
             'status' => $status,
             'action_date' => Carbon::now(),
-            'next_step' => $step->step_id,
+            'next_step' => $step->next_step,
             'previous_step' => $step->previous_step ?? '00',
             'remarks' => $comment
         ]);
