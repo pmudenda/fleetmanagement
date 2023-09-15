@@ -56,15 +56,16 @@ class WorkflowService
     ): WorkflowTaskDetail
     {
         $currentUser = Auth()->user();
-
+        Log::info("===================================Starting Workflow===================================");
         Log::info(
             'Reference ' . $taskReference
             . ' Process Code ' . $processCode
             . ' Action ' . $action
             . ' Comment '
-            . $comment . ' Amount ' . $amount);
+            . $comment . ' Amount ' . $amount
+        );
 
-        $process = WorkflowProcess::where('process_code', $processCode)->first();
+        $process = WorkflowProcess::where('process_code', '=', $processCode)->first();
 
         if (empty($process)) {
             throw new WorkflowTaskCreationFailedException("Process not Found");
@@ -72,10 +73,8 @@ class WorkflowService
 
         // get the first step in this process
         $processFirstStep = WorkflowStep::where(
-            'process_id', '=', $processCode)
-            ->where('is_initial_step', true)
-            ->where('is_initial_step', '=', 1)
-            ->first();
+            'process_id', '=', $processCode
+        )->where('is_initial_step', true)->where('is_initial_step', '=', 1)->first();
 
         if ($processFirstStep == null) {
             throw new WorkflowTaskCreationFailedException("Could not Determine Initial Step");

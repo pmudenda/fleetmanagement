@@ -243,7 +243,7 @@ class VehicleDetailsService
     public function getCheckInsurance(mixed $registrationNumber): InsuranceState
     {
         $insurance = Insurance::where('reg_no', '=', $registrationNumber)
-            ->whereDate('period_to', '>', Carbon::now())
+            ->where(DB::raw('period_to > sysdate'))
             ->first();
 
         if (empty($insurance)) {
