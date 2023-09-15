@@ -9,6 +9,7 @@ use App\Helpers\StatusHelper;
 use App\Models\Common\File;
 use App\Models\VehicleManagement\Insurance;
 use App\Models\VehicleManagement\VehicleAccessory;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -241,12 +242,14 @@ class VehicleDetailsService
 
     public function getCheckInsurance(mixed $registrationNumber): InsuranceState
     {
+        Log::info("Checking Insurance State for $registrationNumber - ". Carbon::today()->toDateString());
         $insurance = Insurance::where(
             'reg_no', '=', $registrationNumber
-        )->whereDate('period_to', '>', date('Y-m-d'))
+        )->whereDate('period_to', '>', Carbon::today()->toDateString())
             ->first();
 
         if (empty($insurance)) {
+            Log::info("Insurance Record $insurance->id");
             return InsuranceState::Expired;
         }
 
