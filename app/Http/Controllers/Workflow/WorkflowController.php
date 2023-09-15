@@ -261,8 +261,7 @@ class WorkflowController extends Controller
             } else {
 
                 if (strtolower(trim($request->get('Approved'))) == 'approve') {
-                    $message = self::APPROVED
-                        . $nextUser;
+                    $message = self::APPROVED . $nextUser;
                     $status = StatusHelper::partiallyAuthorised();
                 } elseif ($action == WorkflowActions::sendBack()) {
                     $status = StatusHelper::sentBack();
@@ -271,12 +270,15 @@ class WorkflowController extends Controller
             }
             $this->workshopRequisitionService->updateStatus($reference, $status);
             DB::commit();
-            return response()->json([
-                'requestPayload' => $request->all(),
-                'success' => true,
-                'redirectUrl' => route('home'),
-                'message' => $message
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'success',
+                    true,
+                    $message,
+                    [],
+                    route('home')
+                )
+            );
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
@@ -288,10 +290,13 @@ class WorkflowController extends Controller
                 $message = $e->getMessage();
             }
 
-            return response()->json([
-                'success' => false,
-                'message' => $message
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    $message
+                )
+            );
         }
     }
 }

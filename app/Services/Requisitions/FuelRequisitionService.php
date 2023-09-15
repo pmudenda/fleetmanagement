@@ -109,7 +109,7 @@ class FuelRequisitionService
         return [$quantityLastIssued->quantity ?? 0, $latestIssue];
     }
 
-    private static function getLatestNonCancelledAndNonRejectedRequisitionByVehReg(mixed $registrationNumber): mixed
+    private static function getLatestActiveRequisition(mixed $registrationNumber): mixed
     {
         return MaterialHeader::where("veh_reg_no", $registrationNumber)
             ->whereNotIn("status", [
@@ -118,9 +118,6 @@ class FuelRequisitionService
             ])
             ->orderBy("created_at", "desc")
             ->first();
-
-        /*  StatusHelper::new(),
-                StatusHelper::authorised()*/
     }
 
 
@@ -146,7 +143,6 @@ class FuelRequisitionService
 
         [$quantityLastIssued, $latestIssue] = $this->getFuelLastIssue($registrationNumber);
 
-        //
         Log::info("Latest Issued Amount $quantityLastIssued");
 
         $odometerOnLastIssue = $this->getOdometerOnLastIssue($registrationNumber);
@@ -175,7 +171,7 @@ class FuelRequisitionService
         DB::beginTransaction();
 
         $latestActiveRequisition =
-            self::getLatestNonCancelledAndNonRejectedRequisitionByVehReg($registrationNumber);
+            self::getLatestActiveRequisition($registrationNumber);
 
         // pick last requisition if any
         $openRequisitionStatusList = [
@@ -197,168 +193,26 @@ class FuelRequisitionService
 
         if ($isLocalRequisition) {
             // quantity requested can not be more than allocated
-            if ($requisitionPostRequest->get("material_quantity") > $requisitionPostRequest->get("fuel_allocation")) {
-                throw new FuelRequisitionException("Quantity requested can not be more than allocation");
-            }
-            if (!empty($latestActiveRequisition)) {
-
-                if (in_array($latestActiveRequisition->status, $openRequisitionStatusList)) {
-
-                    if (in_array($latestActiveRequisition->requisition_type,
-                        [RequisitionTypes::Normal->value, RequisitionTypes::Override->value])) {
-
-                        throw new FuelRequisitionException(
-                            str_replace(self::VEH_REG,
-                                $registrationNumber,
-                                str_replace(self::DATE_VALID_TO,
-                                    Carbon::parse($latestActiveRequisition->valid_date_to)
-                                        ->format(self::DATE_FORMAT),
-                                    str_replace(self::REQ_NO,
-                                        $latestActiveRequisition->st_pur
-                                        ?? $latestActiveRequisition->req_no,
-                                        ErrorMessages::getMessage("err_0001")
-                                    )
-                                )
-                            )
-                        );
-                    }
-
-                    // cancel out of town
-                    if ($latestActiveRequisition->requisition_type
-                        == RequisitionTypes::OutOfTown->value) {
-                        // cancel requisition
-                        $latestActiveRequisition->status = StatusHelper::cancelled();
-                        $latestActiveRequisition->save();
-
-                        $this->procurementService->cancelStoresRequisition(
-                            $latestActiveRequisition->st_pur,
-                            SystemMessages::NORMAL_REQUISITION_RAISED
-                        );
-
-                        //cancel associated task
-                        $this->cancelAssociatedTask($latestActiveRequisition);
-                    }
-
-                } else {
-
-                    // fully issued
-                    if (RequisitionTypes::Normal->value == $latestActiveRequisition->requisition_type
-                        ||
-                        RequisitionTypes::Override->value == $latestActiveRequisition->requisition_type
-                    ) {
-                        $this->checkIfPreviousRequisitionPeriodElapsed(
-                            $latestActiveRequisition,
-                            $validFrom, $registrationNumber);
-                    }
-                }
-            }
+            $this->validateLocalRequisition($requisitionPostRequest,
+                $latestActiveRequisition,
+                $openRequisitionStatusList,
+                $registrationNumber,
+                $validFrom
+            );
         } elseif ($isOutOfTownRequisition) {
-
-            // out of town requisition request amount can be more than allocated
-            $validFrom = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("departure_date"));
-            $validTo = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("return_date"));
-
-            if (!empty($latestActiveRequisition)) {
-                if (in_array($latestActiveRequisition->status, $openRequisitionStatusList)) {
-                    // cancel requisition
-                    $latestActiveRequisition->status = StatusHelper::cancelled();
-                    $latestActiveRequisition->save();
-
-                    $this->procurementService->cancelStoresRequisition(
-                        $latestActiveRequisition->st_pur,
-                        SystemMessages::OUT_OF_TOWN_REQUISITION_RAISED
-                    );
-
-                    //cancel associated task
-                    $this->cancelAssociatedTask($latestActiveRequisition);
-                }
-            } else {
-                Log::info('Nothing found for cancellation');
-            }
+            list($validFrom, $validTo) = $this->validateOutOfTown(
+                $requisitionPostRequest,
+                $latestActiveRequisition,
+                $openRequisitionStatusList);
 
         } elseif ($isOverrideRequisition) {
 
-            // if there is no previous requisition, throw error
-            if (empty($latestActiveRequisition)) {
-                throw new FuelRequisitionException(ErrorMessages::getMessage("err_0008"));
-            }
-
-            if (in_array($latestActiveRequisition->status, $openRequisitionStatusList)) {
-                $message = "";
-
-                // override should only be requisitioned when the previous is normal
-                if (RequisitionTypes::Override->value == $latestActiveRequisition->requisition_type) {
-                    $message = ErrorMessages::getMessage("err_0006");
-                }
-
-                // override should only be requisitioned when the previous is normal and is partially released
-                if (RequisitionTypes::Normal->value == $latestActiveRequisition->requisition_type) {
-                    $message = ErrorMessages::getMessage("err_0007");
-                }
-
-                // override should only be requisitioned when the previous is normal
-                if (RequisitionTypes::OutOfTown->value == $latestActiveRequisition->requisition_type) {
-                    $message = ErrorMessages::getMessage("err_0014");
-                }
-
-                throw new FuelRequisitionException(
-                    str_replace(self::VEH_REG, $registrationNumber,
-                        str_replace(self::DATE_VALID_TO,
-                            Carbon::parse($latestActiveRequisition->valid_date_to)
-                                ->format(self::DATE_FORMAT),
-                            str_replace(self::REQ_NO,
-                                $latestActiveRequisition->st_pur
-                                ?? $latestActiveRequisition->req_no,
-                                $message)
-                        )
-                    )
-                );
-            }
-
-            // if latest previous is override or out of town, fail
-            if (RequisitionTypes::Override->value == $latestActiveRequisition->requisition_type
-                || RequisitionTypes::OutOfTown->value == $latestActiveRequisition->requisition_type
-            ) {
-                throw new FuelRequisitionException(
-                    str_replace(self::VEH_REG, $registrationNumber,
-                        str_replace(self::DATE_VALID_TO,
-                            Carbon::parse($latestActiveRequisition->valid_date_to)
-                                ->format(self::DATE_FORMAT),
-                            str_replace(self::REQ_NO,
-                                $latestActiveRequisition->st_pur ?? $latestActiveRequisition->req_no,
-                                ErrorMessages::getMessage("err_0006"))
-                        )
-                    )
-                );
-            }
-
-            // check if your request date is before the end of previous requisition,
-            // override has to be before expiry of previous requisition
-            if (
-                RequisitionTypes::Normal->value == $latestActiveRequisition->requisition_type
-                && $validFrom->greaterThan(Carbon::parse($latestActiveRequisition->valid_date_to))
-            ) {
-                throw new FuelRequisitionException(
-                    str_replace(self::VEH_REG, $registrationNumber,
-                        str_replace(self::DATE_VALID_TO,
-                            Carbon::parse($latestActiveRequisition->valid_date_to)
-                                ->format(self::DATE_FORMAT),
-                            str_replace(self::REQ_NO,
-                                $latestActiveRequisition->st_pur
-                                ?? $latestActiveRequisition->req_no,
-                                ErrorMessages::getMessage("err_0015"))
-                        )
-                    )
-                );
-            }
-
-            // quantity requested can not be more than allocated
-            if ($requisitionPostRequest->get("fuel_allocation")
-                < $requisitionPostRequest->get("material_quantity")) {
-                throw new FuelRequisitionException(
-                    "Quantity requested can not be more than allocation"
-                );
-            }
+            $this->validateOverride(
+                $latestActiveRequisition,
+                $openRequisitionStatusList,
+                $registrationNumber,
+                $validFrom, $requisitionPostRequest
+            );
 
             // override is only valid from date of request to when the original requisition was supposed to end
             Log::info("Previous Requisition End Date $latestActiveRequisition->valid_date_to");
@@ -563,21 +417,22 @@ class FuelRequisitionService
      */
     public function getRequisitionDetail($req_no): mixed
     {
-        $results = DB::table("GEN_MATERIAL_HEADERS")
-            ->where("GEN_MATERIAL_HEADERS.req_no", $req_no)
-            ->join("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no",
-                "=", "GEN_MATERIAL_DETAILS.req_no")
-            ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status",
-                "=", "CONFIG_STATUSES.code")
-            ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by",
-                "=", "SEC_USERS.staff_no")
-            ->where("CONFIG_STATUSES.MODULE", "=", "MAT")
-            ->select("GEN_MATERIAL_HEADERS.*",
-                "GEN_MATERIAL_DETAILS.*",
-                'SEC_USERS.name as originator',
-                'SEC_USERS.job_title',
-                "CONFIG_STATUSES.name as status_name",
-                "CONFIG_STATUSES.color_code")
+        $results = DB::table("GEN_MATERIAL_HEADERS as mat_header")
+            ->where("mat_header.req_no", $req_no)
+            ->join("GEN_MATERIAL_DETAILS as detail", "mat_header.req_no",
+                "=", "detail.req_no")
+            ->leftJoin("CONFIG_STATUSES as status", "mat_header.status",
+                "=", "status.code")
+            ->leftJoin("SEC_USERS as users", "mat_header.requested_by",
+                "=", "users.staff_no")
+            ->where("status.MODULE", "=", "MAT")
+            ->select(
+                "mat_header.*",
+                "detail.*",
+                'users.name as originator',
+                'users.job_title',
+                "status.name as status_name",
+                "status.color_code")
             ->get();
 
         return $results->first();
@@ -625,16 +480,16 @@ class FuelRequisitionService
     public function getLatestRequisition($vehicle_registration)
     {
         $queryResult = DB::table("GEN_MATERIAL_HEADERS mat_header")
-            ->leftJoin("CONFIG_STATUSES",
-                "mat_header.status",
-                "=", "CONFIG_STATUSES.code")
+            ->leftJoin("CONFIG_STATUSES as status",
+                "mat_header.status", "=",
+                "status.code")
             ->leftJoin("CONFIG_REQUISITION_TYPES req_type",
-                "mat_header.requisition_type",
-                "=", "req_type.code")
+                "mat_header.requisition_type", "=",
+                "req_type.code")
             ->where("mat_header.veh_reg_no",
                 "=", $vehicle_registration)
             ->select("mat_header.*",
-                "CONFIG_STATUSES.name as status_name",
+                "status.name as status_name",
                 "req_type.name as requisition_type")
             ->orderBy("mat_header.created_at", "desc")
             ->get();
@@ -991,5 +846,213 @@ class FuelRequisitionService
         RequisitionRaised::dispatch($matHeader, "fuel_requisition");
         Log::info("Requisition " . $requisition_reference_number . " raised successfully");
         return $requisition_reference_number;
+    }
+
+    /**
+     * @param FuelRequisitionPostRequest $requisitionPostRequest
+     * @param mixed $latestActiveRequisition
+     * @param array $openRequisitionStatusList
+     * @param mixed $registrationNumber
+     * @param $validFrom
+     * @return void
+     * @throws FuelRequisitionException
+     */
+    public function validateLocalRequisition(
+        FuelRequisitionPostRequest $requisitionPostRequest,
+        mixed                      $latestActiveRequisition,
+        array                      $openRequisitionStatusList,
+        mixed                      $registrationNumber,
+                                   $validFrom
+    ): void
+    {
+        if ($requisitionPostRequest->get("material_quantity") > $requisitionPostRequest->get("fuel_allocation")) {
+            throw new FuelRequisitionException("Quantity requested can not be more than allocation");
+        }
+        if (!empty($latestActiveRequisition)) {
+
+            if (in_array($latestActiveRequisition->status, $openRequisitionStatusList)) {
+
+                if (in_array($latestActiveRequisition->requisition_type,
+                    [RequisitionTypes::Normal->value, RequisitionTypes::Override->value])) {
+
+                    throw new FuelRequisitionException(
+                        str_replace(self::VEH_REG,
+                            $registrationNumber,
+                            str_replace(self::DATE_VALID_TO,
+                                Carbon::parse($latestActiveRequisition->valid_date_to)
+                                    ->format(self::DATE_FORMAT),
+                                str_replace(self::REQ_NO,
+                                    $latestActiveRequisition->st_pur
+                                    ?? $latestActiveRequisition->req_no,
+                                    ErrorMessages::getMessage("err_0001")
+                                )
+                            )
+                        )
+                    );
+                }
+
+                // cancel out of town
+                if ($latestActiveRequisition->requisition_type
+                    == RequisitionTypes::OutOfTown->value) {
+                    // cancel requisition
+                    $latestActiveRequisition->status = StatusHelper::cancelled();
+                    $latestActiveRequisition->save();
+
+                    $this->procurementService->cancelStoresRequisition(
+                        $latestActiveRequisition->st_pur,
+                        SystemMessages::NORMAL_REQUISITION_RAISED
+                    );
+
+                    //cancel associated task
+                    $this->cancelAssociatedTask($latestActiveRequisition);
+                }
+
+            } else {
+
+                // fully issued
+                if (RequisitionTypes::Normal->value == $latestActiveRequisition->requisition_type
+                    ||
+                    RequisitionTypes::Override->value == $latestActiveRequisition->requisition_type
+                ) {
+                    $this->checkIfPreviousRequisitionPeriodElapsed(
+                        $latestActiveRequisition,
+                        $validFrom, $registrationNumber);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param FuelRequisitionPostRequest $requisitionPostRequest
+     * @param mixed $latestActiveRequisition
+     * @param array $openRequisitionStatusList
+     * @return array
+     */
+    public function validateOutOfTown(FuelRequisitionPostRequest $requisitionPostRequest,
+                                      mixed                      $latestActiveRequisition,
+                                      array                      $openRequisitionStatusList
+    ): array
+    {
+// out of town requisition request amount can be more than allocated
+        $validFrom = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("departure_date"));
+        $validTo = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("return_date"));
+
+        if (!empty($latestActiveRequisition)) {
+            if (in_array($latestActiveRequisition->status, $openRequisitionStatusList)) {
+                // cancel requisition
+                $latestActiveRequisition->status = StatusHelper::cancelled();
+                $latestActiveRequisition->save();
+
+                $this->procurementService->cancelStoresRequisition(
+                    $latestActiveRequisition->st_pur,
+                    SystemMessages::OUT_OF_TOWN_REQUISITION_RAISED
+                );
+
+                //cancel associated task
+                $this->cancelAssociatedTask($latestActiveRequisition);
+            }
+        } else {
+            Log::info('Nothing found for cancellation');
+        }
+        return array($validFrom, $validTo);
+    }
+
+    /**
+     * @param mixed $latestActiveRequisition
+     * @param array $openRequisitionStatusList
+     * @param mixed $registrationNumber
+     * @param $validFrom
+     * @param FuelRequisitionPostRequest $requisitionPostRequest
+     * @return void
+     * @throws FuelRequisitionException
+     */
+    public function validateOverride(mixed                      $latestActiveRequisition,
+                                     array                      $openRequisitionStatusList,
+                                     mixed                      $registrationNumber,
+                                                                $validFrom,
+                                     FuelRequisitionPostRequest $requisitionPostRequest
+    ): void
+    {
+// if there is no previous requisition, throw error
+        if (empty($latestActiveRequisition)) {
+            throw new FuelRequisitionException(ErrorMessages::getMessage("err_0008"));
+        }
+
+        if (in_array($latestActiveRequisition->status, $openRequisitionStatusList)) {
+            $message = "";
+
+            // override should only be requisitioned when the previous is normal
+            if (RequisitionTypes::Override->value == $latestActiveRequisition->requisition_type) {
+                $message = ErrorMessages::getMessage("err_0006");
+            }
+
+            // override should only be requisitioned when the previous is normal and is partially released
+            if (RequisitionTypes::Normal->value == $latestActiveRequisition->requisition_type) {
+                $message = ErrorMessages::getMessage("err_0007");
+            }
+
+            // override should only be requisitioned when the previous is normal
+            if (RequisitionTypes::OutOfTown->value == $latestActiveRequisition->requisition_type) {
+                $message = ErrorMessages::getMessage("err_0014");
+            }
+
+            throw new FuelRequisitionException(
+                str_replace(self::VEH_REG, $registrationNumber,
+                    str_replace(self::DATE_VALID_TO,
+                        Carbon::parse($latestActiveRequisition->valid_date_to)
+                            ->format(self::DATE_FORMAT),
+                        str_replace(self::REQ_NO,
+                            $latestActiveRequisition->st_pur
+                            ?? $latestActiveRequisition->req_no,
+                            $message)
+                    )
+                )
+            );
+        }
+
+        // if latest previous is override or out of town, fail
+        if (RequisitionTypes::Override->value == $latestActiveRequisition->requisition_type
+            || RequisitionTypes::OutOfTown->value == $latestActiveRequisition->requisition_type
+        ) {
+            throw new FuelRequisitionException(
+                str_replace(self::VEH_REG, $registrationNumber,
+                    str_replace(self::DATE_VALID_TO,
+                        Carbon::parse($latestActiveRequisition->valid_date_to)
+                            ->format(self::DATE_FORMAT),
+                        str_replace(self::REQ_NO,
+                            $latestActiveRequisition->st_pur ?? $latestActiveRequisition->req_no,
+                            ErrorMessages::getMessage("err_0006"))
+                    )
+                )
+            );
+        }
+
+        // check if your request date is before the end of previous requisition,
+        // override has to be before expiry of previous requisition
+        if (
+            RequisitionTypes::Normal->value == $latestActiveRequisition->requisition_type
+            && $validFrom->greaterThan(Carbon::parse($latestActiveRequisition->valid_date_to))
+        ) {
+            throw new FuelRequisitionException(
+                str_replace(self::VEH_REG, $registrationNumber,
+                    str_replace(self::DATE_VALID_TO,
+                        Carbon::parse($latestActiveRequisition->valid_date_to)
+                            ->format(self::DATE_FORMAT),
+                        str_replace(self::REQ_NO,
+                            $latestActiveRequisition->st_pur
+                            ?? $latestActiveRequisition->req_no,
+                            ErrorMessages::getMessage("err_0015"))
+                    )
+                )
+            );
+        }
+
+        // quantity requested can not be more than allocated
+        if ($requisitionPostRequest->get("fuel_allocation")
+            < $requisitionPostRequest->get("material_quantity")) {
+            throw new FuelRequisitionException(
+                "Quantity requested can not be more than allocation"
+            );
+        }
     }
 }
