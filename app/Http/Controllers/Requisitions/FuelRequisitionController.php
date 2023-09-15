@@ -67,7 +67,7 @@ class FuelRequisitionController extends Controller
 
             Log::debug("Validating Odometer Usr $userProvidedOdometer against Veh $vehicle->mileage");
 
-            $valid = (int)$userProvidedOdometer > $vehicle->mileage;
+            $valid = (int)$userProvidedOdometer >= $vehicle->mileage;
             return response()->json([
                 'success' => $valid,
                 'valid' => $valid,
