@@ -243,8 +243,11 @@ class VehicleDetailsService
     {
         Log::info("Checking Insurance State for $registrationNumber - " . Carbon::today()->toDateString());
         $insurance = DB::table('vm_insurance')
-            ->where('reg_no', '=', $registrationNumber)
-            ->select('*', DB::raw('where period_to > sysdate order by created_at desc fetch first row only'))
+            ->where(function ($query) use ($registrationNumber) {
+                $query->where(DB::raw('where period_to > sysdate order by created_at desc fetch first row only'))
+                    ->where('reg_no', '=', $registrationNumber);
+            })
+            ->select('*')
             ->first();
 
         if (empty($insurance)) {
