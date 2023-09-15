@@ -368,7 +368,7 @@
         }, 300);
     });
 
-    $vehicleRegistrationCtl.on('paste', function () {
+    $vehicleRegistrationCtl.on('change paste', function () {
         if (!this.value || this.value.indexOf('_') > -1) {
             return;
         }
