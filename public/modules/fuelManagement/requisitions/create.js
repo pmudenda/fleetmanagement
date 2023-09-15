@@ -1,5 +1,5 @@
 (function (tmsApp, $) {
-    let hasOpenRequisition = false;
+    let hasPreviousRequisition = false;
     let $vehicleRegistrationCtl = $('#vehicle_registration');
     const appMessages = {
         permissionAlertWindowTitle: "Permission Assignment",
@@ -212,6 +212,12 @@
             function (response_data) {
                 if (response_data.success === 'true' || response_data.success === true) {
                     populateVehicleDetails(response_data.payload, response_data['message']);
+
+                    let $odometerCtrl = $('[data-validation="fuelRequisitionOdometerReading"]');
+                    if ($odometerCtrl.val()) {
+                        $odometerCtrl.trigger('change');
+                    }
+
                     findLatestRequisition();
                 } else {
                     removeSubmissionAndDetailsOptions();
@@ -254,10 +260,10 @@
                 return response.json();
             })
             .then(response => {
-                console.log(response);
-                hasOpenRequisition = true;
-                if (!response.success || response.payload.length === 0) {
-                    return;
+                if (response.message === 'Not Found') {
+                    hasPreviousRequisition = false;
+                } else {
+                    hasPreviousRequisition = true;
                 }
             })
             .catch(function (xhr, settings, error) {

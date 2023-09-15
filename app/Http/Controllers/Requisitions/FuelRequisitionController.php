@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\FuelRequisitionUpdate;
 use App\Http\Requests\VehicleManagement\OdometerValidationRequest;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Common\File;
 use App\Models\Common\OrganizationalUnit;
 use App\Models\RequisitionType;
@@ -249,11 +250,14 @@ class FuelRequisitionController extends Controller
 
         $payload = $this->requisitionService->getLatestRequisition($request->vehicle_registration);
 
-        return response()->json([
-            'success' => !empty($payload),
-            'payload' => $payload,
-            'message' => !empty($payload) ? 'Found' : 'Not Found'
-        ]);
+        return response()->json(
+            FleetMasterJsonResponse::response(
+                !empty($payload) ? 'success' : 'failure',
+                !empty($payload),
+                !empty($payload) ? 'Found' : 'Not Found',
+                $payload
+            )
+        );
     }
 
     public function getDistanceBetween($fromCity, $toCity): int
