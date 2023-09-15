@@ -135,7 +135,7 @@ class VehicleController extends Controller
 
             $vehicleInsuranceMessage = '';
             $hasValidInsurance = true;
-            if ($insuranceState->value == InsuranceState::Expired) {
+            if ($insuranceState->value == InsuranceState::Expired->value) {
                 $hasValidInsurance = false;
                 $vehicleInsuranceMessage = str_replace(
                     self::REG,
