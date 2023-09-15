@@ -9,7 +9,6 @@ use App\Helpers\StatusHelper;
 use App\Models\Common\File;
 use App\Models\VehicleManagement\Insurance;
 use App\Models\VehicleManagement\VehicleAccessory;
-use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -242,8 +241,9 @@ class VehicleDetailsService
 
     public function getCheckInsurance(mixed $registrationNumber): InsuranceState
     {
-        $insurance = Insurance::where('reg_no', '=', $registrationNumber)
-            ->where(DB::raw('period_to > sysdate'))
+        $insurance = Insurance::where(
+            'reg_no', '=', $registrationNumber
+        )->where(DB::raw('period_to > sysdate'))
             ->first();
 
         if (empty($insurance)) {
