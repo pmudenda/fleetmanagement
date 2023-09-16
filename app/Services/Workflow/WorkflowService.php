@@ -102,7 +102,7 @@ class WorkflowService
             $action,
             "Create Document",
             StatusHelper::submitted(),
-            $stepAfterSubmission,
+            $processFirstStep,
             $taskReference
         );
 
