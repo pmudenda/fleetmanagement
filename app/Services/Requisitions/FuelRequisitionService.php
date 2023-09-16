@@ -261,7 +261,7 @@ class FuelRequisitionService
     {
         $allowedStatus = [StatusHelper::active()];
 
-        $vehicle = DB::table('vm_vehicle_header header')
+        $count = DB::table('vm_vehicle_header header')
             ->where("registration_number",
                 "=", $reference)
             ->whereIn('status', $allowedStatus)
@@ -269,9 +269,11 @@ class FuelRequisitionService
                 'header.*'
             )->count();
 
-        if (empty($vehicle)) {
+        if ($count == 0) {
             throw new FuelRequisitionException(
-                ErrorMessages::getMessage("err_0004"),
+                ErrorMessages::getMessage(
+                    "err_0004"
+                ),
                 1000
             );
         }
