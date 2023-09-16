@@ -126,11 +126,13 @@ class FuelRequisitionService
             . found");
         }
 
-        $validFrom = Carbon::createFromFormat(self::DATE_FORMAT,
+        $validFrom = Carbon::createFromFormat(
+            self::DATE_FORMAT,
             $requisitionPostRequest->get("request_date")
         );
 
-        $validTo = Carbon::createFromFormat(self::DATE_FORMAT,
+        $validTo = Carbon::createFromFormat(
+            self::DATE_FORMAT,
             $requisitionPostRequest->get("next_fuel_date")
         );
 
@@ -187,7 +189,8 @@ class FuelRequisitionService
 
         if ($variance < 0) {
             throw new FuelRequisitionException(
-                str_replace("@cur_odometer",
+                str_replace(
+                    "@cur_odometer",
                     $userProvidedOdometer,
                     str_replace(self::ODOMETER,
                         $latestIssue->odometer,
@@ -262,14 +265,9 @@ class FuelRequisitionService
             ->where("registration_number",
                 "=", $reference)
             ->whereIn('status', $allowedStatus)
-            ->join('vm_chassis_details details',
-                'header.id',
-                '=',
-                'details.vehicle_header_id')
             ->select(
-                'header.*',
-                'details.registration_date'
-            )->first();
+                'header.*'
+            )->count();
 
         if (empty($vehicle)) {
             throw new FuelRequisitionException(
