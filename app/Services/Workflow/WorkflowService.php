@@ -117,7 +117,6 @@ class WorkflowService
 
         $actionPage = $stepAfterSubmission->action_page;
 
-        //'date_acted'
         WorkflowTaskHeader::create([
             'assigned_user' => $assignToUser->alt_per_no ?? $assignToUser->staff_no,
             'subject' => $short_description,

@@ -71,7 +71,7 @@ class FuelRequisitionService
 
         $registrationNumber = $requisitionPostRequest->get("vehicle_registration");
 
-        $this->verifyVehicleStatusAndFetchData($registrationNumber);
+        $this->validateVehicleStatus($registrationNumber);
 
         $latestOdometerLogsMaxOdometer = $this->getLatestOdometerLogsEntry($registrationNumber);
 
@@ -254,13 +254,14 @@ class FuelRequisitionService
      * Verifies Vehicle is Active otherwise throws exception
      * @throws FuelRequisitionException
      */
-    public function verifyVehicleStatusAndFetchData($reference): Model|Builder
+    public function validateVehicleStatus($reference): void
     {
         $allowedStatus = [StatusHelper::active()];
 
         $vehicle = DB::table('vm_vehicle_header header')
             ->where("registration_number",
                 "=", $reference)
+            ->whereIn('status', $allowedStatus)
             ->join('vm_chassis_details details',
                 'header.id',
                 '=',
@@ -270,11 +271,13 @@ class FuelRequisitionService
                 'details.registration_date'
             )->first();
 
-        if (empty($vehicle) || !in_array($vehicle->status, $allowedStatus)) {
-            throw new FuelRequisitionException(ErrorMessages::getMessage("err_0004"), 1000);
+        if (empty($vehicle)) {
+            throw new FuelRequisitionException(
+                ErrorMessages::getMessage("err_0004"),
+                1000
+            );
         }
 
-        return $vehicle;
     }
 
     /**
