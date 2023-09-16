@@ -13,6 +13,7 @@ class WorkflowLog extends Model
         'step_id',
         'actioning_officer',
         'action',
+        'activity',
         'status',
         'action_date',
         'next_step',

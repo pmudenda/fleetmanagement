@@ -24,7 +24,7 @@ class WorkflowService
 {
     const APPROVE = 3;
     const REJECT = 2;
-    const RESUBMIT = 7;
+    const RESUBMIT = 5;
     const SEND_BACK = 0;
     const PROCESS_MAIN_DATA_NOT_FOUND = "Approval Process Heading Data Not Found";
     const PROCESS_STEP_DATA_IS_MISSING = "Approval Process Current State Data Is Missing";
@@ -552,12 +552,13 @@ class WorkflowService
         )->first();
 
         $currentUser = auth()->user();
+
         $this->createLog(
             $comment,
             $currentUser,
             $action,
             $actionTaken,
-            StatusHelper::rejected(),
+            StatusHelper::sentBack(),
             $currentStep,
             $taskDetail->reference
         );

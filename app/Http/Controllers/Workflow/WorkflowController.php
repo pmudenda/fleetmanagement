@@ -210,7 +210,7 @@ class WorkflowController extends Controller
                 $message = 'Request Rejected.';
             } elseif ($userAction == 'send_back') {
                 $action = WorkflowActions::sendBack();
-                $actionTaken = "SendBack";
+                $actionTaken = "Send Back";
                 $message = 'Request Sent Back To Originator.';
             }
 
