@@ -199,9 +199,9 @@ class FuelRequisitionController extends Controller
     {
         Log::info("Running Fuel Edit Request");
 
-        $this->validateSignature($request);
+        //$this->validateSignature($request);
 
-        $requisitionNumber = $request->get('ref');
+       /* $requisitionNumber = $request->get('ref');
         $user = Auth::user();
 
         $requestDetails = null; //$this->requisitionService->getRequisitionDetail($requisitionNumber);
@@ -226,7 +226,7 @@ class FuelRequisitionController extends Controller
         $cities = $this->interCityDistanceService->getInterCityDistanceArray();
         $citiesFrom = Town::orderBy('town_name')->get();
 
-        dd("Here");
+
         return view('modules.fuelManagement.requisitions.edit')
             ->with(compact(
                 'user',
@@ -238,7 +238,8 @@ class FuelRequisitionController extends Controller
                 'supportingDocument',
                 'cities',
                 'citiesFrom'
-            ));
+            ));*/
+        return "Page Here";
     }
 
     public function latestRequisition(Request $request): JsonResponse
