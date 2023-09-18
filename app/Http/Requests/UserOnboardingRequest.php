@@ -27,7 +27,7 @@ class UserOnboardingRequest extends FormRequest
             'cost_center_code' => 'required',
             'password' => 'required',
             'staff_supervisor' => 'required',
-            'user_profile' => 'required',
+            'user_profile' => 'nullable|string|exists:App\Models\Security,id',
             'business_area' => 'required|string|max:2'
         ];
     }

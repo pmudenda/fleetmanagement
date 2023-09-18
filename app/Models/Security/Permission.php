@@ -2,13 +2,13 @@
 
 namespace App\Models\Security;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Permission extends Model
 {
-    protected $fillable = ['name', 'value', 'slug', 'guard_name', 'status', 'description'];
+    protected $fillable =
+        ['name', 'value', 'slug', 'guard_name', 'status', 'description'];
     protected $table = 'SEC_PERMISSIONS';
 
     public function roles(): BelongsToMany

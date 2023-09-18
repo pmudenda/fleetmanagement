@@ -9,6 +9,7 @@ use App\Constants\WorkflowModules;
 use App\Enums\Modules;
 use App\Enums\RequisitionTypes;
 use App\Enums\WorkflowProcessCodes;
+use App\Events\FuelRequisitionApproved;
 use App\Events\RequisitionRaised;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -26,7 +27,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
@@ -38,10 +41,10 @@ class FuelRequisitionService
     const DATE_VALID_TO = "@date_valid_to";
     const VEH_REG = "@veh_reg";
     const DATE_FORMAT = "d/m/Y";
+    const APPROVED = 'Request Approved and Submitted to the Next Authority For Approval ';
     private VehicleDetailsService $vehicleDetailsService;
     private WorkflowService $workflowService;
     private ProcurementSystemIntegrationService $procurementService;
-
     private FuelRequisitionValidationService $validationService;
 
     public function __construct(VehicleDetailsService               $vehicleDetailsService,
@@ -435,6 +438,10 @@ class FuelRequisitionService
     {
         $requisitionReferenceNumber = $request->get('reference');
         Log::info("Update Here $requisitionReferenceNumber");
+
+        //$this->req
+
+
         return response()->json([
             "success" => true,
             "message" => "Requisition Resubmitted For Approval.",
@@ -705,6 +712,97 @@ class FuelRequisitionService
             ])
             ->orderBy("created_at", "desc")
             ->first();
+    }
+
+
+    /**
+     * @param $reference
+     * @param $submittedAction
+     * @return string
+     * @throws FuelRequisitionException
+     * @throws WorkflowTaskCreationFailedException
+     */
+    public function processFuelRequisitionWorkflow($reference, $submittedAction): string
+    {
+        // Request $request
+        $requisitionDetail = $this->getRequisitionDetail($reference);
+
+        $process_code = '';
+        if ($requisitionDetail->requisition_type == RequisitionTypes::OutOfTown->value) {
+            $process_code = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
+        } elseif ($requisitionDetail->requisition_type == RequisitionTypes::Normal->value) {
+            $process_code = WorkflowProcessCodes::NormalFuelRequisition->value;
+        } elseif ($requisitionDetail->requisition_type == RequisitionTypes::Override->value) {
+            $process_code = WorkflowProcessCodes::OverrideFuelRequisition->value;
+        }
+
+        DB::beginTransaction();
+        $action = 0;
+        $actionTaken = '';
+        $message = '';
+
+        if ($submittedAction === 'approve') {
+            $action = WorkflowActions::approve();
+            $actionTaken = "Approved";
+            $message = 'Request Approved Successfully';
+        } elseif ($submittedAction === 'reject') {
+            $action = WorkflowActions::reject();
+            $actionTaken = "Rejected";
+            $message = 'Request Rejected';
+        } elseif ($submittedAction === 'send_back') {
+            $action = WorkflowActions::sendBack();
+            $actionTaken = "SendBack";
+            $message = 'Request Sent Back To Originator';
+        }
+
+        list($nextStepId, $nextUser) = $this->workflowService->invokeWorkFlow(
+            $reference,
+            $process_code,
+            $action,
+            $actionTaken,
+            $request->get('Comments')
+        );
+        if (empty($nextUser)) {
+            $nextUser = '';
+        }
+
+        $requisitionNumber = null;
+        if ($nextStepId == 100) {
+            if ($action == WorkflowActions::approve()) {
+                $requisitionNumber = $this->createStoresRequisition(
+                    $reference
+                );
+                $message = $message . ' Stores Requisition No.: ' . $requisitionNumber;
+                $this->updateStatus($reference, StatusHelper::authorised());
+            } elseif ($action == WorkflowActions::reject()) {
+                $status = StatusHelper::rejected();
+                $message = 'Request Rejected.';
+                $this->updateStatus($reference, $status);
+            }
+        } else {
+            $status = '';
+            if (strtolower(trim($request->get('Approved'))) == 'approve') {
+                $status = StatusHelper::partiallyAuthorised();
+                $message = self::APPROVED . $nextUser;
+            } elseif ($action == WorkflowActions::sendBack()) {
+                $status = StatusHelper::sentBack();
+                $message = 'Request Returned to Originator';
+            }
+            $this->updateStatus($reference, $status);
+        }
+
+        DB::commit();
+
+        if ($nextStepId == 100) {
+            FuelRequisitionApproved::dispatch($reference, Auth::user(), 'fullyAuthorised', $requisitionNumber);
+        } else {
+            if ($action == WorkflowActions::sendBack()) {
+                FuelRequisitionApproved::dispatch($reference, Auth::user(), 'sendBack', null);
+            } else {
+                FuelRequisitionApproved::dispatch($reference, Auth::user(), 'partiallyAuthorised', null);
+            }
+        }
+        return $message;
     }
 
 }

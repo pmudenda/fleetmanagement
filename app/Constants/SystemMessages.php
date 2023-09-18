@@ -35,6 +35,7 @@ class SystemMessages
     const MECHANIC_ONBOARDED = "Mechanic Onboarded Successfully";
 
     const USER_ONBOARDING_SUCCESS = 'User Defined successfully..';
+    const REQUISITION_SUCCESSFUL = "Requisition @req Generated and submitted to the next authority for Authorisation";
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

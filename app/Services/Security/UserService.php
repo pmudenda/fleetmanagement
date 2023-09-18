@@ -13,6 +13,7 @@ use App\Http\Requests\UserOnboardingRequest;
 use App\Http\Requests\UserProfileUpdate;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\User;
+use App\Services\Logging\HistoryService;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -237,7 +238,18 @@ class UserService
         DB::commit();
 
         if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
-            $user->roles()->syncWithoutDetaching((int)$request->get('user_profile'));
+            $user->roles()->sync((int)$request->get('user_profile'));
+            HistoryService::record($user->toArray(),
+                "N/A",
+                'Create',
+                'User Onboarding with profile'
+            );
+        }else{
+            HistoryService::record($user->toArray(),
+                "N/A",
+                'Create',
+                'User Onboarding with no profile'
+            );
         }
 
         return true;

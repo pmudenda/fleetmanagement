@@ -81,6 +81,7 @@ class UsersController extends Controller
     public function store(UserOnboardingRequest $request): JsonResponse
     {
         try {
+
             $this->userService->createUser($request);
             return response()->json(
                 FleetMasterJsonResponse::response(
