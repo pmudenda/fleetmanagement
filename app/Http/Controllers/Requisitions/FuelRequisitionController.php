@@ -202,7 +202,7 @@ class FuelRequisitionController extends Controller
         $requisitionNumber = $request->get('ref');
         $user = Auth::user();
 
-        $requestDetails = $this->requisitionService->getRequisitionDetail($requisitionNumber);
+        $requestDetails = null; //$this->requisitionService->getRequisitionDetail($requisitionNumber);
 
         $supportingDocument = File::where('reference_number', '=', $requisitionNumber)
             ->first();
