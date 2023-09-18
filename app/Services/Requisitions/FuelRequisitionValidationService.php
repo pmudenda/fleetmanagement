@@ -245,7 +245,7 @@ class FuelRequisitionValidationService
                     );
 
                     //cancel associated task
-                    $this->cancelAssociatedTask($latestActiveRequisition);
+                    $this->requisitionAndTaskCancellation->cancelAssociatedTask($latestActiveRequisition);
                 }
 
             } else {
@@ -290,7 +290,7 @@ class FuelRequisitionValidationService
                 );
 
                 //cancel associated task
-                $this->cancelAssociatedTask($latestActiveRequisition);
+                $this->requisitionAndTaskCancellation->cancelAssociatedTask($latestActiveRequisition);
             }
         } else {
             Log::info('Nothing found for cancellation');
@@ -412,4 +412,5 @@ class FuelRequisitionValidationService
             );
         }
     }
+
 }
