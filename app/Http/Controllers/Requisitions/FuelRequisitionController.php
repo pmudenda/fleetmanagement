@@ -195,7 +195,7 @@ class FuelRequisitionController extends Controller
             ));
     }
 
-    public function edit(Request $request)
+    public function edit(Request $request): string
     {
         Log::info("Running Fuel Edit Request");
 
