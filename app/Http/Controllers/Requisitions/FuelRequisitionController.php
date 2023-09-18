@@ -49,6 +49,10 @@ class FuelRequisitionController extends Controller
             ->with(compact('requisitions', 'requisitionType'));
     }
 
+    public function tempList(){
+        return "vehicle list page";
+    }
+
     public function validateOdometer(OdometerValidationRequest $request): JsonResponse
     {
         try {
