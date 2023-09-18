@@ -43,7 +43,7 @@ class FuelRequisitionController extends Controller
 
     public function index(): View
     {
-        $requisitions = $this->requisitionService->getMyRequisitions(null);
+        $requisitions = collect([]); $this->requisitionService->getMyRequisitions(null);
         $requisitionType = "FUEL";
         return view("modules.fuelManagement.requisitions.list")
             ->with(compact('requisitions', 'requisitionType'));
