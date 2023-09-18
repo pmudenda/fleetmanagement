@@ -208,7 +208,7 @@ class FuelRequisitionController extends Controller
             ->first();
 
         if ($requestDetails == null) {
-            abort(404);
+            //abort(404);
         }
 
 
@@ -224,6 +224,7 @@ class FuelRequisitionController extends Controller
         $cities = $this->interCityDistanceService->getInterCityDistanceArray();
         $citiesFrom = Town::orderBy('town_name')->get();
 
+        dd("Here");
         return view('modules.fuelManagement.requisitions.edit')
             ->with(compact(
                 'user',
