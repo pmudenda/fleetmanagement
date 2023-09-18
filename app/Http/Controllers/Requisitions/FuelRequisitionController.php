@@ -160,7 +160,7 @@ class FuelRequisitionController extends Controller
 
     public function show(Request $request): View
     {
-        $this->verifyRequestSignature($request);
+        $this->validateSignature($request);
 
         $requisitionNumber = $request->get('ref');
         $user = Auth::user();
@@ -197,7 +197,7 @@ class FuelRequisitionController extends Controller
 
     public function edit(Request $request): View
     {
-        $this->verifyRequestSignature($request);
+        $this->validateSignature($request);
 
         $requisitionNumber = $request->get('ref');
         $user = Auth::user();
@@ -290,7 +290,7 @@ class FuelRequisitionController extends Controller
      * @param Request $request
      * @return void
      */
-    public function verifyRequestSignature(Request $request): void
+    public function validateSignature(Request $request): void
     {
         if (!$request->hasValidSignature()) {
             abort(401);

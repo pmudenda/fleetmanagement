@@ -291,13 +291,13 @@ class FuelRequisitionService
      */
     public function getRequisitionDetail($req_no): mixed
     {
-        $results = DB::table("GEN_MATERIAL_HEADERS as mat_header")
+        $results = DB::table("GEN_MATERIAL_HEADERS mat_header")
             ->where("mat_header.req_no", $req_no)
-            ->join("GEN_MATERIAL_DETAILS as detail", "mat_header.req_no",
+            ->join("GEN_MATERIAL_DETAILS detail", "mat_header.req_no",
                 "=", "detail.req_no")
-            ->leftJoin("CONFIG_STATUSES as status", "mat_header.status",
+            ->leftJoin("CONFIG_STATUSES status", "mat_header.status",
                 "=", "status.code")
-            ->leftJoin("SEC_USERS as users", "mat_header.requested_by",
+            ->leftJoin("SEC_USERS users", "mat_header.requested_by",
                 "=", "users.staff_no")
             ->where("status.MODULE", "=", "MAT")
             ->select(
