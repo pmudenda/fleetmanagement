@@ -79,7 +79,7 @@
                                             {{$rec->quantity}}
                                         </td>
                                         <td>
-                                            {{($rec->quantity_issued ?? 0}}
+                                            {{$rec->quantity_issued ?? 0}}
                                         </td>
 
                                         <td>
