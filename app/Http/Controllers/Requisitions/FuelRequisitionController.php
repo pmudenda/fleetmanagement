@@ -197,7 +197,7 @@ class FuelRequisitionController extends Controller
 
     public function edit(Request $request)
     {
-        dd("Here 1");
+        Log::info("Running Fuel Edit Request");
 
         $this->validateSignature($request);
 
