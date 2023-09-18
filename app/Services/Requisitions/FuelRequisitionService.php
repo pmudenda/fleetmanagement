@@ -374,24 +374,46 @@ class FuelRequisitionService
     public function getMyRequisitions($staff_no): Collection
     {
         if ($staff_no) {
-            return DB::table("GEN_MATERIAL_HEADERS as mat_head")
+            return DB::table("GEN_MATERIAL_HEADERS")
                 ->leftJoin("GEN_MATERIAL_DETAILS",
-                    "mat_head.req_no",
+                    "GEN_MATERIAL_HEADERS.req_no",
                     "=", "GEN_MATERIAL_DETAILS.req_no")
                 ->leftJoin("CONFIG_STATUSES",
-                    "mat_head.status",
+                    "GEN_MATERIAL_HEADERS.status",
                     "=", "CONFIG_STATUSES.code")
                 ->leftJoin("CONFIG_REQUISITION_TYPES",
-                    "mat_head.requisition_type",
+                    "GEN_MATERIAL_HEADERS.requisition_type",
                     "=",
                     "CONFIG_REQUISITION_TYPES.code")
-                ->leftJoin("SEC_USERS", "mat_head.requested_by",
+                ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by",
                     "=",
                     "SEC_USERS.staff_no")
-                ->where("mat_head.requested_by", "=", $staff_no)
+                ->where("GEN_MATERIAL_HEADERS.requested_by", "=", $staff_no)
                 ->where("CONFIG_STATUSES.MODULE",
                     "=",
                     Modules::MATERIAL->value)
+                ->where("GEN_MATERIAL_HEADERS.IS_FUEL", "=", "Y")
+                ->select(
+                    "GEN_MATERIAL_HEADERS.*",
+                    "GEN_MATERIAL_DETAILS.quantity",
+                    "GEN_MATERIAL_DETAILS.quantity_issued",
+                    "SEC_USERS.name as originator",
+                    "CONFIG_STATUSES.name as status_name",
+                    "CONFIG_REQUISITION_TYPES.name as requisition_type")
+                ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
+                ->get();
+        } else {
+            return DB::table("GEN_MATERIAL_HEADERS as mat_head")
+                ->leftJoin("GEN_MATERIAL_DETAILS", "mat_head.req_no",
+                    "=", "GEN_MATERIAL_DETAILS.req_no")
+                ->leftJoin("CONFIG_STATUSES", "mat_head.status",
+                    "=", "CONFIG_STATUSES.code")
+                ->leftJoin("CONFIG_REQUISITION_TYPES",
+                    "mat_head.requisition_type",
+                    "=", "CONFIG_REQUISITION_TYPES.code")
+                ->leftJoin("SEC_USERS", "mat_head.requested_by",
+                    "=", "SEC_USERS.staff_no")
+                ->where("CONFIG_STATUSES.MODULE", "=", Modules::MATERIAL->value)
                 ->where("mat_head.IS_FUEL", "=", "Y")
                 ->select(
                     "mat_head.*",
@@ -400,28 +422,6 @@ class FuelRequisitionService
                     "SEC_USERS.name as originator",
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
-                ->orderBy("mat_head.created_at", "desc")
-                ->get();
-        } else {
-            return DB::table("GEN_MATERIAL_HEADERS mat_head")
-                ->leftJoin("GEN_MATERIAL_DETAILS det", "mat_head.req_no",
-                    "=", "det.req_no")
-                ->leftJoin("CONFIG_STATUSES status", "mat_head.status",
-                    "=", "status.code")
-                ->leftJoin("CONFIG_REQUISITION_TYPES req_types",
-                    "mat_head.requisition_type",
-                    "=", "req_types.code")
-                ->leftJoin("SEC_USERS users", "mat_head.requested_by",
-                    "=", "users.staff_no")
-                ->where("status.MODULE", "=", Modules::MATERIAL->value)
-                ->where("mat_head.IS_FUEL", "=", "Y")
-                ->select(
-                    "mat_head.*",
-                    "det.quantity",
-                    "det.quantity_issued",
-                    "users.name as originator",
-                    "status.name as status_name",
-                    "req_types.name as requisition_type")
                 ->orderBy("mat_head.created_at", "desc")
                 ->get();
         }

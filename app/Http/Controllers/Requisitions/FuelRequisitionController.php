@@ -43,15 +43,12 @@ class FuelRequisitionController extends Controller
 
     public function index(): View
     {
-        $requisitions = collect([]); //$this->requisitionService->getMyRequisitions(null);
+        $requisitions = $this->requisitionService->getMyRequisitions(null);
         $requisitionType = "FUEL";
         return view("modules.fuelManagement.requisitions.list")
             ->with(compact('requisitions', 'requisitionType'));
     }
 
-    public function tempList(){
-        return "vehicle list page";
-    }
 
     public function validateOdometer(OdometerValidationRequest $request): JsonResponse
     {
