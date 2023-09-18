@@ -268,7 +268,7 @@ class FuelRequisitionController extends Controller
     public function getDistance(Request $request): JsonResponse
     {
         try {
-            $result = $this->kilometerService->getDistanceBetween(
+            $result = $this->getDistanceBetween(
                 $request->input('departure'),
                 $request->input('destination')
             );

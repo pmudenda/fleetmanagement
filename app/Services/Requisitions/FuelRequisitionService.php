@@ -27,7 +27,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -46,16 +45,19 @@ class FuelRequisitionService
     private WorkflowService $workflowService;
     private ProcurementSystemIntegrationService $procurementService;
     private FuelRequisitionValidationService $validationService;
+    private FuelRequisitionService $fuelRequisitionService;
 
     public function __construct(VehicleDetailsService               $vehicleDetailsService,
                                 WorkflowService                     $workflowService,
                                 ProcurementSystemIntegrationService $procurementService,
-                                FuelRequisitionValidationService    $validationService)
+                                FuelRequisitionValidationService    $validationService,
+                                FuelRequisitionService              $fuelRequisitionService)
     {
         $this->vehicleDetailsService = $vehicleDetailsService;
         $this->workflowService = $workflowService;
         $this->procurementService = $procurementService;
         $this->validationService = $validationService;
+        $this->fuelRequisitionService = $fuelRequisitionService;
     }
 
     /**
@@ -351,7 +353,7 @@ class FuelRequisitionService
 
     public function getLatestRequisition($vehicle_registration)
     {
-        $queryResult = DB::table("GEN_MATERIAL_HEADERS mat_header")
+        $queryResult = DB::table("GEN_MATERIAL_HEADERS as mat_header")
             ->leftJoin("CONFIG_STATUSES as status",
                 "mat_header.status", "=",
                 "status.code")
@@ -372,55 +374,55 @@ class FuelRequisitionService
     public function getMyRequisitions($staff_no): Collection
     {
         if ($staff_no) {
-            return DB::table("GEN_MATERIAL_HEADERS")
+            return DB::table("GEN_MATERIAL_HEADERS as mat_head")
                 ->leftJoin("GEN_MATERIAL_DETAILS",
-                    "GEN_MATERIAL_HEADERS.req_no",
+                    "mat_head.req_no",
                     "=", "GEN_MATERIAL_DETAILS.req_no")
                 ->leftJoin("CONFIG_STATUSES",
-                    "GEN_MATERIAL_HEADERS.status",
+                    "mat_head.status",
                     "=", "CONFIG_STATUSES.code")
                 ->leftJoin("CONFIG_REQUISITION_TYPES",
-                    "GEN_MATERIAL_HEADERS.requisition_type",
+                    "mat_head.requisition_type",
                     "=",
                     "CONFIG_REQUISITION_TYPES.code")
-                ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by",
+                ->leftJoin("SEC_USERS", "mat_head.requested_by",
                     "=",
                     "SEC_USERS.staff_no")
-                ->where("GEN_MATERIAL_HEADERS.requested_by", "=", $staff_no)
+                ->where("mat_head.requested_by", "=", $staff_no)
                 ->where("CONFIG_STATUSES.MODULE",
                     "=",
                     Modules::MATERIAL->value)
-                ->where("GEN_MATERIAL_HEADERS.IS_FUEL", "=", "Y")
+                ->where("mat_head.IS_FUEL", "=", "Y")
                 ->select(
-                    "GEN_MATERIAL_HEADERS.*",
+                    "mat_head.*",
                     "GEN_MATERIAL_DETAILS.quantity",
                     "GEN_MATERIAL_DETAILS.quantity_issued",
                     "SEC_USERS.name as originator",
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
-                ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
+                ->orderBy("mat_head.created_at", "desc")
                 ->get();
         } else {
-            return DB::table("GEN_MATERIAL_HEADERS")
-                ->leftJoin("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no",
+            return DB::table("GEN_MATERIAL_HEADERS as mat_head")
+                ->leftJoin("GEN_MATERIAL_DETAILS", "mat_head.req_no",
                     "=", "GEN_MATERIAL_DETAILS.req_no")
-                ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status",
+                ->leftJoin("CONFIG_STATUSES", "mat_head.status",
                     "=", "CONFIG_STATUSES.code")
                 ->leftJoin("CONFIG_REQUISITION_TYPES",
-                    "GEN_MATERIAL_HEADERS.requisition_type",
+                    "mat_head.requisition_type",
                     "=", "CONFIG_REQUISITION_TYPES.code")
-                ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by",
+                ->leftJoin("SEC_USERS", "mat_head.requested_by",
                     "=", "SEC_USERS.staff_no")
                 ->where("CONFIG_STATUSES.MODULE", "=", Modules::MATERIAL->value)
-                ->where("GEN_MATERIAL_HEADERS.IS_FUEL", "=", "Y")
+                ->where("mat_head.IS_FUEL", "=", "Y")
                 ->select(
-                    "GEN_MATERIAL_HEADERS.*",
+                    "mat_head.*",
                     "GEN_MATERIAL_DETAILS.quantity",
                     "GEN_MATERIAL_DETAILS.quantity_issued",
                     "SEC_USERS.name as originator",
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
-                ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
+                ->orderBy("mat_head.created_at", "desc")
                 ->get();
         }
 
@@ -434,13 +436,34 @@ class FuelRequisitionService
         DB::commit();
     }
 
+    /**
+     * @throws WorkflowTaskCreationFailedException
+     * @throws FuelRequisitionException
+     */
     public function processRequisitionUpdate(FuelRequisitionUpdate $request): JsonResponse
     {
         $requisitionReferenceNumber = $request->get('reference');
+        $remarks = $request->get('Comments');
+        $submittedAction = $request->get('Approved');
+        $justification = $request->get('justification');
+        $materialQuantity = $request->get('material_quantity');
+
         Log::info("Update Here $requisitionReferenceNumber");
 
-        //$this->req
+        DB::beginTransaction();
+        MaterialHeader::where("req_no", $requisitionReferenceNumber)
+            ->update(["comments" => $justification,]);
 
+        MaterialDetail::where("req_no", $requisitionReferenceNumber)
+            ->update(["quantity" => $materialQuantity]);
+
+        $this->fuelRequisitionService->processFuelRequisitionWorkflow(
+            $requisitionReferenceNumber,
+            $submittedAction,
+            $remarks
+        );
+
+        DB::commit();
 
         return response()->json([
             "success" => true,
@@ -718,11 +741,12 @@ class FuelRequisitionService
     /**
      * @param $reference
      * @param $submittedAction
+     * @param string $remarks
      * @return string
      * @throws FuelRequisitionException
      * @throws WorkflowTaskCreationFailedException
      */
-    public function processFuelRequisitionWorkflow($reference, $submittedAction): string
+    public function processFuelRequisitionWorkflow($reference, $submittedAction, string $remarks): string
     {
         // Request $request
         $requisitionDetail = $this->getRequisitionDetail($reference);
@@ -741,17 +765,21 @@ class FuelRequisitionService
         $actionTaken = '';
         $message = '';
 
-        if ($submittedAction === 'approve') {
+        if ($submittedAction === WorkflowActions::approve) {
             $action = WorkflowActions::approve();
             $actionTaken = "Approved";
             $message = 'Request Approved Successfully';
-        } elseif ($submittedAction === 'reject') {
+        } elseif ($submittedAction === WorkflowActions::reject) {
             $action = WorkflowActions::reject();
             $actionTaken = "Rejected";
             $message = 'Request Rejected';
-        } elseif ($submittedAction === 'send_back') {
+        } elseif ($submittedAction === WorkflowActions::sendBack) {
             $action = WorkflowActions::sendBack();
             $actionTaken = "SendBack";
+            $message = 'Request Sent Back To Originator';
+        }elseif ($submittedAction === WorkflowActions::resubmit) {
+            $action = WorkflowActions::resubmit();
+            $actionTaken = "Resubmit";
             $message = 'Request Sent Back To Originator';
         }
 
@@ -760,7 +788,7 @@ class FuelRequisitionService
             $process_code,
             $action,
             $actionTaken,
-            $request->get('Comments')
+            $remarks
         );
         if (empty($nextUser)) {
             $nextUser = '';
@@ -781,7 +809,7 @@ class FuelRequisitionService
             }
         } else {
             $status = '';
-            if (strtolower(trim($request->get('Approved'))) == 'approve') {
+            if (strtolower($submittedAction) == WorkflowActions::approve) {
                 $status = StatusHelper::partiallyAuthorised();
                 $message = self::APPROVED . $nextUser;
             } elseif ($action == WorkflowActions::sendBack()) {

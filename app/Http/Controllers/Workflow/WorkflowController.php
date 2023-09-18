@@ -3,17 +3,11 @@
 namespace App\Http\Controllers\Workflow;
 
 use App\Constants\ErrorMessages;
-use App\Constants\WorkflowActions;
-use App\Enums\RequisitionItemTypes;
-use App\Enums\RequisitionTypes;
-use App\Enums\WorkflowProcessCodes;
-use App\Events\FuelRequisitionApproved;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\MaterialRequisitionException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\ServiceRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
-use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Workflow\WorkflowTaskHeader;
@@ -24,8 +18,6 @@ use App\Services\Workflow\WorkflowService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
@@ -69,8 +61,13 @@ class WorkflowController extends Controller
         try {
             $reference = $request->get('reference');
             $submittedAction = $request->get('Approved');
+            $remarks = $request->get('Comments');
 
-            $message = $this->fuelRequisitionService->processFuelRequisitionWorkflow($reference, $submittedAction);
+            $message = $this->fuelRequisitionService->processFuelRequisitionWorkflow(
+                $reference,
+                $submittedAction,
+                $remarks
+            );
             return response()->json(
                 FleetMasterJsonResponse::response(
                     'success',

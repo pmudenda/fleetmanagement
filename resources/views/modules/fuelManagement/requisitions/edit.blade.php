@@ -464,7 +464,10 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="next_fuel_date"
-                                                                   value="{{date('Y-m-d',
+                                                                   value="{{
+                                                                    Carbon::parse($requestDetails->valid_date_to)
+                                                                   ->format('d/m/Y')}}"
+                                                                   data-value="{{date('Y-m-d',
                                                                    strtotime($requestDetails->valid_date_to))}}"
                                                                    name="next_fuel_date"
                                                                    readonly required>
@@ -507,7 +510,6 @@
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <textarea type="text"
-                                                                  readonly
                                                                   id="justification"
                                                                   name="justification"
                                                                   style="height: 129px;"

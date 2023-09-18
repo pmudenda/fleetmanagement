@@ -3,6 +3,11 @@
 namespace App\Constants;
 class WorkflowActions
 {
+    const approve = 'approve';
+    const reject = 'reject';
+    const sendBack = 'send_back';
+    const resubmit = ;
+
     public static function submit(): int
     {
         return 1;
@@ -21,5 +26,10 @@ class WorkflowActions
     public static function sendBack(): int
     {
         return 0;
+    }
+
+    public static function resubmit(): int
+    {
+        return 5;
     }
 }
