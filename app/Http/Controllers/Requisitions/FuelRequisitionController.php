@@ -296,7 +296,7 @@ class FuelRequisitionController extends Controller
     public function validateSignature(Request $request): void
     {
         if (!$request->hasValidSignature()) {
-            abort(401);
+            //abort(401);
         }
     }
 }
