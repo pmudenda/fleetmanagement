@@ -225,9 +225,10 @@ class VehicleController extends Controller
         }
     }
 
-    public function list(Request $request): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function list(Request $request): string
     {
-        Log::info('Has Get Records' . $request->has('getRecords'));
+        return "vehicle list page";
+        /*Log::info('Has Get Records' . $request->has('getRecords'));
         if ($request->has('getRecords')) {
             Log::debug("Get Records Present");
             $vehicleList = $this->vehicleDetailsService->getFilteredVehiclesInformation($request);
@@ -244,7 +245,7 @@ class VehicleController extends Controller
         return view('modules.vehicleManagement.vehicleList')
             ->with(compact('vehicleList',
                     'statusList')
-            );
+            );*/
     }
 
     public function record(Request $request): JsonResponse

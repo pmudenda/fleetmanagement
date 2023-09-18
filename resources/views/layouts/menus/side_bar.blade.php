@@ -164,7 +164,7 @@
                                         ])
                                             <li class="nav-item">
                                                 <a class="nav-link"
-                                                   href="{{ URL::signedRoute('new.fuel.requisition') }}">
+                                                   href="{{ URL::signedRoute('list.fuel.requisition') }}">
                                                     <i class="fas fa-list nav-icon"></i>
                                                     <p>List</p>
                                                 </a>
