@@ -777,10 +777,10 @@ class FuelRequisitionService
             $action = WorkflowActions::sendBack();
             $actionTaken = "SendBack";
             $message = 'Request Sent Back To Originator';
-        }elseif ($submittedAction === WorkflowActions::resubmit) {
-            $action = WorkflowActions::resubmit();
+        } elseif ($submittedAction === WorkflowActions::resubmit) {
+            $action = WorkflowActions::resubmitted();
             $actionTaken = "Resubmit";
-            $message = 'Request Sent Back To Originator';
+            $message = 'Task Resubmitted To Previous Authority For Approval';
         }
 
         list($nextStepId, $nextUser) = $this->workflowService->invokeWorkFlow(
@@ -815,6 +815,8 @@ class FuelRequisitionService
             } elseif ($action == WorkflowActions::sendBack()) {
                 $status = StatusHelper::sentBack();
                 $message = 'Request Returned to Originator';
+            }elseif ($action == WorkflowActions::resubmitted()) {
+                $status = StatusHelper::submitted();
             }
             $this->updateStatus($reference, $status);
         }

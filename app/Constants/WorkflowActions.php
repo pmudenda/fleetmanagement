@@ -28,7 +28,7 @@ class WorkflowActions
         return 0;
     }
 
-    public static function resubmit(): int
+    public static function resubmitted(): int
     {
         return 5;
     }
