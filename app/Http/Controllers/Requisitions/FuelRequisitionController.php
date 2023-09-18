@@ -195,9 +195,10 @@ class FuelRequisitionController extends Controller
             ));
     }
 
-    public function edit(Request $request): View
+    public function edit(Request $request)
     {
-        dd("Here");
+        dd("Here 1");
+
         $this->validateSignature($request);
 
         $requisitionNumber = $request->get('ref');
