@@ -40,9 +40,9 @@ class HomeController extends Controller
         $user = auth()->user();
         $approvalTasks = $this->workflowService->getMyApprovalTasks($user->staff_no);
         $vehicleData = (new VehicleDetailsService)->getAllVehiclesByStatus(['01', '02', '04', '05', '09']);
-        $mechanics = Mechanic::get()->count();
+        $mechanics = Mechanic::count();
         $activeUsers = User::where('con_st_code', '=', StatusHelper::active())->count();
-        $activeDrivers = Driver::get()->count();
+        $activeDrivers = Driver::count();
         return view('dashboard.home')
             ->with(compact('approvalTasks',
                 'vehicleData', 'mechanics', 'activeUsers', 'activeDrivers'));
