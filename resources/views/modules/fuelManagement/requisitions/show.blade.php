@@ -681,7 +681,7 @@
                     @endif
                 </form>
 
-                <input type="hidden" value="{{ route('workflow.approve') }}" id="approvalUrl">
+                <input type="hidden" value="{{ route('workflow.fuel.approve') }}" id="approvalUrl">
                 <input type="hidden" value="{{ $requestDetails->req_no }}" id="taskReference">
             </div>
         </div>

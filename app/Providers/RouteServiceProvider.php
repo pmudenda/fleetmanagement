@@ -55,7 +55,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/data.php'));
 
             Route::middleware('web')
-                ->group(base_path('routes/fuelmanagement.php'));
+                ->group(base_path('routes/fuel.php'));
         });
     }
 

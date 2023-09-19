@@ -691,8 +691,8 @@
                 </form>
 
                 <input type="hidden"
-                       value="{{route('update.fuel.requisition')}}"
-                       data-url="{{ route('workflow.approve') }}"
+                       value="{{route('resubmit.fuel.requisition')}}"
+                       data-url="{{ route('workflow.fuel.approve') }}"
                        id="approvalUrl">
                 <input type="hidden" value="{{ $requestDetails->req_no }}" id="taskReference">
             </div>

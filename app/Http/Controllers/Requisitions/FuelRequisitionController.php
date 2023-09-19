@@ -16,11 +16,9 @@ use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Common\File;
 use App\Models\Common\OrganizationalUnit;
 use App\Models\RequisitionType;
-use App\Models\Town;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\Requisitions\FuelRequisitionService;
-use App\Services\Requisitions\InterCityDistanceService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -32,13 +30,10 @@ use Mockery\CountValidator\Exception;
 class FuelRequisitionController extends Controller
 {
     private FuelRequisitionService $requisitionService;
-    private InterCityDistanceService $interCityDistanceService;
 
-    public function __construct(FuelRequisitionService   $requisitionService,
-                                InterCityDistanceService $interCityDistanceService)
+    public function __construct(FuelRequisitionService   $requisitionService)
     {
         $this->requisitionService = $requisitionService;
-        $this->interCityDistanceService = $interCityDistanceService;
     }
 
     public function index(): View
@@ -121,7 +116,7 @@ class FuelRequisitionController extends Controller
             );
     }
 
-    public function store(FuelRequisitionPostRequest $request): JsonResponse
+    public function submitRequisition(FuelRequisitionPostRequest $request): JsonResponse
     {
         try {
             return $this->requisitionService->processRequest($request);
@@ -267,7 +262,7 @@ class FuelRequisitionController extends Controller
 
     public function getDistanceBetween($fromCity, $toCity): int
     {
-        return $this->interCityDistanceService->getDistance($fromCity, $toCity);
+        return 0; //return $this->interCityDistanceService->getDistance($fromCity, $toCity);
     }
 
     public function getDistance(Request $request): JsonResponse
@@ -298,7 +293,7 @@ class FuelRequisitionController extends Controller
     public function validateSignature(Request $request): void
     {
         if (!$request->hasValidSignature()) {
-            //abort(401);
+            abort(401);
         }
     }
 }

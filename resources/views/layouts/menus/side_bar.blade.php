@@ -150,7 +150,7 @@
                                         @can(config('rights.requisition_fuel'))
                                             <li class="nav-item">
                                                 <a class="nav-link"
-                                                   href="{{ URL::signedRoute('new.fuel.requisition') }}">
+                                                   href="{{ route('new.fuel.requisition') }}">
                                                     <i class="fas fa-plus nav-icon"></i>
                                                     <p>New</p>
                                                 </a>
