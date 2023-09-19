@@ -33,11 +33,11 @@ class PermissionsServiceProvider extends ServiceProvider
             Cache::flush('spatie.permission.cache');
             Cache::flush('spatie.role.cache');
 
-            Permission::get()->map(function ($permission) {
+            /*Permission::get()->map(function ($permission) {
                 Gate::define(trim(strtolower($permission->slug)), function ($user) use ($permission) {
                     return $user->hasPermissionTo($permission);
                 });
-            });
+            });*/
         } catch (\Exception $e) {
             /*report($e);
             return false;*/
