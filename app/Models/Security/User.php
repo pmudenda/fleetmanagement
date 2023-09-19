@@ -11,12 +11,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasPermissions;
-   /* use HasRoles;*/
+    use HasRoles;
 
     protected $table = 'SEC_USERS';
 
