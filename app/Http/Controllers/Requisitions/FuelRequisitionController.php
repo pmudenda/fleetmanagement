@@ -105,8 +105,8 @@ class FuelRequisitionController extends Controller
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
 
-        $cities = $this->interCityDistanceService->getInterCityDistanceArray();
-        $citiesFrom = Town::orderBy('town_name')->get();
+        $cities = [];// $this->interCityDistanceService->getInterCityDistanceArray();
+        $citiesFrom = null;//Town::orderBy('town_name')->get();
 
         return view('modules.fuelManagement.requisitions.create')
             ->with(
