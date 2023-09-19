@@ -13,11 +13,11 @@ return new class extends Migration {
         Schema::create('gen_vehicle_status_history', function (Blueprint $table) {
             $table->id();
             $table->string('created_by',10);
-            $table->string('updated_by',10);
-            $table->string('code',6);
-            $table->string('reference',20);
-            $table->string('page', 2);
-            $table->string('description', 200);
+            $table->string('updated_by',10)->nullable();
+            $table->string('code',6)->nullable();
+            $table->string('reference',20)->nullable();
+            $table->string('page', 2)->default('1');
+            $table->string('description', 200)->nullable();
             $table->string('reg_no',10);
             $table->string('status', 4);
             $table->timestamps();
