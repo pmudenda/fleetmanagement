@@ -44,7 +44,7 @@ class FuelRequisitionController extends Controller
 
     public function index(): View
     {
-        $requisitions = [];// $this->requisitionService->getMyRequisitions(null);
+        $requisitions = $this->requisitionService->getMyRequisitions(null);
         $requisitionType = "FUEL";
         return view("modules.fuelManagement.requisitions.list")
             ->with(compact('requisitions', 'requisitionType'));
@@ -89,8 +89,10 @@ class FuelRequisitionController extends Controller
         }
     }
 
-    public function create(): View|Application
+    public function create(Request $request): View|Application
     {
+        $this->validateSignature($request);
+
         $user = Auth::user();
 
         $organizationalUnit = OrganizationalUnit::where('cc_code', $user->cc_code)
@@ -173,7 +175,6 @@ class FuelRequisitionController extends Controller
         if ($requestDetails == null) {
             abort(404);
         }
-
 
         $workflowTask = WorkflowTaskHeader::where('reference', '=', $requisitionNumber)->first();
 
@@ -282,10 +283,13 @@ class FuelRequisitionController extends Controller
             ));
         } catch (Exception $e) {
             Log::error($e);
-            return response()->json(array(
-                'success' => false,
-                'data' => $e->getMessage()
-            ));
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    '',
+                    false,
+                    $e->getMessage()
+                )
+            );
         }
 
     }
