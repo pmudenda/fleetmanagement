@@ -14,14 +14,14 @@ class RightsServiceProvider extends ServiceProvider
 
             $permissions = Permission::all();
 
-            foreach ($permissions as $permission) {
+            /*foreach ($permissions as $permission) {
                 config(['rights.' . trim(strtolower($permission->slug)) => trim(strtolower($permission->slug))]);
-            }
+            }*/
 
-            $roles = Role::all();
+            /*$roles = Role::all();
             foreach ($roles as $role) {
                 config(['roles.' . $role->slug => $role->slug]);
-            }
+            }*/
         } catch (\Exception $e) {
             //ignored
         }
