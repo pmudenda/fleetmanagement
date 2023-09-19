@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Requisitions;
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Enums\Modules;
+use App\Exceptions\DataNotFoundException;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
@@ -16,9 +17,10 @@ use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Common\File;
 use App\Models\Common\OrganizationalUnit;
 use App\Models\RequisitionType;
-use App\Models\VehicleManagement\VehicleHeader;
+use App\Models\Town;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\Requisitions\FuelRequisitionService;
+use App\Services\VehicleManagement\OdometerValidationService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -31,14 +33,18 @@ class FuelRequisitionController extends Controller
 {
     private FuelRequisitionService $requisitionService;
 
-    public function __construct(FuelRequisitionService   $requisitionService)
+    private readonly OdometerValidationService $odometerValidationService;
+
+    public function __construct(FuelRequisitionService    $requisitionService,
+                                OdometerValidationService $odometerValidationService)
     {
         $this->requisitionService = $requisitionService;
+        $this->odometerValidationService = $odometerValidationService;
     }
 
     public function index(): View
     {
-        $requisitions = [] ;// $this->requisitionService->getMyRequisitions(null);
+        $requisitions = [];// $this->requisitionService->getMyRequisitions(null);
         $requisitionType = "FUEL";
         return view("modules.fuelManagement.requisitions.list")
             ->with(compact('requisitions', 'requisitionType'));
@@ -48,39 +54,37 @@ class FuelRequisitionController extends Controller
     public function validateOdometer(OdometerValidationRequest $request): JsonResponse
     {
         try {
-            $vehicle = VehicleHeader::where('registration_number',
-                '=',
-                trim($request->get('vehicle_registration'))
-            )->first();
-
-            if (empty($vehicle)) {
-                return response()->json([
-                    'success' => false,
-                    'message' => "Vehicle not found"
-                ]);
-            }
-
+            $vehicleRegistration = trim($request->get('vehicle_registration'));
             $userProvidedOdometer = $request->get('odometer_reading');
 
-            Log::debug("Validating Odometer Usr $userProvidedOdometer against Veh $vehicle->mileage");
+            $valid = $this->odometerValidationService->validate(
+                $vehicleRegistration,
+                $userProvidedOdometer);
 
-            $valid = (int)$userProvidedOdometer >= $vehicle->mileage;
-            return response()->json([
-                'success' => $valid,
-                'valid' => $valid,
-                'message' => $valid ?
-                    SystemMessages::ODOMETER_VALIDATED_SUCCESSFULLY
-                    : ErrorMessages::getMessage("err_0018"),
-                'requestPayload' => $request->all()
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    '',
+                    $valid,
+                    $valid ?
+                        SystemMessages::ODOMETER_VALIDATED_SUCCESSFULLY
+                        : ErrorMessages::getMessage("err_0018")
+
+                )
+            );
         } catch (\Exception $e) {
             Log::error($e);
+            $message = ErrorMessages::getMessage("err_0005");
+
+            if ($e instanceof DataNotFoundException) {
+                $message = $e->getMessage();
+            }
+
             return response()->json(
-                [
-                    'success' => false,
-                    'valid' => null,
-                    'message' => ErrorMessages::getMessage("err_0005")
-                ]
+                FleetMasterJsonResponse::response(
+                    '',
+                    false,
+                    $message
+                )
             );
         }
     }
@@ -100,8 +104,8 @@ class FuelRequisitionController extends Controller
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
 
-        $cities = [];// $this->interCityDistanceService->getInterCityDistanceArray();
-        $citiesFrom = null;//Town::orderBy('town_name')->get();
+        $cities = $this->interCityDistanceService->getInterCityDistanceArray();
+        $citiesFrom = Town::orderBy('town_name')->get();
 
         return view('modules.fuelManagement.requisitions.create')
             ->with(
@@ -196,44 +200,44 @@ class FuelRequisitionController extends Controller
         Log::info("Running Fuel Edit Request");
 
         //$this->validateSignature($request);
-       /* $requisitionNumber = $request->get('ref');
-        $user = Auth::user();
+        /* $requisitionNumber = $request->get('ref');
+         $user = Auth::user();
 
-        $requestDetails = null; //$this->requisitionService->getRequisitionDetail($requisitionNumber);
+         $requestDetails = null; //$this->requisitionService->getRequisitionDetail($requisitionNumber);
 
-        $supportingDocument = File::where('reference_number', '=', $requisitionNumber)
-            ->first();
+         $supportingDocument = File::where('reference_number', '=', $requisitionNumber)
+             ->first();
 
-        if ($requestDetails == null) {
-            //abort(404);
-        }
-
-
-        $workflowTask = WorkflowTaskHeader::where('reference', '=', $requisitionNumber)->first();
-
-        $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
-
-        $daysToNextRefuel = config('settings.fuel_requisition_validity');
-
-        $approvalHistory = [];
+         if ($requestDetails == null) {
+             //abort(404);
+         }
 
 
-        $cities = $this->interCityDistanceService->getInterCityDistanceArray();
-        $citiesFrom = Town::orderBy('town_name')->get();
+         $workflowTask = WorkflowTaskHeader::where('reference', '=', $requisitionNumber)->first();
+
+         $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
+
+         $daysToNextRefuel = config('settings.fuel_requisition_validity');
+
+         $approvalHistory = [];
 
 
-        return view('modules.fuelManagement.requisitions.edit')
-            ->with(compact(
-                'user',
-                'requisitionTypes',
-                'requestDetails',
-                'daysToNextRefuel',
-                'approvalHistory',
-                'workflowTask',
-                'supportingDocument',
-                'cities',
-                'citiesFrom'
-            ));*/
+         $cities = $this->interCityDistanceService->getInterCityDistanceArray();
+         $citiesFrom = Town::orderBy('town_name')->get();
+
+
+         return view('modules.fuelManagement.requisitions.edit')
+             ->with(compact(
+                 'user',
+                 'requisitionTypes',
+                 'requestDetails',
+                 'daysToNextRefuel',
+                 'approvalHistory',
+                 'workflowTask',
+                 'supportingDocument',
+                 'cities',
+                 'citiesFrom'
+             ));*/
 
         return "Page Here";
     }
@@ -262,7 +266,7 @@ class FuelRequisitionController extends Controller
 
     public function getDistanceBetween($fromCity, $toCity): int
     {
-        return 0; //return $this->interCityDistanceService->getDistance($fromCity, $toCity);
+        return $this->interCityDistanceService->getDistance($fromCity, $toCity);
     }
 
     public function getDistance(Request $request): JsonResponse
