@@ -1,16 +1,12 @@
 <?php
 
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
-use App\Http\Controllers\Configurations\ChargeOutRateController;
-use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\Documents\DocumentController;
 use App\Http\Controllers\DriverManagement\DriverController;
 use App\Http\Controllers\eTollCardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\RemindersController;
-use App\Http\Controllers\ReportsController;
-use App\Http\Controllers\Requisitions\FuelRequisitionController;
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\UserManagement\UsersController;
@@ -267,44 +263,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'security'], function () {
 
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'system-configuration'], function () {
 
-    /** GENERAL TABLES */
-    Route::group(['prefix' => 'general'], function () {
-        Route::get('/open-view', [GeneralTablesController::class, "openFormTypeView"])
-            ->name('configuration.general.table');
-        Route::get('/types', [GeneralTablesController::class, "show"]);
-        Route::post('/general_tables', [GeneralTablesController::class, "save"])
-            ->name('save.data');
-        Route::post('/editRecord', [GeneralTablesController::class, "editRecord"])
-            ->name('edit.data');
-        Route::post('/deleteRecord', [GeneralTablesController::class, "deleteRecord"])
-            ->name('delete.data');
-    });
-
-    Route::get('vehicle/make', function () {
-        return view('modules.configurations.vehicle.brands');
-    })->name('vehicle.make');
-
-    Route::get('vehicle/models', function () {
-        return view('modules.configurations.vehicle.models');
-    })->name('vehicle.models');
-
-
-    Route::get('vehicle/body-types', function () {
-        return view('modules.configurations.vehicle.types');
-    })->name('vehicle.body.types');
-
-    Route::get('vehicle/fuel-allocation', function () {
-        return view('modules.configurations.fuelallocation');
-    })->name('vehicle.fuel.allocation');
-
-    Route::get('vehicle/charge-out-rate', [ChargeOutRateController::class, 'create'])
-        ->name('charge.out.rate');
-
-    Route::post('save/charge-outrate', [ChargeOutRateController::class, 'store'])
-        ->name('save.charge.out.rate');
-});
 
 Route::group(['middleware' => 'auth', 'prefix' => 'reminders'], function () {
     Route::post('list', [RemindersController::class, 'index'])->name('reminder.list');
@@ -322,16 +281,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'reminders'], function () {
         ->name('reminder.service.save');
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'reports'], function () {
 
-    Route::get('fuel/cost', [ReportsController::class, 'fuelCost'])
-        ->name('reports.fuel.requisitions');
-
-    Route::get('data/fuel/cost', [ReportsController::class, 'getFuelCost'])->name('reports.fuel.data');
-
-    Route::get('vehicle/status', [ReportsController::class, 'vehicleByStatus'])
-        ->name('reports.vehicle.status');
-});
 
 
 
