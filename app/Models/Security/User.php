@@ -3,7 +3,6 @@
 namespace App\Models\Security;
 
 use App\Models\MaterialHeader;
-use App\Models\Security\Permissions\HasPermissionsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,11 +10,17 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    use HasPermissionsTrait;
+
+    //use HasPermissionsTrait;
+
+    use HasPermissions;
+    use HasRoles;
 
     protected $table = 'SEC_USERS';
 
