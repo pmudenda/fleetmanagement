@@ -4,7 +4,7 @@ namespace App\Services\Requisitions;
 
 use App\Models\DistanceChart;
 
-class InterCityDistanceService
+class DistanceChartService
 {
     /**
      * @return array
