@@ -556,13 +556,18 @@ class MaintenanceController extends Controller
     public function getFuelLevels(): JsonResponse
     {
         return response()->json(
-            FleetMasterJsonResponse::response(
-                'success',
-                true,
-                null,
-                GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
+            [
+                'success' => true,
+                'payload' => GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
                     ->get()
-            )
+            ]
+        /*FleetMasterJsonResponse::response(
+            'success',
+            true,
+            null,
+            GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
+                ->get()
+        )*/
         );
     }
 
