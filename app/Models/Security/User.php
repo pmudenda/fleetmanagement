@@ -16,11 +16,8 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
-    //use HasPermissionsTrait;
-
     use HasPermissions;
-    use HasRoles;
+   /* use HasRoles;*/
 
     protected $table = 'SEC_USERS';
 
