@@ -220,7 +220,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'workshop-management'], functi
 
     });
 
-    /*Route::get('/bookings/list', [BookingController::class, 'list'])->name('list.booking');*/
     Route::get('/workshop/booking', [BookingController::class, 'create'])->name('new.booking');
     Route::get('/workshop/requisitions', [WorkshopController::class, 'requisitions'])
         ->name('list.workshop.requisition');
@@ -308,6 +307,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'system-configuration'], funct
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'requisitions'], function () {
+    // new fuel requisition
     Route::get('/fuel', [FuelRequisitionController::class, 'create'])
         ->name('new.fuel.requisition');
 
@@ -323,6 +323,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'requisitions'], function () {
     Route::post('/fuel/update', [FuelRequisitionController::class, 'update'])
         ->name('update.fuel.requisition');
 
+    // list
     Route::get('/fuel-requisitions/list', [FuelRequisitionController::class, 'index'])
         ->name('list.fuel.requisition');
 
