@@ -306,41 +306,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'system-configuration'], funct
         ->name('save.charge.out.rate');
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'requisitions'], function () {
-    // new fuel requisition
-    Route::get('/fuel', [FuelRequisitionController::class, 'create'])
-        ->name('new.fuel.requisition');
-
-    Route::get('/fuel/approve', [FuelRequisitionController::class, 'show'])
-        ->name('show.fuel.requisition');
-
-    Route::get('/fuel/edit', [FuelRequisitionController::class, 'edit'])
-        ->name('edit.fuel.requisition');
-
-    Route::post('/fuel/save', [FuelRequisitionController::class, 'store'])
-        ->name('save.fuel.requisition');
-
-    Route::post('/fuel/update', [FuelRequisitionController::class, 'update'])
-        ->name('update.fuel.requisition');
-
-    // list
-    Route::get('/fuel-requisitions/list', [FuelRequisitionController::class, 'index'])
-        ->name('list.fuel.requisition');
-
-    Route::post('/fuel/odometer/validation', [FuelRequisitionController::class, 'validateOdometer'])
-        ->name('fuel.odometer.validation');
-
-    Route::post('/fuel/last/requisition', [FuelRequisitionController::class, 'latestRequisition'])
-        ->name('fuel.last.requisition');
-
-    Route::get('intercity/distance', [FuelRequisitionController::class, 'getDistance'])
-        ->name('intercity.distance');
-
-    Route::post('/workflow/fuel/approve', [WorkflowController::class, 'processFuelRequisitionApproval'])
-        ->name('workflow.approve');
-
-});
-
 Route::group(['middleware' => 'auth', 'prefix' => 'reminders'], function () {
     Route::post('list', [RemindersController::class, 'index'])->name('reminder.list');
 

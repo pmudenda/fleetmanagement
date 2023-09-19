@@ -196,12 +196,11 @@ class FuelRequisitionController extends Controller
             ));
     }
 
-    public function edit(Request $request): string
+    public function editFuelRequisition(Request $request): string
     {
         Log::info("Running Fuel Edit Request");
 
         //$this->validateSignature($request);
-
        /* $requisitionNumber = $request->get('ref');
         $user = Auth::user();
 
@@ -240,6 +239,7 @@ class FuelRequisitionController extends Controller
                 'cities',
                 'citiesFrom'
             ));*/
+
         return "Page Here";
     }
 
