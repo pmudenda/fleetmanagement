@@ -155,7 +155,7 @@ class EmailNotificationService
                         'systemLink' => URL::signedRoute('show.fuel.requisition', [
                             'ref' => $record['ref_no']
                         ]),
-                        'identity' => $record->req_no,
+                        'identity' => $record['ref_no'],
                         'subject' => self::REQUEST_RESUBMISSION,
                         'title' => self::REQUEST_RESUBMISSION,
                         'body' => "Fuel request, with reference
