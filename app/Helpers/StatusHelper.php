@@ -196,9 +196,9 @@ class StatusHelper
         return '46';
     }
 
-    public static function resubmitted()
+    public static function resubmitted(): string
     {
-
+        return '99';
     }
 
 

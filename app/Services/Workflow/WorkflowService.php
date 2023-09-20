@@ -248,7 +248,14 @@ class WorkflowService
                 );
                 break;
             case self::RESUBMIT:
-                $response = $this->resubmitRequest($taskDetail, $taskHeader);
+                $response = $this->resubmitRequest(
+                    $taskDetail,
+                    $taskHeader,
+                    $comment,
+                    $action,
+                    $actionTaken,
+                    $currentStep
+                );
                 break;
             default:
                 $taskDetail->current_step_id = null;
@@ -613,18 +620,22 @@ class WorkflowService
      * @param WorkflowTaskHeader $taskHeader
      * @return array
      */
-    public function resubmitRequest(WorkflowTaskDetail $taskDetail, WorkflowTaskHeader $taskHeader): array
+    public function resubmitRequest(WorkflowTaskDetail $taskDetail,
+                                    WorkflowTaskHeader $taskHeader,
+                                                       $comment,
+                                                       $action,
+                                                       $actionTaken,
+                                                       $currentStep): array
     {
+
+        $currentUser = auth()->user();
+
         $previousStepLog = WorkflowLog::where(
             'reference',
             '=',
             $taskDetail->reference
-        )/*->where(
-            'step_id',
-            '=',
-            $taskDetail->current_step_id
-        )*/
-        ->orderBy('id', 'desc')
+        )
+            ->orderBy('id', 'desc')
             ->first();
 
         $taskDetail->current_step_id = $previousStepLog->previous_step;
@@ -646,6 +657,16 @@ class WorkflowService
         $taskHeader->url = $previousStep->action_page;
         $taskHeader->assigned_user = $previousStepLog->actioning_officer;
         $taskHeader->save();
+
+        $this->createLog(
+            $comment,
+            $currentUser,
+            $action,
+            $actionTaken,
+            StatusHelper::resubmitted(),
+            $currentStep,
+            $taskDetail->reference
+        );
 
         return [$taskDetail->current_step_id, '0'];
     }
