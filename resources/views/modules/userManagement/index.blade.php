@@ -133,8 +133,8 @@
                                             @can(config('rights.user_show'))
                                                 <td>
                                                     <a href="{{URL::signedRoute('user.show',
-                                                           ['key'=> $user->id]
-                                                           )
+                                                            $user->id
+                                                            )
                                                         }}"
                                                        class="btn btn-sm btn-success m-1">
                                                         Details
