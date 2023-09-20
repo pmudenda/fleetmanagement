@@ -17,12 +17,16 @@ class RequisitionResubmitted
      */
     public string $reference;
     public $user;
+
     public string $action;
+
+    public string $remarks;
     public string|null $requisitionNumber;
 
-    public function __construct($reference, $user, $action, $requisitionNumber)
+    public function __construct($reference, $remarks, $user, $action, $requisitionNumber)
     {
         $this->user = $user;
+        $this->remarks = $remarks;
         $this->reference = $reference;
         $this->action = $action;
         $this->requisitionNumber = $requisitionNumber;

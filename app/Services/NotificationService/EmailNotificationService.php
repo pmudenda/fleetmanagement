@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\URL;
 class EmailNotificationService
 {
     const NEW_TASK_NEEDS_YOUR_ATTENTION = "New Task Needs Your Attention";
+    const REQUEST_RESUBMISSION = "Fuel Request Resubmission";
 
-    public static function sendNotification($recipient, $sender, $record, $action): bool
+    public static function sendNotification($recipient, $sender, mixed $record, string $action): bool
     {
         try {
             $recipientMail = config("mail.default_mail") ?? $recipient->email;
@@ -151,12 +152,15 @@ class EmailNotificationService
                 case 'resubmitted':
                     $details = [
                         'name' => $names,
-                        'systemLink' => URL::signedRoute('show.fuel.requisition', ['ref' => $record->reference]),
+                        'systemLink' => URL::signedRoute('show.fuel.requisition', [
+                            'ref' => $record->reference
+                        ]),
                         'identity' => $record->req_no,
-                        'subject' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
-                        'title' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
+                        'subject' => self::REQUEST_RESUBMISSION,
+                        'title' => self::REQUEST_RESUBMISSION,
                         'body' => "Fuel request, with reference
-                               <strong>{$record->reference}</strong> has been resubmitted for your approval.
+                               <strong>{$record['reference']}</strong> has been resubmitted for your approval
+                               with the following comments {$record['remarks']}.
                                <br>To Take action immediately, click on the button below
                                .<br>Regards. "
                     ];

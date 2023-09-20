@@ -821,6 +821,7 @@ class FuelRequisitionService
             } elseif ($action == WorkflowActions::resubmit()) {
                 RequisitionResubmitted::dispatch(
                     $reference,
+                    $remarks,
                     Auth::user(),
                     ApprovalStage::resubmit->value,
                     null

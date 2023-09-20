@@ -27,6 +27,7 @@ class SendRequisitionResubmittedNotification
             $reference = $event->reference;
             $user = $event->user;
             $action = $event->action;
+            $remarks = $event->remarks;
 
             // reduce query with join
             $sender = $user; //User::where('staff_no', '=', trim(->staff_no))->first();
@@ -36,8 +37,13 @@ class SendRequisitionResubmittedNotification
 
             Log::info('Sending Mail Notification');
 
-            EmailNotificationService::sendNotification($recipient, $sender,
-                $task,
+            EmailNotificationService::sendNotification(
+                $recipient,
+                $sender,
+                [
+                    'reference' => $reference,
+                    'remarks' => $remarks
+                ],
                 $action
             );
         } catch (\Exception $e) {
