@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Requisitions\FuelRequisitionController;
+use App\Http\Controllers\FuelManagement\FuelRequisitionController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use Illuminate\Support\Facades\Route;
 

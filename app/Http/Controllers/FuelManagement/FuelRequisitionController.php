@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Requisitions;
+namespace App\Http\Controllers\FuelManagement;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
@@ -37,10 +37,12 @@ class FuelRequisitionController extends Controller
     private DistanceChartService $distanceChartService;
 
     public function __construct(FuelRequisitionService    $requisitionService,
-                                OdometerValidationService $odometerValidationService)
+                                OdometerValidationService $odometerValidationService,
+                                DistanceChartService      $distanceChartService)
     {
         $this->odometerValidationService = $odometerValidationService;
         $this->requisitionService = $requisitionService;
+        $this->distanceChartService = $distanceChartService;
     }
 
     public function index(): View
