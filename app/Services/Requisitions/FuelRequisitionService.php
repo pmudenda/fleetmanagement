@@ -6,6 +6,7 @@ use App\Constants\Accounts;
 use App\Constants\ErrorMessages;
 use App\Constants\WorkflowActions;
 use App\Constants\WorkflowModules;
+use App\Enums\ApprovalStage;
 use App\Enums\Modules;
 use App\Enums\RequisitionTypes;
 use App\Enums\WorkflowProcessCodes;
@@ -20,7 +21,6 @@ use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Integration\ProcurementSystemIntegrationService;
-use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\Workflow\WorkflowService;
 use Carbon\Carbon;
@@ -41,7 +41,7 @@ class FuelRequisitionService
     const VEH_REG = "@veh_reg";
     const DATE_FORMAT = "d/m/Y";
     const APPROVED = 'Request Approved and Submitted to the Next Authority For Approval ';
-    private VehicleDetailsService $vehicleDetailsService;
+
     private WorkflowService $workflowService;
     private ProcurementSystemIntegrationService $procurementService;
     private FuelRequisitionValidationService $validationService;
@@ -744,41 +744,13 @@ class FuelRequisitionService
      */
     public function processFuelRequisitionWorkflow($reference, $submittedAction, string $remarks): string
     {
-        // Request $request
         $requisitionDetail = $this->getRequisitionDetail($reference);
 
-        $process_code = '';
-        if ($requisitionDetail->requisition_type == RequisitionTypes::OutOfTown->value) {
-            $process_code = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
-        } elseif ($requisitionDetail->requisition_type == RequisitionTypes::Normal->value) {
-            $process_code = WorkflowProcessCodes::NormalFuelRequisition->value;
-        } elseif ($requisitionDetail->requisition_type == RequisitionTypes::Override->value) {
-            $process_code = WorkflowProcessCodes::OverrideFuelRequisition->value;
-        }
+        $process_code = $this->getProcessCode($requisitionDetail->requisition_type);
+
+        list($action, $actionTaken, $message) = $this->getActionTaken($submittedAction);
 
         DB::beginTransaction();
-        $action = 0;
-        $actionTaken = '';
-        $message = '';
-
-        if ($submittedAction === WorkflowActions::approve) {
-            $action = WorkflowActions::approve();
-            $actionTaken = "Approved";
-            $message = 'Request Approved Successfully';
-        } elseif ($submittedAction === WorkflowActions::reject) {
-            $action = WorkflowActions::reject();
-            $actionTaken = "Rejected";
-            $message = 'Request Rejected';
-        } elseif ($submittedAction === WorkflowActions::sendBack) {
-            $action = WorkflowActions::sendBack();
-            $actionTaken = "SendBack";
-            $message = 'Request Sent Back To Originator';
-        } elseif ($submittedAction === WorkflowActions::resubmit) {
-            $action = WorkflowActions::resubmitted();
-            $actionTaken = "Resubmit";
-            $message = 'Task Resubmitted To Previous Authority For Approval';
-        }
-
         list($nextStepId, $nextUser) = $this->workflowService->invokeWorkFlow(
             $reference,
             $process_code,
@@ -820,15 +792,77 @@ class FuelRequisitionService
         DB::commit();
 
         if ($nextStepId == 100) {
-            FuelRequisitionApproved::dispatch($reference, Auth::user(), 'fullyAuthorised', $requisitionNumber);
+            FuelRequisitionApproved::dispatch(
+                $reference,
+                Auth::user(),
+                ApprovalStage::full->value,
+                $requisitionNumber
+            );
         } else {
             if ($action == WorkflowActions::sendBack()) {
-                FuelRequisitionApproved::dispatch($reference, Auth::user(), 'sendBack', null);
+                FuelRequisitionApproved::dispatch(
+                    $reference,
+                    Auth::user(),
+                    ApprovalStage::sendBack->value,
+                    null
+                );
             } else {
-                FuelRequisitionApproved::dispatch($reference, Auth::user(), 'partiallyAuthorised', null);
+                FuelRequisitionApproved::dispatch(
+                    $reference,
+                    Auth::user(),
+                    ApprovalStage::partial->value,
+                    null
+                );
             }
         }
         return $message;
+    }
+
+    /**
+     * @param mixed $requisitionType
+     * @return string
+     */
+    private function getProcessCode(mixed $requisitionType): string
+    {
+        $process_code = '';
+        if ($requisitionType == RequisitionTypes::OutOfTown->value) {
+            $process_code = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
+        } elseif ($requisitionType == RequisitionTypes::Normal->value) {
+            $process_code = WorkflowProcessCodes::NormalFuelRequisition->value;
+        } elseif ($requisitionType == RequisitionTypes::Override->value) {
+            $process_code = WorkflowProcessCodes::OverrideFuelRequisition->value;
+        }
+        return $process_code;
+    }
+
+    /**
+     * @param $submittedAction
+     * @return array
+     */
+    private function getActionTaken($submittedAction): array
+    {
+        $action = 0;
+        $actionTaken = '';
+        $message = '';
+
+        if ($submittedAction === WorkflowActions::approve) {
+            $action = WorkflowActions::approve();
+            $actionTaken = "Approved";
+            $message = 'Request Approved Successfully';
+        } elseif ($submittedAction === WorkflowActions::reject) {
+            $action = WorkflowActions::reject();
+            $actionTaken = "Rejected";
+            $message = 'Request Rejected';
+        } elseif ($submittedAction === WorkflowActions::sendBack) {
+            $action = WorkflowActions::sendBack();
+            $actionTaken = "SendBack";
+            $message = 'Request Sent Back To Originator';
+        } elseif ($submittedAction === WorkflowActions::resubmit) {
+            $action = WorkflowActions::resubmitted();
+            $actionTaken = "Resubmit";
+            $message = 'Task Resubmitted To Previous Authority For Approval';
+        }
+        return array($action, $actionTaken, $message);
     }
 
 }
