@@ -83,7 +83,7 @@ class DriverController extends Controller
     {
         try {
             $searchParam = strtoupper(trim($request->searchCriteria));
-            $useDriverModule = (bool)config('systeminfo.enableDriverModule');
+            $useDriverModule = config('systeminfo.enableDriverModule');
 
             if ($useDriverModule) {
                 $driver = Driver::where('staff_number', '=', $searchParam)
