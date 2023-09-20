@@ -120,6 +120,34 @@ class UserService
         return $dataset;
     }
 
+    /**
+     * Clears all other user sessions
+     * @param $user
+     * @return void
+     */
+    public static function logoutOtherDevices($user): void
+    {
+        Log::info(
+            "Single Session Enabled "
+            . config('systeminfo.enableSingleSessionManagement')
+        );
+
+        if (config('systeminfo.enableSingleSessionManagement')) {
+            Log::info('Checking Other Session For User ' . $user->staff_no);
+            try {
+                Log::info("Logging Out All User Devices");
+                DB::table('sessions')
+                    ->where('user_id', $user->id)
+                    ->update([
+                        'id' => DB::raw("concat('OUTMAN_', concat(user_id, concat('_', id)))"),
+                        'user_id' => null,
+                    ]);
+            } catch (\Exception $e) {
+                Log::error($e);
+            }
+        }
+    }
+
     public function updateUserDetails(UserProfileUpdate $request): void
     {
         DB::beginTransaction();
@@ -138,7 +166,6 @@ class UserService
 
         if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
             $user = User::where('id', '=', $id)->first();
-            /// $user->roles()->syncWithoutDetaching((int)$request->get('user_profile'));
             $user->roles()->sync((int)$request->get('user_profile'));
         }
 

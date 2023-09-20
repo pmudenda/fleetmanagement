@@ -96,27 +96,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(MaterialHeader::class, 'requested_by', 'staff_no');
     }
-
-    public static function swapping($user): void
-    {
-        Log::info(
-            "Single Session Enabled "
-            . config('systeminfo.enableSingleSessionManagement')
-        );
-
-        if (config('systeminfo.enableSingleSessionManagement')) {
-            Log::info('Checking Other Session For User ' . $user->staff_no);
-            try {
-                Log::info("Logging Out All User Sessions");
-                DB::table('sessions')
-                    ->where('user_id', $user->id)
-                    ->update([
-                        'id' => DB::raw("concat('OUTMAN_', concat(user_id, concat('_', id)))"),
-                        'user_id' => null,
-                    ]);
-            } catch (\Exception $e) {
-                Log::error($e);
-            }
-        }
-    }
 }

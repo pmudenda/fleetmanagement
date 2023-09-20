@@ -8,6 +8,7 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Helpers\StatusHelper;
 use App\Models\Security\User;
+use App\Services\Security\UserService;
 use Carbon\Carbon;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -60,7 +61,7 @@ class FortifyServiceProvider extends ServiceProvider
                 Auth::logoutOtherDevices($request->get(PASSWORD_INPUT_FIELD));
                 $user->total_logins = ($user->total_logins ?? 0) + 1;
                 $user->last_login = Carbon::now();
-                User::swapping($user);
+                UserService::logoutOtherDevices($user);
                 $user->save();
                 return $user;
             }
