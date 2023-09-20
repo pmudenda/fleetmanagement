@@ -6,7 +6,7 @@ class WorkflowActions
     const approve = 'approve';
     const reject = 'reject';
     const sendBack = 'send_back';
-    const resubmit = 'resubmit';
+    const resubmitted = 'resubmit';
 
     public static function submit(): int
     {
@@ -28,7 +28,7 @@ class WorkflowActions
         return 0;
     }
 
-    public static function resubmitted(): int
+    public static function resubmit(): int
     {
         return 5;
     }

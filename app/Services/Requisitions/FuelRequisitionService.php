@@ -10,7 +10,7 @@ use App\Enums\ApprovalStage;
 use App\Enums\Modules;
 use App\Enums\RequisitionTypes;
 use App\Enums\WorkflowProcessCodes;
-use App\Events\FuelRequisitionApproved;
+use App\Events\FuelRequisitionWorkflowUpdate;
 use App\Events\RequisitionRaised;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -784,7 +784,7 @@ class FuelRequisitionService
             } elseif ($action == WorkflowActions::sendBack()) {
                 $status = StatusHelper::sentBack();
                 $message = 'Request Returned to Originator';
-            } elseif ($action == WorkflowActions::resubmitted()) {
+            } elseif ($action == WorkflowActions::resubmit()) {
                 $status = StatusHelper::submitted();
             }
             $this->updateStatus($reference, $status);
@@ -793,7 +793,7 @@ class FuelRequisitionService
         DB::commit();
 
         if ($nextStepId == 100) {
-            FuelRequisitionApproved::dispatch(
+            FuelRequisitionWorkflowUpdate::dispatch(
                 $reference,
                 Auth::user(),
                 ApprovalStage::full->value,
@@ -801,14 +801,21 @@ class FuelRequisitionService
             );
         } else {
             if ($action == WorkflowActions::sendBack()) {
-                FuelRequisitionApproved::dispatch(
+                FuelRequisitionWorkflowUpdate::dispatch(
                     $reference,
                     Auth::user(),
                     ApprovalStage::sendBack->value,
                     null
                 );
+            } elseif ($action == WorkflowActions::resubmit()) {
+                FuelRequisitionWorkflowUpdate::dispatch(
+                    $reference,
+                    Auth::user(),
+                    ApprovalStage::resubmit->value,
+                    null
+                );
             } else {
-                FuelRequisitionApproved::dispatch(
+                FuelRequisitionWorkflowUpdate::dispatch(
                     $reference,
                     Auth::user(),
                     ApprovalStage::partial->value,
@@ -858,8 +865,8 @@ class FuelRequisitionService
             $action = WorkflowActions::sendBack();
             $actionTaken = "SendBack";
             $message = 'Request Sent Back To Originator';
-        } elseif ($submittedAction === WorkflowActions::resubmit) {
-            $action = WorkflowActions::resubmitted();
+        } elseif ($submittedAction === WorkflowActions::resubmitted) {
+            $action = WorkflowActions::resubmit();
             $actionTaken = "Resubmit";
             $message = 'Task Resubmitted To Previous Authority For Approval';
         }

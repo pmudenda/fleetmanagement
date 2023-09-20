@@ -148,7 +148,20 @@ class EmailNotificationService
                         .<br>Regards. "
                     ];
                     break;
-                    default:
+                case 'resubmitted':
+                    $details = [
+                        'name' => $names,
+                        'systemLink' => URL::signedRoute('show.fuel.requisition', ['ref' => $record->req_no]),
+                        'identity' => $record->req_no,
+                        'subject' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
+                        'title' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
+                        'body' => "Fuel request, with reference
+                               <strong>{$record->req_no}</strong> has been resubmitted for your approval.
+                               <br>To Take action immediately, click on the button below
+                               .<br>Regards. "
+                    ];
+                    break;
+                default:
                     return false;
             }
 

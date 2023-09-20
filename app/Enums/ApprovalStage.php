@@ -8,4 +8,5 @@ enum ApprovalStage: string
 
     case partial = 'partiallyAuthorised';
     case sendBack = 'sendBack';
+    case resubmit = 'resubmitted';
 }
