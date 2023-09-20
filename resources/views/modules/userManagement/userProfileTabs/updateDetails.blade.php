@@ -49,42 +49,6 @@
         </div>
     </div>
 
-    {{--<div class="form-group row">
-        <label for="inputjob_code" class="col-sm-2 col-form-label">Job
-            Code</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" name="job_code"
-                   placeholder="job_code" value="{{ $user->job_code }}">
-        </div>
-    </div>--}}
-
-    {{--<div class="form-group row">
-        <label for="inputName2" class="col-sm-2 col-form-label text-orange">
-            User Unit
-        </label>
-        <div class="col-sm-10">
-            <select id="user_unit_new" class="form-control user_unit_new"
-                    name="user_unit_new">
-                <option value="{{ $user->user_unit->id ?? '' }} ">
-                    {{ $user->user_unit->user_unit_description ?? '' }}
-                    :
-                    {{ $user->user_unit->user_unit_code ?? 'Please Select User Unit' }}
-                </option>
-                Auth::user()->type_id == config('constants.user_types.developer')
-                @if (Auth::user()->id == $user->id ||
-                     \App\Helpers\Authorise::hasDeveloperUserType(Auth::user()))
-                    @foreach ($user_unit_new as $item)
-                        <option value="{{ $item->id }}">
-                            {{ $item->user_unit_description }}
-                            : {{ $item->user_unit_code }}
-                        </option>
-                    @endforeach
-                @endif
-            </select>
-        </div>
-    </div>--}}
-
-
     <div class="form-group row">
         <label for="inputName2" class="col-sm-2 col-form-label">Man No:</label>
         <div class="col-sm-10">
@@ -227,10 +191,12 @@
                     </button>
 
                     <button type="button"
+                            title="Auto Updated User Information Based on HC Records"
                             id="syncUserData"
                             data-href="{{ route('user.sync') }}"
                             class="btn btn-sm btn-default">
-                        Sync with HCMS <i class="fas fa-sync"></i>
+                        Auto Update With HCMS
+                        <i class="fas fa-sync"></i>
                     </button>
                 </div>
             </div>

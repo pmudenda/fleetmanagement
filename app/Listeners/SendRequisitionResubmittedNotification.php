@@ -37,9 +37,7 @@ class SendRequisitionResubmittedNotification
             Log::info('Sending Mail Notification');
 
             EmailNotificationService::sendNotification($recipient, $sender,
-                [
-                    'req_no' => $reference
-                ],
+                $task,
                 $action
             );
         } catch (\Exception $e) {

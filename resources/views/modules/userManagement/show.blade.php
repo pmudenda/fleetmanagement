@@ -396,114 +396,142 @@
                 const form = document.querySelector('form[name="updateDataUpdate"]');
                 const url = form.action;
                 let formData = new FormData(form);
-                tmsApp.asyncPostFormData(
-                    url,
-                    formData,
-                    function (asyncResponse) {
-                        if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
-                            setTimeout(function () {
-                                tmsApp.showSystemMessage(
-                                    'User Detail Update',
-                                    asyncResponse['message'],
-                                    function () {
-                                        window.location.reload();
-                                    },
-                                    'success'
-                                );
-                            }, 300);
-                        } else {
-                            if (asyncResponse.hasOwnProperty('errors')) {
-                                tmsApp.printErrorMsg(asyncResponse.errors);
-                                return
-                            }
-                            setTimeout(function () {
-                                tmsApp.systemError(
-                                    'User Detail Update',
-                                    asyncResponse['message'],
-                                    function () {
-                                    }, 'error');
-                            }, 300);
-                        }
-                    },
-                    function (xhr, settings, errorThrown) {
-                        console.log(errorThrown)
-                        setTimeout(function () {
-                            if ('responseJSON' in xhr) {
-                                if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                    tmsApp.printErrorMsg(xhr.responseJSON.errors);
+
+                tmsApp.confirm(
+                    'Are you sure ?',
+                    'You want to update the user record',
+                    'Yes',
+                    'No, Cancel',
+                    function () {
+                        tmsApp.asyncPostFormData(
+                            url,
+                            formData,
+                            function (asyncResponse) {
+                                if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'User Detail Update',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'User Detail Update',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
                                 }
-                                if (xhr.responseJSON.hasOwnProperty('message')) {
+                            },
+                            function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'User Detail Update',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
+
                                     tmsApp.systemError(
                                         'User Detail Update',
-                                        xhr.responseJSON['message']
-                                    );
-                                }
-                                return;
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
                             }
+                        );
+                    },
+                    () => {
 
-                            tmsApp.systemError(
-                                'User Detail Update',
-                                'We could not complete processing your request, please try again later');
-                        }, 300)
-                    });
+                    }
+                );
+
             });
 
             $(document).on('click', "#syncUserData", function () {
                 const url = this.getAttribute('data-href');
                 let formData = new FormData();
                 formData.append('userId', document.querySelector('[name="userId"]').value);
-                tmsApp.asyncPostFormData(
-                    url,
-                    formData,
-                    function (asyncResponse) {
 
-                        if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
-                            setTimeout(function () {
-                                tmsApp.showSystemMessage(
-                                    'User Detail Update',
-                                    asyncResponse['message'],
-                                    function () {
-                                        window.location.reload();
-                                    },
-                                    'success'
-                                );
-                            }, 300);
-                        } else {
-                            if (asyncResponse.hasOwnProperty('errors')) {
-                                tmsApp.printErrorMsg(asyncResponse.errors);
-                                return
-                            }
-                            setTimeout(function () {
-                                tmsApp.systemError(
-                                    'User Detail Update',
-                                    asyncResponse['message'],
-                                    function () {
-                                    }, 'error');
-                            }, 300);
-                        }
-                    },
-                    function (xhr, settings, errorThrown) {
-                        console.log(errorThrown)
-                        setTimeout(function () {
-                            if ('responseJSON' in xhr) {
-                                if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                    tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                tmsApp.confirm(
+                    'User Details Auto Update',
+                    'Are you sure, you want to update user details ?',
+                    'Yes',
+                    'No, Cancel',
+                    function () {
+                        tmsApp.asyncPostFormData(
+                            url,
+                            formData,
+                            function (asyncResponse) {
+
+                                if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'User Detail Update',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'User Detail Update',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
                                 }
-                                if (xhr.responseJSON.hasOwnProperty('message')) {
+                            },
+                            function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'User Detail Update',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
+
                                     tmsApp.systemError(
                                         'User Detail Update',
-                                        xhr.responseJSON['message']
-                                    );
-                                }
-                                return;
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
                             }
+                        )
+                    },
+                    () => {
 
-                            tmsApp.systemError(
-                                'User Detail Update',
-                                'We could not complete processing your request, please try again later');
-                        }, 300)
-                    });
+                    }
+                );
             });
+
         })(window.tmsApp || {});
     </script>
 @endpush
