@@ -690,7 +690,6 @@
         );
     });
 
-
     $(document).on('click', '[data-action="open_picker"]', function () {
         const picker = this.getAttribute('data-target');
         let el = document.querySelector('[name="' + picker + '"]');
@@ -701,7 +700,6 @@
     $(document).on('paste keydown', '.date_input', function () {
         return false;
     });
-
 
     $(".date_input").on('change', function (e) {
         if (this.name === 'departure_date') {
@@ -766,13 +764,12 @@
         setDistance();
     });
 
-
-    $('#materialDetailsTable').on('change', 'select,input', function (e) {
+    $('#materialDetailsTable').on('change', 'select, input', function (e) {
         eventHandler(this, e);
     }).on('keyup', 'select,input,textarea', function (e) {
         eventHandler(this, e);
     }).on('blur', 'input', function (e) {
-        if (this.name === 'quantity') {
+        if (this.name === 'quantity' || this.name === 'material_quantity') {
             $(this).val(tmsApp.numberFormat(this.value));
         }
     });
