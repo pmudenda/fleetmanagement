@@ -606,7 +606,7 @@
                                             <input type="number"
                                                    name="material_quantity"
                                                    max="{{$requestDetails->max_allowed}}"
-                                                   min="{{$requestDetails->max_allowed}}"
+                                                   min="{{($requestDetails->max_allowed / $daysToNextRefuel)}}"
                                                    value="{{number_format($requestDetails->quantity)}}"
                                                    id="material_quantity"
                                                    class="form-control form-control-sm when_valid"/>
