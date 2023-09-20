@@ -55,7 +55,7 @@
                         </div>
                         <div class="card-body p-2">
                             <div class="table-responsive mt-10 ">
-                                <table id="listTable" class="table table-bordered">
+                                <table id="pendingJobCardTable" class="table table-bordered">
                                     <thead>
                                     <tr>
                                         <th>#</th>
@@ -190,7 +190,8 @@
                                             id="area"
                                             name="area" required>
                                         @foreach($businessAreas as $businessArea)
-                                            <option value="{{$businessArea->area}}">{{$businessArea->description}} => {{$businessArea->area}}</option>
+                                            <option value="{{$businessArea->area}}">{{$businessArea->description}}
+                                                => {{$businessArea->area}}</option>
                                         @endforeach
                                     </select>
                                     @error('code')
@@ -277,7 +278,7 @@
             let editRecordModalEl = document.querySelector('#editRecordModal')
             let addRecordModalEl = document.querySelector('#createRecordModal')
 
-            tmsApp.initDatatable("#listTable", true);
+            tmsApp.initDatatable("#pendingJobCardTable", true, true, []);
 
             /*let editModal = bootstrap.Modal.getOrCreateInstance(editRecordModalEl, {
                 'backdrop': true,
