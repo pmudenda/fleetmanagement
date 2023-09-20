@@ -97,7 +97,7 @@ class WorkshopRequisitionService
         $registrationNumber = $requisitionPostRequest->get('vehicle_registration');
 
         /********************************************** Save Data **************************************/
-        $user = Auth()->user();
+        $user = auth()->user();
 
         $this->validateVehicleStatus($registrationNumber);
 
@@ -1355,7 +1355,7 @@ class WorkshopRequisitionService
      * @param mixed $registrationNumber
      * @param string $workflowProcess
      * @param WorkshopRequisitionRequest $requisitionPostRequest
-     * @param \Illuminate\Contracts\Auth\Authenticatable|null $user
+     * @param  $user
      * @param string $item_type
      * @param Carbon $validFrom
      * @param Carbon $dateExpected
@@ -1367,10 +1367,10 @@ class WorkshopRequisitionService
                                                mixed                      $registrationNumber,
                                                string                     $workflowProcess,
                                                WorkshopRequisitionRequest $requisitionPostRequest,
-                                               Authenticatable            $user,
+                                                                          $user,
                                                string                     $item_type,
-                                               Carbon                     $validFrom,
-                                               Carbon                     $dateExpected,
+                                                                          $validFrom,
+                                                                          $dateExpected,
                                                mixed                      $item_type_code): array
     {
         DB::beginTransaction();
