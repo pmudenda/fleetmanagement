@@ -14,7 +14,7 @@ class EmailNotificationService
     const NEW_TASK_NEEDS_YOUR_ATTENTION = "New Task Needs Your Attention";
     const REQUEST_RESUBMISSION = "Fuel Request Resubmission";
 
-    public static function sendNotification($recipient, $sender, mixed $record, string $action): bool
+    public static function sendNotification($recipient, $sender, $record, string $action): bool
     {
         try {
             $recipientMail = config("mail.default_mail") ?? $recipient->email;
@@ -153,13 +153,13 @@ class EmailNotificationService
                     $details = [
                         'name' => $names,
                         'systemLink' => URL::signedRoute('show.fuel.requisition', [
-                            'ref' => $record->reference
+                            'ref' => $record['ref_no']
                         ]),
                         'identity' => $record->req_no,
                         'subject' => self::REQUEST_RESUBMISSION,
                         'title' => self::REQUEST_RESUBMISSION,
                         'body' => "Fuel request, with reference
-                               <strong>{$record['reference']}</strong> has been resubmitted for your approval
+                               <strong>{$record['ref_no']}</strong> has been resubmitted for your approval
                                with the following comments {$record['remarks']}.
                                <br>To Take action immediately, click on the button below
                                .<br>Regards. "

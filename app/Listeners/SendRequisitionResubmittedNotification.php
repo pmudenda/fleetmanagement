@@ -41,7 +41,7 @@ class SendRequisitionResubmittedNotification
                 $recipient,
                 $sender,
                 [
-                    'reference' => $reference,
+                    'ref_no' => $reference,
                     'remarks' => $remarks
                 ],
                 $action
