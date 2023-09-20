@@ -37,9 +37,6 @@ Route::group(['middleware' => 'auth',
         Route::post('/odometer/validation', [FuelRequisitionController::class, 'validateOdometer'])
             ->name('fuel.odometer.validation');
 
-        /*Route::get('intercity/distance', [FuelRequisitionController::class, 'getDistance'])
-            ->name('intercity.distance');*/
-
         Route::post('/workflow/approve', [WorkflowController::class, 'processFuelRequisitionApproval'])
             ->name('workflow.fuel.approve');
 
