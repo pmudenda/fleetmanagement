@@ -9,7 +9,7 @@ use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkShopManagement\WorkshopServiceRequisitionRequest;
 use App\Http\Requests\WorkShopManagement\WorkshopServiceReservationRequest;
-use App\Services\Requisitions\WorkshopRequisitionService;
+use App\Services\WorkShopManagement\WorkshopRequisitionService;
 use App\Services\WorkShopManagement\WorkshopService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;

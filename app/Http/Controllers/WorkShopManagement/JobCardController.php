@@ -4,8 +4,8 @@ namespace App\Http\Controllers\WorkShopManagement;
 
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Requisitions\WorkshopRequisitionService;
 use App\Services\Workflow\DocumentNumberGenerationService;
+use App\Services\WorkShopManagement\WorkshopRequisitionService;
 use App\Services\WorkShopManagement\WorkshopService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

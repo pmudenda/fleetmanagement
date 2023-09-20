@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Requisitions;
+namespace App\Services\WorkShopManagement;
 
 use App\Constants\Accounts;
 use App\Constants\ErrorMessages;

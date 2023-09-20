@@ -5,6 +5,7 @@ namespace App\Services\Requisitions;
 use App\Enums\RequisitionTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Services\Workflow\WorkflowService;
+use Illuminate\Support\Facades\Log;
 
 class RequisitionAndTaskCancellation
 {
@@ -21,18 +22,23 @@ class RequisitionAndTaskCancellation
      */
     public function cancelAssociatedTask($latestPreviousRequisition): void
     {
+        Log::debug("Canceling Task For $latestPreviousRequisition");
+
         if (RequisitionTypes::Normal->value == $latestPreviousRequisition->requisition_type) {
             $this->workflowService->cancelProcessTask(
                 $latestPreviousRequisition->req_no,
-                WorkflowProcessCodes::NormalFuelRequisition->value);
+                WorkflowProcessCodes::NormalFuelRequisition->value
+            );
         } elseif (RequisitionTypes::OutOfTown->value == $latestPreviousRequisition->requisition_type) {
             $this->workflowService->cancelProcessTask(
                 $latestPreviousRequisition->req_no,
-                WorkflowProcessCodes::OutOfTownFuelRequisition->value);
+                WorkflowProcessCodes::OutOfTownFuelRequisition->value
+            );
         } elseif (RequisitionTypes::Override->value == $latestPreviousRequisition->requisition_type) {
             $this->workflowService->cancelProcessTask(
                 $latestPreviousRequisition->req_no,
-                WorkflowProcessCodes::OverrideFuelRequisition->value);
+                WorkflowProcessCodes::OverrideFuelRequisition->value
+            );
         }
     }
 
