@@ -12,6 +12,7 @@ use App\Enums\RequisitionTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\FuelRequisitionWorkflowUpdate;
 use App\Events\RequisitionRaised;
+use App\Events\RequisitionResubmitted;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
@@ -457,7 +458,8 @@ class FuelRequisitionService
         $this->processFuelRequisitionWorkflow(
             $requisitionReferenceNumber,
             $submittedAction,
-            $remarks
+            $remarks,
+            $justification
         );
 
         DB::commit();
@@ -739,11 +741,16 @@ class FuelRequisitionService
      * @param $reference
      * @param $submittedAction
      * @param string $remarks
+     * @param string|null $subject
      * @return string
      * @throws FuelRequisitionException
      * @throws WorkflowTaskCreationFailedException
      */
-    public function processFuelRequisitionWorkflow($reference, $submittedAction, string $remarks): string
+    public function processFuelRequisitionWorkflow(
+        $reference,
+        $submittedAction,
+        string $remarks,
+        string $subject = null): string
     {
         $requisitionDetail = $this->getRequisitionDetail($reference);
 
@@ -757,7 +764,8 @@ class FuelRequisitionService
             $process_code,
             $action,
             $actionTaken,
-            $remarks
+            $remarks,
+            $subject
         );
         if (empty($nextUser)) {
             $nextUser = '';
@@ -808,7 +816,7 @@ class FuelRequisitionService
                     null
                 );
             } elseif ($action == WorkflowActions::resubmit()) {
-                FuelRequisitionWorkflowUpdate::dispatch(
+                RequisitionResubmitted::dispatch(
                     $reference,
                     Auth::user(),
                     ApprovalStage::resubmit->value,

@@ -30,6 +30,7 @@ class SendFuelRequisitionApprovedEmail
 
             $sender = null;
             $task = null;
+
             $sender = User::where('staff_no', '=', trim($user->staff_no))->first();
             $task = WorkflowTaskHeader::where('reference', '=', trim($reference))->first();
             if ($action == 'resubmitted') {
@@ -39,7 +40,6 @@ class SendFuelRequisitionApprovedEmail
             }
 
             Log::info('Sending Mail Notification');
-
 
             EmailNotificationService::sendNotification($recipient, $sender,
                 [

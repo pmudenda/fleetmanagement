@@ -155,7 +155,8 @@ class WorkflowService
                                    string $processId,
                                    int    $action,
                                    string $actionTaken,
-                                   string $comment
+                                   string $comment,
+                                   string $subject = null
     ): array
     {
 
@@ -254,7 +255,8 @@ class WorkflowService
                     $comment,
                     $action,
                     $actionTaken,
-                    $currentStep
+                    $currentStep,
+                    $subject
                 );
                 break;
             default:
@@ -622,6 +624,7 @@ class WorkflowService
      * @param $action
      * @param $actionTaken
      * @param $currentStep
+     * @param $subject
      * @return array
      */
     public function resubmitRequest(WorkflowTaskDetail $taskDetail,
@@ -629,7 +632,8 @@ class WorkflowService
                                                        $comment,
                                                        $action,
                                                        $actionTaken,
-                                                       $currentStep): array
+                                                       $currentStep,
+                                                       $subject): array
     {
 
         $currentUser = auth()->user();
@@ -642,11 +646,23 @@ class WorkflowService
             ->orderBy('id', 'desc')
             ->first();
 
-        $taskDetail->current_step_id = $previousStepLog->previous_step;
+        $taskDetail->current_step_id = $previousStepLog->step_id;
         $taskDetail->actioning_officer = $previousStepLog->actioning_officer;
         $taskDetail->save();
 
-        Log::info("Previous Step $previousStepLog->previous_step");
+        Log::info("Going Forward To Step $previousStepLog->step_id");
+
+        if ($taskHeader->subject != $subject){
+            /*$short_description = $description
+                . "Fuel Requisition For Vehicle Reg No. "
+                . $registrationNumber;
+
+            $long_description = $description
+                . "Fuel Requisition Ref.No. "
+                . $requisition_reference_number
+                . " For Vehicle Reg No. "
+                . $registrationNumber;*/
+        }
 
         $previousStep = WorkflowStep::where(
             'process_id',
@@ -655,7 +671,7 @@ class WorkflowService
         )->where(
             'step_id',
             '=',
-            $previousStepLog->previous_step
+            $previousStepLog->step_id
         )->first();
 
         $taskHeader->url = $previousStep->action_page;
