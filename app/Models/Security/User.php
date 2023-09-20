@@ -100,11 +100,14 @@ class User extends Authenticatable
     public static function swapping($user): void
     {
         Log::info(
-            "Single Session Enabled " . config('systeminfo.enableSingleSessionManagement')
+            "Single Session Enabled "
+            . config('systeminfo.enableSingleSessionManagement')
         );
+
         if (config('systeminfo.enableSingleSessionManagement')) {
             Log::info('Checking Other Session For User ' . $user->staff_no);
             try {
+                Log::info("Logging Out All User Sessions");
                 DB::table('sessions')
                     ->where('user_id', $user->id)
                     ->update([
