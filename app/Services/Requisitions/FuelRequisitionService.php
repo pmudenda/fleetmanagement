@@ -781,7 +781,7 @@ class FuelRequisitionService
                 );
 
                 $message = $message . ' Stores Requisition No.: ' . $requisitionNumber;
-                //$this->updateStatus($reference, StatusHelper::authorised());
+                $this->updateRequisition($reference, StatusHelper::authorised(), $requisitionNumber);
             } elseif ($action == WorkflowActions::reject()) {
                 $status = StatusHelper::rejected();
                 $message = 'Request Rejected.';
@@ -798,6 +798,7 @@ class FuelRequisitionService
             } elseif ($action == WorkflowActions::resubmit()) {
                 $status = StatusHelper::submitted();
             }
+
             $this->updateStatus($reference, $status);
         }
 
@@ -883,6 +884,18 @@ class FuelRequisitionService
             $message = 'Task Resubmitted To Previous Authority For Approval';
         }
         return array($action, $actionTaken, $message);
+    }
+
+    private function updateRequisition($reference, string $status, string $requisition): void
+    {
+        DB::beginTransaction();
+        MaterialHeader::where("req_no", $reference)
+            ->update([
+                "status" => $status,
+                "st_pur" => $requisition,
+                "proc_ref" => $requisition
+            ]);
+        DB::commit();
     }
 
 }

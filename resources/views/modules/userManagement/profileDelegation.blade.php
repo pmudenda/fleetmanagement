@@ -201,22 +201,17 @@
                                                                                          style="position: relative;">
                                                                                         <label
                                                                                             class="form-check-inline">
-                                                                                            <input type="radio"
-                                                                                                   id="costOnCostCentre"
-                                                                                                   class="list-row-checkbox
-                                                                                                    bold mr-3 when_valid"
-                                                                                                   name="CostAssignedTo"
-                                                                                                   value="CostCenterBasedRequisition"
-                                                                                                   checked>
-                                                                                            Cost Center
+                                                                                            Delegation Start-Date
                                                                                         </label>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-7 col-lg-6">
                                                                                 <input type="text"
-                                                                                       class="form-control form-control-sm"
+                                                                                       class="form-control
+                                                                                       form-control-sm"
                                                                                        id="cost_centre_code"
                                                                                        value="14456"
                                                                                        name="cost_centre_code" required
@@ -265,7 +260,7 @@
                                                         </div>
                                                         <div class="col-6 ">
                                                             <div class="form-group">
-                                                                <label for="eform_id">Select E-Form</label>
+                                                                <label for="eform_id">Delegation Start-Date</label>
                                                                 <select class="form-control select2"
                                                                         id="eform_select"
                                                                         name="eform_id" required
@@ -274,17 +269,18 @@
                                                             </div>
                                                             <!-- /.form-group -->
                                                         </div>
+
+
                                                         <div class="col-6 ">
                                                             <div class="form-group">
                                                                 <label for="delegation_end_date">
-                                                                    Delegation End-Date
+
                                                                 </label>
                                                                 <input type="date"
                                                                        class="form-control"
                                                                        name="delegation_end_date"
                                                                        id="delegation_end_date">
                                                             </div>
-                                                            <!-- /.form-group -->
                                                         </div>
 
                                                     </div>
