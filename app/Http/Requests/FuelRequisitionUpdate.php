@@ -27,7 +27,7 @@ class FuelRequisitionUpdate extends FormRequest
             'Comments' => 'required|string',
             'material_quantity' => 'required|numeric',
             'material_price' => 'required|numeric',
-            'material_amount' => 'required|numeric',
+            'material_amount' => 'nullable|numeric',
             'departureTown' => 'nullable|string',
             'destinationTown' => 'nullable|string',
             'justification' => 'nullable|string',
