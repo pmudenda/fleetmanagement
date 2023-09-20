@@ -129,7 +129,7 @@ class UserService
     {
         Log::info(
             "Single Session Enabled "
-            . config('systeminfo.enableSingleSessionManagement')
+            . (bool)config('systeminfo.enableSingleSessionManagement')
         );
 
         if (config('systeminfo.enableSingleSessionManagement')) {
