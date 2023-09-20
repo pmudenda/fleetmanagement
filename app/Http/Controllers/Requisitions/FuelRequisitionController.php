@@ -19,6 +19,7 @@ use App\Models\Common\OrganizationalUnit;
 use App\Models\RequisitionType;
 use App\Models\Town;
 use App\Models\Workflow\WorkflowTaskHeader;
+use App\Services\Requisitions\DistanceChartService;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\VehicleManagement\OdometerValidationService;
 use Illuminate\Contracts\View\View;
@@ -33,6 +34,7 @@ class FuelRequisitionController extends Controller
 {
     private readonly OdometerValidationService $odometerValidationService;
     private FuelRequisitionService $requisitionService;
+    private DistanceChartService $distanceChartService;
 
     public function __construct(FuelRequisitionService    $requisitionService,
                                 OdometerValidationService $odometerValidationService)
@@ -46,7 +48,11 @@ class FuelRequisitionController extends Controller
         $requisitions = $this->requisitionService->getMyRequisitions(null);
         $requisitionType = "FUEL";
         return view("modules.fuelManagement.requisitions.list")
-            ->with(compact('requisitions', 'requisitionType'));
+            ->with(compact(
+                    'requisitions',
+                    'requisitionType'
+                )
+            );
     }
 
 
@@ -90,8 +96,6 @@ class FuelRequisitionController extends Controller
 
     public function create(Request $request): View|Application
     {
-        $this->validateSignature($request);
-
         $user = Auth::user();
 
         $organizationalUnit = OrganizationalUnit::where('cc_code', $user->cc_code)
@@ -105,7 +109,7 @@ class FuelRequisitionController extends Controller
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
 
-        $cities = $this->interCityDistanceService->getInterCityDistanceArray();
+        $cities = $this->distanceChartService->getInterCityDistanceArray();
         $citiesFrom = Town::orderBy('town_name')->get();
 
         return view('modules.fuelManagement.requisitions.create')
@@ -161,27 +165,14 @@ class FuelRequisitionController extends Controller
 
     public function show(Request $request): View
     {
-        $this->validateSignature($request);
-
-        $requisitionNumber = $request->get('ref');
-        $user = Auth::user();
-
-        $requestDetails = $this->requisitionService->getRequisitionDetail($requisitionNumber);
-
-        $supportingDocument = File::where('reference_number', '=', $requisitionNumber)
-            ->first();
-
-        if ($requestDetails == null) {
-            abort(404);
-        }
-
-        $workflowTask = WorkflowTaskHeader::where('reference', '=', $requisitionNumber)->first();
-
-        $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
-
-        $daysToNextRefuel = config('settings.fuel_requisition_validity');
-
-        $approvalHistory = [];
+        list($user,
+            $requestDetails,
+            $supportingDocument,
+            $workflowTask,
+            $requisitionTypes,
+            $daysToNextRefuel,
+            $approvalHistory
+            ) = $this->getRequisionDetails($request);
 
         return view('modules.fuelManagement.requisitions.show')
             ->with(compact(
@@ -199,47 +190,29 @@ class FuelRequisitionController extends Controller
     {
         Log::info("Running Fuel Edit Request");
 
-        //$this->validateSignature($request);
-        /* $requisitionNumber = $request->get('ref');
-         $user = Auth::user();
+        list($user,
+            $requestDetails,
+            $supportingDocument,
+            $workflowTask,
+            $requisitionTypes,
+            $daysToNextRefuel,
+            $approvalHistory) = $this->getRequisionDetails($request);
 
-         $requestDetails = null; //$this->requisitionService->getRequisitionDetail($requisitionNumber);
+        $cities = $this->distanceChartService->getInterCityDistanceArray();
+        $citiesFrom = Town::orderBy('town_name')->get();
 
-         $supportingDocument = File::where('reference_number', '=', $requisitionNumber)
-             ->first();
-
-         if ($requestDetails == null) {
-             //abort(404);
-         }
-
-
-         $workflowTask = WorkflowTaskHeader::where('reference', '=', $requisitionNumber)->first();
-
-         $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
-
-         $daysToNextRefuel = config('settings.fuel_requisition_validity');
-
-         $approvalHistory = [];
-
-
-         $cities = $this->interCityDistanceService->getInterCityDistanceArray();
-         $citiesFrom = Town::orderBy('town_name')->get();
-
-
-         return view('modules.fuelManagement.requisitions.edit')
-             ->with(compact(
-                 'user',
-                 'requisitionTypes',
-                 'requestDetails',
-                 'daysToNextRefuel',
-                 'approvalHistory',
-                 'workflowTask',
-                 'supportingDocument',
-                 'cities',
-                 'citiesFrom'
-             ));*/
-
-        return "Page Here";
+        return view('modules.fuelManagement.requisitions.edit')
+            ->with(compact(
+                'user',
+                'requisitionTypes',
+                'requestDetails',
+                'daysToNextRefuel',
+                'approvalHistory',
+                'workflowTask',
+                'supportingDocument',
+                'cities',
+                'citiesFrom'
+            ));
     }
 
     public function latestRequisition(Request $request): JsonResponse
@@ -252,7 +225,9 @@ class FuelRequisitionController extends Controller
             ]);
         }
 
-        $payload = $this->requisitionService->getLatestRequisition($request->vehicle_registration);
+        $payload = $this->requisitionService->getLatestRequisition(
+            $request->vehicle_registration
+        );
 
         return response()->json(
             FleetMasterJsonResponse::response(
@@ -264,22 +239,21 @@ class FuelRequisitionController extends Controller
         );
     }
 
-    public function getDistanceBetween($fromCity, $toCity): int
-    {
-        return $this->interCityDistanceService->getDistance($fromCity, $toCity);
-    }
-
     public function getDistance(Request $request): JsonResponse
     {
         try {
-            $result = $this->getDistanceBetween(
+            $result = $this->distanceChartService->getDistance(
                 $request->input('departure'),
                 $request->input('destination')
             );
-            return response()->json(array(
-                'success' => true,
-                'data' => $result
-            ));
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    '',
+                    true,
+                    null,
+                    $result
+                )
+            );
         } catch (Exception $e) {
             Log::error($e);
             return response()->json(
@@ -302,5 +276,47 @@ class FuelRequisitionController extends Controller
         if (!$request->hasValidSignature()) {
             abort(401);
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function getRequisionDetails(Request $request): array
+    {
+        $this->validateSignature($request);
+
+        $requisitionNumber = $request->get('ref');
+        $user = Auth::user();
+
+        $requestDetails = $this->requisitionService->getRequisitionDetail(
+            $requisitionNumber
+        );
+
+        $supportingDocument = File::where('reference_number',
+            '=',
+            $requisitionNumber
+        )->first();
+
+        if ($requestDetails == null) {
+            abort(404);
+        }
+
+        $workflowTask = WorkflowTaskHeader::where('reference', '=', $requisitionNumber)->first();
+
+        $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
+
+        $daysToNextRefuel = config('settings.fuel_requisition_validity');
+
+        $approvalHistory = [];
+        return array(
+            $user,
+            $requestDetails,
+            $supportingDocument,
+            $workflowTask,
+            $requisitionTypes,
+            $daysToNextRefuel,
+            $approvalHistory
+        );
     }
 }
