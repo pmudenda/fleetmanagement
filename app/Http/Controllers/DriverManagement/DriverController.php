@@ -125,33 +125,33 @@ class DriverController extends Controller
                     'payload' => $driver
                 ]);
             }
-            else{
-                $driver = PHCMSEmployee::where('con_per_no', '=', $searchParam)
-                    ->orWhere('name', 'LIKE', "%{$searchParam}%")
-                    ->where('con_st_code', '=', 'ACT')
-                    ->first();
 
-                if ($driver->con_st_code != 'ACT' && $driver->con_st_code != '01') {
-                    throw new DriverSearchException(str_replace(self::INPUT,
-                        $searchParam,
-                        ErrorMessages::getMessage('err_0027')
-                    ));
-                }
+            $driver = PHCMSEmployee::where('con_per_no', '=', $searchParam)
+                ->orWhere('name', 'LIKE', "%{$searchParam}%")
+                ->where('con_st_code', '=', 'ACT')
+                ->first();
 
-                if (empty($driver)) {
-                    throw new DriverSearchException(
-                        str_replace(
-                            self::INPUT,
-                            $searchParam,
-                            ErrorMessages::getMessage('err_0011'))
-                    );
-                }
-
-                return response()->json([
-                    'success' => true,
-                    'payload' => $driver
-                ]);
+            if ($driver->con_st_code != 'ACT' && $driver->con_st_code != '01') {
+                throw new DriverSearchException(str_replace(self::INPUT,
+                    $searchParam,
+                    ErrorMessages::getMessage('err_0027')
+                ));
             }
+
+            if (empty($driver)) {
+                throw new DriverSearchException(
+                    str_replace(
+                        self::INPUT,
+                        $searchParam,
+                        ErrorMessages::getMessage('err_0011'))
+                );
+            }
+
+            return response()->json([
+                'success' => true,
+                'payload' => $driver
+            ]);
+
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage('err_0005');
             if ($e instanceof DriverSearchException) {
