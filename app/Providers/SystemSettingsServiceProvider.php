@@ -22,7 +22,7 @@ class SystemSettingsServiceProvider extends ServiceProvider
 
             foreach ($settings as $setting) {
                 if ($setting->data_type == 'bool') {
-                    config([$setting->config_file_name . '.' . $setting->name => $setting->value ?? false]);
+                    config([$setting->config_file_name . '.' . $setting->name => (bool)$setting->value ?? false]);
                 } else {
                     config([$setting->config_file_name . '.' . $setting->name => $setting->value ?? '']);
                 }
