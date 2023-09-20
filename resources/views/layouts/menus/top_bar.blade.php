@@ -1,4 +1,4 @@
-@php use App\Services\Security\ParameterEncryption; @endphp
+@php @endphp
 <nav class="main-header navbar navbar-expand navbar-white navbar-light bg-zesco-orange">
 
     <ul class="navbar-nav">
@@ -208,16 +208,14 @@
             <a class="nav-link" data-toggle="dropdown" href="#">
                 {{Auth::user()->name}}</a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="{{URL::signedRoute('profile',[
-                        'key'=> ParameterEncryption::encrypt( Auth::user()->id) ])
-                        }}"
+                <a href="{{URL::signedRoute('profile',Auth::user()->id)}}"
                    class="dropdown-item">
                     <i class="fas fa-user-circle mr-2"></i>
                     My Profile
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="{{URL::signedRoute('user.profile.delegation',[
-                        'key'=> ParameterEncryption::encrypt( Auth::user()->id),
+                        'id'=> Auth::user()->id,
                         'self'=> true
                         ])}}"
                    class="dropdown-item">

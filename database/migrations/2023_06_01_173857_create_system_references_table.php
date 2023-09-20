@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('GEN_SYSTEM_REFERENCES', function (Blueprint $table) {
+        Schema::create('GEN_REF_NUMBERS', function (Blueprint $table) {
             $table->id();
             $table->string('reference', 20);
             $table->string('created_by', 20);
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('GEN_SYSTEM_REFERENCES');
+        Schema::dropIfExists('GEN_REF_NUMBERS');
     }
 };
