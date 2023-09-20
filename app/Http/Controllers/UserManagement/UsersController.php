@@ -15,7 +15,6 @@ use App\Models\Security\Role;
 use App\Models\Security\User;
 use App\Services\Logging\ActivityLogsService;
 use App\Services\Organization\StructureService;
-use App\Services\Security\ParameterEncryption;
 use App\Services\Security\RoleService;
 use App\Services\Security\UserService;
 use Exception;
@@ -72,9 +71,11 @@ class UsersController extends Controller
         $costCenters = (new StructureService)->getCostCenters();
 
         return view('modules.userManagement.addUser')
-            ->with(compact('roles',
+            ->with(compact(
+                    'roles',
                     'businessUnits',
-                    'costCenters')
+                    'costCenters'
+                )
             );
     }
 
@@ -129,7 +130,7 @@ class UsersController extends Controller
             return redirect(route('users.list'));
         }
 
-        $id = (int)ParameterEncryption::decrypt($request->get('key'));
+        $id = (int)$request->get('key');
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
         return view('modules.userManagement.show')

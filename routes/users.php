@@ -9,7 +9,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'user-management'], function () {
 
-        Route::get('user/profile', [UsersController::class, 'profile'])->name('profile');
+        Route::get('user/show', [UsersController::class, 'profile'])->name('profile');
 
         Route::get('users/new', [UsersController::class, 'create'])->name('users.new');
 
@@ -22,10 +22,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('/get-employee-data', [UsersController::class, 'search'])->name('user.search');
 
-        Route::post('user/attach', [UsersController::class, 'attach'])->name('user.attach');
-        Route::post('user/detach', [UsersController::class, 'detach'])->name('user.detach');
+        Route::post('user/role/attach', [UsersController::class, 'attach'])->name('user.attach');
 
-        Route::post('user/sync', [UsersController::class, 'sync'])->name('user.sync');
+        Route::post('user/role/detach', [UsersController::class, 'detach'])->name('user.detach');
+
+        Route::post('user/data/sync', [UsersController::class, 'sync'])->name('user.sync');
 
         Route::get('user/profile/delegation', [UsersController::class, 'delegation'])
             ->name('user.profile.delegation');
