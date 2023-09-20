@@ -10,7 +10,9 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'System Users List'" :activeCrumb="'User Details'" :link="'home'"
+    <x-content-header :pageTitle="'System Users List'"
+                      :activeCrumb="'User Details'"
+                      :link="'home'"
                       :linkText="'System Users'"/>
 
     <!-- Main content -->
@@ -131,8 +133,8 @@
                                             @can(config('rights.user_show'))
                                                 <td>
                                                     <a href="{{URL::signedRoute('user.show',
-                                                            $user->id
-                                                            )
+                                                           ['key'=> $user->id]
+                                                           )
                                                         }}"
                                                        class="btn btn-sm btn-success m-1">
                                                         Details
