@@ -16,29 +16,29 @@ Route::group(['middleware' => 'auth',
         Route::get('/', [FuelRequisitionController::class, 'create'])
             ->name('new.fuel.requisition');
 
+        Route::post('/requisition/save', [FuelRequisitionController::class, 'store'])
+            ->name('save.fuel.requisition');
+
+        Route::get('/requisition/list', [FuelRequisitionController::class, 'list'])
+            ->name('list.fuel.requisition');
+
         Route::get('requisition/approve', [FuelRequisitionController::class, 'show'])
             ->name('show.fuel.requisition');
 
-        Route::get('requisition/edit', [FuelRequisitionController::class, 'editFuelRequisition'])
+        Route::get('requisition/edit', [FuelRequisitionController::class, 'edit'])
             ->name('edit.fuel.requisition');
-
-        Route::post('/requisition/save', [FuelRequisitionController::class, 'submitRequisition'])
-            ->name('save.fuel.requisition');
 
         Route::post('requisition/resubmit', [FuelRequisitionController::class, 'resubmit'])
             ->name('resubmit.fuel.requisition');
 
-        Route::post('requisition/latest', [FuelRequisitionController::class, 'latestRequisition'])
+        Route::post('requisition/latest', [FuelRequisitionController::class, 'findLatestRequisition'])
             ->name('fuel.last.requisition');
-
-        Route::get('/requisition/list', [FuelRequisitionController::class, 'index'])
-            ->name('list.fuel.requisition');
 
         Route::post('/odometer/validation', [FuelRequisitionController::class, 'validateOdometer'])
             ->name('fuel.odometer.validation');
 
-        Route::get('intercity/distance', [FuelRequisitionController::class, 'getDistance'])
-            ->name('intercity.distance');
+        /*Route::get('intercity/distance', [FuelRequisitionController::class, 'getDistance'])
+            ->name('intercity.distance');*/
 
         Route::post('/workflow/approve', [WorkflowController::class, 'processFuelRequisitionApproval'])
             ->name('workflow.approve');

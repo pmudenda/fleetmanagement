@@ -45,7 +45,7 @@ class FuelRequisitionController extends Controller
         $this->distanceChartService = $distanceChartService;
     }
 
-    public function index(): View
+    public function list(): View
     {
         $requisitions = $this->requisitionService->getMyRequisitions(null);
         $requisitionType = "FUEL";
@@ -57,6 +57,28 @@ class FuelRequisitionController extends Controller
             );
     }
 
+    public function show(Request $request): View
+    {
+        list($user,
+            $requestDetails,
+            $supportingDocument,
+            $workflowTask,
+            $requisitionTypes,
+            $daysToNextRefuel,
+            $approvalHistory
+            ) = $this->getRequisitionDetails($request);
+
+        return view('modules.fuelManagement.requisitions.show')
+            ->with(compact(
+                'user',
+                'requisitionTypes',
+                'requestDetails',
+                'daysToNextRefuel',
+                'approvalHistory',
+                'workflowTask',
+                'supportingDocument'
+            ));
+    }
 
     public function validateOdometer(OdometerValidationRequest $request): JsonResponse
     {
@@ -127,7 +149,7 @@ class FuelRequisitionController extends Controller
             );
     }
 
-    public function submitRequisition(FuelRequisitionPostRequest $request): JsonResponse
+    public function store(FuelRequisitionPostRequest $request): JsonResponse
     {
         try {
             return $this->requisitionService->processRequest($request);
@@ -146,7 +168,7 @@ class FuelRequisitionController extends Controller
         }
     }
 
-    public function update(FuelRequisitionUpdate $request): JsonResponse
+    public function resubmit(FuelRequisitionUpdate $request): JsonResponse
     {
         try {
             return $this->requisitionService->processRequisitionUpdate($request);
@@ -165,30 +187,7 @@ class FuelRequisitionController extends Controller
         }
     }
 
-    public function show(Request $request): View
-    {
-        list($user,
-            $requestDetails,
-            $supportingDocument,
-            $workflowTask,
-            $requisitionTypes,
-            $daysToNextRefuel,
-            $approvalHistory
-            ) = $this->getRequisionDetails($request);
-
-        return view('modules.fuelManagement.requisitions.show')
-            ->with(compact(
-                'user',
-                'requisitionTypes',
-                'requestDetails',
-                'daysToNextRefuel',
-                'approvalHistory',
-                'workflowTask',
-                'supportingDocument'
-            ));
-    }
-
-    public function editFuelRequisition(Request $request): string
+    public function edit(Request $request): string
     {
         Log::info("Running Fuel Edit Request");
 
@@ -198,7 +197,7 @@ class FuelRequisitionController extends Controller
             $workflowTask,
             $requisitionTypes,
             $daysToNextRefuel,
-            $approvalHistory) = $this->getRequisionDetails($request);
+            $approvalHistory) = $this->getRequisitionDetails($request);
 
         $cities = $this->distanceChartService->getInterCityDistanceArray();
         $citiesFrom = Town::orderBy('town_name')->get();
@@ -217,7 +216,7 @@ class FuelRequisitionController extends Controller
             ));
     }
 
-    public function latestRequisition(Request $request): JsonResponse
+    public function findLatestRequisition(Request $request): JsonResponse
     {
         if (!$request->has('vehicle_registration')) {
             return response()->json([
@@ -273,7 +272,7 @@ class FuelRequisitionController extends Controller
      * @param Request $request
      * @return void
      */
-    public function validateSignature(Request $request): void
+    private function validateSignature(Request $request): void
     {
         if (!$request->hasValidSignature()) {
             abort(401);
@@ -284,7 +283,7 @@ class FuelRequisitionController extends Controller
      * @param Request $request
      * @return array
      */
-    public function getRequisionDetails(Request $request): array
+    private function getRequisitionDetails(Request $request): array
     {
         $this->validateSignature($request);
 
