@@ -20,7 +20,7 @@
                     </div>
                     <div class="card-body p-2">
                         <div class="table-responsive mt-10 ">
-                            <table id="listTable" class="table table-bordered">
+                            <table id="openJobCardsList" class="table table-bordered">
                                 <thead>
                                 <tr>
                                     <th>Reference #</th>
@@ -50,9 +50,9 @@
                                         <td>
                                             @if(!empty($rec->document_no))
                                                 <a
-                                                        title="View Job Card"
-                                                        data-toggle="tooltip"
-                                                        href="{{URL::signedRoute('view.job.card',["viewOnly"=>true,'step'=> '1', 'reference'=>$rec->document_no])}}">
+                                                    title="View Job Card"
+                                                    data-toggle="tooltip"
+                                                    href="{{URL::signedRoute('view.job.card',["viewOnly"=>true,'step'=> '1', 'reference'=>$rec->document_no])}}">
                                                     {{$rec->document_no}}
                                                 </a>
                                             @else
@@ -100,7 +100,7 @@
 @push('scripts')
     <script>
         (function (appInstance) {
-            appInstance.initDatatable("#listTable", false);
+            appInstance.initDatatable("#openJobCardsList", true, true, []);
         })(window.tmsApp || {});
     </script>
 @endpush
