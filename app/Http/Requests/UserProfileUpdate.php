@@ -31,7 +31,7 @@ class UserProfileUpdate extends FormRequest
             'staff_supervisor' => 'required',
             'staff_supervisorId' => 'required',
             'user_profile' => 'required',
-            'justification' => 'required|string|max:255'
+            'justification' => 'nullable|string|max:255'
         ];
     }
 }
