@@ -189,31 +189,38 @@
                                                     <div class="row">
                                                         <div class="row">
 
-                                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
                                                                 <div class="container-fluid pl-0">
                                                                     <div class="row">
                                                                         <div class="form-group row">
-                                                                            <div
-                                                                                class="col-xs-12 col-sm-6
-                                                                                col-md-5
-                                                                                col-lg-4 control-input-wrapper">
-                                                                                <div class="control-input">
-                                                                                    <div class=""
-                                                                                         style="position: relative;">
-                                                                                        <label
-                                                                                            class="form-check-inline">
-                                                                                            Select User
-                                                                                        </label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5
+                                                                                col-lg-3"
+                                                                                for="staff_number">Find By:
+                                                                            </label>
                                                                             <div
                                                                                 class="col-xs-12 col-sm-6
                                                                                 col-md-7 col-lg-6">
-                                                                                <input class="form-control select2"
-                                                                                       name="user_id"
-                                                                                       required
-                                                                                       style="width: 100%;"/>
+                                                                                <div class="input-group">
+                                                                                    <input type="text"
+                                                                                           class="form-control
+                                                                                           form-control-sm"
+                                                                                           id="staff_number"
+                                                                                           placeholder="Staff number"
+                                                                                           name="staff_number"
+                                                                                           required
+                                                                                    />
+                                                                                    <div class="input-group-addon">
+                                                                                        <button type="button"
+                                                                                                id="employeeSearchBtn"
+                                                                                                name="userSearchBtn"
+                                                                                                class="btn btn-primary
+                                                                                                btn-sm border-radius-0">
+                                                                                            <i class="fas fa-search">
+                                                                                            </i>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -284,7 +291,6 @@
                                                                        style="width: 100%;"
                                                                 />
                                                             </div>
-                                                            <!-- /.form-group -->
                                                         </div>
 
 
