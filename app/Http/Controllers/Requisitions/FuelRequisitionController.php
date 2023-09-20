@@ -31,13 +31,14 @@ use Mockery\CountValidator\Exception;
 
 class FuelRequisitionController extends Controller
 {
-
     private readonly OdometerValidationService $odometerValidationService;
+    private FuelRequisitionService $requisitionService;
 
     public function __construct(FuelRequisitionService    $requisitionService,
                                 OdometerValidationService $odometerValidationService)
     {
         $this->odometerValidationService = $odometerValidationService;
+        $this->requisitionService = $requisitionService;
     }
 
     public function index(): View
