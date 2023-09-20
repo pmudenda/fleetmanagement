@@ -268,7 +268,7 @@ class FuelRequisitionValidationService
                                       array                      $openRequisitionStatusList
     ): array
     {
-// out of town requisition request amount can be more than allocated
+        // out of town requisition request amount can be more than allocated
         $validFrom = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("departure_date"));
         $validTo = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("return_date"));
 
@@ -289,6 +289,7 @@ class FuelRequisitionValidationService
         } else {
             Log::info('Nothing found for cancellation');
         }
+
         return array($validFrom, $validTo);
     }
 

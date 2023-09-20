@@ -113,6 +113,7 @@ class FuelRequisitionService
         // pick last requisition if any
         $openRequisitionStatusList = [
             StatusHelper::new(),
+            StatusHelper::resubmitted(),
             StatusHelper::partiallyReleased(),
             StatusHelper::authorised(),
             StatusHelper::partiallyAuthorised()
@@ -774,11 +775,13 @@ class FuelRequisitionService
         $requisitionNumber = null;
         if ($nextStepId == 100) {
             if ($action == WorkflowActions::approve()) {
+
                 $requisitionNumber = $this->createStoresRequisition(
                     $reference
                 );
+
                 $message = $message . ' Stores Requisition No.: ' . $requisitionNumber;
-                $this->updateStatus($reference, StatusHelper::authorised());
+                //$this->updateStatus($reference, StatusHelper::authorised());
             } elseif ($action == WorkflowActions::reject()) {
                 $status = StatusHelper::rejected();
                 $message = 'Request Rejected.';
