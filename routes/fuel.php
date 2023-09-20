@@ -41,7 +41,7 @@ Route::group(['middleware' => 'auth',
             ->name('intercity.distance');*/
 
         Route::post('/workflow/approve', [WorkflowController::class, 'processFuelRequisitionApproval'])
-            ->name('workflow.approve');
+            ->name('workflow.fuel.approve');
 
     });
 
