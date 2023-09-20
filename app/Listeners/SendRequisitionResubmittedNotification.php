@@ -2,8 +2,11 @@
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Events\RequisitionResubmitted;
+use App\Models\Security\User;
+use App\Models\Workflow\WorkflowTaskHeader;
+use App\Services\NotificationService\EmailNotificationService;
+use Illuminate\Support\Facades\Log;
 
 class SendRequisitionResubmittedNotification
 {
@@ -18,8 +21,30 @@ class SendRequisitionResubmittedNotification
     /**
      * Handle the event.
      */
-    public function handle(object $event): void
+    public function handle(RequisitionResubmitted $event): void
     {
-        //
+        try {
+            $reference = $event->reference;
+            $user = $event->user;
+            $action = $event->action;
+
+            // reduce query with join
+            $sender = $user; //User::where('staff_no', '=', trim(->staff_no))->first();
+            $task = WorkflowTaskHeader::where('reference', '=', trim($reference))->first();
+            $recipient = User::where('staff_no', trim($task->assigned_user))
+                ->first();
+
+            Log::info('Sending Mail Notification');
+
+            EmailNotificationService::sendNotification($recipient, $sender,
+                [
+                    'req_no' => $reference
+                ],
+                $action
+            );
+        } catch (\Exception $e) {
+            Log::info('Error When Sending Mail');
+            Log::error($e->getMessage());
+        }
     }
 }

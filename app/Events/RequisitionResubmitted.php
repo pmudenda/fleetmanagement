@@ -4,10 +4,7 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -19,7 +16,7 @@ class RequisitionResubmitted
      * Create a new event instance.
      */
     public string $reference;
-    public Authenticatable|null $user;
+    public $user;
     public string $action;
     public string|null $requisitionNumber;
 
@@ -30,6 +27,7 @@ class RequisitionResubmitted
         $this->action = $action;
         $this->requisitionNumber = $requisitionNumber;
     }
+
     /**
      * Get the channels the event should broadcast on.
      *
