@@ -630,6 +630,8 @@ class WorkflowService
         $taskDetail->actioning_officer = $previousStepLog->actioning_officer;
         $taskDetail->save();
 
+        Log::info("Previous Step $previousStepLog->previous_step");
+
         $previousStep = WorkflowStep::where(
             'process_id',
             '=',
