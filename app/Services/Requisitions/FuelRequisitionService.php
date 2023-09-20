@@ -453,7 +453,7 @@ class FuelRequisitionService
         MaterialDetail::where("req_no", $requisitionReferenceNumber)
             ->update(["quantity" => $materialQuantity]);
 
-        $this->fuelRequisitionService->processFuelRequisitionWorkflow(
+        $this->processFuelRequisitionWorkflow(
             $requisitionReferenceNumber,
             $submittedAction,
             $remarks
