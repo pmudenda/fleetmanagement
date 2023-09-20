@@ -38,10 +38,13 @@
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="employee_search_criteria"
                                                            placeholder="Enter staff number"
-                                                           name="employee_search_criteria" required>
+                                                           name="employee_search_criteria"
+                                                           required
+                                                    />
                                                     <div class="input-group-addon">
                                                         <button type="button" id="employeeSearchBtn"
                                                                 name="userSearchBtn"
