@@ -21,19 +21,16 @@ class MaterialReservationController extends Controller
 {
     private WorkshopService $workshopService;
     private DocumentNumberGenerationService $numberGeneratorService;
-    private FuelRequisitionService $fuelRequisitionService;
     private WorkshopRequisitionService $workshopRequisitionService;
     private readonly JobCardDetailsService $jobCardDetailsService;
 
     public function __construct(WorkshopService                 $workshopService,
                                 DocumentNumberGenerationService $numberGeneratorService,
-                                FuelRequisitionService          $requisitionService,
                                 WorkshopRequisitionService      $workshopRequisitionService,
                                 JobCardDetailsService           $jobCardDetailsService)
     {
         $this->workshopService = $workshopService;
         $this->numberGeneratorService = $numberGeneratorService;
-        $this->fuelRequisitionService = $requisitionService;
         $this->workshopRequisitionService = $workshopRequisitionService;
         $this->jobCardDetailsService = $jobCardDetailsService;
     }

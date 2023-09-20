@@ -45,19 +45,15 @@ class FuelRequisitionService
     private WorkflowService $workflowService;
     private ProcurementSystemIntegrationService $procurementService;
     private FuelRequisitionValidationService $validationService;
-    private FuelRequisitionService $fuelRequisitionService;
 
-    public function __construct(VehicleDetailsService               $vehicleDetailsService,
-                                WorkflowService                     $workflowService,
-                                ProcurementSystemIntegrationService $procurementService,
-                                FuelRequisitionValidationService    $validationService,
-                                FuelRequisitionService              $fuelRequisitionService)
+    public function __construct(
+        WorkflowService                     $workflowService,
+        ProcurementSystemIntegrationService $procurementService,
+        FuelRequisitionValidationService    $validationService)
     {
-        $this->vehicleDetailsService = $vehicleDetailsService;
         $this->workflowService = $workflowService;
         $this->procurementService = $procurementService;
         $this->validationService = $validationService;
-        $this->fuelRequisitionService = $fuelRequisitionService;
     }
 
     /**
@@ -815,7 +811,7 @@ class FuelRequisitionService
             } elseif ($action == WorkflowActions::sendBack()) {
                 $status = StatusHelper::sentBack();
                 $message = 'Request Returned to Originator';
-            }elseif ($action == WorkflowActions::resubmitted()) {
+            } elseif ($action == WorkflowActions::resubmitted()) {
                 $status = StatusHelper::submitted();
             }
             $this->updateStatus($reference, $status);

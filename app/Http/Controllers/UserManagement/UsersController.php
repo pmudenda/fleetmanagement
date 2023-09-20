@@ -137,21 +137,6 @@ class UsersController extends Controller
 
     }
 
-    public function getStatus(): JsonResponse
-    {
-        $user = Auth()->user();
-        if (!$user || $user->id == 0) {
-            return response()->json(array(
-                'message' => 'Session Expired',
-                'state' => 'expired'
-            ));
-        }
-        return response()->json(array(
-            'message' => '',
-            'state' => 'active',
-        ));
-    }
-
     public function attach(Request $request): RedirectResponse
     {
         try {

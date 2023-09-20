@@ -13,8 +13,6 @@ use App\Models\Common\CostCenter;
 use App\Models\Common\OrganizationalUnit;
 use App\Models\Security\User;
 use App\Services\Integration\ProcurementSystemIntegrationService;
-use App\Services\VehicleManagement\VehicleDetailsService;
-use App\Services\Workflow\WorkflowService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -26,18 +24,14 @@ class FuelRequisitionValidationService
     const DATE_VALID_TO = "@date_valid_to";
     const VEH_REG = "@veh_reg";
     const DATE_FORMAT = "d/m/Y";
-    private VehicleDetailsService $vehicleDetailsService;
+
     private RequisitionAndTaskCancellation $requisitionAndTaskCancellation;
-    private WorkflowService $workflowService;
+
     private ProcurementSystemIntegrationService $procurementService;
 
-    public function __construct(VehicleDetailsService               $vehicleDetailsService,
-                                WorkflowService                     $workflowService,
-                                ProcurementSystemIntegrationService $procurementService,
+    public function __construct(ProcurementSystemIntegrationService $procurementService,
                                 RequisitionAndTaskCancellation      $requisitionAndTaskCancellation)
     {
-        $this->vehicleDetailsService = $vehicleDetailsService;
-        $this->workflowService = $workflowService;
         $this->procurementService = $procurementService;
         $this->requisitionAndTaskCancellation = $requisitionAndTaskCancellation;
     }

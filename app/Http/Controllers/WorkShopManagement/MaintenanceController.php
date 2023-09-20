@@ -41,19 +41,17 @@ class MaintenanceController extends Controller
 {
     private WorkshopService $workshopService;
     private DocumentNumberGenerationService $numberGeneratorService;
-    private FuelRequisitionService $fuelRequisitionService;
     private WorkshopRequisitionService $workshopRequisitionService;
     private readonly JobCardDetailsService $jobCardDetailsService;
 
     public function __construct(WorkshopService                 $workshopService,
                                 DocumentNumberGenerationService $numberGeneratorService,
-                                FuelRequisitionService          $requisitionService,
                                 WorkshopRequisitionService      $workshopRequisitionService,
-                                JobCardDetailsService           $jobCardDetailsService)
+                                JobCardDetailsService           $jobCardDetailsService
+    )
     {
         $this->workshopService = $workshopService;
         $this->numberGeneratorService = $numberGeneratorService;
-        $this->fuelRequisitionService = $requisitionService;
         $this->workshopRequisitionService = $workshopRequisitionService;
         $this->jobCardDetailsService = $jobCardDetailsService;
     }
@@ -556,18 +554,13 @@ class MaintenanceController extends Controller
     public function getFuelLevels(): JsonResponse
     {
         return response()->json(
-            [
-                'success' => true,
-                'payload' => GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
+            FleetMasterJsonResponse::response(
+                'success',
+                true,
+                null,
+                GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
                     ->get()
-            ]
-        /*FleetMasterJsonResponse::response(
-            'success',
-            true,
-            null,
-            GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
-                ->get()
-        )*/
+            )
         );
     }
 

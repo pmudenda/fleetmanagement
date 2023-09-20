@@ -4,7 +4,6 @@ namespace App\Http\Controllers\WorkShopManagement;
 
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
@@ -14,21 +13,16 @@ use Illuminate\View\View;
 
 class JobCardController extends Controller
 {
-    const RECORD_NOT_FOUND = "Record Not Found";
-    const RECORD_REMOVED_SUCCESSFULLY = "Record Removed Successfully";
     private WorkshopService $workshopService;
     private DocumentNumberGenerationService $numberGeneratorService;
-    private FuelRequisitionService $fuelRequisitionService;
     private WorkshopRequisitionService $workshopRequisitionService;
 
     public function __construct(WorkshopService                 $workshopService,
                                 DocumentNumberGenerationService $numberGeneratorService,
-                                FuelRequisitionService          $requisitionService,
                                 WorkshopRequisitionService      $workshopRequisitionService)
     {
         $this->workshopService = $workshopService;
         $this->numberGeneratorService = $numberGeneratorService;
-        $this->fuelRequisitionService = $requisitionService;
         $this->workshopRequisitionService = $workshopRequisitionService;
     }
 

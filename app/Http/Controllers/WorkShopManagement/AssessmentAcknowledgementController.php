@@ -15,9 +15,9 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
-class JobCardAcknowledgementController extends Controller
+class AssessmentAcknowledgementController extends Controller
 {
-    public function eSign(Request $request): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
         try {
             $staffNumber = $request->get('loginId');

@@ -11,31 +11,33 @@ use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\API\RTSAIntegrationController;
 use App\Http\Controllers\OrganizationStructure\BusinessAreasController;
 use App\Http\Controllers\OrganizationStructure\DirectoratesController;
+use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\WorkShopManagement\WorkShopArticleController;
 use App\Models\Settings\GeneralTable;
 use App\Models\WorkShopManagement\WorkShopTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'v1/en'], function (): void {
-    /** Brands API **/
+Route::group(['middleware' => 'auth', 'prefix' => 'v1/en',], function (): void {
 
-    /* BUSINESS UNITS*/
-    Route::get('business-units', BusinessUnitsController::class)
-        ->name('business.units');
+    Route::group(['prefix' => 'organisation/structure'], function () {
 
-    Route::get('organizational-units', OrganizationalUnitsController::class)
-        ->name('organizational.units');
+        Route::get('business-units', BusinessUnitsController::class)
+            ->name('business.units');
 
-    Route::get('directorates', [DirectoratesController::class, 'get'])
-        ->name('directorates');
+        Route::get('organizational-units', OrganizationalUnitsController::class)
+            ->name('organizational.units');
 
-    /* BUSINESS UNITS*/
-    Route::get('cost-centers', CostCenterController::class)
-        ->name('cost.centers');
+        Route::get('directorates', [DirectoratesController::class, 'get'])
+            ->name('directorates');
 
-    Route::get('business-areas', [BusinessAreasController::class, 'get'])
-        ->name('business.areas');
+        Route::get('cost-centers', CostCenterController::class)
+            ->name('cost.centers');
+
+        Route::get('business-areas', [BusinessAreasController::class, 'get'])
+            ->name('business.areas');
+    });
 
     Route::get('purchase/orders', [ProcurementSystemIntegrationController::class, 'verifyPurchaseOrder'])
         ->name('verify.purchase.order');
@@ -48,99 +50,102 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     Route::post('license-verification', [RTSAIntegrationController::class, 'verifyLicenseDetails'])
         ->name('license.details.verification');
 
+    Route::group(['prefix' => 'workshop/data'], function () {
 
-    Route::get('load/vehicle/systems', function (Request $request) {
-        try {
-            $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))
-                ->where('status', '=', StatusHelper::active())
-                ->get();
-            return response()->json([
-                'success' => !empty($workShopTableData),
-                'payload' => $workShopTableData
-            ]);
+        Route::get('vehicle/systems', function (Request $request) {
+            try {
+                $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))
+                    ->where('status', '=', StatusHelper::active())
+                    ->get();
+                return response()->json([
+                    'success' => !empty($workShopTableData),
+                    'payload' => $workShopTableData
+                ]);
 
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'success' => false,
-                'payload' => [],
-                'message' => ErrorMessages::getMessage('')
-            ]);
-        }
-    })
-        ->name('load.vehicle.systems');
+            } catch (Exception $e) {
+                Log::error($e);
+                return response()->json([
+                    'success' => false,
+                    'payload' => [],
+                    'message' => ErrorMessages::getMessage('')
+                ]);
+            }
+        })
+            ->name('load.vehicle.systems');
 
-    Route::get('load/defectsCategory', function (Request $request) {
-        try {
-            Log::info('Request filter ' . $request->get('key'));
+        Route::get('defectsCategory', function (Request $request) {
+            try {
+                Log::info('Request filter ' . $request->get('key'));
 
-            $workShopTableData = WorkShopTable::where('type_code', 'WCT')
-                //->where('status', '=', 1)
-                ->where('parent', $request->get('key'))->get();
+                $workShopTableData = WorkShopTable::where('type_code', 'WCT')
+                    //->where('status', '=', 1)
+                    ->where('parent', $request->get('key'))->get();
 
-            return response()->json([
-                'success' => !empty($workShopTableData),
-                'payload' => $workShopTableData
-            ]);
+                return response()->json([
+                    'success' => !empty($workShopTableData),
+                    'payload' => $workShopTableData
+                ]);
 
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'success' => false,
-                'payload' => [],
-                'message' => ErrorMessages::getMessage('err_0005')
-            ]);
-        }
-    })
-        ->name('load.defects.category');
+            } catch (Exception $e) {
+                Log::error($e);
+                return response()->json([
+                    'success' => false,
+                    'payload' => [],
+                    'message' => ErrorMessages::getMessage('err_0005')
+                ]);
+            }
+        })
+            ->name('load.defects.category');
 
-    Route::get('load/defects', function (Request $request) {
-        try {
-            Log::info('Request filter ' . $request->get('key'));
+        Route::get('defects', function (Request $request) {
+            try {
+                Log::info('Request filter ' . $request->get('key'));
 
-            $workShopTableData = WorkShopTable::where('type_code', 'WDF')
-                ->where('status', '=', StatusHelper::active())
-                ->where('parent', $request->get('key'))->get();
+                $workShopTableData = WorkShopTable::where('type_code', 'WDF')
+                    ->where('status', '=', StatusHelper::active())
+                    ->where('parent', $request->get('key'))->get();
 
-            return response()->json([
-                'success' => !empty($workShopTableData),
-                'payload' => $workShopTableData
-            ]);
+                return response()->json([
+                    'success' => !empty($workShopTableData),
+                    'payload' => $workShopTableData
+                ]);
 
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'success' => false,
-                'payload' => [],
-                'message' => ErrorMessages::getMessage('err_0005')
-            ]);
-        }
-    })
-        ->name('load.defects');
+            } catch (Exception $e) {
+                Log::error($e);
+                return response()->json([
+                    'success' => false,
+                    'payload' => [],
+                    'message' => ErrorMessages::getMessage('err_0005')
+                ]);
+            }
+        })
+            ->name('load.defects');
 
-    Route::get('load/workshop/section', function (Request $request) {
-        try {
+        Route::get('workshop/section', function (Request $request) {
+            try {
 
-            $workShopSection = GeneralTable::where('type', ConfigurationTypes::WORK_SHOP_SECTION)
-                ->where('parent', $request->get('key'))
-                ->where('status', '=', StatusHelper::active())
-                ->get();
+                $workShopSection = GeneralTable::where('type', ConfigurationTypes::WORK_SHOP_SECTION)
+                    ->where('parent', $request->get('key'))
+                    ->where('status', '=', StatusHelper::active())
+                    ->get();
 
-            return response()->json([
-                'success' => !empty($workShopSection),
-                'payload' => $workShopSection
-            ]);
+                return response()->json([
+                    'success' => !empty($workShopSection),
+                    'payload' => $workShopSection
+                ]);
 
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'success' => false,
-                'payload' => [],
-                'message' => ErrorMessages::getMessage('err_0005')
-            ]);
-        }
-    })
-        ->name('load.workshop.section');
+            } catch (Exception $e) {
+                Log::error($e);
+                return response()->json([
+                    'success' => false,
+                    'payload' => [],
+                    'message' => ErrorMessages::getMessage('err_0005')
+                ]);
+            }
+        })
+            ->name('load.workshop.section');
+    });
+
 
     Route::get('load/licence/classes', function () {
         try {
@@ -209,4 +214,15 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     })
         ->name('transmission.types');
 
+    Route::get('load/procurement/articles', [WorkShopArticleController::class, 'searchArticle'])
+        ->name('load.articles');
+
+    Route::get('get/procurement/articles', [WorkShopArticleController::class, 'getArticlesByType'])
+        ->name('get.articles');
+
+    Route::get('load/article/details', [ProcurementSystemIntegrationController::class, "getArticleDetails"])
+        ->name('load.article.details');
+
+    Route::get('searchProjects', [ProjectsController::class, 'findProjectByCode'])
+        ->name('search.project');
 });
