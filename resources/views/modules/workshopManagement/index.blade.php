@@ -280,15 +280,6 @@
 
             tmsApp.initDatatable("#pendingJobCardTable", true, true, []);
 
-            /*let editModal = bootstrap.Modal.getOrCreateInstance(editRecordModalEl, {
-                'backdrop': true,
-                'keyboard': false
-            });
-*/
-            /* editRecordModalEl.addEventListener('hidden.bs.modal', function (event) {
-                 document.querySelector('[name="editRecordForm"]').reset();
-             });*/
-
             addRecordModalEl.addEventListener('hidden.bs.modal', function (event) {
                 document.querySelector('[name="addRecordForm"]').reset();
             });

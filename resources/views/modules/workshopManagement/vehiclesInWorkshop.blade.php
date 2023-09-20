@@ -74,7 +74,7 @@
                         <div class="card-body p-2">
                             <div class="table-responsive mt-10 ">
                                 <table aria-label="Open Job Cards"
-                                       id="listTable"
+                                       id="inWorkShopList"
                                        class="table table-bordered">
                                     <thead>
                                     <tr>
@@ -285,7 +285,7 @@
     <script>
         (function (tmsApp) {
             let editRecordModalEl = document.querySelector('#editRecordModal')
-            tmsApp.initDatatable("#listTable", true);
+            tmsApp.initDatatable("#inWorkShopList", true, true, []);
 
             $('input[name="name"]').on('paste keyup', function () {
                 this.value = this.value.toLocaleUpperCase();
