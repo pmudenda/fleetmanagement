@@ -188,6 +188,43 @@
 
                                                     <div class="row">
                                                         <div class="row">
+
+                                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-5
+                                                                                col-lg-4 control-input-wrapper">
+                                                                                <div class="control-input">
+                                                                                    <div class=""
+                                                                                         style="position: relative;">
+                                                                                        <label
+                                                                                            class="form-check-inline">
+                                                                                            Select User
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-7 col-lg-6">
+                                                                                <select class="form-control select2"
+                                                                                        name="user_id"
+                                                                                        required
+                                                                                        style="width: 100%;">
+                                                                                    <option disabled value="" selected>
+                                                                                        Select User
+                                                                                    </option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
                                                             <div class="col-xs-12 col-sm-6 col-md-6">
                                                                 <div class="container-fluid pl-0">
                                                                     <div class="row">
@@ -224,20 +261,7 @@
                                                         </div>
 
 
-                                                        <div class="col-6">
-                                                            <div class="form-group">
-                                                                <label>Select User</label>
-                                                                <select class="form-control select2"
-                                                                        name="user_id"
-                                                                        required
-                                                                        style="width: 100%;">
-                                                                    <option disabled value="" selected>
-                                                                        Select User
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                            <!-- /.form-group -->
-                                                        </div>
+
                                                         <div class="col-6">
                                                             <div class="form-group">
                                                                 <label>Select Profile</label>
