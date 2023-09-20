@@ -159,8 +159,8 @@ class WorkflowService
     ): array
     {
 
-        Log::info('Processing Workflow Reference ' . $reference);
-        Log::info('Workflow Process Code ' . $processId);
+        Log::debug('Processing Workflow Reference ' . $reference);
+        Log::debug('Workflow Process Code ' . $processId);
 
         // get workflow process header for the task
         $taskHeader = WorkflowTaskHeader::where(
@@ -210,8 +210,8 @@ class WorkflowService
             );
         }
 
-        Log::info("Action Passed is " . $action);
-        Log::info("Action Taken " . $actionTaken);
+        Log::debug("Action Passed is " . $action);
+        Log::debug("Action Taken " . $actionTaken);
 
         $userUnit = $taskHeader->user_unit ?? 'G1500';
 
@@ -618,6 +618,10 @@ class WorkflowService
     /**
      * @param WorkflowTaskDetail $taskDetail
      * @param WorkflowTaskHeader $taskHeader
+     * @param $comment
+     * @param $action
+     * @param $actionTaken
+     * @param $currentStep
      * @return array
      */
     public function resubmitRequest(WorkflowTaskDetail $taskDetail,
