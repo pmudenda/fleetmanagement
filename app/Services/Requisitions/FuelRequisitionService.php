@@ -41,6 +41,7 @@ class FuelRequisitionService
     const VEH_REG = "@veh_reg";
     const DATE_FORMAT = "d/m/Y";
     const APPROVED = 'Request Approved and Submitted to the Next Authority For Approval ';
+    const REQUISITION_TYPE = "requisition_type";
 
     private WorkflowService $workflowService;
     private ProcurementSystemIntegrationService $procurementService;
@@ -61,13 +62,13 @@ class FuelRequisitionService
      */
     public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
     {
-        $isOutOfTownRequisition = $requisitionPostRequest->get("requisition_type")
+        $isOutOfTownRequisition = $requisitionPostRequest->get(self::REQUISITION_TYPE)
             == RequisitionTypes::OutOfTown->value;
 
-        $isLocalRequisition = $requisitionPostRequest->get("requisition_type")
+        $isLocalRequisition = $requisitionPostRequest->get(self::REQUISITION_TYPE)
             == RequisitionTypes::Normal->value;
 
-        $isOverrideRequisition = $requisitionPostRequest->get("requisition_type")
+        $isOverrideRequisition = $requisitionPostRequest->get(self::REQUISITION_TYPE)
             == RequisitionTypes::Override->value;
 
         $registrationNumber = $requisitionPostRequest->get("vehicle_registration");
@@ -561,11 +562,11 @@ class FuelRequisitionService
         $workflowProcess = "";
         $description = "";
 
-        Log::info("Requisition Type " . $requisitionPostRequest->get("requisition_type"));
+        Log::info("Requisition Type " . $requisitionPostRequest->get(self::REQUISITION_TYPE));
 
         $townFrom = null;
         $townTo = null;
-        $requisitionType = $requisitionPostRequest->get("requisition_type");
+        $requisitionType = $requisitionPostRequest->get(self::REQUISITION_TYPE);
         if ($requisitionType == RequisitionTypes::OutOfTown->value) {
             $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
             $description = "Out Of Town ";
@@ -623,7 +624,7 @@ class FuelRequisitionService
                 "project_name" => $requisitionPostRequest->get('ProjectName') ?? null,
                 "requested_by" => $user->staff_no,
                 "comments" => $requisitionPostRequest->get("justification"),
-                "requisition_type" => $requisitionPostRequest->get("requisition_type"),
+                self::REQUISITION_TYPE => $requisitionPostRequest->get(self::REQUISITION_TYPE),
                 "cost_assigned_to" => $costBearer
             ]
         );

@@ -248,7 +248,7 @@ class WorkflowService
                 );
                 break;
             case self::RESUBMIT:
-                $response = $this->resubmitRequest($taskDetail);
+                $response = $this->resubmitRequest($taskDetail, $taskHeader);
                 break;
             default:
                 $taskDetail->current_step_id = null;
@@ -609,15 +609,40 @@ class WorkflowService
     }
 
     /**
-     * @param $taskDetail
+     * @param WorkflowTaskDetail $taskDetail
+     * @param WorkflowTaskHeader $taskHeader
      * @return array
      */
-    public function resubmitRequest($taskDetail): array
+    public function resubmitRequest(WorkflowTaskDetail $taskDetail, WorkflowTaskHeader $taskHeader): array
     {
-        $taskDetail->current_step_id = null;
-        $taskDetail->actioning_officer = null;
+        $previousStepLog = WorkflowLog::where(
+            'reference',
+            '=',
+            $taskDetail->reference
+        )->where(
+            'step_id',
+            '=',
+            $taskDetail->current_step_id
+        )->orderBy('id', 'desc')
+            ->first();
+
+        $taskDetail->current_step_id = $previousStepLog->previous_step;
+        $taskDetail->actioning_officer = $previousStepLog->actioning_officer;
         $taskDetail->save();
 
+        $previousStep = WorkflowStep::where(
+            'process_id',
+            '=',
+            $taskHeader->process_code
+        )->where(
+            'step_id',
+            '=',
+            $previousStepLog->previous_step
+        )->first();
+
+        $taskHeader->url = $previousStep->action_page;
+        $taskHeader->assigned_user = $previousStepLog->actioning_officer;
+        $taskHeader->save();
 
         return [$taskDetail->current_step_id, '0'];
     }

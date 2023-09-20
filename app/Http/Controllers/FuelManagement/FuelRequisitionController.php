@@ -32,6 +32,8 @@ use Mockery\CountValidator\Exception;
 
 class FuelRequisitionController extends Controller
 {
+    const MODULE = 'module';
+    const REFERENCE = 'reference';
     private readonly OdometerValidationService $odometerValidationService;
     private FuelRequisitionService $requisitionService;
     private DistanceChartService $distanceChartService;
@@ -122,12 +124,12 @@ class FuelRequisitionController extends Controller
     {
         $user = Auth::user();
 
-        $organizationalUnit = OrganizationalUnit::where('cc_code', $user->cc_code)
-            ->where('bu_code', $user->bu_code)
+        $organizationalUnit = OrganizationalUnit::where('cc_code', '=', $user->cc_code)
+            ->where('bu_code', '=', $user->bu_code)
             ->first();
 
         $requisitionTypes = RequisitionType::where('status', StatusHelper::active())
-            ->where('module', Modules::FUEL_REQUISITION->value)
+            ->where(self::MODULE, Modules::FUEL_REQUISITION->value)
             ->orderBy('code')
             ->get();
 
@@ -227,7 +229,7 @@ class FuelRequisitionController extends Controller
         }
 
         $payload = $this->requisitionService->getLatestRequisition(
-            $request->vehicle_registration
+            $request->get('vehicle_registration')
         );
 
         return response()->json(
@@ -303,9 +305,9 @@ class FuelRequisitionController extends Controller
             abort(404);
         }
 
-        $workflowTask = WorkflowTaskHeader::where('reference', '=', $requisitionNumber)->first();
+        $workflowTask = WorkflowTaskHeader::where(self::REFERENCE, '=', $requisitionNumber)->first();
 
-        $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
+        $requisitionTypes = RequisitionType::where('status', '01')->where(self::MODULE, 'FR')->get();
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
 
