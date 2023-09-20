@@ -27,7 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('user/sync', [UsersController::class, 'sync'])->name('user.sync');
 
-        Route::get('user/profile/delegation/{id}', [UsersController::class, 'delegation'])
+        Route::get('user/profile/delegation', [UsersController::class, 'delegation'])
             ->name('user.profile.delegation');
 
         Route::post('user/profile/delegation', [UsersController::class, 'saveDelegation'])

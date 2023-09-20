@@ -187,10 +187,10 @@ class UsersController extends Controller
     {
         $this->verifyRequestSignature($request);
 
-        $id = (int)$request->get('id');
-
+        $id = (int)$request->get('key');
         $user = User::where('id', '=', $id)->first();
         $selfDelegation = $request->get('self');
+
         $profiles = (new RoleService())->get();
 
         return view('modules.userManagement.profileDelegation')
