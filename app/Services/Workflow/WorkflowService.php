@@ -619,11 +619,12 @@ class WorkflowService
             'reference',
             '=',
             $taskDetail->reference
-        )->where(
+        )/*->where(
             'step_id',
             '=',
             $taskDetail->current_step_id
-        )->orderBy('id', 'desc')
+        )*/
+        ->orderBy('id', 'desc')
             ->first();
 
         $taskDetail->current_step_id = $previousStepLog->previous_step;
