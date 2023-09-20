@@ -188,6 +188,46 @@
 
                                                     <div class="row">
                                                         <div class="row">
+
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5
+                                                                                col-lg-3"
+                                                                                for="staff_number">Find By:
+                                                                            </label>
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-7 col-lg-6">
+                                                                                <div class="input-group">
+                                                                                    <input type="text"
+                                                                                           class="form-control
+                                                                                           form-control-sm"
+                                                                                           id="staff_number"
+                                                                                           placeholder="Staff number"
+                                                                                           name="staff_number"
+                                                                                           required
+                                                                                    />
+                                                                                    <div class="input-group-addon">
+                                                                                        <button type="button"
+                                                                                                id="employeeSearchBtn"
+                                                                                                name="userSearchBtn"
+                                                                                                class="btn btn-primary
+                                                                                                btn-sm border-radius-0">
+                                                                                            <i class="fas fa-search">
+                                                                                            </i>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
                                                             <div class="col-xs-12 col-sm-6 col-md-6">
                                                                 <div class="container-fluid pl-0">
                                                                     <div class="row">
@@ -199,23 +239,18 @@
                                                                                 <div class="control-input">
                                                                                     <div class="link-field ui-front"
                                                                                          style="position: relative;">
-                                                                                        <label
-                                                                                            class="form-check-inline">
-                                                                                            Delegation Start-Date
-                                                                                        </label>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div
-                                                                                class="col-xs-12 col-sm-6
+                                                                            <div class="col-xs-12 col-sm-6
                                                                                 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control
                                                                                        form-control-sm"
                                                                                        id="cost_centre_code"
-                                                                                       value="14456"
-                                                                                       name="cost_centre_code" required
-                                                                                       readonly>
+                                                                                       name="name"
+                                                                                       required
+                                                                                       readonly/>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -226,24 +261,11 @@
 
                                                         <div class="col-6">
                                                             <div class="form-group">
-                                                                <label>Select User</label>
-                                                                <select class="form-control select2"
-                                                                        name="user_id"
-                                                                        required
-                                                                        style="width: 100%;">
-                                                                    <option disabled value="" selected>
-                                                                        Select User
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                            <!-- /.form-group -->
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <div class="form-group">
                                                                 <label>Select Profile</label>
                                                                 <select class="form-control select2"
                                                                         id="profile_select"
-                                                                        name="profile" required
+                                                                        name="profile"
+                                                                        required
                                                                         style="width: 100%;">
                                                                     <option disabled value="" selected>
                                                                         Select Profile to Delegate
@@ -260,14 +282,15 @@
                                                         </div>
                                                         <div class="col-6 ">
                                                             <div class="form-group">
-                                                                <label for="eform_id">Delegation Start-Date</label>
-                                                                <select class="form-control select2"
-                                                                        id="eform_select"
-                                                                        name="eform_id" required
-                                                                        style="width: 100%;">
-                                                                </select>
+                                                                <label for="start_date">Delegation Start-Date</label>
+                                                                <input class="form-control form-control"
+                                                                       type="datetime-local"
+                                                                       id="start_date"
+                                                                       name="start_date"
+                                                                       required
+                                                                       style="width: 100%;"
+                                                                />
                                                             </div>
-                                                            <!-- /.form-group -->
                                                         </div>
 
 
