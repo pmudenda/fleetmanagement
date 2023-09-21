@@ -80,10 +80,10 @@ class MaintenanceController extends Controller
 
         $mechanics = [];
         if (!empty($details)) {
+            Log::debug("Fetching Mechanic For $details->workshop_code");
             $mechanics = Mechanic::where('status', '=', StatusHelper::active())
                 ->where('workshop_code', '=', $details->workshop_code)
                 ->get();
-            dd($mechanics);
         }
 
         $step = $request->get("step") ?? 0;
