@@ -13,7 +13,9 @@
 @endpush
 @section('content')
 
-    <x-content-header :pageTitle="'Fuel Requisitions'" :linkText="'Requisitions'" :activeCrumb="'Fuel Requisition'"/>
+    <x-content-header :pageTitle="'Fuel Requisitions'"
+                      :linkText="'Requisitions'"
+                      :activeCrumb="'Fuel Requisition'"/>
     <section class="content">
         <div class="card">
             <div class="card-header">
@@ -350,6 +352,10 @@
                                                                  data-target-input="nearest">
                                                                 <input type="date"
                                                                        min="{{ date('Y-m-d',
+                                                                       strtotime(Carbon::now())) }}"
+                                                                       max="{{ date('Y-m-d',
+                                                                       strtotime(Carbon::now())) }}"
+                                                                       value="{{ date('Y-m-d',
                                                                        strtotime(Carbon::now())) }}"
                                                                        name="departure_date"
                                                                        id="departure_date"
