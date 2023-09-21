@@ -465,14 +465,14 @@
                                                 WorkShop Supervisor:
                                             </label>
                                             <div class="col-sm-10">
-                                                <label class="checkbox-inline mr-5">
+                                                <label class="checkbox-inline pl-1">
                                                     <input type="radio"
                                                            id="policeNotification-yes"
                                                            name="workshopSupervisor"
                                                            value="Y">
                                                     <label for="policeNotification-yes">Yes</label>
                                                 </label>
-                                                <label class="checkbox-inline ml-2">
+                                                <label class="checkbox-inline">
                                                     <input type="radio" id="policeNotification-no"
                                                            checked
                                                            name="workshopSupervisor"
