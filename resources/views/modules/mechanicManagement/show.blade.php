@@ -114,18 +114,18 @@
                                     <b>Man Number</b> <a class="float-right">{{ $mechanic->staff_no }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>NRC</b> <a class="float-right">{{ $mechanic->nrc }}</a>
+                                    <b>NRC</b> <a class="float-right">{{ $mechanic->nrc ?? '' }}</a>
                                 </li>
 
                                 <li class="list-group-item">
-                                    <b>Phone</b> <a class="float-right">{{ $mechanic->mobile_no }}</a>
+                                    <b>Phone</b> <a class="float-right">{{ $mechanic->mobile_no ?? '' }}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>
                                         Station
                                     </b>
                                     <a class="float-right">
-                                        {{$mechanic->station}}
+                                        {{$mechanic->station ?? ''}}
                                     </a>
                                 </li>
                                 <li class="list-group-item">
