@@ -192,6 +192,10 @@ const defectTableRowTemplate = `
                                 </tr>`;
 
 (function (tmsApp, $) {
+    let pageSystemMessages = {
+        imprestAlertTitle: 'Petty Cash Request',
+        generalErrorMessage: 'We could not complete processing your request, please try again later'
+    };
     let form = $('#jobCardForm').show();
     window.goToNext = false;
     let bodyTag = "section";
@@ -875,7 +879,7 @@ const defectTableRowTemplate = `
             $('.print-error-msg').css('display', 'none');
 
             tmsApp.confirm(
-                'Submit Imprest Buy Items',
+                'Submit Petty Cash Items',
                 'Are you sure you want to submit this request ?',
                 'Yes',
                 'No',
@@ -891,10 +895,10 @@ const defectTableRowTemplate = `
                         if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                             setTimeout(function () {
                                 tmsApp.showSystemMessage(
-                                    'Assign Task',
+                                    pageSystemMessages.imprestAlertTitle,
                                     asyncResponse['message'],
                                     function () {
-                                        // window.location.href = asyncResponse["redirectUrl"]
+                                        window.location.reload()
                                     },
                                     'success'
                                 );
@@ -906,7 +910,7 @@ const defectTableRowTemplate = `
                             }
                             setTimeout(function () {
                                 tmsApp.systemError(
-                                    'Assign Task',
+                                    pageSystemMessages.imprestAlertTitle,
                                     asyncResponse['message'],
                                     function () {
                                     }, 'error');
@@ -921,7 +925,7 @@ const defectTableRowTemplate = `
                                 }
                                 if (xhr.responseJSON.hasOwnProperty('message')) {
                                     tmsApp.systemError(
-                                        'Assign Task',
+                                        pageSystemMessages.imprestAlertTitle,
                                         xhr.responseJSON['message']
                                     );
                                 }
@@ -929,8 +933,9 @@ const defectTableRowTemplate = `
                             }
 
                             tmsApp.systemError(
-                                'Assign Task',
-                                'We could not complete processing your request, please try again later');
+                                pageSystemMessages.imprestAlertTitle,
+                                pageSystemMessages.generalErrorMessage,
+                            );
                         }, 300)
                     });
                 }

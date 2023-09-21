@@ -32,7 +32,7 @@ WORKDIR /app
 #echo Hello world from $(whoami)! In order to get your application running in a container, take a look at the comments in the Dockerfile to get started.
 #EOF
 #RUN chmod +x /bin/hello.sh
-RUN php artisan serve
+#RUN php artisan serve
 ################################################################################
 # Create a final stage for running your application.
 #
