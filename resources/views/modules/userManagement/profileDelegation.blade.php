@@ -465,9 +465,9 @@
 
             $('#employeeSearchBtn').on('click', function () {
 
-                if (!document.querySelector("#driver_staff_number").value
-                    || document.querySelector("#driver_staff_number").value.length < 5) {
-                    toastr.warning('Invalid Employee Id Number')
+                if (!document.querySelector("#staffNumber").value
+                    || document.querySelector("#staffNumber").value.length < 5) {
+                    toastr.warning('Invalid Employee Number')
                     return;
                 }
 
@@ -478,10 +478,10 @@
             });
 
             function findEmployee() {
-                const staff_number = document.querySelector('#driver_staff_number').value
+                const staff_number = document.querySelector('#staffNumber').value
                 let formData = new FormData();
                 formData.append('searchCriteria', staff_number);
-                $('#driver_name').val('');
+                $('#employeeName').val('');
                 fetch(
                     document.querySelector("#staffNumber").getAttribute('data-action'),
                     {
@@ -504,13 +504,13 @@
                     })
                     .then(response => {
                         if (!response.success || response.payload.length === 0) {
-                            tmsApp.systemError('Driver Verification', response['message']);
+                            tmsApp.systemError('User Search', response['message']);
                             return;
                         }
 
                         if (response.payload.hasOwnProperty('con_st_code')
                             && ['01', 'ACT'].indexOf(response.payload['con_st_code']) === -1) {
-                            tmsApp.systemError('Driver Verification',
+                            tmsApp.systemError('User Search',
                                 appMessages.inactiveEmployee.replace('@staff', staff_number)
                             );
                             return;
@@ -518,16 +518,16 @@
 
                         if (response.payload.hasOwnProperty('status')
                             && ['01', 'ACT'].indexOf(response.payload['status']) === -1) {
-                            tmsApp.systemError('Driver Verification',
+                            tmsApp.systemError('User Search',
                                 appMessages.inactiveEmployee.replace('@staff', staff_number)
                             );
                             return;
                         }
 
-                        document.querySelector('#driver_name').value = response.payload.name;
+                        document.querySelector('#employeeName').value = response.payload.name;
                     })
                     .catch(function (xhr, settings, error) {
-                        tmsApp.showErrorMessages(xhr, 'Driver Validation');
+                        tmsApp.showErrorMessages(xhr, 'User Search');
                     });
             }
 
