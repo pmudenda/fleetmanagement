@@ -191,12 +191,6 @@
                                                                     <i class="fas fa-search">
                                                                     </i>
                                                                 </button>
-                                                                <div class="d-none" id="divSubmitHide">
-                                                                    <input class="btn btn-sm btn-success"
-                                                                           value="Searching. Please wait..."
-                                                                           disabled
-                                                                           name="submit_form">
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -471,7 +465,6 @@
                     return;
                 }
 
-                $("#employeeSearchBtn").hide();
                 setTimeout(function () {
                     findEmployee();
                 }, 300);
