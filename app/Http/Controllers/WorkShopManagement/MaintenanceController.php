@@ -6,6 +6,7 @@ use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
+use App\Exceptions\DataNotFoundException;
 use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\VehicleStateException;
@@ -218,11 +219,18 @@ class MaintenanceController extends Controller
             return $this->workshopRequisitionService->createTaskForWorkShopSupervisor($request);
         } catch (Exception $e) {
             Log::error($e);
+            $message = ErrorMessages::getMessage("err_0005");
+
+            if ($e instanceof DataNotFoundException) {
+                $message = $e->getMessage();
+            }
+
             return response()->json(
+
                 FleetMasterJsonResponse::response(
                     'failure',
                     false,
-                    ErrorMessages::getMessage("err_0005")
+                    $message
                 )
             );
         }
