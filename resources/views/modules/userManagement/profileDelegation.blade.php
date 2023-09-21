@@ -246,9 +246,11 @@
                                                                    name="startDate"
                                                                    required
                                                             />
-                                                            <div class="input-group-addon">
-                                                                <i class="fas fa-calendar">
-                                                                </i>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
+                                                                    <i class="fas fa-calendar">
+                                                                    </i>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -262,26 +264,17 @@
                                                 <div class="form-group row">
                                                     <label
                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
-                                                        for="staff_number">Start-Date:
+                                                        for="staff_number">End Date:
                                                     </label>
-                                                    <div
-                                                        class="col-xs-12 col-sm-6 col-md-5
-                                                        col-lg-4 control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-6
-                                                    col-md-7 col-lg-6">
-                                                        <input type="text"
+                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                        <input type="datetime-local"
                                                                class="form-control
                                                                form-control-sm"
                                                                id="cost_centre_code"
                                                                name="name"
                                                                required
-                                                               readonly/>
+                                                               readonly
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
@@ -328,9 +321,7 @@
 
                                     <div class="col-6 ">
                                         <div class="form-group">
-                                            <label for="delegation_end_date">
-
-                                            </label>
+                                            <label for="delegation_end_date"></label>
                                             <input type="date"
                                                    class="form-control"
                                                    name="delegation_end_date"
@@ -340,12 +331,8 @@
 
                                 </div>
                                 <div class="modal-footer justify-content-between">
-                                    <button type="button"
-                                            class="btn btn-default"
-                                            data-dismiss="modal">
-                                        Close
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-paper-plane"></i>
                                         Submit
                                     </button>
                                 </div>
