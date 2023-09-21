@@ -215,41 +215,20 @@
                                                 Item Type:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                @if(!empty($materialsHeader))
-                                                    <select
-                                                        data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                        class="form-select form-select-sm"
-                                                        name="pettyCashBuyItemType"
-                                                        id="pettyCashBuyItemType">
-                                                        <option></option>
-                                                        <option
-                                                            @if($materialsHeader->item_type_code ==
-                                                                RequisitionItemTypes::STOCK_ITEM_CODE)
-                                                                selected
-                                                            @endif value="01">STOCK ITEM
-                                                        </option>
-                                                        <option
-                                                            @if($materialsHeader->item_type_code ==
-                                                                RequisitionItemTypes::NON_STOCK_ITEM_CODE)
-                                                                selected
-                                                            @endif value="02">NON STOCK ITEM
-                                                        </option>
-                                                    </select>
-                                                @else
-                                                    <select
-                                                        required
-                                                        class="form-select form-select-sm"
-                                                        name="pettyCashBuyItemType"
-                                                        id="pettyCashBuyItemType">
-                                                        <option></option>
-                                                        <option value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}">
-                                                            STOCK ITEM
-                                                        </option>
-                                                        <option value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}">
-                                                            NON STOCK ITEM
-                                                        </option>
-                                                    </select>
-                                                @endif
+                                                <select
+                                                    required
+                                                    class="form-select form-select-sm"
+                                                    name="pettyCashBuyItemType"
+                                                    id="pettyCashBuyItemType">
+                                                    <option></option>
+                                                    <option value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}">
+                                                        STOCK ITEM
+                                                    </option>
+                                                    <option value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}">
+                                                        NON STOCK ITEM
+                                                    </option>
+                                                </select>
+
 
                                                 <input type="hidden"
                                                        value="{{$details->job_card_no ?? 0}}"
