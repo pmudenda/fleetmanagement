@@ -14,6 +14,7 @@
             Assign Selected
         </button>
         <table id="labour_table"
+               aria-label="Petty Cash Items"
                data-model-name="SummaryHeader"
                data-form-url="{{route("save.job.assignment")}}"
                class="table dataTable table-row-dashed align-middle nowrap mt-10">
@@ -38,10 +39,10 @@
                     <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
                             <input
-                                    readonly
-                                    name="selectDefectToAssign"
-                                    class="checkbox"
-                                    type="checkbox">
+                                readonly
+                                name="selectDefectToAssign"
+                                class="checkbox"
+                                type="checkbox">
                         </td>
                         <td>
                             {{$labourItem->defect_name}}
@@ -132,7 +133,9 @@
 
                                     <li>
                                     <li>
-                                        <a class="dropdown-item" data-kt-action="edit"
+                                        <a class="dropdown-item d-none"
+                                           data-kt-action="edit"
+                                           target="_blank"
                                            href="{{URL::signedRoute('print.job.card', [
                                             'reference' => $labourItem->id
                                             ])}}">
@@ -140,12 +143,6 @@
                                             Print Job Card
                                         </a>
                                     </li>
-                                    {{--<button type="button"
-                                            title="Still Thinking Of Way To Make This"
-                                            data-toggle="tooltip"
-                                            data-labour-item="{{json_encode($labourItem)}}"
-                                            class="btn btn-sm btn-success col mr-3 dropdown-item">
-                                    </button>--}}
                                     </li>
                                 </ul>
                             </div>
@@ -202,11 +199,15 @@
                                     @foreach($workshop_sections as $workshop_section)
                                         @if($defect->section_code == $workshop_section->code)
                                             <option
-                                                    selected
-                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                selected
+                                                value="{{$workshop_section->code}}">
+                                                {{$workshop_section->name}}
+                                            </option>
                                         @else
                                             <option
-                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                value="{{$workshop_section->code}}">
+                                                {{$workshop_section->name}}
+                                            </option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -262,7 +263,8 @@
                                   required
                                   name="closureRemarks"
                                   style="height: 129px;"
-                                  class="form-control comments form-control-sm">{{$taskHeader->long_description ??''}}</textarea>
+                                  class="form-control comments form-control-sm"
+                        >{{$taskHeader->long_description ??''}}</textarea>
                     @else
                         @if($details->status === StatusHelper::pendingApproval())
                             <textarea type="text"
