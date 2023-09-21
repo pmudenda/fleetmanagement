@@ -459,6 +459,29 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group row">
+                                            <label for="workShopSection"
+                                                   class="col-sm-2 col-form-label field-required">
+                                                WorkShop Supervisor:
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <label class="checkbox-inline mr-5">
+                                                    <input type="radio"
+                                                           id="policeNotification-yes"
+                                                           name="workshopSupervisor"
+                                                           value="Y">
+                                                    <label for="policeNotification-yes">Yes</label>
+                                                </label>
+                                                <label class="checkbox-inline ml-2">
+                                                    <input type="radio" id="policeNotification-no"
+                                                           checked
+                                                           name="workshopSupervisor"
+                                                           value="N">
+                                                    <label for="policeNotification-no">No</label>
+                                                </label>
+                                            </div>
+                                        </div>
+
                                         <div class="form-group justify-content-end">
                                             @canany([config('rights.edit_mechanic')])
                                                 <div class="col-md-12">
