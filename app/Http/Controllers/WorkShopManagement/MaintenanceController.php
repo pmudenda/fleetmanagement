@@ -768,7 +768,7 @@ class MaintenanceController extends Controller
                 $services,
                 $labour,
                 $pettyCashItems,
-                $observation) = $this->getFullJobCardData($reference);
+                $observation) = $this->jobCardDetailsService->getFullJobCardData($reference);
         }
 
         return array(

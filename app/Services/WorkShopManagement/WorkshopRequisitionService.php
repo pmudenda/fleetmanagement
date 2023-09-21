@@ -1055,7 +1055,6 @@ class WorkshopRequisitionService
                 $reference)
             ->select(
                 "det.*",
-                "head.status"
             )->get();
     }
 

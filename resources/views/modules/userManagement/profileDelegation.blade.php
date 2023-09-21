@@ -20,6 +20,7 @@
                     <div class="card card-outline">
                         <div class="card-header">
                             <div class="card-tools">
+                                @if() @endif
                                 <div class="col-xs-12 col-sm-6 col-md-5">
                                     <div class="container-fluid pl-0">
                                         <div class="row">

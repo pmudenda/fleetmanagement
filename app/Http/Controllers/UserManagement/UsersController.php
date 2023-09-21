@@ -174,7 +174,8 @@ class UsersController extends Controller
                 'state' => 'success',
                 'message' => SystemMessages::userUpdateSuccessful()
             ]);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             $message = SystemMessages::userUpdateFailed();
             Log::info($message);
             Log::error($e);
