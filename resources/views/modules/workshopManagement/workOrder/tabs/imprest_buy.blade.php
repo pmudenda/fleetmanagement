@@ -93,11 +93,13 @@
             @endif
             </tbody>
         </table>
-        <button type="button" class="btn btn-sm btn-success pull-right" data-bs-target="#pettyCashModal"
-                data-bs-toggle="modal">
-            <i class="fas fa-plus"></i>
-            Add Item
-        </button>
+        @if(!$pettyCashItems->isNotEmpty())
+            <button type="button" class="btn btn-sm btn-success pull-right" data-bs-target="#pettyCashModal"
+                    data-bs-toggle="modal">
+                <i class="fas fa-plus"></i>
+                Add Item
+            </button>
+        @endif
     </div>
 </div>
 
