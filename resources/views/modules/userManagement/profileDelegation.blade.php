@@ -270,10 +270,9 @@
                                                         <input type="datetime-local"
                                                                class="form-control
                                                                form-control-sm"
-                                                               id="cost_centre_code"
-                                                               name="name"
+                                                               id="endDate"
+                                                               name="endDate"
                                                                required
-                                                               readonly
                                                         />
                                                     </div>
                                                 </div>
