@@ -20,10 +20,42 @@
                     <div class="card card-outline">
                         <div class="card-header">
                             <div class="card-tools">
-                                {{--<button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                        data-toggle="tooltip"
-                                        title="Collapse">
-                                    <i class="fas fa-minus"></i></button>--}}
+                                <div class="col-xs-12 col-sm-6 col-md-5">
+                                    <div class="container-fluid pl-0">
+                                        <div class="row">
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                    for="staff_number">Profile Owner.:
+                                                </label>
+                                                <div
+                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                                                    <div class="input-group">
+                                                        <input type="text"
+                                                               class="form-control
+                                                                   form-control-sm"
+                                                               id="profileOwner"
+                                                               data-action="{{route('find.user')}}"
+                                                               placeholder="Profile Owner"
+                                                               name="profileOwner"
+                                                               required
+                                                        />
+                                                        <div class="input-group-addon">
+                                                            <button type="button"
+                                                                    id="findProfileOwnerBtn"
+                                                                    name="findProfileOwnerBtn"
+                                                                    class="btn btn-primary
+                                                                    btn-sm border-radius-0">
+                                                                <i class="fas fa-search">
+                                                                </i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body box-profile">
@@ -57,7 +89,7 @@
 
                             <p class="text-muted text-center">{{ $user->job_title ?? 'Position' }}</p>
 
-                            <p class="text-muted text-center">{{ $user->man_no ?? '' }}</p>
+                            <p class="text-muted text-center">{{ $user->staff_no ?? '' }}</p>
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
