@@ -288,7 +288,6 @@
 
 @endsection
 @push('scripts')
-    {{--<script src="{{asset('modules/userManagement/employee.search.js')}}"></script>--}}
     <script>
         (function (tmsApp, $) {
             let id = 0;
