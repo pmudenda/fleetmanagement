@@ -12,6 +12,7 @@ use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\JobCardCreated;
 use App\Events\RequisitionRaised;
+use App\Exceptions\DataNotFoundException;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\InvalidArticleType;
 use App\Exceptions\MaterialReservationException;
@@ -985,6 +986,7 @@ class WorkshopRequisitionService
 
     /**
      * @throws WorkflowTaskCreationFailedException
+     * @throws DataNotFoundException
      */
     public function createTaskForWorkShopSupervisor(SubmitJobCardToSupervisor $request): JsonResponse
     {
@@ -1007,6 +1009,10 @@ class WorkshopRequisitionService
         $supervisor = Mechanic::where('workshop_code', '=', $workShopCode)
             ->where('is_supervisor', '=', 'Y')
             ->first();
+
+        if(!$supervisor){
+            throw new DataNotFoundException("Supervisor for Workshop Not Found");
+        }
 
         $workshopReference = $jobCardNo;
         $shortDescription = "New Job Card Task $jobCardNo For Vehicle $registration";

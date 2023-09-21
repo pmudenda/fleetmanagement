@@ -26,7 +26,7 @@ class SendJobCardCreatedEmail
         try {
             $jobCard = $event->jobCard;
             $user = $event->user;
-            $reference = $jobCard->job_card_no;
+
             $supervisor = $event->supervisor;
             $action = 'job_card_created';
 
