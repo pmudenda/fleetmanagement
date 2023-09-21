@@ -190,6 +190,12 @@
                                                                     <i class="fas fa-search">
                                                                     </i>
                                                                 </button>
+                                                                <div id="divSubmitHide">
+                                                                    <input class="btn btn-sm btn-success"
+                                                                           value="Searching. Please wait..."
+                                                                           disabled
+                                                                           name="submit_form">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -342,29 +348,6 @@
                 )
             });
 
-            document.querySelector("#editRecordModal").addEventListener('shown.bs.modal', (e) => {
-                let recordData = e.relatedTarget.dataset;
-
-                id = recordData.id;
-
-                document.getElementById("data_edit_name").value = recordData.record_name
-                // document.getElementById("data_type").value = ""
-                document.getElementById("data_edit_code").value = recordData.record_code
-                //document.getElementById("data_edit_status").value = recordData.record_status
-
-            })
-
-            document.querySelector("#createRecordModal").addEventListener('hidden.bs.modal', (e) => {
-                document.getElementById("data_name").value = "";
-                document.getElementById("data_code").value = ""
-                //document.getElementById("data_status").value = "Select Status"
-            })
-
-            document.querySelector("#editRecordModal").addEventListener('hidden.bs.modal', (e) => {
-                document.getElementById("data_name").value = "";
-                document.getElementById("data_code").value = ""
-                //document.getElementById("data_status").value = "Select Status"
-            })
 
             $('form[name="configurationEditTableForm"]').on('submit', function (e) {
                 e.preventDefault();
@@ -479,19 +462,70 @@
                 );
             })
 
+            $('#employeeSearchBtn').on('click', function () {
+                if (!document.querySelector("#driver_staff_number").value
+                    || document.querySelector("#driver_staff_number").value.length < 5) {
+                    toastr.warning('Invalid Employee Id Number')
+                    return;
+                }
 
-            function launchErrorModal(message, id) {
-                const modalElement = document.getElementById(id);
-                let modal = new bootstrap.Modal(modalElement);
-                modal.show();
+                setTimeout(function () {
+                    findEmployee();
+                }, 300);
+            });
 
-                let modalBody = modalElement.querySelector(".modal-body");
-                modalBody.innerHTML = message;
+            function findEmployee() {
+                const staff_number = document.querySelector('#driver_staff_number').value
+                let formData = new FormData();
+                formData.append('searchCriteria', staff_number);
+                $('#driver_name').val('');
+                fetch(
+                    document.querySelector("#driver_staff_number").getAttribute('data-action'),
+                    {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: formData,
+                        referrer: window['baseUrl'],
+                        mode: 'cors',
+                        credentials: 'same-origin',
+                    }
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
 
-                let modalButton = modalElement.querySelector(".btn-danger");
-                modalButton.addEventListener("click", function () {
-                    modal.hide();
-                });
+                        return response.json();
+                    })
+                    .then(response => {
+                        if (!response.success || response.payload.length === 0) {
+                            tmsApp.systemError('Driver Verification', response['message']);
+                            return;
+                        }
+
+                        if (response.payload.hasOwnProperty('con_st_code')
+                            && ['01', 'ACT'].indexOf(response.payload['con_st_code']) === -1) {
+                            tmsApp.systemError('Driver Verification',
+                                appMessages.inactiveEmployee.replace('@staff', staff_number)
+                            );
+                            return;
+                        }
+
+                        if (response.payload.hasOwnProperty('status')
+                            && ['01', 'ACT'].indexOf(response.payload['status']) === -1) {
+                            tmsApp.systemError('Driver Verification',
+                                appMessages.inactiveEmployee.replace('@staff', staff_number)
+                            );
+                            return;
+                        }
+
+                        document.querySelector('#driver_name').value = response.payload.name;
+                    })
+                    .catch(function (xhr, settings, error) {
+                        tmsApp.showErrorMessages(xhr, 'Driver Validation');
+                    });
             }
 
             tmsApp.initDatatable("#recordsTable", true, true);
