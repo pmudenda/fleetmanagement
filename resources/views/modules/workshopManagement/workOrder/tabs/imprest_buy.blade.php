@@ -9,6 +9,7 @@
             <thead>
             <tr class="bg-green">
                 <th scope="row" style="width: 6%;" class="pl-2">Reg. No</th>
+                <th scope="row" style="width: 6%;" class="pl-2">Petty Cash Number</th>
                 <th scope="row" style="width: 25%;">Article</th>
                 <th scope="row" style="width: 10%;">Article Code</th>
                 <th scope="row" style="width: 25%;">Tech. Specification</th>
@@ -29,6 +30,14 @@
                                 name=""
                                 required
                                 value="{{$pettyCashItem->vehicle_registration}}"
+                                class="form-control form-control-sm"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                readonly
+                                required
+                                value="{{$pettyCashItem->code}}"
                                 class="form-control form-control-sm"
                             />
                         </td>
