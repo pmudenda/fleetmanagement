@@ -184,10 +184,13 @@
                             </div>
                             <div class="col-lg-3 col-sm-12">
                                 <div class="row">
-                                    <div class="col-lg-12 col-sm-12 col-sm-12"><label>Project Number (Optional):</label>
+                                    <div class="col-lg-12 col-sm-12 col-sm-12">
+                                        <label for="imprestProjectNumber">Project Number (Optional):</label>
                                     </div>
                                     <div class="col-lg-12 col-sm-12 col-sm-12">
-                                        <input name="imprestProjectNumber" value="{{$details->job_card_no}}"
+                                        <input id="imprestProjectNumber"
+                                               name="imprestProjectNumber"
+                                               value="{{$details->job_card_no}}"
                                                class="form-control"/>
                                     </div>
                                 </div>
@@ -202,7 +205,8 @@
                             <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="container-fluid pl-0">
                                     <div class="row">
-                                        <input type="hidden" value="{{$materialsHeader->id ?? 0 }}"
+                                        <input type="hidden"
+                                               value="{{$materialsHeader->id ?? 0 }}"
                                                name="materialHeaderId">
                                         <div class="form-group row">
                                             <label
@@ -243,9 +247,6 @@
                                                         </option>
                                                         <option value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}">
                                                             NON STOCK ITEM
-                                                        </option>
-                                                        <option value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}">
-                                                            SERVICE
                                                         </option>
                                                     </select>
                                                 @endif

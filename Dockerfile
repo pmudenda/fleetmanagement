@@ -25,12 +25,14 @@ FROM laravelsail/php81-composer as base
 # executable. For language-specific examples, take a look at the Dockerfiles in
 # the Awesome Compose repository: https://github.com/docker/awesome-compose
 FROM base as build
-COPY <<EOF /bin/hello.sh
-#!/bin/sh
-echo Hello world from $(whoami)! In order to get your application running in a container, take a look at the comments in the Dockerfile to get started.
-EOF
-RUN chmod +x /bin/hello.sh
-
+COPY . /app
+WORKDIR /app
+#<<EOF /bin/hello.sh
+##!/bin/sh
+#echo Hello world from $(whoami)! In order to get your application running in a container, take a look at the comments in the Dockerfile to get started.
+#EOF
+#RUN chmod +x /bin/hello.sh
+RUN php artisan serve
 ################################################################################
 # Create a final stage for running your application.
 #
