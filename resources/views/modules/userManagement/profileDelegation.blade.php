@@ -191,7 +191,7 @@
                                                                     <i class="fas fa-search">
                                                                     </i>
                                                                 </button>
-                                                                <div id="divSubmitHide">
+                                                                <div class="d-none" id="divSubmitHide">
                                                                     <input class="btn btn-sm btn-success"
                                                                            value="Searching. Please wait..."
                                                                            disabled
