@@ -130,7 +130,7 @@
                                 </li>
                                 <li class="list-group-item">
                                     <b>Email</b>
-                                    <a class="float-right">{{ $mechanic->staff_email ?? '' }}</a>
+                                    <a class="float-right">{{ $mechanic->email ?? '' }}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Status</b> <a class="float-right">
@@ -260,7 +260,7 @@
                                                 </p>
                                                 <p class="text-muted">
                                                     <strong>Category:</strong>
-                                                    {{ $user->group_type ?? '' }}
+                                                    {{ $mechanic->group_type ?? '' }}
                                                 </p>
                                                 <p class="text-muted">
                                                     <strong>User Position:</strong>
@@ -354,7 +354,7 @@
                                                        @endif
                                                        required
                                                        placeholder="Email"
-                                                       value="{{ $mechanic->staff_email ?? '' }}"/>
+                                                       value="{{ $mechanic->email ?? '' }}"/>
                                             </div>
                                         </div>
 
