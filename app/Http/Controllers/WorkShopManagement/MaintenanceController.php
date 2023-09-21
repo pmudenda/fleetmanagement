@@ -83,6 +83,7 @@ class MaintenanceController extends Controller
             $mechanics = Mechanic::where('status', '=', StatusHelper::active())
                 ->where('workshop_code', '=', $details->workshop_code)
                 ->get();
+            dd($mechanics);
         }
 
         $step = $request->get("step") ?? 0;
