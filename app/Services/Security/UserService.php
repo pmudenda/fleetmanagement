@@ -121,6 +121,27 @@ class UserService
     }
 
     /**
+     * @throws UserNotActiveException
+     */
+    public static function searchUser(string $searchParam)
+    {
+        $dataset = User::select('*')
+            ->where('name', 'LIKE', "%{$searchParam}%")
+            ->where('con_st_code', '=', StatusHelper::active())
+            ->where(function ($query) {
+                $query->where('con_per_no', 'LIKE', "C7%")
+                    ->orWhere('con_per_no', 'LIKE', "7%");
+            })
+            ->get();
+
+        if (empty($dataset)) {
+            throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
+        }
+
+        return $dataset;
+    }
+
+    /**
      * Clears all other user sessions
      * @param $user
      * @return void
@@ -271,7 +292,7 @@ class UserService
                 'Create',
                 'User Onboarding with profile'
             );
-        }else{
+        } else {
             HistoryService::record($user->toArray(),
                 "N/A",
                 'Create',

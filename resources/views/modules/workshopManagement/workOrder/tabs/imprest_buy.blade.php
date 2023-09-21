@@ -1,5 +1,5 @@
 @php
-    use App\Enums\RequisitionItemTypes;use Carbon\Carbon;use Illuminate\Support\Facades\Auth;
+    use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use Carbon\Carbon;use Illuminate\Support\Facades\Auth;
 @endphp
 <div class="row pt-5">
     <div class="table-responsive">
@@ -81,12 +81,14 @@
                                    class="form-control form-control-sm total_price"/>
                         </td>
                         <td>
-                            <button type="button"
-                                    data-value="0"
-                                    value="deleteRow"
-                                    class="btn btn-sm btn-danger p-2">
-                                <i class="fas fa-trash m-0"></i>
-                            </button>
+                            @if($pettyCashItem->status != StatusHelper::new())
+                                <button type="button"
+                                        data-value="{{$pettyCashItem->id}}"
+                                        value="deleteRow"
+                                        class="btn btn-sm btn-danger p-2">
+                                    <i class="fas fa-trash m-0"></i>
+                                </button>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -94,7 +96,8 @@
             </tbody>
         </table>
         @if(!$pettyCashItems->isNotEmpty())
-            <button type="button" class="btn btn-sm btn-success pull-right" data-bs-target="#pettyCashModal"
+            <button type="button" class="btn btn-sm btn-success pull-right"
+                    data-bs-target="#pettyCashModal"
                     data-bs-toggle="modal">
                 <i class="fas fa-plus"></i>
                 Add Item
@@ -104,13 +107,18 @@
 </div>
 
 
-<div class="modal fade" id="pettyCashModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="pettyCashModal"
+     tabindex="-1"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Imprest Buy</h5>
+                <h5 class="modal-title"
+                    id="exampleModalLabel">Add Imprest Buy</h5>
                 <button type="button"
-                        class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="create_form"
@@ -230,7 +238,6 @@
                                                         NON STOCK ITEM
                                                     </option>
                                                 </select>
-
 
                                                 <input type="hidden"
                                                        value="{{$details->job_card_no ?? 0}}"
@@ -519,7 +526,8 @@
                                             <button type="button"
                                                     data-value="0"
                                                     value="deleteRow"
-                                                    class="btn btn-sm btn-danger p-2">
+                                                    class="btn btn-sm d-none
+                                                    btn-danger p-2">
                                                 <i class="fas fa-trash m-0"></i>
                                             </button>
                                         </td>

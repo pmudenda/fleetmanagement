@@ -23,15 +23,20 @@
                                         id="itemType">
                                         <option></option>
                                         <option
-                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::STOCK_ITEM_CODE) selected
+                                            @if($materialsHeader->item_type_code
+                                            == RequisitionItemTypes::STOCK_ITEM_CODE)
+                                                selected
                                             @endif value="01">STOCK ITEM
                                         </option>
                                         <option
-                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::NON_STOCK_ITEM_CODE) selected
+                                            @if($materialsHeader->item_type_code
+                                            == RequisitionItemTypes::NON_STOCK_ITEM_CODE)
+                                                selected
                                             @endif value="02">NON STOCK ITEM
                                         </option>
                                         {{--   <option
-                                               @if($materialsHeader->item_type_code ==  RequisitionItemTypes::ServiceItemCode) selected
+                                               @if($materialsHeader->item_type_code
+                                               ==  RequisitionItemTypes::ServiceItemCode) selected
                                                @endif value="03">SERVICE
                                            </option>--}}
                                     </select>
@@ -48,7 +53,8 @@
                                         <option value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}">
                                             NON STOCK ITEM
                                         </option>
-                                        {{-- <option value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                        {{-- <option
+                                             value="{{RequisitionItemTypes::ServiceItemCode}}">
                                              SERVICE
                                          </option>--}}
                                     </select>
@@ -220,7 +226,9 @@
                                            class="form-control form-control-sm"
                                            id="date_expected"
                                            min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                           value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
+                                           value="{{date('Y-m-d',
+                                           strtotime(Carbon::parse($materialsHeader->collection_date)
+                                           ->format('Y-m-d')))}}"
                                            name="date_expected"
                                     />
 
@@ -309,7 +317,7 @@
                                            class="form-control form-control-sm
                                            technical_specification"/>
                                 </td>
-                                <th>
+                                <th id="stPur">
                                     <input type="text"
                                            class="form-control form-control-sm"
                                            readonly
@@ -501,7 +509,8 @@
                                   required
                                   name="comments"
                                   style="height: 129px;"
-                                  class="form-control comments form-control-sm">{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
+                                  class="form-control comments form-control-sm"
+                        >{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
                     @else
                         <textarea type="text"
                                   id="comments"
@@ -515,7 +524,12 @@
                 </div>
             </div>
         </div>
-        <table class="mt-10">
+        <table aria-label="prepared by" class="mt-10">
+            <thead class="d-none">
+            <tr>
+                <th></th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
                 <td class="text-right">

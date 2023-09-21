@@ -149,7 +149,8 @@ const serviceTableRowTemplate = ` <tr class="increment">
 (function (tmsApp, $) {
     let pageSystemMessages = {
         imprestAlertTitle: 'Petty Cash Request',
-        generalErrorMessage: 'We could not complete processing your request, please try again later'
+        generalErrorMessage: 'We could not complete processing your request, please try again later',
+        taskAssignmentAlertTitle: 'Assign Task'
     };
     let form = $('#jobCardForm').show();
     window.goToNext = false;
@@ -509,7 +510,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
             $('.print-error-msg').css('display', 'none');
 
             tmsApp.confirm(
-                'Assign Task',
+                pageSystemMessages.taskAssignmentAlertTitle,
                 'Are you sure you want to close this work order ?',
                 'Yes',
                 'No',
@@ -525,10 +526,10 @@ const serviceTableRowTemplate = ` <tr class="increment">
                         if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                             setTimeout(function () {
                                 tmsApp.showSystemMessage(
-                                    'Assign Task',
+                                    pageSystemMessages.taskAssignmentAlertTitle,
                                     asyncResponse['message'],
                                     function () {
-                                        // window.location.href = asyncResponse["redirectUrl"]
+                                        window.location.reload();
                                     },
                                     'success'
                                 );
@@ -540,7 +541,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                             }
                             setTimeout(function () {
                                 tmsApp.systemError(
-                                    'Assign Task',
+                                    pageSystemMessages.taskAssignmentAlertTitle,
                                     asyncResponse['message'],
                                     function () {
                                     }, 'error');
@@ -555,7 +556,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                                 }
                                 if (xhr.responseJSON.hasOwnProperty('message')) {
                                     tmsApp.systemError(
-                                        'Assign Task',
+                                        pageSystemMessages.taskAssignmentAlertTitle,
                                         xhr.responseJSON['message']
                                     );
                                 }
@@ -563,7 +564,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                             }
 
                             tmsApp.systemError(
-                                'Assign Task',
+                                pageSystemMessages.taskAssignmentAlertTitle,
                                 pageSystemMessages.generalErrorMessage
                             );
                         }, 300)
@@ -622,7 +623,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                         if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                             setTimeout(function () {
                                 tmsApp.showSystemMessage(
-                                    'Assign Task',
+                                    pageSystemMessages.taskAssignmentAlertTitle,
                                     asyncResponse['message'],
                                     function () {
                                         $("#reservations").modal('hide');
@@ -638,7 +639,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                             }
                             setTimeout(function () {
                                 tmsApp.systemError(
-                                    'Assign Task',
+                                    pageSystemMessages.taskAssignmentAlertTitle,
                                     asyncResponse['message'],
                                     function () {
                                     }, 'error');
@@ -653,7 +654,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                                 }
                                 if (xhr.responseJSON.hasOwnProperty('message')) {
                                     tmsApp.systemError(
-                                        'Assign Task',
+                                        pageSystemMessages.taskAssignmentAlertTitle,
                                         xhr.responseJSON['message']
                                     );
                                 }
@@ -661,7 +662,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                             }
 
                             tmsApp.systemError(
-                                'Assign Task',
+                                pageSystemMessages.taskAssignmentAlertTitle,
                                 pageSystemMessages.generalErrorMessage
                             );
                         }, 300)
@@ -722,7 +723,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
             $('.print-error-msg').css('display', 'none');
 
             tmsApp.confirm(
-                'Assign Task',
+                pageSystemMessages.taskAssignmentAlertTitle,
                 'Are you sure you want to close this work order ?',
                 'Yes',
                 'No',
@@ -738,7 +739,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                         if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                             setTimeout(function () {
                                 tmsApp.showSystemMessage(
-                                    'Assign Task',
+                                    pageSystemMessages.taskAssignmentAlertTitle,
                                     asyncResponse['message'],
                                     function () {
                                         actionButton.addClass('disabled').attr('disabled', true);
@@ -753,7 +754,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                             }
                             setTimeout(function () {
                                 tmsApp.systemError(
-                                    'Assign Task',
+                                    pageSystemMessages.taskAssignmentAlertTitle,
                                     asyncResponse['message'],
                                     function () {
                                     }, 'error');
@@ -768,7 +769,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                                 }
                                 if (xhr.responseJSON.hasOwnProperty('message')) {
                                     tmsApp.systemError(
-                                        'Assign Task',
+                                        pageSystemMessages.taskAssignmentAlertTitle,
                                         xhr.responseJSON['message']
                                     );
                                 }
@@ -776,7 +777,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                             }
 
                             tmsApp.systemError(
-                                'Assign Task',
+                                pageSystemMessages.taskAssignmentAlertTitle,
                                 pageSystemMessages.generalErrorMessage
                             );
                         }, 300)
@@ -2572,8 +2573,11 @@ const serviceTableRowTemplate = ` <tr class="increment">
                 } else if (tableId === "material_table") {
                     dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
                     $(table).find('[name="quantity"]').change();
-                } else {
+                } else if (tableId === "pettyCashSelectedItemsTable") {
                     dataUrl = document.querySelector('[name="deleteServiceUrl"]').value;
+                    $(table).find('[name="service_quantity"]').change();
+                } else {
+                    dataUrl = document.querySelector('[name="deletePettyCashItemUrl"]').value;
                     $(table).find('[name="service_quantity"]').change();
                 }
 
@@ -3017,7 +3021,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
         });
     }
 
-    function loadWorkShopSections($row){
+    function loadWorkShopSections($row) {
 
         tmsApp.populateDropDownList(
             $($row).find("select.workshopSection"),

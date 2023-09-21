@@ -176,9 +176,10 @@
                                                             <input type="text"
                                                                    class="form-control
                                                                    form-control-sm"
-                                                                   id="staff_number"
+                                                                   id="staffNumber"
+                                                                   data-action="{{route('find.user')}}"
                                                                    placeholder="Staff number"
-                                                                   name="staff_number"
+                                                                   name="staffNumber"
                                                                    required
                                                             />
                                                             <div class="input-group-addon">
@@ -463,12 +464,14 @@
             })
 
             $('#employeeSearchBtn').on('click', function () {
+
                 if (!document.querySelector("#driver_staff_number").value
                     || document.querySelector("#driver_staff_number").value.length < 5) {
                     toastr.warning('Invalid Employee Id Number')
                     return;
                 }
 
+                $("#employeeSearchBtn").hide();
                 setTimeout(function () {
                     findEmployee();
                 }, 300);
@@ -480,7 +483,7 @@
                 formData.append('searchCriteria', staff_number);
                 $('#driver_name').val('');
                 fetch(
-                    document.querySelector("#driver_staff_number").getAttribute('data-action'),
+                    document.querySelector("#staffNumber").getAttribute('data-action'),
                     {
                         method: 'POST',
                         headers: {

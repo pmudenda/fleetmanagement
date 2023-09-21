@@ -143,7 +143,6 @@ class UsersController extends Controller
         try {
             $user = User::find($request->id);
             $user->roles()->sync($request->role_ids);
-            //$user->roles()->syncWithoutDetaching($request->role_ids);
             return redirect()->back()->with('message', 'User Successfully Added To Selected Groups ..');
         } catch (\Exception $e) {
             Log::error($e);
@@ -205,7 +204,35 @@ class UsersController extends Controller
             ));
     }
 
-    public function search(Request $request): JsonResponse
+    public function employeeSearch(Request $request): JsonResponse
+    {
+        try {
+
+            $searchParam = strtoupper(trim($request->searchCriteria));
+
+            $dataset = UserService::searchEmployee($searchParam);
+
+            return response()->json([
+                'success' => true,
+                'payload' => $dataset
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::getMessage('err_0012');
+
+            if ($e instanceof UserNotActiveException) {
+                $message = $e->getMessage();
+            }
+
+            return response()->json([
+                'success' => false,
+                'payload' => [],
+                'message' => $message
+            ]);
+        }
+    }
+    public function userSearch(Request $request): JsonResponse
     {
         try {
 

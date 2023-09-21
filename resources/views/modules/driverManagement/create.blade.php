@@ -74,7 +74,8 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <label
-                                                                    class="pl-0 col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                    class="pl-0 col-xs-12 col-sm-6
+                                                                    col-md-5 col-lg-4 app-field-label"
                                                                     for="staff_no">Find By:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -88,7 +89,8 @@
                                                                         <div class="input-group-addon">
                                                                             <button type="button" id="employeeSearchBtn"
                                                                                     name="userSearchBtn"
-                                                                                    class="btn btn-primary btn-sm border-radius-0">
+                                                                                    class="btn btn-primary
+                                                                                    btn-sm border-radius-0">
                                                                                 <i class="fas fa-search"></i>
                                                                             </button>
                                                                         </div>
@@ -318,14 +320,17 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-5 col-lg-4 field-required"
                                                                                 for="staff_license">
                                                                                 License No:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-7 col-lg-6">
                                                                                 <input type="text"
-                                                                                       class="form-control form-control-sm"
+                                                                                       class="form-control
+                                                                                       form-control-sm"
                                                                                        id="license_number"
                                                                                        name="license_number"
                                                                                        required>
@@ -340,15 +345,21 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-5 col-lg-4 field-required"
                                                                                 for="staff_name">
                                                                                 Date Issued:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-7 col-lg-6">
                                                                                 <input type="date"
-                                                                                       max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
-                                                                                       class="form-control form-control-sm"
+                                                                                       max="{{
+                                                                                        date('Y-m-d',
+                                                                                        strtotime(Carbon::now()))
+                                                                                        }}"
+                                                                                       class="form-control
+                                                                                       form-control-sm"
                                                                                        id="license_date_issued"
                                                                                        name="license_date_issued"
                                                                                        required>
@@ -365,15 +376,17 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-5 col-lg-4 field-required"
                                                                                 for="staff_name">
                                                                                 Expiry Date:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-7 col-lg-6">
                                                                                 <input type="date"
-                                                                                       {{--min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"--}}
-                                                                                       class="form-control form-control-sm"
+                                                                                       class="form-control
+                                                                                       form-control-sm"
                                                                                        id="license_date_expiry"
                                                                                        name="license_date_expiry"
                                                                                        required/>
@@ -388,19 +401,26 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-6 col-lg-6 field-required"
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-6 col-lg-6 field-required"
                                                                                 for="staff_name">
                                                                                 License Category:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                class="col-xs-12 col-sm-6
+                                                                                col-md-7 col-lg-6">
                                                                                 <select
                                                                                     id="license_class"
                                                                                     name="license_class"
                                                                                     class="form-select">
-                                                                                    @foreach($licenseClasses as $licenseClass)
+                                                                                    @foreach($licenseClasses
+                                                                                        as $licenseClass)
                                                                                         <option
-                                                                                            value="{{$licenseClass->code}}">{{$licenseClass->name}}</option>
+                                                                                            value="{{
+                                                                                            $licenseClass->code
+                                                                                            }}">
+                                                                                            {{$licenseClass->name}}
+                                                                                        </option>
                                                                                     @endforeach
                                                                                 </select>
                                                                             </div>
@@ -441,14 +461,17 @@
                                                                             </label>
                                                                             <div class="col-12">
                                                                                 <div
-                                                                                    class="card text-center py-5 my-2 pt-0">
+                                                                                    class="card text-center
+                                                                                    py-5 my-2 pt-0">
                                                                                     <div class="form-group">
                                                                                         <p
-                                                                                            class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                                                                                            class="text-gray-400 fs-4
+                                                                                            fw-semibold mb-10 text-center">
                                                                                             <button type="button"
                                                                                                     data-select="file"
                                                                                                     data-input="selectFrontViewFile"
-                                                                                                    class="upload-file btn btn-sm btn-primary me-2">
+                                                                                                    class="upload-file
+                                                                                                    btn btn-sm btn-primary me-2">
                                                                                                 <i class="fas fa-cloud"></i>
                                                                                                 Upload Image
                                                                                             </button>
@@ -457,18 +480,23 @@
                                                                                                    style="display: none;"
                                                                                                    class="fileElem"
                                                                                                    id="license_front_view"
-                                                                                                   name="license_front_view"/>
+                                                                                                   name="license_front_view"
+                                                                                            />
                                                                                         </p>
                                                                                         <div class="imagePreview"
                                                                                              style="display: none;">
                                                                                             <button type="button"
-                                                                                                    class="btn btn-xs clearImage"
+                                                                                                    class="btn btn-xs
+                                                                                                    clearImage"
                                                                                                     style="top: 1px;
                                                                                                     position: relative;
                                                                                                     right: 1px;
                                                                                                     float: right;
                                                                                                     padding: 2px;">
-                                                                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                                                                                <i
+                                                                                                    class="fa
+                                                                                                    fa-window-close"
+                                                                                                    style="font-size: 20px;"></i>
                                                                                             </button>
                                                                                         </div>
                                                                                     </div>
@@ -493,15 +521,21 @@
                                                                             </label>
                                                                             <div class="col-12">
                                                                                 <div
-                                                                                    class="card text-center py-5 my-2 pt-0">
+                                                                                    class="card text-center
+                                                                                    py-5 my-2 pt-0">
                                                                                     <div class="form-group">
                                                                                         <p
-                                                                                            class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                                                                                            class="text-gray-400 fs-4
+                                                                                            fw-semibold mb-10
+                                                                                            text-center">
                                                                                             <button type="button"
                                                                                                     data-select="file"
                                                                                                     data-input="selectFrontViewFile"
-                                                                                                    class="upload-file btn btn-sm btn-primary me-2">
-                                                                                                <i class="fas fa-cloud"></i>
+                                                                                                    class="upload-file
+                                                                                                    btn btn-sm
+                                                                                                    btn-primary me-2">
+                                                                                                <i class="fas fa-cloud">
+                                                                                                </i>
                                                                                                 Upload Image
                                                                                             </button>
                                                                                             <input type="file"
@@ -514,7 +548,8 @@
                                                                                         <div class="imagePreview"
                                                                                              style="display: none;">
                                                                                             <button type="button"
-                                                                                                    class="btn btn-xs clearImage"
+                                                                                                    class="btn btn-xs
+                                                                                                    clearImage"
                                                                                                     style="top: 1px;
                                             position: relative;
                                             right: 1px;
@@ -557,7 +592,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                        class="col-xs-12 col-sm-6
+                                                                        col-md-5 col-lg-4 field-required"
                                                                         for="staff_license">
                                                                         Permit No:
                                                                     </label>
@@ -578,13 +614,16 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                        field-required"
                                                                         for="staff_name">
                                                                         Date Issued:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
-                                                                               max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
+                                                                               max="{{
+                                                                                date('Y-m-d', strtotime(Carbon::now()))
+                                                                                }}"
                                                                                class="form-control form-control-sm"
                                                                                id="permit_date_issued"
                                                                                name="permit_date_issued"
@@ -602,7 +641,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                        field-required"
                                                                         for="staff_name">
                                                                         Expiry Date:
                                                                     </label>
@@ -816,7 +856,8 @@
                 // reformatDate(date, "ISO")
                 document.querySelector('[name="license_date_expiry"]').setAttribute('min', this.value);
                 let expiryDate = addYears(date, 5);
-                document.querySelector('[name="license_date_expiry"]').setAttribute('max', reformatDate(expiryDate, "ISO"));
+                document.querySelector('[name="license_date_expiry"]')
+                    .setAttribute('max', reformatDate(expiryDate, "ISO"));
 
                 $('[name="license_date_expiry"]').change();
             });

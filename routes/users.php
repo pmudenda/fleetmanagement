@@ -20,7 +20,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::resource('/user', UsersController::class);
 
-        Route::post('/get-employee-data', [UsersController::class, 'search'])->name('user.search');
+        Route::post('/get-employee-data', [UsersController::class, 'employeeSearch'])->name('user.search');
+
+        Route::post('/find-user-data', [UsersController::class, 'userSearch'])->name('find.user');
 
         Route::post('user/role/attach', [UsersController::class, 'attach'])->name('user.attach');
 
