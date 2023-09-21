@@ -478,6 +478,7 @@
         window.defects = {!! json_encode($defects) !!};
         window.materials = {!! json_encode($materials) !!};
         window.step_id = {!! $step !!};
+        window.workshopSections = {!! json_encode($$workshop_sections) !!};
         window.jobCardProcessData = {
             articleNoPrice: 'The Article @articleNumber - @description has no price. ' +
                 ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306,' +

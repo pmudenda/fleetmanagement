@@ -495,7 +495,8 @@ const defectTableRowTemplate = `
                             }
                             tmsApp.systemError(
                                 'Reassign Task',
-                                'We could not complete processing your request, please try again later');
+                                pageSystemMessages.generalErrorMessage
+                            );
                         }, 300)
                     });
                 }
@@ -608,7 +609,8 @@ const defectTableRowTemplate = `
 
                             tmsApp.systemError(
                                 'Assign Task',
-                                'We could not complete processing your request, please try again later');
+                                pageSystemMessages.generalErrorMessage
+                            );
                         }, 300)
                     });
                 }
@@ -705,7 +707,8 @@ const defectTableRowTemplate = `
 
                             tmsApp.systemError(
                                 'Assign Task',
-                                'We could not complete processing your request, please try again later');
+                                pageSystemMessages.generalErrorMessage
+                            );
                         }, 300)
                     });
                 }
@@ -819,7 +822,8 @@ const defectTableRowTemplate = `
 
                             tmsApp.systemError(
                                 'Assign Task',
-                                'We could not complete processing your request, please try again later');
+                                pageSystemMessages.generalErrorMessage
+                            );
                         }, 300)
                     });
                 }
@@ -982,17 +986,6 @@ const defectTableRowTemplate = `
                 alert(e);
             }
         });
-
-        /*$('body').on('show.bs.modal', '#pettyCashModal', function () {
-            $(this).find('select[data-select2-i]').each(function () {
-                let dropdownParent = $('#pettyCashModal');
-                if ($(this).parents('.modal.in:first').length !== 0)
-                    dropdownParent = $(this).parents('.modal.in:first');
-                $(this).select2({
-                    dropdownParent: dropdownParent
-                });
-            });
-        });*/
     });
 
     /*****************************Function Handlers************************************/
@@ -2029,7 +2022,7 @@ const defectTableRowTemplate = `
             function (xhr) {
                 tmsApp.systemError(
                     'System Message',
-                    'We could not complete processing your request, please try again later',
+                    pageSystemMessages.generalErrorMessage,
                     function () {
                     });
             }
@@ -2580,16 +2573,14 @@ const defectTableRowTemplate = `
             $(row).find('.select2-container').remove();
             let $_defect_sel = $(row).find(".select_2_control");
             const $vehicleSystem = $(row).find('[name="vehicleSystem"]');
-            // $vehicleSystem.attr('disabled', false)
+
             console.log($vehicleSystem)
             loadDefectDropdownLists(window['VEH_SYS'], $vehicleSystem);
 
             $(row).find('[name="defectCategory"]').attr('disabled', false)
             $(row).find('[name="defect"]').attr('disabled', false)
             $(row).find('[name="workshopSection"]').attr('disabled', false)
-
-
-            //reinitializeSelect2($_defect_sel);
+            loadWorkShopSections(row);
         }
     }
 
@@ -2936,7 +2927,7 @@ const defectTableRowTemplate = `
                             }
                         },
                         function (xhr, settings, errorThrown) {
-                            console.log(errorThrown)
+
                             setTimeout(function () {
                                 if ('responseJSON' in xhr) {
                                     if (xhr.responseJSON.hasOwnProperty('errors')) {
@@ -2953,7 +2944,8 @@ const defectTableRowTemplate = `
 
                                 tmsApp.systemError(
                                     'Fuel Requisition',
-                                    'We could not complete processing your request, please try again later');
+                                    pageSystemMessages.generalErrorMessage
+                                );
                             }, 300)
                         }
                     )
@@ -3070,6 +3062,17 @@ const defectTableRowTemplate = `
         });
     }
 
+    function loadWorkShopSections($row){
+
+        tmsApp.populateDropDownList(
+            $($row).find("#workshopSection"),
+            window.workshopSections,
+            'code',
+            ["name"]
+        )
+
+    }
+
     initializeFormWizard();
 
     getWorkshops();
@@ -3084,5 +3087,4 @@ const defectTableRowTemplate = `
     initEventHandlers();
 
     getSuppliers();
-
 })(window.tmsApp || {}, jQuery)
