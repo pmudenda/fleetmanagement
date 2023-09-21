@@ -7,9 +7,8 @@ use App\Exceptions\UserDataSyncException;
 use App\Exceptions\UserNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\MechanicOnboarding;
-use App\Http\Requests\UserProfileUpdate;
+use App\Http\Requests\MechanicUpdate;
 use App\Models\Reference\PHCMSEmployee;
-use App\Models\Security\User;
 use App\Models\WorkShopManagement\Mechanic;
 use Exception;
 use Illuminate\Database\QueryException;
@@ -20,18 +19,18 @@ use PDO;
 class MechanicsService
 {
     const RESULT = ":result";
-    public function updateDetails(UserProfileUpdate $request): void
+
+    public function updateDetails(MechanicUpdate $request): void
     {
-        DB::beginTransaction();
-
         $id = $request->input('mechanicId');
-
+        DB::beginTransaction();
         Mechanic::where('id', '=', $id)
             ->update(
                 [
                     'area_code' => $request->get('area'),
                     'workshop_code' => $request->get('workshop_code'),
-                    'work_shop_section' => $request->get('is_supervisor'),
+                    'extension' => $request->get('phone'),
+                    'work_shop_section' => $request->get('workShopSection'),
                     'is_supervisor' => $request->get('workshopSupervisor'),
                 ]
             );

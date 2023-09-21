@@ -8,6 +8,7 @@ use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MechanicOnboarding;
+use App\Http\Requests\MechanicUpdate;
 use App\Http\Requests\UserSync;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\Role;
@@ -178,7 +179,7 @@ class MechanicController extends Controller
                 'workshopSectionList'));
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(MechanicUpdate $request): JsonResponse
     {
         try {
             $this->mechanicsService->updateDetails($request);
