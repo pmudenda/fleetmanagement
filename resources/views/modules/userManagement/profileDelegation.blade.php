@@ -167,11 +167,11 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
                                                         for="staff_number">Staff No.:
                                                     </label>
                                                     <div
-                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-9">
+                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <div class="input-group">
                                                             <input type="text"
                                                                    class="form-control
@@ -233,11 +233,11 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                         for="staff_number">Start-Date:
                                                     </label>
                                                     <div
-                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-9">
+                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <div class="input-group">
                                                             <input type="datetime-local"
                                                                    class="form-control
@@ -263,10 +263,10 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
                                                         for="staff_number">End Date:
                                                     </label>
-                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <input type="datetime-local"
                                                                class="form-control
                                                                form-control-sm"
