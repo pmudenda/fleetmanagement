@@ -157,26 +157,6 @@
                             </div>
                         </div>
                         <div class="card-body ">
-                         {{--   <div class="table-wrap">
-                                <div class="table-responsive">
-                                    @if(session()->has('message'))
-                                        <div class="alert alert-success alert-dismissible">
-                                            <p class="lead"> {{session()->get('message')}}</p>
-                                        </div>
-                                    @endif
-
-                                    @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>--}}
-
                             <form role="form"
                                   method="post"
                                   action="{{route('user.profile.delegation.store')}}">
@@ -188,17 +168,15 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5
-                                                                                col-lg-3"
-                                                        for="staff_number">Find By:
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
+                                                        for="staff_number">Staff No.:
                                                     </label>
-                                                    <div
-                                                        class="col-xs-12 col-sm-6
-                                                                                col-md-7 col-lg-6">
+                                                    <divß
+                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-9">
                                                         <div class="input-group">
                                                             <input type="text"
                                                                    class="form-control
-                                                                                           form-control-sm"
+                                                                   form-control-sm"
                                                                    id="staff_number"
                                                                    placeholder="Staff number"
                                                                    name="staff_number"
@@ -209,13 +187,13 @@
                                                                         id="employeeSearchBtn"
                                                                         name="userSearchBtn"
                                                                         class="btn btn-primary
-                                                                                                btn-sm border-radius-0">
+                                                                        btn-sm border-radius-0">
                                                                     <i class="fas fa-search">
                                                                     </i>
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </divß>
                                                 </div>
                                             </div>
                                         </div>
