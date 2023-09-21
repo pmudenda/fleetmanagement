@@ -3065,7 +3065,7 @@ const defectTableRowTemplate = `
     function loadWorkShopSections($row){
 
         tmsApp.populateDropDownList(
-            $($row).find("#workshopSection"),
+            $($row).find("select.workshopSection"),
             window.workshopSections,
             'code',
             ["name"]
