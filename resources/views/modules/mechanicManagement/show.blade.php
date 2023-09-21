@@ -462,7 +462,7 @@
                                         <div class="form-group row">
                                             <label for="workShopSection"
                                                    class="col-sm-2 col-form-label field-required">
-                                                WorkShop Supervisor:
+                                                Is Supervisor:
                                             </label>
                                             <div class="col-sm-10">
                                                 <label class="checkbox-inline pl-1">
