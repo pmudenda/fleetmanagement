@@ -85,7 +85,7 @@
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
                                              src="{{ asset('storage/user_avatar/' . $mechanic->avatar) }}"
                                              alt="Image not found"
-                                             @if(auth::user()->id==$mechanic->mechanic_id)
+                                             @if(auth::user()->id==$mechanic->id)
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"@endif
@@ -94,7 +94,7 @@
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
                                              src="{{ asset('assets/media/avatars/avatar.png') }}"
                                              alt="Image not found"
-                                             @if(Auth::user()->id==$mechanic->mechanic_id)
+                                             @if(Auth::user()->id==$mechanic->id)
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"@endif
@@ -335,7 +335,7 @@
                                                        id="mechanicId"
                                                        name="mechanicId"
                                                        required
-                                                       value="{{$mechanic->mechanic_id ?? '--'}}">
+                                                       value="{{$mechanic->id ?? '--'}}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
