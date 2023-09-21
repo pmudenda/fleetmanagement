@@ -281,54 +281,6 @@
                                     </div>
                                 </div>
 
-
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                        <div class="form-group">
-                                            <label>Select Profile</label>
-                                            <select class="form-control select2"
-                                                    id="profile_select"
-                                                    name="profile"
-                                                    required
-                                                    style="width: 100%;">
-                                                <option disabled value="" selected>
-                                                    Select Profile to Delegate
-                                                </option>
-                                                @foreach($profiles as $profile)
-                                                    <option
-                                                        value="{{$profile->profiles->id ?? ''}}">
-                                                        {{$profile->profiles->name ?? ''}}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <!-- /.form-group -->
-                                    </div>
-                                    <div class="col-6 ">
-                                        <div class="form-group">
-                                            <label for="start_date"></label>
-                                            <input class="form-control form-control"
-                                                   type="datetime-local"
-                                                   id="start_date"
-                                                   name="start_date"
-                                                   required
-                                                   style="width: 100%;"
-                                            />
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-6 ">
-                                        <div class="form-group">
-                                            <label for="delegation_end_date"></label>
-                                            <input type="date"
-                                                   class="form-control"
-                                                   name="delegation_end_date"
-                                                   id="delegation_end_date">
-                                        </div>
-                                    </div>
-
-                                </div>
                                 <div class="modal-footer justify-content-between">
                                     <button type="submit" class="btn btn-success">
                                         <i class="fas fa-paper-plane"></i>
