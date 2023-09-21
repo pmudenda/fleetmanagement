@@ -24,8 +24,8 @@ class MechanicUpdate extends FormRequest
     {
         return [
             'mechanicId' => 'required|numeric|exists:App\Models\WorkShopManagement\Mechanic,id',
-            'name' => 'required|numeric',
-            'phone' => 'required|numeric',
+            'name' => 'required|string|max:255',
+            'phone' => 'nullable|numeric',
             'workshop_code' => 'required|string|max:4',
             'workShopSection' => 'required|string',
             'workshopSupervisor' => 'required|string'
