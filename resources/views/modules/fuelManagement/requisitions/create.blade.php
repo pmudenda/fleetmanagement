@@ -359,19 +359,19 @@
                                                                        strtotime(Carbon::now())) }}"
                                                                        name="departure_date"
                                                                        id="departure_date"
+                                                                       readonly
                                                                        autocomplete="off"
                                                                        class="form-control form-control-sm
                                                                        date_input datetimepicker-opened"
                                                                        data-target="#dateOpened"/>
                                                                 <div class="input-group-append"
-                                                                     data-target="#dateOpened"
-                                                                     data-action="dateOpenedPicker">
+                                                                     data-target="#departure"
+                                                                     data-action="departure">
                                                                     <div type="button"
                                                                          data-target="departure_date"
                                                                          data-action="open_picker"
                                                                          class="input-group-text">
-                                                                        <i data-action="dateOpenedPicker"
-                                                                           class="fa fa-calendar"></i>
+                                                                        <i class="fa fa-calendar"></i>
                                                                     </div>
                                                                 </div>
                                                             </div>
