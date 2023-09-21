@@ -505,7 +505,6 @@
                                             <input name="imprestItemUnitPrice"
                                                    required
                                                    value=""
-                                                   readonly
                                                    class="form-control form-control-sm unit_price"/>
                                         </td>
                                         <td>
