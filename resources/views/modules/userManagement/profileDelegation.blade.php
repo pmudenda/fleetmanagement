@@ -233,29 +233,22 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
                                                         for="staff_number">Start-Date:
                                                     </label>
                                                     <div
                                                         class="col-xs-12 col-sm-6 col-md-7 col-lg-9">
                                                         <div class="input-group">
-                                                            <input type="text"
+                                                            <input type="datetime-local"
                                                                    class="form-control
                                                                    form-control-sm"
-                                                                   id="staff_number"
-                                                                   placeholder="Staff number"
-                                                                   name="staff_number"
+                                                                   id="startDate"
+                                                                   name="startDate"
                                                                    required
                                                             />
                                                             <div class="input-group-addon">
-                                                                <button type="button"
-                                                                        id="employeeSearchBtn"
-                                                                        name="userSearchBtn"
-                                                                        class="btn btn-primary
-                                                                        btn-sm border-radius-0">
-                                                                    <i class="fas fa-search">
-                                                                    </i>
-                                                                </button>
+                                                                <i class="fas fa-calendar">
+                                                                </i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -272,9 +265,8 @@
                                                         for="staff_number">Start-Date:
                                                     </label>
                                                     <div
-                                                        class="col-xs-12 col-sm-6
-                                                                                col-md-5
-                                                                                col-lg-4 control-input-wrapper">
+                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                        col-lg-4 control-input-wrapper">
                                                         <div class="control-input">
                                                             <div class="link-field ui-front"
                                                                  style="position: relative;">
@@ -282,10 +274,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-xs-12 col-sm-6
-                                                                                col-md-7 col-lg-6">
+                                                    col-md-7 col-lg-6">
                                                         <input type="text"
                                                                class="form-control
-                                                                                       form-control-sm"
+                                                               form-control-sm"
                                                                id="cost_centre_code"
                                                                name="name"
                                                                required
