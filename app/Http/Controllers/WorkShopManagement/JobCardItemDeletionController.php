@@ -82,6 +82,7 @@ class JobCardItemDeletionController extends Controller
             $header->save();
             $entry->save();
 
+            // post delete item in
 
             DB::commit();
 
