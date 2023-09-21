@@ -47,12 +47,12 @@
             cursor: pointer;
         }
 
-      /*  input:checked + label {
-            color: #555;
-            border: 1px solid #ddd;
-            border-top: 2px solid orange;
-            border-bottom: 1px solid #fff;
-        }*/
+        /*  input:checked + label {
+              color: #555;
+              border: 1px solid #ddd;
+              border-top: 2px solid orange;
+              border-bottom: 1px solid #fff;
+          }*/
 
         #tab4:checked ~ #content4 {
             display: block;
@@ -467,17 +467,18 @@
                                             <div class="col-sm-10">
                                                 <label class="checkbox-inline pl-1">
                                                     <input type="radio"
-                                                           id="policeNotification-yes"
                                                            name="workshopSupervisor"
                                                            value="Y">
-                                                    <label for="policeNotification-yes">Yes</label>
+                                                    <label class="p-1"
+                                                           for="policeNotification-yes">Yes</label>
                                                 </label>
                                                 <label class="checkbox-inline">
-                                                    <input type="radio" id="policeNotification-no"
+                                                    <input type="radio"
                                                            checked
                                                            name="workshopSupervisor"
                                                            value="N">
-                                                    <label for="policeNotification-no">No</label>
+                                                    <label class="p-1"
+                                                           for="policeNotification-no">No</label>
                                                 </label>
                                             </div>
                                         </div>
