@@ -20,43 +20,44 @@
                     <div class="card card-outline">
                         <div class="card-header">
                             <div class="card-tools">
-                                @if() @endif
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                    for="staff_number">Profile Owner.:
-                                                </label>
-                                                <div
-                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-                                                    <div class="input-group">
-                                                        <input type="text"
-                                                               class="form-control
+                                @if(!$selfDelegation)
+                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                        for="staff_number">Profile Owner.:
+                                                    </label>
+                                                    <div
+                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   class="form-control
                                                                    form-control-sm"
-                                                               id="profileOwner"
-                                                               data-action="{{route('find.user')}}"
-                                                               placeholder="Profile Owner"
-                                                               name="profileOwner"
-                                                               required
-                                                        />
-                                                        <div class="input-group-addon">
-                                                            <button type="button"
-                                                                    id="findProfileOwnerBtn"
-                                                                    name="findProfileOwnerBtn"
-                                                                    class="btn btn-primary
+                                                                   id="profileOwner"
+                                                                   data-action="{{route('find.user')}}"
+                                                                   placeholder="Profile Owner"
+                                                                   name="profileOwner"
+                                                                   required
+                                                            />
+                                                            <div class="input-group-addon">
+                                                                <button type="button"
+                                                                        id="findProfileOwnerBtn"
+                                                                        name="findProfileOwnerBtn"
+                                                                        class="btn btn-primary
                                                                     btn-sm border-radius-0">
-                                                                <i class="fas fa-search">
-                                                                </i>
-                                                            </button>
+                                                                    <i class="fas fa-search">
+                                                                    </i>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                         <div class="card-body box-profile">
@@ -150,7 +151,7 @@
                             </p>
                         </div>
                         <!-- /.card-body -->
-                        @can('rights.search_user')
+                        @if(!$selfDelegation)
                             <div class="card-footer">
                                 <div class="row">
                                     <div class="col-md-12">
