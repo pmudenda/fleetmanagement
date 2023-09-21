@@ -93,6 +93,8 @@
 
                             <p class="text-muted text-center">{{ $user->staff_no ?? '' }}</p>
 
+                            <input type="hidden" name="profileOwnerId" value="{{ $user->staff_no ?? '' }}" />
+
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
                                     <b>Man Number</b> <a class="float-right">{{ $user->staff_no }}</a>
@@ -376,60 +378,6 @@
                 )
             });
 
-
-            $('form[name="configurationEditTableForm"]').on('submit', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                const form = document.querySelector('form[name="configurationEditTableForm"]')
-                let formData = new FormData(form);
-
-                tmsApp.asyncPostFormData(
-                    form.action,
-                    formData,
-                    function (asyncResponse) {
-                        if ('success' in asyncResponse && !asyncResponse.success) {
-                            if (asyncResponse.hasOwnProperty('errors')) {
-                                toastr.error(
-                                    asyncResponse.message
-                                );
-                                tmsApp.printErrorMsg(asyncResponse.errors);
-                                return
-                            }
-
-                            setTimeout(function () {
-                                tmsApp.systemError(
-                                    'System Configuration',
-                                    asyncResponse['message'],
-                                    function () {
-                                    }, 'error');
-                            }, 300);
-                            return;
-                        }
-
-                        if (asyncResponse.success) {
-                            const entry = asyncResponse.payload;
-                            tmsApp.showSystemMessage(
-                                'System Configuration',
-                                asyncResponse['message'],
-                                function () {
-                                    window.location.reload();
-                                },
-                                'success'
-                            );
-                        }
-                    },
-                    function (xhr, settings, error) {
-                        setTimeout(
-                            function () {
-                                tmsApp.showErrorMessages(xhr, 'System Configuration');
-                            },
-                            300);
-                    },
-                    'POST',
-                )
-            })
-
             $(document).on('click', '.deleteButton', function (e) {
                 let recordData = this.getAttribute('data-id');
                 console.log(recordData)
@@ -547,6 +495,11 @@
                             tmsApp.systemError('User Search',
                                 appMessages.inactiveEmployee.replace('@staff', staff_number)
                             );
+                            return;
+                        }
+
+                        if(document.querySelector('[name="profileOwnerId"]').value === staff_number){
+                            tmsApp.
                             return;
                         }
 

@@ -186,8 +186,13 @@
                 <input type="hidden" value="{{$details->wshp_act_code ?? ''}}"
                        name="workshop_reference"
                        id="workshop_reference"/>
+
                 <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
                        id="deleteDefectUrl"/>
+
+                <input type="hidden" value="{{route('delete.pettyCashItem.record')}}" name="deletePettyCashItemUrl"
+                       id="deletePettyCashItemUrl"/>
+
                 <input type="hidden" value="{{route('delete.material.record')}}" name="deleteMaterialUrl"
                        id="deleteMaterialUrl"/>
 

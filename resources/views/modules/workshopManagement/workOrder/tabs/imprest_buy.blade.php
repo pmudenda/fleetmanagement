@@ -56,7 +56,7 @@
                             <input type="text"
                                    readonly
                                    value="{{$pettyCashItem->quantity}}"
-                                   class="form-control amount number_input"
+                                   class="form-control pettyCashItemQuantity amount number_input"
                                    placeholder="">
                         </td>
                         <td>
@@ -81,7 +81,7 @@
                                    class="form-control form-control-sm total_price"/>
                         </td>
                         <td>
-                            @if($pettyCashItem->status != StatusHelper::new())
+                            @if($pettyCashItem->status != StatusHelper::authorised())
                                 <button type="button"
                                         data-value="{{$pettyCashItem->id}}"
                                         value="deleteRow"
@@ -95,13 +95,12 @@
             @endif
             </tbody>
         </table>
-        {{--@if(!$pettyCashItems->isNotEmpty()) @endif--}}
-            <button type="button" class="btn btn-sm btn-success pull-right"
-                    data-bs-target="#pettyCashModal"
-                    data-bs-toggle="modal">
-                <i class="fas fa-plus"></i>
-                Add Item
-            </button>
+        <button type="button" class="btn btn-sm btn-success pull-right"
+                data-bs-target="#pettyCashModal"
+                data-bs-toggle="modal">
+            <i class="fas fa-plus"></i>
+            Add Item
+        </button>
 
     </div>
 </div>

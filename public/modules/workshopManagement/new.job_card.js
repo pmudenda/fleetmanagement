@@ -2540,6 +2540,57 @@ const serviceTableRowTemplate = ` <tr class="increment">
         }
     }
 
+    function postDeleteItem(valueId, dataUrl, table) {
+        let formData = new FormData();
+        formData.append('record_id', valueId);
+
+        tmsApp.asyncPostFormData(
+            dataUrl,
+            formData,
+            function (asyncResponse) {
+                if ('success' in asyncResponse && !asyncResponse.success) {
+                    if (asyncResponse.hasOwnProperty('errors')) {
+                        toastr.error(
+                            asyncResponse.message
+                        );
+                        tmsApp.printErrorMsg(asyncResponse.errors);
+                        return
+                    }
+
+                    setTimeout(function () {
+                            tmsApp.systemError(
+                                'System Configuration',
+                                asyncResponse['message'],
+                                function () {
+                                }, 'error');
+                        },
+                        300);
+                    return;
+                }
+
+                if (asyncResponse.success) {
+                    const entry = asyncResponse.payload;
+                    tmsApp.showSystemMessage(
+                        'System Configuration',
+                        asyncResponse['message'],
+                        function () {
+                            clearRows(table);
+                        },
+                        'success'
+                    );
+                }
+            },
+            function (xhr, settings, error) {
+                setTimeout(
+                    function () {
+                        tmsApp.showErrorMessages(xhr, 'System Configuration');
+                    },
+                    300);
+            },
+            'POST',
+        );
+    }
+
     function deleteTableRow(eventSource) {
 
         let btnEl = $(eventSource);
@@ -2574,61 +2625,33 @@ const serviceTableRowTemplate = ` <tr class="increment">
                     dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
                     $(table).find('[name="quantity"]').change();
                 } else if (tableId === "pettyCashSelectedItemsTable") {
-                    dataUrl = document.querySelector('[name="deleteServiceUrl"]').value;
-                    $(table).find('[name="service_quantity"]').change();
-                } else {
                     dataUrl = document.querySelector('[name="deletePettyCashItemUrl"]').value;
+                    $(table).find('[name="pettyCashItemQuantity"]').change();
+                } else {
+                    dataUrl = document.querySelector('[name="deleteServiceUrl"]').value;
                     $(table).find('[name="service_quantity"]').change();
                 }
 
-                let formData = new FormData();
-                formData.append('record_id', valueId);
-
-                tmsApp.asyncPostFormData(
-                    dataUrl,
-                    formData,
-                    function (asyncResponse) {
-                        if ('success' in asyncResponse && !asyncResponse.success) {
-                            if (asyncResponse.hasOwnProperty('errors')) {
-                                toastr.error(
-                                    asyncResponse.message
-                                );
-                                tmsApp.printErrorMsg(asyncResponse.errors);
-                                return
-                            }
-
-                            setTimeout(function () {
-                                    tmsApp.systemError(
-                                        'System Configuration',
-                                        asyncResponse['message'],
-                                        function () {
-                                        }, 'error');
-                                },
-                                300);
-                            return;
+                if (tableId === "pettyCashSelectedItemsTable") {
+                    Swal.fire({
+                        title: 'Delete Petty-Cash Item',
+                        text: "Deleting a Petty Cash Item will void the whole Petty Cash Request. " +
+                            " Would you like to proceed ?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes'
+                    }).then((result) => {
+                        if (result.value) {
+                            postDeleteItem(valueId, dataUrl, table);
                         }
+                    });
 
-                        if (asyncResponse.success) {
-                            const entry = asyncResponse.payload;
-                            tmsApp.showSystemMessage(
-                                'System Configuration',
-                                asyncResponse['message'],
-                                function () {
-                                    clearRows(table);
-                                },
-                                'success'
-                            );
-                        }
-                    },
-                    function (xhr, settings, error) {
-                        setTimeout(
-                            function () {
-                                tmsApp.showErrorMessages(xhr, 'System Configuration');
-                            },
-                            300);
-                    },
-                    'POST',
-                );
+
+                } else {
+                    postDeleteItem(valueId, dataUrl, table);
+                }
             });
     }
 
