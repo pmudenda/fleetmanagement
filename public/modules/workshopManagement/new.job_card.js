@@ -144,52 +144,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                 </button>
             </td>
         </tr>`;
-const defectTableRowTemplate = `
-                                <tr class="increment">
-                                    <td class="showNumber">
-                                        <select name="vehicleSystem"
-                                                 required
-                                                class="form-select form-select-sm select_2_control vehicleSystem">
-                                            <option></option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="defectCategory"
-                                                required
-                                                class="form-select form-select-sm select_2_control defectCategory">
-                                            <option></option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="defect"
-                                                 required
-                                                class="form-select form-select-sm select_2_control defect">
-                                            <option></option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="workshopSection"
-                                        required class="form-select form-select-sm workshopSection">
-                                            <option></option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input name="date_def"
-                                               readonly="readonly"
-                                               value=""
-                                               class="tabledit-input form-control input-sm input-number"
-                                               type="text" />
-                                    </td>
 
-                                    <td class="view-mode">
-                                        <button type="button"
-                                                value="deleteRow"
-                                                data-value="0"
-                                                class="btn btn-danger p-2">
-                                            <i class="fas fa-trash m-0"></i>
-                                        </button>
-                                    </td>
-                                </tr>`;
 
 (function (tmsApp, $) {
     let pageSystemMessages = {
