@@ -28,7 +28,7 @@ class MechanicsService
                     'area_code' => $request->get('area'),
                     'workshop_code' => $request->get('workshop_code'),
                     'work_shop_section' => $request->get('is_supervisor'),
-                    'is_supervisor' => $request->get('staff_supervisor'),
+                    'is_supervisor' => $request->get('workshopSupervisor'),
                 ]
             );
 
@@ -144,6 +144,7 @@ class MechanicsService
             'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
             'pay_point' => $employee_phcms->pay_point,
             'job_code' => $employee_phcms->job_code ?? "--",
+            'is_supervisor' => $request->get('workshopSupervisor'),
 
             /*
              * supervisor_code' => $request->staff_supervisorId

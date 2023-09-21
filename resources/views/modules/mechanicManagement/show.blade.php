@@ -470,7 +470,7 @@
                                                            name="workshopSupervisor"
                                                            value="Y">
                                                     <label class="p-1"
-                                                           for="policeNotification-yes">Yes</label>
+                                                           for="workshopSupervisor">Yes</label>
                                                 </label>
                                                 <label class="checkbox-inline">
                                                     <input type="radio"
@@ -478,7 +478,7 @@
                                                            name="workshopSupervisor"
                                                            value="N">
                                                     <label class="p-1"
-                                                           for="policeNotification-no">No</label>
+                                                           for="workshopSupervisor">No</label>
                                                 </label>
                                             </div>
                                         </div>
