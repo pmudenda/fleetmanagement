@@ -165,17 +165,10 @@ class MechanicController extends Controller
                         ConfigurationTypes::WORK_SHOP_SECTION
                     );
             })
-            ->leftJoin("$employee emp", "mec.staff_no", "=", 'emp.alt_per_no')
+            //->leftJoin("$employee emp", "mec.staff_no", "=", 'emp.alt_per_no')
             ->where('mec.id', '=', $staffId)
             ->select(
-                "mec.staff_no",
-                "mec.id as mechanic_id",
-                "mec.name as mechanic_name",
-                "mec.workshop_code",
-                "mec.section_code",
-                "mec.status",
-                "mec.is_supervisor",
-                'emp.*',
+                "mec.*",
                 'wkshp_sec.name as wkshp_section_name',
                 'wkshp.workshop_name'
             )->first();
