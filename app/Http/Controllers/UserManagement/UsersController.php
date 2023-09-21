@@ -142,7 +142,8 @@ class UsersController extends Controller
     {
         try {
             $user = User::find($request->id);
-            $user->roles()->syncWithoutDetaching($request->role_ids);
+            $user->roles()->sync($request->role_ids);
+            //$user->roles()->syncWithoutDetaching($request->role_ids);
             return redirect()->back()->with('message', 'User Successfully Added To Selected Groups ..');
         } catch (\Exception $e) {
             Log::error($e);

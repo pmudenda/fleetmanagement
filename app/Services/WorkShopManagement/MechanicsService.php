@@ -144,12 +144,7 @@ class MechanicsService
             'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
             'pay_point' => $employee_phcms->pay_point,
             'job_code' => $employee_phcms->job_code ?? "--",
-            'is_supervisor' => $request->get('workshopSupervisor'),
-
-            /*
-             * supervisor_code' => $request->staff_supervisorId
-             * supervisor_name' => $request->staff_supervisor,
-            */
+            'is_supervisor' => $request->get('workshopSupervisor')
         ];
 
         Mechanic::firstOrCreate(
