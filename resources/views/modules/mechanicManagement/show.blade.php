@@ -47,12 +47,12 @@
             cursor: pointer;
         }
 
-        input:checked + label {
+      /*  input:checked + label {
             color: #555;
             border: 1px solid #ddd;
             border-top: 2px solid orange;
             border-bottom: 1px solid #fff;
-        }
+        }*/
 
         #tab4:checked ~ #content4 {
             display: block;
