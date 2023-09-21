@@ -112,7 +112,7 @@ class MechanicsService
         $user = auth()->user();
 
         $data = [
-            'staff_email' => strtoupper($request->staff_email),
+            'email' => strtoupper($request->staff_email),
             'extension' => $request->mobile_no,
             'area_code' => $request->get('business_area'),
             'functional_section' => $request->user_unit,

@@ -530,7 +530,7 @@
                 formData.append('userId', document.querySelector('[name="mechanicId"]').value);
 
                 tmsApp.confirm(
-                    'User Details Auto Update',
+                    'Details Auto Update',
                     'Are you sure, you want to update user details ?',
                     'Yes',
                     'No, Cancel',
@@ -543,7 +543,7 @@
                                 if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
-                                            'User Detail Update',
+                                            'Details Update',
                                             asyncResponse['message'],
                                             function () {
                                                 window.location.reload();
@@ -558,7 +558,7 @@
                                     }
                                     setTimeout(function () {
                                         tmsApp.systemError(
-                                            'User Detail Update',
+                                            'Details Update',
                                             asyncResponse['message'],
                                             function () {
                                             }, 'error');
@@ -574,7 +574,7 @@
                                         }
                                         if (xhr.responseJSON.hasOwnProperty('message')) {
                                             tmsApp.systemError(
-                                                'User Detail Update',
+                                                'Detail Update',
                                                 xhr.responseJSON['message']
                                             );
                                         }

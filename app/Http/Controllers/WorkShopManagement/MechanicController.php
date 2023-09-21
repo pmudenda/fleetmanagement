@@ -45,7 +45,6 @@ class MechanicController extends Controller
         $workshopSectionList = GeneralTable::where('type', '=',
             ConfigurationTypes::WORK_SHOP_SECTION)->get();
 
-
         return view('modules.mechanicManagement.create')
             ->with(compact(
                 'role',

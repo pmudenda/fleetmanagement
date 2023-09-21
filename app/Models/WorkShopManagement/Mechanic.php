@@ -8,6 +8,7 @@ class Mechanic extends Model
 {
     protected $table = 'wm_mechanics';
     protected $fillable = [
+        'email',
         'staff_no',
         'name',
         'workshop_code',
