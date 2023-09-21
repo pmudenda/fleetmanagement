@@ -165,10 +165,12 @@ class UsersController extends Controller
     {
         try {
             $this->userService->updateUserDetails($request);
+
             ActivityLogsService::store($request,
                 'Updating of User',
                 'update',
                 ' user updated');
+
             return response()->json([
                 'state' => 'success',
                 'message' => SystemMessages::userUpdateSuccessful()

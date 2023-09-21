@@ -318,6 +318,7 @@
                                     <form class="form-horizontal" name="updateDataUpdate" method="post"
                                           action="{{ route('mechanic.update') }}">
                                         @csrf
+                                        <input type="hidden" name="mechanicId" id="mechanicId" value="{{$mechanic->id}}">
                                         <div class="form-group row">
                                             <label for="inputName"
                                                    class="col-sm-2 col-form-label field-required">Name:</label>
@@ -494,7 +495,7 @@
                                                         </button>
 
                                                         <button type="button"
-                                                                id="syncUserData"
+                                                                id="syncMechanicData"
                                                                 data-href="{{ route('mechanic.sync') }}"
                                                                 class="btn btn-sm btn-default">
                                                             Sync <i class="fas fa-sync"></i>
@@ -521,6 +522,77 @@
     <script>
         (function (appInstance) {
             appInstance.initDatatable("#groupsTable", false, false, []);
+
+            //
+            $(document).on('click', "#syncMechanicData", function () {
+                const url = this.getAttribute('data-href');
+                let formData = new FormData();
+                formData.append('userId', document.querySelector('[name="mechanicId"]').value);
+
+                tmsApp.confirm(
+                    'User Details Auto Update',
+                    'Are you sure, you want to update user details ?',
+                    'Yes',
+                    'No, Cancel',
+                    function () {
+                        tmsApp.asyncPostFormData(
+                            url,
+                            formData,
+                            function (asyncResponse) {
+
+                                if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'User Detail Update',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'User Detail Update',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                }
+                            },
+                            function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'User Detail Update',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
+
+                                    tmsApp.systemError(
+                                        'User Detail Update',
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
+                            }
+                        )
+                    },
+                    () => {
+
+                    }
+                );
+            });
         })(window.tmsApp || {});
     </script>
 @endpush

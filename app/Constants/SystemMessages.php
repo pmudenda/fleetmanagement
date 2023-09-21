@@ -73,12 +73,12 @@ class SystemMessages
 
     public static function userUpdateFailed(): string
     {
-        return 'User Details Failed to Updated!';
+        return 'Details Update Failed!';
     }
 
     public static function userUpdateSuccessful(): string
     {
-        return 'User Details Updated Successfully';
+        return 'Details Updated Successfully';
     }
 
     public static function roleAssignedSuccessful(): string

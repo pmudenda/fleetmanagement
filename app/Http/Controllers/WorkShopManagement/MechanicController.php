@@ -202,7 +202,7 @@ class MechanicController extends Controller
     public function sync(UserSync $request): JsonResponse
     {
         try {
-            Log::info('User Data Update: User Id ' . $request->userId);
+            Log::info('Start Sync Mechanic Data Update: User Id ' . $request->userId);
             $this->mechanicsService->syncMechanicFullDetails($request->userId);
             return response()->json([
                 'state' => 'success',
