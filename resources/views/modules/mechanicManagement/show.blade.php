@@ -318,7 +318,8 @@
                                     <form class="form-horizontal" name="updateDataUpdate" method="post"
                                           action="{{ route('mechanic.update') }}">
                                         @csrf
-                                        <input type="hidden" name="mechanicId" id="mechanicId" value="{{$mechanic->id}}">
+                                        <input type="hidden" name="mechanicId" id="mechanicId"
+                                               value="{{$mechanic->id}}">
                                         <div class="form-group row">
                                             <label for="inputName"
                                                    class="col-sm-2 col-form-label field-required">Name:</label>
@@ -520,10 +521,9 @@
 
 @push('scripts')
     <script>
-        (function (appInstance) {
-            appInstance.initDatatable("#groupsTable", false, false, []);
+        (function (tmsApp) {
+            tmsApp.initDatatable("#groupsTable", false, false, []);
 
-            //
             $(document).on('click', "#syncMechanicData", function () {
                 const url = this.getAttribute('data-href');
                 let formData = new FormData();
