@@ -362,14 +362,9 @@
                                                                        readonly
                                                                        autocomplete="off"
                                                                        class="form-control form-control-sm
-                                                                       date_input datetimepicker-opened"
-                                                                       data-target="#dateOpened"/>
-                                                                <div class="input-group-append"
-                                                                     data-target="#departure"
-                                                                     data-action="departure">
+                                                                       date_input"/>
+                                                                <div class="input-group-append">
                                                                     <div type="button"
-                                                                         data-target="departure_date"
-                                                                         data-action="open_picker"
                                                                          class="input-group-text">
                                                                         <i class="fa fa-calendar"></i>
                                                                     </div>
