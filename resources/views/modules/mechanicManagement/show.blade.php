@@ -103,7 +103,7 @@
                                 </a>
                             </div>
 
-                            <h3 class="profile-username text-center">{{$mechanic->mechanic_name}}</h3>
+                            <h3 class="profile-username text-center">{{$mechanic->name}}</h3>
 
                             <p class="text-muted text-center">{{ $mechanic->job_title ?? 'Position' }}</p>
 
@@ -330,7 +330,7 @@
                                                        @endif
                                                        required
                                                        placeholder="Name"
-                                                       value="{{ $mechanic->mechanic_name ?? ''}}">
+                                                       value="{{ $mechanic->name ?? ''}}">
                                                 <input type="hidden"
                                                        id="mechanicId"
                                                        name="mechanicId"
