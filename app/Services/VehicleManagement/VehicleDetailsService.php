@@ -7,7 +7,6 @@ use App\Constants\TableColumns;
 use App\Enums\DocumentState;
 use App\Enums\Modules;
 use App\Helpers\StatusHelper;
-use App\Interfaces\VehicleManagement\VehicleDetailsService;
 use App\Models\Common\File;
 use App\Models\VehicleManagement\Insurance;
 use App\Models\VehicleManagement\VehicleAccessory;
@@ -19,7 +18,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class VehicleDetailsServiceImpl implements VehicleDetailsService
+class VehicleDetailsService
 {
     public function getAllVehicles(): LengthAwarePaginator
     {

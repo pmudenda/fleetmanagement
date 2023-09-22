@@ -27,16 +27,7 @@ Route::get('/', function () {
 
 Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 
-Route::get('gate/pass', function (Request $request) {
-    if (!$request->has('ref')) {
-        return redirect(route('home'));
-    }
-
-    $vehicle = VehicleDetailsService::getVehicleByReg($request->get('ref'));
-    return view('dashboard.pass')
-        ->with(compact('vehicle'));
-
-})->name('gate.pass');
+Route::get('gate/pass', [HomeController::class, 'gatePass'])->name('gate.pass');
 
 Route::get('print/job/card', [PdfJobController::class, "index"])->name('print.job.card');
 

@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OnBoardingService::class, OnBoardingService::class);
         $this->app->bind(FileUploadService::class, FileUploadService::class);
         $this->app->bind(ActivityLogsService::class, ActivityLogsService::class);
-        $this->app->bind(VehicleDetailsService::class, VehicleDetailsServiceImpl::class);
+        //$this->app->bind(VehicleDetailsService::class, VehicleDetailsServiceImpl::class);
         $this->app->bind(InsuranceService::class, InsuranceServiceImpl::class);
         $this->app->bind(FitnessService::class, FitnessServiceImpl::class);
         $this->app->bind(RoadTaxService::class, RoadTaxServiceImpl::class);

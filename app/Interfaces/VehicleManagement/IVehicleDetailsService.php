@@ -3,11 +3,10 @@
 namespace App\Interfaces\VehicleManagement;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-interface VehicleDetailsService
+interface IVehicleDetailsService
 {
     function getAllVehicles(): LengthAwarePaginator;
 

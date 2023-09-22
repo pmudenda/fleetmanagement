@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\StatusHelper;
-use App\Interfaces\VehicleManagement\VehicleDetailsService;
 use App\Models\Driver;
 use App\Models\Security\User;
 use App\Models\WorkShopManagement\Mechanic;
+use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\WorkflowService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -49,5 +50,16 @@ class HomeController extends Controller
         return view('dashboard.home')
             ->with(compact('approvalTasks',
                 'vehicleData', 'mechanics', 'activeUsers', 'activeDrivers'));
+    }
+
+    public function gatePass(Request $request): View| RedirectResponse {
+        if (!$request->has('ref')) {
+            return redirect(route('home'));
+        }
+
+        $vehicle = $this->vehicleDetailsService->getVehicleByReg($request->get('ref'));
+        return view('dashboard.pass')
+            ->with(compact('vehicle'));
+
     }
 }
