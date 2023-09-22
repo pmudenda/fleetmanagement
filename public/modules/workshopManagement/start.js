@@ -317,7 +317,6 @@ $(document).ready(function () {
             onStepChanged: function (event, currentIndex, priorIndex) {
 
                 if (currentIndex === 2 && priorIndex === 3) {
-                    //form.steps("previous");
                     $('ul[aria-label="Pagination"]').find('a[href="#finish"]').removeClass('d-none');
                 }
 

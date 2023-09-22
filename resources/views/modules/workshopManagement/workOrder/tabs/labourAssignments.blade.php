@@ -131,18 +131,26 @@
                                         </button>
                                     </li>
 
-                                    <li>
+                                    <li class="d-none">
+                                        <button type="button"
+                                                style="background: #f59d33; color: #fff;"
+                                                class="btn btn-sm btn-success edit pull-right dropdown-item">
+                                            <i class="fa fa-edit"></i>
+                                            Edit
+                                        </button>
+                                    </li>
+
                                     <li>
                                         <a class="dropdown-item d-none"
                                            data-kt-action="edit"
                                            target="_blank"
                                            href="{{URL::signedRoute('print.job.card', [
                                             'reference' => $labourItem->id
-                                            ])}}">
+                                            ])}}
+                                            ">
                                             <i class="fa fa-print"></i>
                                             Print Job Card
                                         </a>
-                                    </li>
                                     </li>
                                 </ul>
                             </div>

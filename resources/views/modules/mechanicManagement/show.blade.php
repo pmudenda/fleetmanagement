@@ -321,7 +321,7 @@
                                         <input type="hidden" name="mechanicId" id="mechanicId"
                                                value="{{$mechanic->id}}">
                                         <div class="form-group row">
-                                            <label for="inputName"
+                                            <label for="name"
                                                    class="col-sm-2 col-form-label field-required">Name:</label>
                                             <div class="col-sm-10">
                                                 <input type="text"
@@ -418,7 +418,8 @@
                                                         name="workshop_code">
                                                     @foreach($workshopList as $workshop)
                                                         @if($workshop->workshop_code == $mechanic->workshop_code)
-                                                            <option value="{{$workshop->workshop_code}}">
+                                                            <option selected
+                                                                    value="{{$workshop->workshop_code}}">
                                                                 {{$workshop->workshop_name}}
                                                             </option>
                                                         @else
@@ -448,7 +449,8 @@
                                                     @foreach($workshopSectionList
                                                                as $workshop_section)
                                                         @if($workshop->code == $mechanic->section_code)
-                                                            <option value="{{$workshop_section->code}}">
+                                                            <option selected
+                                                                    value="{{$workshop_section->code}}">
                                                                 {{$workshop_section->name}}
                                                             </option>
                                                         @else
@@ -467,8 +469,12 @@
                                                 Is Supervisor:
                                             </label>
                                             <div class="col-sm-10">
+                                                @php $isSuperVisor = $mechanic->is_supervisor == 'Y'; @endphp
                                                 <label class="checkbox-inline pl-1">
                                                     <input type="radio"
+                                                           @if($isSuperVisor)
+                                                               checked
+                                                           @endif
                                                            name="workshopSupervisor"
                                                            value="Y">
                                                     <label class="p-1"
@@ -476,7 +482,9 @@
                                                 </label>
                                                 <label class="checkbox-inline">
                                                     <input type="radio"
-                                                           checked
+                                                           @if($isSuperVisor)
+                                                               checked
+                                                           @endif
                                                            name="workshopSupervisor"
                                                            value="N">
                                                     <label class="p-1"

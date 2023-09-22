@@ -674,6 +674,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
         $(document).on('click', '.saveAssignment', function () {
 
             let actionButton = $(this);
+            let $row = $(this).closest('tr');
             let formSel = $('#labour_table');
             let formData = {
                 modelName: formSel.data('modelName'),
@@ -724,7 +725,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
 
             tmsApp.confirm(
                 pageSystemMessages.taskAssignmentAlertTitle,
-                'Are you sure you want to close this work order ?',
+                'Are you sure you want to assign this task ?',
                 'Yes',
                 'No',
                 function () {
@@ -743,6 +744,13 @@ const serviceTableRowTemplate = ` <tr class="increment">
                                     asyncResponse['message'],
                                     function () {
                                         actionButton.addClass('disabled').attr('disabled', true);
+                                        $row.find('[name="jobCardInstruction"]')
+                                            .addClass('disabled').attr('disabled', true);
+                                        $row.find('[name="workshopSection"]')
+                                            .addClass('disabled').attr('disabled', true);
+
+                                        $row.find('[name="mechanicName"]')
+                                            .addClass('disabled').attr('disabled', true);
                                     },
                                     'success'
                                 );
