@@ -13,7 +13,6 @@ use App\Services\VehicleManagement\FitnessServiceImpl;
 use App\Services\VehicleManagement\InsuranceServiceImpl;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use App\Services\VehicleManagement\RoadTaxServiceImpl;
-use App\Services\VehicleManagement\VehicleDetailsServiceImpl;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
