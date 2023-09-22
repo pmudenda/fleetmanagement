@@ -2154,7 +2154,8 @@ const serviceTableRowTemplate = ` <tr class="increment">
                     const inp = inps[i];
                     total = total + tmsApp.getFloat(inp.value || 0);
                 }
-                total = total.round(2);
+
+                total = tmsApp.getFloat(total);
 
                 if (!isNaN(total)) {
                     //check if petty cash is below 2000
@@ -2613,7 +2614,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
             " you will not be able to recover it",
             "Yes",
             "No",
-            function () {
+            function (value) {
 
                 $(tableRow).remove();
 
@@ -2660,7 +2661,8 @@ const serviceTableRowTemplate = ` <tr class="increment">
                 } else {
                     postDeleteItem(valueId, dataUrl, table);
                 }
-            });
+            },
+            ()=>{});
     }
 
     function initEventHandlers() {
