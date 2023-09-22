@@ -27,10 +27,9 @@ class MechanicsService
         Mechanic::where('id', '=', $id)
             ->update(
                 [
-                    'area_code' => $request->get('area'),
                     'workshop_code' => $request->get('workshop_code'),
                     'extension' => $request->get('phone'),
-                    'work_shop_section' => $request->get('workShopSection'),
+                    'section_code' => $request->get('workShopSection'),
                     'is_supervisor' => $request->get('workshopSupervisor'),
                 ]
             );
