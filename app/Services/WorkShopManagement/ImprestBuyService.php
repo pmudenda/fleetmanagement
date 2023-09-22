@@ -116,6 +116,23 @@ class ImprestBuyService
         $header->save();
         $entry->save();
 
+        $pdo = DB::getPdo();
+        $stmt = $pdo->prepare(
+            "begin :result := pkg_imprest_buy.fn_delete_imprest_item(:p_imprest_reference,
+            :p_current_user); end;"
+        );
+
+        $imprestReferenceNumber = $header->imprest_reference;
+        $staffNumber = auth()->user()->staff_no;
+
+        $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
+        $stmt->bindParam(":p_current_user", $staffNumber);
+        $stmt->bindParam(":p_imprest_reference", $imprestReferenceNumber);
+        $stmt->execute();
+
+        Log::info("Deleting Petty Cash Item");
+        Log::info($results);
+        Log::info("Logging Response From DB");
 
         DB::commit();
     }
