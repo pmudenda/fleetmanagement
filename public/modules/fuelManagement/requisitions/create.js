@@ -102,25 +102,34 @@
         }
 
         if (!hasValidFitness) {
-            tmsApp.showSystemMessage("Vehicle Has Expired Fitness",
+            tmsApp.confirm(
+                "Vehicle Has Expired Fitness",
                 fitnessMessage,
+                'Yes',
+                'No, Cancel',
                 () => {
+                },
+                () => {
+                    window.location.reload();
                 },
                 "error"
             );
-            return;
         }
 
         if (!hasValidRoadTax) {
-            tmsApp.showSystemMessage("Vehicle Has Expired Road Tax",
+            tmsApp.confirm(
+                "Vehicle Has Expired Road Tax",
                 roadTaxMessage,
+                'Yes',
+                'No, Cancel',
                 () => {
+                },
+                () => {
+                    window.location.reload();
                 },
                 "error"
             );
-            return;
         }
-
 
 
         let vLabel = vehicle['body_type_name'] ? vehicle['body_type_name'] : ''
