@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\StatusHelper;
+use App\Interfaces\VehicleManagement\VehicleDetailsService;
 use App\Models\Driver;
 use App\Models\Security\User;
 use App\Models\WorkShopManagement\Mechanic;
-use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\WorkflowService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -19,10 +19,13 @@ use Illuminate\Support\Facades\Log;
 class HomeController extends Controller
 {
     private WorkflowService $workflowService;
+    private VehicleDetailsService  $vehicleDetailsService;
 
-    public function __construct(WorkflowService $workflowService)
+    public function __construct(WorkflowService       $workflowService,
+                                VehicleDetailsService $vehicleDetailsService)
     {
         $this->workflowService = $workflowService;
+        $this->vehicleDetailsService = $vehicleDetailsService;
     }
 
     public function logout(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
@@ -39,7 +42,7 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $approvalTasks = $this->workflowService->getMyApprovalTasks($user->staff_no);
-        $vehicleData = (new VehicleDetailsService)->getAllVehiclesByStatus(['01', '02', '04', '05', '09']);
+        $vehicleData = $this->vehicleDetailsService->getAllVehiclesByStatus(['01', '02', '04', '05', '09']);
         $mechanics = Mechanic::count();
         $activeUsers = User::where('con_st_code', '=', StatusHelper::active())->count();
         $activeDrivers = Driver::count();
