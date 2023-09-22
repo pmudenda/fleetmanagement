@@ -1053,6 +1053,9 @@ class WorkshopRequisitionService
                 "head.work_order_number",
                 "=",
                 $reference)
+            ->whereNull(
+                "deleted_at"
+            )
             ->select(
                 "det.*",
                 "head.status",

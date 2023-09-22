@@ -304,10 +304,15 @@ $(document).ready(function () {
                 form.validate().settings.ignore = ":disabled,:hidden";
                 window.global_currentIndex = currentIndex;
                 if (form.valid() && !window.goToNext) {
-                    tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                        postData(form.find('[data-model-name]').get(currentIndex), false);
-                    }, function () {
-                    });
+                    tmsApp.confirm(
+                        'Confirm',
+                        'Do you want to save the changes ?',
+                        'Yes',
+                        'No',
+                        function () {
+                            postData(form.find('[data-model-name]').get(currentIndex), false);
+                        }, function () {
+                        });
                 }
 
                 let tmp = window.goToNext;
