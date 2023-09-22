@@ -2464,11 +2464,9 @@
                     onStepChanged: function (event, currentIndex, priorIndex) {
 
                         if (currentIndex === 2 && priorIndex === 3) {
-                            //form.steps("previous");
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').removeClass('d-none');
                         }
-                        adjustIframeHeight();
-                        //$('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
+
                         window.global_currentIndex = currentIndex;
                         if (currentIndex === 3) {
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').addClass('d-none');

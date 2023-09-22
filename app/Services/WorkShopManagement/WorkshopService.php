@@ -280,7 +280,9 @@ class WorkshopService
         }
 
         foreach ($toSave as $item) {
+            Log::info("Looping through Items to save");
             if (!empty($item['file']) && !empty($item['observation'])) {
+                Log::info($item['file'] . " - " . $item['observation']);
                 AssessmentObservation::create([
                     'reference' => $request->get('workshop_reference'),
                     'image_path' => $item['file'],
