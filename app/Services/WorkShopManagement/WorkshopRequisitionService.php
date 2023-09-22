@@ -1054,7 +1054,7 @@ class WorkshopRequisitionService
                 "=",
                 $reference)
             ->whereNull(
-                "deleted_at"
+                "head.deleted_at"
             )
             ->select(
                 "det.*",
