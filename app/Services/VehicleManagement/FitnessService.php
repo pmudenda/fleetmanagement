@@ -3,13 +3,11 @@
 namespace App\Services\VehicleManagement;
 
 use App\Enums\DocumentState;
-use App\Interfaces\VehicleManagement\FitnessService;
 use App\Models\VehicleManagement\Fitness;
-use App\Models\VehicleManagement\RoadTax;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class FitnessServiceImpl implements FitnessService
+class FitnessService
 {
     public function getFitness(mixed $registrationNumber): array
     {

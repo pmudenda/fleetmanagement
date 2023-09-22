@@ -3,12 +3,11 @@
 namespace App\Services\VehicleManagement;
 
 use App\Enums\DocumentState;
-use App\Interfaces\VehicleManagement\RoadTaxService;
 use App\Models\VehicleManagement\RoadTax;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class RoadTaxServiceImpl implements RoadTaxService
+class RoadTaxService
 {
     public function getRoadLicence(mixed $registrationNumber): array
     {

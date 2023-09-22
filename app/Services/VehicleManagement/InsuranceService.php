@@ -3,12 +3,11 @@
 namespace App\Services\VehicleManagement;
 
 use App\Enums\DocumentState;
-use App\Interfaces\VehicleManagement\InsuranceService;
 use App\Models\VehicleManagement\Insurance;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class InsuranceServiceImpl implements InsuranceService
+class InsuranceService
 {
     public function getCheckInsurance(mixed $registrationNumber): array
     {
