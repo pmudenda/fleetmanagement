@@ -2662,7 +2662,9 @@ const serviceTableRowTemplate = ` <tr class="increment">
                     postDeleteItem(valueId, dataUrl, table);
                 }
             },
-            ()=>{});
+            () => {
+            }
+        );
     }
 
     function initEventHandlers() {

@@ -3,18 +3,13 @@
 namespace App\Http\Controllers\WorkShopManagement;
 
 use App\Constants\ErrorMessages;
-use App\Constants\SystemMessages;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkShopManagement\PettyCashItems;
 use App\Http\Responses\FleetMasterJsonResponse;
-use App\Models\WorkShopManagement\ImprestBuyDetail;
-use App\Models\WorkShopManagement\ImprestBuyHeader;
 use App\Services\WorkShopManagement\ImprestBuyService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ImprestBuysController extends Controller
@@ -37,7 +32,7 @@ class ImprestBuysController extends Controller
                 FleetMasterJsonResponse::response(
                     'success',
                     true,
-                    'Imprest Requested Successfully',
+                    'Petty Cash Requested Successfully',
                     $request->all()
                 ));
 
