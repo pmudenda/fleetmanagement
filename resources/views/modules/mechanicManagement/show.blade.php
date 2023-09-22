@@ -482,7 +482,7 @@
                                                 </label>
                                                 <label class="checkbox-inline">
                                                     <input type="radio"
-                                                           @if($isSuperVisor)
+                                                           @if(!$isSuperVisor)
                                                                checked
                                                            @endif
                                                            name="workshopSupervisor"
