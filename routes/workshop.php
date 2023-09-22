@@ -10,6 +10,7 @@ use App\Http\Controllers\WorkShopManagement\JobCardLinkingController;
 use App\Http\Controllers\WorkShopManagement\MaintenanceController;
 use App\Http\Controllers\WorkShopManagement\MaterialReservationController;
 use App\Http\Controllers\WorkShopManagement\ServiceReservationController;
+use App\Http\Controllers\WorkShopManagement\VehicleAssessmentController;
 use App\Http\Controllers\WorkShopManagement\WorkshopController;
 use Illuminate\Support\Facades\Route;
 
@@ -80,7 +81,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'workshop-management'], functi
         Route::post('save/job/card/header', [MaintenanceController::class, 'saveJobCardHeader'])
             ->name('save.job.card');
 
-        Route::post('save/job/card/accessories', [MaintenanceController::class, 'saveJobCardAccessories'])
+        Route::post('save/job/card/accessories', [VehicleAssessmentController::class, 'save'])
             ->name('job_card.accessories.checkin');
 
         Route::post('save/job-card/defects', [MaintenanceController::class, 'saveJobCardDefects'])
@@ -127,21 +128,21 @@ Route::group(['middleware' => 'auth', 'prefix' => 'workshop-management'], functi
     });
 
     Route::get('/workshop/booking', [BookingController::class, 'create'])
-         ->name('new.booking');
+        ->name('new.booking');
 
-     Route::get('/workshop/requisitions', [WorkshopController::class, 'requisitions'])
-         ->name('list.workshop.requisition');
+    Route::get('/workshop/requisitions', [WorkshopController::class, 'requisitions'])
+        ->name('list.workshop.requisition');
 
     // STORES REQUISITIONS
-     Route::get('/workshop/approve', [MaintenanceController::class, 'show'])
-         ->name('show.workshop.requisition');
+    Route::get('/workshop/approve', [MaintenanceController::class, 'show'])
+        ->name('show.workshop.requisition');
 
-     Route::post('approve/stores/requisition/', [WorkflowController::class, 'processStoresRequisitionApproval'])
-         ->name('stores.requisition.approve');
+    Route::post('approve/stores/requisition/', [WorkflowController::class, 'processStoresRequisitionApproval'])
+        ->name('stores.requisition.approve');
 
-     Route::post('tasks/view', [WorkflowController::class, 'viewTasks'])
-         ->name('workflow.task');
+    Route::post('tasks/view', [WorkflowController::class, 'viewTasks'])
+        ->name('workflow.task');
 
-     Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])
-         ->name('get.store.purchase_office');
+    Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])
+        ->name('get.store.purchase_office');
 });

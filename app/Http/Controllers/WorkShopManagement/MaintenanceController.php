@@ -500,32 +500,6 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function saveJobCardAccessories(Request $request): JsonResponse
-    {
-        try {
-            $this->workshopService->createJobCardAccessories($request);
-            return response()->json(
-                FleetMasterJsonResponse::response(
-                    'success',
-                    true,
-                    SystemMessages::accessoriesCheckedIn(),
-                    null,
-                    URL::signedRoute("vehicle.workshop.checkin",
-                        ["step" => 3, "reference" => $request->get("job_card_voucher")])
-                )
-            );
-        } catch (\Exception $e) {
-            Log::error($e);
-            return response()->json(
-                FleetMasterJsonResponse::response(
-                    'failure',
-                    false,
-                    ErrorMessages::getMessage("err_0005")
-                )
-            );
-        }
-    }
-
     public function saveJobCardDefects(VehicleDefects $request): JsonResponse
     {
         try {

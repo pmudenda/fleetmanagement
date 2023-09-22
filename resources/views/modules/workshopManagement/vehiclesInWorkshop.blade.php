@@ -17,7 +17,9 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'Vehicles In Workshop'" :activeCrumb="'Vehicles'" :link="'home'"
+    <x-content-header :pageTitle="'Vehicles In Workshop'"
+                      :activeCrumb="'Vehicles'"
+                      :link="'home'"
                       :linkText="'Vehicles In Workshop'"/>
 
     <!-- Main content -->

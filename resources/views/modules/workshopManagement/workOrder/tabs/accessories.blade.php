@@ -48,9 +48,9 @@
                 </div>
                 <div class="col">
                     <table
-                            aria-label="Accessories Table 2"
-                            role="table"
-                            class="table table-row-dashed align-middle gs-0 table-bordered">
+                        aria-label="Accessories Table 2"
+                        role="table"
+                        class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
                             <th scope="row" class="pl-2">Item</th>
@@ -90,8 +90,8 @@
                 <div class="col">
                     <div class="form-group">
                         <label
-                                class="col-xs-12 col-sm-6 col-md-6 col-lg-6 pl-0"
-                                for="accessoriesRemarks">
+                            class="col-xs-12 col-sm-6 col-md-6 col-lg-6 pl-0"
+                            for="accessoriesRemarks">
                             General Comments and Observation (Damages):
                         </label>
                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -100,8 +100,8 @@
                                           id="accessoriesRemarks"
                                           name="accessoriesRemarks"
                                           style="height: 129px;"
-                                          class="form-control form-control-sm">
-                                    {{$comments->where('type','=','ACC')->first()->remarks ??''}}
+                                          class="form-control form-control-sm"
+                                >{{$comments->where('type','=','ACC')->first()->remarks ??''}}
                                 </textarea>
                             @else
                                 <textarea type="text"
@@ -147,12 +147,6 @@
                                                        class="form-control">
                                             </td>
                                             <td>
-                                                {{--<button type="button"
-                                                        data-table-id="observations"
-                                                        class="btn btn-sm btn-danger"
-                                                        value="deleteRow">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>--}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -178,16 +172,17 @@
                                                 <button type="button"
                                                         class="btn btn-xs clearImage"
                                                         style="top: 1px;
-                                                                                                    position: relative;
-                                                                                                    right: 1px;
-                                                                                                    float: right;
-                                                                                                    padding: 2px;">
+                                                        position: relative;
+                                                        right: 1px;
+                                                        float: right;
+                                                        padding: 2px;">
                                                     <i class="fa fa-window-close" style="font-size: 20px;"></i>
                                                 </button>
                                             </div>
                                         </td>
                                         <td>
-                                            <input type="text" name="observation[]" class="form-control">
+                                            <input type="text" name="observation[]"
+                                                   class="form-control">
                                         </td>
                                         <td>
                                             <button type="button"

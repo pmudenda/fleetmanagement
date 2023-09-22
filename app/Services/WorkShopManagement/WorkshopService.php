@@ -159,7 +159,7 @@ class WorkshopService
         return $query->first();
     }
 
-    public function createJobCardAccessories(Request $request): void
+    public function processJobCardAVehicleAssessment(Request $request): void
     {
         DB::beginTransaction();
 
@@ -196,10 +196,11 @@ class WorkshopService
 
         $uploadedFiles = $this->uploadAttachments($request, $referenceNumber, $user);
 
-        $this->saveJobCardAssessmentObservation($request,
-            $referenceNumber,
+        $this->saveJobCardAssessmentObservation(
+            $request,
             $user->staff_no,
-            $uploadedFiles);
+            $uploadedFiles
+        );
 
         Log::info("General Comments  " . $request->get('accessoriesRemarks'));
         if (!empty($comment)) {
@@ -216,6 +217,79 @@ class WorkshopService
         }
 
         DB::commit();
+    }
+
+    /**
+     * @param Request $request
+     * @param string $referenceNumber
+     * @param $user
+     * @return File[]|array
+     */
+    private function uploadAttachments(Request $request, string $referenceNumber, $user): array
+    {
+        $attachedFiles = $request->get('attachment');
+        $uploadedFiles = [];
+
+        if (!empty($attachedFiles)) {
+            Log::debug("Upload Images for $referenceNumber");
+            $uploadedFiles = FileUploadService::uploadFile(
+                $request,
+                "attachment",
+                "Assessment",
+                $referenceNumber,
+                "Observations",
+                "Observations",
+                $user
+            );
+        }
+
+        Log::debug(sizeof($uploadedFiles). " Images Uploaded");
+        return $uploadedFiles;
+    }
+
+    /**
+     * @param Request $request
+     * @param string $staffNumber
+     * @param array $uploadedFiles
+     * @return void
+     */
+    private function saveJobCardAssessmentObservation(Request $request,
+                                                      string  $staffNumber,
+                                                      array $uploadedFiles): void
+    {
+
+        $toSave = [];
+        if ($request->has('observation')) {
+            $key = 0;
+            foreach ($request->get('observation') as $observation) {
+                $toSave[] = array(
+                    'observation' => $observation,
+                    'file' => ($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : null
+                );
+                $key++;
+            }
+        } elseif (!empty($uploadedFiles)) {
+            Log::info("Observation Images Found");
+            foreach ($uploadedFiles as $uploadedFile) {
+                $toSave[] = array('observation' => null, 'file' => $uploadedFile->path);
+            }
+        }
+
+        if (empty($toSave)) {
+            return;
+        }
+
+        foreach ($toSave as $item) {
+            if (!empty($item['file']) && !empty($item['observation'])) {
+                AssessmentObservation::create([
+                    'reference' => $request->get('workshop_reference'),
+                    'image_path' => $item['file'],
+                    'remarks' => $item['observation'],
+                    'reported_by' => $staffNumber
+                ]);
+            }
+        }
+        Log::info("Observation Uploaded");
     }
 
     /**
@@ -545,76 +619,5 @@ class WorkshopService
             ->select("mat_header.*",
                 "mat_detail.*"
             )->get();
-    }
-
-    /**
-     * @param Request $request
-     * @param string $staffNumber
-     * @param $uploadedFiles
-     * @return void
-     */
-    public function saveJobCardAssessmentObservation(Request $request,
-                                                     string  $staffNumber,
-                                                             $uploadedFiles): void
-    {
-        if (!is_array($uploadedFiles)) {
-            $uploadedFiles = [];
-        }
-
-        $toSave = [];
-        if ($request->has('observation')) {
-            $key = 0;
-            foreach ($request->get('observation') as $observation) {
-                $toSave[] = array(
-                    'observation' => $observation,
-                    'file' => ($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : null);
-                $key++;
-            }
-        } elseif (!empty($uploadedFiles)) {
-            foreach ($uploadedFiles as $uploadedFile) {
-                $toSave[] = array('observation' => null, 'file' => $uploadedFile->path);
-            }
-        }
-
-        if (empty($toSave)) {
-            return;
-        }
-
-        foreach ($toSave as $item) {
-            if (!empty($item['file']) && !empty($item['observation'])) {
-                AssessmentObservation::create([
-                    'reference' => $request->get('workshop_reference'),
-                    'image_path' => $item['file'],
-                    'remarks' => $item['observation'],
-                    'reported_by' => $staffNumber
-                ]);
-            }
-        }
-
-    }
-
-    /**
-     * @param Request $request
-     * @param mixed $referenceNumber
-     * @param Authenticatable|null $user
-     * @return File[]|array
-     */
-    public function uploadAttachments(Request $request, mixed $referenceNumber, ?Authenticatable $user): array
-    {
-        $attachedFiles = $request->get('attachment');
-        $uploadedFiles = [];
-
-        if (!empty($attachedFiles)) {
-            $uploadedFiles = FileUploadService::uploadFile(
-                $request,
-                "attachment",
-                "Assessment",
-                $referenceNumber,
-                "Observations",
-                "Observations",
-                $user
-            );
-        }
-        return $uploadedFiles;
     }
 }
