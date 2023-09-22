@@ -69,7 +69,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'workshop-management'], functi
         Route::post('/deleteRecord', [JobCardItemDeletionController::class, "deleteDefectRecord"])
             ->name('delete.defect.record');
 
-        Route::post('/deletePettyCashItem', [JobCardItemDeletionController::class, "deletePettyCashItem"])
+        Route::post('/deletePettyCashItem', [ImprestBuysController::class, "deletePettyCashItem"])
             ->name('delete.pettyCashItem.record');
 
         Route::post('/deleteMaterialRecord', [JobCardItemDeletionController::class, "deleteMaterialRecord"])

@@ -2,13 +2,16 @@
 
 namespace App\Services\WorkShopManagement;
 
+use App\Constants\SystemMessages;
 use App\Constants\WorkflowModules;
 use App\Events\PettyCashRaised;
+use App\Exceptions\DataNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\WorkShopManagement\PettyCashItems;
 use App\Models\WorkShopManagement\ImprestBuyDetail;
 use App\Models\WorkShopManagement\ImprestBuyHeader;
 use App\Services\Workflow\DocumentNumberGenerationService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -89,5 +92,31 @@ class ImprestBuyService
         PettyCashRaised::dispatch(
             $imprestReferenceNumber, auth()->user()->staff_no
         );
+    }
+
+    /**
+     * @throws DataNotFoundException
+     */
+    public function voidPettyCash(Request $request): void
+    {
+        $entry = ImprestBuyDetail::where("id", "=", $request->record_id)
+            ->first();
+
+        if (empty($entry)) {
+            throw new DataNotFoundException(SystemMessages::RECORD_NOT_FOUND);
+        }
+
+        $header = ImprestBuyHeader::where('imprest_reference', '=', $entry->header_reference)
+            ->first();
+
+        DB::beginTransaction();
+
+        $header->deleted_at = Carbon::now();
+        $entry->deleted_at = Carbon::now();
+        $header->save();
+        $entry->save();
+
+
+        DB::commit();
     }
 }

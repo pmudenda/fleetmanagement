@@ -58,52 +58,6 @@ class JobCardItemDeletionController extends Controller
         }
     }
 
-    public function deletePettyCashItem(Request $request): JsonResponse
-    {
-        try {
-
-            $entry = ImprestBuyDetail::where("id", "=", $request->record_id)
-                ->first();
-
-            if (empty($entry)) {
-                return response()->json([
-                    "success" => false,
-                    "message" => SystemMessages::RECORD_NOT_FOUND,
-                ]);
-            }
-
-            $header = ImprestBuyHeader::where('imprest_reference', '=', $entry->header_reference)
-                ->first();
-
-            DB::beginTransaction();
-
-            $header->deleted_at = Carbon::now();
-            $entry->deleted_at = Carbon::now();
-            $header->save();
-            $entry->save();
-
-            // post delete item in
-
-            DB::commit();
-
-            return response()->json(FleetMasterJsonResponse::response(
-                'success',
-                true,
-                self::RECORD_REMOVED_SUCCESSFULLY
-            ));
-
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return response()->json(
-                FleetMasterJsonResponse::response(
-                    'failure',
-                    false,
-                    ErrorMessages::getMessage('err_0005')
-                )
-            );
-        }
-    }
-
     public function deleteServiceRecord(Request $request): JsonResponse
     {
         try {
