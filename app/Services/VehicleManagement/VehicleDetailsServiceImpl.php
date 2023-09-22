@@ -3,9 +3,11 @@
 namespace App\Services\VehicleManagement;
 
 use App\Constants\ComparisonOperator;
-use App\Enums\InsuranceState;
+use App\Constants\TableColumns;
+use App\Enums\DocumentState;
 use App\Enums\Modules;
 use App\Helpers\StatusHelper;
+use App\Interfaces\VehicleManagement\VehicleDetailsService;
 use App\Models\Common\File;
 use App\Models\VehicleManagement\Insurance;
 use App\Models\VehicleManagement\VehicleAccessory;
@@ -17,25 +19,25 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class VehicleDetailsService
+class VehicleDetailsServiceImpl implements VehicleDetailsService
 {
-    public static function getAllVehicles(): LengthAwarePaginator
+    public function getAllVehicles(): LengthAwarePaginator
     {
-        $query = (new VehicleDetailsService)->getVehicleDataQuery();
+        $query = $this->getVehicleDataQuery();
         return $query
             ->orderBy('v_header.status')
             ->paginate(20);
 
     }
 
-    public static function getVehicleByReg(mixed $ref)
+    public function getVehicleByReg(mixed $ref)
     {
-        return (new VehicleDetailsService)->getBasicVehicleDetails($ref);
+        return $this->getBasicVehicleDetails($ref);
     }
 
     public function getAllVehiclesByStatus(array $array): Collection
     {
-        $query = (new VehicleDetailsService)->getVehicleDataQuery();
+        $query = $this->getVehicleDataQuery();
         return $query
             ->whereIn('v_header.status', $array)
             ->orderBy('v_header.created_at', 'desc')
@@ -194,7 +196,7 @@ class VehicleDetailsService
 
     public function getFilteredVehiclesInformation(Request $request): LengthAwarePaginator
     {
-        $query = (new VehicleDetailsService)->getVehicleDataQuery();
+        $query = $this->getVehicleDataQuery();
 
         if ($request->has('registrationNumber') && $request->filled('registrationNumber')) {
             $registrationNumber = strtoupper(trim($request->get('registrationNumber')));
@@ -243,20 +245,20 @@ class VehicleDetailsService
     public function getCheckInsurance(mixed $registrationNumber): array
     {
         Log::info("Checking Insurance State for $registrationNumber - " . Carbon::today()->toDateString());
-        $insurance = Insurance::where('reg_no', '=', $registrationNumber)
+        $insurance = Insurance::where(TableColumns::REG_NO, '=', $registrationNumber)
             ->orderBy('created_at', 'desc')
             ->first();
 
         if (empty($insurance)) {
-            return [InsuranceState::Expired, null];
+            return [DocumentState::Expired, null];
         }
         Log::info("Insurance Record $insurance->period_to");
 
 
         if (Carbon::now()->isAfter(Carbon::parse($insurance->period_to))) {
-            return [InsuranceState::Expired, $insurance];
+            return [DocumentState::Expired, $insurance];
         }
 
-        return [InsuranceState::Valid, $insurance];
+        return [DocumentState::Valid, $insurance];
     }
 }

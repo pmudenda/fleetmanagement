@@ -4,23 +4,24 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
-use App\Enums\InsuranceState;
+use App\Enums\DocumentState;
 use App\Enums\Modules;
 use App\Exceptions\DataNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\FleetMasterJsonResponse;
+use App\Interfaces\VehicleManagement\FitnessService;
+use App\Interfaces\VehicleManagement\InsuranceService;
+use App\Interfaces\VehicleManagement\RoadTaxService;
+use App\Interfaces\VehicleManagement\VehicleDetailsService;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\general\Status;
 use App\Models\Settings\WorkShop;
 use App\Models\VehicleManagement\VehicleAccessory;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
-use App\Services\VehicleManagement\VehicleDetailsService;
 use Exception;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -33,13 +34,23 @@ class VehicleController extends Controller
     const REG = "@reg";
     private VehicleDetailsService $vehicleDetailsService;
     private ProcurementSystemIntegrationService $procurementService;
+    private InsuranceService $insuranceService;
+    private RoadTaxService $roadTaxService;
+    private FitnessService $vehicleFitnessService;
 
-    public function __construct(VehicleDetailsService               $vehicleDetailsService,
-                                ProcurementSystemIntegrationService $procurementService
+    public function __construct(
+        VehicleDetailsService               $vehicleDetailsService,
+        ProcurementSystemIntegrationService $procurementService,
+        InsuranceService                    $insuranceService,
+        RoadTaxService                      $roadTaxService,
+        FitnessService                      $vehicleFitnessService
     )
     {
         $this->vehicleDetailsService = $vehicleDetailsService;
         $this->procurementService = $procurementService;
+        $this->insuranceService = $insuranceService;
+        $this->roadTaxService = $roadTaxService;
+        $this->vehicleFitnessService = $vehicleFitnessService;
     }
 
     public function getVehicleOverViewDetails(Request $request): JsonResponse
@@ -129,13 +140,19 @@ class VehicleController extends Controller
 
             $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
 
-            list($insuranceState, $insurance) = $this->vehicleDetailsService->getCheckInsurance($registrationNumber);
+            list($insuranceState, $insurance) = $this->insuranceService->getCheckInsurance($registrationNumber);
+
+            list($roadTaxState, $roadTax) = $this->roadTaxService->getRoadLicence($registrationNumber);
+
+            list($fitnessState, $fitnessRecord) = $this->vehicleFitnessService->getFitness($registrationNumber);
 
             Log::info("Insurance State $insuranceState->value");
 
             $vehicleInsuranceMessage = '';
             $hasValidInsurance = true;
-            if ($insuranceState->value == InsuranceState::Expired->value) {
+            $hasValidRoadTax = true;
+
+            if ($insuranceState->value == DocumentState::Expired->value) {
                 $hasValidInsurance = false;
                 $vehicleInsuranceMessage = str_replace(
                     self::REG,
@@ -143,6 +160,26 @@ class VehicleController extends Controller
                     ErrorMessages::getMessage('err_0030')
                 );
             }
+
+            if ($roadTaxState->value == DocumentState::Expired->value) {
+                $hasValidRoadTax = false;
+                $vehicleInsuranceMessage = str_replace(
+                    self::REG,
+                    $vehicle->registration_number,
+                    ErrorMessages::getMessage('err_0031')
+                );
+            }
+
+            $hasValidFitness = true;
+            if ($fitnessState->value == DocumentState::Expired->value) {
+                $hasValidFitness = false;
+                $vehicleInsuranceMessage = str_replace(
+                    self::REG,
+                    $vehicle->registration_number,
+                    ErrorMessages::getMessage('err_0032')
+                );
+            }
+
 
             $vehicleTomCardMessage = '';
 
@@ -168,7 +205,11 @@ class VehicleController extends Controller
                         'vehicle_tom_card_message' => $vehicleTomCardMessage,
                         'insurance_message' => $vehicleInsuranceMessage,
                         'hasValidInsurance' => $hasValidInsurance,
-                        'insurance' => $insurance
+                        'insurance' => $insurance,
+                        'hasValidRoadTax' => $hasValidRoadTax,
+                        'roadTax' => $roadTax,
+                        'hasValidFitness' => $hasValidFitness,
+                        'fitness' => $fitnessRecord
                     ]
                 )
             );

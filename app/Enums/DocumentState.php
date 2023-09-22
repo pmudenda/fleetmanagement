@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum InsuranceState: string
+enum DocumentState: string
 {
     case Valid = 'valid';
     case Expired = 'expired';
