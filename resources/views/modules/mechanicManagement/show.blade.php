@@ -315,7 +315,7 @@
                                     @if(auth()->user()->can(config('rights.edit_mechanic')))
                                         @php $allowUpdate = true;  @endphp
                                     @endif
-                                    <form class="form-horizontal" name="updateDataUpdate" method="post"
+                                    <form class="form-horizontal" name="updateMechanic" method="post"
                                           action="{{ route('mechanic.update') }}">
                                         @csrf
                                         <input type="hidden" name="mechanicId" id="mechanicId"
@@ -490,7 +490,6 @@
                                                 <div class="col-md-12">
                                                     <div class="d-flex justify-content-end">
                                                         <button type="submit"
-                                                                id="updateUserData"
                                                                 class="btn btn-sm btn-success mr-3">
                                                             Save
                                                         </button>
@@ -592,6 +591,78 @@
 
                     }
                 );
+            });
+
+            $(document).on('submit', 'form[name="updateMechanic"]', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const form = document.querySelector('form[name="updateMechanic"]');
+                const url = form.action;
+                let formData = new FormData(form);
+
+                tmsApp.confirm(
+                    'Are you sure ?',
+                    'You want to update the record',
+                    'Yes',
+                    'No, Cancel',
+                    function () {
+                        tmsApp.asyncPostFormData(
+                            url,
+                            formData,
+                            function (asyncResponse) {
+                                if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'Details Auto Update',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'Details Auto Update',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                }
+                            },
+                            function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'Details Auto Update',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
+
+                                    tmsApp.systemError(
+                                        'Details Auto Update',
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
+                            }
+                        );
+                    },
+                    () => {
+
+                    }
+                );
+
             });
         })(window.tmsApp || {});
     </script>
