@@ -147,6 +147,13 @@
                                                        class="form-control">
                                             </td>
                                             <td>
+                                                <button type="button"
+                                                        data-record="{{$item->id}}"
+                                                        title="Phase 2"
+                                                        class="btn btn-sm btn-danger d-none"
+                                                        value="deleteRow">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -176,12 +183,15 @@
                                                         right: 1px;
                                                         float: right;
                                                         padding: 2px;">
-                                                    <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                                    <i class="fa fa-window-close"
+                                                       style="font-size: 20px;">
+                                                    </i>
                                                 </button>
                                             </div>
                                         </td>
                                         <td>
-                                            <input type="text" name="observation[]"
+                                            <input type="text"
+                                                   name="observation[]"
                                                    class="form-control">
                                         </td>
                                         <td>
