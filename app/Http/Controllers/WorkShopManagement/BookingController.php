@@ -27,9 +27,4 @@ class BookingController extends Controller
             ));
 
     }
-
-    /*public function list()
-    {
-        return "Requisitions here";
-    }*/
 }

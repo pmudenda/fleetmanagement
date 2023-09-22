@@ -148,10 +148,8 @@ class VehicleController extends Controller
 
             Log::info("Insurance State $insuranceState->value");
 
-            $vehicleInsuranceMessage = '';
             $hasValidInsurance = true;
-            $hasValidRoadTax = true;
-
+            $vehicleInsuranceMessage = '';
             if ($insuranceState->value == DocumentState::Expired->value) {
                 $hasValidInsurance = false;
                 $vehicleInsuranceMessage = str_replace(
@@ -161,9 +159,11 @@ class VehicleController extends Controller
                 );
             }
 
+            $hasValidRoadTax = true;
+            $vehicleRoadTaxMessage = '';
             if ($roadTaxState->value == DocumentState::Expired->value) {
                 $hasValidRoadTax = false;
-                $vehicleInsuranceMessage = str_replace(
+                $vehicleRoadTaxMessage = str_replace(
                     self::REG,
                     $vehicle->registration_number,
                     ErrorMessages::getMessage('err_0031')
@@ -171,9 +171,10 @@ class VehicleController extends Controller
             }
 
             $hasValidFitness = true;
+            $vehicleFitnessMessage = '';
             if ($fitnessState->value == DocumentState::Expired->value) {
                 $hasValidFitness = false;
-                $vehicleInsuranceMessage = str_replace(
+                $vehicleFitnessMessage = str_replace(
                     self::REG,
                     $vehicle->registration_number,
                     ErrorMessages::getMessage('err_0032')
@@ -182,7 +183,6 @@ class VehicleController extends Controller
 
 
             $vehicleTomCardMessage = '';
-
             if ($vehicle->has_tom_card === 'Y') {
                 $vehicleTomCardMessage = str_replace(
                     self::REG,
@@ -191,6 +191,7 @@ class VehicleController extends Controller
                 );
             }
 
+            //payload show be on class
             return response()->json(
                 FleetMasterJsonResponse::response(
                     !empty($vehicle) ? 'success' : 'failure',
@@ -203,12 +204,17 @@ class VehicleController extends Controller
                         'accessories' => $accessories,
                         'vehicle_state' => $vehicle_state,
                         'vehicle_tom_card_message' => $vehicleTomCardMessage,
-                        'insurance_message' => $vehicleInsuranceMessage,
+
                         'hasValidInsurance' => $hasValidInsurance,
+                        'insuranceMessage' => $vehicleInsuranceMessage,
                         'insurance' => $insurance,
+
                         'hasValidRoadTax' => $hasValidRoadTax,
+                        'roadTaxMessage' => $vehicleRoadTaxMessage,
                         'roadTax' => $roadTax,
+
                         'hasValidFitness' => $hasValidFitness,
+                        'fitnessMessage' => $vehicleFitnessMessage,
                         'fitness' => $fitnessRecord
                     ]
                 )

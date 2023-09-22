@@ -48,10 +48,14 @@
         let vehicle = payload['vehicle'];
         let article = payload['article'];
         let images = payload['images'];
+        const hasValidFitness = payload['hasValidFitness'];
+        const hasValidRoadTax = payload['hasValidRoadTax'];
         const hasValidInsurance = payload['hasValidInsurance'];
         let vehicle_state = payload['vehicle_state'];
         let vehicle_tom_card_message = payload['vehicle_tom_card_message'];
-        let insurance_message = payload['insurance_message'];
+        let insuranceMessage = payload['insuranceMessage'];
+        let roadTaxMessage = payload['roadTaxMessage'];
+        let fitnessMessage = payload['fitnessMessage'];
 
         if (!vehicle || !vehicle.brand_name) {
             return;
@@ -89,13 +93,35 @@
 
         if (!hasValidInsurance) {
             tmsApp.showSystemMessage("Vehicle Has Expired Insurance",
-                insurance_message,
+                insuranceMessage,
                 () => {
                 },
                 "error"
             );
             return;
         }
+
+        if (!hasValidFitness) {
+            tmsApp.showSystemMessage("Vehicle Has Expired Fitness",
+                fitnessMessage,
+                () => {
+                },
+                "error"
+            );
+            return;
+        }
+
+        if (!hasValidRoadTax) {
+            tmsApp.showSystemMessage("Vehicle Has Expired Road Tax",
+                roadTaxMessage,
+                () => {
+                },
+                "error"
+            );
+            return;
+        }
+
+
 
         let vLabel = vehicle['body_type_name'] ? vehicle['body_type_name'] : ''
             + ' ' + vehicle['brand_name']
@@ -218,8 +244,6 @@
                     if ($odometerCtrl.val()) {
                         $odometerCtrl.trigger('change');
                     }
-
-                    findLatestRequisition();
                 } else {
                     removeSubmissionAndDetailsOptions();
                     let $message = response_data['message']
