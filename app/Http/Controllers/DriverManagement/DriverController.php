@@ -9,7 +9,6 @@ use App\Exceptions\DriverSearchException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DriverOnboardingRequest;
 use App\Models\Driver;
-use App\Models\Reference\PHCMSEmployee;
 use App\Models\Settings\GeneralTable;
 use App\Services\DriverManagement\DriverManagementService;
 use App\Services\FileUploads\FileUploadService;
@@ -85,7 +84,7 @@ class DriverController extends Controller
         try {
             $searchParam = strtoupper(trim($request->searchCriteria));
             $useDriverModule = config('systeminfo.enableDriverModule');
-            Log::info("driver module enabled ".(bool)$useDriverModule);
+            Log::info("driver module enabled " . (bool)$useDriverModule);
 
             if ($useDriverModule) {
                 $driver = Driver::where('staff_number', '=', $searchParam)
@@ -127,7 +126,11 @@ class DriverController extends Controller
                 ]);
             }
 
-            $driver =  UserService::searchEmployee($searchParam)->first();
+            if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
+                $driver = UserService::searchEmployee($searchParam);
+            } else {
+                $driver = UserService::searchEmployee($searchParam)->first();
+            }
 
             if ($driver->con_st_code != 'ACT' && $driver->con_st_code != '01') {
                 throw new DriverSearchException(str_replace(self::INPUT,
