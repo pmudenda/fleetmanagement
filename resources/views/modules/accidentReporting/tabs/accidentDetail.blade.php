@@ -19,9 +19,6 @@
             <select id="accidentNature" name="accidentNature" class="form-control required">
                 <option value="none">Select Incident Nature</option>
             </select>
-            @error('accidentNature')
-            <p>{{$message}}</p>
-            @enderror
         </div>
 
         <div class="col-md-6 d-none">
@@ -32,17 +29,17 @@
                        class="form-control required"
                        id="peopleInvolved"
                        placeholder="Enter Number of people Involved"
-                       required/>
+                />
             </div>
         </div>
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="vehicleMake">Other People Involved:</label>
+                <label for="other_people_involved">Other People Involved:</label>
                 <select name="other_people_involved"
                         type="text"
                         class="form-control disableVehicle"
-                        id="insurance_state" required>
+                        id="other_people_involved" required>
                     <option selected disabled>-- Select --</option>
                     <option value="YES">Yes</option>
                     <option value="NO">No</option>

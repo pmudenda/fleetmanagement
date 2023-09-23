@@ -557,47 +557,6 @@
                         const query = $(this).val();
                         fetchVehicleDetails(query);
                     });
-
-                    $('#staffNo').on('keyup paste enter', function () {
-                        const query = $(this).val();
-                        $.ajax({
-                            url: '/staffData/' + query,
-                            method: 'GET',
-                            success: function (response) {
-                                // Code to execute when the AJAX request succeeds
-                                if (response.status === 'success') {
-                                    let driverDetails = response.data;
-
-                                    let driverName = document.getElementById("driverName")
-                                    let driverEmail = document.getElementById("driverEmail")
-                                    let driverAge = document.getElementById("driverAge")
-                                    let driverPosition = document.getElementById("driverPosition")
-                                    let phoneNo = document.getElementById("phoneNo")
-
-
-                                    driverName.setAttribute("disabled", true)
-                                    driverEmail.setAttribute("disabled", true)
-                                    driverAge.setAttribute("disabled", true)
-                                    driverPosition.setAttribute("disabled", true)
-                                    phoneNo.setAttribute("disabled", true)
-
-
-                                    driverName.value = driverDetails.driverName;
-                                    driverEmail.value = driverDetails.driverEmail
-                                    driverAge.value = driverDetails.age
-                                    driverPosition.value = driverDetails.driverPosition
-                                    phoneNo.value = driverDetails.phoneNo
-
-                                } else {
-                                    // tmsApp(response.message, "errorDisplay")
-                                }
-
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // Code to execute when the AJAX request fails
-                            }
-                        });
-                    });
                 })
             })(window.tmsApp, jQuery);
         </script>
