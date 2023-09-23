@@ -335,13 +335,12 @@
                     $('[name="job_title"]').val('');
                     $("#driver_name").val('');
                     $('[name="experience"]').val('');
-
+                    let formData = new FormData();
+                    formData.append('searchCriteria', searchCriteria);
                     $.ajax({
                         url: url,
                         cache: false,
-                        data: {
-                            'searchCriteria': searchCriteria
-                        },
+                        data: formData,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'content-type': 'text/json'
                         },
@@ -444,7 +443,6 @@
                     $(document).on('click', '#driverSearchBtn', function (event) {
                         let $driverCtrl = $('#driver_staff_number');
                         fetchDriverDetails($driverCtrl.val(), $driverCtrl.attr('data-action'))
-
                     });
 
                     Inputmask({
