@@ -127,7 +127,7 @@ class DriverController extends Controller
                 ]);
             }
 
-            $driver =  UserService::searchEmployee($searchParam);
+            $driver =  UserService::searchEmployee($searchParam)->first();
 
             if ($driver->con_st_code != 'ACT' && $driver->con_st_code != '01') {
                 throw new DriverSearchException(str_replace(self::INPUT,
