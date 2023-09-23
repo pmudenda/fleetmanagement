@@ -28,8 +28,13 @@
             <div class="card-header">
                 <div class="card-title">
                     <h4>Accident Record</h4>
-                    <span class="ml-2 indicator-pill whitespace-nowrap orange">
-                        <span>Not Saved</span>
+                    <span class="ml-2 indicator-pill whitespace-nowrap green">
+                        <span>Saved</span>
+                    </span>
+                </div>
+                <div class="card-toolbar justify-content-end">
+                    REFERENCE NUMBER: <span class="text-orange">
+                        {{ $accident->reference ?? '' }}
                     </span>
                 </div>
             </div>
