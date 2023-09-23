@@ -227,9 +227,11 @@
                         + ' ' + new Date(period_to.split(" ")[0]).toLocaleString()
                     let status = '';
                     if (hasValid) {
-                        status = '<span class="badge badge-success" style="height: 30px; width: 30px;"></span> Valid';
+                        status = '<span class="badge badge-success p-2" ' +
+                            'style="height: 30px; width: 30px; border-radius: 50%;"></span> Valid';
                     } else {
-                        status = '<span class="badge badge-danger" style="height: 30px; width: 30px;"></span> Expired'
+                        status = '<span class="badge badge-danger p-2" ' +
+                            'style="height: 30px; width: 30px; border-radius: 50%;"></span> Expired'
                     }
 
                     const $insuranceDetails = `<h2>Insurance Details</h2>
