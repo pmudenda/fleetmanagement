@@ -203,7 +203,7 @@
                                                                    readonly
                                                                    value="{{Carbon::parse(
                                                                     $accident->date_reported
-                                                                    )->format('d/M/Y')}}"
+                                                                    )->format('d/m/Y')}}"
                                                                    name="date_of_req"
                                                                    required>
                                                             <div class="input-group-append">
@@ -217,7 +217,7 @@
                                                             "vehicle_reg_no" => "BAE 3795"
                                                             "" => "70121"
                                                             "date_of_accident" => "2016-06-12 00:00:00"
-                                                            "time_of_accident" => "2023-09-23 07:13:00"
+                                                            "" => "2023-09-23 07:13:00"
                                                             "" => "2023-09-23 00:00:00"
                                                             "time_reported" => "2023-09-23 17:44:03"
                                                             "nature_of_accident" => "MR"
@@ -256,7 +256,8 @@
                                                         <div class="input-group">
                                                             <input type="text"
                                                                    readonly
-                                                                   value="{{Carbon::now()->format('H:i:s')}}"
+                                                                   value="{{Carbon::parse(
+                                                                   $accident->time_of_accident)->format('H:i:s')}}"
                                                                    class="form-control
                                                                form-control-sm when_valid number_input"
                                                                    id="timeIn"
