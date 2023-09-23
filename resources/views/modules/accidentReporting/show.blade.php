@@ -688,9 +688,8 @@
 
                                         <div class="col-md-7 fv-row">
                                             <div class="col-md-9 pl-0">
-                                                {{$policeReportFile = $files->where("module",'=',"Police Report")->first()}}
-                                                {{$accidentImages = $files->where("module",'=',"Accident Pictures")->get()}}
-
+                                                {{--{{$policeReportFile = $files->where("module",'=',"Police Report")->first()}}
+                                                {{$accidentImages = $files->where("module",'=',"Accident Pictures")->get()}}--}}
                                             </div>
                                         </div>
 
@@ -715,7 +714,7 @@
                                         </thead>
                                         <tbody>
                                         @php
-                                            $accidentImages = $files->where("module",'=',"Accident Pictures")->get();
+                                            $accidentImages = []; //$files->where("module",'=',"Accident Pictures")->get();
                                         @endphp
                                         @foreach($accidentImages as $accidentImage)
                                             <tr>
@@ -734,11 +733,11 @@
                                                                id="attachment"
                                                                name="attachment[]"/>
                                                     </p>
-                                                    <div class="imagePreview"
+                                                    {{--<div class="imagePreview"
                                                          style="display: none;
                                                          background-url:({{$accidentImage->path}});
                                                          min-height: 250px !important;">
-                                                    </div>
+                                                    </div>--}}
                                                 </td>
                                                 <td>
                                                     <button type="button"
