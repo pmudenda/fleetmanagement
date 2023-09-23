@@ -36,6 +36,7 @@
 
             <div class="card-body pb-4 min-h-600px pt-0">
                 <x-error-view/>
+                {{dd($accident)}}
                 <label class="app-required-marker"></label>
                 <form name="saveRecord" id="my-form" class="form-wrapper"
                       action="{{route('accident.store')}}"
@@ -980,16 +981,16 @@
                 }
 
                 function fetchDriverDetails(searchCriteria, url) {
-                    $.ajax({
-                        url: url,
-                        data: {
-                            'searchCriteria': searchCriteria
-                        },
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'content-type': 'text/json'
-                        },
-                        method: 'POST',
-                        success: function (response) {
+                    $('[name="job_title"]').val('');
+                    $("#driver_name").val('');
+                    $('[name="experience"]').val('');
+                    let formData = new FormData();
+                    formData.append('searchCriteria', searchCriteria);
+
+                    tmsApp.asyncPostFormData(
+                        url,
+                        formData,
+                        function (response) {
                             if (response.success === 'true' || response.success) {
                                 const driverDetails = response.payload;
 
@@ -998,19 +999,19 @@
                                 $("#driver_name").val(driverDetails.name);
 
                                 $('[name="experience"]')
-                                    .val(getYearsDifferenceFromNow(driverDetails.license_date_issued));
+                                    .val(getYearsDifferenceFromNow(driverDetails?.license_date_issued));
                                 tmsApp.showSystemMessage('Driver Search', response.message, null, 'success')
 
                             } else {
                                 tmsApp.showSystemMessage('Driver Search', response.message, null, 'error')
-
                             }
 
                         },
-                        error: function (jqXHR, textStatus, errorThrown) {
+                        function (jqXHR, textStatus, errorThrown) {
                             // Code to execute when the AJAX request fails
-                        }
-                    });
+                        },
+                        'POST'
+                    );
                 }
 
                 function getAccidentTypes() {
@@ -1152,13 +1153,11 @@
                                     let driverPosition = document.getElementById("driverPosition")
                                     let phoneNo = document.getElementById("phoneNo")
 
-
                                     driverName.setAttribute("disabled", true)
                                     driverEmail.setAttribute("disabled", true)
                                     driverAge.setAttribute("disabled", true)
                                     driverPosition.setAttribute("disabled", true)
                                     phoneNo.setAttribute("disabled", true)
-
 
                                     driverName.value = driverDetails.driverName;
                                     driverEmail.value = driverDetails.driverEmail
