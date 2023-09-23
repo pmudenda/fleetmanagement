@@ -21,18 +21,6 @@
             </select>
         </div>
 
-        {{--<div class="col-md-6">
-            <div class="form-group">
-                <label for="peopleInvolved">Number of people involved:</label>
-                <input name="peopleInvolved"
-                       type="number"
-                       class="form-control required"
-                       id="peopleInvolved"
-                       placeholder="Enter Number of people Involved"
-                />
-            </div>
-        </div>--}}
-
         <div class="col-md-6">
             <div class="form-group">
                 <label for="other_people_involved">Other People Involved:</label>

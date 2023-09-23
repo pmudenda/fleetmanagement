@@ -495,7 +495,7 @@
                 'received before your request can be processed. ' +
                 'Alternatively, You may use Imprest Buys',
             articleInStore: 'The Article  @articleNumber - @description  is available in  @store'
-                + 'You can proceed to request from stores'
+                + ' You can proceed to request from stores'
         }
         const defectTableRowTemplate = `
                                 <tr class="increment">

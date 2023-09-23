@@ -28,7 +28,7 @@ class AccidentRecordingRequest extends FormRequest
             'mileage' => 'required',
             'accidentType' => 'required',
             'accidentNature' => 'required',
-            'peopleInvolved' => 'required',
+            'peopleInvolved' => 'nullable',
             'other_people_involved' => 'required',
             'day_of_week' => 'required',
             'death' => 'required',

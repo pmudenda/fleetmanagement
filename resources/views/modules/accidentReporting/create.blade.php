@@ -233,7 +233,7 @@
                             '<strong>Valid</strong>';
                     } else {
                         status = '<span class="badge badge-danger p-2 mr-3" ' +
-                            'style="height: 30px; width: 30px; border-radius: 50%;">' +
+                            'style="height: 20px; width: 20px; border-radius: 50%;">' +
                             '<p></p></span>' +
                             '<strong>Expired</strong>'
                     }

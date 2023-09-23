@@ -119,10 +119,6 @@
                             <input name="peopleInvolved" type="number" class="form-control required" id="peopleInvolved"
                                    placeholder="Enter Number of people Involved" required>
                         </div>
-                        @error('peopleInvolved')
-                        <p>{{$message}}</p>
-
-                        @enderror
                     </div>
 
                     <div class="col-md-6">
@@ -131,10 +127,6 @@
                             <input name="date" type="date" class="form-control required" id="date"
                                    placeholder="00/00/0000" required>
                         </div>
-                        @error('date')
-                        <p>{{$message}}</p>
-
-                        @enderror
                     </div>
 
                     <div class="col-md-6">
@@ -143,10 +135,6 @@
                             <input name="time" type="time" class="form-control required" id="time" placeholder="00:00"
                                    required>
                         </div>
-                        @error('time')
-                        <p>{{$message}}</p>
-
-                        @enderror
                     </div>
 
                     <div class="col-md-12">
@@ -154,10 +142,6 @@
                             <label for="accidentDescription">Description Of Accident:</label>
                             <textarea class="form-control" id="description" name="description" rows="5"
                                       cols="20"></textarea>
-                            @error('description')
-                            <p>{{$message}}</p>
-
-                            @enderror
 
                         </div>
                     </div>

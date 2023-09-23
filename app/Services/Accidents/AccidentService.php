@@ -33,6 +33,11 @@ class AccidentService
         $user = auth()->user();
 
         DB::beginTransaction();
+
+        $this->validateAccidentReport();
+
+
+
         $reference = $this->numberGeneratorService->generateReferenceNumber(
             WorkflowModules::ACCIDENT_REPORT);
 
