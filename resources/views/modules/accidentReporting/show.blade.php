@@ -467,12 +467,15 @@
                                             class="form-control disableVehicle"
                                             id="insurance_state" required>
                                         <option selected disabled>-- Select --</option>
-                                        <option value="YES">Yes</option>
-                                        <option value="NO">No</option>
+                                        <option @if($accident->other_vehicle_involved=="YES") selected
+                                                @endif value="YES">
+                                            Yes
+                                        </option>
+                                        <option @if($accident->other_vehicle_involved=="NO") selected @endif value="NO">
+                                            No
+                                        </option>
+
                                     </select>
-                                    @error('other_people_involved')
-                                    <p>{{$message}}</p>
-                                    @enderror
                                 </div>
                             </div>
 
@@ -494,12 +497,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="other_vehicle_involved">Other Vehicles Involved:</label>
-                                    <select name="other_vehicle_involved" type="text"
+                                    <select name="other_vehicle_involved"
+                                            disabled
                                             class="form-control disableVehicle"
                                             id="other_vehicle_involved" required>
                                         <option selected disabled>-- Select --</option>
-                                        <option value="YES">Yes</option>
-                                        <option value="NO">No</option>
+                                        <option @if($accident->other_vehicle_involved=="YES") selected
+                                                @endif value="YES">
+                                            Yes
+                                        </option>
+                                        <option @if($accident->other_vehicle_involved=="NO") selected @endif value="NO">
+                                            No
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -507,15 +516,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="death">Death:</label>
-                                    <select name="death" disabled
-                                            type="text"
+                                    <select name="death"
+                                            disabled
                                             class="form-control disableVehicle"
                                             id="death" required>
                                         <option selected disabled>-- Select --</option>
                                         <option @if($accident->death=="YES") selected @endif value="YES">
                                             Yes
                                         </option>
-                                        <option @if($accident->death=="NO") selected @endif value="YES">
+                                        <option @if($accident->death=="NO") selected @endif value="NO">
                                             No
                                         </option>
                                     </select>
@@ -530,17 +539,13 @@
                             "" => "2023-09-23 07:13:00"
                             "" => "2023-09-23 00:00:00"
                             "" => "2023-09-23 17:44:03"
-                            "" => "MR"
-                            "" => "HOC"
 
-                            "" => "Commodo rem amet qu"
                             "death" => "NO"
                             "num_passengers" => "542"
                             "mileage" => "1500"
                             "other_people_involved" => "NO"
                             "" => "Sunday"
-                            "other_vehicle_involved" => "YES"
-                            "" => "YES"
+
                             "vehicle_insured" => "Y"
                             "" => "5"
                             "created_at" => "2023-09-23 17:44:03"
@@ -568,9 +573,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('num_passengers')
-                                <p>{{$message}}</p>
-                                @enderror
                             </div>
 
                             <div class="col-md-6">
@@ -585,9 +587,6 @@
                                            placeholder="Enter The Location Of The Accident"
                                            required/>
                                 </div>
-                                @error('peopleInvolved')
-                                <p>{{$message}}</p>
-                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -600,9 +599,6 @@
                                            required
                                     />
                                 </div>
-                                @error('peopleInvolved')
-                                <p>{{$message}}</p>
-                                @enderror
                             </div>
 
                             <div class="col-md-6">
@@ -621,9 +617,6 @@
                                             No
                                         </option>
                                     </select>
-                                    @error('property')
-                                    <p>{{$message}}</p>
-                                    @enderror
                                 </div>
                             </div>
 
@@ -631,10 +624,10 @@
                                 <div class="form-group ">
                                     <label for="date">Date*:</label>
                                     <div class="input-group">
-                                        <input name="date" type="date" class="form-control required"
-                                               onkeydown="return false" id="accident-date"
-                                               {{--max="{{date('Y-m-d', strtotime( Carbon::now()))}}"
-                                               min="{{date('Y-m-d', strtotime($minDate))}}"--}}
+                                        <input name="date"
+                                               type="text"
+                                               class="form-control required"
+                                               id="accident-date"
                                                value="{{Carbon::parse(
                                                                    $accident->date_of_accident)->format('d/m/Y')}}"
                                                required>
@@ -643,16 +636,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                @error('date')
-                                <p>{{$message}}</p>
-                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group ">
                                     <label for="time">Time*:</label>
                                     <input name="time"
-                                           type="time"
+                                           type="text"
                                            readonly
                                            value="{{Carbon::parse(
                                            $accident->time_of_accident)->format('H:i:s')}}"
@@ -660,9 +650,6 @@
                                            required" id="time"
                                            placeholder="00:00" required>
                                 </div>
-                                @error('time')
-                                <p>{{$message}}</p>
-                                @enderror
                             </div>
                             <div class="col-md-6 options policeNotification">
                                 <p class="test">Is The Company Driver Guilty ?: </p>
@@ -682,10 +669,6 @@
                                            value="no">
                                     <label for="policeNotification-no">No</label>
                                 </label>
-                                @error('guilty')
-                                <p>{{$message}}</p>
-
-                                @enderror
                             </div>
                         </div>
                     </section>
@@ -748,7 +731,6 @@
                                         <thead>
                                         <tr class="bg-success">
                                             <th scope="row">Attachment</th>
-                                            {{--<th scope="row">Remarks(Description)</th>--}}
                                             <th scope="row"></th>
                                         </tr>
                                         </thead>
@@ -782,9 +764,6 @@
                                                     </button>
                                                 </div>
                                             </td>
-                                            {{-- <td>
-                                                 <input type="text" name="observation[]" class="form-control">
-                                             </td>--}}
                                             <td>
                                                 <button type="button"
                                                         data-table-id="observations"
@@ -959,7 +938,6 @@
                                     </div>
                                 </div>`;
 
-                    $('[name="mileage"]').val(vehicle?.mileage).attr('min', vehicle?.mileage);
                     $('[name="type_brand_model"]').val(vLabel);
                     $('[name="assignedTo"]').val(vehicle['business_unit_code']);
                     document.querySelector('[name="assignedToDescription"]')
@@ -1032,7 +1010,7 @@
                 function fetchDriverDetails(searchCriteria, url) {
                     $('[name="job_title"]').val('');
                     $("#driver_name").val('');
-                    $('[name="experience"]').val('');
+
                     let formData = new FormData();
                     formData.append('searchCriteria', searchCriteria);
 
@@ -1047,8 +1025,6 @@
 
                                 $("#driver_name").val(driverDetails.name);
 
-                                $('[name="experience"]')
-                                    .val(getYearsDifferenceFromNow(driverDetails?.license_date_issued));
                                 tmsApp.showSystemMessage('Driver Search', response.message, null, 'success')
 
                             } else {
@@ -1078,7 +1054,15 @@
 
                             let userUnits = response['payload'];
                             window.organizationUnits = userUnits;
-                            tmsApp.populateDropDownList(selectElem, userUnits, "code", ['name']);
+                            tmsApp.populateDropDownList(
+                                selectElem,
+                                userUnits,
+                                "code",
+                                ['name'],
+                                '',
+                                '==Select Accident Type==',
+                                true
+                            );
 
                             let userUnitId = selectElem.attr('data-value');
                             if (userUnitId) {
@@ -1110,7 +1094,14 @@
 
                             let userUnits = response['payload'];
                             window.organizationUnits = userUnits;
-                            tmsApp.populateDropDownList(selectElem, userUnits, "code", ['name']);
+                            tmsApp.populateDropDownList(
+                                selectElem,
+                                userUnits,
+                                "code",
+                                ['name'],
+                                '',
+                                '==Select Accident Nature==',
+                                true);
 
                             let userUnitId = selectElem.attr('data-value');
                             if (userUnitId) {
