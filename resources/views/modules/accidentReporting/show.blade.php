@@ -61,7 +61,7 @@
                                                         <div class="input-group">
                                                             <input name="registrationNo"
                                                                    type="text"
-                                                                   value="{{$registration ?? ''}}"
+                                                                   value="{{$accident->vehicle_reg_no ?? ''}}"
                                                                    data-action=""
                                                                    class="form-control form-control-sm required"
                                                                    id="registrationNo"
@@ -164,6 +164,8 @@
                                                         <div class="input-group">
                                                             <input name="mileage"
                                                                    type="text"
+                                                                   readonly
+                                                                   value="{{$accident->mileage}}"
                                                                    class="form-control numberOnly"
                                                                    id="mileage"
                                                                    placeholder="Enter Current Odometer Reading"
@@ -199,7 +201,7 @@
                                                                    class="form-control form-control-sm"
                                                                    id="date_of_req"
                                                                    readonly
-                                                                   value="{{ date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                   value="{{}}"
                                                                    name="date_of_req"
                                                                    required>
                                                             <div class="input-group-append">
