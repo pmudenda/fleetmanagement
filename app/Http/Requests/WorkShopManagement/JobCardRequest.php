@@ -44,7 +44,7 @@ class JobCardRequest extends FormRequest
             'current_odometer' => 'required:numeric',
             'fuel_level' => self::REQUIRED_STRING,
             'sub_fuel_level' => 'nullable:string',
-            'driver_staff_number' => self::REQUIRED_STRING,
+            'driver_staff_number' => self::REQUIRED_STRING .'|max:10',
         ];
     }
 }
