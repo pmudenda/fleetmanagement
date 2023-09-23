@@ -113,7 +113,8 @@
                                 </tr>`;
             (function (tmsApp, $) {
 
-                //new tmsApp.fileUploader().makeSingleFileUploader();
+                //police_report
+                //policeReportLabel
 
                 new ImageUpload().initRow();
 
@@ -214,7 +215,6 @@
 
                     lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
                 }
-
 
                 function populateInsuranceDetails(payload) {
                     let hasValid = payload['hasValidInsurance'];

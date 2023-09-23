@@ -21,7 +21,7 @@
             </select>
         </div>
 
-        <div class="col-md-6 d-none">
+        {{--<div class="col-md-6">
             <div class="form-group">
                 <label for="peopleInvolved">Number of people involved:</label>
                 <input name="peopleInvolved"
@@ -31,7 +31,7 @@
                        placeholder="Enter Number of people Involved"
                 />
             </div>
-        </div>
+        </div>--}}
 
         <div class="col-md-6">
             <div class="form-group">
@@ -44,9 +44,6 @@
                     <option value="YES">Yes</option>
                     <option value="NO">No</option>
                 </select>
-                @error('other_people_involved')
-                <p>{{$message}}</p>
-                @enderror
             </div>
         </div>
 
@@ -129,10 +126,6 @@
                        placeholder="Enter The Location Of The Accident"
                        required/>
             </div>
-            @error('peopleInvolved')
-            <p>{{$message}}</p>
-
-            @enderror
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -140,10 +133,6 @@
                 <input name="area" type="text" class="form-control required" id="location"
                        placeholder="Enter The Area Of The Accident" required>
             </div>
-            @error('peopleInvolved')
-            <p>{{$message}}</p>
-
-            @enderror
         </div>
 
         <div class="col-md-6">
@@ -155,10 +144,6 @@
                     <option value="YES">Yes</option>
                     <option value="NO">No</option>
                 </select>
-                @error('property')
-                <p>{{$message}}</p>
-
-                @enderror
             </div>
         </div>
 

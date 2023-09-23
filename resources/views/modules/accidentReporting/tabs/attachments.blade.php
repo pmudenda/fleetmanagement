@@ -3,8 +3,8 @@
         <div class="row">
             <div class="row">
                 <div class="col pl-0">
-                    <label for="inspectionDate"
-                           class="fs-6 fw-semibold form-label field-required col-md-5"
+                    <label for="policeReportLabel"
+                           class="fs-6 fw-semibold form-label col-md-5"
                            style="padding-right: 0px;">
                         Police Report:
                         <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
@@ -12,7 +12,6 @@
                     <div class="col-md-7 fv-row">
                         <div class="col-md-9 pl-0">
                             <input type="file" accept="image/*,.pdf"
-                                   required
                                    id="police_report"
                                    class="filer_input"
                                    name="police_report"/>

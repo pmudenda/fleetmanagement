@@ -231,7 +231,6 @@
             </div>
         </div>
     </div>
-    <div class="row insurance_container">
-
-    </div>
+    <hr/>
+    <div class="row insurance_container"></div>
 </section>
