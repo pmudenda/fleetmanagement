@@ -99,8 +99,11 @@
                         <div class="row">
                             <div class="form-group row">
                                 <label
-                                    class="col-xs-12 col-sm-6 col-md-5
-                                                        col-lg-4 app-field-label field-required"
+                                    class="col-xs-12
+                                    col-sm-6 col-md-5
+                                    col-lg-4
+                                    app-field-label
+                                    field-required"
                                     for="experience">
                                     Driving Experience(Years):
                                 </label>
