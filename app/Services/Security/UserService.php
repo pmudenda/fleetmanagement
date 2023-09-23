@@ -114,7 +114,11 @@ class UserService
         }
 
         if (empty($dataset)) {
-            throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
+            throw new UserNotActiveException(
+                ErrorMessages::getMessage(
+                    'err_0019'
+                )
+            );
         }
 
         return $dataset;

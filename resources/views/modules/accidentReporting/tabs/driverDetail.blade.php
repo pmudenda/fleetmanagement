@@ -23,7 +23,8 @@
                                                placeholder=""
                                                name="driver_staff_number"/>
                                         <div class="input-group-addon">
-                                            <button type="button" id="driverSearchBtn"
+                                            <button type="button"
+                                                    id="driverSearchBtn"
                                                     name="driverSearchBtn"
                                                     class="btn btn-success btn-sm border-radius-0">
                                                 <i class="fas fa-search"></i>
@@ -44,7 +45,9 @@
                             <div class="form-group row">
                                 <label
                                     class="col-xs-12 col-sm-6 col-md-5
-                                                        col-lg-4 app-field-label field-required"
+                                                        col-lg-4
+                                                        app-field-label
+                                                        field-required"
                                     for="driver_name">
                                     Name:
                                 </label>
