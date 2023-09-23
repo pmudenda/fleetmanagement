@@ -659,7 +659,7 @@
                             <div class="row">
                                 <div class="row">
                                     <div class="col pl-0">
-                                        {{dd($files)}}
+
                                         <label for="inspectionDate"
                                                class="fs-6 fw-semibold form-label field-required col-md-5"
                                                style="padding-right: 0px;">
@@ -688,10 +688,9 @@
 
                                         <div class="col-md-7 fv-row">
                                             <div class="col-md-9 pl-0">
-                                                <input type="file" accept="image/*,.pdf"
-                                                       id="insurance_report"
-                                                       class="filer_input"
-                                                       name="insurance_report"/>
+                                                {{$policeReportFile = $files->where("module",'=',"Police Report")->first()}}
+                                                {{$accidentImages = $files->where("module",'=',"Accident Pictures")->get()}}
+
                                             </div>
                                         </div>
 
@@ -715,44 +714,42 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>
-                                                <p>
-                                                    <button type="button" title="Select Image"
-                                                            data-toggle="tooltip"
-                                                            data-select="file"
-                                                            class="btn btn-primary btn-sm selectAttachment">
-                                                        <i class="fas fa-paperclip"></i>
-                                                    </button>
-                                                    <input type="file"
-                                                           accept="image/*"
-                                                           style="display: none;"
-                                                           class="fileElem"
-                                                           id="attachment"
-                                                           name="attachment[]"/>
-                                                </p>
-                                                <div class="imagePreview"
-                                                     style="display: none; min-height: 250px !important;">
+                                        @php
+                                            $accidentImages = $files->where("module",'=',"Accident Pictures")->get();
+                                        @endphp
+                                        @foreach($accidentImages as $accidentImage)
+                                            <tr>
+                                                <td>
+                                                    <p>
+                                                        <button type="button" title="Select Image"
+                                                                data-toggle="tooltip"
+                                                                data-select="file"
+                                                                class="btn btn-primary btn-sm selectAttachment">
+                                                            <i class="fas fa-paperclip"></i>
+                                                        </button>
+                                                        <input type="file"
+                                                               accept="image/*"
+                                                               style="display: none;"
+                                                               class="fileElem"
+                                                               id="attachment"
+                                                               name="attachment[]"/>
+                                                    </p>
+                                                    <div class="imagePreview"
+                                                         style="display: none;
+                                                         background-url:({{$accidentImage->path}});
+                                                         min-height: 250px !important;">
+                                                    </div>
+                                                </td>
+                                                <td>
                                                     <button type="button"
-                                                            class="btn btn-xs clearImage"
-                                                            style="top: 1px;
-                                        position: relative;
-                                        right: 1px;
-                                        float: right;
-                                        padding: 2px;">
-                                                        <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                                            data-table-id="observations"
+                                                            class="btn btn-sm btn-danger"
+                                                            value="deleteRow">
+                                                        <i class="fa fa-trash"></i>
                                                     </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <button type="button"
-                                                        data-table-id="observations"
-                                                        class="btn btn-sm btn-danger"
-                                                        value="deleteRow">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
                                     <button type="button"
