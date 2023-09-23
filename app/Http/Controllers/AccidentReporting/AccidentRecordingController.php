@@ -2,34 +2,28 @@
 
 namespace App\Http\Controllers\AccidentReporting;
 
-use App\Constants\WorkflowModules;
 use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccidentRecordingRequest;
 use App\Models\Accident;
 use App\Models\Common\File;
 use App\Models\Settings\GeneralTable;
-use App\Services\FileUploads\FileUploadService;
-use App\Services\Workflow\DocumentNumberGenerationService;
+use App\Services\Accidents\AccidentService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class AccidentRecordingController extends Controller
 {
-    private readonly FileUploadService $fileUploadService;
 
-    private DocumentNumberGenerationService $numberGeneratorService;
+    private AccidentService $accidentService;
 
-    public function __construct(DocumentNumberGenerationService $numberGeneratorService,
-                                FileUploadService               $fileUploadService)
+    public function __construct(AccidentService $accidentService)
     {
-        $this->numberGeneratorService = $numberGeneratorService;
-        $this->fileUploadService = $fileUploadService;
+        $this->accidentService = $accidentService;
     }
 
     public function create(Request $request): View
@@ -39,10 +33,19 @@ class AccidentRecordingController extends Controller
         }
 
         $minDate = Carbon::now()->subtract('year', 10);
-
+        $daysOfWeek = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        ];
         return view("modules.accidentReporting.create")
             ->with(compact(
-                'minDate'
+                'minDate',
+                'daysOfWeek'
             ));
     }
 
@@ -60,11 +63,22 @@ class AccidentRecordingController extends Controller
         $files = File::where('reference_number', '=', $request->get('reference'))
             ->get();
 
+        $daysOfWeek = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        ];
+
         return view("modules.accidentReporting.show")
             ->with(compact(
                 'accident',
                 'minDate',
-                'files'
+                'files',
+                'daysOfWeek'
             ));
     }
 
@@ -80,81 +94,15 @@ class AccidentRecordingController extends Controller
     public function store(AccidentRecordingRequest $request): JsonResponse
     {
         try {
-            $user = auth()->user();
 
-            DB::beginTransaction();
-            $reference = $this->numberGeneratorService->generateReferenceNumber(
-                WorkflowModules::ACCIDENT_REPORT);
-
-            Accident::create([
-                'reported_by' => $user->staff_no,
-                'reference' => $reference,
-                'area' => $request->get('area'),
-                'vehicle_reg_no' => $request->get('registrationNo'),
-                'driver' => $request->get('driver_staff_number'),
-                'date_of_accident' => Carbon::parse($request->validated('date')),
-                'time_of_accident' => Carbon::parse($request->validated('time')),
-                'date_reported' => Carbon::now()->format('Y-m-d'),
-                'time_reported' => Carbon::now(),
-                'nature_of_accident' => $request->get('accidentNature'),
-                'type_of_accident' => $request->get('accidentType'),
-                'guilty' => $request->get('guilty'),
-                'location' => $request->get('location'),
-                'death' => $request->get('death'),
-                'num_passengers' => $request->validated('num_passengers'),
-                'mileage' => $request->validated('mileage'),
-                'other_people_involved' => $request->validated('other_people_involved'),
-                'day_of_week' => $request->validated('day_of_week'),
-                'other_vehicle_involved' => $request->validated('other_vehicle_involved'),
-                'property' => $request->validated('property'),
-                'vehicle_insured' => $request->validated('insured'),
-                'driver_experience' => $request->validated('experience'),
-            ]);
-
-            if ($request->hasFile('insurance_report')) {
-                $this->fileUploadService->uploadFile(
-                    $request,
-                    'insurance_report',
-                    'VehicleAccident',
-                    $reference,
-                    'Insurance Report',
-                    'Report',
-                    $user
-                );
-            }
-
-            if ($request->hasFile('police_report')) {
-                $this->fileUploadService->uploadFile(
-                    $request,
-                    'police_report',
-                    'VehicleAccident',
-                    $reference,
-                    'Police Report',
-                    'Report',
-                    $user
-                );
-            }
-
-            if ($request->hasFile('attachment')) {
-                $this->fileUploadService->uploadFile(
-                    $request,
-                    'attachment',
-                    'VehicleAccident',
-                    $reference,
-                    'Accident Pictures',
-                    'Accident Pictures',
-                    $user
-                );
-            }
-
-            DB::commit();
+            $reference = $this->accidentService->saveAccidentReport($request);
 
             return response()->json([
                 'state' => 'success',
                 'redirectUrl' => URL::signedRoute('accident.show', [
                     'reference' => $reference
                 ]),
-                'message' => 'Accident Successfully Recorded An \n Reference' . $reference,
+                'message' => 'Accident Successfully Recorded An Reference ' . $reference,
             ]);
         } catch (\Exception $e) {
             Log::error($e);

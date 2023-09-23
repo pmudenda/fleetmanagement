@@ -236,7 +236,7 @@
                                                             <input type="text"
                                                                    readonly
                                                                    value="{{Carbon::parse(
-                                                                   $accident->time_of_accident)->format('H:i:s')}}"
+                                                                   $accident->time_reported)->format('H:i:s')}}"
                                                                    class="form-control
                                                                form-control-sm when_valid number_input"
                                                                    id="timeIn"
@@ -315,11 +315,12 @@
                                                                    placeholder=""
                                                                    name="driver_staff_number"/>
                                                             <div class="input-group-addon">
-                                                                {{--<button type="button" id="driverSearchBtn"
+                                                                <button type="button" id="driverSearchBtn"
+                                                                        style="display: none;"
                                                                         name="driverSearchBtn"
                                                                         class="btn btn-success btn-sm border-radius-0">
                                                                     <i class="fas fa-search"></i>
-                                                                </button>--}}
+                                                                </button>
                                                             </div>
                                                             <datalist id="employee_list">
                                                             </datalist>
@@ -524,20 +525,51 @@
                                     @enderror
                                 </div>
                             </div>
+                            "id" => "63"
+                            "reference" => "ACC0000000063"
+                            "" => "Consequatur Tempora"
+
+                            "" => "70121"
+                            "" => "2016-06-12 00:00:00"
+                            "" => "2023-09-23 07:13:00"
+                            "" => "2023-09-23 00:00:00"
+                            "" => "2023-09-23 17:44:03"
+                            "nature_of_accident" => "MR"
+                            "type_of_accident" => "HOC"
+
+                            "" => "Commodo rem amet qu"
+                            "death" => "NO"
+                            "num_passengers" => "542"
+                            "mileage" => "1500"
+                            "other_people_involved" => "NO"
+                            "" => "Sunday"
+                            "other_vehicle_involved" => "YES"
+                            "" => "YES"
+                            "vehicle_insured" => "Y"
+                            "" => "5"
+                            "created_at" => "2023-09-23 17:44:03"
+                            "updated_at" => "2023-09-23 17:44:03"
+                            "reported_by" => "76737"
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="day_of_week">Day Of The Week:</label>
                                     <select name="day_of_week" class="form-control required"
                                             id="day_of_week" required>
-                                        <option selected disabled>Select Day Of Week</option>
-                                        <option value="Monday">Monday</option>
-                                        <option value="Tuesday">Tuesday</option>
-                                        <option value="Wednesday">Wednesday</option>
-                                        <option value="Thursday">Thursday</option>
-                                        <option value="Friday">Friday</option>
-                                        <option value="Saturday">Saturday</option>
-                                        <option value="Sunday">Sunday</option>
+                                        <option selected disabled>
+                                            Select Day Of Week
+                                        </option>
+                                        @foreach($daysOfWeek as $day)
+                                            @if($accident->day)
+                                                <option selected value="{{$day}}">
+                                                    {{$day}}
+                                                </option>
+                                            @else
+                                                <option value="{{$day}}">
+                                                    {{$day}}
+                                                </option>
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                                 @error('num_passengers')
@@ -550,6 +582,8 @@
                                     <label for="location">Location:</label>
                                     <input name="location"
                                            type="text"
+                                           value="{{$accident->location}}"
+                                           readonly
                                            class="form-control required"
                                            id="location"
                                            placeholder="Enter The Location Of The Accident"
@@ -557,33 +591,42 @@
                                 </div>
                                 @error('peopleInvolved')
                                 <p>{{$message}}</p>
-
                                 @enderror
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="area">Area:</label>
-                                    <input name="area" type="text" class="form-control required" id="location"
-                                           placeholder="Enter The Area Of The Accident" required>
+                                    <input name="area" type="text"
+                                           readonly
+                                           value="{{$accident->area}}"
+                                           class="form-control required" id="location"
+                                           placeholder="Enter The Area Of The Accident"
+                                           required
+                                    />
                                 </div>
                                 @error('peopleInvolved')
                                 <p>{{$message}}</p>
-
                                 @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="property">Was There Property Damage ?:</label>
-                                    <select name="property" type="text" class="form-control disableVehicle"
+                                    <select name="property"
+                                            type="text"
+                                            disabled
+                                            class="form-control disableVehicle"
                                             id="property" required>
-                                        <option selected disabled>-- Select --</option>
-                                        <option value="YES">Yes</option>
-                                        <option value="NO">No</option>
+                                        <option selected>-- Select --</option>
+                                        <option @if($accident->property == "YES") selected @endif value="YES">
+                                            Yes
+                                        </option>
+                                        <option @if($accident->property == "NO") selected @endif value="NO">
+                                            No
+                                        </option>
                                     </select>
                                     @error('property')
                                     <p>{{$message}}</p>
-
                                     @enderror
                                 </div>
                             </div>
@@ -594,9 +637,10 @@
                                     <div class="input-group">
                                         <input name="date" type="date" class="form-control required"
                                                onkeydown="return false" id="accident-date"
-                                               placeholder="00/00/0000"
-                                               max="{{date('Y-m-d', strtotime( Carbon::now()))}}"
-                                               min="{{date('Y-m-d', strtotime($minDate))}}"
+                                               {{--max="{{date('Y-m-d', strtotime( Carbon::now()))}}"
+                                               min="{{date('Y-m-d', strtotime($minDate))}}"--}}
+                                               value="{{Carbon::parse(
+                                                                   $accident->date_of_accident)->format('d/m/Y')}}"
                                                required>
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar"></i>
@@ -605,29 +649,41 @@
                                 </div>
                                 @error('date')
                                 <p>{{$message}}</p>
-
                                 @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group ">
                                     <label for="time">Time*:</label>
-                                    <input name="time" type="time" class="form-control required" id="time"
+                                    <input name="time"
+                                           type="time"
+                                           readonly
+                                           value="{{Carbon::parse(
+                                           $accident->time_of_accident)->format('H:i:s')}}"
+                                           class="form-control
+                                           required" id="time"
                                            placeholder="00:00" required>
                                 </div>
                                 @error('time')
                                 <p>{{$message}}</p>
-
                                 @enderror
                             </div>
                             <div class="col-md-6 options policeNotification">
-                                <p class="test">Is The ZESCO Driver Guilty ?: </p>
+                                <p class="test">Is The Company Driver Guilty ?: </p>
+                                @php $isGuilty = $accident->guilty == 'yes'; @endphp
                                 <label class="checkbox-inline mr-5">
-                                    <input type="radio" id="policeNotification-yes" name="guilty" value="yes">
+                                    <input type="radio"
+                                           @if($isGuilty) checked @endif
+                                           id="policeNotification-yes"
+                                           name="guilty" value="yes">
                                     <label for="policeNotification-yes">Yes</label>
                                 </label>
                                 <label class="checkbox-inline ml-2">
-                                    <input type="radio" id="policeNotification-no" name="guilty" value="no">
+                                    <input type="radio"
+                                           @if(!$isGuilty) checked @endif
+                                           id="policeNotification-no"
+                                           name="guilty"
+                                           value="no">
                                     <label for="policeNotification-no">No</label>
                                 </label>
                                 @error('guilty')
