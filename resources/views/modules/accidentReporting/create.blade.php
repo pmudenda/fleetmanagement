@@ -215,39 +215,55 @@
                     lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
                 }
 
-                function populateInsuranceDetails(payload) {
-                    let hasValid = payload
-                  const $row = `<h2>Insurance Details</h2>
-                    <div class="col-4 col-xs-12">
-            <div role="table" aria-label="Vehicle Details" class="table table-striped">
-                <div id="vehicleDetails" class="vehicleDetails">
-                    <div class="row">
-                        <div class="col">
-                            <strong>Status:</strong>
-                        </div>
-                        <div class="col">
-                            <span class="badge badge-success" style="height: 30px; width: 30px;"></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <strong>Insurance Period</strong>
-                        </div>
-                        <div class="col">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <strong>Status</strong>
-                        </div>
-                        <div class="col" id="registration">
-                            ACTIVE
-                        </div>
-                    </div>
-                </div>
 
-            </div>
-        </div>`;
+                function populateInsuranceDetails(payload) {
+                    let hasValid = payload['hasValidInsurance'];
+                    let insurance = payload['insurance'];
+                    let certificate_number = insurance?.certificate_number;
+                    let policy_no = insurance?.policy_no;
+                    let period_from = insurance?.period_from;
+                    let period_to = insurance?.period_to;
+                    let insurancePeriod = new Date(period_from).toLocaleString()
+                        + ' ' + new Date(period_to).toLocaleString()
+                    let status = '';
+                    if (hasValid) {
+                        status = '<span class="badge badge-success" style="height: 30px; width: 30px;"></span> Valid';
+                    } else {
+                        status = '<span class="badge badge-danger" style="height: 30px; width: 30px;"></span> Expired'
+                    }
+
+                    const $row = `<h2>Insurance Details</h2>
+                    <div class="col-4 col-xs-12">
+                        <div role="table" aria-label="Vehicle Details" class="table table-striped">
+                            <div id="vehicleDetails" class="vehicleDetails">
+                                <div class="row">
+                                    <div class="col">
+                                        <strong>Status:</strong>
+                                    </div>
+                                    <div class="col">
+                                        ${status}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <strong>Insurance Period</strong>
+                                    </div>
+                                    <div class="col">
+                                        ${insurancePeriod}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <strong>Policy</strong>
+                                    </div>
+                                    <div class="col" id="registration">
+                                        ${policy_no}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>`;
                 }
 
                 function displayVehicleDetails(payload) {
