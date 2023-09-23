@@ -62,10 +62,9 @@
                                                             <input name="registrationNo"
                                                                    type="text"
                                                                    value="{{$accident->vehicle_reg_no ?? ''}}"
-                                                                   data-action=""
+                                                                   readonly
                                                                    class="form-control form-control-sm required"
                                                                    id="registrationNo"
-                                                                   placeholder=""
                                                                    required/>
                                                             <div class="input-group-addon">
                                                                 <button type="button"
