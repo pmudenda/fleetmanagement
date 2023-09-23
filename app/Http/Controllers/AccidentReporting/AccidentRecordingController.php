@@ -34,8 +34,12 @@ class AccidentRecordingController extends Controller
         $this->fileUploadService = $fileUploadService;
     }
 
-    public function create(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function create(Request $request): View
     {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
         $minDate = Carbon::now()->subtract('year', 10);
 
         return view("modules.accidentReporting.create")
@@ -46,6 +50,10 @@ class AccidentRecordingController extends Controller
 
     public function show(Request $request): View
     {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
         $minDate = Carbon::now()->subtract('year', 10);
 
         $accident = Accident::where('reference', '=', $request->get('reference'))
@@ -162,7 +170,6 @@ class AccidentRecordingController extends Controller
 
     public function getAccidentTypes(): JsonResponse
     {
-
         try {
             $data = GeneralTable::where('type', '=', ConfigurationTypes::ACCIDENT_TYPES->value)->get();
 
