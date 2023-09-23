@@ -2,7 +2,9 @@
 
 namespace App\Services\Accidents;
 
+use App\Constants\ErrorMessages;
 use App\Constants\WorkflowModules;
+use App\Exceptions\DuplicateDataException;
 use App\Http\Requests\AccidentRecordingRequest;
 use App\Models\Accident;
 use App\Services\FileUploads\FileUploadService;
@@ -27,6 +29,7 @@ class AccidentService
     /**
      * @param AccidentRecordingRequest $request
      * @return string
+     * @throws DuplicateDataException
      */
     public function saveAccidentReport(AccidentRecordingRequest $request): string
     {
@@ -34,9 +37,7 @@ class AccidentService
 
         DB::beginTransaction();
 
-        $this->validateAccidentReport();
-
-
+        $this->validateAccidentReport($request);
 
         $reference = $this->numberGeneratorService->generateReferenceNumber(
             WorkflowModules::ACCIDENT_REPORT);
@@ -104,5 +105,21 @@ class AccidentService
 
         DB::commit();
         return $reference;
+    }
+
+    /**
+     * @throws DuplicateDataException
+     */
+    private function validateAccidentReport(AccidentRecordingRequest $request): void
+    {
+        $accidentRecords = Accident::where('vehicle_reg_no', '=', $request->get('registrationNo'))
+            ->where('date_of_accident', '=', Carbon::parse($request->validated('date')))
+            ->get();
+
+        if (!empty($accidentRecords)) {
+            throw new DuplicateDataException(
+                ErrorMessages::getMessage('err_0033')
+            );
+        }
     }
 }

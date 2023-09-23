@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AccidentReporting;
 
 use App\Enums\ConfigurationTypes;
+use App\Exceptions\DuplicateDataException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccidentRecordingRequest;
 use App\Models\Accident;
@@ -106,9 +107,14 @@ class AccidentRecordingController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error($e);
+            $message = 'Failed To record Recorded An Accident';
+            if ($e instanceof DuplicateDataException) {
+                $message = $e->getMessage();
+            }
+
             return response()->json([
                 'state' => 'failure',
-                'message' => 'Failed To record Recorded An Accident',
+                'message' => $message,
             ]);
         }
 
