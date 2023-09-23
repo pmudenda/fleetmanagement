@@ -151,6 +151,7 @@ class DriverController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
             if ($e instanceof DriverSearchException) {
                 $message = $e->getMessage();
