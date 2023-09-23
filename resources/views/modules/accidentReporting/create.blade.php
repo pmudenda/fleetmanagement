@@ -332,6 +332,10 @@
                 }
 
                 function fetchDriverDetails(searchCriteria, url) {
+                    $('[name="job_title"]').val('');
+                    $("#driver_name").val('');
+                    $('[name="experience"]').val('');
+
                     $.ajax({
                         url: url,
                         data: {
@@ -345,12 +349,12 @@
                             if (response.success === 'true' || response.success) {
                                 const driverDetails = response.payload;
 
-                                $('[name="job_title"]').val(driverDetails?.job_title);
+                                $('[name="job_title"]').val(driverDetails?.job_title );
 
                                 $("#driver_name").val(driverDetails.name);
 
                                 $('[name="experience"]')
-                                    .val(getYearsDifferenceFromNow(driverDetails.license_date_issued));
+                                    .val(getYearsDifferenceFromNow(driverDetails?.license_date_issued));
                                 tmsApp.showSystemMessage('Driver Search', response.message, null, 'success')
 
                             } else {

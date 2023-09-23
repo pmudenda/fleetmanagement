@@ -105,12 +105,12 @@ class UserService
             $dataset = PHCMSEmployee::select('*')
                 ->where('name', 'LIKE', "%{$searchParam}%")
                 ->where('con_st_code', '=', 'ACT')
+                ->whereNull('alt_per_no')
                 ->where(function ($query) {
                     $query->where('con_per_no', 'LIKE', "C7%")
                         ->orWhere('con_per_no', 'LIKE', "7%");
                 })
                 ->get();
-
         }
 
         if (empty($dataset)) {
