@@ -436,6 +436,7 @@
             return;
         }
         removeSubmissionAndDetailsOptions();
+
         findVehicle();
     });
 

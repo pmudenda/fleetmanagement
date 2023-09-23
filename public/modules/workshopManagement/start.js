@@ -689,7 +689,7 @@ $(document).ready(function () {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 body: formData,
-                referrer: window.baseUrl,
+                referrer: window['baseUrl'],
                 mode: 'cors',
                 credentials: 'same-origin',
             }
@@ -703,7 +703,7 @@ $(document).ready(function () {
             })
             .then(response => {
 
-                if (!response.success || response.payload.length == 0) {
+                if (!response.success || response.payload.length === 0) {
                     tmsApp.systemError('Driver Verification', response['message']);
                     return;
                 }
@@ -718,6 +718,7 @@ $(document).ready(function () {
                     return;
                 }
 
+                $("#driver_staff_number").val(response.payload?.con_per_no ?? response.payload.staff_no);
                 document.querySelector('#driver_name').value = response.payload.name;
             })
             .catch(function (xhr, settings, error) {
