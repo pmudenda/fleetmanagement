@@ -337,19 +337,15 @@
                     $('[name="experience"]').val('');
                     let formData = new FormData();
                     formData.append('searchCriteria', searchCriteria);
-                    $.ajax({
-                        url: url,
-                        cache: false,
-                        data: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'content-type': 'text/json'
-                        },
-                        method: 'POST',
-                        success: function (response) {
+
+                    tmsApp.asyncPostFormData(
+                        url,
+                        formData,
+                        function (response) {
                             if (response.success === 'true' || response.success) {
                                 const driverDetails = response.payload;
 
-                                $('[name="job_title"]').val(driverDetails?.job_title );
+                                $('[name="job_title"]').val(driverDetails?.job_title);
 
                                 $("#driver_name").val(driverDetails.name);
 
@@ -362,10 +358,11 @@
                             }
 
                         },
-                        error: function (jqXHR, textStatus, errorThrown) {
+                        function (jqXHR, textStatus, errorThrown) {
                             // Code to execute when the AJAX request fails
-                        }
-                    });
+                        },
+                        'POST'
+                    );
                 }
 
                 function getAccidentTypes() {
