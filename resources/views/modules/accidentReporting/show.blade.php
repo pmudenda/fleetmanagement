@@ -530,27 +530,6 @@
                                     </select>
                                 </div>
                             </div>
-                            "id" => "63"
-                            "reference" => "ACC0000000063"
-                            "" => "Consequatur Tempora"
-
-                            "" => "70121"
-                            "" => "2016-06-12 00:00:00"
-                            "" => "2023-09-23 07:13:00"
-                            "" => "2023-09-23 00:00:00"
-                            "" => "2023-09-23 17:44:03"
-
-                            "death" => "NO"
-                            "num_passengers" => "542"
-                            "mileage" => "1500"
-                            "other_people_involved" => "NO"
-                            "" => "Sunday"
-
-                            "vehicle_insured" => "Y"
-                            "" => "5"
-                            "created_at" => "2023-09-23 17:44:03"
-                            "updated_at" => "2023-09-23 17:44:03"
-                            "reported_by" => "76737"
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -561,7 +540,7 @@
                                             Select Day Of Week
                                         </option>
                                         @foreach($daysOfWeek as $day)
-                                            @if($accident->day)
+                                            @if($accident->day_of_week)
                                                 <option selected value="{{$day}}">
                                                     {{$day}}
                                                 </option>
@@ -779,7 +758,8 @@
                                             data-table-id="observations"
                                             class="btn btn-sm btn-primary add pull-right"
                                             value="insertRow">
-                                        <i class="fa fa-plus"></i> Add Row
+                                        <i class="fa fa-plus"></i>
+                                        Add Row
                                     </button>
                                 </div>
                             </div>
