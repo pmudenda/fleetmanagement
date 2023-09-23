@@ -463,6 +463,7 @@
                                 <div class="form-group">
                                     <label for="vehicleMake">Other People Involved:</label>
                                     <select name="other_people_involved"
+                                            disabled
                                             type="text"
                                             class="form-control disableVehicle"
                                             id="insurance_state" required>
@@ -534,7 +535,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="day_of_week">Day Of The Week:</label>
-                                    <select name="day_of_week" class="form-control required"
+                                    <select name="day_of_week" disabled
+                                            class="form-control required"
                                             id="day_of_week" required>
                                         <option selected disabled>
                                             Select Day Of Week
@@ -636,6 +638,7 @@
                                 <label class="checkbox-inline mr-5">
                                     <input type="radio"
                                            @if($isGuilty) checked @endif
+                                           disabled
                                            id="policeNotification-yes"
                                            name="guilty" value="yes">
                                     <label for="policeNotification-yes">Yes</label>
@@ -643,6 +646,7 @@
                                 <label class="checkbox-inline ml-2">
                                     <input type="radio"
                                            @if(!$isGuilty) checked @endif
+                                           disabled
                                            id="policeNotification-no"
                                            name="guilty"
                                            value="no">
