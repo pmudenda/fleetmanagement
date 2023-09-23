@@ -118,7 +118,11 @@ class AccidentService
 
         if (!empty($accidentRecords)) {
             throw new DuplicateDataException(
-                ErrorMessages::getMessage('err_0033')
+                str_replace(
+                    "@reg",
+                    $request->get('registrationNo'),
+                    ErrorMessages::getMessage('err_0033')
+                )
             );
         }
     }
