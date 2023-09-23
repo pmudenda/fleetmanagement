@@ -1114,8 +1114,7 @@
                 $(document).ready(function () {
                     $(document).on('click', '#driverSearchBtn', function (event) {
                         let $driverCtrl = $('#driver_staff_number');
-                        fetchDriverDetails($driverCtrl.val(), $driverCtrl.attr('data-action'))
-
+                        fetchDriverDetails($driverCtrl.val(), $driverCtrl.attr('data-action'));
                     });
 
                     getAccidentNatures();

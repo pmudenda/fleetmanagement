@@ -12,9 +12,7 @@ use App\Models\Settings\GeneralTable;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -156,7 +154,7 @@ class AccidentRecordingController extends Controller
                 'redirectUrl' => URL::signedRoute('accident.show', [
                     'reference' => $reference
                 ]),
-                'message' => 'Successfully Recorded An Accident',
+                'message' => 'Accident Successfully Recorded An \n Reference' . $reference,
             ]);
         } catch (\Exception $e) {
             Log::error($e);
