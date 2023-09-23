@@ -215,6 +215,41 @@
                     lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
                 }
 
+                function populateInsuranceDetails(payload) {
+                    let hasValid = payload
+                  const $row = `<h2>Insurance Details</h2>
+                    <div class="col-4 col-xs-12">
+            <div role="table" aria-label="Vehicle Details" class="table table-striped">
+                <div id="vehicleDetails" class="vehicleDetails">
+                    <div class="row">
+                        <div class="col">
+                            <strong>Status:</strong>
+                        </div>
+                        <div class="col">
+                            <span class="badge badge-success" style="height: 30px; width: 30px;"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>Insurance Period</strong>
+                        </div>
+                        <div class="col">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>Status</strong>
+                        </div>
+                        <div class="col" id="registration">
+                            ACTIVE
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>`;
+                }
+
                 function displayVehicleDetails(payload) {
                     let vehicle = payload['vehicle'];
                     let images = payload['images'];
@@ -281,6 +316,9 @@
                         document.querySelector('#image_view')
                             .style.display = null;
                     }
+
+
+                    populateInsuranceDetails(payload);
                 }
 
                 function fetchVehicleDetails(reg) {

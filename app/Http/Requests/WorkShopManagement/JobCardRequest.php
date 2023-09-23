@@ -34,12 +34,9 @@ class JobCardRequest extends FormRequest
             'timeIn' => 'required:date_format',
             'repairType' => self::REQUIRED_STRING,
             'service_advisor' => self::REQUIRED_STRING,
-            'accident_number' => [
-                'exclude_unless:repairType,' . RepairTypes::AccidentRepair->value . '|required|string',
-                Rule::exists('vm_accident')->where(function (Builder $query) {
-                    return $query->where('reference', 1);
-                }),
-            ],
+            'accident_number' => 'exclude_unless:repairType,' . RepairTypes::AccidentRepair->value
+                . '|required|string|exists:App\Models\Accident,reference'
+            ,
 
             'current_odometer' => 'required:numeric',
             'fuel_level' => self::REQUIRED_STRING,

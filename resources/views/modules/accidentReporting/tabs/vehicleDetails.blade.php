@@ -232,9 +232,6 @@
         </div>
     </div>
     <div class="row insurance_container">
-        <h2>Insurance Details</h2>
-        <div class="col-4 col-xs-12">
-            <span class="badge badge-success" style="height: 30px; width: 30px;"></span>
-        </div>
+
     </div>
 </section>
