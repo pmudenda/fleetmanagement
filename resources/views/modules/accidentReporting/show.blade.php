@@ -443,7 +443,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 d-none">
                                 <div class="form-group">
                                     <label for="peopleInvolved">Number of people involved:</label>
                                     <input name="peopleInvolved"
@@ -453,10 +453,6 @@
                                            placeholder="Enter Number of people Involved"
                                            required/>
                                 </div>
-                                @error('peopleInvolved')
-                                <p>{{$message}}</p>
-
-                                @enderror
                             </div>
 
                             <div class="col-md-6">
@@ -466,7 +462,7 @@
                                             disabled
                                             type="text"
                                             class="form-control disableVehicle"
-                                            id="insurance_state" required>
+                                            required>
                                         <option selected disabled>-- Select --</option>
                                         <option @if($accident->other_vehicle_involved=="YES") selected
                                                 @endif value="YES">

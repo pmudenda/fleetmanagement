@@ -231,4 +231,9 @@
             </div>
         </div>
     </div>
+    <div class="row insurance_container">
+        <div class="col-4 col-xs-12">
+            <span class="badge-success" style="height: 30px; width: 30px;"></span> Insurance: Valid
+        </div>
+    </div>
 </section>

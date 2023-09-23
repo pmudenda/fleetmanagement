@@ -24,7 +24,7 @@
             @enderror
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 d-none">
             <div class="form-group">
                 <label for="peopleInvolved">Number of people involved:</label>
                 <input name="peopleInvolved"
@@ -34,10 +34,6 @@
                        placeholder="Enter Number of people Involved"
                        required/>
             </div>
-            @error('peopleInvolved')
-            <p>{{$message}}</p>
-
-            @enderror
         </div>
 
         <div class="col-md-6">
