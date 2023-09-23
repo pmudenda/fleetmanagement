@@ -424,24 +424,23 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="accidentType">Type of Accident*:</label>
-                                    <select id="accidentType" name="accidentType" class="form-control required">
+                                    <select id="accidentType"
+                                            data-value="{{$accident->type_of_accident}}"
+                                            name="accidentType"
+                                            class="form-control required">
                                         <option value="none">Select Incident type</option>
                                     </select>
-                                    @error('accidentType')
-                                    <p>{{$message}}</p>
-
-                                    @enderror
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="accidentNature">Nature of accident*:</label>
-                                <select id="accidentNature" name="accidentNature" class="form-control required">
+                                <select id="accidentNature"
+                                        data-value="{{$accident->nature_of_accident}}"
+                                        name="accidentNature"
+                                        class="form-control required">
                                     <option value="none">Select Incident Nature</option>
                                 </select>
-                                @error('accidentNature')
-                                <p>{{$message}}</p>
-                                @enderror
                             </div>
 
                             <div class="col-md-6">
@@ -483,14 +482,13 @@
                                     <label for="num_passengers">Number of Passengers:</label>
                                     <input name="num_passengers"
                                            type="number"
+                                           readonly
+                                           value="{{$accident->num_passengers}}"
                                            class="form-control required"
                                            id="num_passengers"
                                            placeholder="Enter Number of Passengers"
                                            required/>
                                 </div>
-                                @error('num_passengers')
-                                <p>{{$message}}</p>
-                                @enderror
                             </div>
 
                             <div class="col-md-6">
@@ -503,26 +501,24 @@
                                         <option value="YES">Yes</option>
                                         <option value="NO">No</option>
                                     </select>
-                                    @error('property')
-                                    <p>{{$message}}</p>
-                                    @enderror
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="death">Death:</label>
-                                    <select name="death"
+                                    <select name="death" disabled
                                             type="text"
                                             class="form-control disableVehicle"
                                             id="death" required>
                                         <option selected disabled>-- Select --</option>
-                                        <option value="YES">Yes</option>
-                                        <option value="NO">No</option>
+                                        <option @if($accident->death=="YES") selected @endif value="YES">
+                                            Yes
+                                        </option>
+                                        <option @if($accident->death=="NO") selected @endif value="YES">
+                                            No
+                                        </option>
                                     </select>
-                                    @error('property')
-                                    <p>{{$message}}</p>
-                                    @enderror
                                 </div>
                             </div>
                             "id" => "63"
@@ -534,8 +530,8 @@
                             "" => "2023-09-23 07:13:00"
                             "" => "2023-09-23 00:00:00"
                             "" => "2023-09-23 17:44:03"
-                            "nature_of_accident" => "MR"
-                            "type_of_accident" => "HOC"
+                            "" => "MR"
+                            "" => "HOC"
 
                             "" => "Commodo rem amet qu"
                             "death" => "NO"
@@ -1080,10 +1076,7 @@
                                 return;
                             }
 
-
                             let userUnits = response['payload'];
-
-
                             window.organizationUnits = userUnits;
                             tmsApp.populateDropDownList(selectElem, userUnits, "code", ['name']);
 
@@ -1116,8 +1109,6 @@
                             }
 
                             let userUnits = response['payload'];
-
-
                             window.organizationUnits = userUnits;
                             tmsApp.populateDropDownList(selectElem, userUnits, "code", ['name']);
 
