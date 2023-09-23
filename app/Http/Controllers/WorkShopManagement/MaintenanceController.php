@@ -450,6 +450,7 @@ class MaintenanceController extends Controller
     public function saveJobCardHeader(JobCardRequest $request): JsonResponse
     {
         try {
+            Log::debug("Logging Job Card");
             $response = $this->workshopService->createJobCard($request);
             return response()->json(
                 FleetMasterJsonResponse::response(
