@@ -33,7 +33,7 @@
                     </span>
                 </div>
                 <div class="card-toolbar justify-content-end">
-                    REFERENCE NUMBER: <span class="text-orange">
+                    REFERENCE NUMBER: <span class="text-orange ml-2">
                         {{ $accident->reference ?? '' }}
                     </span>
                 </div>
@@ -215,31 +215,6 @@
                                                                     <i class="fas fa-calendar"></i>
                                                                 </div>
                                                             </div>
-                                                            "id" => "63"
-                                                            "reference" => "ACC0000000063"
-                                                            "area" => "Consequatur Tempora"
-                                                            "vehicle_reg_no" => "BAE 3795"
-                                                            "" => "70121"
-                                                            "date_of_accident" => "2016-06-12 00:00:00"
-                                                            "" => "2023-09-23 07:13:00"
-                                                            "" => "2023-09-23 00:00:00"
-                                                            "time_reported" => "2023-09-23 17:44:03"
-                                                            "nature_of_accident" => "MR"
-                                                            "type_of_accident" => "HOC"
-                                                            "guilty" => "yes"
-                                                            "location" => "Commodo rem amet qu"
-                                                            "death" => "NO"
-                                                            "num_passengers" => "542"
-                                                            "mileage" => "1500"
-                                                            "other_people_involved" => "NO"
-                                                            "day_of_week" => "Sunday"
-                                                            "other_vehicle_involved" => "YES"
-                                                            "property" => "YES"
-                                                            "vehicle_insured" => "Y"
-                                                            "" => "5"
-                                                            "created_at" => "2023-09-23 17:44:03"
-                                                            "updated_at" => "2023-09-23 17:44:03"
-                                                            "reported_by" => "76737"
                                                         </div>
                                                     </div>
                                                 </div>
@@ -817,18 +792,7 @@
                             finish: 'Submit'
                         },
                         onStepChanging: function (event, currentIndex, newIndex) {
-                            if (currentIndex > newIndex) {
-                                return true;
-                            }
-
-                            if (currentIndex < newIndex) {
-                                // To remove error styles
-                                form.find(".body:eq(" + newIndex + ") label.error").remove();
-                                form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-                            }
-
-                            form.validate().settings.ignore = ":disabled,:hidden";
-                            return form.valid();
+                            return true;
                         },
                         onStepChanged: function (event, currentIndex, priorIndex) {
 
