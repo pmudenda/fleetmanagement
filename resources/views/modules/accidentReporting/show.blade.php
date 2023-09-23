@@ -199,9 +199,11 @@
                                                         <div class="input-group">
                                                             <input type="text"
                                                                    class="form-control form-control-sm"
-                                                                   id="date_of_req"
+                                                                   id="date_reported"
                                                                    readonly
-                                                                   value="{{}}"
+                                                                   value="{{Carbon::parse(
+                                                                    $accident->date_reported
+                                                                    )->format('d/M/Y')}}"
                                                                    name="date_of_req"
                                                                    required>
                                                             <div class="input-group-append">
@@ -209,6 +211,31 @@
                                                                     <i class="fas fa-calendar"></i>
                                                                 </div>
                                                             </div>
+                                                            "id" => "63"
+                                                            "reference" => "ACC0000000063"
+                                                            "area" => "Consequatur Tempora"
+                                                            "vehicle_reg_no" => "BAE 3795"
+                                                            "" => "70121"
+                                                            "date_of_accident" => "2016-06-12 00:00:00"
+                                                            "time_of_accident" => "2023-09-23 07:13:00"
+                                                            "" => "2023-09-23 00:00:00"
+                                                            "time_reported" => "2023-09-23 17:44:03"
+                                                            "nature_of_accident" => "MR"
+                                                            "type_of_accident" => "HOC"
+                                                            "guilty" => "yes"
+                                                            "location" => "Commodo rem amet qu"
+                                                            "death" => "NO"
+                                                            "num_passengers" => "542"
+                                                            "mileage" => "1500"
+                                                            "other_people_involved" => "NO"
+                                                            "day_of_week" => "Sunday"
+                                                            "other_vehicle_involved" => "YES"
+                                                            "property" => "YES"
+                                                            "vehicle_insured" => "Y"
+                                                            "" => "5"
+                                                            "created_at" => "2023-09-23 17:44:03"
+                                                            "updated_at" => "2023-09-23 17:44:03"
+                                                            "reported_by" => "76737"
                                                         </div>
                                                     </div>
                                                 </div>
@@ -411,31 +438,6 @@
 
 
                     <h3 class="step-top step3-top">Accident Details</h3>
-                    "id" => "63"
-                    "reference" => "ACC0000000063"
-                    "area" => "Consequatur Tempora"
-                    "vehicle_reg_no" => "BAE 3795"
-                    "" => "70121"
-                    "date_of_accident" => "2016-06-12 00:00:00"
-                    "time_of_accident" => "2023-09-23 07:13:00"
-                    "date_reported" => "2023-09-23 00:00:00"
-                    "time_reported" => "2023-09-23 17:44:03"
-                    "nature_of_accident" => "MR"
-                    "type_of_accident" => "HOC"
-                    "guilty" => "yes"
-                    "location" => "Commodo rem amet qu"
-                    "death" => "NO"
-                    "num_passengers" => "542"
-                    "mileage" => "1500"
-                    "other_people_involved" => "NO"
-                    "day_of_week" => "Sunday"
-                    "other_vehicle_involved" => "YES"
-                    "property" => "YES"
-                    "vehicle_insured" => "Y"
-                    "" => "5"
-                    "created_at" => "2023-09-23 17:44:03"
-                    "updated_at" => "2023-09-23 17:44:03"
-                    "reported_by" => "76737"
                     <section class="second-section">
                         <div class="row">
                             <div class="col-md-6">
