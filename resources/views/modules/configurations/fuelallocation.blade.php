@@ -265,7 +265,6 @@
         (function (tmsApp, $) {
             window['vehicleRegistrationCtl'] = $('#vehicleRegistration');
             let $vehicleRegistrationCtl = window['vehicleRegistrationCtl'];
-
             Inputmask({
                 "mask": "AAA 9999"
             }).mask("#registrationNumber");

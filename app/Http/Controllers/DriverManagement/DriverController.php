@@ -13,6 +13,7 @@ use App\Models\Reference\PHCMSEmployee;
 use App\Models\Settings\GeneralTable;
 use App\Services\DriverManagement\DriverManagementService;
 use App\Services\FileUploads\FileUploadService;
+use App\Services\Security\UserService;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -126,10 +127,7 @@ class DriverController extends Controller
                 ]);
             }
 
-            $driver = PHCMSEmployee::where('con_per_no', '=', $searchParam)
-                ->orWhere('name', 'LIKE', "%{$searchParam}%")
-                ->where('con_st_code', '=', 'ACT')
-                ->first();
+            $driver =  UserService::searchEmployee($searchParam);
 
             if ($driver->con_st_code != 'ACT' && $driver->con_st_code != '01') {
                 throw new DriverSearchException(str_replace(self::INPUT,
