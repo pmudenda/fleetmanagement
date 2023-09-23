@@ -659,6 +659,7 @@
                             <div class="row">
                                 <div class="row">
                                     <div class="col pl-0">
+                                        {{dd($files)}}
                                         <label for="inspectionDate"
                                                class="fs-6 fw-semibold form-label field-required col-md-5"
                                                style="padding-right: 0px;">
