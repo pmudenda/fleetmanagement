@@ -232,7 +232,7 @@
                         status = '<span class="badge badge-danger" style="height: 30px; width: 30px;"></span> Expired'
                     }
 
-                    const $row = `<h2>Insurance Details</h2>
+                    const $insuranceDetails = `<h2>Insurance Details</h2>
                     <div class="col-4 col-xs-12">
                         <div role="table" aria-label="Vehicle Details" class="table table-striped">
                             <div id="vehicleDetails" class="vehicleDetails">
@@ -264,6 +264,8 @@
 
                         </div>
                     </div>`;
+
+                    $('.insurance_container').html($insuranceDetails);
                 }
 
                 function displayVehicleDetails(payload) {
