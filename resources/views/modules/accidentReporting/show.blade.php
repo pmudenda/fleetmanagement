@@ -1,5 +1,4 @@
 @php use Carbon\Carbon; @endphp
-
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("libs/steps/jquery-steps.css")}}" rel="stylesheet" type="text/css"/>
@@ -405,7 +404,7 @@
 
 
                     <h3 class="step-top step3-top">Accident Details</h3>
-                    @php use Carbon\Carbon; @endphp
+
                     <section class="second-section">
                         <div class="row">
                             <div class="col-md-6">
