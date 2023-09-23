@@ -223,15 +223,19 @@
                     let policy_no = insurance?.policy_no;
                     let period_from = insurance?.period_from;
                     let period_to = insurance?.period_to;
-                    let insurancePeriod = new Date(period_from.split(" ")[0]).toLocaleString()
-                        + ' ' + new Date(period_to.split(" ")[0]).toLocaleString()
+                    let insurancePeriod = new Date(period_from.split(" ")[0]).toLocaleString().split(',')[0]
+                        + ' ' + new Date(period_to.split(" ")[0]).toLocaleString().split(',')[0]
                     let status = '';
                     if (hasValid) {
-                        status = '<span class="badge badge-success p-2" ' +
-                            'style="height: 30px; width: 30px; border-radius: 50%;"></span> Valid';
+                        status = '<span class="badge badge-success p-2 mr-3" ' +
+                            'style="height: 30px; width: 30px; border-radius: 50%;">' +
+                            '<p></p></span>' +
+                            '<strong>Valid</strong>';
                     } else {
-                        status = '<span class="badge badge-danger p-2" ' +
-                            'style="height: 30px; width: 30px; border-radius: 50%;"></span> Expired'
+                        status = '<span class="badge badge-danger p-2 mr-3" ' +
+                            'style="height: 30px; width: 30px; border-radius: 50%;">' +
+                            '<p></p></span>' +
+                            '<strong>Expired</strong>'
                     }
 
                     const $insuranceDetails = `<h2>Insurance Details</h2>
@@ -242,7 +246,7 @@
                                     <div class="col">
                                         <strong>Status:</strong>
                                     </div>
-                                    <div class="col">
+                                    <div class="col" style="display: flex">
                                         ${status}
                                     </div>
                                 </div>
