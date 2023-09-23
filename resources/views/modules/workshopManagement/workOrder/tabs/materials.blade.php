@@ -326,24 +326,22 @@
                                 <td>
                                     <input type="text"
                                            min="1"
-                                           name="quantity"
                                            required
                                            readonly
                                            value="{{$material->quantity ?? ''}}"
-                                           class="form-control form-control-sm quantity number_input"/>
+                                           class="form-control form-control-sm number_input"/>
                                 </td>
 
                                 <td>
                                     <input
-                                        name="unit_of_measure"
                                         required
                                         value="{{$material->unit_of_measure ?? ''}}"
                                         readonly
-                                        class="form-control form-control-sm unit_of_measure"/>
+                                        class="form-control form-control-sm"/>
                                 </td>
 
                                 <td>
-                                    <input name="unit_price"
+                                    <input
                                            required
                                            value="{{$material->price ?? ''}}"
                                            readonly
