@@ -224,11 +224,11 @@
                     let period_from = insurance?.period_from;
                     let period_to = insurance?.period_to;
                     let insurancePeriod = new Date(period_from.split(" ")[0]).toLocaleString().split(',')[0]
-                        + ' ' + new Date(period_to.split(" ")[0]).toLocaleString().split(',')[0]
+                        + ' <=> ' + new Date(period_to.split(" ")[0]).toLocaleString().split(',')[0]
                     let status = '';
                     if (hasValid) {
                         status = '<span class="badge badge-success p-2 mr-3" ' +
-                            'style="height: 30px; width: 30px; border-radius: 50%;">' +
+                            'style="height: 20px; width: 20px; border-radius: 50%;">' +
                             '<p></p></span>' +
                             '<strong>Valid</strong>';
                     } else {
