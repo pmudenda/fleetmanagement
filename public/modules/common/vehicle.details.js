@@ -137,7 +137,7 @@
                 .backgroundImage = "url(/storage" + imagePath + ")";
         }
 
-        findLatestRequisition();
+        // findLatestRequisition();
     }
 
     tmsApp.findVehicle = function () {

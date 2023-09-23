@@ -338,6 +338,7 @@
 
                     $.ajax({
                         url: url,
+                        cache: false,
                         data: {
                             'searchCriteria': searchCriteria
                         },
@@ -359,7 +360,6 @@
 
                             } else {
                                 tmsApp.showSystemMessage('Driver Search', response.message, null, 'error')
-
                             }
 
                         },
