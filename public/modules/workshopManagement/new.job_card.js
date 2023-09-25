@@ -2156,7 +2156,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                     .val(tmsApp.formatMoney(
                             (tmsApp.getFloat(element.value)
                                 * tmsApp.getFloat($(element).closest("tr")
-                                    .find("input[name=imprestItemUnitPrice]")
+                                    .find("input[name=imprestItemQty]")
                                     .val())
                             ),
                             2
@@ -2168,7 +2168,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                     .find('[input="imprestItemTotalPrice"]');
 
                 let imprestTotal = 0;
-                for (let input in  imprestTotalPriceInputs) {
+                for (let input in imprestTotalPriceInputs) {
                     imprestTotal = imprestTotal + tmsApp.getFloat(input.value || 0);
                 }
 
