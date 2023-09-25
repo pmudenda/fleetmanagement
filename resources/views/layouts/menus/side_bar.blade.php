@@ -137,6 +137,7 @@
                             @canany([
                                 config('rights.set_vehicle_fuel_allocation'),
                                 config('rights.view_fuel'),
+                                config('rights.requisition_fuel'),
                                 config('rights.approve_fuel_requisition')])
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
