@@ -2161,7 +2161,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                             ),
                             2
                         )
-                    );
+                    ).trigger('change');
                 break;
             case 'imprestItemTotalPrice':
                 let imprestTotal = 0;
