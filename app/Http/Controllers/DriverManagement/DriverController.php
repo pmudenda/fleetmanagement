@@ -27,11 +27,15 @@ class DriverController extends Controller
     const INPUT = '@input';
     private FileUploadService $fileUploadService;
     private DriverManagementService $driverManagementService;
+    private UserService $userService;
 
-    public function __construct(FileUploadService $fileUploadService, DriverManagementService $driverManagementService)
+    public function __construct(FileUploadService       $fileUploadService,
+                                DriverManagementService $driverManagementService,
+                                UserService             $userService)
     {
         $this->fileUploadService = $fileUploadService;
         $this->driverManagementService = $driverManagementService;
+        $this->userService = $userService;
     }
 
     public function create(): View|\Illuminate\Foundation\Application|Factory|Application
@@ -129,9 +133,9 @@ class DriverController extends Controller
             }
 
             if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
-                $driver = UserService::searchEmployee($searchParam);
+                $driver = $this->userService->searchEmployee($searchParam);
             } else {
-                $driver = UserService::searchEmployee($searchParam)->first();
+                $driver = $this->userService->searchEmployee($searchParam)->first();
             }
 
             if ($driver->con_st_code != 'ACT' && $driver->con_st_code != '01') {

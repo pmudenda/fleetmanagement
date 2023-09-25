@@ -174,8 +174,7 @@ class UsersController extends Controller
                 'state' => 'success',
                 'message' => SystemMessages::userUpdateSuccessful()
             ]);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $message = SystemMessages::userUpdateFailed();
             Log::info($message);
             Log::error($e);
@@ -205,18 +204,21 @@ class UsersController extends Controller
             ));
     }
 
-    public function employeeSearch(Request $request): JsonResponse
+    public function saveDelegation(Request $request): JsonResponse
     {
         try {
+            Log::info('Saving Profile Delegation');
 
-            $searchParam = strtoupper(trim($request->searchCriteria));
+            $this->userService->initiateDelegation($request);
 
-            $dataset = UserService::searchEmployee($searchParam);
-
-            return response()->json([
-                'success' => true,
-                'payload' => $dataset
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    '',
+                    true,
+                    '',
+                    []
+                )
+            );
 
         } catch (\Exception $e) {
             Log::error($e);
@@ -226,20 +228,59 @@ class UsersController extends Controller
                 $message = $e->getMessage();
             }
 
-            return response()->json([
-                'success' => false,
-                'payload' => [],
-                'message' => $message
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    '',
+                    false,
+                    $message,
+                    []
+                )
+            );
         }
     }
-    public function userSearch(Request $request): JsonResponse
+
+    public function employeeSearch(Request $request): JsonResponse
     {
         try {
 
+            $searchParam = strtoupper(trim($request->get('searchCriteria')));
+
+            $dataset = $this->userService->searchEmployee($searchParam);
+
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    '',
+                    true,
+                    '',
+                    $dataset
+                )
+            );
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::getMessage('err_0012');
+
+            if ($e instanceof UserNotActiveException) {
+                $message = $e->getMessage();
+            }
+
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    '',
+                    false,
+                    $message,
+                    []
+                )
+            );
+        }
+    }
+
+    public function userSearch(Request $request): JsonResponse
+    {
+        try {
             $searchParam = strtoupper(trim($request->searchCriteria));
 
-            $dataset = UserService::searchEmployee($searchParam);
+            $dataset = $this->userService->searchEmployee($searchParam);
 
             return response()->json([
                 'success' => true,

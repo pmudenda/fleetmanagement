@@ -7,6 +7,8 @@ use App\Constants\SystemMessages;
 use App\Enums\Modules;
 use App\Exceptions\DataNotFoundException;
 use App\Exceptions\FuelRequisitionException;
+use App\Exceptions\LowerOdometerEntryException;
+use App\Exceptions\NoOdometerEntryException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
@@ -28,6 +30,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use Mockery\CountValidator\Exception;
 
 class FuelRequisitionController extends Controller
@@ -160,13 +163,33 @@ class FuelRequisitionController extends Controller
             $message = ErrorMessages::getMessage('err_0005');
 
             if ($e instanceof FuelRequisitionException
-                || $e instanceof WorkflowTaskCreationFailedException) {
+                || $e instanceof WorkflowTaskCreationFailedException
+                || $e instanceof NoOdometerEntryException
+                || $e instanceof LowerOdometerEntryException
+            ) {
                 $message = $e->getMessage();
             }
-            return response()->json([
-                'success' => false,
-                'message' => $message
-            ]);
+
+            $redirectUrl = '';
+            if (
+                $e instanceof NoOdometerEntryException
+                ||
+                $e instanceof LowerOdometerEntryException
+            ) {
+                $redirectUrl = URL::signedRoute("new.fleet.movement", [
+                    'key' => $request->get("vehicle_registration")
+                ]);
+            }
+
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    $message,
+                    [],
+                    $redirectUrl
+                )
+            );
         }
     }
 

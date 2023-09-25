@@ -123,10 +123,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"
-                    id="exampleModalLabel">Add Imprest Buy</h5>
+                    id="exampleModalLabel">
+                    Add Petty-Cash Buy
+                </h5>
                 <button type="button"
                         class="btn-close"
-                        data-bs-dismiss="modal" aria-label="Close"></button>
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
             </div>
             <div class="modal-body">
                 <form id="create_form"
@@ -145,15 +149,24 @@
                             <th scope="row" style="width:33%" colspan="1"
                                 class="text-center">
                                 <a href="#">
-                                    <img src="{{ asset('assets/dist/img/zesco1.png')}}"
-                                         title="ZESCO" alt="ZESCO"
-                                         width="25%"/>
+                                    <img
+                                         src="{{ asset('assets/dist/img/zesco1.png')}}"
+                                         title="ZESCO"
+                                         alt="ZESCO"
+                                         width="25%"
+                                    />
                                 </a>
                             </th>
-                            <th scope="row" style="width:33%" colspan="4" class="text-center">
+                            <th scope="row"
+                                style="width:33%"
+                                colspan="4"
+                                class="text-center">
                                 Petty Cash Voucher
                             </th>
-                            <th scope="row" style="width:34%" colspan="1" class="p-3">
+                            <th scope="row"
+                                style="width:34%"
+                                colspan="1"
+                                class="p-3">
                                 Doc Number:
                                 <br>CO.14900.FORM.00165
                                 <br>Version: 3
@@ -170,18 +183,25 @@
                                         <label for="date" class="field-required">Date:</label>
                                     </div>
                                     <div class="col-lg-12 col-sm-12 col-sm-12">
-                                        <input value="{{ date('Y-m-d H:i:s') }}"
-                                               type="text" name="date"
-                                               readonly class="form-control">
+                                        <input
+                                            value="{{ date('Y-m-d H:i:s') }}"
+                                            type="text" name="date"
+                                            readonly
+                                            class="form-control" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-12">
                                 <div class="row">
                                     <div class="col-lg-12 col-sm-12 ">
-                                        <label for="cost_center" class="field-required">Cost Center:</label></div>
+                                        <label for="cost_center"
+                                               class="field-required">
+                                            Cost Center:
+                                        </label>
+                                    </div>
                                     <div class="col-lg-12 col-sm-12 col-sm-12">
-                                        <input type="text" name="cost_center"
+                                        <input type="text"
+                                               name="cost_center"
                                                class="form-control"
                                                value="{{Auth::user()->cc_code}}"
                                                readonly
@@ -191,10 +211,12 @@
                             </div>
                             <div class="col-lg-3 col-sm-12">
                                 <div class="row">
-                                    <div class="col-lg-12 col-sm-12 col-sm-12"><label>ZQMS No (Optional):</label>
+                                    <div class="col-lg-12 col-sm-12 col-sm-12">
+                                        <label>ZQMS No (Optional):</label>
                                     </div>
                                     <div class="col-lg-12 col-sm-12 col-sm-12">
-                                        <input type="text" name="imprestZQMSReference"
+                                        <input type="text"
+                                               name="imprestZQMSReference"
                                                placeholder="Enter Your ZQMS Number (optional)"
                                                class="form-control">
                                     </div>
@@ -203,7 +225,9 @@
                             <div class="col-lg-3 col-sm-12">
                                 <div class="row">
                                     <div class="col-lg-12 col-sm-12 col-sm-12">
-                                        <label for="imprestProjectNumber">Project Number (Optional):</label>
+                                        <label for="imprestProjectNumber">
+                                            Project Number (Optional):
+                                        </label>
                                     </div>
                                     <div class="col-lg-12 col-sm-12 col-sm-12">
                                         <input id="imprestProjectNumber"

@@ -14,6 +14,7 @@ use App\Events\FuelRequisitionWorkflowUpdate;
 use App\Events\RequisitionRaised;
 use App\Events\RequisitionResubmitted;
 use App\Exceptions\FuelRequisitionException;
+use App\Exceptions\NoOdometerEntryException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\FuelRequisitionPostRequest;
@@ -60,6 +61,7 @@ class FuelRequisitionService
 
     /**
      * @throws FuelRequisitionException|WorkflowTaskCreationFailedException
+     * @throws NoOdometerEntryException
      */
     public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
     {
@@ -474,6 +476,9 @@ class FuelRequisitionService
         ]);
     }
 
+    /**
+     * @throws NoOdometerEntryException
+     */
     private function getLatestOdometerLogsEntry(mixed $registrationNumber)
     {
         $odometerLog = DB::table('vm_fleet_movement_header')
@@ -481,11 +486,17 @@ class FuelRequisitionService
             ->select(DB::raw('MAX(odometer_end) as max_odometer'))
             ->first();
 
-        if (!empty($odometerLog)) {
-            return $odometerLog->max_odometer;
+        if (empty($odometerLog)) {
+            throw new NoOdometerEntryException(
+                str_replace(
+                    "@reg",
+                    $registrationNumber,
+                    ErrorMessages::getMessage("err_0034")
+                )
+            );
         }
 
-        return 0;
+        return $odometerLog->max_odometer;
     }
 
     private function getOdometerOnLastIssue(mixed $registrationNumber)
@@ -768,6 +779,7 @@ class FuelRequisitionService
             $remarks,
             $subject
         );
+
         if (empty($nextUser)) {
             $nextUser = '';
         }
@@ -812,14 +824,7 @@ class FuelRequisitionService
                 $requisitionNumber
             );
         } else {
-            if ($action == WorkflowActions::sendBack()) {
-                FuelRequisitionWorkflowUpdate::dispatch(
-                    $reference,
-                    Auth::user(),
-                    ApprovalStage::sendBack->value,
-                    null
-                );
-            } elseif ($action == WorkflowActions::resubmit()) {
+            if ($action == WorkflowActions::resubmit()) {
                 RequisitionResubmitted::dispatch(
                     $reference,
                     $remarks,
@@ -828,10 +833,17 @@ class FuelRequisitionService
                     null
                 );
             } else {
+
+                if ($action == WorkflowActions::sendBack()) {
+                    $stage = ApprovalStage::sendBack->value;
+                } else {
+                    $stage = ApprovalStage::partial->value;
+                }
+
                 FuelRequisitionWorkflowUpdate::dispatch(
                     $reference,
                     Auth::user(),
-                    ApprovalStage::partial->value,
+                    $stage,
                     null
                 );
             }

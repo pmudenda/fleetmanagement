@@ -26,11 +26,11 @@ class FuelRequisitionValidationService
     const DATE_FORMAT = "d/m/Y";
 
     private RequisitionAndTaskCancellation $requisitionAndTaskCancellation;
-
     private ProcurementSystemIntegrationService $procurementService;
 
     public function __construct(ProcurementSystemIntegrationService $procurementService,
-                                RequisitionAndTaskCancellation      $requisitionAndTaskCancellation)
+                                RequisitionAndTaskCancellation      $requisitionAndTaskCancellation
+    )
     {
         $this->procurementService = $procurementService;
         $this->requisitionAndTaskCancellation = $requisitionAndTaskCancellation;
@@ -39,15 +39,19 @@ class FuelRequisitionValidationService
     /**
      * @throws FuelRequisitionException
      */
-    public function validateCurrentOdometerAgainstMileageReturn($latestOdometerValue, $userProvidedOdometer): bool
+    public function validateCurrentOdometerAgainstMileageReturn(
+        $latestOdometerValue, $userProvidedOdometer
+    ): bool
     {
-        if ($userProvidedOdometer <= $latestOdometerValue) {
-            throw new FuelRequisitionException(str_replace(self::ODOMETER,
-                $latestOdometerValue,
-                ErrorMessages::getMessage("err_0013")
-            ), 1000);
+        if ($userProvidedOdometer < $latestOdometerValue) {
+            throw new FuelRequisitionException(
+                str_replace(
+                    self::ODOMETER,
+                    $latestOdometerValue,
+                    ErrorMessages::getMessage("err_0013")
+                ),
+                1000);
         }
-
         return true;
     }
 
@@ -56,7 +60,9 @@ class FuelRequisitionValidationService
      * @return void
      * @throws FuelRequisitionException
      */
-    public function verifyVehicleResponsibleUserIsActive($responsibleHeadStaffNumber): void
+    public function verifyVehicleResponsibleUserIsActive(
+        $responsibleHeadStaffNumber
+    ): void
     {
         $responsibleHead = User::where("staff_no", "=", $responsibleHeadStaffNumber)->first();
 
@@ -81,17 +87,26 @@ class FuelRequisitionValidationService
         $reg_no): void
     {
         Log::info("Odometer on last issue $odometerOnLastIssue");
+
         Log::info("User Provided reading $userProvidedOdometerReading");
+
         // verify that odometer reading is not the same as previous requisition
         if ($userProvidedOdometerReading <= $odometerOnLastIssue) {
             throw new FuelRequisitionException(
-                str_replace(self::VEH_REG, $reg_no,
+                str_replace(
+                    self::VEH_REG,
+                    $reg_no,
                     str_replace(self::ODOMETER,
                         $latestIssue->odometer,
-                        str_replace(self::REQ_NO,
+                        str_replace(
+                            self::REQ_NO,
                             $latestIssue->st_pur ?? $latestIssue->req_no,
-                            ErrorMessages::getMessage("err_0024")))),
-                1000);
+                            ErrorMessages::getMessage("err_0024")
+                        )
+                    )
+                ),
+                1000
+            );
         }
     }
 
@@ -112,10 +127,14 @@ class FuelRequisitionValidationService
                 str_replace(self::VEH_REG, $reg_num,
                     str_replace(self::DATE_VALID_TO,
                         Carbon::parse($previousRequisition->valid_date_to)->format(self::DATE_FORMAT),
-                        str_replace(self::REQ_NO,
+                        str_replace(
+                            self::REQ_NO,
                             $previousRequisition->st_pur ?? $previousRequisition->req_no,
-                            ErrorMessages::getMessage("err_0002")))),
-                999);
+                            ErrorMessages::getMessage("err_0002"))
+                    )
+                ),
+                999
+            );
         }
     }
 

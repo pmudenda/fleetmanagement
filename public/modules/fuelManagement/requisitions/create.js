@@ -131,7 +131,6 @@
             );
         }
 
-
         let vLabel = vehicle['body_type_name'] ? vehicle['body_type_name'] : ''
             + ' ' + vehicle['brand_name']
             + ' ' + vehicle['model_name']
@@ -559,7 +558,12 @@
                                     'Fuel Requisition',
                                     asyncResponse['message'],
                                     function () {
-                                    }, 'error');
+                                        if (asyncResponse['redirectUrl']) {
+                                            window.location.href = asyncResponse['redirectUrl'];
+                                        }
+                                    },
+                                    'error'
+                                );
                             }, 300);
                         }
                     },

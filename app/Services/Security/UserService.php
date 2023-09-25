@@ -16,6 +16,7 @@ use App\Models\Security\User;
 use App\Services\Logging\HistoryService;
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -93,7 +94,7 @@ class UserService
     /**
      * @throws UserNotActiveException
      */
-    public static function searchEmployee(string $searchParam)
+    public function searchEmployee(string $searchParam)
     {
         if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
             $dataset = PHCMSEmployee::select('*')
@@ -171,6 +172,11 @@ class UserService
                 Log::error($e);
             }
         }
+    }
+
+    public function initiateDelegation(Request $request): void
+    {
+
     }
 
     public function updateUserDetails(UserProfileUpdate $request): void
