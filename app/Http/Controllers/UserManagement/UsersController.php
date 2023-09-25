@@ -4,6 +4,7 @@ namespace App\Http\Controllers\UserManagement;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
+use App\Exceptions\ActiveUserDelegationException;
 use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserOnBoardingException;
 use App\Http\Controllers\Controller;
@@ -224,7 +225,8 @@ class UsersController extends Controller
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0012');
 
-            if ($e instanceof UserNotActiveException) {
+            if ($e instanceof UserNotActiveException
+                || $e instanceof ActiveUserDelegationException) {
                 $message = $e->getMessage();
             }
 

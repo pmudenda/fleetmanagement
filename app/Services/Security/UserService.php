@@ -4,6 +4,7 @@ namespace App\Services\Security;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
+use App\Exceptions\ActiveUserDelegationException;
 use App\Exceptions\UserDataSyncException;
 use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserNotFoundException;
@@ -16,6 +17,7 @@ use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\User;
 use App\Models\UserManagement\ProfileDelegation;
 use App\Services\Logging\HistoryService;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -175,6 +177,9 @@ class UserService
         }
     }
 
+    /**
+     * @throws ActiveUserDelegationException
+     */
     public function initiateDelegation(DelegateProfile $request): void
     {
         $this->validate($request);
@@ -328,11 +333,23 @@ class UserService
         return true;
     }
 
+    /**
+     * @throws ActiveUserDelegationException
+     */
     private function validate(DelegateProfile $request)
     {
         // validation
         // 1. user does not already have an active delegation
-        $count = ProfileDelegation::where('', '=', $request->staffNumber)->count();
+        $count = ProfileDelegation::where('delegated_to', '=', $request->staffNumber)
+            ->whereDate('period_from', '<', Carbon::now())
+            ->whereDate('period_to', '>', Carbon::now())
+            ->count();
+
+        if($count > 0){
+            throw new ActiveUserDelegationException(
+                ErrorMessages::getMessage('err_0036')
+            );
+        }
     }
 
 }
