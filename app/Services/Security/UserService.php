@@ -9,14 +9,15 @@ use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
+use App\Http\Requests\DelegateProfile;
 use App\Http\Requests\UserOnboardingRequest;
 use App\Http\Requests\UserProfileUpdate;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\User;
+use App\Models\UserManagement\ProfileDelegation;
 use App\Services\Logging\HistoryService;
 use Exception;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -174,9 +175,23 @@ class UserService
         }
     }
 
-    public function initiateDelegation(Request $request): void
+    public function initiateDelegation(DelegateProfile $request): void
     {
+        $this->validate($request);
+        $user = auth()->user();
+        DB::beginTransaction();
 
+        ProfileDelegation::create([
+            'profile_owner' => $request->profileOwner,
+            'delegated_to' => $request->staffNumber,
+            'owner_profile_id' => '',
+            'delegated_profile_id' => '',
+            'period_from' => $request->startDate,
+            'period_to' => $request->endDate,
+            'justification' => $request->remarks,
+            'created_by' => $user->staff_no,
+        ]);
+        DB::commit();
     }
 
     public function updateUserDetails(UserProfileUpdate $request): void
@@ -311,6 +326,13 @@ class UserService
         }
 
         return true;
+    }
+
+    private function validate(DelegateProfile $request)
+    {
+        // validation
+        // 1. user does not already have an active delegation
+        $count = ProfileDelegation::where('', '=', $request->staffNumber)->count();
     }
 
 }

@@ -268,7 +268,7 @@
                                                     <div
                                                         class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <div class="input-group">
-                                                            <input type="datetime-local"
+                                                            <input type="date"
                                                                    onkeydown="return false"
                                                                    class="form-control
                                                                    form-control-sm"
@@ -298,7 +298,7 @@
                                                         for="staff_number">End Date:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-                                                        <input type="datetime-local"
+                                                        <input type="date"
                                                                onkeydown="return false"
                                                                class="form-control
                                                                form-control-sm"
@@ -473,6 +473,10 @@
 
                         } else {
                             tmsApp.play_alert('sound-error');
+                            if (response_data.hasOwnProperty('errors')) {
+                                tmsApp.printErrorMsg(response_data.errors);
+                                return
+                            }
                             tmsApp.systemError(
                                 appMessages.profileDelegationTitle,
                                 'Could Not Process Profile Delegation'

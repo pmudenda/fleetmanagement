@@ -186,7 +186,7 @@ class UsersController extends Controller
         }
     }
 
-    public function delegation(DelegateProfile $request): View
+    public function delegation(Request $request): View
     {
         $this->verifyRequestSignature($request);
 
@@ -204,7 +204,7 @@ class UsersController extends Controller
             ));
     }
 
-    public function saveDelegation(Request $request): JsonResponse
+    public function saveDelegation(DelegateProfile $request): JsonResponse
     {
         try {
             Log::info('Saving Profile Delegation');
