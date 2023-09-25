@@ -13,6 +13,7 @@
         <x-error-view/>
         <form role="form"
               method="post"
+              name="profileDelegationForm"
               action="{{route('user.profile.delegation.store')}}">
             @csrf
             <div class="container-fluid">
@@ -439,6 +440,54 @@
                 setTimeout(function () {
                     findEmployee();
                 }, 300);
+            });
+
+            $('form[name="profileDelegationForm"]').on('submit', function () {
+                if (!$(this).valid()) {
+                    return;
+                }
+
+                e.preventDefault();
+                e.stopPropagation();
+                let formData = new FormData(this);
+
+                tmsApp.asyncPostFormData(
+                    this.action,
+                    formData,
+                    function (response_data) {
+                        if (response_data.success) {
+                            if (response_data['payload'].length === 0) {
+                                tmsApp.systemError(
+                                    appMessages.profileDelegationTitle,
+                                    'Could Not Process Profile Delegation'
+                                );
+                            }
+                            tmsApp.showSystemMessage(
+                                appMessages.profileDelegationTitle,
+                                'User Profile Delegation Started Successfully',
+                                function () {
+                                    window.location.reload()
+                                },
+                                'success'
+                            )
+
+                        } else {
+                            tmsApp.play_alert('sound-error');
+                            tmsApp.systemError(
+                                appMessages.profileDelegationTitle,
+                                'Could Not Process Profile Delegation'
+                            );
+                        }
+                    },
+                    function (xhr, settings, errorThrown) {
+                        tmsApp.play_alert('sound-error');
+                        console.log(xhr);
+                        tmsApp.systemError(
+                            appMessages.profileDelegationTitle,
+                            'We could not complete processing your request, please try again later'
+                        )
+                    }
+                );
             });
 
             function findEmployee() {

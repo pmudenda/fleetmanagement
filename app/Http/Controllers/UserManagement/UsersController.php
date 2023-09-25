@@ -186,7 +186,6 @@ class UsersController extends Controller
         }
     }
 
-
     public function delegation(DelegateProfile $request): View
     {
         $this->verifyRequestSignature($request);
