@@ -11,185 +11,185 @@
 
     <section class="content">
         <x-error-view/>
+        <form role="form"
+              method="post"
+              action="{{route('user.profile.delegation.store')}}">
+            @csrf
+            <div class="container-fluid">
+                <!-- Main row -->
+                <div class="row">
+                    <!-- Left col -->
+                    <div class="col-xs-12 col-sm-4 pl-0">
 
-        <div class="container-fluid">
-            <!-- Main row -->
-            <div class="row">
-                <!-- Left col -->
-                <div class="col-xs-12 col-sm-4 pl-0">
-
-                    <div class="card card-outline">
-                        <div class="card-header">
-                            <div class="card-tools">
-                                {{--@if(!$selfDelegation)
-                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                        <div class="container-fluid pl-0">
-                                            <div class="row">
-                                                <div class="form-group row">
-                                                    <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                        for="staff_number">Profile Owner.:
-                                                    </label>
-                                                    <div
-                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-                                                        <div class="input-group">
-                                                            <input type="text"
-                                                                   class="form-control
-                                                                   form-control-sm"
-                                                                   id="profileOwner"
-                                                                   data-action="{{route('find.user')}}"
-                                                                   placeholder="Profile Owner"
-                                                                   name="profileOwner"
-                                                                   required
-                                                            />
-                                                            <div class="input-group-addon">
-                                                                <button type="button"
-                                                                        id="findProfileOwnerBtn"
-                                                                        name="findProfileOwnerBtn"
-                                                                        class="btn btn-primary
-                                                                    btn-sm border-radius-0">
-                                                                    <i class="fas fa-search">
-                                                                    </i>
-                                                                </button>
+                        <div class="card card-outline">
+                            <div class="card-header">
+                                <div class="card-tools">
+                                    {{--@if(!$selfDelegation)
+                                        <div class="col-xs-12 col-sm-6 col-md-5">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                            for="staff_number">Profile Owner.:
+                                                        </label>
+                                                        <div
+                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                       class="form-control
+                                                                       form-control-sm"
+                                                                       id="profileOwner"
+                                                                       data-action="{{route('find.user')}}"
+                                                                       placeholder="Profile Owner"
+                                                                       name="profileOwner"
+                                                                       required
+                                                                />
+                                                                <div class="input-group-addon">
+                                                                    <button type="button"
+                                                                            id="findProfileOwnerBtn"
+                                                                            name="findProfileOwnerBtn"
+                                                                            class="btn btn-primary
+                                                                        btn-sm border-radius-0">
+                                                                        <i class="fas fa-search">
+                                                                        </i>
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endif--}}
+                                    @endif--}}
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body box-profile">
-                            <div class="text-center">
-                                <a href="#">
-                                    @if(!empty($user->avatar))
-                                        <img class="profile-user-img img-fluid img-circle" width="100%"
-                                             src="{{ asset('storage/user_avatar/' . $user->avatar) }}"
-                                             alt="Image not found"
-                                             @if( Auth::user()->id==$user->id)
-                                                 title="Click Here to Edit Image"
-                                             data-toggle="modal"
-                                             data-target="#modal-edit-profile"
-                                            @endif
-                                        />
-                                    @else
-                                        <img class="profile-user-img img-fluid img-circle" width="100%"
-                                             src="{{ asset('assets/media/avatars/avatar.png') }}"
-                                             alt="Image not found"
-                                             @if(Auth::user()->id==$user->id)
-                                                 title="Click Here to Edit Image"
-                                             data-toggle="modal"
-                                             data-target="#modal-edit-profile"
-                                            @endif
-                                        />
-                                    @endif
-                                </a>
-                            </div>
+                            <div class="card-body box-profile">
+                                <div class="text-center">
+                                    <a href="#">
+                                        @if(!empty($user->avatar))
+                                            <img class="profile-user-img img-fluid img-circle" width="100%"
+                                                 src="{{ asset('storage/user_avatar/' . $user->avatar) }}"
+                                                 alt="Image not found"
+                                                 @if( Auth::user()->id==$user->id)
+                                                     title="Click Here to Edit Image"
+                                                 data-toggle="modal"
+                                                 data-target="#modal-edit-profile"
+                                                @endif
+                                            />
+                                        @else
+                                            <img class="profile-user-img img-fluid img-circle" width="100%"
+                                                 src="{{ asset('assets/media/avatars/avatar.png') }}"
+                                                 alt="Image not found"
+                                                 @if(Auth::user()->id==$user->id)
+                                                     title="Click Here to Edit Image"
+                                                 data-toggle="modal"
+                                                 data-target="#modal-edit-profile"
+                                                @endif
+                                            />
+                                        @endif
+                                    </a>
+                                </div>
 
-                            <h3 class="profile-username text-center">{{ $user->name }}</h3>
+                                <h3 class="profile-username text-center">{{ $user->name }}</h3>
 
-                            <p class="text-muted text-center">{{ $user->job_title ?? 'Position' }}</p>
+                                <p class="text-muted text-center">{{ $user->job_title ?? 'Position' }}</p>
 
-                            <p class="text-muted text-center">{{ $user->staff_no ?? '' }}</p>
+                                <p class="text-muted text-center">{{ $user->staff_no ?? '' }}</p>
 
-                            <input type="hidden" name="profileOwner" value="{{ $user->staff_no ?? '' }}"/>
+                                <input type="hidden" name="profileOwner" value="{{ $user->staff_no ?? '' }}"/>
 
-                            <ul class="list-group list-group-unbordered mb-3">
-                                <li class="list-group-item">
-                                    <b>Man Number</b> <a class="float-right">{{ $user->staff_no }}</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>NRC</b> <a class="float-right">{{ $user->nrc }}</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Phone</b> <a class="float-right">{{ $user->mobile_no }}</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Extension</b> <a class="float-right">{{ $user->phone ?? '' }}</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>
-                                        Assigned Profile
-                                    </b>
-                                    <a class="float-right">
+                                <ul class="list-group list-group-unbordered mb-3">
+                                    <li class="list-group-item">
+                                        <b>Man Number</b> <a class="float-right">{{ $user->staff_no }}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>NRC</b> <a class="float-right">{{ $user->nrc }}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Phone</b> <a class="float-right">{{ $user->mobile_no }}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Extension</b> <a class="float-right">{{ $user->phone ?? '' }}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>
+                                            Assigned Profile
+                                        </b>
+                                        <a class="float-right">
                                         <span class="badge badge-success">
                                         {{$user->roles->count()}}
                                         </span>
-                                    </a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Email</b>
-                                    <a class="float-right">{{ $user->email }}</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Status</b> <a class="float-right">
-                                        @if($user->con_st_code == '01')
-                                            <span class="badge badge-success p-2">
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Email</b>
+                                        <a class="float-right">{{ $user->email }}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Status</b> <a class="float-right">
+                                            @if($user->con_st_code == '01')
+                                                <span class="badge badge-success p-2">
                                                 Active
                                             </span>
-                                        @else
-                                            {{$user->con_st_code ?? '--'}}
-                                        @endif
-                                    </a>
-                                </li>
+                                            @else
+                                                {{$user->con_st_code ?? '--'}}
+                                            @endif
+                                        </a>
+                                    </li>
 
-                                <li class="list-group-item">
-                                    <b>Total Logins</b>
-                                    <a class="float-right">
+                                    <li class="list-group-item">
+                                        <b>Total Logins</b>
+                                        <a class="float-right">
                                        <span class="badge badge-success p-2">
                                              {{ $user->total_logins }}
                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
+                                        </a>
+                                    </li>
+                                </ul>
 
-                            <p class="text-muted">
-                                <strong>System Profile:</strong>
-                                @foreach ($user->roles() as $groupName)
+                                <p class="text-muted">
+                                    <strong>System Profile:</strong>
+                                    @foreach ($user->roles() as $groupName)
 
-                                    {{--{{strtoupper($groupName->description)}}--}}
-                                @endforeach
-                            </p>
-                        </div>
-                        <!-- /.card-body -->
-                        {{--@if(!$selfDelegation)
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="">
-                                            <form class="row" method="post" action="">
-                                                @csrf
-                                                <div class="input-group input-group-sm">
-                                                    <input class="form-control form-control-sm" type="search"
-                                                           name="search" placeholder="Enter Man Number/Name"
-                                                           aria-label="Enter Search Term">
-                                                    <div class="input-group-addon">
-                                                        <button class="btn btn-primary " type="submit">
-                                                            <i class="fas fa-search"></i>
-                                                        </button>
+                                        {{--{{strtoupper($groupName->description)}}--}}
+                                    @endforeach
+                                </p>
+                            </div>
+                            <!-- /.card-body -->
+                            {{--@if(!$selfDelegation)
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="">
+                                                <form class="row" method="post" action="">
+                                                    @csrf
+                                                    <div class="input-group input-group-sm">
+                                                        <input class="form-control form-control-sm" type="search"
+                                                               name="search" placeholder="Enter Man Number/Name"
+                                                               aria-label="Enter Search Term">
+                                                        <div class="input-group-addon">
+                                                            <button class="btn btn-primary " type="submit">
+                                                                <i class="fas fa-search"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </form>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- PROFILE FORM -->
                                         </div>
                                     </div>
                                 </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <!-- PROFILE FORM -->
-                                    </div>
-                                </div>
-                            </div>
-                        @endif--}}
+                            @endif--}}
+                        </div>
                     </div>
-                </div>
 
-                <form role="form"
-                      method="post"
-                      action="{{route('user.profile.delegation.store')}}">
-                    @csrf
+
                     <div class="col-xs-12 col-sm-7 pl-0">
                         <div class="card">
                             <div class="card-header ">
@@ -348,11 +348,11 @@
                             </div>
                         </div>
                     </div>
-                </form>
 
+
+                </div>
             </div>
-        </div>
-
+        </form>
     </section>
 
 @endsection
