@@ -2135,72 +2135,51 @@ const serviceTableRowTemplate = ` <tr class="increment">
             case 'imprestItemQty':
                 let imprestSummaryTotalQty = 0;
 
-                let imprestLineAmountTotal = tmsApp.getFloat(element.value)
-                    * tmsApp.getFloat($(element).closest("tr")
+                let imprestLineAmountTotal =
+                    tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr")
                         .find("input[name=imprestItemUnitPrice]")
                         .val());
 
                 $(element).closest("tr")
                     .find("input[name=imprestItemTotalPrice]")
-                    .val(tmsApp.formatMoney(imprestLineAmountTotal, 2));
+                    .val(tmsApp.formatMoney(imprestLineAmountTotal, 2))
+                    .trigger('change');
 
                 $(element).closest("table").find("input[name=imprestItemQty]")
                     .each(function (i, it) {
-                        imprestSummaryTotalQty += Util.getFloat(it.value);
+                        imprestSummaryTotalQty += Util.getRawNumber(it.value);
                     });
-
-                const inps = document.getElementsByName('imprestItemTotalPrice');
-                let total = 0;
-                for (let i = 0; i < inps.length; i++) {
-                    const inp = inps[i];
-                    total = total + tmsApp.getFloat(inp.value || 0);
-                }
-
-                total = tmsApp.getFloat(total);
-
-                if (!isNaN(total)) {
-                    //check if petty cash is below 2000
-                    if (total > 2000) {
-                        $('#submit_possible').hide();
-                        $('#submit_not_possible').show();
-                    } else if (total === 0) {
-                        $('#submit_not_possible').hide();
-                        $('#submit_possible').hide();
-                    } else {
-                        $('#submit_not_possible').hide();
-                        $('#submit_possible').show();
-                    }
-                    //set value
-                    document.getElementById('total-payment').value = tmsApp.formatMoney(total, 2);
-                }
                 break;
             case 'imprestItemUnitPrice':
                 $(element).closest("tr")
                     .find("input[name=imprestItemTotalPrice]")
                     .val(tmsApp.formatMoney(
-                        (tmsApp.getFloat(element.value)
-                            * tmsApp.getFloat($(element).closest("tr")
-                                .find("input[name=imprestItemUnitPrice]")
-                                .val())
-                        ),
-                        2)
+                            (tmsApp.getFloat(element.value)
+                                * tmsApp.getFloat($(element).closest("tr")
+                                    .find("input[name=imprestItemUnitPrice]")
+                                    .val())
+                            ),
+                            2
+                        )
                     );
+                break;
+            case 'imprestItemTotalPrice':
+                let imprestTotalPriceInputs = $(element).closest('table')
+                    .find('[input="imprestItemTotalPrice"]');
 
-                const $imprestTotalPrice = document.getElementsByName('imprestItemTotalPrice');
                 let imprestTotal = 0;
-                for (let i = 0; i < $imprestTotalPrice.length; i++) {
-                    const inp = $imprestTotalPrice[i];
-                    imprestTotal = imprestTotal + tmsApp.getFloat(inp.value || 0);
+                for (let input in  imprestTotalPriceInputs) {
+                    imprestTotal = imprestTotal + tmsApp.getFloat(input.value || 0);
                 }
 
                 imprestTotal = tmsApp.getFloat(imprestTotal);
 
                 if (!isNaN(imprestTotal)) {
                     //check if petty cash is below 2000
-                    if (total > 2000) {
+                    if (imprestTotal > 2000) {
                         $('#submit_possible').hide();
                         $('#submit_not_possible').show();
-                    } else if (total === 0) {
+                    } else if (imprestTotal === 0) {
                         $('#submit_not_possible').hide();
                         $('#submit_possible').hide();
                     } else {
