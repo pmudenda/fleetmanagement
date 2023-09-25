@@ -422,8 +422,7 @@
                                                        class="form-control form-control-sm"
                                                        readonly
                                                        id="pettyCashStoreName"
-                                                       value="{{$officeDetails->store_code ?? ''}}:
-                                                       {{$officeDetails->store_name ?? ''}}"
+                                                       value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
                                                        placeholder=""
                                                        name="pettyCashStoreName"/>
                                             </div>
@@ -531,6 +530,7 @@
                                         <td>
                                             <input type="text"
                                                    step="1"
+                                                   min="1"
                                                    id="imprestItemQty"
                                                    name="imprestItemQty"
                                                    class="form-control amount number_input"
