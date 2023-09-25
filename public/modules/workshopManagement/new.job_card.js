@@ -2164,13 +2164,11 @@ const serviceTableRowTemplate = ` <tr class="increment">
                     );
                 break;
             case 'imprestItemTotalPrice':
-                let imprestTotalPriceInputs = $('table#pettyCashItemsTable')
-                    .find('[name=imprestItemTotalPrice]');
-
                 let imprestTotal = 0;
-                for (let input in imprestTotalPriceInputs) {
-                    imprestTotal = imprestTotal + tmsApp.getFloat(input.value || 0);
-                }
+                let imprestTotalPriceInputs = $('table#pettyCashItemsTable')
+                    .find('.total_price').each(function (i, input) {
+                        imprestTotal = imprestTotal + tmsApp.getFloat(input.value || 0);
+                    });
 
                 imprestTotal = tmsApp.getFloat(imprestTotal);
 
