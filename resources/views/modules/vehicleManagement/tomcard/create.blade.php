@@ -21,6 +21,10 @@
             content: "✖";
         }
 
+        .invalid {
+            border: 1px solid red;
+        }
+
         input:valid + span::after {
             content: "✓";
         }
@@ -85,8 +89,7 @@
                                                 <th scope="row">Reg. No.</th>
                                                 <th scope="row">Card No.</th>
                                                 <th scope="row">State</th>
-                                                <th scope="row">valid From</th>
-                                                <th scope="row">Valid To</th>
+                                                <th scope="row">Period</th>
                                                 <th scope="row">Assigned By</th>
                                                 <th scope="row">Justification</th>
                                                 <th scope="row">Action</th>
@@ -112,12 +115,12 @@
                                                     <td>
                                                         {{
                                                             Carbon::parse($tomCardAllocation->period_from)
-                                                            ->format('d/M/Y')
+                                                            ->format('d/m/Y')
                                                         }}
-                                                    </td>
-                                                    <td>
+                                                        -
                                                         {{
-                                                            $tomCardAllocation->period_to
+                                                            Carbon::parse($tomCardAllocation->period_to)
+                                                            ->format('d/m/Y')
                                                         }}
                                                     </td>
                                                     <td>{{$tomCardAllocation->assigned_by_name}}</td>
@@ -136,7 +139,7 @@
                                                                     id="revokeTomCardBtn"
                                                                     title="Revoke Assignment"
                                                                     name="revokeTomCardBtn"
-                                                                    class="btn btn-danger">
+                                                                    class="btn btn-sm btn-danger">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
                                                         @endif
@@ -218,36 +221,6 @@
                                                         </div>
                                                     </div>
 
-                                                    {{--<div class="row mb-2">
-                                                        <div class="col">
-                                                            <label
-                                                                    for="dateIssued"
-                                                                    class="field-required">
-                                                                Date Issued
-                                                            </label>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="input-group date">
-                                                                <input type="date"
-                                                                       min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                                       name="dateIssued"
-                                                                       id="dateIssued"
-                                                                       autocomplete="off"
-                                                                       class="form-control"/>
-                                                                <div class="input-group-append">
-                                                                <span type="button"
-                                                                      class="input-group-text">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                </span>
-                                                                </div>
-                                                                <button type="button" data-action="clearDate"
-                                                                        class="input-group-text">
-                                                                    <i data-action="clearDate" class="fa fa-eraser"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>--}}
-
                                                     <div class="row mb-2">
                                                         <div class="col">
                                                             <label for="expiryDate"
@@ -264,11 +237,12 @@
                                                                        class="form-control"
                                                                        required/>
                                                                 <div class="input-group-append">
-                                                        <span class="input-group-text">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </span>
+                                                                    <div class="input-group-text">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                            <small id="expiredMessage"></small>
                                                         </div>
 
                                                     </div>
@@ -390,7 +364,7 @@
             }).mask("#vehicleRegistration");
 
             Inputmask({
-                "mask": "M/Y"
+                "mask": "M/YYYY"
             }).mask("#expiryDate");
 
             tmsApp.initDatatable("#TomCards", false, true, []);
@@ -426,6 +400,25 @@
                     }
                 }
             );
+
+            $("#expiryDate").on('input', function () {
+                const $ctl = this;
+                let $messageCtl = $("#expiredMessage");
+                $messageCtl.text('');
+                $ctl.removeClass('text-danger invalid');
+
+                const expiry = $ctl.value;
+                const currentYear = new Date().getUTCFullYear();
+                let firstPart = currentYear?.toString().slice(2, 4);
+
+                if (parseInt((expiry + firstPart)) < parseInt(currentYear?.toString())) {
+                    $("#expiredMessage").text('Expired');
+                    $ctl.addClass('text-danger invalid');
+                } else {
+
+                }
+
+            });
 
             $(document).on('change', '#vehicleRegistration', function () {
                 function getVehicleDetails() {
