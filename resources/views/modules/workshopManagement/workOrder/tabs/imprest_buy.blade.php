@@ -96,6 +96,7 @@
                                         value="deleteRow"
                                         class="btn btn-sm btn-danger p-2">
                                     <i class="fas fa-trash m-0"></i>
+                                    {{$pettyCashItem->status}}
                                 </button>
                             @endif
                         </td>
@@ -150,10 +151,10 @@
                                 class="text-center">
                                 <a href="#">
                                     <img
-                                         src="{{ asset('assets/dist/img/zesco1.png')}}"
-                                         title="ZESCO"
-                                         alt="ZESCO"
-                                         width="25%"
+                                        src="{{ asset('assets/dist/img/zesco1.png')}}"
+                                        title="ZESCO"
+                                        alt="ZESCO"
+                                        width="25%"
                                     />
                                 </a>
                             </th>
@@ -187,7 +188,7 @@
                                             value="{{ date('Y-m-d H:i:s') }}"
                                             type="text" name="date"
                                             readonly
-                                            class="form-control" />
+                                            class="form-control"/>
                                     </div>
                                 </div>
                             </div>
@@ -218,19 +219,22 @@
                                         <input type="text"
                                                name="imprestZQMSReference"
                                                placeholder="Enter Your ZQMS Number (optional)"
-                                               class="form-control">
+                                               class="form-control"
+                                        />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-12">
                                 <div class="row">
                                     <div class="col-lg-12 col-sm-12 col-sm-12">
-                                        <label for="imprestProjectNumber">
-                                            Project Number (Optional):
+                                        <label for="imprestProjectNumber"
+                                               class="field-required">
+                                            Job Card Number :
                                         </label>
                                     </div>
                                     <div class="col-lg-12 col-sm-12 col-sm-12">
                                         <input id="imprestProjectNumber"
+                                               readonly
                                                name="imprestProjectNumber"
                                                value="{{$details->job_card_no}}"
                                                class="form-control"/>
