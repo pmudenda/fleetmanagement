@@ -199,7 +199,7 @@
                                   action="{{route('user.profile.delegation.store')}}">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                    <div class="col-xs-12 col-6">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
                                                 <div class="form-group row">
@@ -235,11 +235,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                    <div class="col-xs-12 col-6">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
                                                 <div class="form-group row">
-                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-10">
+                                                    <div class="col-xs-12 col-sm-6 col-md-12 col-lg-12">
                                                         <input type="text"
                                                                class="form-control
                                                                form-control-sm"
