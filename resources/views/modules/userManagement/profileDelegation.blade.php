@@ -257,7 +257,6 @@
                                 </div>
 
                                 <div class="row mt-3">
-                                    //
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
@@ -269,12 +268,16 @@
                                                     <div
                                                         class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <div class="input-group">
+                                                            <input type="hidden"
+                                                                   id="currentProfile"
+                                                                   name="currentProfile"
+                                                                   value="{{$user->roles()->first()->id}}"
+                                                            />
                                                             <input type="text"
                                                                    value="{{$user->roles()->first()->name ?? 'N/A'}}"
                                                                    class="form-control
                                                                    form-control-sm"
-                                                                   id="currentProfile"
-                                                                   name="currentProfile"
+                                                                   readonly
                                                                    required
                                                             />
                                                             <div class="input-group-append">
