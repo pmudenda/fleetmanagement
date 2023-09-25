@@ -2134,19 +2134,20 @@ const serviceTableRowTemplate = ` <tr class="increment">
                 break;
             case 'imprestItemQty':
                 let imprestSummaryTotalQty = 0;
-                $(element).closest("table").find("input[name=imprestItemQty]")
-                    .each(function (i, it) {
-                        imprestSummaryTotalQty += Util.getFloat(it.value);
-                    });
 
                 let imprestLineAmountTotal = tmsApp.getFloat(element.value)
                     * tmsApp.getFloat($(element).closest("tr")
                         .find("input[name=imprestItemUnitPrice]")
                         .val());
+
                 $(element).closest("tr")
                     .find("input[name=imprestItemTotalPrice]")
                     .val(tmsApp.formatMoney(imprestLineAmountTotal, 2));
 
+                $(element).closest("table").find("input[name=imprestItemQty]")
+                    .each(function (i, it) {
+                        imprestSummaryTotalQty += Util.getFloat(it.value);
+                    });
 
                 const inps = document.getElementsByName('imprestItemTotalPrice');
                 let total = 0;
@@ -2174,6 +2175,43 @@ const serviceTableRowTemplate = ` <tr class="increment">
                 }
                 break;
             case 'imprestItemUnitPrice':
+                $(element).closest("tr")
+                    .find("input[name=imprestItemTotalPrice]")
+                    .val(tmsApp.formatMoney(
+                        (tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr")
+                                .find("input[name=imprestItemUnitPrice]")
+                                .val())
+                        ),
+                        2)
+                    );
+
+                const $imprestTotalPrice = document.getElementsByName('imprestItemTotalPrice');
+                let imprestTotal = 0;
+                for (let i = 0; i < $imprestTotalPrice.length; i++) {
+                    const inp = $imprestTotalPrice[i];
+                    imprestTotal = imprestTotal + tmsApp.getFloat(inp.value || 0);
+                }
+
+                imprestTotal = tmsApp.getFloat(imprestTotal);
+
+                if (!isNaN(imprestTotal)) {
+                    //check if petty cash is below 2000
+                    if (total > 2000) {
+                        $('#submit_possible').hide();
+                        $('#submit_not_possible').show();
+                    } else if (total === 0) {
+                        $('#submit_not_possible').hide();
+                        $('#submit_possible').hide();
+                    } else {
+                        $('#submit_not_possible').hide();
+                        $('#submit_possible').show();
+                    }
+
+                    //set value
+                    document.getElementById('total-payment')
+                        .value = tmsApp.formatMoney(imprestTotal, 2);
+                }
                 break;
             default:
                 break;
@@ -2958,6 +2996,8 @@ const serviceTableRowTemplate = ` <tr class="increment">
         $(document).on('change', 'input', function (e) {
             eventHandler(this, e);
         }).on('keyup', 'input,textarea', function (e) {
+            eventHandler(this, e);
+        }).on('input', '[name="imprestItemQty"], [name="imprestItemUnitPrice"]', function (e) {
             eventHandler(this, e);
         });
 

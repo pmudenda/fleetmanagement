@@ -714,11 +714,14 @@
                     </p>
                     <div class="row">
                         <div id="submit_not_possible" class="col-lg-12 col-sm-12 text-center">
-                            <div class="alert alert-danger ">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                            <div class="alert alert-danger text-white" style="background-color: red;">
+                                <button type="button"
+                                        class="close"
+                                        data-dismiss="alert"
+                                        aria-hidden="true">
                                     <i class="fas fa-close"></i>
                                 </button>
-                                <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                                <h5 class="text-white"><i class="icon fas fa-ban"></i> Alert!</h5>
                                 Sorry, You can not submit <strong>petty cash above K2000</strong>
                             </div>
                         </div>
