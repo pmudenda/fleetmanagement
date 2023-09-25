@@ -36,7 +36,9 @@
         @if(!empty($details))
 
             @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
-                <div class="tab-pane active" id="spares" role="tabpanel">
+                <div class="tab-pane active"
+                     id="spares"
+                     role="tabpanel">
                     @include('modules.workshopManagement.workOrder.tabs.materials')
                 </div>
             @endif
@@ -48,15 +50,22 @@
                     RepairTypes::GeneralRepair->value
                 ]))
                 <div
-                    class="tab-pane @if(RepairTypes::ContractedService->value == $details->repair_type ?? '') active @endif"
+                    class="tab-pane
+                    @if(RepairTypes::ContractedService->value == $details->repair_type ?? '')
+                      active
+                    @endif"
                     id="services" role="tabpanel">
                     @include('modules.workshopManagement.workOrder.tabs.services')
                 </div>
             @endif
         @endif
 
-        <div class="tab-pane" id="imprest" role="tabpanel">
-            @include('modules.workshopManagement.workOrder.tabs.imprest_buy')
-        </div>
+        @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
+            <div class="tab-pane"
+                 id="imprest"
+                 role="tabpanel">
+                @include('modules.workshopManagement.workOrder.tabs.imprest_buy')
+            </div>
+        @endif
     </div>
 </div>

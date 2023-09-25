@@ -185,29 +185,41 @@
                        name="workshop_reference"
                        id="workshop_reference"/>
 
-                <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
+                <input type="hidden" value="{{route('delete.defect.record')}}"
+                       name="deleteDefectUrl"
                        id="deleteDefectUrl"/>
 
-                <input type="hidden" value="{{route('delete.pettyCashItem.record')}}" name="deletePettyCashItemUrl"
+                <input type="hidden" value="{{route('delete.pettyCashItem.record')}}"
+                       name="deletePettyCashItemUrl"
                        id="deletePettyCashItemUrl"/>
 
-                <input type="hidden" value="{{route('delete.material.record')}}" name="deleteMaterialUrl"
+                <input type="hidden" value="{{route('delete.material.record')}}"
+                       name="deleteMaterialUrl"
                        id="deleteMaterialUrl"/>
 
-                <input type="hidden" value="{{route('delete.service.record')}}" name="deleteServiceUrl"
+                <input type="hidden" value="{{route('delete.service.record')}}"
+                       name="deleteServiceUrl"
                        id="deleteServiceUrl"/>
 
                 <input type="hidden" value="{{route('mechanic.search')}}" id="mechanicDetails"/>
             </div>
         </div>
-        <input type="hidden" name="onboarding_status" id="onboarding_status"
+        <input type="hidden"
+               name="onboarding_status"
+               id="onboarding_status"
                value="{{StatusHelper::onboardingComplete()}}">
     </section>
 
-    <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
+    <input type="hidden"
+           value="{{StatusHelper::onboardingComplete()}}"
+           name="incompleteOnBoarding"
            id="incompleteOnBoarding"/>
-    <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop"/>
-    <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
+    <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}"
+           name="vehicleInWorkshop"
+           id="vehicleInWorkshop"/>
+    <input type="hidden" value="{{StatusHelper::active()}}"
+           name="vehicleActive"
+           id="vehicleActive"/>
 
     <input type="hidden"
            value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}"
@@ -216,19 +228,23 @@
 
     <input type="hidden"
            value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}"
-           id="serviceItemCode" name="serviceItemCode"/>
+           id="serviceItemCode"
+           name="serviceItemCode"/>
 
     <input type="hidden"
            value="{{RequisitionItemTypes::NON_STOCK_ITEM_CODE}}"
-           id="nonStockItemCode" name="nonStockItemCode"/>
+           id="nonStockItemCode"
+           name="nonStockItemCode"/>
 
     <input type="hidden"
            value="{{RepairTypes::ContractedService->value}}"
-           id="contractedServiceRepair" name="contractedServiceRepair"/>
+           id="contractedServiceRepair"
+           name="contractedServiceRepair"/>
 
     <input type="hidden"
            value="{{RepairTypes::AccidentRepair->value}}"
-           id="accidentRepairs" name="accidentRepairs"/>
+           id="accidentRepairs"
+           name="accidentRepairs"/>
 
     <input type="hidden"
            id="suppliersList"
@@ -239,7 +255,11 @@
            name="reservationsUrl"
            id="reservationsUrl"/>
 
-    <div class="modal fade" id="eSignatureModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade"
+         id="eSignatureModal"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

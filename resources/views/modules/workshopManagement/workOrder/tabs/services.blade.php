@@ -490,7 +490,7 @@
                 </div>
             </div>
         </div>
-        <table class="mt-10">
+        <table role="table" class="mt-10">
             <tbody>
             <tr>
                 <td class="text-right">

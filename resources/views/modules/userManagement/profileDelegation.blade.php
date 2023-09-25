@@ -310,6 +310,29 @@
                                     </div>
                                 </div>
 
+                                <div class="row mt-3">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                for="remarks">
+                                                Remarks :
+                                            </label>
+                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                                    <textarea type="text"
+                                                              id="remarks"
+                                                              minlength="20"
+                                                              maxlength="255"
+                                                              required
+                                                              name="remarks"
+                                                              style="height: 129px;"
+                                                              class="form-control comments form-control-sm"
+                                                    ></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="modal-footer justify-content-between">
                                     <button type="submit"
                                             id="profileDelegationBtn"
@@ -336,6 +359,10 @@
                 profileDelegationTitle: 'Profile Delegation',
                 selfDelegation: 'You can not delegate a profile to the owner.'
             };
+
+            $(document).on('input', '.comments', function (event) {
+                this.value = this.value.toUpperCase();
+            });
 
             $(document).on('click', '.deleteButton', function (e) {
                 let recordData = this.getAttribute('data-id');
