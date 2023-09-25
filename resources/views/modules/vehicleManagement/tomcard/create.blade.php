@@ -87,9 +87,9 @@
                                             <thead>
                                             <tr>
                                                 <th scope="row">Reg. No.</th>
-                                                <th scope="row">Card No.</th>
+                                                <th scope="row" style="width: 16px;">Card No.</th>
                                                 <th scope="row">State</th>
-                                                <th scope="row">Period</th>
+                                                <th scope="row">Valid For(From - To)</th>
                                                 <th scope="row">Assigned By</th>
                                                 <th scope="row">Justification</th>
                                                 <th scope="row">Action</th>
@@ -98,7 +98,7 @@
                                             @foreach($tomCardAllocations as $tomCardAllocation)
                                                 <tr>
                                                     <td>{{$tomCardAllocation->reg_no}}</td>
-                                                    <td style="text-wrap: nowrap;">
+                                                    <td>
                                                         {{$tomCardAllocation->card_number}}
                                                     </td>
                                                     <td>
@@ -117,7 +117,7 @@
                                                             Carbon::parse($tomCardAllocation->period_from)
                                                             ->format('d/m/Y')
                                                         }}
-                                                        -
+                                                        =>
                                                         {{
                                                             Carbon::parse($tomCardAllocation->period_to)
                                                             ->format('d/m/Y')
