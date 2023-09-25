@@ -18,6 +18,7 @@
             <div class="container-fluid">
                 <!-- Main row -->
                 <div class="row">
+
                     <!-- Left col -->
                     <div class="col-xs-12 col-sm-4 pl-0">
 
@@ -189,7 +190,6 @@
                         </div>
                     </div>
 
-
                     <div class="col-xs-12 col-sm-7 pl-0">
                         <div class="card">
                             <div class="card-header ">
@@ -349,7 +349,6 @@
                         </div>
                     </div>
 
-
                 </div>
             </div>
         </form>
@@ -366,7 +365,7 @@
             };
 
             $(document).on('input', '.comments', function (event) {
-                this.value = this.value?.trim().toUpperCase();
+                this.value = this.value.toUpperCase();
             });
 
             $(document).on('click', '.deleteButton', function (e) {
