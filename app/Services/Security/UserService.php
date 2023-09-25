@@ -184,18 +184,28 @@ class UserService
     {
         $this->validate($request);
         $user = auth()->user();
-        DB::beginTransaction();
 
+        $profileOwnerUserNo = $request->get('profileOwner');
+        $delegatedUserStaffNo = $request->get('staffNumber');
+
+        $profileOwner = User::where('staff_no', '=', $profileOwnerUserNo)->first();
+        $profileOwnerProfile = $profileOwner->roles()->first();
+
+        $delegatedUser = User::where('staff_no', '=', $delegatedUserStaffNo)->first();
+        $delegatedUserProfile = $delegatedUser->roles()->first();
+
+        DB::beginTransaction();
         ProfileDelegation::create([
-            'profile_owner' => $request->profileOwner,
-            'delegated_to' => $request->staffNumber,
-            'owner_profile_id' => '',
-            'delegated_profile_id' => '',
-            'period_from' => $request->startDate,
-            'period_to' => $request->endDate,
-            'justification' => $request->remarks,
+            'profile_owner' => $profileOwnerUserNo,
+            'delegated_to' => $delegatedUserStaffNo,
+            'owner_profile_id' => $profileOwnerProfile->id,
+            'delegated_profile_id' => $delegatedUserProfile->id,
+            'period_from' => $request->get('startDate'),
+            'period_to' => $request->get('endDate'),
+            'justification' => $request->get('remarks'),
             'created_by' => $user->staff_no,
         ]);
+
         DB::commit();
     }
 
@@ -336,7 +346,7 @@ class UserService
     /**
      * @throws ActiveUserDelegationException
      */
-    private function validate(DelegateProfile $request)
+    private function validate(DelegateProfile $request): void
     {
         // validation
         // 1. user does not already have an active delegation
@@ -345,7 +355,7 @@ class UserService
             ->whereDate('period_to', '>', Carbon::now())
             ->count();
 
-        if($count > 0){
+        if ($count > 0) {
             throw new ActiveUserDelegationException(
                 ErrorMessages::getMessage('err_0036')
             );

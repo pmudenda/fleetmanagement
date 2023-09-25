@@ -256,6 +256,41 @@
                                     </div>
                                 </div>
 
+                                <div class="row mt-3">
+                                    //
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="staff_number">Profile:
+                                                    </label>
+                                                    <div
+                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   value="{{$user->roles()->first()->name ?? 'N/A'}}"
+                                                                   class="form-control
+                                                                   form-control-sm"
+                                                                   id="currentProfile"
+                                                                   name="currentProfile"
+                                                                   required
+                                                            />
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
+                                                                    <i class="fas fa-user-shield">
+                                                                    </i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row mt-5">
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
