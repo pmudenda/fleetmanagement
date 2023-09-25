@@ -21,7 +21,7 @@
                     <div class="card card-outline">
                         <div class="card-header">
                             <div class="card-tools">
-                                @if(!$selfDelegation)
+                                {{--@if(!$selfDelegation)
                                     <div class="col-xs-12 col-sm-6 col-md-5">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
@@ -58,7 +58,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endif
+                                @endif--}}
                             </div>
                         </div>
                         <div class="card-body box-profile">
@@ -154,7 +154,7 @@
                             </p>
                         </div>
                         <!-- /.card-body -->
-                        @if(!$selfDelegation)
+                        {{--@if(!$selfDelegation)
                             <div class="card-footer">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -182,22 +182,23 @@
                                     </div>
                                 </div>
                             </div>
-                        @endif
+                        @endif--}}
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-sm-7 pl-0">
-                    <div class="card">
-                        <div class="card-header ">
-                            <div class="card-title">
-                                <span>Select User to delegate your profile</span>
+                <form role="form"
+                      method="post"
+                      action="{{route('user.profile.delegation.store')}}">
+                    @csrf
+                    <div class="col-xs-12 col-sm-7 pl-0">
+                        <div class="card">
+                            <div class="card-header ">
+                                <div class="card-title">
+                                    <span>Select User to delegate your profile</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body ">
-                            <form role="form"
-                                  method="post"
-                                  action="{{route('user.profile.delegation.store')}}">
-                                @csrf
+                            <div class="card-body ">
+
                                 <div class="row">
                                     <div class="col-xs-12 col-6">
                                         <div class="container-fluid pl-0">
@@ -267,6 +268,7 @@
                                                         class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <div class="input-group">
                                                             <input type="datetime-local"
+                                                                   onkeydown="return false"
                                                                    class="form-control
                                                                    form-control-sm"
                                                                    id="startDate"
@@ -296,6 +298,7 @@
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <input type="datetime-local"
+                                                               onkeydown="return false"
                                                                class="form-control
                                                                form-control-sm"
                                                                id="endDate"
@@ -321,7 +324,7 @@
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                                                     <textarea type="text"
                                                               id="remarks"
-                                                              minlength="20"
+                                                              minlength="50"
                                                               maxlength="255"
                                                               required
                                                               name="remarks"
@@ -341,10 +344,12 @@
                                         Submit
                                     </button>
                                 </div>
-                            </form>
+
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
+
             </div>
         </div>
 
@@ -357,11 +362,11 @@
             let id = 0;
             const appMessages = {
                 profileDelegationTitle: 'Profile Delegation',
-                selfDelegation: 'You can not delegate a profile to the owner.'
+                selfDelegation: 'You can not delegate a profile to the same employee as the owner.'
             };
 
             $(document).on('input', '.comments', function (event) {
-                this.value = this.value.toUpperCase();
+                this.value = this.value?.trim().toUpperCase();
             });
 
             $(document).on('click', '.deleteButton', function (e) {
