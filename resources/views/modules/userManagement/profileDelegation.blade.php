@@ -330,6 +330,10 @@
     <script>
         (function (tmsApp, $) {
             let id = 0;
+            const appMessages = {
+                profileDelegationTitle: 'Profile Delegation',
+                selfDelegation: 'You can not delegate a profile to the owner.'
+            };
 
             // submission of record data at creation
             $('form[name="configurationTableForm"]').on('submit', function (e) {
