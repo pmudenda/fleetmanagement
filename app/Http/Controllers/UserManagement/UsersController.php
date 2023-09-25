@@ -7,6 +7,7 @@ use App\Constants\SystemMessages;
 use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserOnBoardingException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DelegateProfile;
 use App\Http\Requests\UserOnboardingRequest;
 use App\Http\Requests\UserProfileUpdate;
 use App\Http\Requests\UserSync;
@@ -186,7 +187,7 @@ class UsersController extends Controller
     }
 
 
-    public function delegation(Request $request): View
+    public function delegation(DelegateProfile $request): View
     {
         $this->verifyRequestSignature($request);
 
