@@ -2631,20 +2631,18 @@ const serviceTableRowTemplate = ` <tr class="increment">
 
         tmsApp.confirm(
             "Are you sure ?",
-            "The data entered on this line will be cleared out, if not saved already," +
-            " you will not be able to recover it",
+            "You want to delete this item ",
             "Yes",
             "No",
             function (value) {
-
+                console.log("Confirmation Response in Callback" + value)
                 $(tableRow).remove();
 
                 if (!valueId || valueId === "0") {
                     if (tableId === 'services_table') {
-                        const regNo = $('[name="vehicle_reg_no"]').val();
-                        $(table).find('[name="vehicle_registration"]').val(regNo);
+                        const serviceVehicleRegistration = $('[name="serviceVehicleRegistration"]').val();
+                        $(table).find('[name="vehicle_registration"]').val(serviceVehicleRegistration);
                     }
-
                     return;
                 }
 

@@ -7,7 +7,13 @@
             <div class="col-xs-12 col-sm-6 col-md-6">
                 <div class="container-fluid pl-0">
                     <div class="row">
-                        <input type="hidden" value="{{$materialsHeader->id ?? 0 }}" name="materialHeaderId">
+                        <input type="hidden" value="{{$materialsHeader->id ?? 0 }}"
+                               name="materialHeaderId"
+                        />
+                        <input
+                            type="hidden"
+                            name="serviceVehicleRegistration"
+                            value="{{$details->reg_no ?? ''}}"/>
                         <div class="form-group row">
                             <label
                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
@@ -32,12 +38,6 @@
                                         class="form-select form-select-sm"
                                         name="serviceItemType"
                                         id="serviceItemType">
-                                        {{--  <option value="{{RequisitionItemTypes::StockItemCode}}">STOCK
-                                              ITEM
-                                          </option>
-                                          <option value="{{RequisitionItemTypes::NonStockItemCode}}">NON
-                                              STOCK ITEM
-                                          </option>--}}
                                         <option value="{{RequisitionItemTypes::SERVICE_ITEM_CODE}}">
                                             SERVICE
                                         </option>
@@ -182,27 +182,6 @@
                                 @endif
                             </div>
                         </div>
-
-                        {{--<div id="storeContainer" style="display: none;" class="form-group row">
-                            <label
-                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                for="staff_name">
-                                Store:
-                            </label>
-                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                <input type="hidden"
-                                       id="store_code"
-                                       value="{{$officeDetails->store_code ?? ''}}"
-                                       name="store_code"/>
-                                <input type="text"
-                                       class="form-control form-control-sm"
-                                       id="store_name"
-                                       value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
-                                       placeholder=""
-                                       name="store_name"/>
-                            </div>
-                        </div>--}}
-
                     </div>
                 </div>
             </div>

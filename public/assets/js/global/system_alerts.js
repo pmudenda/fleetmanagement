@@ -98,6 +98,8 @@
                 confirmButtonText: confirmButtonText === "" || confirmButtonText == null ? 'Yes, Proceed' : confirmButtonText,
                 cancelButtonText: cancelButtonText === "" || cancelButtonText == null ? 'No, cancel' : cancelButtonText,
             }).then((result) => {
+                console.log('Confirm response ' + result.value);
+
                 if (result.value) {
                     setTimeout(function () {
                         if (typeof confirmCallback !== 'function') {
