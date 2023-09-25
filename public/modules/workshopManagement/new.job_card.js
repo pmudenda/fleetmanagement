@@ -2164,8 +2164,8 @@ const serviceTableRowTemplate = ` <tr class="increment">
                     );
                 break;
             case 'imprestItemTotalPrice':
-                let imprestTotalPriceInputs = $(element).closest('table')
-                    .find('[input="imprestItemTotalPrice"]');
+                let imprestTotalPriceInputs = $('table#pettyCashItemsTable')
+                    .find('[name=imprestItemTotalPrice]');
 
                 let imprestTotal = 0;
                 for (let input in imprestTotalPriceInputs) {
