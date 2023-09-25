@@ -105,8 +105,10 @@ class MaterialValidationService
                 . str_replace("-", "", str_replace(" ", "", $article));
 
             if (in_array($key, array_keys($articlesMap))) {
-                $message = str_replace('@article', $article,
-                    str_replace('@reg',
+                $message = str_replace(
+                    Articles::ARTICLE_FIELD,
+                    $article,
+                    str_replace(Articles::REG_FIELD,
                         $registrationNumber,
                         SystemMessages::DUPLICATE_ARTICLE));
                 throw new MaterialReservationException($message);
