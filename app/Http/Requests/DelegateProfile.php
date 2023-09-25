@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,8 +27,8 @@ class DelegateProfile extends FormRequest
             'profileOwner' => 'required|string|max:10|exists:App\Models\User,staff_no',
             'staffNumber' => 'required|string|max:10|exists:App\Models\User,staff_no',
             'employeeName' => 'required|string',
-            'startDate' => 'required|',
-            'endDate' => 'required|',
+            'startDate' => 'required|after_or_equals:'.Carbon::now(),
+            'endDate' => 'required|after_or_equals:'.Carbon::now(),
             'remarks' => 'required|string|max:255|min:50',
         ];
     }
