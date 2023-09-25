@@ -3,10 +3,10 @@
 namespace App\Constants;
 class WorkflowActions
 {
-    const approve = 'approve';
-    const reject = 'reject';
-    const sendBack = 'send_back';
-    const resubmitted = 'resubmit';
+    const APPROVE = 'approve';
+    const REJECT = 'reject';
+    const SEND_BACK = 'send_back';
+    const RESUBMIT = 'resubmit';
 
     public static function submit(): int
     {

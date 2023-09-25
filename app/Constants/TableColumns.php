@@ -5,4 +5,6 @@ namespace App\Constants;
 class TableColumns
 {
     const REG_NO = 'reg_no';
+    const ARTICLE_CODE = "code_article";
+    const STATUS = "status";
 }

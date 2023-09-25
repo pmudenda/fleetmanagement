@@ -801,7 +801,7 @@ class FuelRequisitionService
             }
         } else {
             $status = '';
-            if (strtolower($submittedAction) == WorkflowActions::approve) {
+            if (strtolower($submittedAction) == WorkflowActions::APPROVE) {
                 $status = StatusHelper::partiallyAuthorised();
                 $message = self::APPROVED . $nextUser;
             } elseif ($action == WorkflowActions::sendBack()) {
@@ -878,19 +878,19 @@ class FuelRequisitionService
         $actionTaken = '';
         $message = '';
 
-        if ($submittedAction === WorkflowActions::approve) {
+        if ($submittedAction === WorkflowActions::APPROVE) {
             $action = WorkflowActions::approve();
             $actionTaken = "Approved";
             $message = 'Request Approved Successfully';
-        } elseif ($submittedAction === WorkflowActions::reject) {
+        } elseif ($submittedAction === WorkflowActions::REJECT) {
             $action = WorkflowActions::reject();
             $actionTaken = "Rejected";
             $message = 'Request Rejected';
-        } elseif ($submittedAction === WorkflowActions::sendBack) {
+        } elseif ($submittedAction === WorkflowActions::SEND_BACK) {
             $action = WorkflowActions::sendBack();
             $actionTaken = "SendBack";
             $message = 'Request Sent Back To Originator';
-        } elseif ($submittedAction === WorkflowActions::resubmitted) {
+        } elseif ($submittedAction === WorkflowActions::RESUBMIT) {
             $action = WorkflowActions::resubmit();
             $actionTaken = "Resubmit";
             $message = 'Task Resubmitted To Previous Authority For Approval';

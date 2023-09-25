@@ -4,8 +4,12 @@ namespace App\Services\WorkShopManagement;
 
 use App\Constants\SystemMessages;
 use App\Constants\WorkflowModules;
+use App\Enums\RequisitionItemTypes;
+use App\Enums\WorkflowProcessCodes;
 use App\Events\PettyCashRaised;
 use App\Exceptions\DataNotFoundException;
+use App\Exceptions\InvalidArticleType;
+use App\Exceptions\MaterialReservationException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\WorkShopManagement\PettyCashItems;
 use App\Models\WorkShopManagement\ImprestBuyDetail;
@@ -20,6 +24,12 @@ use PDO;
 class ImprestBuyService
 {
     const RESULT = ':result';
+    private MaterialValidationService $materialValidationService;
+
+    public function __construct(MaterialValidationService $materialValidationService)
+    {
+        $this->materialValidationService = $materialValidationService;
+    }
 
     /**
      * @param string $imprestReferenceNumber
@@ -43,9 +53,32 @@ class ImprestBuyService
         Log::info("Logging Response From Petty Cash System");
     }
 
+    /**
+     * @throws InvalidArticleType
+     * @throws MaterialReservationException
+     */
     public function save(PettyCashItems $request): void
     {
         $user = auth()->user();
+
+        $itemType = "";
+        $requestItemType = $request->get('itemType');
+        if ($requestItemType == RequisitionItemTypes::STOCK_ITEM_CODE) {
+            $itemType = RequisitionItemTypes::STOCK_ITEM;
+        } elseif ($requestItemType == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
+            $itemType = RequisitionItemTypes::NON_STOCK_ITEM;
+        }
+
+        $registrationNumber = $request->get('registrationNumber');
+
+        $this->materialValidationService->validateArticle(
+            $request,
+            $registrationNumber,
+            $itemType,
+            "imprestArticleCode",
+            'IMP'
+        );
+
         DB::beginTransaction();
 
         $imprestReferenceNumber = DocumentNumberGenerationService::generateReferenceNumber(

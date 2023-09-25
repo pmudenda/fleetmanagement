@@ -201,5 +201,10 @@ class StatusHelper
         return '99';
     }
 
+    public static function activeArticle(): string
+    {
+        return "11";
+    }
+
 
 }

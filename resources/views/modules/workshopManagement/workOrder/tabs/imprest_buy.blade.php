@@ -21,8 +21,10 @@
             </tr>
             </thead>
             <tbody>
+            @php $totalAmount = 0; $pettyCashItemsCount = 0; @endphp
             @if($pettyCashItems->isNotEmpty())
                 @foreach($pettyCashItems as $pettyCashItem)
+                    @php $totalAmount += $pettyCashItem->total_price; $pettyCashItemsCount +=1 @endphp
                     <tr>
                         <td class="showNumber">
                             <input
@@ -54,7 +56,8 @@
                                    value="{{$pettyCashItem->material_code}}"
                                    class="form-control form-control-sm"/>
                         </td>
-                        <td><textarea rows="4"
+                        <td>
+                            <textarea rows="4"
                                       type="text"
                                       readonly
                                       class="form-control"
@@ -96,7 +99,6 @@
                                         value="deleteRow"
                                         class="btn btn-sm btn-danger p-2">
                                     <i class="fas fa-trash m-0"></i>
-                                    {{$pettyCashItem->status}}
                                 </button>
                             @endif
                         </td>
@@ -104,14 +106,68 @@
                 @endforeach
             @endif
             </tbody>
-        </table>
-        <button type="button" class="btn btn-sm btn-success pull-right"
-                data-bs-target="#pettyCashModal"
-                data-bs-toggle="modal">
-            <i class="fas fa-plus"></i>
-            Add Item
-        </button>
 
+            <tfoot>
+            @if($pettyCashItems->isNotEmpty())
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right">
+                        <strong>Total Qty</strong>
+                    </td>
+                    <td>{{$pettyCashItemsCount}}</td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right">
+                        <strong>Total Amount</strong>
+                    </td>
+                    <td>{{number_format($totalAmount, 2)}}</td>
+                    <td></td>
+                </tr>
+
+            @else
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right">
+                        <strong>Total Qty</strong>
+                    </td>
+                    <td>0</td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right">
+                        <strong>Total Amount</strong>
+                    </td>
+                    <td>0.00</td>
+                    <td></td>
+                </tr>
+            @endif
+            </tfoot>
+        </table>
+        @if($pettyCashItems->isNotEmpty())
+            @if(in_array(StatusHelper::new(), $pettyCashItems->pluck('status')->toArray()))
+                <button type="button" class="btn btn-sm btn-success pull-right"
+                        title="You can not raise petty cash,
+                        because you have an Un-Authorised Request">
+                    <i class="fas fa-plus"></i>
+                    Add Item
+                </button>
+            @else
+                <button type="button" class="btn btn-sm btn-success pull-right"
+                        data-bs-target="#pettyCashModal"
+                        data-bs-toggle="modal">
+                    <i class="fas fa-plus"></i>
+                    Add Item
+                </button>
+            @endif
+        @else
+            <button type="button" class="btn btn-sm btn-success pull-right"
+                    data-bs-target="#pettyCashModal"
+                    data-bs-toggle="modal">
+                <i class="fas fa-plus"></i>
+                Add Item
+            </button>
+        @endif
     </div>
 </div>
 
@@ -206,7 +262,16 @@
                                                class="form-control"
                                                value="{{Auth::user()->cc_code}}"
                                                readonly
-                                               required>
+                                               required
+                                        />
+
+                                        <input type="hidden"
+                                               name="registrationNumber"
+                                               class="form-control"
+                                               value="{{$details->reg_no}}"
+                                               readonly
+                                               required
+                                        />
                                     </div>
                                 </div>
                             </div>

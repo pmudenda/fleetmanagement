@@ -800,6 +800,12 @@ const serviceTableRowTemplate = ` <tr class="increment">
             let formData = {
                 modelName: formSel.data('modelName'),
                 submitForm: true,
+                costCenter: $('[name="cost_center"]').val(),
+                pettyCashBuyItemType: $('[name="pettyCashBuyItemType"]').val(),
+                imprestPurchaseOffice: $('[name="imprestPurchaseOffice"]').val(),
+                imprestWorkshopCode: $('[name="imprestWorkshopCode"]').val(),
+                registrationNumber: $('[name="registrationNumber"]').val(),
+
                 workshopReference: $('[name="workshop_reference"]').val(),
                 jobCardNumber: $('[name="job_card_number"]').val(),
                 imprestProjectNumber: $('[name="imprestProjectNumber"]').val(),

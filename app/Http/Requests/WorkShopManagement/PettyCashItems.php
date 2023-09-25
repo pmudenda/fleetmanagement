@@ -26,12 +26,17 @@ class PettyCashItems extends FormRequest
     public function rules(): array
     {
         return [
-            "workshopReference" => self::REQUIRED_STRING_RULE,
-            "jobCardNumber" => self::REQUIRED_STRING_RULE,
+            "workshopReference" => self::REQUIRED_STRING_RULE . '|max:20',
+            "jobCardNumber" => self::REQUIRED_STRING_RULE . '|max:20',
+            "costCenter" => self::REQUIRED_STRING_RULE,
+            "pettyCashBuyItemType" => self::REQUIRED_STRING_RULE,
+            "imprestWorkshopCode" => self::REQUIRED_STRING_RULE,
+            "registrationNumber" => self::REQUIRED_STRING_RULE . '|max:10',
+            "imprestPurchaseOffice" => self::REQUIRED_STRING_RULE,
             'totalPayment' => 'required|numeric|max:2000',
             "items.*.imprestVehicleRegistration" => self::REQUIRED_STRING_RULE . '|max:10',
-            "items.*.imprestArticles" => self::REQUIRED_STRING_RULE,// "010404-0542",
-            "items.*.imprestArticleCode" => self::REQUIRED_STRING_RULE,// "010404-0542",
+            "items.*.imprestArticles" => self::REQUIRED_STRING_RULE,
+            "items.*.imprestArticleCode" => self::REQUIRED_STRING_RULE,
             "items.*.imprestArticleDescription" => self::REQUIRED_STRING_RULE . '|max:255',
             "items.*.imprestItemQty" => self::REQUIRED_NUMERIC_RULE,
             "items.*.imprestItemUnitOfMeasure" => self::REQUIRED_STRING_RULE,
