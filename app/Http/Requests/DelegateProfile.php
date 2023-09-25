@@ -23,12 +23,12 @@ class DelegateProfile extends FormRequest
     public function rules(): array
     {
         return [
+            'profileOwner' => 'required|string|max:10|exists:App\Models\User,staff_no',
+            'staffNumber' => 'required|string|max:10|exists:App\Models\User,staff_no',
+            'employeeName' => 'required|string',
+            'startDate' => 'required|',
+            'endDate' => 'required|',
             'remarks' => 'required|string|max:255|min:50',
-            'staffNumber'=>'',
-            'employeeName'=>'',
-            'startDate'=>'',
-            'endDate'=> 'required|',
-            ''=>'',
         ];
     }
 }

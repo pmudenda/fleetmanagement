@@ -94,7 +94,7 @@
 
                             <p class="text-muted text-center">{{ $user->staff_no ?? '' }}</p>
 
-                            <input type="hidden" name="profileOwnerId" value="{{ $user->staff_no ?? '' }}"/>
+                            <input type="hidden" name="profileOwner" value="{{ $user->staff_no ?? '' }}"/>
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
@@ -491,7 +491,7 @@
                             return;
                         }
 
-                        if (document.querySelector('[name="profileOwnerId"]').value === staff_number) {
+                        if (document.querySelector('[name="profileOwner"]').value === staff_number) {
                             tmsApp.showSystemMessage(
                                 appMessages.profileDelegationTitle,
                                 appMessages.selfDelegation,
