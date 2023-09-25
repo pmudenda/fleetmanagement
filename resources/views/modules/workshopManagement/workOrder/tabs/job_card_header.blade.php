@@ -8,14 +8,15 @@
                         <div class="row">
                             <div class="form-group row">
                                 <label
-                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                        for="staff_no">Registration #:
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                    for="staff_no">Registration #:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <div class="input-group">
                                         <input type="text"
                                                @if(!empty($details->reg_no)) readonly="readonly" @endif
                                                data-action="{{route('requisition.vehicle.details')}}"
+                                               data-value="{{route('accident.reports.references')}}"
                                                class="form-control form-control-sm"
                                                value="{{$details->reg_no ?? ''}}"
                                                id="vehicle_registration"
@@ -31,7 +32,9 @@
                                         </div>
                                     </div>
 
-                                    <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
+                                    <input type="hidden"
+                                           value="{{$details->job_card_no ?? 0}}"
+                                           name="job_card_number"/>
 
                                 </div>
                             </div>
@@ -44,8 +47,8 @@
                         <div class="row">
                             <div class="form-group row">
                                 <label
-                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                        for="staff_no">Date In :
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                    for="staff_no">Date In :
                                 </label>
                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                     <input type="text"
@@ -71,7 +74,7 @@
                         <div class="row">
                             <div class="form-group row">
                                 <div
-                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                     <div class="control-input">
                                         <div class="link-field ui-front"
                                              style="position: relative;">
@@ -83,12 +86,12 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select
-                                            data-value="{{$details->workshop_code ?? ''}}"
-                                            required
-                                            class="form-select form-select-sm"
-                                            name="workshop"
-                                            autocomplete="off"
-                                            id="workshop">
+                                        data-value="{{$details->workshop_code ?? ''}}"
+                                        required
+                                        class="form-select form-select-sm"
+                                        name="workshop"
+                                        autocomplete="off"
+                                        id="workshop">
                                     </select>
                                 </div>
                             </div>
@@ -101,8 +104,8 @@
                         <div class="row">
                             <div class="form-group row">
                                 <label
-                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                        for="job_card_no">
+                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                    for="job_card_no">
                                     Time In:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -130,13 +133,14 @@
                         <div class="row">
                             <div class="form-group row">
                                 <label
-                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                        for="staff_name">
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                    for="staff_name">
                                     Repair Type:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select name="repairType"
-                                            @if(!empty($details->reg_no)) readonly="readonly" @endif
+                                            @if(!empty($details->reg_no))
+                                                readonly="readonly" @endif
                                             id="repairTypeDropdownList"
                                             data-value="{{$details->repair_type ?? ''}}"
                                             class="form-select form-select-sm when_valid"
@@ -168,8 +172,8 @@
                         <div class="row">
                             <div class="form-group row">
                                 <label
-                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                        for="staff_name">
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                    for="staff_name">
                                     Service Advisor:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -206,13 +210,18 @@
                         <div class="row">
                             <div class="form-group row">
                                 <label
-                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                        for="staff_name">
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                    for="staff_name">
                                     Accident No:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <input name="accident_number"
+                                           type="hidden"
+                                           required
+                                    />
+                                    <input type="text"
                                            id="accident_number"
+                                           readonly
                                            class="form-control form-control-sm when_valid"
                                            required/>
                                 </div>
@@ -228,8 +237,8 @@
                         <div class="row">
                             <div class="form-group row">
                                 <label
-                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                        for="current_odometer">Odometer value:</label>
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                    for="current_odometer">Odometer value:</label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <div class="input-group">
                                         <input type="number"
@@ -253,8 +262,8 @@
                         <div class="row" style="display: none;">
                             <div class="form-group row">
                                 <label
-                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                        for="staff_no">Date Expected Out:
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                    for="staff_no">Date Expected Out:
                                 </label>
                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                     <input type="text"
@@ -281,8 +290,8 @@
                         <div class="row">
                             <div class="form-group row">
                                 <label
-                                        class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                        for="fuel_level">
+                                    class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                    for="fuel_level">
                                     Fuel Level :
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -302,8 +311,8 @@
                         <div class="row">
                             <div class="form-group row">
                                 <label
-                                        class="col-xs-12 col-sm-12 col-md-5 col-lg-4"
-                                        for="sub_fuel_level">
+                                    class="col-xs-12 col-sm-12 col-md-5 col-lg-4"
+                                    for="sub_fuel_level">
                                     Sub-Tank Fuel Level :
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -325,8 +334,8 @@
                         <div class="row">
                             <div class="form-group row">
                                 <label
-                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                        for="staff_name">
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                    for="staff_name">
                                     Driver:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">

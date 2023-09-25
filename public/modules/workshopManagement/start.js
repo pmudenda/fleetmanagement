@@ -672,6 +672,43 @@ $(document).ready(function () {
         )
     }
 
+    function findAccidentReports() {
+        const numberPlate = $('#vehicle_registration').val();
+        if (!numberPlate) {
+            return;
+        }
+
+        let formData = new FormData();
+        formData.append('vehicleRegistration', numberPlate);
+
+        tmsApp.asyncGetFormData(
+            $('#vehicle_registration').attr('data-value') + '?vehicleRegistration=' + numberPlate,
+            formData,
+            function (response_data) {
+                if (response_data.success === 'true' || response_data.success === true) {
+                    document.querySelector('[name="accident_number"]').value = payload.reference;
+                    document.querySelector('#accident_number').value = payload.reference;
+                } else {
+
+                    tmsApp.systemError(
+                        'Accident Report',
+                        'No Accident Report found For Vehicle with Registration No.'
+                        + numberPlate
+                        + ', Check your input and try again',
+                        function () {
+                        });
+                }
+            },
+            function (xhr) {
+                tmsApp.systemError(
+                    'Accident Report',
+                    'We could not complete processing your request, please try again later',
+                    function () {
+                    });
+            }
+        )
+    }
+
     function findDriver() {
         const staff_number = document.querySelector('#driver_staff_number').value;
         if (!staff_number) {
@@ -1265,6 +1302,7 @@ $(document).ready(function () {
         $(document).on('change', '#repairTypeDropdownList', function () {
             if (this.value === document.querySelector('[name="accidentRepairs"]').value) {
                 document.querySelector("#accidentRecordNo").classList.remove('d-none');
+                findAccidentReports();
             } else {
                 document.querySelector("#accidentRecordNo").classList.add('d-none');
             }

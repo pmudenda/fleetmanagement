@@ -60,9 +60,7 @@
             </div>
 
             <div class="card-body pb-4 min-h-600px pt-0">
-
                 <x-error-view/>
-
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
                       id="jobCardForm"

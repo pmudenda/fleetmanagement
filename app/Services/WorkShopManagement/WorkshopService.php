@@ -33,7 +33,6 @@ use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Logging\HistoryService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\Workflow\WorkflowService;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -49,20 +48,22 @@ class WorkshopService
 
     private WorkflowService $workflowService;
     protected ProcurementSystemIntegrationService $procurementService;
+    private JobCardValidationService $jobCardValidationService;
 
     public function __construct(
         WorkflowService                     $workflowService,
-        ProcurementSystemIntegrationService $procurementService)
+        ProcurementSystemIntegrationService $procurementService,
+        JobCardValidationService            $jobCardValidationService)
     {
         $this->procurementService = $procurementService;
         $this->workflowService = $workflowService;
+        $this->jobCardValidationService = $jobCardValidationService;
     }
 
     public function createJobCard(JobCardRequest $request)
     {
         $user = auth()->user();
 
-        /// $receiverParts = explode("|", $request->get("service_advisor"));
         // perform update
         $vehicleRegistration = $request->get("vehicle_registration");
         if ($request->has("job_card_number") && !empty($request->get("job_card_number"))) {
@@ -73,7 +74,6 @@ class WorkshopService
             $details->reg_no = $vehicleRegistration;
             $details->workshop_code = $request->get("workshop");
             $details->repair_type = $request->get("repairType");
-
             $details->accident_ref = $request->get("accident_number") ?? "N/A";
             $details->millage_in = $request->get("current_odometer");
             $details->fuel_level_in = $request->get("fuel_level");
@@ -84,6 +84,8 @@ class WorkshopService
 
             return $details;
         }
+
+        $this->jobCardValidationService->validate($request);
 
         $workshop_number = DocumentNumberGenerationService::generateReferenceNumber(
             Modules::WORKSHOP_DOCUMENT->value);
@@ -98,16 +100,13 @@ class WorkshopService
             Log::info("Receiving Section Not Found");
         }
 
-
         $data = [
-            // "veh_reg" => $request->get("vehicle_registration"),
             "reg_no" => $vehicleRegistration,
             "job_card_no" => $doc_number,
-            // "workshop_doc_no" => $workshop_number,
             "wshp_act_code" => $workshop_number,
-            "date_in" => Carbon::now(), //Carbon::createFromFormat("Y-m-d", trim($request->get("date_of_req"))),
+            "date_in" => Carbon::now(),
             "workshop_code" => $request->get("workshop"),
-            "time_in" => Carbon::now(),//(trim($request->get("timeIn")))->format("H:i:s"),
+            "time_in" => Carbon::now(),
             "repair_type" => $request->get("repairType"),
             "received_by" => $user->staff_no,
             "receiving_section" => $section->code,
@@ -243,7 +242,7 @@ class WorkshopService
             );
         }
 
-        Log::debug(sizeof($uploadedFiles). " Images Uploaded");
+        Log::debug(sizeof($uploadedFiles) . " Images Uploaded");
         return $uploadedFiles;
     }
 
@@ -255,7 +254,7 @@ class WorkshopService
      */
     private function saveJobCardAssessmentObservation(Request $request,
                                                       string  $staffNumber,
-                                                      array $uploadedFiles): void
+                                                      array   $uploadedFiles): void
     {
 
         $toSave = [];
@@ -556,15 +555,15 @@ class WorkshopService
                 ],
 
                 [
-                'wshp_code' => $workOrder->workshop_code,
-                'section' => $labourItem['workshopSection'],
-                'evaluation' => 'N',
-                'job_card_instruction' => $labourItem['jobCardInstruction'],
-                'date_lab' => Carbon::now(),
-                'mechanic' => $labourItem['mechanic'],
-                'defect_id' => $labourItem['assignedDefectId'],
-                'created_by' => $user->staff_no,
-            ]);
+                    'wshp_code' => $workOrder->workshop_code,
+                    'section' => $labourItem['workshopSection'],
+                    'evaluation' => 'N',
+                    'job_card_instruction' => $labourItem['jobCardInstruction'],
+                    'date_lab' => Carbon::now(),
+                    'mechanic' => $labourItem['mechanic'],
+                    'defect_id' => $labourItem['assignedDefectId'],
+                    'created_by' => $user->staff_no,
+                ]);
         }
 
         DB::commit();

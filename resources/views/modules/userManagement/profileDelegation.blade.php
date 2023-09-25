@@ -269,6 +269,7 @@
                                                                    class="form-control
                                                                    form-control-sm"
                                                                    id="startDate"
+                                                                   min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                                                    name="startDate"
                                                                    required
                                                             />
@@ -297,6 +298,7 @@
                                                                class="form-control
                                                                form-control-sm"
                                                                id="endDate"
+                                                               min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                                                name="endDate"
                                                                required
                                                         />

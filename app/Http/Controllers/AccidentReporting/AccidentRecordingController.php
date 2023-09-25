@@ -6,6 +6,7 @@ use App\Enums\ConfigurationTypes;
 use App\Exceptions\DuplicateDataException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccidentRecordingRequest;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Accident;
 use App\Models\Common\File;
 use App\Models\Settings\GeneralTable;
@@ -154,6 +155,35 @@ class AccidentRecordingController extends Controller
                 'payload' => [],
 
             ]);
+        }
+    }
+
+    public function getLatestAccidentReport(Request $request): JsonResponse
+    {
+        try {
+            $data = Accident::where('vehicle_reg_no', '=', $request->get('vehicleRegistration'))
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'success',
+                    true,
+                    '',
+                    $data
+                )
+            );
+        } catch (\Exception $e) {
+            Log::error($e);
+
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    '',
+                    []
+                )
+            );
         }
     }
 }

@@ -24,6 +24,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/save/report', [AccidentRecordingController::class, 'store'])
             ->name('accident.store');
 
+        Route::get('/get/accident/reference/', [AccidentRecordingController::class, 'getLatestAccidentReport'])
+            ->name('accident.reports.references');
+
     });
 });
 
