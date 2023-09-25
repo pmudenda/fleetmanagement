@@ -9,6 +9,7 @@ use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\WorkOrderCompleted;
 use App\Exceptions\DuplicateDefectException;
+use App\Exceptions\OrganisationUnitStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
@@ -31,6 +32,7 @@ use App\Models\WorkShopManagement\WorkShopVehicleDefect;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Logging\HistoryService;
+use App\Services\Requisitions\VehicleAssignmentValidationService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\Workflow\WorkflowService;
 use Illuminate\Database\Query\JoinClause;
@@ -49,23 +51,34 @@ class WorkshopService
     private WorkflowService $workflowService;
     protected ProcurementSystemIntegrationService $procurementService;
     private JobCardValidationService $jobCardValidationService;
+    private VehicleAssignmentValidationService $vehicleAssignmentStateValidateService;
 
     public function __construct(
         WorkflowService                     $workflowService,
         ProcurementSystemIntegrationService $procurementService,
-        JobCardValidationService            $jobCardValidationService)
+        JobCardValidationService            $jobCardValidationService,
+        VehicleAssignmentValidationService  $vehicleAssignmentStateValidateService
+    )
     {
         $this->procurementService = $procurementService;
         $this->workflowService = $workflowService;
         $this->jobCardValidationService = $jobCardValidationService;
+        $this->vehicleAssignmentStateValidateService = $vehicleAssignmentStateValidateService;
     }
 
+    /**
+     * @throws OrganisationUnitStateException
+     */
     public function createJobCard(JobCardRequest $request)
     {
         $user = auth()->user();
 
         // perform update
         $vehicleRegistration = $request->get("vehicle_registration");
+
+        $this->vehicleAssignmentStateValidateService
+            ->checkVehicleAssignedUserUnitAndBuCcStatus($vehicleRegistration);
+
         if ($request->has("job_card_number") && !empty($request->get("job_card_number"))) {
             // update the information
             $details = JobCardHeader::where("job_card_no", "=", $request->get("job_card_number"))->orderBy("id", "desc")

@@ -3,7 +3,11 @@
 namespace App\Services\Requisitions;
 
 use App\Constants\Accounts;
+use App\Constants\Articles;
+use App\Constants\CostAssignment;
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
+use App\Constants\TableColumns;
 use App\Constants\WorkflowActions;
 use App\Constants\WorkflowModules;
 use App\Enums\ApprovalStage;
@@ -15,6 +19,7 @@ use App\Events\RequisitionRaised;
 use App\Events\RequisitionResubmitted;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\NoOdometerEntryException;
+use App\Exceptions\OrganisationUnitStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\FuelRequisitionPostRequest;
@@ -48,31 +53,35 @@ class FuelRequisitionService
     private WorkflowService $workflowService;
     private ProcurementSystemIntegrationService $procurementService;
     private FuelRequisitionValidationService $validationService;
+    private VehicleAssignmentValidationService $vehicleAssignmentStateValidateService;
 
     public function __construct(
         WorkflowService                     $workflowService,
         ProcurementSystemIntegrationService $procurementService,
-        FuelRequisitionValidationService    $validationService)
+        FuelRequisitionValidationService    $validationService,
+        VehicleAssignmentValidationService $vehicleAssignmentStateValidateService)
     {
         $this->workflowService = $workflowService;
         $this->procurementService = $procurementService;
         $this->validationService = $validationService;
+        $this->vehicleAssignmentStateValidateService = $vehicleAssignmentStateValidateService;
     }
 
     /**
      * @throws FuelRequisitionException|WorkflowTaskCreationFailedException
      * @throws NoOdometerEntryException
+     * @throws OrganisationUnitStateException
      */
     public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
     {
-        $isOutOfTownRequisition = $requisitionPostRequest->get(self::REQUISITION_TYPE)
-            == RequisitionTypes::OutOfTown->value;
+        $isOutOfTownRequisition = $requisitionPostRequest->get(
+                self::REQUISITION_TYPE) == RequisitionTypes::OutOfTown->value;
 
-        $isLocalRequisition = $requisitionPostRequest->get(self::REQUISITION_TYPE)
-            == RequisitionTypes::Normal->value;
+        $isLocalRequisition = $requisitionPostRequest->get(
+                self::REQUISITION_TYPE) == RequisitionTypes::Normal->value;
 
-        $isOverrideRequisition = $requisitionPostRequest->get(self::REQUISITION_TYPE)
-            == RequisitionTypes::Override->value;
+        $isOverrideRequisition = $requisitionPostRequest->get(
+                self::REQUISITION_TYPE) == RequisitionTypes::Override->value;
 
         $registrationNumber = $requisitionPostRequest->get("vehicle_registration");
 
@@ -88,7 +97,8 @@ class FuelRequisitionService
 
         $odometerOnLastIssue = $this->getOdometerOnLastIssue($registrationNumber);
 
-        $this->validationService->checkVehicleAssignedUserUnitAndBuCcStatus($registrationNumber);
+        $this->vehicleAssignmentStateValidateService
+            ->checkVehicleAssignedUserUnitAndBuCcStatus($registrationNumber);
 
         [$fuel_consumption, $tank_capacity] = $this->getVehicleFuelConsumptionData($registrationNumber);
 
@@ -268,9 +278,11 @@ class FuelRequisitionService
         $allowedStatus = [StatusHelper::active()];
 
         $count = DB::table('vm_vehicle_header header')
-            ->where("registration_number",
-                "=", $reference)
-            ->whereIn('status', $allowedStatus)
+            ->where(
+                TableColumns::VEHICLE_REGISTRATION,
+                QueryComparisonOperator::EQUALS,
+                $reference
+            )->whereIn(TableColumns::STATUS, $allowedStatus)
             ->select(
                 'header.*'
             )->count();
@@ -294,13 +306,21 @@ class FuelRequisitionService
     {
         $results = DB::table("GEN_MATERIAL_HEADERS mat_header")
             ->where("mat_header.req_no", $req_no)
-            ->join("GEN_MATERIAL_DETAILS detail", "mat_header.req_no",
-                "=", "detail.req_no")
-            ->leftJoin("CONFIG_STATUSES status", "mat_header.status",
-                "=", "status.code")
-            ->leftJoin("SEC_USERS users", "mat_header.requested_by",
-                "=", "users.staff_no")
-            ->where("status.MODULE", "=", "MAT")
+            ->join("GEN_MATERIAL_DETAILS detail",
+                "mat_header.req_no",
+                QueryComparisonOperator::EQUALS,
+                "detail.req_no")
+            ->leftJoin("CONFIG_STATUSES status",
+                "mat_header.status",
+                QueryComparisonOperator::EQUALS,
+                "status.code")
+            ->leftJoin("SEC_USERS users",
+                "mat_header.requested_by",
+                QueryComparisonOperator::EQUALS,
+                "users.staff_no")
+            ->where("status.MODULE",
+                QueryComparisonOperator::EQUALS,
+                Modules::MATERIAL)
             ->select(
                 "mat_header.*",
                 "detail.*",
@@ -356,16 +376,21 @@ class FuelRequisitionService
     {
         $queryResult = DB::table("GEN_MATERIAL_HEADERS as mat_header")
             ->leftJoin("CONFIG_STATUSES as status",
-                "mat_header.status", "=",
+                "mat_header.status",
+                QueryComparisonOperator::EQUALS,
                 "status.code")
             ->leftJoin("CONFIG_REQUISITION_TYPES req_type",
-                "mat_header.requisition_type", "=",
+                "mat_header.requisition_type",
+                QueryComparisonOperator::EQUALS,
                 "req_type.code")
             ->where("mat_header.veh_reg_no",
-                "=", $vehicle_registration)
+                QueryComparisonOperator::EQUALS,
+                $vehicle_registration
+            )
             ->select("mat_header.*",
                 "status.name as status_name",
-                "req_type.name as requisition_type")
+                "req_type.name as requisition_type"
+            )
             ->orderBy("mat_header.created_at", "desc")
             ->get();
 
@@ -378,23 +403,30 @@ class FuelRequisitionService
             return DB::table("GEN_MATERIAL_HEADERS")
                 ->leftJoin("GEN_MATERIAL_DETAILS",
                     "GEN_MATERIAL_HEADERS.req_no",
-                    "=", "GEN_MATERIAL_DETAILS.req_no")
+                    QueryComparisonOperator::EQUALS,
+                    "GEN_MATERIAL_DETAILS.req_no")
                 ->leftJoin("CONFIG_STATUSES",
                     "GEN_MATERIAL_HEADERS.status",
-                    "=", "CONFIG_STATUSES.code")
+                    QueryComparisonOperator::EQUALS,
+                    "CONFIG_STATUSES.code")
                 ->leftJoin("CONFIG_REQUISITION_TYPES",
                     "GEN_MATERIAL_HEADERS.requisition_type",
-                    "=",
+                    QueryComparisonOperator::EQUALS,
                     "CONFIG_REQUISITION_TYPES.code")
-                ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by",
-                    "=",
+                ->leftJoin("SEC_USERS",
+                    "GEN_MATERIAL_HEADERS.requested_by",
+                    QueryComparisonOperator::EQUALS,
                     "SEC_USERS.staff_no")
-                ->where("GEN_MATERIAL_HEADERS.requested_by", "=", $staff_no)
+                ->where("GEN_MATERIAL_HEADERS.requested_by",
+                    QueryComparisonOperator::EQUALS,
+                    $staff_no)
                 ->where("CONFIG_STATUSES.MODULE",
-                    "=",
+                    QueryComparisonOperator::EQUALS,
                     Modules::MATERIAL->value)
-                ->where("GEN_MATERIAL_HEADERS.IS_FUEL", "=", "Y")
-                ->select(
+                ->where("GEN_MATERIAL_HEADERS.IS_FUEL",
+                    QueryComparisonOperator::EQUALS,
+                    "Y"
+                )->select(
                     "GEN_MATERIAL_HEADERS.*",
                     "GEN_MATERIAL_DETAILS.quantity",
                     "GEN_MATERIAL_DETAILS.quantity_issued",
@@ -405,17 +437,28 @@ class FuelRequisitionService
                 ->get();
         } else {
             return DB::table("GEN_MATERIAL_HEADERS as mat_head")
-                ->leftJoin("GEN_MATERIAL_DETAILS", "mat_head.req_no",
-                    "=", "GEN_MATERIAL_DETAILS.req_no")
-                ->leftJoin("CONFIG_STATUSES", "mat_head.status",
-                    "=", "CONFIG_STATUSES.code")
+                ->leftJoin("GEN_MATERIAL_DETAILS",
+                    "mat_head.req_no",
+                    QueryComparisonOperator::EQUALS,
+                    "GEN_MATERIAL_DETAILS.req_no")
+                ->leftJoin("CONFIG_STATUSES",
+                    "mat_head.status",
+                    QueryComparisonOperator::EQUALS,
+                    "CONFIG_STATUSES.code")
                 ->leftJoin("CONFIG_REQUISITION_TYPES",
                     "mat_head.requisition_type",
-                    "=", "CONFIG_REQUISITION_TYPES.code")
-                ->leftJoin("SEC_USERS", "mat_head.requested_by",
-                    "=", "SEC_USERS.staff_no")
-                ->where("CONFIG_STATUSES.MODULE", "=", Modules::MATERIAL->value)
-                ->where("mat_head.IS_FUEL", "=", "Y")
+                    QueryComparisonOperator::EQUALS,
+                    "CONFIG_REQUISITION_TYPES.code")
+                ->leftJoin("SEC_USERS",
+                    "mat_head.requested_by",
+                    QueryComparisonOperator::EQUALS,
+                    "SEC_USERS.staff_no")
+                ->where("CONFIG_STATUSES.MODULE",
+                    QueryComparisonOperator::EQUALS,
+                    Modules::MATERIAL->value)
+                ->where("mat_head.IS_FUEL",
+                    QueryComparisonOperator::EQUALS,
+                    "Y")
                 ->select(
                     "mat_head.*",
                     "GEN_MATERIAL_DETAILS.quantity",
@@ -482,7 +525,9 @@ class FuelRequisitionService
     private function getLatestOdometerLogsEntry(mixed $registrationNumber)
     {
         $odometerLog = DB::table('vm_fleet_movement_header')
-            ->where('reg_no', '=', $registrationNumber)
+            ->where('reg_no',
+                QueryComparisonOperator::EQUALS,
+                $registrationNumber)
             ->select(DB::raw('MAX(odometer_end) as max_odometer'))
             ->first();
 
@@ -502,8 +547,12 @@ class FuelRequisitionService
     private function getOdometerOnLastIssue(mixed $registrationNumber)
     {
         return DB::table('gen_material_headers')
-            ->where('veh_reg_no', '=', $registrationNumber)
-            ->where("is_fuel", "=", "Y")
+            ->where('veh_reg_no',
+                QueryComparisonOperator::EQUALS,
+                $registrationNumber)
+            ->where("is_fuel",
+                QueryComparisonOperator::EQUALS,
+                "Y")
             ->whereIn('status', [
                 StatusHelper::partiallyReleased(),
                 StatusHelper::fuelReleased(),
@@ -522,12 +571,12 @@ class FuelRequisitionService
             ->join(
                 'vm_engine_details ed',
                 'vh.id',
-                '=',
+                QueryComparisonOperator::EQUALS,
                 'ed.vehicle_header_id'
             )
             ->where(
                 'vh.registration_number',
-                '=',
+                QueryComparisonOperator::EQUALS,
                 $vehicleReference
             )
             ->select('ed.fuel_consumption', 'ed.tank_capacity')
@@ -617,8 +666,10 @@ class FuelRequisitionService
 
         Log::info("Workflow Initiated");
 
-        $costBearer = $requisitionPostRequest->get("CostAssignedTo") == "CostCenterBasedRequisition" ?
-            "CostCenter" : "Project";
+        $costBearer = $requisitionPostRequest->get("CostAssignedTo")
+        == "CostCenterBasedRequisition" ?
+            CostAssignment::COST_CENTER :
+            CostAssignment::PROJECT;
 
         $matHeader = MaterialHeader::create(
             [
@@ -690,11 +741,14 @@ class FuelRequisitionService
      */
     private static function getFuelLastIssue(mixed $registrationNumber): array
     {
-        // 45 -cancelled, 03 -rejected , 01 - new , 02 - authorised
         $result = DB::table('gen_material_headers h')
-            ->where('veh_reg_no', '=', $registrationNumber)
-            ->where('is_fuel', '=', 'Y')
-            ->whereNotIn('status', ['45', '03', '01', '02'])
+            ->where('veh_reg_no',
+                QueryComparisonOperator::EQUALS,
+                $registrationNumber)
+            ->where('is_fuel',
+                QueryComparisonOperator::EQUALS,
+                'Y'
+            )->whereNotIn('status', Articles::OPEN_STATUS_GROUP)
             ->select(DB::raw('MAX(created_at) as max_date'))
             ->first();
 
@@ -702,15 +756,15 @@ class FuelRequisitionService
             ->leftJoin(
                 "gen_material_details d",
                 "h.req_no",
-                "=",
+                QueryComparisonOperator::EQUALS,
                 "d.req_no")
             ->where(
                 "veh_reg_no",
-                "=",
+                QueryComparisonOperator::EQUALS,
                 $registrationNumber
             )
             ->where('h.created_at',
-                "=",
+                QueryComparisonOperator::EQUALS,
                 $result->max_date
             )
             ->select(
@@ -729,7 +783,9 @@ class FuelRequisitionService
         }
 
         $quantityLastIssued = DB::table('fuel_management')
-            ->where("voucher_no", "=", $latestIssue->form_order)
+            ->where("voucher_no",
+                QueryComparisonOperator::EQUALS,
+                $latestIssue->form_order)
             ->select(DB::raw("SUM(quantity) as quantity"))
             ->groupBy('voucher_no')
             ->first();

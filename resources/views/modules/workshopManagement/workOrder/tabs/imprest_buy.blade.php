@@ -147,8 +147,8 @@
         @if($pettyCashItems->isNotEmpty())
             @if(in_array(StatusHelper::new(), $pettyCashItems->pluck('status')->toArray()))
                 <button type="button" class="btn btn-sm btn-success pull-right"
-                        title="You can not raise petty cash,
-                        because you have an Un-Authorised Request">
+                        data-toggle="tooltip"
+                        title="You can not raise petty cash,because you have an Un-Authorised Request">
                     <i class="fas fa-plus"></i>
                     Add Item
                 </button>

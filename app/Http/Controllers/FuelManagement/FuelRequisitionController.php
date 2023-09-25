@@ -9,6 +9,7 @@ use App\Exceptions\DataNotFoundException;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\LowerOdometerEntryException;
 use App\Exceptions\NoOdometerEntryException;
+use App\Exceptions\OrganisationUnitStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
@@ -166,6 +167,7 @@ class FuelRequisitionController extends Controller
                 || $e instanceof WorkflowTaskCreationFailedException
                 || $e instanceof NoOdometerEntryException
                 || $e instanceof LowerOdometerEntryException
+                || $e instanceof OrganisationUnitStateException
             ) {
                 $message = $e->getMessage();
             }

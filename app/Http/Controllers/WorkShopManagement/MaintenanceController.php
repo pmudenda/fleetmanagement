@@ -8,7 +8,11 @@ use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
 use App\Exceptions\DataNotFoundException;
 use App\Exceptions\DuplicateDefectException;
+use App\Exceptions\FuelRequisitionException;
+use App\Exceptions\LowerOdometerEntryException;
 use App\Exceptions\MaterialReservationException;
+use App\Exceptions\NoOdometerEntryException;
+use App\Exceptions\OrganisationUnitStateException;
 use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
@@ -465,13 +469,20 @@ class MaintenanceController extends Controller
                 )
             );
         } catch (\Exception $e) {
+
+            $message = ErrorMessages::getMessage('err_0005');
             Log::error($e);
+            if ($e instanceof FuelRequisitionException
+                || $e instanceof OrganisationUnitStateException
+            ) {
+                $message = $e->getMessage();
+            }
+
             return response()->json(
                 FleetMasterJsonResponse::response(
                     'failure',
                     false,
-                    ErrorMessages::getMessage("err_0005"),
-
+                    $message,
                 )
             );
         }
