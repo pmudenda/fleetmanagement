@@ -183,7 +183,9 @@ const appMessages = {
     vehicleNotFound: ' No Vehicle Found, Check your input and try again',
     generalError: 'We could not complete processing your request, please try again later',
     invalidTripPeriod: 'You have selected more than the 7 Days Limit' +
-        'If your trip is more than 7 days, you will have to create a second trip '
+        'If your trip is more than 7 days, you will have to create a second trip ',
+    profileDelegationTitle: 'Profile Delegation',
+    selfDelegation: 'You can not delegate a profile to the owner.'
 };
 
 function removeSubmissionAndDetailsOptions() {

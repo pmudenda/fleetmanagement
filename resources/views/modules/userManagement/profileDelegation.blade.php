@@ -502,7 +502,14 @@
                         }
 
                         if(document.querySelector('[name="profileOwnerId"]').value === staff_number){
-                            tmsApp.
+                            tmsApp.showSystemMessage(
+                                appMessages.profileDelegationTitle,
+                                appMessages.selfDelegation,
+                                ()=>{
+                                    return false;
+                                },
+                                'warning'
+                            );
                             return;
                         }
 
