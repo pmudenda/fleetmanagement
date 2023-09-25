@@ -311,7 +311,9 @@
                                 </div>
 
                                 <div class="modal-footer justify-content-between">
-                                    <button type="submit" class="btn btn-sm btn-success">
+                                    <button type="submit"
+                                            id="profileDelegationBtn"
+                                            class="btn btn-sm btn-success">
                                         <i class="fas fa-paper-plane"></i>
                                         Submit
                                     </button>
@@ -334,56 +336,6 @@
                 profileDelegationTitle: 'Profile Delegation',
                 selfDelegation: 'You can not delegate a profile to the owner.'
             };
-
-            // submission of record data at creation
-            $('form[name="configurationTableForm"]').on('submit', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                let $form = document.querySelector('form[name="configurationTableForm"]');
-                tmsApp.asyncPostFormData(
-                    $form.action,
-                    new FormData($form),
-                    function (asyncResponse) {
-                        if ('success' in asyncResponse && !asyncResponse.success) {
-                            if (asyncResponse.hasOwnProperty('errors')) {
-                                toastr.error(
-                                    asyncResponse.message
-                                );
-                                tmsApp.printErrorMsg(asyncResponse.errors);
-                                return
-                            }
-
-                            setTimeout(function () {
-                                tmsApp.systemError(
-                                    'System Configuration',
-                                    asyncResponse['message'],
-                                    function () {
-                                    }, 'error');
-                            }, 300);
-                            return;
-                        }
-
-                        if (asyncResponse.success) {
-                            const entry = asyncResponse.payload;
-                            tmsApp.showSystemMessage(
-                                'System Configuration',
-                                asyncResponse['message'],
-                                function () {
-                                    window.location.reload();
-                                },
-                                'success'
-                            );
-                        }
-                    },
-                    function (xhr, settings, error) {
-                        setTimeout(
-                            function () {
-                                tmsApp.showErrorMessages(xhr, 'System Configuration');
-                            },
-                            300);
-                    }
-                )
-            });
 
             $(document).on('click', '.deleteButton', function (e) {
                 let recordData = this.getAttribute('data-id');
@@ -512,6 +464,8 @@
                                 appMessages.profileDelegationTitle,
                                 appMessages.selfDelegation,
                                 function () {
+                                    $("#staffNumber").val('');
+                                    $("#profileDelegationBtn").attr('disabled', true);
                                     return false;
                                 },
                                 'warning'
@@ -519,6 +473,7 @@
                             return;
                         }
 
+                        $("#profileDelegationBtn").attr('disabled', false);
                         document.querySelector('#employeeName').value = response.payload.name;
                     })
                     .catch(function (xhr, settings, error) {
