@@ -99,7 +99,7 @@ class MaterialValidationService
         Log::info("******************************".$articleClass."**********************************");
 
         switch ($articleClass) {
-            case RequisitionItemTypes::STOCK_ITEM_CODE:
+            case RequisitionItemTypes::STOCK_ITEM:
                 $query->where(function ($q) use ($articlesTable) {
                     $q->whereIn(
                         "$articlesTable.code_group",
@@ -107,7 +107,7 @@ class MaterialValidationService
                     );
                 });
                 break;
-            case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
+            case RequisitionItemTypes::NON_STOCK_ITEM:
                 $query->where(function ($q) use ($articlesTable) {
                     $q->where(
                         "$articlesTable.code_group",
@@ -117,7 +117,7 @@ class MaterialValidationService
                 });
 
                 break;
-            case RequisitionItemTypes::SERVICE_ITEM_CODE:
+            case RequisitionItemTypes::SERVICE:
                 $query->where(function ($q) use ($articlesTable) {
                     $q->where(
                         "$articlesTable.code_group",
