@@ -64,6 +64,8 @@ class ImprestBuyService
         $articleClassCode = "";
         $requestItemType = $request->get('pettyCashBuyItemType');
 
+        Log::debug("Petty Cash Article Class $requestItemType");
+
         if ($requestItemType == RequisitionItemTypes::STOCK_ITEM_CODE) {
             $articleClassCode = RequisitionItemTypes::STOCK_ITEM;
         } elseif ($requestItemType == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
