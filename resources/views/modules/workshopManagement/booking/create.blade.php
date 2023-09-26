@@ -230,13 +230,6 @@
                                                     autocomplete="off"
                                                     id="workshop">
                                                 </select>
-                                                {{--<input type="text"
-                                                       readonly
-                                                       value="{{$officeDetails->workshop_name ?? 0}}"
-                                                       class="form-control form-control-sm"/>
-                                                <input type="hidden"
-                                                       name=""
-                                                       value="{{$officeDetails->workshop_code ?? 0}}"/>--}}
                                             </div>
                                         </div>
 
@@ -1503,16 +1496,16 @@
 
                 fetch(document.querySelector('[name="storeAndPurchaseOffice"]').value,
                     {
-                        method: "POST", // *GET, POST, PUT, DELETE, etc.
-                        mode: "cors", // no-cors, *cors, same-origin
-                        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-                        credentials: "same-origin", // include, *same-origin, omit
+                        method: "POST",
+                        mode: "cors",
+                        cache: "no-cache",
+                        credentials: "same-origin",
                         headers: {
                             "Content-Type": "application/json",
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        redirect: "follow", // manual, *follow, error
-                        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                        redirect: "follow",
+                        referrerPolicy: "no-referrer",
                         body: JSON.stringify({'workshop_code': workshopCode})
                     })
                     .then(response => response.json())
@@ -1623,6 +1616,7 @@
                     + ' ' + vehicle['brand_name']
                     + ' ' + vehicle['model_name']
                     + ' ' + vehicle['model_code'];
+
                 $("#vehicle_description").val(vLabel);
                 let row = `<tr>
                                 <th>Make</th>
@@ -1650,9 +1644,8 @@
                                 </tr>`;
 
                 $('tbody#vehicleDetails').html(row);
-                return;
 
-                // enableWebUIControls();
+                return;
 
                 if (images && images.length > 0) {
                     let frontViewImages = images.filter((image) => {
@@ -1745,10 +1738,27 @@
                         lastRow.find('[name="unit_of_measure"]').val('');
                         lastRow.find('[name="total_price"]').val('');
                         lastRow.find('#unit_price').text('');
+
+                        let row = lastRow[0];
+                        $(row).find('.select2-container').remove();
+                        $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                        let article = $(row).find('input.articleCode').val();
+
+                        let $_defect_sel = $(row).find(".articlesDropDownList");
+                        let $_defect_sel_ = $(row).find(".DropDownList");
+
+                        initArticleSelector($_defect_sel);
+
+                        initArticleSelector($_defect_sel_);
+
+                        if (document.querySelector('[name="stockItemCode"]').value === itemType) {
+                            let vehicleLineReg = $(tableId).find('[name="registration"]');
+                            $(row).find('[name="registration"]').val(vehicleLineReg).attr('readonly', true);
+                        }
                     }
 
                     if (tableId === "services_table") {
-                        // let row = lastRow[0];
                         $(lastRow).find('.select2-container').remove();
                         $(lastRow).find('.servicesArticlesDropDownList').removeClass('select2-hidden-accessible');
                         lastRow.find('[name="service_article"]').val('');
@@ -1761,18 +1771,6 @@
                         initServiceArticleSelector($_defect_sel_);
                     }
 
-                    if (tableId === "material_table") {
-                        let row = lastRow[0];
-                        $(row).find('.select2-container').remove();
-                        $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                        let article = $(row).find('input.articleCode').val();
-
-                        let $_defect_sel = $(row).find(".articlesDropDownList");
-                        let $_defect_sel_ = $(row).find(".DropDownList");
-                        initArticleSelector($_defect_sel);
-                        initArticleSelector($_defect_sel_);
-                    }
 
                 }, 600);
 

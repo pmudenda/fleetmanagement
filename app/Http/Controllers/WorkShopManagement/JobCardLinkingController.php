@@ -12,6 +12,7 @@ use App\Models\MaterialHeader;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\WorkShopMaterial;
 use App\Models\WorkShopManagement\WorkShopServiceModel;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -37,16 +38,24 @@ class JobCardLinkingController extends Controller
 
             $workOrder = JobCardHeader::where("job_card_no", "=", $reference)
                 ->first();
+
             $user = Auth::user();
 
             $materials = MaterialDetail::whereIn('id', $requestIds)->get();
-            Log::debug("Articles found :" . $materials->count());
+
+            $regVehicles = array();
 
             foreach ($materials as $material) {
                 Log::debug("Attaching Article :" . $material->material_code);
+
                 $materialHeader = MaterialHeader::where('req_no', '=', $material->req_no)->first();
 
                 Log::debug("Item Type :" . $materialHeader->item_type);
+
+                $key = $material->reg_no;
+                if (!in_array($key, array_keys($regVehicles))) {
+                    $regVehicles[$key] = $key;
+                }
 
                 switch ($materialHeader->item_type) {
                     case RequisitionItemTypes::STOCK_ITEM:
@@ -62,7 +71,7 @@ class JobCardLinkingController extends Controller
                                 "form_order" => $materialHeader->form_order,
                                 "st_pur" => $materialHeader->st_pur,
                                 "evaluation" => "Y",
-                                "date_mat" => \Carbon\Carbon::now(),
+                                "date_mat" => Carbon::now(),
                                 "unit_of_measure" => $material->unit_of_measure,
                                 "quantity" => $material->quantity,
                                 "amount" => $material->amount,
@@ -87,12 +96,7 @@ class JobCardLinkingController extends Controller
                                 "mat_code" => $material->material_code,
                             ],
                             [
-                                //"wshp_act_code" => $workOrder->wshp_act_code,
-                                //"wshp_code" => $workOrder->workshop_code,
-                                //"movt_no" => $materialHeader->form_order,
-                                //"mat_code" => $material->material_code,
-                                // "requested_by_id" => $user->id,
-                                "date_send" => \Carbon\Carbon::now(),
+                                "date_send" => Carbon::now(),
                                 "evaluation" => "Y",
                                 "unit_of_measure" => $material->unit_of_measure,
                                 "quantity" => $material->quantity,
@@ -107,7 +111,8 @@ class JobCardLinkingController extends Controller
                                 "stf_number" => $materialHeader->st_pur,
                                 "status" => $materialHeader->status,
                                 "created_by" => $user->id
-                            ]);
+                            ]
+                        );
                         break;
                     default:
                         break;
