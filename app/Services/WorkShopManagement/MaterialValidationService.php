@@ -133,7 +133,6 @@ class MaterialValidationService
         }
 
         Log::info("Dumping Query Builder");
-        var_dump($query);
         Log::info("******************************************************************************");
         return $query;
     }
