@@ -555,7 +555,7 @@ class FuelRequisitionService
                 "Y")
             ->whereIn('status', [
                 StatusHelper::partiallyReleased(),
-                StatusHelper::fuelReleased(),
+                StatusHelper::fullyReleased(),
                 StatusHelper::partiallyReleasedExpired(),
                 StatusHelper::partiallyReleasedCancelled()
             ])

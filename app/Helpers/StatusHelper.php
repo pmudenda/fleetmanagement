@@ -5,205 +5,205 @@ class StatusHelper
 {
     public static function submitted(): string
     {
-        return '99';
+        return config('status.submitted', '99');
     }
 
     public static function sentBack(): string
     {
-        return '99';
+     return config('status.sentBack', '99');
     }
 
     public static function pendingVerification(): string
     {
-        return "021";
+       return config('status.pendingVerification', '021');
     }
 
     public static function pendingGeneralDataEntry(): string
     {
-        return "100";
+        return config('status.pendingGeneralDataEntry', '100');
     }
 
     public static function pendingTechnicalDataEntry(): string
     {
-        return "101";
+        return config('status.pendingTechnicalDataEntry', '101');
     }
 
     public static function pendingAccessoriesCheckin(): string
     {
-        return "102";
+        return config('status.pendingAccessoriesCheckin', '102');
     }
 
     public static function pendingCostingDataEntry(): string
     {
-        return "103";
+        return config('status.pendingCostingDataEntry', '103');
     }
 
     public static function pendingAssignment(): string
     {
-        return "104";
+        return config('status.pendingAssignment', '104');
     }
 
     public static function active(): string
     {
-        return "01";
+        return config('status.active', '01');
     }
 
     public static function approved(): string
     {
-        return "02";
+        return config('status.approved', '02');
     }
 
     public static function new(): string
     {
-        return "01";
+        return config('status.new', '01');
     }
 
     public static function pendingApproval(): string
     {
-        return "100";
+        return config('status.pendingApproval', '100');
     }
 
     public static function authorised(): string
     {
-        return "02";
+        return config('status.authorised', '02');
     }
 
     public static function partiallyAuthorised(): string
     {
-        return "21";
+        return config('status.partiallyAuthorised', '21');
     }
 
     public static function partiallyReleased(): string
     {
-        return "26";
+        return config('status.partiallyReleased', '26');
     }
 
     public static function partiallyReleasedExpired(): string
     {
-        return "42";
+        return config('status.partiallyReleasedExpired', '42');
     }
 
     public static function onboardingComplete(): string
     {
-        return "030";
+        return config('status.onboarding_complete', '030');
     }
 
     public static function organizationStructureActive(): string
     {
-        return "00";
+        return config('status.organizationStructureActive', '00');
     }
 
     public static function activeUser(): string
     {
-        return '01';
+        return config('status.active_user', '01');
     }
 
     public static function cancelled(): string
     {
-        return "45";
+        return config('status.cancelled', '45');
     }
 
     public static function closed(): string
     {
-        return "08";
+        return config('status.closed', '08');
     }
 
     public static function rejected(): string
     {
-        return "03";
+        return config('status.rejected', '03');
     }
 
     public static function released(): string
     {
-        return "39";
+        return config('status.released', '39');
     }
 
-    public static function fuelReleased(): string
+    public static function fullyReleased(): string
     {
-        return "32";
+        return config('status.fully_released', '32');
     }
 
     /* VEHICLE STATUS */
 
     public static function vehicleActive(): string
     {
-        return "01";
+        return config('status.vehicle_active', '01');
     }
 
     public static function vehicleInactive(): string
     {
-        return "02";
+        return config('status.vehicle_inactive', '02');
     }
 
     public static function vehicleHandedOver(): string
     {
-        return "03";
+        return config('status.pending_general_data_entry', '03');
     }
 
     public static function vehicleGrounded(): string
     {
-        return "04";
+        return config('status.vehicle_grounded', '04');
     }
 
     public static function vehicleInWorkshop(): string
     {
-        return "05";
+        return config('status.vehicle_in_workshop', '05');
     }
 
     public static function vehicleScrap(): string
     {
-        return "06";
+        return config('status.vehicleScrap', '06');
     }
 
     public static function vehicleStolen(): string
     {
-        return "07";
+        return config('status.vehicleStolen', '07');
     }
 
     public static function vehicleDisposed(): string
     {
-        return "08";
+        return config('status.vehicleDisposed', '08');
     }
 
 
     public static function vehiclePendingDisposal(): string
     {
-        return "09";
+        return config('status.vehiclePendingDisposal', '09');
     }
 
     public static function vehicleSalvage(): string
     {
-        return "10";
+        return config('status.vehicleSalvage', '10');
     }
 
     public static function vehicleReRegistered(): string
     {
-        return "11";
+        return config('status.vehicleReRegistered', '11');
     }
 
     public static function inactive(): string
     {
-        return "02";
+        return config('status.inactive', "02");
     }
 
     public static function issued(): string
     {
-        return "04";
+        return config('status.issued', "04");
     }
 
     public static function partiallyReleasedCancelled(): string
     {
-        return '46';
+        return config('status.partiallyReleasedCancelled', '46');
     }
 
     public static function resubmitted(): string
     {
-        return '99';
+        return config('status.resubmitted', '99');
     }
 
     public static function activeArticle(): string
     {
-        return "11";
+        return config('status.activeArticle', '11');
     }
 
 

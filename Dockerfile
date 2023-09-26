@@ -14,7 +14,7 @@
 # most recent version of that image when you build your Dockerfile.
 # If reproducability is important, consider using a versioned tag
 # (e.g., alpine:3.17.2) or SHA (e.g., alpine:sha256:c41ab5c992deb4fe7e5da09f67a8804a46bd0592bfdf0b1847dde0e0889d2bff).
-FROM laravelsail/php81-composer as base
+FROM oraclelinux as base
 
 ################################################################################
 # Create a stage for building/compiling the application.
@@ -26,13 +26,14 @@ FROM laravelsail/php81-composer as base
 # the Awesome Compose repository: https://github.com/docker/awesome-compose
 FROM base as build
 COPY . /app
-WORKDIR /app
+WORKDIR /var/www/html
 #<<EOF /bin/hello.sh
 ##!/bin/sh
 #echo Hello world from $(whoami)! In order to get your application running in a container, take a look at the comments in the Dockerfile to get started.
 #EOF
 #RUN chmod +x /bin/hello.sh
-#RUN php artisan serve
+RUN dnf update\
+    && dnf install -y php8.2-zip
 ################################################################################
 # Create a final stage for running your application.
 #
