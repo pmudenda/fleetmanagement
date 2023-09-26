@@ -232,7 +232,7 @@
                         </a>
                         <ul class="nav nav-treeview">
 
-                            @canany([config('rights.create_job_card')])
+                            @canany([config('rights.create_job_card'), config('rights.view_job_card')])
                                 <li class="nav-item pl-2">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -277,24 +277,26 @@
                                 </li>
                             @endcanany
 
-                            <li class="nav-item pl-2">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Booking
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview pl-2">
-                                    <li class="nav-item">
-                                        <a class="nav-link"
-                                           href="{{ URL::signedRoute('new.booking') }}">
-                                            <i class="fas fa-plus nav-icon"></i>
-                                            <p>New</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            @canany([config('rights.material_booking')])
+                                <li class="nav-item pl-2">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Booking
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview pl-2">
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                               href="{{ URL::signedRoute('new.booking') }}">
+                                                <i class="fas fa-plus nav-icon"></i>
+                                                <p>New</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endcanany
 
                             @canany([config('rights.approve_workshop_requisition')])
                                 <li class="nav-item pl-2">
