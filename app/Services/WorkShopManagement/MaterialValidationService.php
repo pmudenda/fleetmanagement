@@ -64,7 +64,7 @@ class MaterialValidationService
 
             $articlesMap[$key] = $registrationNumber;
 
-            $query = DB::table($articlesTables);
+            $query = DB::table("$articlesTables");
 
             $finalQuery = $this->buildArticleTypeCheckingQuery(
                 $query,
