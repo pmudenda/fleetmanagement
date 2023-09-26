@@ -181,6 +181,7 @@ class MaterialValidationService
         Log::info("******************************************************************************");
         Log::info("                    Building Article Check Query                               ");
         Log::info("*******************************************************************************");
+
         switch ($articleClass) {
             case RequisitionItemTypes::STOCK_ITEM_CODE:
                 $query->where(function ($q) use ($articlesTable) {
@@ -217,7 +218,7 @@ class MaterialValidationService
         }
 
         Log::info("Dumping Query Builder");
-        var_dump($query);
+        Log::info("******************************************************************************");
         return $query;
     }
 
@@ -236,9 +237,9 @@ class MaterialValidationService
                                      mixed   $registrationNumber,
                                      string  $process): void
     {
-        Log::info("***********************************************************************************************");
-        Log::info("                    Validating Article Type                               ");
-        Log::info("***********************************************************************************************");
+        Log::info("==================================================================================");
+        Log::info("                    Validating Article Type                                       ");
+        Log::info("==================================================================================");
         $count = $query
             ->where(
                 TableColumns::ARTICLE_CODE,
