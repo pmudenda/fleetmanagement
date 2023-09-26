@@ -239,6 +239,11 @@ class MaterialValidationService
         Log::info("==================================================================================");
         Log::info("                    Validating Article Type                                       ");
         Log::info("==================================================================================");
+        Log::info("$articleCode");
+        Log::info("$registrationNumber");
+        Log::info("$itemType");
+        Log::info("$process");
+
         $count = $query
             ->where(
                 TableColumns::ARTICLE_CODE,
