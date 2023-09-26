@@ -4,6 +4,7 @@ namespace App\Services\WorkShopManagement;
 
 use App\Constants\Articles;
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
 use App\Enums\RequisitionItemTypes;
@@ -13,6 +14,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Requests\WorkShopManagement\WorkshopRequisitionRequest;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MaterialValidationService
 {
@@ -56,12 +58,13 @@ class MaterialValidationService
                         SystemMessages::DUPLICATE_ARTICLE
                     )
                 );
+
                 throw new MaterialReservationException($message);
             }
 
             $articlesMap[$key] = $registrationNumber;
 
-            $query = DB::table("$articlesTables");
+            $query = DB::table($articlesTables);
 
             $this->validateArticleGroup(
                 $query,
@@ -81,14 +84,14 @@ class MaterialValidationService
      * @obselete
      * @param WorkshopRequisitionRequest $requisitionPostRequest
      * @param mixed $registrationNumber
-     * @param string $item_type
+     * @param string $itemType
      * @return array
      * @throws InvalidArticleType
      * @throws MaterialReservationException
      */
     public function validateArticleOld(WorkshopRequisitionRequest $requisitionPostRequest,
                                        mixed                      $registrationNumber,
-                                       string                     $item_type
+                                       string                     $itemType
     ): array
     {
         // check each article to make sure it's of the correct type and is
@@ -97,7 +100,7 @@ class MaterialValidationService
         $articlesMap = array();
         foreach ($requisitionPostRequest->get("items") as $item) {
 
-            $item_type_code = $requisitionPostRequest->itemType;
+            $itemTypeCode = $requisitionPostRequest->itemType;
 
             $article = $item["articleCode"];
 
@@ -120,8 +123,8 @@ class MaterialValidationService
 
             $this->validateArticleGroup(
                 $query,
-                $item_type_code,
-                $item_type,
+                $itemTypeCode,
+                $itemType,
                 $articles,
                 $article,
                 $registrationNumber,
@@ -129,7 +132,7 @@ class MaterialValidationService
             );
 
         }
-        return array($item_type_code);
+        return array($itemTypeCode);
     }
 
     /**
@@ -139,15 +142,17 @@ class MaterialValidationService
      * @param mixed $articles
      * @param $articleCode
      * @param mixed $registrationNumber
+     * @param $process
      * @return void
-     * @throws MaterialReservationException
      * @throws InvalidArticleType
+     * @throws MaterialReservationException
      */
     public function validateArticleGroupOld(mixed   $itemTypeCode,
                                             Builder $query,
                                             string  $itemType,
                                             mixed   $articles, $articleCode,
-                                            mixed   $registrationNumber): void
+                                            mixed   $registrationNumber,
+                                                    $process): void
     {
         switch ($itemTypeCode) {
             case RequisitionItemTypes::STOCK_ITEM_CODE:
@@ -172,7 +177,7 @@ class MaterialValidationService
                 throw new InvalidArticleType("Invalid Article Type");
         }
 
-        $this->checkArticleType($query, $articleCode, $itemType, $registrationNumber);
+        $this->checkArticleType($query, $articleCode, $itemType, $registrationNumber, $process);
     }
 
 
@@ -201,7 +206,7 @@ class MaterialValidationService
                 $query->where(function ($q) use ($articlesTable) {
                     $q->whereIn(
                         "$articlesTable.code_group",
-                        "=",
+                        QueryComparisonOperator::EQUALS,
                         Articles::STOCK_ITEMS_GROUP
                     );
                 });
@@ -211,7 +216,7 @@ class MaterialValidationService
                 $query->where(function ($q) use ($articlesTable) {
                     $q->where(
                         "$articlesTable.code_group",
-                        "=",
+                        QueryComparisonOperator::EQUALS,
                         Articles::NON_STOCK_CODE_GROUP
                     );
                 });
@@ -221,7 +226,7 @@ class MaterialValidationService
                 $query->where(function ($q) use ($articlesTable) {
                     $q->where(
                         "$articlesTable.code_group",
-                        "=",
+                        QueryComparisonOperator::EQUALS,
                         Articles::SERVICE_GROUP_CODE
                     );
                 });
@@ -232,6 +237,8 @@ class MaterialValidationService
                 );
         }
 
+        Log::info("Dumping Query");
+        var_dump($query);
         $this->checkArticleType($query, $articleCode, $itemType, $registrationNumber, $process);
     }
 
@@ -252,15 +259,16 @@ class MaterialValidationService
         $count = $query
             ->where(
                 TableColumns::ARTICLE_CODE,
-                "=",
+                QueryComparisonOperator::EQUALS,
                 $articleCode
             )
             ->where(
                 TableColumns::STATUS,
-                "=",
+                QueryComparisonOperator::EQUALS,
                 StatusHelper::activeArticle()
             )->count();
 
+        Log::info($count);
         // article not found in the item type class
         if ($count == 0) {
             $message = "Article @articleCode is not a @itemType";
@@ -290,11 +298,15 @@ class MaterialValidationService
             $activeRequests = DB::table("gen_material_headers")
                 ->join("gen_material_details",
                     "gen_material_headers.req_no",
-                    "=",
+                    QueryComparisonOperator::EQUALS,
                     "gen_material_details.req_no"
                 )
-                ->where("gen_material_details.material_code", "=", $articleCode)
-                ->where("gen_material_details.reg_no", "=", $registrationNumber)
+                ->where("gen_material_details.material_code",
+                    QueryComparisonOperator::EQUALS,
+                    $articleCode)
+                ->where("gen_material_details.reg_no",
+                    QueryComparisonOperator::EQUALS,
+                    $registrationNumber)
                 ->whereIn("gen_material_headers.status", [
                     StatusHelper::new(),
                     StatusHelper::authorised(),
@@ -306,14 +318,14 @@ class MaterialValidationService
             $activeRequests = DB::table("wm_imprest_buy_headers header")
                 ->join("wm_imprest_buy_details detail",
                     "header.imprest_reference",
-                    "=",
+                    QueryComparisonOperator::EQUALS,
                     "detail.header_reference"
                 )
                 ->where("detail.material_code",
-                    "=",
+                    QueryComparisonOperator::EQUALS,
                     $articleCode)
                 ->where("detail.vehicle_registration",
-                    "=",
+                    QueryComparisonOperator::EQUALS,
                     $registrationNumber)
                 ->whereIn("header.status",
                     [

@@ -6,6 +6,7 @@ use App\Constants\Accounts;
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Constants\TransactionType;
+use App\Constants\ValidationProcess;
 use App\Constants\WorkflowActions;
 use App\Constants\WorkflowModules;
 use App\Enums\RequisitionItemTypes;
@@ -106,24 +107,24 @@ class WorkshopRequisitionService
         $this->validateVehicleStatus($registrationNumber);
 
         // check that each article selected is of correct class
-        $item_type = "";
+        $itemType = "";
         $workflowProcess = "";
 
         $requestItemType = $requisitionPostRequest->get('itemType');
         if ($requestItemType == RequisitionItemTypes::STOCK_ITEM_CODE) {
-            $item_type = RequisitionItemTypes::STOCK_ITEM;
+            $itemType = RequisitionItemTypes::STOCK_ITEM;
             $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
         } elseif ($requestItemType == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
-            $item_type = RequisitionItemTypes::NON_STOCK_ITEM;
+            $itemType = RequisitionItemTypes::NON_STOCK_ITEM;
             $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
         }
 
         list($item_type_code) = $this->materialValidationService->validateArticle(
             $requisitionPostRequest,
             $registrationNumber,
-            $item_type,
-            "articleCode",
-            'OT'
+            $itemType,
+            ValidationProcess::ARTICLE_FIELD,
+            ValidationProcess::OTHER
         );
 
         list($requisition_reference_number, $matHeader) = $this->saveJobCardMaterialRequest($requestItemType,
@@ -131,7 +132,7 @@ class WorkshopRequisitionService
             $workflowProcess,
             $requisitionPostRequest,
             $user,
-            $item_type,
+            $itemType,
             $validFrom,
             $dateExpected,
             $item_type_code);

@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 
-class FuelRequisitionException extends Exception
+class FuelRequisitionException extends BaseException
 {
     public function __construct(string $message = "", int $code = 0, ? Throwable $previous = null)
     {

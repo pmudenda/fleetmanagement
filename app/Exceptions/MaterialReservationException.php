@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 
-class MaterialReservationException extends Exception
+class MaterialReservationException extends BaseException
 {
     public function __construct(string $message = "", int $code = 0, ? Throwable $previous = null)
     {

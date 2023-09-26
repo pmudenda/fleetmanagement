@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class ActiveUserDelegationException extends Exception
+class ActiveUserDelegationException extends BaseException
 {
     //
 }

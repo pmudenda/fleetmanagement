@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class DataNotFoundException extends Exception
+class DataNotFoundException extends BaseException
 {
     //
 }
