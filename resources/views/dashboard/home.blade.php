@@ -265,20 +265,21 @@
                 </div>
             </div>
 
-            <div class="row">
-                <!-- Left col -->
-                <div class="col-md-12 pl-0">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">
-                                <h4>Vehicle Data Report</h4>
-                            </div>
-                            <div class="card-toolbar justify-content-end">
+            @can(config('rights.vehicle_dashboard'))
+                <div class="row">
+                    <!-- Left col -->
+                    <div class="col-md-12 pl-0">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h4>Vehicle Data Report</h4>
+                                </div>
+                                <div class="card-toolbar justify-content-end">
 
-                                <button type="button"
-                                        class="btn btn-sm btn-primary me-3"
-                                        data-menu-trigger="click"
-                                        data-menu-placement="bottom-end">
+                                    <button type="button"
+                                            class="btn btn-sm btn-primary me-3"
+                                            data-menu-trigger="click"
+                                            data-menu-placement="bottom-end">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -294,38 +295,37 @@
                                             fill="currentColor"></path>
                                     </svg>
                                 </span>
-                                    Filter
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body p-2">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div id="main" style="height:400px;"></div>
-                                </div>
-                                <div class="col-6">
-                                    <div id="pie" style="height:400px;"></div>
+                                        Filter
+                                    </button>
                                 </div>
                             </div>
-                            {{--<div class="row">
-                                <div class="col-6">
-                                    <div id="pie2" style="height:400px;"></div>
+                            <div class="card-body p-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div id="main" style="height:400px;"></div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div id="pie" style="height:400px;"></div>
+                                    </div>
                                 </div>
-                                <div class="col-6">
-                                    <div id="bar_chart" style="height:400px;"></div>
-                                </div>
-                            </div>--}}
+                                {{--<div class="row">
+                                    <div class="col-6">
+                                        <div id="pie2" style="height:400px;"></div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div id="bar_chart" style="height:400px;"></div>
+                                    </div>
+                                </div>--}}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            @endcan
         </div>
     </section>
 @endsection
 
 @push('scripts')
-    {{--@include('layouts.partials.dataTableScripts')--}}
     <script>
         window.vehicleData = {!! json_encode($vehicleData) !!};
         (function (appInstance) {

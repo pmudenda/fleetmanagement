@@ -772,10 +772,6 @@
                             $serviceTable.find('[name="service_quantity"]').val(1).attr('readonly', 'readonly');
                         }
                     }
-
-                    /*$('.quantity').attr('readonly', false);
-                    $('.technical_specification').attr('readonly', false);
-                    $('[name="unit_price"]').attr('readonly', false)*/
                 });
 
                 $(document).on('change', '[name="supplier"]', function () {
@@ -944,28 +940,34 @@
                 $(document).on('click', '#saveMaterials', function () {
                     $('a[href="#finish"]').disableBtn();
                     if (form.valid()) {
-                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                            postData(
-                                $('#material_table'),
-                                true
-                            );
-                        }, function () {
-                        });
+                        tmsApp.confirm('Confirm',
+                            'Do you want to save the changes ?',
+                            'Yes',
+                            'No',
+                            function () {
+                                postData(
+                                    $('#material_table'),
+                                    true
+                                );
+                            }, function () {
+                            });
                     }
                 });
 
                 $(document).on('click', '#saveServices', function () {
                     $('a[href="#finish"]').disableBtn();
                     if (form.valid()) {
-                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                        tmsApp.confirm('Confirm',
+                            'Do you want to save the changes ?',
+                            'Yes',
+                            'No', function () {
+                                postData(
+                                    $('#services_table'),
+                                    true
+                                );
 
-                            postData(
-                                $('#services_table'),
-                                true
-                            );
-
-                        }, function () {
-                        });
+                            }, function () {
+                            });
                     }
                 });
             }
@@ -1012,9 +1014,6 @@
                     });
 
                     obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
-                    // obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
-                    // obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
-
                     if (formSel.data('modelName') === 'Defects') {
                         obj['job_card_no'] = $('input[name="job_card_voucher"]').val();
                         obj['vehicle_registration'] = $('input[name="vehicle_registration"]').val();
@@ -1041,7 +1040,6 @@
                         obj['date_expected'] = $('[name="date_expected"]').val()?.trim();
                         obj['supplier'] = $('[name="supplier"]').val();
                         obj['store_code'] = '';
-                        // $('[name="store_code"]').val();
                         obj['store_name'] = $('[name="store_name"]').val();
                         obj['remarks'] = $('#service_comments').val();
                         obj['total_amount'] = $('#serviceTotalPrice').text();
@@ -1049,8 +1047,6 @@
                     }
                 } else {
                     $($container).find('input[name], select[name]').each(function (i, item) {
-                        // let val = item.value.replace(/,/g, '');
-
                         if (item.type === 'radio') {
                             obj[item.name] = $('[name="' + item.name + '"]:checked').val();
                         } else {
@@ -1125,7 +1121,12 @@
                         }
 
                         let workshops = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name"], "");
+                        tmsApp.populateDropDownList(
+                            selectElem,
+                            workshops,
+                            "workshop_code",
+                            ["workshop_name"],
+                            "");
 
                         let location = selectElem.attr('data-value');
 
@@ -1376,7 +1377,6 @@
                             }
                             return;
                         }
-
 
                         let dataUrl = "";
                         const $table = $('table#' + tableId);
