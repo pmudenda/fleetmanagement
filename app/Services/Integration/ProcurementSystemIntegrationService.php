@@ -4,6 +4,7 @@ namespace App\Services\Integration;
 
 use App\Constants\Accounts;
 use App\Constants\QueryComparisonOperator;
+use App\Constants\StockManagement;
 use App\Constants\SystemOfOrigin;
 use App\Constants\TransactionType;
 use App\Models\Reference\Store;
@@ -138,10 +139,19 @@ class ProcurementSystemIntegrationService
         $units = config("tables.table_names.units");
         try {
             $results = DB::table("$articles")
-                ->leftJoin("$stockManagement", "$articles.CODE_ARTICLE", "=", "$stockManagement.CODE_ARTICLE")
-                ->leftJoin("$units", "$articles.UNIT_MEASURE", "=", "$units.code_unit")
-                ->where("$stockManagement.LEVEL_TYPE", "=", "02")
-                ->where("$articles.CODE_ARTICLE", "=", $articleCode)
+                ->leftJoin("$stockManagement", "$articles.CODE_ARTICLE",
+                    QueryComparisonOperator::EQUALS,
+                    "$stockManagement.CODE_ARTICLE")
+                ->leftJoin("$units", "$articles.UNIT_MEASURE",
+                    QueryComparisonOperator::EQUALS,
+                    "$units.code_unit")
+                ->where("$stockManagement.LEVEL_TYPE",
+                    QueryComparisonOperator::EQUALS,
+                    StockManagement::COMPANY_LEVEL
+                )
+                ->where("$articles.CODE_ARTICLE",
+                    QueryComparisonOperator::EQUALS,
+                    $articleCode)
                 ->select(
                     "$units.description",
                     "$units.abbreviation",
