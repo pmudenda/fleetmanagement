@@ -38,7 +38,6 @@ class MaterialValidationService
         // check each article to make sure it's of the correct type and is
         // no active on a reservation for the same car
         $articlesTables = config("tables.table_names.articles");
-        Log::info("Articles Table" . config("tables.table_names.articles"));
         $articlesMap = array();
         $articleClass = $requisitionPostRequest->itemType;
 
@@ -94,7 +93,6 @@ class MaterialValidationService
                                                   mixed   $articlesTable
     ): Builder
     {
-        Log::info("Table Passed   $articlesTable");
         Log::info("******************************************************************************");
         Log::info("                    Building Article Check Query                               ");
         Log::info("*******************************************************************************");

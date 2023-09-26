@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
 use App\Exceptions\InvalidPurchaseOrderNumber;
 use App\Http\Responses\FleetMasterJsonResponse;
@@ -31,17 +32,19 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
 
         try {
 
-            $document_number = $request->get('document_number');
-            if (empty($document_number)) {
+            $documentNumber = $request->get('document_number');
+            if (empty($documentNumber)) {
                 throw new BadRequestException('Bad request, data missing');
             }
 
             $purchaseOrder = PurchaseOrder::where('document_no',
-                '=',
-                $document_number)->get();
+                QueryComparisonOperator::EQUALS,
+                $documentNumber)->get();
             if (empty($purchaseOrder)) {
-                throw new InvalidPurchaseOrderNumber('Invalid Purchase Order Number,
-                The Purchase Order Number did not match any record');
+                throw new InvalidPurchaseOrderNumber(
+                    'Invalid Purchase Order Number,
+                The Purchase Order Number did not match any record'
+                );
             }
 
             return response()->json(

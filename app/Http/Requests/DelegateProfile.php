@@ -24,8 +24,8 @@ class DelegateProfile extends FormRequest
     public function rules(): array
     {
         return [
-            'profileOwner' => 'required|string|max:10|exists:App\Models\User,staff_no',
-            'staffNumber' => 'required|string|max:10|exists:App\Models\User,staff_no',
+            'profileOwner' => 'required|string|max:10|exists:SEC_USERS,staff_no',
+            'staffNumber' => 'required|string|max:10|exists:SEC_USERS,staff_no',
             'employeeName' => 'required|string',
             'currentProfile' => 'required|numeric',
             'startDate' => 'required|date_format:Y-m-d|after_or_equals:'.Carbon::now(),

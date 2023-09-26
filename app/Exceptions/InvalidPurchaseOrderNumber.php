@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class InvalidPurchaseOrderNumber extends Exception
+class InvalidPurchaseOrderNumber extends BaseException
 {
     //
 }
