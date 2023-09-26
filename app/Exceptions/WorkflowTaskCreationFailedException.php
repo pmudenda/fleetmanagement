@@ -3,9 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
+use Faker\Provider\Base;
 use Throwable;
 
-class WorkflowTaskCreationFailedException extends Exception
+class WorkflowTaskCreationFailedException extends BaseException
 {
     public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null)
     {

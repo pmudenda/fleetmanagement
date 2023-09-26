@@ -3,8 +3,11 @@
 namespace App\Services\WorkShopManagement;
 
 use App\Constants\Accounts;
+use App\Constants\Articles;
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
+use App\Constants\TableColumns;
 use App\Constants\TransactionType;
 use App\Constants\ValidationProcess;
 use App\Constants\WorkflowActions;
@@ -14,8 +17,9 @@ use App\Enums\WorkflowProcessCodes;
 use App\Events\JobCardCreated;
 use App\Events\RequisitionRaised;
 use App\Exceptions\DataNotFoundException;
+use App\Exceptions\DuplicateArticleException;
 use App\Exceptions\FuelRequisitionException;
-use App\Exceptions\InvalidArticleType;
+use App\Exceptions\InvalidArticleTypeException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\ServiceRequisitionException;
 use App\Exceptions\VehicleStateException;
@@ -77,14 +81,16 @@ class WorkshopRequisitionService
      * @return void
      * @throws VehicleStateException
      */
-    public function validateVehicleStatus($reference): void
+    public function verifyVehicleIsActive($reference): void
     {
         $allowedStatus = [StatusHelper::active(), StatusHelper::vehicleInWorkshop()];
 
         $vehicle = VehicleHeader::where("registration_number", "=", $reference)->first();
 
         if (empty($vehicle) || !in_array($vehicle->status, $allowedStatus)) {
-            throw new VehicleStateException(ErrorMessages::getMessage("err_0004"), 1000);
+            throw new VehicleStateException(
+                ErrorMessages::getMessage("err_0004")
+            );
         }
     }
 
@@ -104,7 +110,7 @@ class WorkshopRequisitionService
         /********************************************** Save Data **************************************/
         $user = auth()->user();
 
-        $this->validateVehicleStatus($registrationNumber);
+        $this->verifyVehicleIsActive($registrationNumber);
 
         // check that each article selected is of correct class
         $itemType = "";
@@ -162,7 +168,7 @@ class WorkshopRequisitionService
      * @throws VehicleStateException
      * @throws WorkflowTaskCreationFailedException
      * @throws MaterialReservationException
-     * @throws InvalidArticleType
+     * @throws InvalidArticleTypeException
      */
     public function processMaterialReservation(
         WorkshopMaterialResevationRequest $materialReservationRequest
@@ -188,7 +194,7 @@ class WorkshopRequisitionService
             throw new WorkflowTaskCreationFailedException("Article Item Type Is Missing");
         }
 
-        $articles = config("tables.table_names.articles");
+        $articlesTable = config("tables.table_names.articles");
 
         $materials = $materialReservationRequest->get("items");
 
@@ -212,19 +218,25 @@ class WorkshopRequisitionService
 
             $articlesMap[$key] = $registrationNumber;
 
-            $this->validateVehicleStatus($registrationNumber);
+            $this->verifyVehicleIsActive($registrationNumber);
 
-            $query = DB::table("$articles");
-            $itemTypeCode = $materialReservationRequest->get('itemType');
+            $query = DB::table("$articlesTable");
+            $articleClass = $materialReservationRequest->get('itemType');
 
-            $this->materialValidationService->validateArticleGroup(
+            $finalQuery = $this->materialValidationService->buildArticleTypeCheckingQuery(
                 $query,
-                $itemTypeCode,
-                $itemType,
-                $articles,
+                $articleClass,
+                $articlesTable
+            );
+
+            // move to caller
+            $this->materialValidationService->checkArticleType(
+                $finalQuery,
                 $article,
+                $itemType,
                 $registrationNumber,
-                'OT');
+                ValidationProcess::OTHER
+            );
         }
 
         DB::beginTransaction();
@@ -333,9 +345,13 @@ class WorkshopRequisitionService
     }
 
     /**
+     * @param WorkshopServiceRequisitionRequest $requisitionPostRequest
+     * @return JsonResponse
+     * @throws DuplicateArticleException
+     * @throws InvalidArticleTypeException
+     * @throws MaterialReservationException
+     * @throws VehicleStateException
      * @throws WorkflowTaskCreationFailedException
-     * @throws FuelRequisitionException
-     * @throws MaterialReservationException|VehicleStateException
      */
     public function processJobCardServiceRequest(
         WorkshopServiceRequisitionRequest $requisitionPostRequest
@@ -350,26 +366,29 @@ class WorkshopRequisitionService
         /********************************************** Save Data **************************************/
         $user = Auth()->user();
 
-        $this->validateVehicleStatus($registrationNumber);
+        $this->verifyVehicleIsActive($registrationNumber);
 
         // check that each article selected is of correct class
-        $itemType = "";
+        $articleClassCode = "";
         $workflowProcess = "";
 
         $requestItemType = $requisitionPostRequest->itemType;
         if ($requestItemType == RequisitionItemTypes::SERVICE_ITEM_CODE
             || $requestItemType == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
-            $itemType = RequisitionItemTypes::SERVICE;
+            $articleClassCode = RequisitionItemTypes::SERVICE;
             $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
         }
-        list($item, $itemTypeCode) = $this->validateServiceArticle(
+
+        list($itemTypeCode) = $this->validateServiceArticle(
             $requisitionPostRequest,
-            $itemType,
+            $articleClassCode,
             $registrationNumber
         );
 
-        DB::beginTransaction();
-        $formOrder = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
+
+        $formOrder = DocumentNumberGenerationService::generateReferenceNumber(
+            WorkflowModules::STOCK_REQUISITION
+        );
         $purchaseProcessReference = DocumentNumberGenerationService::generateReferenceNumber(
             WorkflowModules::PURCHASE_REQUISITION
         );
@@ -377,13 +396,14 @@ class WorkshopRequisitionService
         Log::info("Requisition Ref. " . $purchaseProcessReference);
         Log::info("Doc No. " . $formOrder);
         Log::info("Requisition Item Type " . $requisitionPostRequest->get("itemType"));
-        Log::info("Determined Requisition Item Type Code " . $itemType);
+        Log::info("Determined Requisition Item Type Code " . $articleClassCode);
 
         $shortDescription = "Workshop Requisition for Vehicle Reg No. " . $registrationNumber;
         $longDescription = "Workshop Requisition Ref.No. "
             . $purchaseProcessReference
             . " For Vehicle Reg No. " . $registrationNumber;
 
+        DB::beginTransaction();
         $justification = $requisitionPostRequest->remarks;
 
         $this->workflowService->initiateWorkflowProcess(
@@ -409,7 +429,7 @@ class WorkshopRequisitionService
                 "req_no" => $purchaseProcessReference,
                 "form_order" => $formOrder,
                 "workshop_no" => $workshopCode,
-                "item_type" => $itemType,
+                "item_type" => $articleClassCode,
                 "requested_by" => $user->staff_no,
                 "veh_reg_no" => $registrationNumber,
                 "purchase_office" => $requisitionPostRequest->get("purchase_office"),
@@ -495,13 +515,17 @@ class WorkshopRequisitionService
         RequisitionRaised::dispatch($matHeader, 'job_card_material_requisition');
         Log::info("Requisition " . $purchaseProcessReference . " raised successfully");
 
-        return response()->json([
-            "success" => true,
-            "message" => "Requisition "
+        return response()->json(
+            FleetMasterJsonResponse::response(
+                '',
+                true,
+                "Requisition "
                 . $purchaseProcessReference
                 . " Generated and submitted to the next authority for Authorisation",
-            "redirectUrl" => URL::signedRoute("list.workshop.requisition"),
-        ]);
+                [],
+                URL::signedRoute("list.workshop.requisition")
+            )
+        );
     }
 
     /**
@@ -536,7 +560,7 @@ class WorkshopRequisitionService
             $article = $item["service_article"];
             $registrationNumber = $item['vehicle_registration'];
 
-            $this->validateVehicleStatus($registrationNumber);
+            $this->verifyVehicleIsActive($registrationNumber);
 
             $itemTypeCode = $serviceReservationRequest->get('itemType');
             $key = str_replace("_", "", str_replace(" ", "", $registrationNumber))
@@ -1207,6 +1231,8 @@ class WorkshopRequisitionService
      * @param mixed $registrationNumber
      * @return array
      * @throws MaterialReservationException
+     * @throws DuplicateArticleException
+     * @throws InvalidArticleTypeException
      */
     public function validateServiceArticle(
         WorkshopServiceRequisitionRequest $requisitionPostRequest,
@@ -1215,84 +1241,52 @@ class WorkshopRequisitionService
     ): array
     {
         // check each article to make sure it's of the correct type and is no active on a reservation for the same car
-        // $stockManagement = config("tables.table_names.stockManagement");
-        $articles = config("tables.table_names.articles");
+        $articlesTable = config("tables.table_names.articles");
+        $articlesMap = array();
+        $articleClass = $requisitionPostRequest->itemType;
 
         foreach ($requisitionPostRequest->get("items") as $item) {
-            $query = DB::table("$articles");
-            $itemTypeCode = $requisitionPostRequest->itemType;
 
-            if ($itemTypeCode == RequisitionItemTypes::STOCK_ITEM_CODE) {
-                $query->where(function ($q) use ($articles) {
-                    $q->whereIn("$articles.code_group", self::STOCK_ITEMS_GROUP);
-                });
-            } elseif ($itemTypeCode == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
-                $query->where(function ($q) use ($articles) {
-                    $q->where("$articles.code_group", "=", "40");
-                });
-            } elseif ($itemTypeCode == RequisitionItemTypes::SERVICE_ITEM_CODE) {
-                $query->where(function ($q) use ($articles) {
-                    $q->where("$articles.code_group", "=", "41")
-                        ->where("$articles.code_subgroup", "=", "02");
-                });
-            }
+            $article = $item["service_article"];
 
-            $count = $query
-                ->where("code_article", "=", $item["service_article"])
-                ->where("status", "=", "11")
-                ->count();
+            $key = str_replace("_", "", str_replace(" ", "", $registrationNumber))
+                . str_replace("-", "", str_replace(" ", "", $article));
 
-            if ($count == 0) {
-                $message = "Article @articleCode is not a @itemType";
-                $articleType = '';
-                if ($itemType == RequisitionItemTypes::STOCK_ITEM) {
-                    $articleType = "Stock Item";
-                } elseif ($itemType == RequisitionItemTypes::NON_STOCK_ITEM) {
-                    $articleType = "Non Stock Item";
-                } elseif ($itemType == RequisitionItemTypes::SERVICE) {
-                    $articleType = "Service";
-                }
-
-                throw new MaterialReservationException(
-                    str_replace("@itemType", $articleType,
-                        str_replace(self::ARTICLE_CODE, $item["service_article"], $message)
+            if (in_array($key, array_keys($articlesMap))) {
+                $message = str_replace(
+                    Articles::ARTICLE_FIELD,
+                    $article,
+                    str_replace(
+                        Articles::REG_FIELD,
+                        $registrationNumber,
+                        SystemMessages::DUPLICATE_ARTICLE
                     )
                 );
+
+                throw new DuplicateArticleException($message);
             }
 
-            $activeRequests = DB::table("gen_material_headers")
-                ->join("gen_material_details",
-                    "gen_material_headers.req_no",
-                    "=",
-                    "gen_material_details.req_no")
-                ->where("gen_material_details.material_code",
-                    "=",
-                    $item["service_article"]
-                )
-                ->where("gen_material_details.reg_no",
-                    "=",
-                    $registrationNumber
-                )
-                ->where("gen_material_headers.is_fuel", "=", 'N')
-                ->whereIn("gen_material_headers.status", [
-                    StatusHelper::new(),
-                    StatusHelper::authorised(),
-                    StatusHelper::partiallyReleased()
-                ])->select("gen_material_headers.*")
-                ->first();
+            $articlesMap[$key] = $registrationNumber;
 
-            if (!empty($activeRequests)) {
-                $message = "Article @articleCode is already on requisition/reservation @req_no for Vehicle @reg";
-                throw new MaterialReservationException(
-                    str_replace("@req_no", $activeRequests->req_no,
-                        str_replace("@reg", $registrationNumber,
-                            str_replace(self::ARTICLE_CODE, $item["service_article"], $message)
-                        ))
-                );
-            }
+            $query = DB::table("$articlesTable");
 
+            $finalQuery = $this->materialValidationService->buildArticleTypeCheckingQuery(
+                $query,
+                $articleClass,
+                $articlesTable
+            );
+
+            // move to caller
+            $this->materialValidationService->checkArticleType(
+                $finalQuery,
+                $article,
+                $itemType,
+                $registrationNumber,
+                ValidationProcess::OTHER
+            );
         }
-        return array($item, $itemTypeCode);
+
+        return array($articleClass);
     }
 
     /**

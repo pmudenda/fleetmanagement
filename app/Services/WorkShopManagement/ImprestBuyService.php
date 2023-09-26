@@ -8,7 +8,7 @@ use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\PettyCashRaised;
 use App\Exceptions\DataNotFoundException;
-use App\Exceptions\InvalidArticleType;
+use App\Exceptions\InvalidArticleTypeException;
 use App\Exceptions\MaterialReservationException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\WorkShopManagement\PettyCashItems;
@@ -54,7 +54,7 @@ class ImprestBuyService
     }
 
     /**
-     * @throws InvalidArticleType
+     * @throws InvalidArticleTypeException
      * @throws MaterialReservationException
      */
     public function save(PettyCashItems $request): void

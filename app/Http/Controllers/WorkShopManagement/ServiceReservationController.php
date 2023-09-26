@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\WorkShopManagement;
 
 use App\Constants\ErrorMessages;
+use App\Exceptions\BaseException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -33,9 +34,7 @@ class ServiceReservationController extends Controller
             Log::error($e);
             $message = ErrorMessages::getMessage("err_0005");
 
-            if ($e instanceof MaterialReservationException
-                || $e instanceof WorkflowTaskCreationFailedException
-                || $e instanceof VehicleStateException) {
+            if ($e instanceof BaseException) {
                 $message = $e->getMessage();
             }
             return response()->json([

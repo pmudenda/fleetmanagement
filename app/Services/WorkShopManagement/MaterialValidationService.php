@@ -7,8 +7,9 @@ use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
+use App\Constants\ValidationProcess;
 use App\Enums\RequisitionItemTypes;
-use App\Exceptions\InvalidArticleType;
+use App\Exceptions\InvalidArticleTypeException;
 use App\Exceptions\MaterialReservationException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\WorkShopManagement\WorkshopRequisitionRequest;
@@ -23,23 +24,23 @@ class MaterialValidationService
      * @param mixed $registrationNumber
      * @param string $itemType
      * @param string $articleFieldName
-     * @param string $processId
+     * @param string $process
      * @return array
-     * @throws InvalidArticleType
+     * @throws InvalidArticleTypeException
      * @throws MaterialReservationException
      */
     public function validateArticle(mixed  $requisitionPostRequest,
                                     mixed  $registrationNumber,
                                     string $itemType,
                                     string $articleFieldName,
-                                    string $processId
+                                    string $process
     ): array
     {
         // check each article to make sure it's of the correct type and is
         // no active on a reservation for the same car
         $articlesTables = config("tables.table_names.articlesTables");
         $articlesMap = array();
-        $itemTypeCode = $requisitionPostRequest->itemType;
+        $articleClass = $requisitionPostRequest->itemType;
 
         foreach ($requisitionPostRequest->get("items") as $item) {
 
@@ -66,42 +67,32 @@ class MaterialValidationService
 
             $query = DB::table($articlesTables);
 
-            $this->validateArticleGroup(
+            $finalQuery = $this->buildArticleTypeCheckingQuery(
                 $query,
-                $itemTypeCode,
-                $itemType,
-                $articlesTables,
-                $article,
-                $registrationNumber,
-                $processId
+                $articleClass,
+                $articlesTables
             );
 
+            // move to caller
+            $this->checkArticleType($finalQuery, $article, $itemType, $registrationNumber, $process);
+
         }
-        return array($itemTypeCode);
+
+        return array($articleClass);
     }
 
-    /**
-     * @obselete
-     * @param WorkshopRequisitionRequest $requisitionPostRequest
-     * @param mixed $registrationNumber
-     * @param string $itemType
-     * @return array
-     * @throws InvalidArticleType
-     * @throws MaterialReservationException
-     */
-    public function validateArticleOld(WorkshopRequisitionRequest $requisitionPostRequest,
+    /*public function validateArticleOld(WorkshopRequisitionRequest $requisitionPostRequest,
                                        mixed                      $registrationNumber,
                                        string                     $itemType
     ): array
     {
         // check each article to make sure it's of the correct type and is
         // no active on a reservation for the same car
-        $articles = config("tables.table_names.articles");
+        $articlesTable = config("tables.table_names.articles");
         $articlesMap = array();
+        $articleClass = $requisitionPostRequest->itemType;
+
         foreach ($requisitionPostRequest->get("items") as $item) {
-
-            $itemTypeCode = $requisitionPostRequest->itemType;
-
             $article = $item["articleCode"];
 
             $key = str_replace("_", "", str_replace(" ", "", $registrationNumber))
@@ -119,35 +110,29 @@ class MaterialValidationService
 
             $articlesMap[$key] = $registrationNumber;
 
-            $query = DB::table("$articles");
+            $query = DB::table("$articlesTable");
 
-            $this->validateArticleGroup(
+            $finalQuery = $this->buildArticleTypeCheckingQuery(
                 $query,
-                $itemTypeCode,
-                $itemType,
-                $articles,
+                $articleClass,
+                $articlesTable
+            );
+
+            // move to caller
+            $this->checkArticleType(
+                $finalQuery,
                 $article,
+                $itemType,
                 $registrationNumber,
-                'OT'
+                ValidationProcess::OTHER
             );
 
         }
-        return array($itemTypeCode);
-    }
 
-    /**
-     * @param mixed $itemTypeCode
-     * @param Builder $query
-     * @param string $itemType
-     * @param mixed $articles
-     * @param $articleCode
-     * @param mixed $registrationNumber
-     * @param $process
-     * @return void
-     * @throws InvalidArticleType
-     * @throws MaterialReservationException
-     */
-    public function validateArticleGroupOld(mixed   $itemTypeCode,
+        return array($articleClass);
+    }*/
+
+    /*public function validateArticleGroupOld(mixed   $itemTypeCode,
                                             Builder $query,
                                             string  $itemType,
                                             mixed   $articles, $articleCode,
@@ -174,34 +159,27 @@ class MaterialValidationService
                 });
                 break;
             default:
-                throw new InvalidArticleType("Invalid Article Type");
+                throw new InvalidArticleTypeException("Invalid Article Type");
         }
 
         $this->checkArticleType($query, $articleCode, $itemType, $registrationNumber, $process);
-    }
+    }*/
 
 
     /**
      * @param Builder $query
-     * @param mixed $itemTypeCode
-     * @param string $itemType
+     * @param mixed $articleClass
      * @param mixed $articlesTable
-     * @param string $articleCode
-     * @param mixed $registrationNumber
-     * @param string $process
-     * @return void
-     * @throws InvalidArticleType
+     * @return Builder
+     * @throws InvalidArticleTypeException
      * @throws MaterialReservationException
      */
-    public function validateArticleGroup(Builder $query,
-                                         mixed   $itemTypeCode,
-                                         string  $itemType,
-                                         mixed   $articlesTable,
-                                         string  $articleCode,
-                                         mixed   $registrationNumber,
-                                         string  $process): void
+    public function buildArticleTypeCheckingQuery(Builder $query,
+                                                  mixed   $articleClass,
+                                                  mixed   $articlesTable
+    ): Builder
     {
-        switch ($itemTypeCode) {
+        switch ($articleClass) {
             case RequisitionItemTypes::STOCK_ITEM_CODE:
                 $query->where(function ($q) use ($articlesTable) {
                     $q->whereIn(
@@ -232,14 +210,29 @@ class MaterialValidationService
                 });
                 break;
             default:
-                throw new InvalidArticleType(
+                throw new InvalidArticleTypeException(
                     ErrorMessages::getMessage('err_0036')
                 );
         }
 
-        Log::info("Dumping Query");
+        /*if ($articleClass == RequisitionItemTypes::STOCK_ITEM_CODE) {
+            $query->where(function ($q) use ($articlesTable) {
+                $q->whereIn("$articlesTable.code_group", self::STOCK_ITEMS_GROUP);
+            });
+        } elseif ($articleClass == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
+            $query->where(function ($q) use ($articlesTable) {
+                $q->where("$articlesTable.code_group", "=", "40");
+            });
+        } elseif ($articleClass == RequisitionItemTypes::SERVICE_ITEM_CODE) {
+            $query->where(function ($q) use ($articlesTable) {
+                $q->where("$articlesTable.code_group", "=", "41")
+                    ->where("$articlesTable.code_subgroup", "=", "02");
+            });
+        }*/
+
+        Log::info("Dumping Query Builder");
         var_dump($query);
-        $this->checkArticleType($query, $articleCode, $itemType, $registrationNumber, $process);
+        return $query;
     }
 
     /**
@@ -247,15 +240,19 @@ class MaterialValidationService
      * @param string $articleCode
      * @param string $itemType
      * @param mixed $registrationNumber
-     * @param $process
+     * @param string $process
      * @return void
      * @throws MaterialReservationException
      */
     public function checkArticleType(Builder $query,
                                      string  $articleCode,
                                      string  $itemType,
-                                     mixed   $registrationNumber, $process): void
+                                     mixed   $registrationNumber,
+                                     string  $process): void
     {
+        Log::info("==========================================================================");
+        Log::info("                    Validating Article Type                               ");
+        Log::info("==========================================================================");
         $count = $query
             ->where(
                 TableColumns::ARTICLE_CODE,
@@ -269,7 +266,7 @@ class MaterialValidationService
             )->count();
 
         Log::info($count);
-        // article not found in the item type class
+
         if ($count == 0) {
             $message = "Article @articleCode is not a @itemType";
             if ($itemType == RequisitionItemTypes::STOCK_ITEM) {
@@ -294,7 +291,7 @@ class MaterialValidationService
         }
 
         $activeRequests = 0;
-        if ($process == 'OT') {
+        if ($process == ValidationProcess::OTHER) {
             $activeRequests = DB::table("gen_material_headers")
                 ->join("gen_material_details",
                     "gen_material_headers.req_no",
