@@ -183,22 +183,24 @@
                                                                     'step'=> '1',
                                                                     'reference'=>$workshop->job_card_no
                                                                     ])}}">
-                                                                    Process Job Card
+                                                                    Complete Job Card Opening
                                                                 </a>
                                                             </li>
                                                         @endif
 
-                                                        @if($workshop->status != StatusHelper::closed())
-                                                            <li>
-                                                                <a class="dropdown-item"
-                                                                   data-kt-action="exit"
-                                                                   href="{{URL::signedRoute('exit.from.card',[
+                                                        @canany([config('rights.close_job_card')])
+                                                            @if($workshop->status != StatusHelper::closed())
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       data-kt-action="exit"
+                                                                       href="{{URL::signedRoute('exit.from.card',[
                                                                             'reference'=>$workshop->job_card_no
-                                                                   ])}}">
-                                                                    Exit From Workshop
-                                                                </a>
-                                                            </li>
-                                                        @endif
+                                                                        ])}}">
+                                                                        Exit From Workshop
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        @endcanany
                                                     </ul>
                                                 </div>
                                             </td>

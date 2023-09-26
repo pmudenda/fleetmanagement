@@ -2,6 +2,8 @@
 
 namespace App\Services\WorkShopManagement;
 
+use App\Constants\QueryComparisonOperator;
+use App\Constants\TableColumns;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
 use App\Helpers\StatusHelper;
@@ -80,16 +82,22 @@ class JobCardDetailsService
     public function getWorkshopsRepairTypesAndSections(): array
     {
         $repairTypes = GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
-            ->where("active", "=", 1)
+            ->where("active",
+                QueryComparisonOperator::EQUALS,
+                1)
             ->orderBy("name")
             ->get();
 
-        $accessories = Accessory::where("status", "=", StatusHelper::active())
+        $accessories = Accessory::where(TableColumns::STATUS,
+            QueryComparisonOperator::EQUALS,
+            StatusHelper::active())
             ->orderBy("name")
             ->get();
 
         $workshopSections = GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)
-            ->where("active", "=", 1)
+            ->where("active",
+                QueryComparisonOperator::EQUALS,
+                1)
             ->orderBy("name")
             ->get();
 
@@ -102,7 +110,9 @@ class JobCardDetailsService
      */
     public function getFullJobCardData($reference): array
     {
-        $accessoriesCheckedIn = WorkShopVehicleAccessory::where("job_card_no", "=", $reference)
+        $accessoriesCheckedIn = WorkShopVehicleAccessory::where("job_card_no",
+            QueryComparisonOperator::EQUALS,
+            $reference)
             ->get();
 
         $details = $this->workshopService->getJobCardDetails($reference);
@@ -113,17 +123,28 @@ class JobCardDetailsService
         $defectCategory = 'WCT';
         $defects = DB::table("wm_vehicle_defects def")
             ->join("wm_workshop_tables wckt", function (JoinClause $join) use ($defectCategory) {
-                $join->on("def.defect_category_code", "=", "wckt.code")
+                $join->on("def.defect_category_code",
+                    QueryComparisonOperator::EQUALS,
+                    "wckt.code")
                     ->where(function ($query) use ($defectCategory) {
-                        $query->where("wckt.type_code", "=", $defectCategory);
+                        $query->where("wckt.type_code",
+                            QueryComparisonOperator::EQUALS,
+                            $defectCategory
+                        );
                     });
             })
             ->join("wm_workshop_tables wckta",
                 function (JoinClause $join) use ($vehicleSys) {
-                    $join->on("def.veh_sys", "=", "wckta.code")
-                        ->where("wckta.type_code", "=", $vehicleSys);
+                    $join->on("def.veh_sys",
+                        QueryComparisonOperator::EQUALS,
+                        "wckta.code")
+                        ->where("wckta.type_code",
+                            QueryComparisonOperator::EQUALS,
+                            $vehicleSys);
                 })
-            ->where("def.workshop_reference", "=", $details->wshp_act_code)
+            ->where("def.workshop_reference",
+                QueryComparisonOperator::EQUALS,
+                $details->wshp_act_code)
             ->select(
                 "def.id",
                 "def.veh_sys",
@@ -138,9 +159,13 @@ class JobCardDetailsService
                 "def.section_code"
             )->get();
 
-        $comments = WorkShopComment::where("workshop_reference", "=", $details->wshp_act_code)->get();
+        $comments = WorkShopComment::where("workshop_reference",
+            QueryComparisonOperator::EQUALS,
+            $details->wshp_act_code)->get();
 
-        $materialsHeader = WorkShopMaterialHeader::where("job_card_no", "=", $reference)->first();
+        $materialsHeader = WorkShopMaterialHeader::where("job_card_no",
+            QueryComparisonOperator::EQUALS,
+            $reference)->first();
 
         $materials = $this->workshopRequisitionService
             ->getWorkShopRequisitionItems($reference);
@@ -149,17 +174,21 @@ class JobCardDetailsService
 
         $nonStock = $this->workshopRequisitionService->getWorkShopRequisitionNonStockItems($details->wshp_act_code);
 
-        $observation = AssessmentObservation::where("reference", "=", $details->wshp_act_code)->get();
+        $observation = AssessmentObservation::where("reference",
+            QueryComparisonOperator::EQUALS,
+            $details->wshp_act_code)->get();
 
         $pettyCashItems = $this->workshopRequisitionService->getPettyCashItems($reference);
 
         $materials = $materials->merge($nonStock);
 
         $labour = DB::table('wm_workshop_labours labour')
-            ->where("wshp_act_code", "=", $details->wshp_act_code)
+            ->where("wshp_act_code",
+                QueryComparisonOperator::EQUALS,
+                $details->wshp_act_code)
             ->join('wm_workshop_tables defect',
                 'labour.defect_id',
-                '=',
+                QueryComparisonOperator::EQUALS,
                 'defect.id')
             ->select('labour.*', 'defect.description as defect_name')
             ->get();

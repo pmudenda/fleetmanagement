@@ -2504,7 +2504,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
             $table.find('tbody').find('[name="vehicle_registration"]').val(vehicleReg).attr('readonly');
 
         } else if (tableId === "part8") {
-            $table.find('tbody').append(defectTableRowTemplate);
+            $table.find('tbody').append(window.defectTableRowTemplate);
         }
 
         let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
@@ -2513,8 +2513,9 @@ const serviceTableRowTemplate = ` <tr class="increment">
         lastRow.attr('data-record-id', 0);
 
         if (tableId === "material_table") {
+            const articleClass = document.querySelector('[name="itemType"]').value;
             lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
-            if (itemType === document.querySelector('[name="stockItemCode"]').value) {
+            if (articleClass === document.querySelector('[name="stockItemCode"]').value) {
                 lastRow.find('[name="quantity"]').val('').attr('readonly', false);
                 lastRow.find('[name="unit_price"]').val('').attr('readonly', true);
             } else {

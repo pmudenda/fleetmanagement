@@ -2,12 +2,14 @@
 <div class="row pt-5">
     <div class="table-responsive">
         <button type="button"
+                style="display: none"
                 class="btn btn-sm btn-primary d-none pull-right mb-5"
                 value="reassignMultiple">
             <i class="fa fa-plus"></i>
             Reassign Selected
         </button>
         <button type="button"
+                style="display: none"
                 class="btn btn-sm btn-success d-none pull-right mb-5"
                 value="assignMultiple">
             <i class="fa fa-plus"></i>

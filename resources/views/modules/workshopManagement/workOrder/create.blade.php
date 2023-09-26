@@ -515,7 +515,7 @@
             articleInStore: 'The Article  @articleNumber - @description  is available in  @store'
                 + ' You can proceed to request from stores'
         }
-        const defectTableRowTemplate = `
+        window.defectTableRowTemplate = `
                                 <tr class="increment">
                                     <td class="showNumber">
                                         <select name="vehicleSystem"

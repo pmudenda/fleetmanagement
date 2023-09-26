@@ -13,6 +13,7 @@ class EmailNotificationService
 {
     const NEW_TASK_NEEDS_YOUR_ATTENTION = "New Task Needs Your Attention";
     const REQUEST_RESUBMISSION = "Fuel Request Resubmission";
+    const REQUISITION_APPROVAL_UPDATE = "Requisition Approval Update";
 
     public static function sendNotification($recipient, $sender, $record, string $action): bool
     {
@@ -23,21 +24,7 @@ class EmailNotificationService
 
             switch ($action) {
                 case 'requisition':
-                    $details = [
-                        'name' => $names,
-                        'systemLink' => URL::signedRoute('show.workshop.requisition', [
-                            'ref' => $record->req_no
-                        ]),
-                        'identity' => $record->req_no,
-                        'subject' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
-                        'title' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
-                        'body' => "Please be informed that {$sender->name}
-                        has raised a request for spares, with reference
-                               <strong>{$record->req_no}</strong>
-                               in Fleet Master.
-                               <br>Kindly click on the button below to login to ZFMS
-                               and take action.<br> Regards. "
-                    ];
+                    $details = self::newFuelRequisition($names, $record, $sender);
                     break;
                 case 'job_card_created':
                     $details = [
@@ -108,18 +95,7 @@ class EmailNotificationService
                     ];
                     break;
                 case 'partiallyAuthorised':
-                    $details = [
-                        'name' => $names,
-                        'systemLink' => URL::signedRoute('show.fuel.requisition', ['ref' => $record['req_no']]),
-                        'identity' => $record['req_no'],
-                        'subject' => "Requisition Approval Update",
-                        'title' => "Requisition Approval Update",
-                        'body' => "Please be informed that fuel requisition, Ref. No.
-                        <strong>{$record['req_no']} you raised has been partially authorised
-                        and submitted for further approval.
-                        <br>To Take action immediately, click on the button below
-                        .<br>Regards. "
-                    ];
+                    $details = self::fuelFullyAuthorised($names, $record['req_no']);
                     break;
                 case 'fullyAuthorised':
                     $details = [
@@ -140,8 +116,8 @@ class EmailNotificationService
                         'name' => $names,
                         'systemLink' => URL::signedRoute('edit.fuel.requisition', ['ref' => $record['req_no']]),
                         'identity' => $record['req_no'],
-                        'subject' => "Requisition Approval Update",
-                        'title' => "Requisition Approval Update",
+                        'subject' => self::REQUISITION_APPROVAL_UPDATE,
+                        'title' => self::REQUISITION_APPROVAL_UPDATE,
                         'body' => "Please be informed that fuel requisition, Ref. No.
                         <strong>{$record['req_no']} you raised has been sent back.
                         The details can be viewed on the task.
@@ -150,20 +126,7 @@ class EmailNotificationService
                     ];
                     break;
                 case 'resubmitted':
-                    $details = [
-                        'name' => $names,
-                        'systemLink' => URL::signedRoute('show.fuel.requisition', [
-                            'ref' => $record['ref_no']
-                        ]),
-                        'identity' => $record['ref_no'],
-                        'subject' => self::REQUEST_RESUBMISSION,
-                        'title' => self::REQUEST_RESUBMISSION,
-                        'body' => "Fuel request, with reference
-                               <strong>{$record['ref_no']}</strong> has been resubmitted for your approval
-                               with the following comments {$record['remarks']}.
-                               <br>To Take action immediately, click on the button below
-                               .<br>Regards. "
-                    ];
+                    $details = self::fuelRequisitionResubmitted($names, $record);
                     break;
                 default:
                     return false;
@@ -178,5 +141,74 @@ class EmailNotificationService
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param mixed $names
+     * @param $record
+     * @param $sender
+     * @return array
+     */
+    public static function newFuelRequisition(mixed $names, $record, $sender): array
+    {
+        return [
+            'name' => $names,
+            'systemLink' => URL::signedRoute('show.workshop.requisition', [
+                'ref' => $record->req_no
+            ]),
+            'identity' => $record->req_no,
+            'subject' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
+            'title' => self::NEW_TASK_NEEDS_YOUR_ATTENTION,
+            'body' => "Please be informed that {$sender->name}
+                        has raised a request for spares, with reference
+                               <strong>{$record->req_no}</strong>
+                               in Fleet Master.
+                               <br>Kindly click on the button below to login to ZFMS
+                               and take action.<br> Regards. "
+        ];
+    }
+
+    /**
+     * @param mixed $names
+     * @param $record
+     * @return array
+     */
+    public static function fuelRequisitionResubmitted(mixed $names, $record): array
+    {
+        return [
+            'name' => $names,
+            'systemLink' => URL::signedRoute('show.fuel.requisition', [
+                'ref' => $record['ref_no']
+            ]),
+            'identity' => $record['ref_no'],
+            'subject' => self::REQUEST_RESUBMISSION,
+            'title' => self::REQUEST_RESUBMISSION,
+            'body' => "Fuel request, with reference
+                               <strong>{$record['ref_no']}</strong> has been resubmitted for your approval
+                               with the following comments {$record['remarks']}.
+                               <br>To Take action immediately, click on the button below
+                               .<br>Regards. "
+        ];
+    }
+
+    /**
+     * @param mixed $names
+     * @param $req_no
+     * @return array
+     */
+    public static function fuelFullyAuthorised(mixed $names, $req_no): array
+    {
+        return [
+            'name' => $names,
+            'systemLink' => URL::signedRoute('show.fuel.requisition', ['ref' => $req_no]),
+            'identity' => $req_no,
+            'subject' => self::REQUISITION_APPROVAL_UPDATE,
+            'title' => self::REQUISITION_APPROVAL_UPDATE,
+            'body' => "Please be informed that fuel requisition, Ref. No.
+                        <strong>{$req_no} you raised has been partially authorised
+                        and submitted for further approval.
+                        <br>To Take action immediately, click on the button below
+                        .<br>Regards. "
+        ];
     }
 }
