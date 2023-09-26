@@ -178,6 +178,7 @@ class MaterialValidationService
                                                   mixed   $articlesTable
     ): Builder
     {
+        Log::info($articlesTable);
         Log::info("******************************************************************************");
         Log::info("                    Building Article Check Query                               ");
         Log::info("*******************************************************************************");
