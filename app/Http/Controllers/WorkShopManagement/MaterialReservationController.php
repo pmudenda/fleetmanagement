@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\WorkShopManagement;
 
 use App\Constants\ErrorMessages;
-use App\Exceptions\MaterialReservationException;
-use App\Exceptions\VehicleStateException;
-use App\Exceptions\WorkflowTaskCreationFailedException;
+use App\Exceptions\BaseException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkShopManagement\WorkshopMaterialResevationRequest;
 use App\Http\Requests\WorkShopManagement\WorkshopRequisitionRequest;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\JobCardDetailsService;
 use App\Services\WorkShopManagement\WorkshopRequisitionService;
 use App\Services\WorkShopManagement\WorkshopService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
@@ -33,24 +33,27 @@ class MaterialReservationController extends Controller
         $this->workshopRequisitionService = $workshopRequisitionService;
         $this->jobCardDetailsService = $jobCardDetailsService;
     }
+
     public function saveJobCardMaterialRequest(WorkshopRequisitionRequest $request): JsonResponse
     {
         try {
             return $this->workshopRequisitionService->processJobCardMaterialRequisition($request);
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
-            if ($e instanceof MaterialReservationException
-                || $e instanceof WorkflowTaskCreationFailedException
-                || $e instanceof VehicleStateException) {
+            if ($e instanceof BaseException) {
                 $message = $e->getMessage();
                 Log::info($e);
             } else {
                 Log::error($e);
             }
-            return response()->json([
-                "success" => false,
-                "message" => $message
-            ]);
+
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    $message
+                )
+            );
         }
     }
 
@@ -58,20 +61,20 @@ class MaterialReservationController extends Controller
     {
         try {
             return $this->workshopRequisitionService->processMaterialReservation($request);
-        } catch (\Exception $e) {
-
+        } catch (Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
-            if ($e instanceof MaterialReservationException
-                || $e instanceof WorkflowTaskCreationFailedException
-                || $e instanceof VehicleStateException) {
+            if ($e instanceof BaseException) {
                 $message = $e->getMessage();
             } else {
                 Log::error($e);
             }
-            return response()->json([
-                "success" => false,
-                "message" => $message
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    '',
+                    true,
+                    $message
+                )
+            );
         }
     }
 

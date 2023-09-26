@@ -7,7 +7,6 @@ use App\Constants\Articles;
 use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
-use App\Constants\TransactionType;
 use App\Constants\ValidationProcess;
 use App\Constants\WorkflowActions;
 use App\Constants\WorkflowModules;
@@ -184,10 +183,10 @@ class WorkshopRequisitionService
 
         $requestItemType = $materialReservationRequest->get('itemType');
         if ($requestItemType == RequisitionItemTypes::STOCK_ITEM_CODE) {
-            $itemType = RequisitionItemTypes::STOCK_ITEM;
+            $articleClass = RequisitionItemTypes::STOCK_ITEM;
             $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
         } elseif ($requestItemType == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
-            $itemType = RequisitionItemTypes::NON_STOCK_ITEM;
+            $articleClass = RequisitionItemTypes::NON_STOCK_ITEM;
             $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
         } else {
             throw new WorkflowTaskCreationFailedException("Article Item Type Is Missing");
@@ -220,7 +219,7 @@ class WorkshopRequisitionService
             $this->verifyVehicleIsActive($registrationNumber);
 
             $query = DB::table("$articlesTable");
-            $articleClass = $materialReservationRequest->get('itemType');
+            // = $materialReservationRequest->get('itemType');
 
             $finalQuery = $this->materialValidationService->buildArticleTypeCheckingQuery(
                 $query,
@@ -232,7 +231,7 @@ class WorkshopRequisitionService
             $this->materialValidationService->checkArticleType(
                 $finalQuery,
                 $article,
-                $itemType,
+                $articleClass,
                 $registrationNumber,
                 ValidationProcess::OTHER
             );
@@ -246,11 +245,11 @@ class WorkshopRequisitionService
         );
 
         $form_order_number = null;
-        $i = $materialReservationRequest->get('itemType');
-        if ($i == RequisitionItemTypes::STOCK_ITEM_CODE) {
+
+        if ($articleClass == RequisitionItemTypes::STOCK_ITEM) {
             $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(
                 WorkflowModules::STOCK_REQUISITION);
-        } elseif ($i == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
+        } else {
             $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(
                 WorkflowModules::PURCHASE_REQUISITION);
         }
@@ -258,7 +257,7 @@ class WorkshopRequisitionService
         Log::info("Reservation Ref. " . $requisition_reference_number);
         Log::info("Form Order. " . $form_order_number);
         Log::info("Reservation Item Type " . $materialReservationRequest->get("itemType"));
-        Log::info("Determined Reservation Item Type Code " . $itemType);
+        Log::info("Determined Reservation Item Type Code " . $articleClass);
 
         $short_description = "Workshop Reservation for Vehicles Reference $requisition_reference_number";
         $long_description = "Workshop Reservation Reference No. $requisition_reference_number For Vehicles";
@@ -284,7 +283,7 @@ class WorkshopRequisitionService
                 "req_no" => $requisition_reference_number,
                 "form_order" => $form_order_number,
                 "workshop_no" => $workshopCode,
-                "item_type" => $itemType,
+                "item_type" => $articleClass,
                 "requested_by" => $user->staff_no,
                 "purchase_office" => $materialReservationRequest->get("purchase_office"),
                 "store" => $storeCode,
@@ -327,7 +326,6 @@ class WorkshopRequisitionService
 
         DB::commit();
 
-        //  send notification
         //  RequisitionRaised::dispatch($matHeader);
         Log::info("Raising Reservation Reference # " . $requisition_reference_number . " successful");
 
@@ -335,8 +333,11 @@ class WorkshopRequisitionService
             FleetMasterJsonResponse::response(
                 'success',
                 true,
-                str_replace("@ref", $requisition_reference_number,
-                    SystemMessages::REQUISITION_RAISED),
+                str_replace(
+                    "@ref",
+                    $requisition_reference_number,
+                    SystemMessages::REQUISITION_RAISED
+                ),
                 [],
                 URL::signedRoute("list.workshop.requisition")
             )
@@ -383,7 +384,6 @@ class WorkshopRequisitionService
             $articleClassCode,
             $registrationNumber
         );
-
 
         $formOrder = DocumentNumberGenerationService::generateReferenceNumber(
             WorkflowModules::STOCK_REQUISITION
