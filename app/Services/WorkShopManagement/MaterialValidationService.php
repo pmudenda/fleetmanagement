@@ -12,7 +12,6 @@ use App\Enums\RequisitionItemTypes;
 use App\Exceptions\InvalidArticleTypeException;
 use App\Exceptions\MaterialReservationException;
 use App\Helpers\StatusHelper;
-use App\Http\Requests\WorkShopManagement\WorkshopRequisitionRequest;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -179,6 +178,9 @@ class MaterialValidationService
                                                   mixed   $articlesTable
     ): Builder
     {
+        Log::info("******************************************************************************");
+        Log::info("                    Building Article Check Query                               ");
+        Log::info("*******************************************************************************");
         switch ($articleClass) {
             case RequisitionItemTypes::STOCK_ITEM_CODE:
                 $query->where(function ($q) use ($articlesTable) {
@@ -188,7 +190,6 @@ class MaterialValidationService
                         Articles::STOCK_ITEMS_GROUP
                     );
                 });
-
                 break;
             case RequisitionItemTypes::NON_STOCK_ITEM_CODE:
                 $query->where(function ($q) use ($articlesTable) {
@@ -215,21 +216,6 @@ class MaterialValidationService
                 );
         }
 
-        /*if ($articleClass == RequisitionItemTypes::STOCK_ITEM_CODE) {
-            $query->where(function ($q) use ($articlesTable) {
-                $q->whereIn("$articlesTable.code_group", self::STOCK_ITEMS_GROUP);
-            });
-        } elseif ($articleClass == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
-            $query->where(function ($q) use ($articlesTable) {
-                $q->where("$articlesTable.code_group", "=", "40");
-            });
-        } elseif ($articleClass == RequisitionItemTypes::SERVICE_ITEM_CODE) {
-            $query->where(function ($q) use ($articlesTable) {
-                $q->where("$articlesTable.code_group", "=", "41")
-                    ->where("$articlesTable.code_subgroup", "=", "02");
-            });
-        }*/
-
         Log::info("Dumping Query Builder");
         var_dump($query);
         return $query;
@@ -250,9 +236,9 @@ class MaterialValidationService
                                      mixed   $registrationNumber,
                                      string  $process): void
     {
-        Log::info("==========================================================================");
+        Log::info("***********************************************************************************************");
         Log::info("                    Validating Article Type                               ");
-        Log::info("==========================================================================");
+        Log::info("***********************************************************************************************");
         $count = $query
             ->where(
                 TableColumns::ARTICLE_CODE,
