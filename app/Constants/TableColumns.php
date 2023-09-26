@@ -9,4 +9,5 @@ class TableColumns
 
     const STATUS = "status";
     const VEHICLE_REGISTRATION = "registration_number";
+    const STAFF_NUMBER = 'staff_no';
 }

@@ -3,9 +3,9 @@
 namespace App\Services\WorkShopManagement;
 
 use App\Constants\SystemMessages;
+use App\Constants\ValidationProcess;
 use App\Constants\WorkflowModules;
 use App\Enums\RequisitionItemTypes;
-use App\Enums\WorkflowProcessCodes;
 use App\Events\PettyCashRaised;
 use App\Exceptions\DataNotFoundException;
 use App\Exceptions\InvalidArticleTypeException;
@@ -75,8 +75,8 @@ class ImprestBuyService
             $request,
             $registrationNumber,
             $itemType,
-            "imprestArticleCode",
-            'IMP'
+            ValidationProcess::IMPREST_ARTICLE_FIELD,
+            ValidationProcess::IMPREST
         );
 
         DB::beginTransaction();

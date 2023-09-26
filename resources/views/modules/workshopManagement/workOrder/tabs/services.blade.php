@@ -170,6 +170,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                 <select
+                                    required
                                     data-value="{{$materialsHeader->supp_code ?? ''}}"
                                     class="form-select form-select-sm"
                                     name="service_supplier"

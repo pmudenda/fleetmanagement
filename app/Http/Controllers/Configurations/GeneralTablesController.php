@@ -106,9 +106,8 @@ class GeneralTablesController extends Controller
             ->with(compact('entries', Constants::TYPE_KEY));
     }
 
-    public function openFormTypeView(Request $request): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function openFormTypeView(Request $request): View
     {
-
         $type = $request->get('ref');
 
         $dbType = self::findType($type);

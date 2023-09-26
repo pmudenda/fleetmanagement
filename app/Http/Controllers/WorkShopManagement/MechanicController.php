@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\WorkShopManagement;
 
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
+use App\Constants\TableColumns;
 use App\Enums\ConfigurationTypes;
 use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
@@ -10,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MechanicOnboarding;
 use App\Http\Requests\MechanicUpdate;
 use App\Http\Requests\UserSync;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\Role;
 use App\Models\Settings\GeneralTable;
@@ -108,65 +111,87 @@ class MechanicController extends Controller
     public function find(Request $request): JsonResponse
     {
         try {
-            Log::info('Searching for mechanic ' . $request->get('staff_no'));
-
-            $mechanic = Mechanic::where('staff_no', '=', $request->get('staff_no'))
-                ->where('status', '=', StatusHelper::active())
-                ->first();
+            $mechanic = Mechanic::where(
+                TableColumns::STAFF_NUMBER,
+                QueryComparisonOperator::EQUALS,
+                $request->get(TableColumns::STAFF_NUMBER)
+            )->where(TableColumns::STATUS,
+                QueryComparisonOperator::EQUALS,
+                StatusHelper::active()
+            )->first();
 
             if (empty($mechanic)) {
-                return response()->json([
-                    'state' => 'failure',
-                    'payload' => []
-                ]);
+                return response()->json(
+                    FleetMasterJsonResponse::response(
+                        'failure',
+                        false,
+                        '',
+                        []
+                    )
+                );
             }
 
-            $employee = PHCMSEmployee::where('con_per_no', '=', $mechanic->staff_no)
-                ->where('con_st_code', '=', 'ACT')
+            $employee = PHCMSEmployee::where(
+                'con_per_no',
+                QueryComparisonOperator::EQUALS,
+                $mechanic->staff_no)
+                ->where('con_st_code',
+                    QueryComparisonOperator::EQUALS,
+                    'ACT')
                 ->first();
 
-            return response()->json([
-                'state' => 'success',
-                'payload' => [
-                    'employee' => $employee,
-                    'mechanic' => $mechanic
-                ]
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'success',
+                    true,
+                    '',
+                    [
+                        'employee' => $employee,
+                        'mechanic' => $mechanic
+                    ]
+                )
+            );
         } catch (Exception $e) {
             Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    '',
+                    []
+                )
+            );
         }
     }
 
     public function show(Request $request): View
     {
-        $employee = config("tables.table_names.employee");
         $staffId = $request->get('ref');
 
         $workshopList = WorkShop::get();
 
-        $workshopSectionList = GeneralTable::where('type', '=',
+        $workshopSectionList = GeneralTable::where('type',
+            QueryComparisonOperator::EQUALS,
             ConfigurationTypes::WORK_SHOP_SECTION)->get();
 
         $mechanic = DB::table('wm_mechanics mec')
             ->leftJoin('config_workshop wkshp',
                 'mec.workshop_code',
-                '=',
+                QueryComparisonOperator::EQUALS,
                 'wkshp.workshop_code')
-            ->leftJoin('config_general_tables wkshp_sec', function ($join) {
-                $join->on('mec.section_code',
-                    '=',
-                    'wkshp_sec.code')
-                    ->where('wkshp_sec.type',
-                        '=',
-                        ConfigurationTypes::WORK_SHOP_SECTION
-                    );
-            })
-            //->leftJoin("$employee emp", "mec.staff_no", "=", 'emp.alt_per_no')
-            ->where('mec.id', '=', $staffId)
+            ->leftJoin('config_general_tables wkshp_sec',
+                function ($join) {
+                    $join->on('mec.section_code',
+                        QueryComparisonOperator::EQUALS,
+                        'wkshp_sec.code')
+                        ->where('wkshp_sec.type',
+                            QueryComparisonOperator::EQUALS,
+                            ConfigurationTypes::WORK_SHOP_SECTION
+                        );
+                })
+            ->where('mec.id',
+                QueryComparisonOperator::EQUALS,
+                $staffId)
             ->select(
                 "mec.*",
                 'wkshp_sec.name as wkshp_section_name',
@@ -183,7 +208,11 @@ class MechanicController extends Controller
     {
         try {
             $this->mechanicsService->updateDetails($request);
-            ActivityLogsService::store($request, 'Updating of User', 'update', ' user updated');
+            ActivityLogsService::store($request,
+                'Updating of User',
+                'update',
+                ' user updated'
+            );
             return response()->json([
                 'state' => 'success',
                 'message' => SystemMessages::userUpdateSuccessful()

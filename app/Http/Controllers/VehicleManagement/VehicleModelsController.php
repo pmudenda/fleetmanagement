@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\VehicleManagement;
 
+use App\Constants\QueryComparisonOperator;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Settings\vehicle\VehicleModel;
@@ -10,7 +11,6 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Str;
 
 class VehicleModelsController extends Controller
 {
@@ -34,13 +34,15 @@ class VehicleModelsController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            $data = $request->all();
-
             $modelCode = trim(strtoupper($request->input('model_code')));
 
-            $vehicleModel = VehicleModel::where('model_code', '=', $modelCode)
-                ->where('model_name', '=', trim(strtoupper($request->input('model_code'))))
-                ->first();
+            $vehicleModel = VehicleModel::where('model_code',
+                QueryComparisonOperator::EQUALS,
+                $modelCode
+            )->where('model_name',
+                QueryComparisonOperator::EQUALS,
+                trim(strtoupper($request->input('model_code')))
+            )->first();
 
             if (!empty($vehicleModel)) {
                 return response()->json([

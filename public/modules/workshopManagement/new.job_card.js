@@ -1156,6 +1156,11 @@ const serviceTableRowTemplate = ` <tr class="increment">
 
         $(document).on('click', '#saveServices', function () {
 
+            if (!document.querySelector('[name="service_supplier"]').value) {
+                $('[name="service_supplier"]').css({'border': '1px solid red'});
+                return;
+            }
+
             if (form.valid()) {
                 tmsApp.confirm('Confirm',
                     'Do you want to save the changes ?',

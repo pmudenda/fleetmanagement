@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class FuelRequisitionUpdate extends FormRequest
 {
+    const NULLABLE_STRING = 'nullable|string';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -28,14 +30,14 @@ class FuelRequisitionUpdate extends FormRequest
             'material_quantity' => 'required|numeric',
             'material_price' => 'required|numeric',
             'material_amount' => 'nullable|numeric',
-            'departureTown' => 'nullable|string',
-            'destinationTown' => 'nullable|string',
-            'justification' => 'nullable|string',
-            'cost_centre_code' => 'nullable|string',
-            'CostAssignedTo' => 'nullable|string',
-            'departure_date' => 'nullable|string',
-            'return_date' => 'nullable|string',
-            'odometer_reading' => 'nullable|string'
+            'departureTown' => self::NULLABLE_STRING,
+            'destinationTown' => self::NULLABLE_STRING,
+            'justification' => self::NULLABLE_STRING,
+            'cost_centre_code' => self::NULLABLE_STRING,
+            'CostAssignedTo' => self::NULLABLE_STRING,
+            'departure_date' => self::NULLABLE_STRING,
+            'return_date' => self::NULLABLE_STRING,
+            'odometer_reading' => self::NULLABLE_STRING
         ];
     }
 }

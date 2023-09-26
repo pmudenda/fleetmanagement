@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\WorkShopManagement;
 
 use App\Constants\ErrorMessages;
+use App\Exceptions\BaseException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkShopManagement\PettyCashItems;
 use App\Http\Responses\FleetMasterJsonResponse;
@@ -37,12 +38,18 @@ class ImprestBuysController extends Controller
                 ));
 
         } catch (Exception $e) {
+            $message = ErrorMessages::getMessage('err_0005');
             Log::error($e);
+
+            if ($e instanceof BaseException) {
+                $message = $e->getMessage();
+            }
+
             return response()->json(
                 FleetMasterJsonResponse::response(
                     'failure',
                     false,
-                    $request->all()
+                    $message
                 )
             );
         }
@@ -59,12 +66,18 @@ class ImprestBuysController extends Controller
             ));
 
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+            $message = ErrorMessages::getMessage('err_0005');
+            Log::error($exception);
+
+            if ($exception instanceof BaseException) {
+                $message = $exception->getMessage();
+            }
+
             return response()->json(
                 FleetMasterJsonResponse::response(
                     'failure',
                     false,
-                    ErrorMessages::getMessage('err_0005')
+                    $message
                 )
             );
         }

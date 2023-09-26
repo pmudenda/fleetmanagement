@@ -4,6 +4,11 @@ namespace App\Constants;
 
 class ValidationProcess
 {
-    const OTHER = 'OT';
     const ARTICLE_FIELD = "articleCode";
+
+    const IMPREST_ARTICLE_FIELD = "imprestArticleCode";
+
+    const OTHER = 'OT';
+    const IMPREST = 'IMP';
+
 }

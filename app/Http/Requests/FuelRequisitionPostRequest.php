@@ -9,6 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class FuelRequisitionPostRequest extends FormRequest
 {
     const REQUIRED_NUMERIC = 'required|numeric';
+    const EXCLUDE_UNLESS_REQUISITION_TYPE = 'exclude_unless:requisition_type,';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -45,16 +46,16 @@ class FuelRequisitionPostRequest extends FormRequest
             'project_code' => 'exclude_unless:CostAssignedTo,ProjectBasedRequisition|required|string',
             'ProjectName' => 'exclude_unless:CostAssignedTo,ProjectBasedRequisition|required|string',
             // out of town specific validation
-            'departure_date' => 'exclude_unless:requisition_type,'
-                .RequisitionTypes::OutOfTown->value.'|required|date_format:Y-m-d',
-            'return_date' => 'exclude_unless:requisition_type,'
-                .RequisitionTypes::OutOfTown->value.'|required|date_format:Y-m-d',
-            'authorityToTravel' => 'exclude_unless:requisition_type,'
-                .RequisitionTypes::OutOfTown->value.'|file|mimes:jpg,jpeg,png,pdf',
-            'destinationTown' => 'exclude_unless:requisition_type,'
-                .RequisitionTypes::OutOfTown->value.'|required|string',
-            'departureTown' => 'exclude_unless:requisition_type,'
-                .RequisitionTypes::OutOfTown->value.'|required|string',
+            'departure_date' => self::EXCLUDE_UNLESS_REQUISITION_TYPE
+                . RequisitionTypes::OutOfTown->value . '|required|date_format:Y-m-d',
+            'return_date' => self::EXCLUDE_UNLESS_REQUISITION_TYPE
+                . RequisitionTypes::OutOfTown->value . '|required|date_format:Y-m-d',
+            'authorityToTravel' => self::EXCLUDE_UNLESS_REQUISITION_TYPE
+                . RequisitionTypes::OutOfTown->value . '|file|mimes:jpg,jpeg,png,pdf',
+            'destinationTown' => self::EXCLUDE_UNLESS_REQUISITION_TYPE
+                . RequisitionTypes::OutOfTown->value . '|required|string',
+            'departureTown' => self::EXCLUDE_UNLESS_REQUISITION_TYPE
+                . RequisitionTypes::OutOfTown->value . '|required|string',
         ];
     }
 }
