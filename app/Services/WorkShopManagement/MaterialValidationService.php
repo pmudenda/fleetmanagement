@@ -187,8 +187,7 @@ class MaterialValidationService
                 $query->where(function ($q) use ($articlesTable) {
                     $q->whereIn(
                         "$articlesTable.code_group",
-                        QueryComparisonOperator::EQUALS,
-                        ["01", "04", "30"]
+                        Articles::STOCK_ITEMS_GROUP
                     );
                 });
                 break;
