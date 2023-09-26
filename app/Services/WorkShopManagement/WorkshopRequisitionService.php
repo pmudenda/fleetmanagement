@@ -7,7 +7,6 @@ use App\Constants\Articles;
 use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
-use App\Constants\TableColumns;
 use App\Constants\TransactionType;
 use App\Constants\ValidationProcess;
 use App\Constants\WorkflowActions;
@@ -728,16 +727,16 @@ class WorkshopRequisitionService
     /**
      * @throws ServiceRequisitionException
      */
-    public function createWorkshopNonStockPurchaseProcess($workshop_reference): mixed
+    public function createWorkshopNonStockPurchaseProcess($workshopReference): mixed
     {
-        $requisitionDetail = self::getReservationDetail($workshop_reference);
+        $requisitionDetail = self::getReservationDetail($workshopReference);
 
         $materialHeader = WorkShopMaterialHeader::where("form_order", "=", $requisitionDetail->form_order)
             ->where("item_type_code", "=", RequisitionItemTypes::NON_STOCK_ITEM_CODE)
             ->first();
         if (!empty($materialHeader)) {
             $results = $this->procurementService->createPurchaseProcess(
-                $workshop_reference,
+                $workshopReference,
                 $requisitionDetail->veh_reg_no,
                 $requisitionDetail->form_order,
                 $requisitionDetail->purchase_office,
@@ -746,7 +745,7 @@ class WorkshopRequisitionService
             );
         } else {
             $results = $this->procurementService->createPurchaseProcessBooking(
-                $workshop_reference,
+                $workshopReference,
                 $requisitionDetail->form_order
             );
         }
@@ -774,8 +773,14 @@ class WorkshopRequisitionService
     {
         $requisitionDetail = self::getReservationDetail($workshopReference);
 
-        $materialHeader = WorkShopMaterialHeader::where("form_order", "=", $requisitionDetail->form_order)
-            ->where("item_type_code", "=", RequisitionItemTypes::SERVICE_ITEM_CODE)
+        $materialHeader = WorkShopMaterialHeader::where(
+            "form_order",
+            QueryComparisonOperator::EQUALS,
+            $requisitionDetail->form_order
+        )
+            ->where("item_type_code",
+                QueryComparisonOperator::EQUALS,
+                RequisitionItemTypes::SERVICE_ITEM_CODE)
             ->first();
 
         if (!empty($materialHeader)) {
@@ -783,8 +788,6 @@ class WorkshopRequisitionService
                 $workshopReference,
                 $requisitionDetail->veh_reg_no,
                 $requisitionDetail->form_order,
-                Accounts::MOTOR_VEHICLE_MAINTENANCE_ACCOUNT,
-                TransactionType::SERVICE_PURCHASE_REQUISITIONS,
                 $requisitionDetail->purchase_office,
                 $materialHeader->job_card_no,
                 $requisitionDetail->workshop_no

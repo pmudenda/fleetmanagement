@@ -3,6 +3,7 @@
 namespace App\Services\Integration;
 
 use App\Constants\Accounts;
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemOfOrigin;
 use App\Constants\TransactionType;
 use App\Models\Reference\Store;
@@ -162,7 +163,7 @@ class ProcurementSystemIntegrationService
     public function cancelStoresRequisition($procurementSystemReference, $cancellationJustification): string
     {
         try {
-            if(empty($procurementSystemReference)){
+            if (empty($procurementSystemReference)) {
                 return "No Procurement Reference";
             }
 
@@ -386,9 +387,15 @@ class ProcurementSystemIntegrationService
         $units = config("tables.table_names.units");
 
         $results = DB::table("$articles")
-            ->leftJoin("$stockManagement", "$articles.CODE_ARTICLE", "=", "$stockManagement.CODE_ARTICLE")
-            ->leftJoin("$units", "$articles.UNIT_MEASURE", "=", "$units.code_unit")
-            ->where("$articles.CODE_ARTICLE", "=", $articleCode)
+            ->leftJoin("$stockManagement", "$articles.CODE_ARTICLE",
+                QueryComparisonOperator::EQUALS,
+                "$stockManagement.CODE_ARTICLE")
+            ->leftJoin("$units", "$articles.UNIT_MEASURE",
+                QueryComparisonOperator::EQUALS,
+                "$units.code_unit")
+            ->where("$articles.CODE_ARTICLE",
+                QueryComparisonOperator::EQUALS,
+                $articleCode)
             ->select(
                 "$articles.code_article",
                 "$articles.description",

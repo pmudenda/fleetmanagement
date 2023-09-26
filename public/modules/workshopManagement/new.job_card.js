@@ -2442,9 +2442,9 @@ const serviceTableRowTemplate = ` <tr class="increment">
         }
 
         if (tableId === "services_table") {
-            const itemType = document.querySelector('[name="serviceItemType"]').value;
+            const serviceArticleClass = document.querySelector('[name="serviceItemType"]').value;
             // check if item type has been selected
-            if (!itemType) {
+            if (!serviceArticleClass) {
                 Swal.fire({
                     text: "Select Item Type",
                     icon: "warning",
@@ -2459,11 +2459,27 @@ const serviceTableRowTemplate = ` <tr class="increment">
                 return;
             }
 
-            if (document.querySelector('[name="serviceItemCode"]').value === itemType) {
+            if (document.querySelector('[name="serviceItemCode"]').value === serviceArticleClass) {
                 // check that supplier is selected
                 if (!document.querySelector('#serviceWorkshopCode').value) {
                     Swal.fire({
                         text: "Select a Workshop",
+                        icon: "warning",
+                        showCancelButton: false,
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok",
+                        customClass: {
+                            confirmButton: "btn fw-bold btn-primary",
+                            cancelButton: "btn fw-bold btn-active-light-primary"
+                        }
+                    });
+                    return;
+                }
+
+                // check that supplier is selected
+                if (!document.querySelector('[name="service_supplier"]').value) {
+                    Swal.fire({
+                        text: "Select a Supplier",
                         icon: "warning",
                         showCancelButton: false,
                         buttonsStyling: false,

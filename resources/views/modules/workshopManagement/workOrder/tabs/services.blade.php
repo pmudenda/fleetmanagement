@@ -21,7 +21,7 @@
                             </label>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                 @if(!empty($materialsHeader))
-                                    <select
+                                    <select required
                                         data-value="{{$materialsHeader->item_type_code ?? ''}}"
                                         readonly="readonly"
                                         class="form-select form-select-sm"
