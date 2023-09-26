@@ -162,31 +162,37 @@
                                                         Actions
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <li>
-                                                            <a class="dropdown-item"
-                                                               data-kt-action="edit"
-                                                               href="{{URL::signedRoute('view.job.card',[
-                                                                    "view"=>true,
-                                                                    'step'=> '1',
-                                                                    'reference'=>$workshop->job_card_no
-                                                                    ])}}">
-                                                                View Job Card
-                                                            </a>
-                                                        </li>
 
-                                                        @if(empty($workshop->step))
+                                                        @can(config('rights.view_job_card'))
                                                             <li>
                                                                 <a class="dropdown-item"
                                                                    data-kt-action="edit"
-                                                                   href="{{URL::signedRoute('vehicle.workshop.checkin',[
+                                                                   href="{{URL::signedRoute('view.job.card',[
                                                                     "view"=>true,
                                                                     'step'=> '1',
                                                                     'reference'=>$workshop->job_card_no
                                                                     ])}}">
-                                                                    Complete Job Card Opening
+                                                                    View Job Card
                                                                 </a>
                                                             </li>
-                                                        @endif
+                                                        @endcan
+
+                                                        @canany([config('rights.create_job_card')])
+                                                            @if(empty($workshop->step))
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       data-kt-action="edit"
+                                                                       href="{{URL::signedRoute(
+                                                                    'vehicle.workshop.checkin',[
+                                                                    "view"=>true,
+                                                                    'step'=> '1',
+                                                                    'reference'=>$workshop->job_card_no
+                                                                    ])}}">
+                                                                        Complete Job Card Opening
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        @endcanany
 
                                                         @canany([config('rights.close_job_card')])
                                                             @if($workshop->status != StatusHelper::closed())
@@ -218,71 +224,6 @@
 
     </section>
 
-    <!-- The Modal -->
-    <div class="modal" id="finderModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">
-                        <div class="alert alert-warning" id="query"></div>
-                    </h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <table id="filterProperty" class="table">
-                        <tbody>
-                        <tr>
-                            <td>
-                                <select class="form-select" name="property">
-                                    <option value="" disabled>--Select--</option>
-                                    <option value="userUnit">User Unit</option>
-                                    <option value="workshopSection">Section</option>
-                                    <option value="workshop">Workshop</option>
-                                    <option value="dateIn">Date In</option>
-                                    <option value="dateOut">Date Out</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" name="operator">
-                                    <option value="=">Is</option>
-                                    <option value="<>">Is not</option>
-                                    <option value=">">Is After</option>
-                                    <option value="<">Is Before</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" name="filterValue">
-                                </select>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <button type="button"
-                            data-table-id="filterProperty"
-                            class="btn btn-sm btn-primary add pull-left"
-                            value="addRow">
-                        <i class="fa fa-plus"></i> Add Property
-                    </button>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="modal-footer justify-content-end">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button"
-                            class="btn btn-sm btn-success"
-                            value="applyFilter"> Apply Filter
-                    </button>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-    </div>
 @endsection
 
 @push('scripts')
