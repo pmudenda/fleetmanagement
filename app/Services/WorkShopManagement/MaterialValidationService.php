@@ -96,6 +96,8 @@ class MaterialValidationService
         Log::info("                    Building Article Check Query                               ");
         Log::info("*******************************************************************************");
 
+        Log::info("******************************".$articleClass."**********************************");
+
         switch ($articleClass) {
             case RequisitionItemTypes::STOCK_ITEM_CODE:
                 $query->where(function ($q) use ($articlesTable) {
