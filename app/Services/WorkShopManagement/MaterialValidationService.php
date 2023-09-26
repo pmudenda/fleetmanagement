@@ -21,7 +21,7 @@ class MaterialValidationService
     /**
      * @param mixed $requisitionPostRequest
      * @param mixed $registrationNumber
-     * @param string $itemType
+     * @param string $articleClass
      * @param string $articleFieldName
      * @param string $process
      * @return array
@@ -30,7 +30,7 @@ class MaterialValidationService
      */
     public function validateArticle(mixed  $requisitionPostRequest,
                                     mixed  $registrationNumber,
-                                    string $itemType,
+                                    string $articleClass,
                                     string $articleFieldName,
                                     string $process
     ): array
@@ -39,7 +39,6 @@ class MaterialValidationService
         // no active on a reservation for the same car
         $articlesTables = config("tables.table_names.articles");
         $articlesMap = array();
-        $articleClass = $requisitionPostRequest->itemType;
 
         foreach ($requisitionPostRequest->get("items") as $item) {
 
@@ -73,7 +72,7 @@ class MaterialValidationService
             );
 
             // move to caller
-            $this->checkArticleType($finalQuery, $article, $itemType, $registrationNumber, $process);
+            $this->checkArticleType($finalQuery, $article, $articleClass, $registrationNumber, $process);
 
         }
 
@@ -132,6 +131,7 @@ class MaterialValidationService
         }
 
         Log::info("Dumping Query Builder");
+        var_dump($query);
         Log::info("******************************************************************************");
         return $query;
     }

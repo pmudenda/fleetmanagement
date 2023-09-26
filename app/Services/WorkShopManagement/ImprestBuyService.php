@@ -61,12 +61,13 @@ class ImprestBuyService
     {
         $user = auth()->user();
 
-        $itemType = "";
-        $requestItemType = $request->get('itemType');
+        $articleClassCode = "";
+        $requestItemType = $request->get('pettyCashBuyItemType');
+
         if ($requestItemType == RequisitionItemTypes::STOCK_ITEM_CODE) {
-            $itemType = RequisitionItemTypes::STOCK_ITEM;
+            $articleClassCode = RequisitionItemTypes::STOCK_ITEM;
         } elseif ($requestItemType == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
-            $itemType = RequisitionItemTypes::NON_STOCK_ITEM;
+            $articleClassCode = RequisitionItemTypes::NON_STOCK_ITEM;
         }
 
         $registrationNumber = $request->get('registrationNumber');
@@ -74,7 +75,7 @@ class ImprestBuyService
         $this->materialValidationService->validateArticle(
             $request,
             $registrationNumber,
-            $itemType,
+            $articleClassCode,
             ValidationProcess::IMPREST_ARTICLE_FIELD,
             ValidationProcess::IMPREST
         );
