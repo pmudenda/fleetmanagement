@@ -37,8 +37,8 @@ class MaterialValidationService
     {
         // check each article to make sure it's of the correct type and is
         // no active on a reservation for the same car
-        $articlesTables = config("tables.table_names.articlesTables");
-        Log::info("Articles Table".config("tables.table_names.articlesTables"));
+        $articlesTables = config("tables.table_names.articles");
+        Log::info("Articles Table" . config("tables.table_names.articles"));
         $articlesMap = array();
         $articleClass = $requisitionPostRequest->itemType;
 
