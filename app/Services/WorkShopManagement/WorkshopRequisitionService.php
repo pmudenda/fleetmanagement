@@ -125,7 +125,7 @@ class WorkshopRequisitionService
             $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
         }
 
-        list($item_type_code) = $this->materialValidationService->validateArticle(
+        list($itemTypeCode) = $this->materialValidationService->validateArticle(
             $requisitionPostRequest,
             $registrationNumber,
             $itemType,
@@ -141,7 +141,7 @@ class WorkshopRequisitionService
             $itemType,
             $validFrom,
             $dateExpected,
-            $item_type_code);
+            $itemTypeCode);
 
         // send notification
         RequisitionRaised::dispatch($matHeader, 'requisition');
