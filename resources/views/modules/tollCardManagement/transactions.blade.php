@@ -424,21 +424,6 @@
                 let tableRow = btnEl.closest('tr');
                 let table = btnEl.closest('table');
                 Table.deleteRow(tableRow);
-                /*new Swal(({
-                        title: "Are you sure ?",
-                        text: "The data entered on this line be cleared out, if not saved already, you will not be able to recover it",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonClass: "btn-primary",
-                        confirmButtonText: "Yes",
-                        closeOnConfirm: true
-                    },
-                    function () {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        //scheduleUpdater(tableId, table);
-                        // return false;
-                    });*/
 
                 return false;
             });

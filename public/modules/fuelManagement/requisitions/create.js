@@ -44,10 +44,10 @@
         document.querySelector('#image_view').style.display = null;
     }
 
-    function populateVehicleDetails(payload) {
-        let vehicle = payload['vehicle'];
-        let article = payload['article'];
-        let images = payload['images'];
+    function populateVehicleDetails(payload, message) {
+        const vehicle = payload['vehicle'];
+        const article = payload['article'];
+        const images = payload['images'];
         const hasValidFitness = payload['hasValidFitness'];
         const hasValidRoadTax = payload['hasValidRoadTax'];
         const hasValidInsurance = payload['hasValidInsurance'];
@@ -178,6 +178,8 @@
                 .style
                 .backgroundImage = "url(/storage" + imagePath + ")";
         }
+
+        tmsApp.showToast(message, 'success', 'Vehicle details')
 
         findLatestRequisition();
     }
@@ -754,13 +756,13 @@
         }
 
         if (diffInDays > window.tripPeriodLimit) {
-            new Swal('Day Limit',
+            Swal.fire('Day Limit',
                 appMessages.invalidTripPeriod,
                 'info');
 
             determineAppropriateEndDate();
         } else if (diffInDays < 0) {
-            new Swal('Invalid Dates Selected',
+            Swal.fire('Invalid Dates Selected',
                 'Departure date is before Return date or ',
                 'info');
         }
