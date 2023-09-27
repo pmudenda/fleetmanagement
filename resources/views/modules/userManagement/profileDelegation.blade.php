@@ -491,7 +491,7 @@
 
             let $delegationSubmissionForm = $('form[name="profileDelegationForm"]');
 
-            $delegationSubmissionForm.on('submit', function () {
+            $delegationSubmissionForm.on('submit', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
 
