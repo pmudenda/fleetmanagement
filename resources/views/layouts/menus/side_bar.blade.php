@@ -298,7 +298,8 @@
                                 </li>
                             @endcanany
 
-                            @canany([config('rights.approve_workshop_requisition')])
+                            @canany([config('rights.approve_workshop_requisition'),
+                                config('rights.view_workshop_requisition')])
                                 <li class="nav-item pl-2">
                                     <a class="nav-link" href="{{ URL::signedRoute('list.workshop.requisition') }}">
                                         <i class="fas fa-list nav-icon"></i>

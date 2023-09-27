@@ -291,11 +291,17 @@
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
                                         <label for="name"> ROLE NAME: <span class="required">*</span></label>
-                                        <input type="text" class="form-control" value="{{$item->name}}" id="name"
-                                               name="name" required readonly>
-                                        <input type="text" hidden class="form-control" value="{{$item->id}}"
-                                               id="role_id" name="role_id" required
-                                        >
+                                        <input type="text"
+                                               class="form-control"
+                                               value="{{$item->name}}" id="name"
+                                               name="name" required readonly
+                                        />
+                                        <input type="hidden"
+                                               class="form-control"
+                                               value="{{$item->id}}"
+                                               id="role_id" name="role_id"
+                                               required
+                                        />
                                     </div>
                                 </div>
 
@@ -313,74 +319,6 @@
             <!-- /.col -->
         </div>
     @endforeach
-
-    <!-- Device Delete Modal -->
-    <div class="modal fade" id="addUserToGroup" tabindex="-1" role="dialog"
-         aria-labelledby="addUserToGroupTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div
-                    class="modal-header ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
-                    <h5 class="modal-title" id="addUserToGroupTitle">
-                        Add Profile To User
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form name="db2" method="post" action="{{route('user.attach')}}">
-                        @csrf
-                        <input type="hidden" name="id" id="id" value="{{$user->id}}">
-                        <div class="card-body">
-                            <div class="row">
-                                <span class="text-danger">Select Profile:</span>
-                            </div>
-                            <table id="example11"
-                                   role="table"
-                                   class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                @foreach($roles->whereNotIn( 'id', $user->roles->pluck('id')->toArray()) as $item)
-                                    <tr>
-                                        <td>
-                                            <input style="display: block" type="checkbox"
-                                                   name="role_ids[]"
-                                                   value="{{$item->id}}">
-                                        </td>
-                                        <td>
-                                            {{$item->description}}
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button"
-                                    class="btn btn-sm btn-secondary"
-                                    data-bs-dismiss="modal">Close
-                            </button>
-
-                            @can(config('rights.role_attach'))
-                                <button type="submit" class="btn btn-sm btn-success">
-                                    <i class="fas fa-save"></i> Save
-                                </button>
-                            @endcan
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- /.col -->
-    </div>
-
 @endsection
 
 @push('scripts')
