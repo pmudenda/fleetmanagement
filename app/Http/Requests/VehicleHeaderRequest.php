@@ -28,7 +28,8 @@ class VehicleHeaderRequest extends FormRequest
             'user_unit' => 'required',
             'model' => 'required',
             'bodyType' => 'required',
-            'registrationNumber' => 'exclude_unless:headerId,0|required|unique:App\Models\VehicleManagement\VehicleHeader,registration_number',
+            'registrationNumber' => 'exclude_unless:headerId,0
+            |required|unique:App\Models\VehicleManagement\VehicleHeader,registration_number',
             'registration_type' => 'required'
         ];
     }

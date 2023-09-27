@@ -114,19 +114,19 @@ class VehicleController extends Controller
         }
     }
 
-    public function getVehicleReportsOverView(string $registration_number): JsonResponse
+    public function getVehicleReportsOverView(string $registrationNumber): JsonResponse
     {
         try {
-            Log::debug('reference is ' . $registration_number);
-            Log::debug('Fetching Vehicle Details ' . $registration_number);
+            Log::debug('reference is ' . $registrationNumber);
+            Log::debug('Fetching Vehicle Details ' . $registrationNumber);
 
-            if (empty($registration_number)) {
+            if (empty($registrationNumber)) {
                 throw new BadRequestException(
                     'Missing Vehicle Reference'
                 );
             }
 
-            list($fuelCostByYear, $sparesCostByYear) = $this->getVehicleOperationCosts($registration_number);
+            list($fuelCostByYear, $sparesCostByYear) = $this->getVehicleOperationCosts($registrationNumber);
 
             return response()->json(
                 FleetMasterJsonResponse::response(
@@ -417,10 +417,10 @@ class VehicleController extends Controller
     }
 
     /**
-     * @param string $registration_number
+     * @param string $registrationNumber
      * @return array
      */
-    public function getVehicleOperationCosts(string $registration_number): array
+    public function getVehicleOperationCosts(string $registrationNumber): array
     {
         $fuelCostByYear = [];
         $sparesCostByYear = [];
@@ -428,7 +428,7 @@ class VehicleController extends Controller
             DB::table('zfm_spare_cost')
                 ->where('reg_no',
                     QueryComparisonOperator::EQUALS,
-                    $registration_number)
+                    $registrationNumber)
                 ->select(DB::raw('SUM(value_amount) as cost, EXTRACT(YEAR FROM TO_DATE(document_date)) year'))
                 ->groupBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
                 ->orderBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
@@ -442,7 +442,7 @@ class VehicleController extends Controller
             DB::table('zfm_fuel_cost')
                 ->where('reg_no',
                     QueryComparisonOperator::EQUALS,
-                    $registration_number)
+                    $registrationNumber)
                 ->select(DB::raw('SUM(ttl) as cost,year'))
                 ->groupBy('year')
                 ->orderBy('year')

@@ -264,7 +264,7 @@
                 }
 
                 // BAD 1010
-                if (vehicle['on_boarding_status'] != '030') {
+                if (vehicle['on_boarding_status'] !== '030') {
                     tmsApp.showSystemMessage("Incomplete Vehicle Details",
                         `The vehicle ${vehicle['registration_number']} is ${vehicle_state}. Please Contact Fleet Master
                             System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
@@ -342,11 +342,13 @@
                 formData.append('searchCriteria', staff_number);
 
                 fetch(
-                    document.querySelector("#driver_staff_number").getAttribute('data-action'),
+                    document.querySelector("#driver_staff_number")
+                        .getAttribute('data-action'),
                     {
                         method: 'POST',
                         headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]')
+                                .attr('content')
                         },
                         body: formData,
                         referrer: window.baseUrl,

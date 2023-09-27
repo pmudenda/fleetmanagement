@@ -4,6 +4,7 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
+use App\Exceptions\InvalidDocumentException;
 use App\Exceptions\VehicleOnBoardingException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;

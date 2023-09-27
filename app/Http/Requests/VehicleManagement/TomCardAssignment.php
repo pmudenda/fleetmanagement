@@ -23,8 +23,8 @@ class TomCardAssignment extends FormRequest
     public function rules(): array
     {
         return [
-            'vehicleRegistration' =>
-                'required|string|exists:App\Models\VehicleManagement\VehicleHeader,registration_number',
+            'vehicleRegistration' => 'required|string|
+            exists:App\Models\VehicleManagement\VehicleHeader,registration_number',
             'cardNumber' => 'required|string|unique:App\Models\VehicleManagement\TomCardAllocation,card_number',
             'expiryDate' => 'required',
             'comments' => 'required',

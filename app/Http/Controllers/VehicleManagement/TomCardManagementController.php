@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\VehicleManagement;
 
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
 use App\Exceptions\DataNotFoundException;
 use App\Helpers\StatusHelper;
@@ -48,7 +49,7 @@ class TomCardManagementController extends Controller
             ]);
             DB::table('vm_vehicle_header')
                 ->where('registration_number',
-                    '=',
+                    QueryComparisonOperator::EQUALS,
                     $vehicleRegistration)
                 ->update(['has_tom_card' => 'Y']);
             DB::commit();
