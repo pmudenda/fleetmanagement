@@ -142,6 +142,7 @@ class VehicleDetailsService
                 ->get();
 
             Log::info($results->count() . "Vehicle Data Found ");
+
             return $results->first();
         } catch (\Exception $e) {
             Log::info('Failed to Fetch vehicle full details');

@@ -111,7 +111,7 @@ class VehicleController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e);
-            $message = 'Missing Required Parameters';
+            $message = 'Failed to retrieve Registration Details';
 
             if ($e instanceof BadRequestException
                 || $e instanceof DataNotFoundException) {
