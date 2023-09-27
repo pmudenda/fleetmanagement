@@ -214,7 +214,8 @@
                     My Profile
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="{{URL::signedRoute('user.profile.delegation',[
+                <a href="{{URL::signedRoute(
+                        'user.profile.delegation',[
                         'key'=> Auth::user()->id,
                         'self'=> true
                         ])}}"
