@@ -70,17 +70,17 @@ class StatusHelper
 
     public static function partiallyAuthorised(): string
     {
-        return config('status.partiallyAuthorised', '21');
+        return config('status.partially_authorised', '21');
     }
 
     public static function partiallyReleased(): string
     {
-        return config('status.partiallyReleased', '26');
+        return config('status.partially_released', '26');
     }
 
     public static function partiallyReleasedExpired(): string
     {
-        return config('status.partiallyReleasedExpired', '42');
+        return config('status.partially_released_expired', '42');
     }
 
     public static function onboardingComplete(): string
@@ -90,7 +90,7 @@ class StatusHelper
 
     public static function organizationStructureActive(): string
     {
-        return config('status.organizationStructureActive', '00');
+        return config('status.organization_structure_active', '00');
     }
 
     public static function activeUser(): string
@@ -168,17 +168,17 @@ class StatusHelper
 
     public static function vehiclePendingDisposal(): string
     {
-        return config('status.vehiclePendingDisposal', '09');
+        return config('status.vehicle_pending_disposal', '09');
     }
 
     public static function vehicleSalvage(): string
     {
-        return config('status.vehicleSalvage', '10');
+        return config('status.vehicle_salvage', '10');
     }
 
     public static function vehicleReRegistered(): string
     {
-        return config('status.vehicleReRegistered', '11');
+        return config('status.vehicle_re_registered', '11');
     }
 
     public static function inactive(): string
@@ -193,7 +193,7 @@ class StatusHelper
 
     public static function partiallyReleasedCancelled(): string
     {
-        return config('status.partiallyReleasedCancelled', '46');
+        return config('status.partially_released_cancelled', '46');
     }
 
     public static function resubmitted(): string
@@ -203,7 +203,7 @@ class StatusHelper
 
     public static function activeArticle(): string
     {
-        return config('status.activeArticle', '11');
+        return config('status.active_article', '11');
     }
 
 

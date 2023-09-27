@@ -2,6 +2,7 @@
 
 namespace App\Services\WorkShopManagement;
 
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
@@ -625,11 +626,25 @@ class WorkshopService
     public function getReservedMaterialsAndServices(string $vehicleRegistration): Collection
     {
         return DB::table("GEN_MATERIAL_HEADERS mat_header")
-            ->join("GEN_MATERIAL_DETAILS mat_detail", "mat_header.req_no", "=", "mat_detail.req_no")
+            ->join("GEN_MATERIAL_DETAILS mat_detail",
+                "mat_header.req_no",
+                "=",
+                "mat_detail.req_no")
             ->whereNull("mat_header.document_no")
-            ->where("mat_detail.reg_no", '=', $vehicleRegistration)
-            ->where("mat_header.is_fuel", '=', 'N')
+            ->where("mat_detail.reg_no",
+                QueryComparisonOperator::EQUALS,
+                $vehicleRegistration)
+            ->where("mat_header.is_fuel",
+                QueryComparisonOperator::NOT_EQUAL,
+                'Y')
             ->whereNull("mat_detail.claimed")
+            ->whereIn('mat_header.stat',
+                [
+                    StatusHelper::new(),
+                    StatusHelper::authorised(),
+                    StatusHelper::partiallyReleased(),
+                    StatusHelper::issued()
+                ])
             ->select("mat_header.*",
                 "mat_detail.*"
             )->get();
