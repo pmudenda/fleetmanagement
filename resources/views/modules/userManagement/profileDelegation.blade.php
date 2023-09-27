@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <style>
+        .error {
+            color: orangered;
+        }
+    </style>
 @endpush
 @section('content')
     <x-content-header/>
@@ -407,6 +412,10 @@
                 this.value = this.value.toUpperCase();
             });
 
+            $(document).on("change", '[name="startDate"]', function () {
+                $('[name="endDate"]').attr('min', this.value);
+            });
+
             $(document).on('click', '.deleteButton', function (e) {
                 let recordData = this.getAttribute('data-id');
                 console.log(recordData)
@@ -480,13 +489,16 @@
                 }, 300);
             });
 
-            $('form[name="profileDelegationForm"]').on('submit', function () {
+            let $delegationSubmissionForm = $('form[name="profileDelegationForm"]');
+
+            $delegationSubmissionForm.on('submit', function () {
+                e.preventDefault();
+                e.stopPropagation();
+
                 if (!$(this).valid()) {
                     return;
                 }
 
-                e.preventDefault();
-                e.stopPropagation();
                 let formData = new FormData(this);
 
                 tmsApp.asyncPostFormData(
@@ -530,7 +542,15 @@
                         )
                     }
                 );
-            });
+            })
+
+            tmsApp.appFormValidator($delegationSubmissionForm, {
+                staffNumber: {required: true, minlength: 5},
+                employeeName: {required: true},
+                startDate: {required: true},
+                endDate: {required: true},
+                remarks: {remarks: true, minWords: 50},
+            }, {});
 
             function findEmployee() {
                 const staff_number = document.querySelector('#staffNumber').value
