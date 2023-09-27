@@ -506,20 +506,14 @@
                     formData,
                     function (response_data) {
                         if (response_data.success) {
-                            if (response_data['payload'].length === 0) {
-                                tmsApp.systemError(
+                                tmsApp.showSystemMessage(
                                     appMessages.profileDelegationTitle,
-                                    response_data.message
-                                );
-                            }
-                            tmsApp.showSystemMessage(
-                                appMessages.profileDelegationTitle,
-                                response_data.message ?? 'User Profile Delegation Started Successfully',
-                                function () {
-                                    window.location.reload()
-                                },
-                                'success'
-                            )
+                                    response_data.message,
+                                    function () {
+                                        window.location.reload()
+                                    },
+                                    'success'
+                                )
 
                         } else {
                             tmsApp.play_alert('sound-error');
