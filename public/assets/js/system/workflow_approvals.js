@@ -1,3 +1,11 @@
+/*!
+(c) 2023 Lovemore Daka
+*/
+/*! *****************************************************************************
+Workflow Approval
+Copyright (c) 2023 Zambia Electricity Supply Company
+***************************************************************************** */
+
 (function (appInstance, $) {
     let modal = '';
     let myModalEl = document.querySelector('#approval-modal')

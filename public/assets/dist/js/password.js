@@ -1,3 +1,11 @@
+/*!
+(c) 2023 Lovemore Daka
+*/
+/*! *****************************************************************************
+Login screen password visibility toggle
+Copyright (c) 2023 Zambia Electricity Supply Company
+***************************************************************************** */
+
 function passShow() {
     "use strict";
     var x = document.getElementById("password");

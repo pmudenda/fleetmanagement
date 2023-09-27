@@ -1,5 +1,5 @@
 /*! *****************************************************************************
-Docs & License:
+(c) 2023 Lovemore Daka
 Shows & Hides the Whole Page Loading Progressbar
 Copyright (c) 2023 Zambia Electricity Supply Company
 ***************************************************************************** */

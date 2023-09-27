@@ -733,11 +733,6 @@
                                                                id="attachment"
                                                                name="attachment[]"/>
                                                     </p>
-                                                    {{--<div class="imagePreview"
-                                                         style="display: none;
-                                                         background-url:({{$accidentImage->path}});
-                                                         min-height: 250px !important;">
-                                                    </div>--}}
                                                 </td>
                                                 <td>
                                                     <button type="button"

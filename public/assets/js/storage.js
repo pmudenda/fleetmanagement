@@ -1,3 +1,12 @@
+/*!
+(c) 2023 Lovemore Daka
+*/
+/*! *****************************************************************************
+Local Storage Access
+Copyright (c) 2023 Zambia Electricity Supply Company
+***************************************************************************** */
+
+
 const vueDataStore = {
 
   persistObject(key, value) {

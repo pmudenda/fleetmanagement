@@ -1,7 +1,4 @@
 'use strict';
-$(document).ready(function () {
-
-});
 
 function initProjectSelector(selector) {
     const dataUrl = document.querySelector('#projects_url').value;

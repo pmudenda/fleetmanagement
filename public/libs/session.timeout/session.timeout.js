@@ -1,19 +1,20 @@
 ﻿/**
- * Authored by Mwape Daka
- * Edited By Lovemore Daka
+ * Authored by Lovemore Daka
  * Version: 1.0.0
  * */
 $(document).ready(function () {
     let context = "/";
     let $body = $('body');
-    let sessionModal = `<div class="modal fade" id="inactivity-modal" tabindex="-1" data-table-id="x" data-keyboard="false" data-backdrop="static">
+    let sessionModal = `<div class="modal fade" id="inactivity-modal" tabindex="-1"
+    data-table-id="x" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document" style="max-width: 50%;">
         <div class="modal-content">
             <div class="modal-header bg-zesco">
                 <h5 class="modal-title text-center" style="width:100%">Inactive Session</h5>
             </div>
             <div class="modal-body p-b-0">
-                <h6 class="text-center mt-5">Your account has been inactive for some time. Your session will expire in</h6>
+                <h6 class="text-center mt-5">Your account has been inactive for some time.
+                Your session will expire in</h6>
                 <div class="timer-container">
                     <div class="setters">
                         <div class="minutes-set">
@@ -45,8 +46,10 @@ $(document).ready(function () {
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger mr-2" data-dismiss="modal" id="pop-up-sign-out">Log Out</button>
-                <button type="button" class="btn btn-outline-success" data-dismiss="modal" id="pop-up-continue">Stay Connected</button>
+                <button type="button" class="btn btn-outline-danger mr-2" data-dismiss="modal" id="pop-up-sign-out">
+                Log Out</button>
+                <button type="button" class="btn btn-outline-success" data-dismiss="modal" id="pop-up-continue">
+                Stay Connected</button>
             </div>
         </div>
     </div>

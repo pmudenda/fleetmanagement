@@ -1527,7 +1527,7 @@ function make_xlsx_lib(XLSX){
             //return (payload.slice(start*MSSZ, start*MSSZ + size));
             var o = [];
             var idx = start;
-            while(mini && size > 0 && idx >= 0) {
+            while(size > 0 && idx >= 0) {
                 o.push(payload.slice(idx * MSSZ, idx * MSSZ + MSSZ));
                 size -= MSSZ;
                 idx = __readInt32LE(mini, idx * 4);

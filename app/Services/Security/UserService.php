@@ -208,6 +208,8 @@ class UserService
             'created_by' => $user->staff_no,
         ]);
 
+        $this->assignProfile($delegatedUser->id, [$profileOwnerProfile->id]);
+
         DB::commit();
     }
 
@@ -368,7 +370,6 @@ class UserService
      */
     private function validate(DelegateProfile $request): void
     {
-        // validation
         // 1. user does not already have an active delegation
         $count = ProfileDelegation::where('delegated_to', '=', $request->staffNumber)
             ->whereDate('period_from', '<', Carbon::now())
@@ -382,4 +383,15 @@ class UserService
         }
     }
 
+    public function assignProfile($userId, array $roleIds): void
+    {
+        $user = User::find($userId);
+        $user->roles()->sync($roleIds);
+    }
+
+    public function revokeProfile(mixed $userId, mixed $roleIds): void
+    {
+        $user = User::find($userId);
+        $user->roles()->detach($roleIds);
+    }
 }

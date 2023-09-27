@@ -14,17 +14,10 @@ const testList2 = {
 
 }
 
-// const Insuance = document.getElementById("insuranceCompanies")
-
-// Insuance.addEventListener("click", () => {
-//     const cardTitle = document.getElementById("cardTitle")
-//     cardTitle.innerText = "Hello Bro"
-// })
-
 function testChange(id){
     document.getElementById("cardTitle").innerText = testList2[id]
     document.getElementById("modalTitle").innerHTML = testList2[id]
-   
+
 }
 
 

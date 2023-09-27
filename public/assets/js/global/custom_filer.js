@@ -1,8 +1,16 @@
+/*!
+(c) 2023 Lovemore Daka
+*/
+/*! *****************************************************************************
+File Uploader
+Copyright (c) 2023 Zambia Electricity Supply Company
+***************************************************************************** */
+
 (function (appInstance, $) {
     appInstance.uploadFilePath = './php/ajax_remove_file.php';
     appInstance.removeUploadedPath = './php/ajax_remove_file.php';
 
-    let fileUploader = function () {
+    appInstance.fileUploader = function () {
         this.makeUploader2 = function () {
             //Example 2
             $("#filer_input2").filer({
@@ -168,7 +176,6 @@
         }
 
         this.makeMultipleFileUploader = function () {
-            //Example 2
             $('#filer_input').filer({
                 limit: 3,
                 maxSize: 3,
@@ -180,12 +187,17 @@
         }
 
         this.makeUploader = function () {
-            //Example 1
             $("#filer_input").filer({
                 limit: null,
                 maxSize: null,
                 extensions: null,
-                changeInput: '<div class="jFiler-input-dragDrop"><div class="jFiler-input-inner"><div class="jFiler-input-icon"><i class="icon-jfi-cloud-up-o"></i></div><div class="jFiler-input-text"><h3>Drag & Drop files here</h3> <span style="display:inline-block; margin: 15px 0">or</span></div><a class="jFiler-input-choose-btn btn btn-primary waves-effect waves-light">Browse Files</a></div></div>',
+                changeInput: '<div class="jFiler-input-dragDrop"><div class="jFiler-input-inner">' +
+                    '<div class="jFiler-input-icon"><i class="icon-jfi-cloud-up-o"></i>' +
+                    '</div><div class="jFiler-input-text">' +
+                    '<h3>Drag & Drop files here</h3>' +
+                    '<span style="display:inline-block; margin: 15px 0">or</span></div>' +
+                    '<a class="jFiler-input-choose-btn btn btn-primary waves-effect waves-light">' +
+                    'Browse Files</a></div></div>',
                 showThumbs: true,
                 theme: "dragdropbox",
                 templates: {
@@ -196,7 +208,8 @@
                                 <div class="jFiler-item-thumb">\
                                     <div class="jFiler-item-status"></div>\
                                     <div class="jFiler-item-info">\
-                                        <span class="jFiler-item-title"><b title="{{fi-name}}">{{fi-name | limitTo: 25}}</b></span>\
+                                        <span class="jFiler-item-title"><b title="{{fi-name}}">\
+                                        {{fi-name | limitTo: 25}}</b></span>\
                                         <span class="jFiler-item-others">{{fi-size2}}</span>\
                                     </div>\
                                     {{fi-image}}\
@@ -218,7 +231,8 @@
                                     <div class="jFiler-item-thumb">\
                                         <div class="jFiler-item-status"></div>\
                                         <div class="jFiler-item-info">\
-                                            <span class="jFiler-item-title"><b title="{{fi-name}}">{{fi-name | limitTo: 25}}</b></span>\
+                                            <span class="jFiler-item-title"><b title="{{fi-name}}">\
+                                            {{fi-name | limitTo: 25}}</b></span>\
                                             <span class="jFiler-item-others">{{fi-size2}}</span>\
                                         </div>\
                                         {{fi-image}}\
@@ -259,13 +273,16 @@
                     success: function (data, el) {
                         let parent = el.find(".jFiler-jProgressBar").parent();
                         el.find(".jFiler-jProgressBar").fadeOut("slow", function () {
-                            $("<div class=\"jFiler-item-others text-success\"><i class=\"icon-jfi-check-circle\"></i> Success</div>").hide().appendTo(parent).fadeIn("slow");
+                            $("<div class=\"jFiler-item-others text-success\">" +
+                                "<i class=\"icon-jfi-check-circle\"></i> Success</div>").hide()
+                                .appendTo(parent).fadeIn("slow");
                         });
                     },
                     error: function (el) {
                         var parent = el.find(".jFiler-jProgressBar").parent();
                         el.find(".jFiler-jProgressBar").fadeOut("slow", function () {
-                            $("<div class=\"jFiler-item-others text-error\"><i class=\"icon-jfi-minus-circle\"></i> Error</div>").hide().appendTo(parent).fadeIn("slow");
+                            $("<div class=\"jFiler-item-others text-error\"><i class=\"icon-jfi-minus-circle\"></i> " +
+                                "Error</div>").hide().appendTo(parent).fadeIn("slow");
                         });
                     },
                     statusCode: null,
@@ -317,19 +334,7 @@
             });
         }
 
-        this.init = function (selector){
-            /*$("#filuploads").uploader({
-                  postUrl: "default.aspx?class=reference&method=upload2&upload=true&guid=" + i.options.recordId
-              }).data("plugin_uploader").selectFiles(function () {
-                  r.data("plugin_hqmsListTab").refreshList()
-              });*/
-            /*$('#supportingDocument').filer({
-                 limit: 3,
-                 maxSize: 10,
-                 changeInput: true,
-                 showThumbs: true,
-                 addMore: true
-             });*/
+        this.init = function (selector) {
             $(selector).filer({
                 limit: 3,
                 maxSize: 10,
@@ -339,19 +344,7 @@
             });
         }
 
-        this.destroy = function (selector){
-            /*$("#filuploads").uploader({
-                  postUrl: "default.aspx?class=reference&method=upload2&upload=true&guid=" + i.options.recordId
-              }).data("plugin_uploader").selectFiles(function () {
-                  r.data("plugin_hqmsListTab").refreshList()
-              });*/
-            /*$('#supportingDocument').filer({
-                 limit: 3,
-                 maxSize: 10,
-                 changeInput: true,
-                 showThumbs: true,
-                 addMore: true
-             });*/
+        this.destroy = function (selector) {
             $(selector).filer({
                 limit: 3,
                 maxSize: 10,
@@ -360,7 +353,5 @@
                 addMore: true
             });
         }
-    }
-
-    appInstance.fileUploader = fileUploader;
+    };
 }(window.tmsApp || {}, jQuery));

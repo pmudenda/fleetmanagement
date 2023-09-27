@@ -56,10 +56,7 @@
                     return !result && 'You need to agree with T&C'
                 }
             })
-
             if (accept) {
-                //confirmCallback(null, n, i)
-                //cancelCallback()
             }
         };
 
@@ -82,11 +79,7 @@
             confirmButtonText,
             cancelButtonText,
             confirmCallback,
-            cancelCallback,
-            height,
-            width,
-            containerClass,
-            cssStyle
+            cancelCallback
         ) {
             Swal.fire({
                 title: title === "" || title === null ? "Confirm" : title,
@@ -135,7 +128,6 @@
                     if (typeof closeCallback == 'function') {
                         closeCallback()
                     }
-                    return;
                 }
             });
         };
@@ -145,6 +137,7 @@
          * @param title
          * @param content
          * @param confirmCallback
+         * @param type alert-type
          */
         appInstance.showSystemMessage = function (title, content, confirmCallback, type = 'error') {
             if (!content) {
@@ -219,9 +212,12 @@
             const {value: formValues} = await Swal.fire({
                 title: '<i class="fa fa-key"><\/i> ' + title,
                 html:
-                    '<form><p style="text-align:left;">New Password: <\/p><input type="password" required autocomplete="password" autocapitalize="off" auto-correct="false" class="form-control" id="password"/><p style="text-align:left; margin-top: 10px;">' +
+                    '<form><p style="text-align:left;">New Password: <\/p>' +
+                    '<input type="password" required autocomplete="password" autocapitalize="off" ' +
+                    'auto-correct="false" class="form-control" id="password"/>' +
+                    '<p style="text-align:left; margin-top: 10px;">' +
                     'Confirm: <\/p><input type="password" class="form-control" id="confirm_password"/>' +
-                    '<p className="errorMessage" style="display:none;"></p></form>',
+                    '<p class="errorMessage" style="display:none;"></p></form>',
                 focusConfirm: false,
                 preConfirm: () => {
                     return [
@@ -234,8 +230,9 @@
             if (formValues) {
                 let newUserPassword = $("#password").val();
                 let confirmUserPassword = $("#confirm_password").val();
-                if (newUserPassword == "" || newUserPassword !== confirmUserPassword) {
-                    $(document).find(".errorMessage").text('The password do not match. Please re-enter the new password.');
+                if (newUserPassword === "" || newUserPassword !== confirmUserPassword) {
+                    $(document).find(".errorMessage")
+                        .text('The password do not match. Please re-enter the new password.');
                     return;
                 } else {
                     $(document).find(".errorMessage").text('');
@@ -265,7 +262,6 @@
                 } else {
                     alert("Please enter and verify a newPassword or cancel this dialog.");
                     $("#password").trigger("focus");
-                    return
                 }
             }
         };
@@ -298,7 +294,7 @@
             let dialogContainer = $('<div class="tms_alertdialog tms_alertdialog_error"><p>' + message + "<\/p><p>" + error + "<\/p><\/div>");
             dialogContainer.dialog({
                 modal: true,
-                title:  title !== "" && title !== undefined && title !== null ? title : "ZFM Error",
+                title: title !== "" && title !== undefined && title !== null ? title : "ZFM Error",
                 height: 300,
                 width: 600,
                 close: function () {

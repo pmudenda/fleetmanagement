@@ -4,7 +4,7 @@ namespace App\Models\UserManagement;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProfileDelegation extends Model
+class  ProfileDelegation extends Model
 {
     protected $table = 'sec_profile_delegation';
     protected $fillable = [

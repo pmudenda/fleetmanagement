@@ -20,9 +20,9 @@ class EmployeeSearchModal extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return View|\Closure|string
+     * @return View
      */
-    public function render(): View|string|\Closure
+    public function render(): View
     {
         return view('components.employee-search-modal');
     }

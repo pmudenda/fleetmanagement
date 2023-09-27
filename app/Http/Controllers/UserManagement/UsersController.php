@@ -27,6 +27,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
@@ -143,8 +144,9 @@ class UsersController extends Controller
     public function attach(Request $request): RedirectResponse
     {
         try {
-            $user = User::find($request->id);
-            $user->roles()->sync($request->role_ids);
+            DB::beginTransaction();
+            $this->userService->assignProfile($request->id, $request->role_ids);
+            DB::commit();
             return redirect()->back()->with('message', 'User Successfully Added To Selected Groups ..');
         } catch (\Exception $e) {
             Log::error($e);
@@ -154,8 +156,10 @@ class UsersController extends Controller
 
     public function detach(Request $request): RedirectResponse
     {
-        $user = User::find($request->id);
-        $user->roles()->detach($request->role_id);
+        DB::beginTransaction();
+        $this->userService->revokeProfile($request->id, $request->role_ids);
+        DB::commit();
+
         return redirect()->back()
             ->with('message',
                 SystemMessages::roleAssignedSuccessful()
