@@ -208,7 +208,7 @@ class WorkshopRequisitionService
                 throw new MaterialReservationException($message);
             }
 
-            if ($articleClass = RequisitionItemTypes::STOCK_ITEM) {
+            if ($articleClass == RequisitionItemTypes::STOCK_ITEM) {
                 $articleKey = str_replace("-",
                     "",
                     str_replace(" ", "",
