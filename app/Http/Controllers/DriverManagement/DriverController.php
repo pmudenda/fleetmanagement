@@ -93,43 +93,7 @@ class DriverController extends Controller
             Log::info("searching " . $searchParam);
 
             if ($useDriverModule) {
-                $driver = Driver::where('staff_number', '=', $searchParam)
-                    ->orWhere('name', 'LIKE', "%{$searchParam}%")
-                    ->first();
-
-                if (empty($driver)) {
-                    throw new DriverSearchException(
-                        str_replace(
-                            self::INPUT,
-                            $searchParam,
-                            ErrorMessages::getMessage('err_0011'))
-                    );
-
-                }
-
-                $nowDate = Carbon::now();
-
-                if ($nowDate->gt($driver->license_date_expiry)) {
-                    throw new DriverSearchException(
-                        str_replace(self::INPUT,
-                            $searchParam,
-                            ErrorMessages::getMessage('err_0010')
-                        )
-                    );
-                }
-
-                if ($nowDate->gt($driver->permit_date_expiry)) {
-                    throw new DriverSearchException(
-                        str_replace(self::INPUT,
-                            $searchParam,
-                            ErrorMessages::getMessage('err_0009')
-                        ));
-                }
-
-                return response()->json([
-                    'success' => true,
-                    'payload' => $driver
-                ]);
+                return $this->getAuthorisedDriver($searchParam);
             }
 
             if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
@@ -171,5 +135,49 @@ class DriverController extends Controller
                 'message' => $message
             ]);
         }
+    }
+
+    /**
+     * @throws DriverSearchException
+     */
+    private function getAuthorisedDriver(string $searchParam): JsonResponse
+    {
+        $driver = Driver::where('staff_number', '=', $searchParam)
+            ->orWhere('name', 'LIKE', "%{$searchParam}%")
+            ->first();
+
+        if (empty($driver)) {
+            throw new DriverSearchException(
+                str_replace(
+                    self::INPUT,
+                    $searchParam,
+                    ErrorMessages::getMessage('err_0011'))
+            );
+
+        }
+
+        $nowDate = Carbon::now();
+
+        if ($nowDate->gt($driver->license_date_expiry)) {
+            throw new DriverSearchException(
+                str_replace(self::INPUT,
+                    $searchParam,
+                    ErrorMessages::getMessage('err_0010')
+                )
+            );
+        }
+
+        if ($nowDate->gt($driver->permit_date_expiry)) {
+            throw new DriverSearchException(
+                str_replace(self::INPUT,
+                    $searchParam,
+                    ErrorMessages::getMessage('err_0009')
+                ));
+        }
+
+        return response()->json([
+            'success' => true,
+            'payload' => $driver
+        ]);
     }
 }

@@ -638,7 +638,7 @@ class WorkshopService
                 QueryComparisonOperator::NOT_EQUAL,
                 'Y')
             ->whereNull("mat_detail.claimed")
-            ->whereIn('mat_header.stat',
+            ->whereIn('mat_header.status',
                 [
                     StatusHelper::new(),
                     StatusHelper::authorised(),

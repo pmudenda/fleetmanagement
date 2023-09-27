@@ -12,8 +12,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('FUEL_MANAGEMENT', function (Blueprint $table) {
-            //$table->id();
-            $table->string('user_act', 20)->nullable();;
+            $table->string('user_act', 20)->nullable();
             $table->date('fech_act')->nullable();
             $table->string('voucher_no', 20)->nullable();
             $table->string('document_no', 20)->nullable();
@@ -86,27 +85,6 @@ return new class extends Migration {
                                 ALTER TRIGGER "TR_FUEL_ODOMETER_UPDATE" ENABLE;
                                 ');
 
-        /*DB::unprepared('ALTER TRIGGER "TR_FUEL_ODOMETER_UPDATE" ENABLE;
-
-                                GRANT UPDATE ON "FUEL_MANAGEMENT" TO "ORAFINANCE";
-
-                                GRANT SELECT ON "FUEL_MANAGEMENT" TO "ORAFINANCE";
-
-                                GRANT INSERT ON "FUEL_MANAGEMENT" TO "ORAFINANCE";
-
-                                GRANT UPDATE ON "FUEL_MANAGEMENT" TO "END_USER_TMS";
-
-                                GRANT SELECT ON "FUEL_MANAGEMENT" TO "END_USER_TMS";
-
-                                GRANT INSERT ON "FUEL_MANAGEMENT" TO "END_USER_TMS";
-
-                                GRANT DELETE ON "FUEL_MANAGEMENT" TO "END_USER_TMS";
-
-                                GRANT UPDATE ON "FUEL_MANAGEMENT" TO "SPMS";
-
-                                GRANT SELECT ON "FUEL_MANAGEMENT" TO "SPMS";
-
-                                GRANT INSERT ON "FUEL_MANAGEMENT" TO "SPMS";');*/
     }
 
     /**

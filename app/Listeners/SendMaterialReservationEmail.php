@@ -3,8 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\MaterialReservationMade;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class SendMaterialReservationEmail
 {
@@ -22,5 +21,6 @@ class SendMaterialReservationEmail
     public function handle(MaterialReservationMade $event): void
     {
         //send email
+        Log::info("Request Type " . $event->requestType);
     }
 }

@@ -10,14 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        //$sequence = DB::getSequence();
-        // create a sequence
-        //$sequence->create('REQ_FUEL_SEQUENCE');
-        /*Schema::create('fuel_req_sequence', function (Blueprint $table) {
-            $table->id();
-
-            $table->timestamps();
-        });*/
+        //ignored
     }
 
     /**
@@ -25,6 +18,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        // Schema::dropIfExists('fuel_req_sequence');
+        //ignored
     }
 };

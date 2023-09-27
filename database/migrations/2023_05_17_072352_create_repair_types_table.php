@@ -11,15 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        /*Schema::create('CONFIG_REPAIR_TYPES', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 255);
-            $table->string('code', 25);
-            $table->string('created_by', 255)->nullable();
-            $table->string('modified_by', 255)->nullable();
-            $table->timestamp('deleted_at')->nullable();
-            $table->timestamps();
-        });*/
+        //ignored
     }
 
     /**
@@ -27,6 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        /*Schema::dropIfExists('CONFIG_REPAIR_TYPES');*/
+        //ignored
     }
 };

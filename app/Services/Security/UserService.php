@@ -302,7 +302,7 @@ class UserService
                 'job_code' => $employee->job_code ?? "--",
             ];
 
-            /*$pdo = DB::getPdo();
+            $pdo = DB::getPdo();
             $modifiedBy = auth()->user()->staff_no;
             $stmt = $pdo->prepare(
                 "begin :result := pkg_employee.fn_create_user(
@@ -312,7 +312,7 @@ class UserService
             $stmt->bindParam(":p_staff_no", $userToSync);
             $stmt->bindParam(":p_modified_by", $modifiedBy);
             $stmt->execute();
-            */
+
 
         } else {
             $data = [

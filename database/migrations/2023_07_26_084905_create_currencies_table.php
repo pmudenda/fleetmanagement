@@ -14,8 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->string('created_by', 40)->nullable();
             $table->string('currency_code', 3);
-            $table->string('abbreviation', 10)->nullable();;
-            $table->string('description', 50)->nullable();;
+            $table->string('abbreviation', 10)->nullable();
+            $table->string('description', 50)->nullable();
             $table->string('country_code', 2);
             $table->timestamps();
         });

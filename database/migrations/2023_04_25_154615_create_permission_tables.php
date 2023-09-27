@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\ForeignKeyConstraintViolationException;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,7 +25,8 @@ class CreatePermissionTables extends Migration
             Run [php artisan config:clear] and try again.');
         }
         if ($teams && empty($columnNames['team_foreign_key'] ?? null)) {
-            throw new \Exception('Error: team_foreign_key on config/permission.php not loaded.
+            throw new ForeignKeyConstraintViolationException(
+                'Error: team_foreign_key on config/permission.php not loaded.
             Run [php artisan config:clear] and try again.');
         }
 
@@ -142,6 +144,7 @@ class CreatePermissionTables extends Migration
      * Reverse the migrations.
      *
      * @return void
+     * @throws Exception
      */
     public function down(): void
     {

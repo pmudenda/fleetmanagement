@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->id();
 
             $table->string('workshop_reference')->nullable();
-            //$table->string('workshop_code', 20);
             $table->string('wshp_act_code', 20);
             $table->string('section', 10)->nullable();
             $table->string('evaluation', 2);
@@ -33,7 +32,6 @@ return new class extends Migration {
             $table->Integer('quantity');
             $table->string('stf_number', 20)->nullable();
 
-            //$table->string('movement_no', 20)->nullable();
             $table->string('movt_no', 20)->nullable();
             $table->string('status', 4)->nullable();
 
@@ -41,9 +39,6 @@ return new class extends Migration {
             $table->string('requested_by_id', 13)->nullable();
             $table->string('authorised_by', 15)->nullable();
 
-            //$table->string('proc_ref', 20)->nullable();
-            //$table->string('st_pur', 20)->nullable();
-            //$table->string('form_order', 20)->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->string('created_by', 10);
             $table->string('user1', 10);

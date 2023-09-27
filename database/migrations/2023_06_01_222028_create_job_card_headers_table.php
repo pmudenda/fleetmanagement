@@ -12,7 +12,6 @@ return new class extends Migration {
     {
         Schema::create('WM_JOB_CARD_HEADER', function (Blueprint $table) {
             $table->id();
-            //$table->string('workshop_doc_no', 20);
             $table->string('wshp_act_code', 20);
             $table->string('workshop_code', 7)->nullable();
             $table->string('reg_no', 10)->nullable();
