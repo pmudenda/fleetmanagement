@@ -28,8 +28,10 @@ class DelegateProfile extends FormRequest
             'staffNumber' => 'required|string|max:10|exists:SEC_USERS,staff_no',
             'employeeName' => 'required|string',
             'currentProfile' => 'required|numeric',
-            'startDate' => 'required|date|after_or_equal:'.Carbon::now(),
+            'startDate' => 'required|date|after_or_equal:'.Carbon::today()->toString(),
             'endDate' => 'required|date|after:startDate',
+
+
             'remarks' => 'required|string|max:255|min:50',
         ];
     }
