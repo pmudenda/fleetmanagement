@@ -100,7 +100,7 @@ class VehicleDetailsService
                 ->leftJoin('VM_ENGINE_DETAILS engine_detail',
                     'header.id',
                     QueryComparisonOperator::EQUALS,
-                    'VM_ENGINE_DETAILS.vehicle_header_id')
+                    'engine_detail.vehicle_header_id')
                 ->leftJoin('VM_ASSIGNMENTS',
                     'header.id',
                     QueryComparisonOperator::EQUALS,
