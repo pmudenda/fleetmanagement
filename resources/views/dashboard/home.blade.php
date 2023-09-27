@@ -265,7 +265,7 @@
                 </div>
             </div>
 
-            @can(config('rights.vehicle_dashboard'))
+            @can(config('rights.view_vehicle_dashboard'))
                 <div class="row">
                     <!-- Left col -->
                     <div class="col-md-12 pl-0">
