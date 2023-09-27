@@ -222,6 +222,7 @@
 @push('scripts')
     <script>
         window.reference = `{!! $reference !!}`;
+        window.vehicle = `{!! $vehicle ?? (object)[] !!}`;
     </script>
     <script src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{asset('modules/vehicleManagement/assets/js/lib.vehicle.data.js')}}"></script>
