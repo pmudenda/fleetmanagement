@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Common\CostCenter;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -15,16 +16,25 @@ class CostCenterController extends Controller
         try {
             $data = CostCenter::orderBy('description')->get();
 
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'success',
+                    true,
+                    '',
+                    []
+                )
+            );
         } catch (Exception $e) {
             Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
+            return response()->json(
+
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    '',
+                    []
+                )
+            );
         }
 
     }

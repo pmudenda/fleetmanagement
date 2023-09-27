@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccidentReporting;
 
+use App\Constants\QueryComparisonOperator;
 use App\Enums\ConfigurationTypes;
 use App\Exceptions\DuplicateDataException;
 use App\Http\Controllers\Controller;
@@ -99,13 +100,17 @@ class AccidentRecordingController extends Controller
 
             $reference = $this->accidentService->saveAccidentReport($request);
 
-            return response()->json([
-                'state' => 'success',
-                'redirectUrl' => URL::signedRoute('accident.show', [
-                    'reference' => $reference
-                ]),
-                'message' => 'Accident Successfully Recorded An Reference ' . $reference,
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'success',
+                    true,
+                    'Accident Successfully Recorded An Reference ' . $reference,
+                    [],
+                    URL::signedRoute('accident.show', [
+                        'reference' => $reference
+                    ])
+                )
+            );
         } catch (\Exception $e) {
             Log::error($e);
             $message = 'Failed To record Recorded An Accident';
@@ -113,10 +118,13 @@ class AccidentRecordingController extends Controller
                 $message = $e->getMessage();
             }
 
-            return response()->json([
-                'state' => 'failure',
-                'message' => $message,
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    $message
+                )
+            );
         }
 
     }
@@ -126,42 +134,60 @@ class AccidentRecordingController extends Controller
         try {
             $data = GeneralTable::where('type', '=', ConfigurationTypes::ACCIDENT_TYPES->value)->get();
 
-            return response()->json([
-                'state' => 'successful',
-                'payload' => $data,
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'successful',
+                    true,
+                    '',
+                    $data
+                )
+            );
         } catch (\Exception $e) {
             Log::info($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => [],
-
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    '',
+                    []
+                )
+            );
         }
     }
 
     public function getAccidentNatures(): JsonResponse
     {
         try {
-            $data = GeneralTable::where('type', '=', ConfigurationTypes::ACCIDENT_NATURE->value)->get();
-            return response()->json([
-                'state' => 'successful',
-                'payload' => $data,
-            ]);
+            $data = GeneralTable::where('type',
+                QueryComparisonOperator::EQUALS,
+                ConfigurationTypes::ACCIDENT_NATURE->value)->get();
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'successful',
+                    true,
+                    '',
+                    $data
+                )
+            );
         } catch (\Exception $e) {
-
-            return response()->json([
-                'state' => 'failure',
-                'payload' => [],
-
-            ]);
+            Log::error($e);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    '',
+                    []
+                )
+            );
         }
     }
 
     public function getLatestAccidentReport(Request $request): JsonResponse
     {
         try {
-            $data = Accident::where('vehicle_reg_no', '=', $request->get('vehicleRegistration'))
+            $data = Accident::where('vehicle_reg_no',
+                QueryComparisonOperator::EQUALS,
+                $request->get('vehicleRegistration'))
                 ->orderBy('created_at', 'desc')
                 ->first();
 

@@ -23,8 +23,6 @@ class OrganizationalUnitsController extends Controller
             $query->whereNotNull('cc_code');
             $query->whereNotNull('bu_code');
 
-            $data = $query->orderBy('description')->get();
-
             cache()->forget('org_units');
             if ($request->get('org_units')) {
                 $data = cache()->remember('org_units', $month, function ($query) {

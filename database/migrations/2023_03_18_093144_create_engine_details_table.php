@@ -26,14 +26,14 @@ return new class extends Migration {
             $table->string('transmission_type', 100)->nullable();
             $table->string('reg_no', 10)->nullable();
 
-            $table->string('battery_brand', 100)->nullable();;
+            $table->string('battery_brand', 100)->nullable();
             $table->string('battery_size', 100)->nullable();
             $table->string('battery_power', 100)->nullable();
             $table->integer('num_batteries')->nullable();
 
-            $table->string('front_tyre_size', 100)->nullable();;
-            $table->string('number_of_tyres', 100)->nullable();;
-            $table->string('rear_tyre_size', 100)->nullable();;
+            $table->string('front_tyre_size', 100)->nullable();
+            $table->string('number_of_tyres', 100)->nullable();
+            $table->string('rear_tyre_size', 100)->nullable();
             $table->string('tyre_brand', 100)->nullable();
             $table->string('vehicle_header_id')->nullable();
             $table->integer('created_by')->nullable();
