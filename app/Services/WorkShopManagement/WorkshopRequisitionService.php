@@ -182,6 +182,7 @@ class WorkshopRequisitionService
         $user = Auth()->user();
 
         $requestItemType = $materialReservationRequest->get('itemType');
+        Log::info("Reservation Article Type " . $requestItemType);
         if ($requestItemType == RequisitionItemTypes::STOCK_ITEM_CODE) {
             $articleClass = RequisitionItemTypes::STOCK_ITEM;
             $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
