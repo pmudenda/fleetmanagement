@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class PasswordResetRequest extends FormRequest
 {
@@ -23,8 +24,14 @@ class PasswordResetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'otp'=> 'required|min:8',
-            'userId'=> 'required|string'
+            'otp' => ['required',
+                Password::min(10)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()],
+            'userId' => 'required|string'
         ];
     }
 }

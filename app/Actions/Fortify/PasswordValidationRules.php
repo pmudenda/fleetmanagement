@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use Illuminate\Contracts\Validation\Rule;
 use Laravel\Fortify\Rules\Password;
 
 trait PasswordValidationRules
@@ -9,10 +10,19 @@ trait PasswordValidationRules
     /**
      * Get the validation rules used to validate password.
      *
-     * @return array<int, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<int, Rule|array|string>
      */
     protected function passwordRules(): array
     {
-        return ['required', 'string', new Password, 'confirmed'];
+        return [
+            'required',
+            'string', new Password, 'confirmed',
+            \Illuminate\Validation\Rules\Password::min(10)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->symbols()
+                ->uncompromised()
+        ];
     }
 }

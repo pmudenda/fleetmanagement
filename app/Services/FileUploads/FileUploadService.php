@@ -2,7 +2,6 @@
 
 namespace App\Services\FileUploads;
 
-use App\Models\Attachment;
 use App\Models\Common\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

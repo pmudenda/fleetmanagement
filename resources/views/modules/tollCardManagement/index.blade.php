@@ -53,7 +53,10 @@
                         </div>
                         <div class="card-body p-2">
                             <div class="table-responsive mt-10 ">
-                                <table id="listTable" class="table table-bordered">
+                                <table id="listTable"
+                                       role="table"
+                                       aria-label="Toll Cards"
+                                       class="table table-bordered">
                                     <thead>
                                     <tr>
                                         <th>#</th>
@@ -65,9 +68,6 @@
                                         <th>Permit No</th>
                                         <th>Permit Expiry</th>
                                         <th>Status</th>
-                                        {{--@can(config('rights.user_show'))--}}
-                                        {{--<th>Action</th>--}}
-                                        {{--@endcan--}}
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -123,14 +123,6 @@
                                                 </span>
                                                 @endif
                                             </td>
-                                            {{--@can(config('rights.user_show'))--}}
-                                            {{--<td>
-                                                <a href="{{route('driver.show', $user->id)}}"
-                                                   class="btn btn-sm btn-success m-1">
-                                                    <i class="fas fa-eye">Details</i>
-                                                </a>
-                                            </td>--}}
-                                            {{-- @endcan--}}
                                         </tr>
                                     @endforeach
                                     </tbody>

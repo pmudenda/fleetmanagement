@@ -32,7 +32,8 @@
                                     </button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="btn btn-sm btn-outline-primary myBtns btn2" href="#">
+                                    <button class="btn btn-sm btn-outline-primary myBtns btn2"
+                                            href="#">
                                         <i class="fas fa-upload"></i>
                                         Bulk Upload
                                     </button>
@@ -42,7 +43,10 @@
                         <div class="card-body ">
                             <div class="table-wrap">
                                 <div class="table-responsive">
-                                    <table id="recordsTable" class="table table-bordered table-striped">
+                                    <table id="recordsTable"
+                                           role="table"
+                                           aria-label="Configurations Data"
+                                           class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
                                             <th>Code</th>
@@ -87,9 +91,12 @@
                                                         <td>
                                                             <div class="dropdown">
                                                                 <button
-                                                                    class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                                    class="btn btn-light
+                                                                    btn-active-light-primary btn-sm
+                                                                    dropdown-toggle"
                                                                     type="button"
-                                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                                    id="dropdownMenuButton1"
+                                                                    data-bs-toggle="dropdown"
                                                                     aria-expanded="false">
                                                                     Actions
                                                                 </button>

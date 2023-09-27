@@ -71,7 +71,6 @@
                 <div class="col-md-12 mt-10">
                     <div class="wizard">
                         <div class="wizard-inner">
-                            <!-- <div class="connecting-line"></div> -->
                             <ul class="nav nav-tabs steps" role="tablist">
                                 <li role="presentation" data-index="0" class="active st1">
                                     <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab"
@@ -97,7 +96,10 @@
                             </ul>
                         </div>
 
-                        <form role="form" name="saveCleanDataForm" action="{{route('save.clean.data')}}" method="post" class="">
+                        <form role="form"
+                              name="saveCleanDataForm"
+                              action="{{route('save.clean.data')}}"
+                              method="post" class="">
                             @csrf
                             <div class="tab-content px-5" id="main_form">
                                 <div class="tab-pane active step" role="tabpanel" id="step1">
@@ -175,7 +177,8 @@
                                         <div class="col-md-4">
                                             <div class="form-group ">
                                                 <label for="vehicleType">Color:</label>
-                                                <select title="Color" name="vehicleColor" class="form-control" id="color">
+                                                <select title="Color" name="vehicleColor" class="form-control"
+                                                        id="color">
                                                     <option selected disabled>--Select Color--</option>
 
                                                     @foreach($colors as $color)
@@ -252,29 +255,29 @@
                                         <div class="col-md-6">
                                             <div class="form-group ">
                                                 <label for="vehicleType">User Unit*:</label>
-                                                <select name="organizationalUnit" class="form-control make" id="organizationalUnit"
+                                                <select name="organizationalUnit"
+                                                        class="form-control make"
+                                                        id="organizationalUnit"
                                                         required>
                                                 </select>
                                             </div>
                                         </div>
 
 
-
                                         <div class="col-md-6">
                                             <div class="form-group ">
-                                                <label for="vehicleType" class="field-required" >Business Unit :</label>
+                                                <label for="vehicleType" class="field-required">Business Unit :</label>
                                                 <input name="businessUnit" class="form-control make" id="businessUnit"
-                                                        required disabled>
+                                                       required disabled>
                                             </div>
                                         </div>
-
 
 
                                         <div class="col-md-6">
                                             <div class="form-group ">
                                                 <label for="vehicleType">Cost Center*:</label>
                                                 <input name="costCenter" class="form-control make" id="costCenter"
-                                                        required disabled />
+                                                       required disabled/>
                                             </div>
                                         </div>
 
@@ -395,7 +398,7 @@
                                                        id="supervisorId"
                                                        name="supervisorId"
                                                        value="{{$vehicle->responsible_head_id ?? ''}}"
-                                                       />
+                                                />
                                             </div>
                                         </div>
 
@@ -533,9 +536,7 @@
                                             <button type="button" class="btn btn-success btn-sm prev-step">Previous
                                             </button>
                                         </li>
-                                        {{--<li>
-                                                <button type="button" class="btn btn-success next-step skip-btn">Skip</button>
-                                            </li>--}}
+
                                         <li>
                                             <button type="button" class="btn btn-success btn-sm next-step">Continue
                                             </button>
@@ -548,8 +549,8 @@
                                         <div class="col-md-3" data-if="images && images.frontView">
                                             <div class="form-group ">
                                                 <label
-                                                        class="col-12  field-required"
-                                                        for="staff_name">
+                                                    class="col-12  field-required"
+                                                    for="staff_name">
                                                     Front View:
                                                     <small class="text-danger">
                                                         JPG, JPEG,PNG, BMP
@@ -557,36 +558,36 @@
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
 
-                                            <div class="card text-center py-5 my-2 pt-0">
-                                                <div class="form-group">
-                                                    <p
-                                                            class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                        <button type="button"
-                                                                data-select="file"
-                                                                data-input="selectFrontViewFile"
-                                                                class="upload-file btn btn-sm btn-primary me-2">
-                                                            <i class="fas fa-cloud"></i>
-                                                            Upload Image
-                                                        </button>
-                                                        <input type="file" accept="image/*"
-                                                               style="display: none;"
-                                                               class="fileElem"
-                                                               id="front_view"
-                                                               name="front_view"/>
-                                                    </p>
-                                                    <div class="imagePreview"
-                                                         style="display: none;">
-                                                        <button type="button"
-                                                                class="btn btn-xs clearImage"
-                                                                style="top: 1px;
+                                                    <div class="card text-center py-5 my-2 pt-0">
+                                                        <div class="form-group">
+                                                            <p
+                                                                class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                                                                <button type="button"
+                                                                        data-select="file"
+                                                                        data-input="selectFrontViewFile"
+                                                                        class="upload-file btn btn-sm btn-primary me-2">
+                                                                    <i class="fas fa-cloud"></i>
+                                                                    Upload Image
+                                                                </button>
+                                                                <input type="file" accept="image/*"
+                                                                       style="display: none;"
+                                                                       class="fileElem"
+                                                                       id="front_view"
+                                                                       name="front_view"/>
+                                                            </p>
+                                                            <div class="imagePreview"
+                                                                 style="display: none;">
+                                                                <button type="button"
+                                                                        class="btn btn-xs clearImage"
+                                                                        style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
                                             padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                                                        </button>
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
                                                 </div>
                                             </div>
 
@@ -595,44 +596,44 @@
                                         <div class="col-md-3" data-if="images && images.rearView">
                                             <div class="form-group row">
                                                 <label
-                                                        class="col-12 field-required"
-                                                        for="staff_name">
+                                                    class="col-12 field-required"
+                                                    for="staff_name">
                                                     Rear View:
                                                     <small class="text-danger">
                                                         JPG, JPEG,PNG, BMP
                                                     </small>
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                            <div class="card text-center py-5 my-2 pt-0">
-                                                <div class="form-group">
-                                                    <p
-                                                            class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                        <button type="button"
-                                                                data-select="file"
-                                                                data-input="selectFrontViewFile"
-                                                                class="upload-file btn btn-sm btn-primary me-2">
-                                                            <i class="fas fa-cloud"></i>
-                                                            Upload Image
-                                                        </button>
-                                                        <input type="file" accept="image/*"
-                                                               style="display: none;"
-                                                               class="fileElem"
-                                                               id="rear_view"
-                                                               name="rear_view"/>
-                                                    </p>
-                                                    <div class="imagePreview"
-                                                         style="display: none;">
-                                                        <button type="button"
-                                                                class="btn btn-xs clearImage"
-                                                                style="top: 1px;
+                                                    <div class="card text-center py-5 my-2 pt-0">
+                                                        <div class="form-group">
+                                                            <p
+                                                                class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                                                                <button type="button"
+                                                                        data-select="file"
+                                                                        data-input="selectFrontViewFile"
+                                                                        class="upload-file btn btn-sm btn-primary me-2">
+                                                                    <i class="fas fa-cloud"></i>
+                                                                    Upload Image
+                                                                </button>
+                                                                <input type="file" accept="image/*"
+                                                                       style="display: none;"
+                                                                       class="fileElem"
+                                                                       id="rear_view"
+                                                                       name="rear_view"/>
+                                                            </p>
+                                                            <div class="imagePreview"
+                                                                 style="display: none;">
+                                                                <button type="button"
+                                                                        class="btn btn-xs clearImage"
+                                                                        style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
                                             padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                                                        </button>
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -640,88 +641,88 @@
                                         <div class="col-md-3" data-if="images && images.rightView">
                                             <div class="form-group row">
                                                 <label
-                                                        class="col-12  field-required"
-                                                        for="staff_name">
+                                                    class="col-12  field-required"
+                                                    for="staff_name">
                                                     Right View:
                                                     <small class="text-danger">
                                                         JPG, JPEG,PNG, BMP
                                                     </small>
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                            <div class="card text-center py-5 my-2 pt-0">
-                                                <div class="form-group">
-                                                    <p
-                                                            class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                        <button type="button"
-                                                                data-select="file"
-                                                                data-input="selectFrontViewFile"
-                                                                class="upload-file btn btn-sm btn-primary me-2">
-                                                            <i class="fas fa-cloud"></i>
-                                                            Upload Image
-                                                        </button>
-                                                        <input type="file" accept="image/*"
-                                                               style="display: none;"
-                                                               class="fileElem"
-                                                               id="right_view"
-                                                               name="right_view"/>
-                                                    </p>
-                                                    <div class="imagePreview"
-                                                         style="display: none;">
-                                                        <button type="button"
-                                                                class="btn btn-xs clearImage"
-                                                                style="top: 1px;
+                                                    <div class="card text-center py-5 my-2 pt-0">
+                                                        <div class="form-group">
+                                                            <p
+                                                                class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                                                                <button type="button"
+                                                                        data-select="file"
+                                                                        data-input="selectFrontViewFile"
+                                                                        class="upload-file btn btn-sm btn-primary me-2">
+                                                                    <i class="fas fa-cloud"></i>
+                                                                    Upload Image
+                                                                </button>
+                                                                <input type="file" accept="image/*"
+                                                                       style="display: none;"
+                                                                       class="fileElem"
+                                                                       id="right_view"
+                                                                       name="right_view"/>
+                                                            </p>
+                                                            <div class="imagePreview"
+                                                                 style="display: none;">
+                                                                <button type="button"
+                                                                        class="btn btn-xs clearImage"
+                                                                        style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
                                             padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                                                        </button>
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-3" data-if="images && images.leftView">
                                             <div class="form-group">
                                                 <label
-                                                        class="col-12 field-required"
-                                                        for="staff_name">
+                                                    class="col-12 field-required"
+                                                    for="staff_name">
                                                     Left View:
                                                     <small class="text-danger">
                                                         JPG, JPEG,PNG, BMP
                                                     </small>
                                                 </label>
                                                 <div class="col-12 col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                            <div class="card text-center py-5 my-2 pt-0">
-                                                <div class="form-group">
-                                                    <p
-                                                            class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                        <button type="button"
-                                                                data-select="file"
-                                                                data-input="selectFrontViewFile"
-                                                                class="upload-file btn btn-sm btn-primary me-2">
-                                                            <i class="fas fa-cloud"></i>
-                                                            Upload Image
-                                                        </button>
-                                                        <input type="file" accept="image/*"
-                                                               style="display: none;"
-                                                               class="fileElem"
-                                                               id="left_view"
-                                                               name="left_view"/>
-                                                    </p>
-                                                    <div class="imagePreview"
-                                                         style="display: none;">
-                                                        <button type="button"
-                                                                class="btn btn-xs clearImage"
-                                                                style="top: 1px;
+                                                    <div class="card text-center py-5 my-2 pt-0">
+                                                        <div class="form-group">
+                                                            <p
+                                                                class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                                                                <button type="button"
+                                                                        data-select="file"
+                                                                        data-input="selectFrontViewFile"
+                                                                        class="upload-file btn btn-sm btn-primary me-2">
+                                                                    <i class="fas fa-cloud"></i>
+                                                                    Upload Image
+                                                                </button>
+                                                                <input type="file" accept="image/*"
+                                                                       style="display: none;"
+                                                                       class="fileElem"
+                                                                       id="left_view"
+                                                                       name="left_view"/>
+                                                            </p>
+                                                            <div class="imagePreview"
+                                                                 style="display: none;">
+                                                                <button type="button"
+                                                                        class="btn btn-xs clearImage"
+                                                                        style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
                                             padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                                                        </button>
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -730,11 +731,13 @@
                                         <li>
                                             <button type="button" class="default-btn prev-step">Previous</button>
                                         </li>
-                                       {{-- <li>
-                                            <button type="button" class="default-btn next-step skip-btn">Skip</button>
-                                        </li>--}}
+
                                         <li>
-                                            <button role="finish" type="button" class="default-btn finish">Finish</button>
+                                            <button role="finish"
+                                                    type="button"
+                                                    class="default-btn finish">
+                                                Finish
+                                            </button>
                                         </li>
                                     </ul>
                                 </div>
@@ -799,7 +802,7 @@
                 prefillDropdownList(payload?.marca_motor);
             }
 
-            function getBodyTypes  () {
+            function getBodyTypes() {
                 fetch(document.querySelector('#bodyTypesEndpoint').value)
                     .then(response => response.json())
                     .then(response => {
@@ -842,10 +845,10 @@
                 }
 
                 tmsApp.populateDropDownList($($model),
-                    selectedBrandModels, 'id',['model_name','model_code'], '=>')
+                    selectedBrandModels, 'id', ['model_name', 'model_code'], '=>')
             }
 
-            function getDirectorates () {
+            function getDirectorates() {
                 fetch(document.querySelector('#directoratesEndpoint').value)
                     .then(response => response.json())
                     .then(function (response) {
@@ -856,15 +859,17 @@
                             return;
                         }
                         tmsApp.populateDropDownList($('[name="directorate"]'),
-                            response['payload'], 'id',['name']);
+                            response['payload'], 'id', ['name']);
                     })
                     .catch(function (error) {
                         // notify of error
-                        toastr.error('Connection error. Could not retrieve Directorates data, some feature might not work.')
+                        toastr.error('Connection error',
+                            'Could not retrieve Directorates data, some feature might not work.'
+                        )
                     });
             }
 
-            function getBusinessUnits () {
+            function getBusinessUnits() {
                 fetch(document.querySelector('#businessUnitsEndpoint').value)
                     .then(response => response.json())
                     .then(response => {
@@ -878,9 +883,11 @@
                         window.businessUnits = response['payload'];
                     })
                     .catch(function (error) {
-                        // notify of error
-                        console.log(error)
-                        toastr.error('Connection error. Could not retrieve business units data, some feature might not work.')
+
+                        toastr.error(
+                            'Connection error.',
+                            'Could not retrieve business units data, some feature might not work.'
+                        )
                     });
             }
 
@@ -899,7 +906,10 @@
 
                         let userUnits = response['payload'];
                         window.organizationUnits = userUnits;
-                        tmsApp.populateDropDownList(selectElem, userUnits, "code_unit", ['code_unit', "description"], " => ");
+                        tmsApp.populateDropDownList(selectElem,
+                            userUnits, "code_unit",
+                            ['code_unit', "description"],
+                            " => ");
 
                         let userUnitId = selectElem.attr('data-value');
                         if (userUnitId) {
@@ -910,45 +920,48 @@
                     .catch(function (error) {
                         // notify of error
                         console.log(error)
-                        toastr.error('Connection error. Could not retrieve Organizational units data, some feature might not work.')
+                        toastr.error('Connection error',
+                            'Could not retrieve Organizational units data, some feature might not work.'
+                        )
                     });
             }
 
             function userUnitChanged(user_unit) {
 
-                if(!user_unit) return;
+                if (!user_unit) return;
 
-                    let user_units =  window.organizationUnits.filter(function (userUnit) {
-                        return userUnit['code_unit'].trim() === user_unit?.trim();
-                    });
+                let user_units = window.organizationUnits.filter(function (userUnit) {
+                    return userUnit['code_unit'].trim() === user_unit?.trim();
+                });
 
-                    let cost_center_code = user_units[0]?.cc_code;
-                    let business_unit_code = user_units[0]?.bu_code;
-
-
-                    let filteredCostCenters = window.costCenters.filter(function (cost_center) {
-                        return cost_center['code_cost_center'].trim() === cost_center_code?.trim();
-                    });
+                let cost_center_code = user_units[0]?.cc_code;
+                let business_unit_code = user_units[0]?.bu_code;
 
 
-                    if (filteredCostCenters.length !== 0) {
-                        let costCentreOfInterest = filteredCostCenters[0];
-                        const costCenterDescription = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
-                        $('[name="costCenter"]').val(costCenterDescription);
-                        $('[name="costCenter"]').trigger('change');
-                    }
+                let filteredCostCenters = window.costCenters.filter(function (cost_center) {
+                    return cost_center['code_cost_center'].trim() === cost_center_code?.trim();
+                });
 
-                    let filteredBusinessUnits =window.businessUnits.filter(function (bu) {
-                        return bu.code_bu?.trim() === business_unit_code?.trim();
-                    });
 
-                    if (filteredBusinessUnits.length === 0) return;
+                if (filteredCostCenters.length !== 0) {
+                    let costCentreOfInterest = filteredCostCenters[0];
+                    const costCenterDescription = costCentreOfInterest['code_cost_center']
+                        + ':' + costCentreOfInterest['description'];
+                    $('[name="costCenter"]').val(costCenterDescription);
+                    $('[name="costCenter"]').trigger('change');
+                }
 
-                    let businessUnitOfInterest = filteredBusinessUnits[0];
+                let filteredBusinessUnits = window.businessUnits.filter(function (bu) {
+                    return bu.code_bu?.trim() === business_unit_code?.trim();
+                });
 
-                    const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
-                    $('[name="businessUnit"]').val(val);
-                    $('[name="businessUnit"]').trigger('change');
+                if (filteredBusinessUnits.length === 0) return;
+
+                let businessUnitOfInterest = filteredBusinessUnits[0];
+
+                const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
+                $('[name="businessUnit"]').val(val);
+                $('[name="businessUnit"]').trigger('change');
 
 
                 return;
@@ -980,7 +993,6 @@
             }
 
 
-
             setTimeout(function () {
                 if (document.querySelector('#registrationNumber').value > "") {
                     document.querySelector("#vehicleSearchBtn").click();
@@ -1001,12 +1013,17 @@
                             populateVehicleDetails(response_data.payload[0]);
                         } else {
                             removeSubmissionAndDetailsOptions();
-                            let $message = response_data['message'] ? response_data['message'] : ' No Vehicle Found, Check your input and try again';
+                            let $message = response_data['message'] ?
+                                response_data['message']
+                                :
+                                ' No Vehicle Found, Check your input and try again';
                             tmsApp.systemError('Vehicle', $message);
                         }
                     },
                     function (xhr) {
-                        tmsApp.systemError('System Message', 'We could not complete processing your request, please try again later');
+                        tmsApp.systemError('System Message',
+                            'We could not complete processing your request,' +
+                            'please try again later');
                     }
                 );
             });
@@ -1024,7 +1041,9 @@
                             tmsApp.showSystemMessage(
                                 'Data Clean Up',
                                 response_data['message'],
-                            function(){window.location.reload()},
+                                function () {
+                                    window.location.reload()
+                                },
                                 'success');
                         } else {
                             if (response_data.hasOwnProperty('errors')) {
@@ -1048,15 +1067,15 @@
             const $make = document.getElementById("vehicleMake");
 
             tmsApp.populateDropDownList($($make),
-                window.vehicleMakes, 'id',['name']);
+                window.vehicleMakes, 'id', ['name']);
 
             const $model = document.getElementById("modelNo");
 
-            $('#vehicleMake').on("change", function(e) {
+            $('#vehicleMake').on("change", function (e) {
                 $model.removeAttribute("disabled")
                 const ele = this;
                 const makes = window['vehicleMakes'].filter(function (brand) {
-                    return parseInt($(ele).val()) === parseInt( brand.id);
+                    return parseInt($(ele).val()) === parseInt(brand.id);
                 });
 
                 if (makes.length === 0) {
@@ -1068,18 +1087,18 @@
                 getVehicleModels(selectedMake?.id);
             });
 
-            $('#modelNo').on("change", function(e) {
+            $('#modelNo').on("change", function (e) {
                 let id = $(this).val();
                 let models = window.VehicleModels
 
-                models.forEach((function (item){
-                    if(parseInt(id) === item.id){
+                models.forEach((function (item) {
+                    if (parseInt(id) === item.id) {
                         $('[name="model_code"]').val(item.model_code);
                     }
                 }));
             });
 
-            $(document).on("change", '[name="organizationalUnit"]', function(e) {
+            $(document).on("change", '[name="organizationalUnit"]', function (e) {
                 const user_unit = $(this).val();
                 userUnitChanged(user_unit);
             });
@@ -1130,7 +1149,7 @@
                     operatorNumber.style.display = "block"
                     supervisorName.style.display = "block"
                     supervisorNumber.style.display = "block"
-                }else{
+                } else {
                     responsibleUserName.style.display = "none"
                     responsibleUserNumber.style.display = "none"
                     operatorName.style.display = "none"

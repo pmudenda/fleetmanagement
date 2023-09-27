@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class UserOnboardingRequest extends FormRequest
 {
@@ -25,7 +26,15 @@ class UserOnboardingRequest extends FormRequest
         return [
             'business_unit_code' => 'required',
             'cost_center_code' => 'required',
-            'password' => 'required',
+            'password' => [
+                'required',
+                Password::min(10)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            ],
             'staff_supervisor' => 'required',
             'user_profile' => 'nullable|string|exists:App\Models\Security\Role,id',
             'business_area' => 'required|string|max:2'

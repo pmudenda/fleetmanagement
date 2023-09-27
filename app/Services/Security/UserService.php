@@ -3,7 +3,9 @@
 namespace App\Services\Security;
 
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
+use App\Constants\TableColumns;
 use App\Exceptions\ActiveUserDelegationException;
 use App\Exceptions\UserDataSyncException;
 use App\Exceptions\UserNotActiveException;
@@ -29,25 +31,6 @@ use PDO;
 class UserService
 {
     const RESULT = ":result";
-
-    public static function synchronizeData()
-    {
-        $employees = User::select('*')
-            ->join('ipa_phris_view', 'ipa_phris_view.con_per_no', '=', 'users.staff_no')
-            ->get();
-
-
-        foreach ($employees as $employee) {
-            //Remove profiles
-            if ($employee->employee_status == config('constants.phris_user_not_active')) {
-                // find the user
-                User::find($employee->id);
-            }
-
-            log::info('Update Successful' . $employee->id);
-        }
-
-    }
 
     public static function syncEmployeeFullDetails($userId): void
     {
@@ -100,15 +83,21 @@ class UserService
     public function searchEmployee(string $searchParam)
     {
         if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
+
             $dataset = PHCMSEmployee::select('*')
-                ->where('con_per_no', $searchParam)
-                ->where('con_st_code', '=', 'ACT')
+                ->where(TableColumns::PHCMS_STATUS,
+                    $searchParam)
+                ->where(TableColumns::PHCMS_STATUS,
+                    QueryComparisonOperator::EQUALS,
+                    'ACT')
                 ->whereNull('alt_per_no')
                 ->first();
         } else {
             $dataset = PHCMSEmployee::select('*')
                 ->where('name', 'LIKE', "%{$searchParam}%")
-                ->where('con_st_code', '=', 'ACT')
+                ->where(TableColumns::PHCMS_STATUS,
+                    QueryComparisonOperator::EQUALS,
+                    'ACT')
                 ->whereNull('alt_per_no')
                 ->where(function ($query) {
                     $query->where('con_per_no', 'LIKE', "C7%")
@@ -135,7 +124,9 @@ class UserService
     {
         $dataset = User::select('*')
             ->where('name', 'LIKE', "%{$searchParam}%")
-            ->where('con_st_code', '=', StatusHelper::active())
+            ->where(TableColumns::PHCMS_STATUS,
+                QueryComparisonOperator::EQUALS,
+                StatusHelper::active())
             ->where(function ($query) {
                 $query->where('con_per_no', 'LIKE', "C7%")
                     ->orWhere('con_per_no', 'LIKE', "7%");
@@ -188,10 +179,18 @@ class UserService
         $profileOwnerUserNo = $request->get('profileOwner');
         $delegatedUserStaffNo = $request->get('staffNumber');
 
-        $profileOwner = User::where('staff_no', '=', $profileOwnerUserNo)->first();
+        $profileOwner = User::where(
+            TableColumns::STAFF_NUMBER,
+            QueryComparisonOperator::EQUALS,
+            $profileOwnerUserNo
+        )->first();
         $profileOwnerProfile = $profileOwner->roles()->first();
 
-        $delegatedUser = User::where('staff_no', '=', $delegatedUserStaffNo)->first();
+        $delegatedUser = User::where(
+            TableColumns::STAFF_NUMBER,
+            QueryComparisonOperator::EQUALS,
+            $delegatedUserStaffNo
+        )->first();
         $delegatedUserProfile = $delegatedUser->roles()->first();
 
         DB::beginTransaction();
@@ -215,7 +214,9 @@ class UserService
 
         $id = $request->input('userId');
 
-        User::where('id', '=', $id)
+        User::where('id',
+            QueryComparisonOperator::EQUALS,
+            $id)
             ->update(
                 [
                     'area_code' => $request->get('area'),
@@ -247,10 +248,13 @@ class UserService
         DB::beginTransaction();
         if ($validateWithHCMS) {
             try {
-                $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_number)
-                    ->where('con_st_code', '=', 'ACT')
+                $employee = PHCMSEmployee::where('con_per_no',
+                    $request->staff_number)
+                    ->where(TableColumns::PHCMS_STATUS,
+                        QueryComparisonOperator::EQUALS,
+                        'ACT')
                     ->first();
-                if (empty($employee_phcms)) {
+                if (empty($employee)) {
                     throw new UserNotFoundException("User Not Found");
                 }
             } catch (\Exception $ex) {
@@ -264,13 +268,11 @@ class UserService
             }
 
             $data = [
-                'con_st_code' => StatusHelper::active(),
                 'password' => Hash::make($request->password),
                 'email' => strtoupper($request->staff_email),
                 'username' => $request->login_name,
                 'phone' => $request->mobile_no,
-                'guid' => Str::uuid(),
-                'area_code' => $request->get('business_area'),
+                'area_code' => $request->business_area,
                 'functional_section' => $request->user_unit,
                 'bu_code' => $request->business_unit_code,
                 'cc_code' => $request->cost_center_code,
@@ -278,19 +280,33 @@ class UserService
                 'user_unit' => $request->user_unit,
                 'supervisor_code' => $request->staff_supervisorId,
                 'supervisor_name' => $request->staff_supervisor,
-
-                'staff_no' => $employee_phcms->con_per_no,
-                'contract_type' => $employee_phcms->contract_type,
-                'name' => $employee_phcms->name,
-                'nrc' => $employee_phcms->nrc,
-                'mobile_no' => $employee_phcms->mobile_no,
-                'group_type' => $employee_phcms->group_type,
-                'job_title' => $employee_phcms->job_title,
-                'grade' => $employee_phcms->grade,
-                'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
-                'pay_point' => $employee_phcms->pay_point,
-                'job_code' => $employee_phcms->job_code ?? "--",
+                'guid' => Str::uuid(),
+                'con_st_code' => StatusHelper::active(),
+                'staff_no' => $employee->con_per_no,
+                'contract_type' => $employee->contract_type,
+                'name' => $employee->name,
+                'nrc' => $employee->nrc,
+                'mobile_no' => $employee->mobile_no,
+                'group_type' => $employee->group_type,
+                'job_title' => $employee->job_title,
+                'grade' => $employee->grade,
+                'location' => $employee->location ?? $employee->functional_section,
+                'pay_point' => $employee->pay_point,
+                'job_code' => $employee->job_code ?? "--",
             ];
+
+            $pdo = DB::getPdo();
+            $modifiedBy = auth()->user()->staff_no;
+            $stmt = $pdo->prepare(
+                "begin :result := pkg_employee.fn_create_user(
+                :p_staff_no, :p_modified_by); end;"
+            );
+
+
+            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(":p_staff_no", $userToSync);
+            $stmt->bindParam(":p_modified_by", $modifiedBy);
+            $stmt->execute();
 
         } else {
             $data = [
@@ -329,13 +345,13 @@ class UserService
             $user->roles()->sync((int)$request->get('user_profile'));
             HistoryService::record($user->toArray(),
                 "N/A",
-                'Create',
+                'Create User',
                 'User Onboarding with profile'
             );
         } else {
             HistoryService::record($user->toArray(),
                 "N/A",
-                'Create',
+                'Create User',
                 'User Onboarding with no profile'
             );
         }

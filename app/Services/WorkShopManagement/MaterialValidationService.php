@@ -197,7 +197,7 @@ class MaterialValidationService
             );
         }
 
-        $activeRequests = 0;
+
         if ($process == ValidationProcess::OTHER) {
             $activeRequests = DB::table("gen_material_headers")
                 ->join("gen_material_details",
