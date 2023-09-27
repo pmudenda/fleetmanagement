@@ -20534,7 +20534,6 @@ body {
     padding: var(--padding-sm);
     background-color: var(--card-bg);
     margin-top: var(--margin-lg);
-    padding: var(--padding-lg);
 }
 
 .comment-box .comment-input-header {

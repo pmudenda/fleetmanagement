@@ -93,36 +93,39 @@ class VehicleDetailsService
             }
 
             Log::info("Vehicle Param received $id");
-            $results = DB::table('VM_VEHICLE_HEADER as header')->
-            where('header.id',
+
+            $results = DB::table('VM_VEHICLE_HEADER header')->where(
+                'header.id',
                 QueryComparisonOperator::EQUALS,
                 $id)
                 ->leftJoin('VM_ENGINE_DETAILS engine_detail',
                     'header.id',
                     QueryComparisonOperator::EQUALS,
                     'engine_detail.vehicle_header_id')
-                ->leftJoin('VM_ASSIGNMENTS',
+                ->leftJoin('VM_ASSIGNMENTS as assign',
                     'header.id',
                     QueryComparisonOperator::EQUALS,
-                    'VM_ASSIGNMENTS.vehicle_header_id')
+                    'assign.vehicle_header_id')
                 ->leftJoin('VM_CHASSIS_DETAILS chassis_detail',
                     'header.id',
                     QueryComparisonOperator::EQUALS,
                     'chassis_detail.vehicle_header_id')
-                ->leftJoin('VM_COST_AND_VALUATIONS cost_eval',
+                ->leftJoin(
+                    'VM_COST_AND_VALUATIONS cost_eval',
                     'header.id',
                     QueryComparisonOperator::EQUALS,
-                    'cost_eval.vehicle_header_id')
+                    'cost_eval.vehicle_header_id'
+                )
                 ->leftJoin('VM_BODY_AND_WEIGHT_DETAILS body_weight',
                     'header.id',
                     QueryComparisonOperator::EQUALS,
                     'body_weight.vehicle_header_id')
                 ->select(
                     'header.id as headerId',
-                    'header.id.*',
+                    'header.*',
 
-                    'VM_ASSIGNMENTS.id as assignmentId',
-                    'VM_ASSIGNMENTS.*',
+                    'assign.id as assignmentId',
+                    'assign.*',
 
                     'engine_detail.id as engineDetailsId',
                     'engine_detail.*',
@@ -137,7 +140,7 @@ class VehicleDetailsService
                     'body_weight.*',
                 )->get();
 
-            Log::info($results->count() ."Vehicle Data Found ");
+            Log::info($results->count() . "Vehicle Data Found ");
             return $results->first();
         } catch (\Exception $e) {
             Log::info('Failed to Fetch vehicle full details');

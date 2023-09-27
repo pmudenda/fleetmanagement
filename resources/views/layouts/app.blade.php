@@ -27,6 +27,7 @@
     <!--Add Ons-->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/frappe/css/desk.bundle.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.bundle.css') }}">
+
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/toastr/toastr.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/sweetalert2/sweetalert2.min.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/vue-select/vue-select.css') }}">
