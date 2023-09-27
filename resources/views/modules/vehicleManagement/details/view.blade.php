@@ -44,7 +44,7 @@
                         <h2>Vehicle Details</h2>
                     </div>
                     <div class="card-toolbar justify-content-end">
-                        @if($vehicle && !$empty($vehicle->barcode))
+                        @if($vehicle && !empty($vehicle->barcode))
                             <img id="barcode" alt="vehicle barcode" style="max-height: 40px;"
                                  src="/storage/{{$vehicle->barcode}}">
                         @endif
