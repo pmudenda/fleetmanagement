@@ -138,7 +138,8 @@ class VehicleDetailsService
 
                     'body_weight.id as weightDetailsId',
                     'body_weight.*',
-                )->get();
+                )
+                ->get();
 
             Log::info($results->count() . "Vehicle Data Found ");
             return $results->first();

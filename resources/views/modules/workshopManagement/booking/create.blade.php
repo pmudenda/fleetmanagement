@@ -1753,7 +1753,7 @@
                         initArticleSelector($_defect_sel_);
 
                         if (document.querySelector('[name="stockItemCode"]').value === itemType) {
-                            let vehicleLineReg = $(tableId).find('[name="registration"]');
+                            let vehicleLineReg = $(tableId).find('[name="registration"]').val();
                             $(row).find('[name="registration"]').val(vehicleLineReg).attr('readonly', true);
                         }
                     }
