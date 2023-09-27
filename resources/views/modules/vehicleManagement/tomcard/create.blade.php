@@ -364,7 +364,7 @@
             }).mask("#vehicleRegistration");
 
             Inputmask({
-                "mask": "M/YYYY"
+                "mask": "M/Y"
             }).mask("#expiryDate");
 
             tmsApp.initDatatable("#TomCards", false, true, []);
