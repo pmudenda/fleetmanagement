@@ -509,12 +509,12 @@
                             if (response_data['payload'].length === 0) {
                                 tmsApp.systemError(
                                     appMessages.profileDelegationTitle,
-                                    'Could Not Process Profile Delegation'
+                                    response_data.message
                                 );
                             }
                             tmsApp.showSystemMessage(
                                 appMessages.profileDelegationTitle,
-                                'User Profile Delegation Started Successfully',
+                                response_data.message ?? 'User Profile Delegation Started Successfully',
                                 function () {
                                     window.location.reload()
                                 },
@@ -529,6 +529,7 @@
                             }
                             tmsApp.systemError(
                                 appMessages.profileDelegationTitle,
+                                response_data.message ??
                                 'Could Not Process Profile Delegation'
                             );
                         }

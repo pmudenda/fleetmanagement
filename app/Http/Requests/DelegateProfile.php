@@ -30,8 +30,6 @@ class DelegateProfile extends FormRequest
             'currentProfile' => 'required|numeric',
             'startDate' => 'required|date|after_or_equal:'.Carbon::today()->toString(),
             'endDate' => 'required|date|after:startDate',
-
-
             'remarks' => 'required|string|max:255|min:50',
         ];
     }
