@@ -182,16 +182,22 @@ class WorkshopRequisitionService
         $user = Auth()->user();
 
         $requestItemType = $materialReservationRequest->get('itemType');
-        Log::info("Reservation Article Type " . $requestItemType);
+        Log::debug("Reservation Article Type " . $requestItemType);
+
+        if (!in_array($requestItemType,
+            [
+                RequisitionItemTypes::STOCK_ITEM_CODE, RequisitionItemTypes::NON_STOCK_ITEM_CODE])) {
+            throw new WorkflowTaskCreationFailedException("Article Item Type Is Missing");
+        }
+
         if ($requestItemType == RequisitionItemTypes::STOCK_ITEM_CODE) {
             $articleClass = RequisitionItemTypes::STOCK_ITEM;
             $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
-        } elseif ($requestItemType == RequisitionItemTypes::NON_STOCK_ITEM_CODE) {
+        } else {
             $articleClass = RequisitionItemTypes::NON_STOCK_ITEM;
             $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
-        } else {
-            throw new WorkflowTaskCreationFailedException("Article Item Type Is Missing");
         }
+        Log::debug("Determined Article Class " . $articleClass);
 
         $articlesTable = config("tables.table_names.articles");
 
