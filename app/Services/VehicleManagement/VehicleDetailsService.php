@@ -93,7 +93,7 @@ class VehicleDetailsService
             }
 
             Log::info("Vehicle Param received $id");
-            $results = DB::table('VM_VEHICLE_HEADER header')->
+            $results = DB::table('VM_VEHICLE_HEADER as header')->
             where('header.id',
                 QueryComparisonOperator::EQUALS,
                 $id)
