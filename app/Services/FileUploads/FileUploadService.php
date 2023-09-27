@@ -5,6 +5,7 @@ namespace App\Services\FileUploads;
 use App\Models\Attachment;
 use App\Models\Common\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class FileUploadService
 {
@@ -26,7 +27,7 @@ class FileUploadService
         string  $code,
         string  $formType,
         string  $fileType,
-        $user
+                $user
     ): array
     {
         if (empty($request->file())) {
@@ -73,12 +74,12 @@ class FileUploadService
      * @return File
      */
     public static function upload(
-               $file,
+        $file,
         string $folder,
         string $code,
         string $module,
         string $fileType,
-               $user
+        $user
     ): File
     {
         // Get just filename
@@ -95,7 +96,9 @@ class FileUploadService
             ' ',
             $filename . '_' . time() . '.' . $extension));
         // Upload File
-        $path = $file->storeAs('public/' .$folder, $fileNameToStore);
+        $path = $file->storeAs('public/' . $folder, $fileNameToStore);
+
+        Log::info("File Path" . $path);
 
         //upload the receipt
         return File::create(
