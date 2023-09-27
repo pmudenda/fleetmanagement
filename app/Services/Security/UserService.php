@@ -98,7 +98,7 @@ class UserService
         } else {
             $dataset = PHCMSEmployee::select('*')
                 ->where('name', 'LIKE', "%{$searchParam}%")
-                ->where(TableColumns::PHCMS_STAFF_NUMBER,
+                ->where(TableColumns::PHCMS_STATUS,
                     QueryComparisonOperator::EQUALS,
                     'ACT')
                 ->whereNull('alt_per_no')
@@ -253,12 +253,12 @@ class UserService
             try {
                 $employee = PHCMSEmployee::where(
                     TableColumns::PHCMS_STAFF_NUMBER,
+                    QueryComparisonOperator::EQUALS,
                     $request->staff_number
-                )
-                    ->where(TableColumns::PHCMS_STATUS,
-                        QueryComparisonOperator::EQUALS,
-                        'ACT')
-                    ->first();
+                )->where(TableColumns::PHCMS_STATUS,
+                    QueryComparisonOperator::EQUALS,
+                    'ACT')->first();
+
                 if (empty($employee)) {
                     throw new UserNotFoundException("User Not Found");
                 }
@@ -300,18 +300,17 @@ class UserService
                 'job_code' => $employee->job_code ?? "--",
             ];
 
-            $pdo = DB::getPdo();
+            /*$pdo = DB::getPdo();
             $modifiedBy = auth()->user()->staff_no;
             $stmt = $pdo->prepare(
                 "begin :result := pkg_employee.fn_create_user(
                 :p_staff_no, :p_modified_by); end;"
             );
-
-
             $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_staff_no", $userToSync);
             $stmt->bindParam(":p_modified_by", $modifiedBy);
             $stmt->execute();
+            */
 
         } else {
             $data = [
