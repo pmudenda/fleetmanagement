@@ -197,11 +197,13 @@ class WorkshopRequisitionService
         $materials = $materialReservationRequest->get("items");
 
         $articlesMap = array();
+        $articlesKeyMap = array();
         // check that each article selected is of correct class
         // check each article to make sure it's of the correct type and is no active on a reservation for the same car
         foreach ($materials as $item) {
             $registrationNumber = $item['registration'];
             $article = $item["articleCode"];
+
             $key = str_replace(
                     "_", "",
                     str_replace(" ", "", $registrationNumber)
@@ -209,9 +211,28 @@ class WorkshopRequisitionService
 
             // we've encountered the combination before - duplicate
             if (in_array($key, array_keys($articlesMap))) {
-                $message = "Article $article has been already selected for vehicle
+                $message = "Duplicate Article Found. Article
+                $article has been already selected for vehicle
                 $registrationNumber. Check your article";
                 throw new MaterialReservationException($message);
+            }
+
+            if ($articleClass = RequisitionItemTypes::STOCK_ITEM) {
+                $articleKey = str_replace("-",
+                    "",
+                    str_replace(" ", "",
+                        $article)
+                );
+                if (in_array($articleKey, array_keys($articlesKeyMap))) {
+                    $message = ErrorMessages::getMessage('err_0038');
+                    throw new MaterialReservationException(str_replace(
+                            Articles::ARTICLE_FIELD,
+                            $article,
+                            $message)
+                    );
+                }
+
+                $articlesKeyMap[$articleKey] = $articleKey;
             }
 
             $articlesMap[$key] = $registrationNumber;
@@ -219,7 +240,6 @@ class WorkshopRequisitionService
             $this->verifyVehicleIsActive($registrationNumber);
 
             $query = DB::table("$articlesTable");
-            // = $materialReservationRequest->get('itemType');
 
             $finalQuery = $this->materialValidationService->buildArticleTypeCheckingQuery(
                 $query,
@@ -326,7 +346,6 @@ class WorkshopRequisitionService
 
         DB::commit();
 
-        //  RequisitionRaised::dispatch($matHeader);
         Log::info("Raising Reservation Reference # " . $requisition_reference_number . " successful");
 
         return response()->json(
