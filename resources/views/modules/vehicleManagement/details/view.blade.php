@@ -2444,7 +2444,7 @@
 @push('scripts')
     <script>
         window.reference = `{!! $reference !!}`;
-        window.vehicle = `{!! $vehicle !!}`;
+        window.vehicle = `{!! json_encode($vehicle ?? (object)[]) !!}`;
     </script>
     <script
             src="{{asset('modules/vehicleManagement/assets/js/vehicle_over_view.js')}}"></script>

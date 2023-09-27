@@ -74,7 +74,8 @@ class OnBoardingService
                 );
             }
 
-            $recordMotorVehicleCertificate = ChassisDetail::where('chassis_number', $whiteBookSerial)
+            $recordMotorVehicleCertificate = ChassisDetail::where(
+                'chassis_number', $whiteBookSerial)
                 ->first();
 
             if (!empty($recordMotorVehicleCertificate)) {

@@ -82,13 +82,18 @@ class FileUploadService
     ): File
     {
         // Get just filename
-        $filename = pathinfo(preg_replace("/[^a-zA-Z]+/", "_", $file->getClientOriginalName()), PATHINFO_FILENAME);
+        $filename = pathinfo(preg_replace("/[^a-zA-Z]+/",
+            "_",
+            $file->getClientOriginalName()),
+            PATHINFO_FILENAME);
         //get size
         $size = number_format($file->getSize() * 0.000001, 2);
         // Get just ext
         $extension = $file->getClientOriginalExtension();
         // Filename to store
-        $fileNameToStore = trim(preg_replace('/\s+/', ' ', $filename . '_' . time() . '.' . $extension));
+        $fileNameToStore = trim(preg_replace('/\s+/',
+            ' ',
+            $filename . '_' . time() . '.' . $extension));
         // Upload File
         $path = $file->storeAs('public/' .$folder, $fileNameToStore);
 
