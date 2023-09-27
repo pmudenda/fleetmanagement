@@ -201,7 +201,7 @@ class UserService
             'profile_owner' => $profileOwnerUserNo,
             'delegated_to' => $delegatedUserStaffNo,
             'owner_profile_id' => $profileOwnerProfile->id,
-            'delegated_profile_id' => $delegatedUserProfile->id,
+            'delegated_profile_id' => $delegatedUserProfile->id ?? 0,
             'period_from' => $request->get('startDate'),
             'period_to' => $request->get('endDate'),
             'justification' => $request->get('remarks'),
