@@ -5,7 +5,7 @@ namespace App\Http\Requests\WorkShopManagement;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class WorkshopMaterialResevationRequest extends FormRequest
+class MaterialReservationRequest extends FormRequest
 {
     const REQUIRED_STRING = 'required|string';
     const REQUIRED_NUMERIC = 'required|numeric';
@@ -39,7 +39,6 @@ class WorkshopMaterialResevationRequest extends FormRequest
             'remarks' => self::REQUIRED_STRING,
             'request_date' => self::REQUIRED_STRING,
             'store_code' => self::REQUIRED_STRING,
-            // 'store_name' => 'required|string',
             'supplier' => 'nullable|string',
             'workshop_code' => self::REQUIRED_STRING,
         ];

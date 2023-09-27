@@ -5,7 +5,7 @@ namespace App\Http\Controllers\WorkShopManagement;
 use App\Constants\ErrorMessages;
 use App\Exceptions\BaseException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\WorkShopManagement\WorkshopMaterialResevationRequest;
+use App\Http\Requests\WorkShopManagement\MaterialReservationRequest;
 use App\Http\Requests\WorkShopManagement\WorkshopRequisitionRequest;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -57,7 +57,7 @@ class MaterialReservationController extends Controller
         }
     }
 
-    public function saveMaterialRequest(WorkshopMaterialResevationRequest $request): JsonResponse
+    public function saveMaterialRequest(MaterialReservationRequest $request): JsonResponse
     {
         try {
             return $this->workshopRequisitionService->processMaterialReservation($request);

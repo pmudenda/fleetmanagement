@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
+use App\Constants\TableColumns;
 use App\Enums\DocumentState;
 use App\Enums\Modules;
 use App\Exceptions\DataNotFoundException;
@@ -78,39 +80,18 @@ class VehicleController extends Controller
 
             $enteredAccessories = VehicleAccessory::where(
                 'vehicle_header_id',
-                '=',
+                QueryComparisonOperator::EQUALS,
                 (int)$ref
             )->get();
 
-            $fuel_cost_by_year = [];
-            $spares_cost_by_year = [];
-            try {
-                DB::table('zfm_fuel_cost')
-                    ->where('reg_no', '=', $vehicle->registration_number)
-                    ->select(DB::raw('SUM(ttl) as cost,year'))
-                    ->groupBy('year')
-                    ->orderBy('year')
-                    ->get();
-
-                DB::table('zfm_spare_cost')
-                    ->where('reg_no', '=', $vehicle->registration_number)
-                    ->select(DB::raw('SUM(value_amount) as cost, EXTRACT(YEAR FROM TO_DATE(document_date)) year'))
-                    ->groupBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
-                    ->orderBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
-                    ->get();
-            } catch (Exception $e) {
-                Log::info("Fetching Vehicle Report Data");
-                Log::error($e);
-            }
-
-
+            list($fuelCostByYear, $sparesCostByYear) = $this->getVehicleOperationCosts($vehicle->registration_number);
             return response()->json([
                 'payload' => [
                     'vehicle' => $vehicle,
                     'documents' => $vehicleDocuments,
                     'enteredAccessories' => $enteredAccessories,
-                    'cost_by_year' => $fuel_cost_by_year,
-                    'spares_cost_by_year' => $spares_cost_by_year
+                    'cost_by_year' => $fuelCostByYear,
+                    'spares_cost_by_year' => $sparesCostByYear
                 ],
                 'success' => !empty($vehicle),
                 'message' => !empty($vehicle)
@@ -133,10 +114,9 @@ class VehicleController extends Controller
         }
     }
 
-    public function getVehicleReportsOverView(Request $request): JsonResponse
+    public function getVehicleReportsOverView(string $registration_number): JsonResponse
     {
         try {
-            $registration_number = $request->get('reference');
             Log::debug('reference is ' . $registration_number);
             Log::debug('Fetching Vehicle Details ' . $registration_number);
 
@@ -146,40 +126,16 @@ class VehicleController extends Controller
                 );
             }
 
-            $fuel_cost_by_year = [];
-            $spares_cost_by_year = [];
-            try {
-                DB::table('zfm_spare_cost')
-                    ->where('reg_no', '=', $registration_number)
-                    ->select(DB::raw('SUM(value_amount) as cost, EXTRACT(YEAR FROM TO_DATE(document_date)) year'))
-                    ->groupBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
-                    ->orderBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
-                    ->get();
-            } catch (Exception $e) {
-                Log::info("Fetching Vehicle Spares Report Data");
-                Log::error($e);
-            }
-
-            try {
-                DB::table('zfm_fuel_cost')
-                    ->where('reg_no', '=', $registration_number)
-                    ->select(DB::raw('SUM(ttl) as cost,year'))
-                    ->groupBy('year')
-                    ->orderBy('year')
-                    ->get();
-            } catch (Exception $e) {
-                Log::info("Fetching Vehicle Maintenance Report Data");
-                Log::error($e);
-            }
+            list($fuelCostByYear, $sparesCostByYear) = $this->getVehicleOperationCosts($registration_number);
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    !empty($vehicle),
-                    !empty($vehicle),
+                    '',
+                    true,
                     '',
                     [
-                        'cost_by_year' => $fuel_cost_by_year,
-                        'spares_cost_by_year' => $spares_cost_by_year
+                        'cost_by_year' => $fuelCostByYear,
+                        'spares_cost_by_year' => $sparesCostByYear
                     ]
                 )
             );
@@ -204,7 +160,7 @@ class VehicleController extends Controller
         try {
             $registrationNumber = $request->get('vehicle_registration');
 
-            list($vehicle, $vehicle_state) = $this->getVehicleStateDetails(
+            list($vehicle, $vehicleState) = $this->getVehicleStateDetails(
                 $registrationNumber
             );
 
@@ -220,10 +176,11 @@ class VehicleController extends Controller
 
             list($fitnessState, $fitnessRecord) = $this->vehicleFitnessService->getFitness($registrationNumber);
 
-            Log::info("Insurance State $insuranceState->value");
+            Log::debug("Insurance State $insuranceState->value");
 
             $hasValidInsurance = true;
             $vehicleInsuranceMessage = '';
+
             if ($insuranceState->value == DocumentState::Expired->value) {
                 $hasValidInsurance = false;
                 $vehicleInsuranceMessage = str_replace(
@@ -276,7 +233,7 @@ class VehicleController extends Controller
                         'article' => $article,
                         'images' => $vehicleImages,
                         'accessories' => $accessories,
-                        'vehicle_state' => $vehicle_state,
+                        'vehicle_state' => $vehicleState,
                         'vehicle_tom_card_message' => $vehicleTomCardMessage,
 
                         'hasValidInsurance' => $hasValidInsurance,
@@ -317,14 +274,14 @@ class VehicleController extends Controller
 
             $registrationNumber = $request->get('vehicle_registration');
 
-            list($vehicle, $vehicle_state) = $this->getVehicleStateDetails(
+            list($vehicle, $vehicleState) = $this->getVehicleStateDetails(
                 $registrationNumber
             );
 
             return response()->json([
                 'payload' => [
                     'vehicle' => $vehicle,
-                    'vehicle_state' => $vehicle_state
+                    'vehicle_state' => $vehicleState
                 ],
                 'success' => !empty($vehicle),
                 'message' => self::VEHICLE_DETAILS_RETRIEVED_SUCCESSFULLY
@@ -348,9 +305,12 @@ class VehicleController extends Controller
 
     public function list(Request $request): string
     {
-        Log::info('Has Get Records' . $request->has('getRecords'));
+        Log::debug('Has Get Records' . $request->has('getRecords'));
+
         if ($request->has('getRecords')) {
+
             Log::debug("Get Records Present");
+
             $vehicleList = $this->vehicleDetailsService->getFilteredVehiclesInformation($request);
         } else {
             $vehicleList = $this->vehicleDetailsService->getAllVehicles();
@@ -358,7 +318,7 @@ class VehicleController extends Controller
 
         $statusList = Status::where(
             'module',
-            '=',
+            QueryComparisonOperator::EQUALS,
             Modules::VEHICLE->value)
             ->get();
 
@@ -380,14 +340,17 @@ class VehicleController extends Controller
         ]);
     }
 
-    public function register(Request $request): View
+    public function register(): View
     {
         return view('modules.vehicleManagement.vehicleList');
     }
 
-    public function accessories(Request $request): View
+    public function accessories(): View
     {
-        $accessories = Accessory::where('status', '=', StatusHelper::active())
+        $accessories = Accessory::where(
+            TableColumns::STATUS,
+            QueryComparisonOperator::EQUALS,
+            StatusHelper::active())
             ->get();
 
         return view('modules.vehicleManagement.general.accessories')
@@ -427,7 +390,7 @@ class VehicleController extends Controller
             );
         } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
             $jobCard = JobCardHeader::where('reg_no',
-                '=',
+               QueryComparisonOperator::EQUALS,
                 $vehicle->registration_number)->first();
 
             $workshopName = "";
@@ -451,5 +414,44 @@ class VehicleController extends Controller
             );
         }
         return array($vehicle, $vehicle_state);
+    }
+
+    /**
+     * @param string $registration_number
+     * @return array
+     */
+    public function getVehicleOperationCosts(string $registration_number): array
+    {
+        $fuelCostByYear = [];
+        $sparesCostByYear = [];
+        try {
+            DB::table('zfm_spare_cost')
+                ->where('reg_no',
+                    QueryComparisonOperator::EQUALS,
+                    $registration_number)
+                ->select(DB::raw('SUM(value_amount) as cost, EXTRACT(YEAR FROM TO_DATE(document_date)) year'))
+                ->groupBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
+                ->orderBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
+                ->get();
+        } catch (Exception $e) {
+            Log::info("Fetching Vehicle Spares Report Data");
+            Log::error($e);
+        }
+
+        try {
+            DB::table('zfm_fuel_cost')
+                ->where('reg_no',
+                    QueryComparisonOperator::EQUALS,
+                    $registration_number)
+                ->select(DB::raw('SUM(ttl) as cost,year'))
+                ->groupBy('year')
+                ->orderBy('year')
+                ->get();
+        } catch (Exception $e) {
+            Log::info("Fetching Vehicle Maintenance Report Data");
+            Log::error($e);
+        }
+
+        return array($fuelCostByYear, $sparesCostByYear);
     }
 }
