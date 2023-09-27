@@ -95,6 +95,7 @@ class FileUploadService
         $fileNameToStore = trim(preg_replace('/\s+/',
             ' ',
             $filename . '_' . time() . '.' . $extension));
+
         // Upload File
         $path = $file->storeAs('public/' . $folder, $fileNameToStore);
 
