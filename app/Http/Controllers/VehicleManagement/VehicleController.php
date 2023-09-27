@@ -82,19 +82,27 @@ class VehicleController extends Controller
                 (int)$ref
             )->get();
 
-            $fuel_cost_by_year = DB::table('zfm_fuel_cost')
-                ->where('reg_no', '=', $vehicle->registration_number)
-                ->select(DB::raw('SUM(ttl) as cost,year'))
-                ->groupBy('year')
-                ->orderBy('year')
-                ->get();
+            $fuel_cost_by_year = [];
+            $spares_cost_by_year = [];
+            try {
+                DB::table('zfm_fuel_cost')
+                    ->where('reg_no', '=', $vehicle->registration_number)
+                    ->select(DB::raw('SUM(ttl) as cost,year'))
+                    ->groupBy('year')
+                    ->orderBy('year')
+                    ->get();
 
-            $spares_cost_by_year = DB::table('zfm_spare_cost')
-                ->where('reg_no', '=', $vehicle->registration_number)
-                ->select(DB::raw('SUM(value_amount) as cost, EXTRACT(YEAR FROM TO_DATE(document_date)) year'))
-                ->groupBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
-                ->orderBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
-                ->get();
+                DB::table('zfm_spare_cost')
+                    ->where('reg_no', '=', $vehicle->registration_number)
+                    ->select(DB::raw('SUM(value_amount) as cost, EXTRACT(YEAR FROM TO_DATE(document_date)) year'))
+                    ->groupBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
+                    ->orderBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
+                    ->get();
+            } catch (Exception $e) {
+                Log::info("Fetching Vehicle Report Data");
+                Log::error($e);
+            }
+
 
             return response()->json([
                 'payload' => [
@@ -109,6 +117,72 @@ class VehicleController extends Controller
                     ? self::VEHICLE_DETAILS_RETRIEVED_SUCCESSFULLY
                     : 'Could not read vehicle details'
             ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            $message = 'Failed to retrieve Registration Details';
+
+            if ($e instanceof BadRequestException
+                || $e instanceof DataNotFoundException) {
+                $message = ErrorMessages::getMessage('err_0005');
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => $message
+            ]);
+        }
+    }
+
+    public function getVehicleReportsOverView(Request $request): JsonResponse
+    {
+        try {
+            $registration_number = $request->get('reference');
+            Log::debug('reference is ' . $registration_number);
+            Log::debug('Fetching Vehicle Details ' . $registration_number);
+
+            if (empty($registration_number)) {
+                throw new BadRequestException(
+                    'Missing Vehicle Reference'
+                );
+            }
+
+            $fuel_cost_by_year = [];
+            $spares_cost_by_year = [];
+            try {
+                DB::table('zfm_spare_cost')
+                    ->where('reg_no', '=', $registration_number)
+                    ->select(DB::raw('SUM(value_amount) as cost, EXTRACT(YEAR FROM TO_DATE(document_date)) year'))
+                    ->groupBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
+                    ->orderBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
+                    ->get();
+            } catch (Exception $e) {
+                Log::info("Fetching Vehicle Spares Report Data");
+                Log::error($e);
+            }
+
+            try {
+                DB::table('zfm_fuel_cost')
+                    ->where('reg_no', '=', $registration_number)
+                    ->select(DB::raw('SUM(ttl) as cost,year'))
+                    ->groupBy('year')
+                    ->orderBy('year')
+                    ->get();
+            } catch (Exception $e) {
+                Log::info("Fetching Vehicle Maintenance Report Data");
+                Log::error($e);
+            }
+
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    !empty($vehicle),
+                    !empty($vehicle),
+                    '',
+                    [
+                        'cost_by_year' => $fuel_cost_by_year,
+                        'spares_cost_by_year' => $spares_cost_by_year
+                    ]
+                )
+            );
         } catch (Exception $e) {
             Log::error($e);
             $message = 'Failed to retrieve Registration Details';
