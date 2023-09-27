@@ -10,5 +10,6 @@ class TableColumns
     const STATUS = "status";
     const VEHICLE_REGISTRATION = "registration_number";
     const STAFF_NUMBER = 'staff_no';
-    const PHCMS_STATUS = "con_per_no";
+    const PHCMS_STAFF_NUMBER = "con_per_no";
+    const PHCMS_STATUS = 'con_st_code';
 }

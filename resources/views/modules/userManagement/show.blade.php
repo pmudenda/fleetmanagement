@@ -309,7 +309,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 @can(config('rights.role_detach'))
-                                    <button type="submit" class="btn btn-danger">Detach</button>
+                                    <button type="submit" class="btn btn-danger">Revoke Profile</button>
                                 @endcan
                             </div>
                         </form>

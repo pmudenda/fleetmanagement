@@ -85,8 +85,11 @@ class UserService
         if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
 
             $dataset = PHCMSEmployee::select('*')
-                ->where(TableColumns::PHCMS_STATUS,
-                    $searchParam)
+                ->where(
+                    TableColumns::PHCMS_STAFF_NUMBER,
+                    QueryComparisonOperator::EQUALS,
+                    $searchParam
+                )
                 ->where(TableColumns::PHCMS_STATUS,
                     QueryComparisonOperator::EQUALS,
                     'ACT')
@@ -95,13 +98,13 @@ class UserService
         } else {
             $dataset = PHCMSEmployee::select('*')
                 ->where('name', 'LIKE', "%{$searchParam}%")
-                ->where(TableColumns::PHCMS_STATUS,
+                ->where(TableColumns::PHCMS_STAFF_NUMBER,
                     QueryComparisonOperator::EQUALS,
                     'ACT')
                 ->whereNull('alt_per_no')
                 ->where(function ($query) {
-                    $query->where('con_per_no', 'LIKE', "C7%")
-                        ->orWhere('con_per_no', 'LIKE', "7%");
+                    $query->where(TableColumns::PHCMS_STAFF_NUMBER, 'LIKE', "C7%")
+                        ->orWhere(TableColumns::PHCMS_STAFF_NUMBER, 'LIKE', "7%");
                 })
                 ->get();
         }
@@ -124,7 +127,7 @@ class UserService
     {
         $dataset = User::select('*')
             ->where('name', 'LIKE', "%{$searchParam}%")
-            ->where(TableColumns::PHCMS_STATUS,
+            ->where(TableColumns::PHCMS_STAFF_NUMBER,
                 QueryComparisonOperator::EQUALS,
                 StatusHelper::active())
             ->where(function ($query) {
@@ -248,8 +251,10 @@ class UserService
         DB::beginTransaction();
         if ($validateWithHCMS) {
             try {
-                $employee = PHCMSEmployee::where('con_per_no',
-                    $request->staff_number)
+                $employee = PHCMSEmployee::where(
+                    TableColumns::PHCMS_STAFF_NUMBER,
+                    $request->staff_number
+                )
                     ->where(TableColumns::PHCMS_STATUS,
                         QueryComparisonOperator::EQUALS,
                         'ACT')

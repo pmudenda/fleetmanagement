@@ -49,9 +49,7 @@
                                         <th>SYSTEM ID</th>
                                         <th>PERMISSIONS</th>
                                         <th>DATE REGISTERED</th>
-                                        {{--@canany([config('rights.role_access'), config('rights.role_show')])--}}
                                         <th>ACTION</th>
-                                        {{--@endcanany--}}
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -60,7 +58,6 @@
                                             <td>
                                                 {{$item->name}}
                                             </td>
-                                            {{-- @canany([config('rights.role_access'), config('rights.role_show')])--}}
                                             <td>
                                                 {{$item->slug}}
                                             </td>
