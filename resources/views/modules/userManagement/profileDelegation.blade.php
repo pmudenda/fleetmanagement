@@ -549,7 +549,7 @@
                 employeeName: {required: true},
                 startDate: {required: true},
                 endDate: {required: true},
-                remarks: {required: true, minlength: 50},
+                remarks: {required: true},
             }, {});
 
             function findEmployee() {
