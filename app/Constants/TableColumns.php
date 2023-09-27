@@ -12,4 +12,6 @@ class TableColumns
     const STAFF_NUMBER = 'staff_no';
     const PHCMS_STAFF_NUMBER = "con_per_no";
     const PHCMS_STATUS = 'con_st_code';
+    const NAME = "name";
+    const JOB_CARD_NO = "job_card_no";
 }

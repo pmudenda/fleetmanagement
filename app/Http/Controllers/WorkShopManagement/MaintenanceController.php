@@ -221,7 +221,7 @@ class MaintenanceController extends Controller
     public function createTaskForWorkShopSupervisor(SubmitJobCardToSupervisor $request): ?JsonResponse
     {
         try {
-            return $this->workshopRequisitionService->createTaskForWorkShopSupervisor($request);
+            return $this->jobCardDetailsService->createTaskForWorkShopSupervisor($request);
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage("err_0005");

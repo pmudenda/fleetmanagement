@@ -3,14 +3,17 @@
 namespace App\Services\VehicleManagement;
 
 use App\Constants\ComparisonOperator;
+use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
 use App\Constants\TableColumns;
 use App\Enums\DocumentState;
 use App\Enums\Modules;
+use App\Exceptions\VehicleStateException;
 use App\Helpers\StatusHelper;
 use App\Models\Common\File;
 use App\Models\VehicleManagement\Insurance;
 use App\Models\VehicleManagement\VehicleAccessory;
+use App\Models\VehicleManagement\VehicleHeader;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Query\Builder;
@@ -259,23 +262,25 @@ class VehicleDetailsService
             ->paginate(20);
     }
 
-    public function getCheckInsurance(mixed $registrationNumber): array
+    /**
+     * Verifies Vehicle is Active otherwise throws exception
+     * @param $reference
+     * @return void
+     * @throws VehicleStateException
+     */
+    public function verifyVehicleIsActive($reference): void
     {
-        Log::info("Checking Insurance State for $registrationNumber - " . Carbon::today()->toDateString());
-        $insurance = Insurance::where(TableColumns::REG_NO, '=', $registrationNumber)
-            ->orderBy('created_at', 'desc')
-            ->first();
+        $allowedStatus = [StatusHelper::active(), StatusHelper::vehicleInWorkshop()];
 
-        if (empty($insurance)) {
-            return [DocumentState::Expired, null];
+        $vehicle = VehicleHeader::where(
+            "registration_number",
+            QueryComparisonOperator::EQUALS,
+            $reference)->first();
+
+        if (empty($vehicle) || !in_array($vehicle->status, $allowedStatus)) {
+            throw new VehicleStateException(
+                ErrorMessages::getMessage("err_0004")
+            );
         }
-        Log::info("Insurance Record $insurance->period_to");
-
-
-        if (Carbon::now()->isAfter(Carbon::parse($insurance->period_to))) {
-            return [DocumentState::Expired, $insurance];
-        }
-
-        return [DocumentState::Valid, $insurance];
     }
 }

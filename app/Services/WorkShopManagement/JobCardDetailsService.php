@@ -4,17 +4,27 @@ namespace App\Services\WorkShopManagement;
 
 use App\Constants\QueryComparisonOperator;
 use App\Constants\TableColumns;
+use App\Constants\WorkflowActions;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
+use App\Enums\WorkflowProcessCodes;
+use App\Events\JobCardCreated;
+use App\Exceptions\DataNotFoundException;
+use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
+use App\Http\Requests\WorkShopManagement\SubmitJobCardToSupervisor;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTable;
 use App\Models\WorkShopManagement\AssessmentObservation;
+use App\Models\WorkShopManagement\JobCardHeader;
+use App\Models\WorkShopManagement\Mechanic;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 
 class JobCardDetailsService
 {
@@ -27,6 +37,63 @@ class JobCardDetailsService
         $this->workshopService = $workshopService;
         $this->workshopRequisitionService = $workshopRequisitionService;
     }
+
+    /**
+     * @throws WorkflowTaskCreationFailedException
+     * @throws DataNotFoundException
+     */
+    public function createTaskForWorkShopSupervisor(SubmitJobCardToSupervisor $request): JsonResponse
+    {
+        DB::beginTransaction();
+        $processCode = WorkflowProcessCodes::WorkOrderOpened->value;
+        $user = auth()->user();
+
+        $jobCardNo = $request->get('job_card_number');
+        $registration = $request->get('vehicle_registration');
+        $comments = $request->get('commentsToSupervisor');
+
+        $jobCard = JobCardHeader::where("job_card_no", "=", $jobCardNo)
+            ->first();
+
+        $jobCard->step = 2;
+        $jobCard->save();
+
+        $workShopCode = $jobCard->workshop_code;
+
+        $supervisor = Mechanic::where('workshop_code', '=', $workShopCode)
+            ->where('is_supervisor', '=', 'Y')
+            ->first();
+
+        if (!$supervisor) {
+            throw new DataNotFoundException("Supervisor for Workshop Not Found");
+        }
+
+        $workshopReference = $jobCardNo;
+        $shortDescription = "New Job Card Task $jobCardNo For Vehicle $registration";
+        $longDescription = $shortDescription;
+
+        $this->workflowService->initiateWorkflowProcess(
+            $workshopReference,
+            (int)$processCode,
+            WorkflowActions::submit(),
+            $comments,
+            0,
+            $shortDescription,
+            $longDescription,
+            $supervisor->staff_no ?? '71997'
+        );
+
+        DB::commit();
+
+        JobCardCreated::dispatch($user, $supervisor, $jobCard);
+
+        return response()->json([
+            "success" => true,
+            "message" => "Job Card Assignment Task Generated For $supervisor->name (Workshop Supervisor)",
+            "redirectUrl" => URL::signedRoute("workOrder.list"),
+        ]);
+    }
+
 
     public function getFullJobCardDetails($reference): array
     {
@@ -81,24 +148,26 @@ class JobCardDetailsService
      */
     public function getWorkshopsRepairTypesAndSections(): array
     {
-        $repairTypes = GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
+        $repairTypes = GeneralTable::where(
+            Constants::TYPE_KEY,
+            ConfigurationTypes::REPAIR_TYPE->value)
             ->where("active",
                 QueryComparisonOperator::EQUALS,
                 1)
-            ->orderBy("name")
+            ->orderBy(TableColumns::NAME)
             ->get();
 
         $accessories = Accessory::where(TableColumns::STATUS,
             QueryComparisonOperator::EQUALS,
             StatusHelper::active())
-            ->orderBy("name")
+            ->orderBy(TableColumns::NAME)
             ->get();
 
         $workshopSections = GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)
             ->where("active",
                 QueryComparisonOperator::EQUALS,
                 1)
-            ->orderBy("name")
+            ->orderBy(TableColumns::NAME)
             ->get();
 
         return array($repairTypes, $accessories, $workshopSections);
@@ -110,7 +179,8 @@ class JobCardDetailsService
      */
     public function getFullJobCardData($reference): array
     {
-        $accessoriesCheckedIn = WorkShopVehicleAccessory::where("job_card_no",
+        $accessoriesCheckedIn = WorkShopVehicleAccessory::where(
+            TableColumns::JOB_CARD_NO,
             QueryComparisonOperator::EQUALS,
             $reference)
             ->get();
@@ -174,9 +244,11 @@ class JobCardDetailsService
 
         $nonStock = $this->workshopRequisitionService->getWorkShopRequisitionNonStockItems($details->wshp_act_code);
 
-        $observation = AssessmentObservation::where("reference",
+        $observation = AssessmentObservation::where(
+            "reference",
             QueryComparisonOperator::EQUALS,
-            $details->wshp_act_code)->get();
+            $details->wshp_act_code
+        )->get();
 
         $pettyCashItems = $this->workshopRequisitionService->getPettyCashItems($reference);
 
@@ -190,7 +262,8 @@ class JobCardDetailsService
                 'labour.defect_id',
                 QueryComparisonOperator::EQUALS,
                 'defect.id')
-            ->select('labour.*', 'defect.description as defect_name')
+            ->select('labour.*',
+                'defect.description as defect_name')
             ->get();
 
         return array(
