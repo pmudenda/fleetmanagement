@@ -68,7 +68,7 @@ class VehicleController extends Controller
 
             $vehicle = $this->vehicleDetailsService->getVehicleDetailsById($ref);
 
-            if (!empty(!$vehicle)) {
+            if (!empty($vehicle)) {
                 Log::info('Vehicle Details Found ');
             } else {
                 Log::info('Vehicle Details Not Found ');
