@@ -628,7 +628,7 @@ class WorkshopService
         return DB::table("GEN_MATERIAL_HEADERS mat_header")
             ->join("GEN_MATERIAL_DETAILS mat_detail",
                 "mat_header.req_no",
-                "=",
+                QueryComparisonOperator::EQUALS,
                 "mat_detail.req_no")
             ->whereNull("mat_header.document_no")
             ->where("mat_detail.reg_no",
