@@ -3,6 +3,7 @@
 namespace App\Services\VehicleManagement;
 
 use App\Constants\ComparisonOperator;
+use App\Constants\QueryComparisonOperator;
 use App\Constants\TableColumns;
 use App\Enums\DocumentState;
 use App\Enums\Modules;
@@ -84,46 +85,81 @@ class VehicleDetailsService
             );
     }
 
-    public function getVehicleDetails($ref): object|null
+    public function getVehicleDetailsById($id): object|null
     {
         try {
-            if (empty($ref)) {
+            if (empty($id)) {
                 return null;
             }
 
-            Log::info("Vehicle Param received $ref");
-            $results = DB::table('VM_VEHICLE_HEADER')->
-            where('VM_VEHICLE_HEADER.id', '=', $ref)
+            Log::info("Vehicle Param received $id");
+            $results = DB::table('VM_VEHICLE_HEADER header')->
+            where('header.id',
+                QueryComparisonOperator::EQUALS,
+                $id)
                 ->leftJoin('VM_ENGINE_DETAILS',
-                    'VM_VEHICLE_HEADER.id',
-                    '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
+                    'header.id',
+                    QueryComparisonOperator::EQUALS,
+                    'VM_ENGINE_DETAILS.vehicle_header_id')
                 ->leftJoin('VM_ASSIGNMENTS',
-                    'VM_VEHICLE_HEADER.id',
-                    '=', 'VM_ASSIGNMENTS.vehicle_header_id')
+                    'header.id',
+                    QueryComparisonOperator::EQUALS,
+                    'VM_ASSIGNMENTS.vehicle_header_id')
                 ->leftJoin('VM_CHASSIS_DETAILS',
-                    'VM_VEHICLE_HEADER.id',
-                    '=', 'VM_CHASSIS_DETAILS.vehicle_header_id')
-                ->leftJoin('VM_COST_AND_VALUATIONS',
-                    'VM_VEHICLE_HEADER.id',
-                    '=',
-                    'VM_COST_AND_VALUATIONS.vehicle_header_id')
-                ->leftJoin('VM_BODY_AND_WEIGHT_DETAILS',
-                    'VM_VEHICLE_HEADER.id',
-                    '=',
-                    'VM_BODY_AND_WEIGHT_DETAILS.vehicle_header_id')
-                ->select('VM_VEHICLE_HEADER.id as headerId',
-                    'VM_VEHICLE_HEADER.*',
+                    'header.id',
+                    QueryComparisonOperator::EQUALS,
+                    'VM_CHASSIS_DETAILS.vehicle_header_id')
+                ->leftJoin('VM_COST_AND_VALUATIONS cost_eval',
+                    'header.id',
+                    QueryComparisonOperator::EQUALS,
+                    'cost_eval.vehicle_header_id')
+                ->leftJoin('VM_BODY_AND_WEIGHT_DETAILS body_weight',
+                    'header.id',
+                    QueryComparisonOperator::EQUALS,
+                    'body_weight.vehicle_header_id')
+                ->select(
+                    'header.id as headerId',
+                    'header.id as vehicle_header_id',
+                    'header.*',
                     'VM_ASSIGNMENTS.id as assignmentId',
                     'VM_ASSIGNMENTS.*',
                     'VM_ENGINE_DETAILS.id as engineDetailsId',
                     'VM_ENGINE_DETAILS.*',
                     'VM_CHASSIS_DETAILS.id as chassisDetailsId',
                     'VM_CHASSIS_DETAILS.*',
-                    'VM_COST_AND_VALUATIONS.id as costAndValuationId',
-                    'VM_COST_AND_VALUATIONS.*',
-                    'VM_BODY_AND_WEIGHT_DETAILS.id as weightDetailsId',
-                    'VM_BODY_AND_WEIGHT_DETAILS.*'
-                )->get();
+                    'cost_eval.id as costAndValuationId',
+                    'cost_eval.assetNumber',
+                    'cost_eval.bookValue',
+                    'cost_eval.costOfLicense',
+                    'cost_eval.costPrice',
+                    'cost_eval.premium',
+                    'cost_eval.supplierName',
+                    'cost_eval.yearOfPurchase',
+                    'cost_eval.created_by',
+                    'cost_eval.created_name',
+                    'cost_eval.vehicle_header_id',
+                    'cost_eval.purchase_order_document',
+                    'body_weight.id as weightDetailsId',
+                    'body_weight.reg_no',
+                    'body_weight.height',
+                    'body_weight.length',
+                    'body_weight.numberOfSeats',
+                    'body_weight.width',
+                    'body_weight.grossWeight',
+                    'body_weight.tareWeight',
+                    'body_weight.seatCapFront',
+                    'body_weight.seatCapRear',
+                    'body_weight.volumeOfBootTanker',
+                    'body_weight.distanceAxle1',
+                    'body_weight.distanceAxle2',
+                    'body_weight.distanceAxle3',
+                    'body_weight.distanceAxle4',
+                    'body_weight.trailerWeight2',
+                    'body_weight.trailerWeight3',
+                    'body_weight.trailerWeight4',
+                    'body_weight.created_by',
+                    'body_weight.created_name'
+                )->first();
 
             return $results->first();
         } catch (\Exception $e) {

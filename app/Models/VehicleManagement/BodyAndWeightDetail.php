@@ -13,11 +13,9 @@ class BodyAndWeightDetail extends Model
         'height',
         'length',
         'numberOfSeats',
-
         'width',
         'grossWeight',
         'tareWeight',
-
         'seatCapFront',
         'seatCapRear',
         'volumeOfBootTanker',
@@ -28,7 +26,6 @@ class BodyAndWeightDetail extends Model
         'trailerWeight2',
         'trailerWeight3',
         'trailerWeight4',
-
         'created_by',
         'created_name'
     ];

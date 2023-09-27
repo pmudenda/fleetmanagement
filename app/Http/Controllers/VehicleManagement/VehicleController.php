@@ -66,7 +66,7 @@ class VehicleController extends Controller
                 );
             }
 
-            $vehicle = $this->vehicleDetailsService->getVehicleDetails($ref);
+            $vehicle = $this->vehicleDetailsService->getVehicleDetailsById($ref);
 
             if (!empty(!$vehicle)) {
                 Log::info('Vehicle Details Found ');
