@@ -61,7 +61,7 @@ class VehicleOnBoardingController extends Controller
         $vehicleDocuments = [];
         $enteredAccessories = [];
         $accessories = Accessory::where('status', '=', StatusHelper::active())->get();
-        if (empty($reference) && $reference != 0) {
+        if (!empty($reference) && $reference != 0) {
             $vehicle = $this->vehicleDetailsService->getVehicleDetailsById($reference);
             $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
