@@ -70,7 +70,7 @@ class MaterialReservationController extends Controller
             }
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    '',
+                    'failure',
                     false,
                     $message
                 )
