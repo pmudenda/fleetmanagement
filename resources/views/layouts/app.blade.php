@@ -525,7 +525,7 @@
     tmsApp.csrf_token = document.querySelector('meta[name="csrf-token"]').content;
 </script>
 
-<script src="{{asset('themes/plugins/jquery/jquery-3.6.3.js')}}"></script>
+<script src="{{asset('assets/plugins/jquery/jquery-3.6.3.js')}}"></script>
 <script src="{{asset('themes/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <script src="{{asset('libs/echarts@5.4.2/dist/echarts.min.js')}}"></script>
 <script>
