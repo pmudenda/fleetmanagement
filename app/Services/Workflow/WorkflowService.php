@@ -3,6 +3,7 @@
 namespace App\Services\Workflow;
 
 
+use App\Constants\QueryComparisonOperator;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
@@ -156,7 +157,7 @@ class WorkflowService
                                    int    $action,
                                    string $actionTaken,
                                    string $comment,
-                                   string $subject = null
+                                          $subject
     ): array
     {
 
@@ -178,29 +179,30 @@ class WorkflowService
 
         if (empty($taskDetail)) {
             throw new WorkflowTaskCreationFailedException(
-                "Approval Process Details Not Found",
-                100
+                "Approval Process Details Not Found"
+
             );
         }
 
         if (empty($taskHeader)) {
             throw new WorkflowTaskCreationFailedException(
-                self::PROCESS_MAIN_DATA_NOT_FOUND,
-                100
+                self::PROCESS_MAIN_DATA_NOT_FOUND
+
             );
         }
 
         if (empty($taskDetail->current_step_id)) {
             throw new WorkflowTaskCreationFailedException(
-                self::PROCESS_STEP_DATA_IS_MISSING,
-                101
+                self::PROCESS_STEP_DATA_IS_MISSING
+
             );
         }
 
         // always start at current position
         $currentStep = WorkflowStep::where(
             'step_id',
-            '=', $taskDetail->current_step_id
+            QueryComparisonOperator::EQUALS,
+            $taskDetail->current_step_id
         )->where('process_id', '=', $processId)->first();
 
         // update workflow log
@@ -255,8 +257,7 @@ class WorkflowService
                     $comment,
                     $action,
                     $actionTaken,
-                    $currentStep,
-                    $subject
+                    $currentStep
                 );
                 break;
             default:
@@ -624,7 +625,6 @@ class WorkflowService
      * @param $action
      * @param $actionTaken
      * @param $currentStep
-     * @param $subject
      * @return array
      */
     public function resubmitRequest(WorkflowTaskDetail $taskDetail,
@@ -632,8 +632,8 @@ class WorkflowService
                                                        $comment,
                                                        $action,
                                                        $actionTaken,
-                                                       $currentStep,
-                                                       $subject): array
+                                                       $currentStep
+    ): array
     {
 
         $currentUser = auth()->user();

@@ -391,8 +391,10 @@ class WorkshopRequisitionService
             WorkflowActions::submit(),
             $justification,
             $requisitionPostRequest->total_amount ?? 0,
-            $shortDescription,
-            $longDescription
+            array(
+                $shortDescription,
+                $longDescription,
+            ),
         );
 
         $storeCode = $requisitionPostRequest->store_code;
@@ -579,8 +581,10 @@ class WorkshopRequisitionService
             WorkflowActions::submit(),
             $serviceReservationRequest->remarks,
             $serviceReservationRequest->total_amount ?? 0,
-            $shortDescription,
-            $longDescription
+            array(
+                $shortDescription,
+                $longDescription,
+            ),
         );
 
 
@@ -972,7 +976,8 @@ class WorkshopRequisitionService
             $workflowProcessCode,
             $action,
             $actionTaken,
-            $request->get('Comments')
+            $request->get('Comments'),
+             null
         );
 
         $status = '';
@@ -1040,8 +1045,10 @@ class WorkshopRequisitionService
             WorkflowActions::submit(),
             $requisitionPostRequest->remarks,
             $requisitionPostRequest->total_amount ?? 0,
-            $shortDescription,
-            $longDescription
+            array(
+                $shortDescription,
+                $longDescription,
+            ),
         );
 
         $storeCode = $requisitionPostRequest->store_code;

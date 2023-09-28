@@ -195,7 +195,7 @@
 
 @push('scripts')
     <script>
-        $(function () {
+        /*$(function () {
             const table = $('#inWorkShopList').DataTable({
                 processing: true,
                 serverSide: true,
@@ -215,10 +215,10 @@
                     },
                 ]
             });
-        });
+        });*/
         (function (tmsApp) {
-            let editRecordModalEl = document.querySelector('#editRecordModal')
-           /* tmsApp.initDatatable("#inWorkShopList", true, true, []);*/
+
+            tmsApp.initDatatable("#inWorkShopList", true, true, []);
 
             $('input[name="name"]').on('paste keyup', function () {
                 this.value = this.value.toLocaleUpperCase();
