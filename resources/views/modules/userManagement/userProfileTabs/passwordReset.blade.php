@@ -19,6 +19,10 @@
                         <strong>{{ $errors }}</strong>
                     </span>
                     @enderror
+
+                    @error('otp')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 

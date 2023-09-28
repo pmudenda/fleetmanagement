@@ -20,6 +20,10 @@
             border: 1px solid transparent;
         }
 
+        is-invalid {
+            border: 2px solid orangered;
+        }
+
         label:before {
             font-family: fontawesome;
             font-weight: normal;
@@ -226,7 +230,7 @@
                                     </a>
                                 </li>--}}
 
-                                <li class="card-title" >
+                                <li class="card-title">
                                     <a class="nav-link @if($passwordChangeOnly) active @endif"
                                        href="#pass_reset" data-toggle="tab">
                                         Password Reset
