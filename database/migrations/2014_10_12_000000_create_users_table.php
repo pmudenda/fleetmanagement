@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('work_shop_code', 4)->nullable();
             $table->integer('functional_unit_id')->nullable();
             $table->string('user_unit',255)->nullable();
+            $table->string('change_password_next_login',1)->default('Y');
             $table->string('two_fac_auth_status')->nullable()
                 ->default('Inactive');
 

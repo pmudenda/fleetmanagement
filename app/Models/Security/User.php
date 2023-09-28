@@ -40,6 +40,7 @@ class User extends Authenticatable
         'con_st_code',
         'two_fac_auth_status',
         'password_changed',
+        'change_password_next_login',
         //'location_id',
         //'pay_point_id',
         'functional_unit_id',
