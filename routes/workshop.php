@@ -12,14 +12,17 @@ use App\Http\Controllers\WorkShopManagement\MaterialReservationController;
 use App\Http\Controllers\WorkShopManagement\ServiceReservationController;
 use App\Http\Controllers\WorkShopManagement\VehicleAssessmentController;
 use App\Http\Controllers\WorkShopManagement\WorkshopController;
+use App\Models\WorkShopManagement\JobCardHeader;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Yajra\DataTables\Facades\DataTables;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'workshop-management'], function () {
+Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix' => 'workshop-management'], function () {
 
     Route::get('workshops/list', [WorkshopController::class, 'index'])
         ->name('workshop.list');
@@ -55,6 +58,26 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
         // supporting
         Route::get('vehicles-in-workshop/list', [JobCardController::class, 'list'])
             ->name('workOrder.list');
+
+        Route::get('vehicles-in-workshop/json', function (Request $request) {
+            if ($request->ajax()) {
+                $data = JobCardHeader::latest()->get();
+                return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        return '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">
+                                        Edit
+                                        </a>
+                                        <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">
+                                            Delete
+                                        </a>';
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+
+            return DataTables::of((object)[])->make();
+        })->name('job_card.list.json');
 
         Route::get('all/job-card/list', [JobCardController::class, 'list'])
             ->name('jobCard.list');

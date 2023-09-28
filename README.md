@@ -37,6 +37,9 @@ ZFM is a web based fleet & logistics management system built using laravel frame
 - [ php artisan db:seed --class= {SeederClassName}]() - replace {SeederClassName} with actual class name e.g UserSeeder
 -- composer require spatie/laravel-cookie-consentphp artisan vendor:publish --provider="Spatie\CookieConsent\CookieConsentServiceProvider" --tag="config"
 
+DataTables
+-- composer require yajra/laravel-datatables-oracle
+php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvider
 ## System Scripts
 
 ## Create Stores Requisition Function

@@ -202,7 +202,8 @@ return [
         App\Providers\RightsServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 
-        // Yajra\Oci8\Oci8ServiceProvider::class,
+        //Yajra\Oci8\Oci8ServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
     /*
@@ -219,6 +220,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ])->toArray(),
 
 ];
