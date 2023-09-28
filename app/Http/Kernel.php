@@ -38,8 +38,6 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            CheckUserStatus::class,
-            ChangePasswordOnNextLogin::class
         ],
 
         'api' => [
@@ -68,6 +66,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'check_block' => CheckUserStatus::class,
+        'change.password' => ChangePasswordOnNextLogin::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
     ];
 }
