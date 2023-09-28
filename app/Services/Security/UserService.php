@@ -152,7 +152,7 @@ class UserService
     {
         Log::info(
             "Single Session Enabled "
-            . (bool)config('systeminfo.enableSingleSessionManagement')
+            . (int)config('systeminfo.enableSingleSessionManagement')
         );
 
         if (config('systeminfo.enableSingleSessionManagement')) {
@@ -311,6 +311,21 @@ class UserService
             $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_staff_no", $userToSync);
             $stmt->bindParam(":p_modified_by", $modifiedBy);
+$stmt->bindParam(":p_staff_no", null); //           IN sec_users.staff_no%TYPE,
+$stmt->bindParam(":p_password", null); //           IN sec_users.password%TYPE,
+$stmt->bindParam(":p_email", null); //              IN sec_users.email%TYPE,
+$stmt->bindParam(":p_username", null); //           IN sec_users.username%TYPE,
+$stmt->bindParam(":p_phone", null); //              IN sec_users.phone%TYPE DEFAULT NULL,
+$stmt->bindParam(":p_area_code", null); //          IN sec_users.area_code%TYPE DEFAULT NULL,
+$stmt->bindParam(":p_functional_section", null); // IN sec_users.functional_section%TYPE DEFAULT NULL,
+$stmt->bindParam(":p_bu_code", null); //            IN sec_users.bu_code%TYPE DEFAULT NULL,
+$stmt->bindParam(":p_cc_code", null); //            IN sec_users.cc_code%TYPE DEFAULT NULL,
+$stmt->bindParam(":p_work_shop_code", null); //     IN sec_users.work_shop_code%TYPE DEFAULT NULL,
+$stmt->bindParam(":p_directorate", null); //        IN sec_users.directorate%TYPE DEFAULT NULL,
+$stmt->bindParam(":p_user_unit", null); //          IN sec_users.user_unit%TYPE DEFAULT NULL,
+$stmt->bindParam(":p_supervisor_code", null); //    IN sec_users.supervisor_code%TYPE DEFAULT NULL,
+$stmt->bindParam(":p_supervisor_name", null); //    IN sec_users.supervisor_name%TYPE DEFAULT NULL,
+$stmt->bindParam(":p_avatar", null); //             IN sec_users.avatar%TYPE DEFAULT NULL
             $stmt->execute();
 
 
