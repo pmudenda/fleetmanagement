@@ -5,7 +5,7 @@ use App\Http\Controllers\Security\RolesController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['middleware' => 'auth', 'prefix' => 'security'], function () {
+Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'security'], function () {
 
     Route::post('/roles/assign/permission', [RolesController::class, 'assignPermission'])
         ->name('roles.assign.permission');

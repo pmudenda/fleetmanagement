@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth','is.active','change.password']], function () {
     Route::group(['prefix' => 'mechanic-management'], function () {
         Route::get('mechanic/create', [MechanicController::class, 'create'])
             ->name('mechanic.create');

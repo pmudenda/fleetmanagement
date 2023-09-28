@@ -308,11 +308,13 @@ jQuery.extend = jQuery.fn.extend = function() {
 	// Return the modified object
 	return target;
 };
-
+    const crypto = window.crypto || window.msCrypto;
+    var array = new Uint32Array(1);
+    //crypto.getRandomValues(array)
 jQuery.extend( {
 
 	// Unique for each copy of jQuery on the page
-	expando: "jQuery" + ( version + Math.random() ).replace( /\D/g, "" ),
+	expando: "jQuery" + ( version + crypto.getRandomValues(array) ).replace( /\D/g, "" ),
 
 	// Assume jQuery is ready without the ready module
 	isReady: true,

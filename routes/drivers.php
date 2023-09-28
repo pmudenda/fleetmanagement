@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::group(['middleware' => 'auth', 'prefix' => 'driver-management'], function () {
+Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'driver-management'], function () {
     Route::get('driver/driver', [DriverController::class, 'create'])->name('driver.create');
 
     Route::post('driver/save', [DriverController::class, 'store'])->name('save.driver');

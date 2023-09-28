@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware' => 'auth', 'prefix' => 'reminders'], function () {
+Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'reminders'], function () {
 
     Route::post('list', [RemindersController::class, 'index'])
         ->name('reminder.list');

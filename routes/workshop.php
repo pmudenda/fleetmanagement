@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 | Web Routes
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => 'auth', 'prefix' => 'workshop-management'], function () {
+Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'workshop-management'], function () {
 
     Route::get('workshops/list', [WorkshopController::class, 'index'])
         ->name('workshop.list');

@@ -31,7 +31,7 @@ Route::get('gate/pass', [HomeController::class, 'gatePass'])->name('gate.pass');
 
 Route::get('print/job/card', [PdfJobController::class, "index"])->name('print.job.card');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth','is.active','change.password']], function () {
 
      Route::get('/error', function (Request $request) {
          return view('error')->with(['error' => $request->get('message')]);

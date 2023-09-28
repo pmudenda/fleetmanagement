@@ -5,7 +5,7 @@ use App\Http\Controllers\UserManagement\UsersController;
 use App\Http\Controllers\UserManagement\UserSimulationController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth','is.active','change.password']], function () {
 
     Route::group(['prefix' => 'user-management'], function () {
 

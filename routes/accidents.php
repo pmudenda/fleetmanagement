@@ -3,7 +3,7 @@
 use App\Http\Controllers\AccidentReporting\AccidentRecordingController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'is.active', 'change.password']], function () {
     Route::group(['prefix' => 'accident'], function () {
 
         Route::get('/report', [AccidentRecordingController::class, 'create'])

@@ -10,7 +10,7 @@ use App\Http\Controllers\VehicleManagement\VehicleModelsController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'auth', 'prefix' => 'v1/en'], function (): void {
+Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'v1/en'], function (): void {
 
     Route::group(['prefix' => 'vehicle/brands', 'as' => 'brands.'], function () {
         Route::get('', [ConfigVehicleBrandsController::class, 'get'])->name('get');
@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'v1/en'], function (): void {
         ->name('tyres.get');
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'vehicle-management'], function () {
+Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'vehicle-management'], function () {
 
     Route::group(['prefix' => 'onboarding'], function () {
 

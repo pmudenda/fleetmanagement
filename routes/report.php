@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::group(['middleware' => 'auth', 'prefix' => 'reports'], function () {
+Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'reports'], function () {
 
     Route::get('fuel/cost', [ReportsController::class, 'fuelCost'])
         ->name('reports.fuel.requisitions');
