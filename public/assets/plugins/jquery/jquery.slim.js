@@ -2490,6 +2490,9 @@ function matcherFromTokens( tokens ) {
 }
 
 function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
+    const crypto = window.crypto || window.msCrypto;
+    var array = new Uint32Array(1);
+    //crypto.getRandomValues(array)
 	var bySet = setMatchers.length > 0,
 		byElement = elementMatchers.length > 0,
 		superMatcher = function( seed, context, xml, results, outermost ) {
@@ -2502,7 +2505,7 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 				// We must always have either seed elements or outermost context
 				elems = seed || byElement && Expr.find["TAG"]( "*", outermost ),
 				// Use integer dirruns iff this is the outermost matcher
-				dirrunsUnique = (dirruns += contextBackup == null ? 1 : Math.random() || 0.1),
+				dirrunsUnique = (dirruns += contextBackup == null ? 1 : crypto.getRandomValues(array) || 0.1),
 				len = elems.length;
 
 			if ( outermost ) {

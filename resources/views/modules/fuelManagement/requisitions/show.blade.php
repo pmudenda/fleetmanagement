@@ -540,7 +540,9 @@
                                         MB Name: {{ $supportingDocument->originaldocumentname }}
                                     </span>
                                     <span> | </span>
-                                    <a target="_blank" style="cursor: pointer;"
+                                    <a target="_blank"
+                                       rel="noopener"
+                                       style="cursor: pointer;"
                                        href="{{ asset('storage/Attachments/' . $supportingDocument->name) }}">View</a>
                                 @else
                                     <div id="vehicleDetailsContainer" style="display: none;"

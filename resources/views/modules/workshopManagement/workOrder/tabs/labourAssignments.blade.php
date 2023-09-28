@@ -146,6 +146,7 @@
                                         <a class="dropdown-item d-none"
                                            data-kt-action="edit"
                                            target="_blank"
+                                           rel="noopener"
                                            href="{{URL::signedRoute('print.job.card', [
                                             'reference' => $labourItem->id
                                             ])}}
