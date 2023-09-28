@@ -31,7 +31,7 @@ class JobCardDetailsService
 {
     private WorkshopService $workshopService;
     private WorkshopRequisitionService $workshopRequisitionService;
-    private  WorkflowService $workflowService;
+    private WorkflowService $workflowService;
 
     public function __construct(WorkshopService            $workshopService,
                                 WorkshopRequisitionService $workshopRequisitionService,
@@ -82,8 +82,10 @@ class JobCardDetailsService
             WorkflowActions::submit(),
             $comments,
             0,
-            $shortDescription,
-            $longDescription,
+            array(
+                $shortDescription,
+                $longDescription,
+            ),
             $supervisor->staff_no ?? '71997'
         );
 

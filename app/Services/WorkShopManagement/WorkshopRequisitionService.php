@@ -248,8 +248,10 @@ class WorkshopRequisitionService
             WorkflowActions::submit(),
             $materialReservationRequest->get('remarks'),
             $materialReservationRequest->total_amount ?? 0,
-            $short_description,
-            $long_description
+            array(
+                $short_description,
+                $long_description
+            )
         );
 
         $storeCode = $materialReservationRequest->get('store_code');

@@ -187,15 +187,6 @@ window.Util = {
         }
         return false;
     },
-    makeId: function makeid(length) {
-        let result = '';
-        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let charactersLength = characters.length;
-        for (let i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    },
     isEmpty: function (obj) {
         if (!obj)
             return true;
@@ -238,15 +229,6 @@ window.Util = {
             width: "resolve",
             data: records
         }).append(newOption).trigger('change');
-    },
-    makeReference: function (length) {
-        let result = '';
-        let characters = '0123456789';
-        let charactersLength = characters.length;
-        for (let i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
     },
     /**
      * Return Index Of Object in Array
@@ -400,15 +382,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
         return false;
     };
 
-    appInstance.appInstancemakeId = function makeid(length) {
-        let result = '';
-        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let charactersLength = characters.length;
-        for (let i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    };
+
 
     appInstance.isEmpty = function (obj) {
         if (!obj)
@@ -474,21 +448,6 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
     };
 
     /**
-     * generates a unique reference number from the client
-     * @param length
-     * @returns {string}
-     */
-    appInstance.makeReference = function (length) {
-        let result = '';
-        let characters = '0123456789';
-        let charactersLength = characters.length;
-        for (let i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    };
-
-    /**
      * Return Index Of Object in Array
      * @param array
      * @param key
@@ -530,9 +489,6 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
      */
     appInstance.numberOnly = function (event) {
         let key;
-        /*if (event.keyCode === 8 || event.keyCode === 46) {
-            return true;
-        } else return !(key < 48 || key > 57);*/
         // Handle paste
         if (event.type === 'paste') {
             key = event.clipboardData.getData('text/plain');

@@ -526,6 +526,7 @@
     tmsApp.messages = tmsApp?.boot['messages'];
     tmsApp.csrf_token = document.querySelector('meta[name="csrf-token"]').content;
 </script>
+
 <script src="{{asset('themes/plugins/jquery/jquery-3.7.0.js')}}"></script>
 <script src="{{asset('themes/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <script src="{{asset('libs/echarts@5.4.2/dist/echarts.min.js')}}"></script>

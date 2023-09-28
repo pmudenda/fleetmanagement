@@ -59,7 +59,7 @@ class FuelRequisitionService
         WorkflowService                     $workflowService,
         ProcurementSystemIntegrationService $procurementService,
         FuelRequisitionValidationService    $validationService,
-        VehicleAssignmentValidationService $vehicleAssignmentStateValidateService)
+        VehicleAssignmentValidationService  $vehicleAssignmentStateValidateService)
     {
         $this->workflowService = $workflowService;
         $this->procurementService = $procurementService;
@@ -660,8 +660,10 @@ class FuelRequisitionService
             WorkflowActions::submit(),
             $requisitionPostRequest->get("justification"),
             $requisitionPostRequest->get("material_amount"),
-            $short_description,
-            $long_description
+            array(
+                $short_description,
+                $long_description
+            ),
         );
 
         Log::info("Workflow Initiated");

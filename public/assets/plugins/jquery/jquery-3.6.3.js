@@ -325,11 +325,12 @@
         // Return the modified object
         return target;
     };
-
+    const crypto = window.crypto || window.msCrypto;
+    let array = new Uint32Array(1);
     jQuery.extend( {
 
         // Unique for each copy of jQuery on the page
-        expando: "jQuery" + ( version + Math.random() ).replace( /\D/g, "" ),
+        expando: "jQuery" + ( version + crypto.getRandomValues(array) ).replace( /\D/g, "" ),
 
         // Assume jQuery is ready without the ready module
         isReady: true,
@@ -2734,8 +2735,11 @@
 
             function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
                 var bySet = setMatchers.length > 0,
-                    byElement = elementMatchers.length > 0,
-                    superMatcher = function( seed, context, xml, results, outermost ) {
+                    byElement = elementMatchers.length > 0;
+                const crypto = window.crypto || window.msCrypto;
+                let array = new Uint32Array(1);
+
+                  var  superMatcher = function( seed, context, xml, results, outermost ) {
                         var elem, j, matcher,
                             matchedCount = 0,
                             i = "0",
@@ -2747,7 +2751,7 @@
                             elems = seed || byElement && Expr.find[ "TAG" ]( "*", outermost ),
 
                             // Use integer dirruns iff this is the outermost matcher
-                            dirrunsUnique = ( dirruns += contextBackup == null ? 1 : Math.random() || 0.1 ),
+                            dirrunsUnique = ( dirruns += contextBackup == null ? 1 : crypto.getRandomValues(array) || 0.1 ),
                             len = elems.length;
 
                         if ( outermost ) {

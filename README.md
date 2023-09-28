@@ -35,6 +35,7 @@ ZFM is a web based fleet & logistics management system built using laravel frame
 ## Updating Existing Installation
 - [ php artisan migrate]()
 - [ php artisan db:seed --class= {SeederClassName}]() - replace {SeederClassName} with actual class name e.g UserSeeder
+-- composer require spatie/laravel-cookie-consentphp artisan vendor:publish --provider="Spatie\CookieConsent\CookieConsentServiceProvider" --tag="config"
 
 ## System Scripts
 

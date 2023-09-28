@@ -4,7 +4,7 @@ namespace App\Services\WorkShopManagement;
 
 class JobCardValidationService
 {
-    public function validate(): void
+    public function validate(Request $request): void
     {
 
     }

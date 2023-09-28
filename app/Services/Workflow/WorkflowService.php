@@ -39,8 +39,7 @@ class WorkflowService
      * @param int $action
      * @param string $comment
      * @param $amount
-     * @param string $short_description
-     * @param string $long_description
+     * @param array $description
      * @param string|null $assignTo
      * @return WorkflowTaskDetail
      * @throws WorkflowTaskCreationFailedException
@@ -50,11 +49,12 @@ class WorkflowService
                                             int    $action,
                                             string $comment,
                                                    $amount,
-                                            string $short_description,
-                                            string $long_description,
+                                            array  $description,
                                             string $assignTo = null
     ): WorkflowTaskDetail
     {
+        $short_description = $description[0];
+        $long_description = $description[1];
         $currentUser = Auth()->user();
         Log::info("===================================Starting Workflow===================================");
         Log::info(
@@ -650,19 +650,7 @@ class WorkflowService
         $taskDetail->actioning_officer = $previousStepLog->actioning_officer;
         $taskDetail->save();
 
-        Log::info("Going Forward To Step $previousStepLog->step_id");
-
-        if ($taskHeader->subject != $subject){
-            /*$short_description = $description
-                . "Fuel Requisition For Vehicle Reg No. "
-                . $registrationNumber;
-
-            $long_description = $description
-                . "Fuel Requisition Ref.No. "
-                . $requisition_reference_number
-                . " For Vehicle Reg No. "
-                . $registrationNumber;*/
-        }
+        Log::debug("Going Forward To Step $previousStepLog->step_id");
 
         $previousStep = WorkflowStep::where(
             'process_id',
