@@ -17,8 +17,6 @@ class ChangePasswordOnNextLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Log::debug("Change Password on Next Login Middleware");
-
         if (auth()->user()->change_password_next_login == 'Y') {
             return redirect(URL::signedRoute('password.change', ['key' => auth()->user()->id]));
         }
