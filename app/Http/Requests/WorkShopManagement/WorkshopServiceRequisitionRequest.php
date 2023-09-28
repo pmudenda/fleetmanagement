@@ -40,8 +40,6 @@ class WorkshopServiceRequisitionRequest extends FormRequest
             'purchase_office' => self::REQUIRED_STRING,
             'remarks' => self::REQUIRED_STRING,
             'request_date' => self::REQUIRED_STRING,
-            // 'store_code' => 'required|string',
-            // 'store_name' => 'required|string',
             'supplier' => 'nullable|string',
             'workshop_code' => self::REQUIRED_STRING,
         ];

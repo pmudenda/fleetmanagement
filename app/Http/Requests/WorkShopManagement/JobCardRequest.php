@@ -4,9 +4,7 @@ namespace App\Http\Requests\WorkShopManagement;
 
 use App\Enums\RepairTypes;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class JobCardRequest extends FormRequest
 {
@@ -34,14 +32,15 @@ class JobCardRequest extends FormRequest
             'timeIn' => 'required:date_format',
             'repairType' => self::REQUIRED_STRING,
             'service_advisor' => self::REQUIRED_STRING,
-            'accident_number' => 'exclude_unless:repairType,' . RepairTypes::AccidentRepair->value
+            'accident_number' => 'exclude_unless:repairType,'
+                . RepairTypes::AccidentRepair->value
                 . '|required|string|exists:App\Models\Accident,reference'
             ,
 
             'current_odometer' => 'required:numeric',
             'fuel_level' => self::REQUIRED_STRING,
             'sub_fuel_level' => 'nullable:string',
-            'driver_staff_number' => self::REQUIRED_STRING .'|max:10',
+            'driver_staff_number' => self::REQUIRED_STRING . '|max:10',
         ];
     }
 }

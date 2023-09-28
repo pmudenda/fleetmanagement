@@ -25,7 +25,7 @@ class SubmitJobCardToSupervisor extends FormRequest
         return [
             'commentsToSupervisor' => 'required|string|max:255',
             'vehicle_registration' => 'required|string|max:10',
-            'job_card_number' => 'required|string',
+            'job_card_number' => 'required|string|max:20',
         ];
     }
 }

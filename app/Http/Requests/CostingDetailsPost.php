@@ -32,7 +32,7 @@ class CostingDetailsPost extends FormRequest
             'premium' => self::REQUIRED_NUMERIC,
             'yearOfPurchase' => self::REQUIRED_NUMERIC,
             'supplierName' => 'required|string',
-            'purchaseOrderDocument' => 'nullable|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
+            'purchaseOrderDocument' => 'nullable|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf|max:3072',
         ];
     }
 }

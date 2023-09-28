@@ -33,15 +33,10 @@ class WorkshopServiceReservationRequest extends FormRequest
             'item.*.service_total_price' => self::REQUIRED_NUMERIC,
             'item.*.service_unit_of_measure' => self::REQUIRED_STRING,
             'item.*.service_unit_price' => self::REQUIRED_NUMERIC,
-
-            //'job_card_no' => 'required|string',
-            //'workshop_reference' => 'required|string',
             'modelName' => self::REQUIRED_STRING,
             'purchase_office' => self::REQUIRED_STRING,
             'remarks' => self::REQUIRED_STRING,
             'request_date' => self::REQUIRED_STRING,
-            // 'store_code' => 'required|string',
-            // 'store_name' => 'required|string',
             'supplier' => 'nullable|string',
             'workshop_code' => self::REQUIRED_STRING,
         ];

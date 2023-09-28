@@ -98,13 +98,9 @@
     <div aria-live="polite" aria-atomic="true" class="position-relative">
         <div class="toast-container position-fixed top-0 end-0 p-3">
 
-            <div id="liveToast" class="toast align-items-center text-bg-primary border-0" role="alert"
+            <div id="liveToast" class="toast align-items-center text-bg-primary border-0"
+                 role="alert"
                  aria-live="assertive" aria-atomic="true">
-                {{--<div class="toast-header">
-                    <strong class="me-auto">System Message</strong>
-                    <small>now</small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>--}}
                 <div class="toast-body bg-white">
                     Hello, world! This is a toast message.
                 </div>
@@ -243,7 +239,9 @@
                     </h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form id="documentFollowUpForm" name="documentFollowUpForm" action="{{route('document.followup')}}">
+                <form id="documentFollowUpForm"
+                      name="documentFollowUpForm"
+                      action="{{route('document.followup')}}">
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div class="row mb-2">
@@ -527,7 +525,7 @@
     tmsApp.csrf_token = document.querySelector('meta[name="csrf-token"]').content;
 </script>
 
-<script src="{{asset('themes/plugins/jquery/jquery-3.7.0.js')}}"></script>
+<script src="{{asset('themes/plugins/jquery/jquery-3.6.3.js')}}"></script>
 <script src="{{asset('themes/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <script src="{{asset('libs/echarts@5.4.2/dist/echarts.min.js')}}"></script>
 <script>
@@ -611,7 +609,6 @@
             // Button that triggered the modal
             const button = event.relatedTarget
             $("#documentFollowUpTable").DataTable({
-                /*"info": false,*/
                 'order': [],
                 "pageLength": 10,
                 "responsive": true,
@@ -625,11 +622,7 @@
     });
 
     (function (tmsApp, $) {
-
-        const mainProcessMetaData = {
-
-        };
-
+        const mainProcessMetaData = {};
         $(document).on('keypress', '.number_input', function (event) {
             tmsApp.numberOnly(event);
         });
@@ -669,32 +662,32 @@
             "click",
             'button[value="applyAuditTrailFilter"]',
             function (event) {
-            const form = document.querySelector('form[name="documentAuditTrail"]');
-            const formData = new FormData(form);
-            let postData = {};
-            for (const keyValuePair of formData.entries()) {
-                postData[keyValuePair[0]] = keyValuePair[1];
-            }
+                const form = document.querySelector('form[name="documentAuditTrail"]');
+                const formData = new FormData(form);
+                let postData = {};
+                for (const keyValuePair of formData.entries()) {
+                    postData[keyValuePair[0]] = keyValuePair[1];
+                }
 
-            const settings = {
-                url: form.action,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'GET',
-                dataType: 'json',
-                data: postData
-            };
+                const settings = {
+                    url: form.action,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'GET',
+                    dataType: 'json',
+                    data: postData
+                };
 
-            $.ajax(settings).done(function (response) {
-                showDocumentAuditTrailResults(response);
-            }).fail(function (xhr) {
-                tmsApp.showErrorMessages(
-                    xhr,
-                    'Document Audit Trail'
-                );
+                $.ajax(settings).done(function (response) {
+                    showDocumentAuditTrailResults(response);
+                }).fail(function (xhr) {
+                    tmsApp.showErrorMessages(
+                        xhr,
+                        'Document Audit Trail'
+                    );
+                });
             });
-        });
 
         $(document).on('change', '[name="userIdentifier"]', function () {
             let searchTerm = this.value;

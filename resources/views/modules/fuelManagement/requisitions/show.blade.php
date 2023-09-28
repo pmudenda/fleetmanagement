@@ -543,7 +543,9 @@
                                     <a target="_blank"
                                        rel="noopener"
                                        style="cursor: pointer;"
-                                       href="{{ asset('storage/Attachments/' . $supportingDocument->name) }}">View</a>
+                                       href="{{ asset('storage/Attachments/' . $supportingDocument->name) }}">
+                                        View
+                                    </a>
                                 @else
                                     <div id="vehicleDetailsContainer" style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12">

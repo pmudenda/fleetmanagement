@@ -41,7 +41,6 @@ class WorkshopRequisitionRequest extends FormRequest
             'remarks' => self::REQUIRED_STRING,
             'request_date' => self::REQUIRED_STRING,
             'store_code' => self::REQUIRED_STRING,
-            // 'store_name' => 'required|string',
             'supplier' => 'nullable|string',
             'workshop_code' => self::REQUIRED_STRING,
         ];

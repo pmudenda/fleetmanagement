@@ -24,9 +24,9 @@ class AttachArticlesToJobCard extends FormRequest
     {
         return [
             'items.*.requestId' => 'required',
-            'jobCardNumber' => 'required',
+            'jobCardNumber' => 'required|max:20',
             'submitForm' => 'required',
-            'workshopReference' => 'required'
+            'workshopReference' => 'required|max:20'
         ];
     }
 }
