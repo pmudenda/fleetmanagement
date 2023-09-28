@@ -36,6 +36,8 @@ class SystemMessages
 
     const USER_ONBOARDING_SUCCESS = 'User Defined successfully..';
     const REQUISITION_SUCCESSFUL = "Requisition @req Generated and submitted to the next authority for Authorisation";
+    const ACCIDENT_REPORT_FOUND = 'Accident Report Found';
+    const ACCIDENT_REPORT_NOT_FOUND = 'No Accident Report Found for Vehicle @reg';
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

@@ -17,11 +17,14 @@ ZFM is a web based fleet & logistics management system built using laravel frame
 
 ## First Time Installation ZFM
 #Scripts to run on server
-- [ git clone respository]()
-- [ composer install]()
+- [ git clone respository_url]()
+- cp composer.example composer.json
+
 - composer require yajra/laravel-oci8:^10
 - Uncomment Yajra\Oci8\Oci8ServiceProvider::class in app.php providers array
 -  php artisan vendor:publish --tag=oracle
+- [ composer install]()
+#(Optional)
 - [ php artisan migrate:fresh --seed]()
 - [ php artisan adldap:import ]()
 ## Folder Permissions
@@ -40,53 +43,11 @@ ZFM is a web based fleet & logistics management system built using laravel frame
 DataTables
 -- composer require yajra/laravel-datatables-oracle
 php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvider
-## System Scripts
 
-## Create Stores Requisition Function
-```oracle
 
-```
 
-## Create Stores Reservation Function
-```oracle
-
-```
-
-## Function Generate Reference
-```oracle
-
-```
-
-## Reference Number Sequences
-```oracle
-
-```
-## Synchronize Requisitions
-```oracle
-
-```
-
-## Cancel Requisitions
-```oracle
-
-```
-
-## Example Search Query
-```php
-$list = User::select('id', 'user_unit_id', 'con_st_code', 'positions_id', 'staff_no', 'user_unit_code', 'job_code', 'email', 'name', 'created_at', 'phone')
-            ->where('email', 'LIKE', "%{$search}%")
-            ->orWhere('name', 'LIKE', "%{$search}%")
-            ->orWhere('nrc', 'LIKE', "%{$search}%")
-            ->orWhere('staff_no', 'LIKE', "%{$search}%")
-            ->orWhere('staff_no_alt', 'LIKE', "%{$search}%")
-            ->orWhere('user_unit_code', 'LIKE', "%{$search}%")
-            ->orWhere('contract_type', 'LIKE', "%{$search}%")
-            ->orWhere('con_st_code', 'LIKE', "%{$search}%")
-            ->orWhere('job_code', 'LIKE', "%{$search}%")
-            ->orWhere('phone', 'LIKE', "%{$search}%")
-            ->get();
-```
-In order to ensure that the system remains stable at all times, all features, bugs and enhance will be done using issue first approach. A pull request will then be merged by repository administrator.
+In order to ensure that the system remains stable at all times, 
+all features, bugs and enhance will be done using issue first approach. A pull request will then be merged by repository administrator.
 
 ## Security Vulnerabilities
 

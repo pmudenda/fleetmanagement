@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\AccidentReporting;
 
+use App\Constants\Articles;
 use App\Constants\QueryComparisonOperator;
+use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
+use App\Exceptions\DataNotFoundException;
 use App\Exceptions\DuplicateDataException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccidentRecordingRequest;
@@ -184,18 +187,26 @@ class AccidentRecordingController extends Controller
 
     public function getLatestAccidentReport(Request $request): JsonResponse
     {
+        $vehicleRegistration = $request->get('vehicleRegistration');
+
         try {
             $data = Accident::where('vehicle_reg_no',
                 QueryComparisonOperator::EQUALS,
-                $request->get('vehicleRegistration'))
+                $vehicleRegistration)
                 ->orderBy('created_at', 'desc')
                 ->first();
+
+            if (empty($data)) {
+                throw new DataNotFoundException(
+                    SystemMessages::ACCIDENT_REPORT_NOT_FOUND
+                );
+            }
 
             return response()->json(
                 FleetMasterJsonResponse::response(
                     'success',
                     true,
-                    '',
+                    SystemMessages::ACCIDENT_REPORT_FOUND,
                     $data
                 )
             );
@@ -206,7 +217,11 @@ class AccidentRecordingController extends Controller
                 FleetMasterJsonResponse::response(
                     'failure',
                     false,
-                    '',
+                    str_replace(
+                        Articles::REG_FIELD,
+                        $vehicleRegistration,
+                        SystemMessages::ACCIDENT_REPORT_FOUND
+                    ),
                     []
                 )
             );
