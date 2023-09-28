@@ -187,6 +187,7 @@ class AccidentRecordingController extends Controller
 
     public function getLatestAccidentReport(Request $request): JsonResponse
     {
+        Log::debug("Fetching Accident Reference");
         $vehicleRegistration = $request->get('vehicleRegistration');
 
         try {
