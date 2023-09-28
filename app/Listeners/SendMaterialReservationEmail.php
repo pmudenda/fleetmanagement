@@ -21,6 +21,6 @@ class SendMaterialReservationEmail
     public function handle(MaterialReservationMade $event): void
     {
         //send email
-        Log::info("Request Type " . $event->requestType);
+        Log::debug("Request Type " . $event->requestType);
     }
 }

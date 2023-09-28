@@ -86,9 +86,9 @@ class FuelRequisitionValidationService
         $odometerOnLastIssue,
         $reg_no): void
     {
-        Log::info("Odometer on last issue $odometerOnLastIssue");
+        Log::debug("Odometer on last issue $odometerOnLastIssue");
 
-        Log::info("User Provided reading $userProvidedOdometerReading");
+        Log::debug("User Provided reading $userProvidedOdometerReading");
 
         // verify that odometer reading is not the same as previous requisition
         if ($userProvidedOdometerReading <= $odometerOnLastIssue) {
@@ -244,7 +244,7 @@ class FuelRequisitionValidationService
                 $this->requisitionAndTaskCancellation->cancelAssociatedTask($latestActiveRequisition);
             }
         } else {
-            Log::info('Nothing found for cancellation');
+            Log::debug('Nothing found for cancellation');
         }
 
         return array($validFrom, $validTo);

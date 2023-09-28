@@ -39,7 +39,7 @@ class SendFuelRequisitionApprovedEmail
                 $recipient = User::where('id', trim($task->created_by))->first();
             }
 
-            Log::info('Sending Mail Notification');
+            Log::debug('Sending Mail Notification');
 
             EmailNotificationService::sendNotification($recipient, $sender,
                 [

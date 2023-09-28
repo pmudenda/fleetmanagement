@@ -32,7 +32,7 @@ class HomeController extends Controller
     public function logout(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $user = auth()->user();
-        Log::info("Logging Off The System" . $user->staff_no);
+        Log::debug("Logging Off The System" . $user->staff_no);
         session()->pull('simulating', false);
         Auth::logout();
         return redirect('/login')

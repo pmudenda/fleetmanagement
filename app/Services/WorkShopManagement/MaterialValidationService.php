@@ -94,11 +94,10 @@ class MaterialValidationService
                                                   mixed   $articlesTable
     ): Builder
     {
-        Log::info("******************************************************************************");
-        Log::info("                    Building Article Check Query                               ");
-        Log::info("*******************************************************************************");
-
-        Log::info("******************************" . $articleClass . "**********************************");
+        Log::debug("******************************************************************************");
+        Log::debug("                    Building Article Check Query                               ");
+        Log::debug("*******************************************************************************");
+        Log::debug("******************************" . $articleClass . "*****************************");
 
         switch ($articleClass) {
             case RequisitionItemTypes::STOCK_ITEM:
@@ -136,8 +135,8 @@ class MaterialValidationService
                 );
         }
 
-        Log::info("Dumping Query Builder");
-        Log::info("******************************************************************************");
+        Log::debug("Dumping Query Builder");
+        Log::debug("******************************************************************************");
         return $query;
     }
 
@@ -156,13 +155,13 @@ class MaterialValidationService
                                      mixed   $registrationNumber,
                                      string  $process): void
     {
-        Log::info("==================================================================================");
-        Log::info("                    Validating Article Type                                       ");
-        Log::info("==================================================================================");
-        Log::info("$codeArticle");
-        Log::info("$registrationNumber");
-        Log::info("$articleClass");
-        Log::info("$process");
+        Log::debug("==================================================================================");
+        Log::debug("                    Validating Article Type                                       ");
+        Log::debug("==================================================================================");
+        Log::debug("$codeArticle");
+        Log::debug("$registrationNumber");
+        Log::debug("$articleClass");
+        Log::debug("$process");
 
         $count = $query
             ->where(
@@ -176,7 +175,7 @@ class MaterialValidationService
                 StatusHelper::activeArticle()
             )->count();
 
-        Log::info($count);
+        Log::debug($count);
 
         if ($count == 0) {
             $message = "Article @articleCode is not a @itemType";

@@ -48,7 +48,7 @@ class VehicleAssignmentValidationService
             throw new OrganisationUnitStateException("Business Unit Is Not Active");
         }
 
-        Log::info('Cost Center ' . $assignmentInfo->cost_center);
+        Log::debug('Cost Center ' . $assignmentInfo->cost_center);
 
         $countCc = CostCenter::where('code_cost_center', $assignmentInfo->cost_center)
             ->where("status", "=", StatusHelper::active())

@@ -89,11 +89,11 @@ class FuelRequisitionService
 
         $latestOdometerLogsMaxOdometer = $this->getLatestOdometerLogsEntry($registrationNumber);
 
-        Log::info("Last Odometer Log $latestOdometerLogsMaxOdometer");
+        Log::debug("Last Odometer Log $latestOdometerLogsMaxOdometer");
 
         [$quantityLastIssued, $latestIssue] = $this->getFuelLastIssue($registrationNumber);
 
-        Log::info("Latest Issued Amount $quantityLastIssued");
+        Log::debug("Latest Issued Amount $quantityLastIssued");
 
         $odometerOnLastIssue = $this->getOdometerOnLastIssue($registrationNumber);
 
@@ -132,12 +132,12 @@ class FuelRequisitionService
         ];
 
         if (!empty($latestActiveRequisition)) {
-            Log::info("Status of Previous Requisition for
+            Log::debug("Status of Previous Requisition for
                 $registrationNumber
                 has
                 $latestActiveRequisition->status status");
         } else {
-            Log::info("No Previous Requisition for
+            Log::debug("No Previous Requisition for
             $registrationNumber
             . found");
         }
@@ -180,7 +180,7 @@ class FuelRequisitionService
 
             /* override is only valid from date of request to when the
             original requisition was supposed to end */
-            Log::info("Previous Requisition End Date
+            Log::debug("Previous Requisition End Date
                 $latestActiveRequisition->valid_date_to");
 
             $validFrom = Carbon::now();
@@ -188,7 +188,7 @@ class FuelRequisitionService
         }
 
 
-        Log::info("Calculating Maximum Distance that should have been covered by
+        Log::debug("Calculating Maximum Distance that should have been covered by
                    $registrationNumber");
         Log::debug('Consumption ' . $fuel_consumption);
         Log::debug('Quantity Last Issued ' . $quantityLastIssued);
@@ -231,11 +231,11 @@ class FuelRequisitionService
 
             if ($quantityLastIssued < $tank_capacity) {
                 $distanceTravelledOnAmountInTank = (($tank_capacity - $quantityLastIssued) * $fuel_consumption);
-                Log::info("Distance Travelled On what may have been in tank $distanceTravelledOnAmountInTank");
+                Log::debug("Distance Travelled On what may have been in tank $distanceTravelledOnAmountInTank");
                 $maximumOdometerAcceptable += $distanceTravelledOnAmountInTank;
             }
 
-            Log::info("Total Maximum Acceptable $maximumOdometerAcceptable
+            Log::debug("Total Maximum Acceptable $maximumOdometerAcceptable
                  vs What User Provided $userProvidedOdometer");
 
             if ($userProvidedOdometer > $maximumOdometerAcceptable) {
@@ -254,7 +254,7 @@ class FuelRequisitionService
             }
         }
 
-        Log::info("Vehicle Reg Is $registrationNumber");
+        Log::debug("Vehicle Reg Is $registrationNumber");
 
         $requisition_reference_number = $this->saveFuelRequisition(
             $requisitionPostRequest,
@@ -367,7 +367,7 @@ class FuelRequisitionService
             throw new FuelRequisitionException($results);
         }
 
-        Log::info("Stores Requisition Generated with document " . $results);
+        Log::debug("Stores Requisition Generated with document " . $results);
 
         return $results;
     }
@@ -492,7 +492,7 @@ class FuelRequisitionService
         $justification = $request->get('justification');
         $materialQuantity = $request->get('material_quantity');
 
-        Log::info("Update Here $requisitionReferenceNumber");
+        Log::debug("Update Here $requisitionReferenceNumber");
 
         DB::beginTransaction();
         MaterialHeader::where("req_no", $requisitionReferenceNumber)
@@ -565,7 +565,7 @@ class FuelRequisitionService
 
     private function getVehicleFuelConsumptionData(mixed $vehicleReference): array
     {
-        Log::info("Registration Number $vehicleReference");
+        Log::debug("Registration Number $vehicleReference");
 
         $consumptionData = DB::table('vm_vehicle_header vh')
             ->join(
@@ -586,8 +586,8 @@ class FuelRequisitionService
             return ['fuel_consumption' => 0, 'tank_capacity' => 0];
         }
 
-        Log::info("Consumption $consumptionData->fuel_consumption");
-        Log::info("Tank Capacity $consumptionData->tank_capacity");
+        Log::debug("Consumption $consumptionData->fuel_consumption");
+        Log::debug("Tank Capacity $consumptionData->tank_capacity");
 
         return [
             $consumptionData->fuel_consumption ?? 0,
@@ -609,9 +609,9 @@ class FuelRequisitionService
                                                                     $validTo): string
     {
 
-        Log::info("Registration Number   $registrationNumber");
-        Log::info("Validity Period From   $validFrom");
-        Log::info("Validity Period To     $validTo");
+        Log::debug("Registration Number   $registrationNumber");
+        Log::debug("Validity Period From   $validFrom");
+        Log::debug("Validity Period To     $validTo");
         /******************************************* Save Data **************************************/
         $user = Auth()->user();
 
@@ -625,7 +625,7 @@ class FuelRequisitionService
         $workflowProcess = "";
         $description = "";
 
-        Log::info("Requisition Type " . $requisitionPostRequest->get(self::REQUISITION_TYPE));
+        Log::debug("Requisition Type " . $requisitionPostRequest->get(self::REQUISITION_TYPE));
 
         $townFrom = null;
         $townTo = null;
@@ -666,7 +666,7 @@ class FuelRequisitionService
             ),
         );
 
-        Log::info("Workflow Initiated");
+        Log::debug("Workflow Initiated");
 
         $costBearer = $requisitionPostRequest->get("CostAssignedTo")
         == "CostCenterBasedRequisition" ?
@@ -733,7 +733,7 @@ class FuelRequisitionService
         DB::commit();
 
         RequisitionRaised::dispatch($matHeader, "fuel_requisition");
-        Log::info("Fuel Requisition " . $requisition_reference_number . " raised successfully");
+        Log::debug("Fuel Requisition " . $requisition_reference_number . " raised successfully");
         return $requisition_reference_number;
     }
 

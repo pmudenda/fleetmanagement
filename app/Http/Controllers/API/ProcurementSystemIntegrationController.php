@@ -109,7 +109,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
         try {
             $codeArticle = $request->get('code_article');
 
-            Log::info('Code Article ' . $codeArticle);
+            Log::debug('Code Article ' . $codeArticle);
 
             $procurementArticles = $this->procurementSystemIntegrationService->getArticleDetailsByCode($codeArticle);
 

@@ -35,7 +35,7 @@ class SendRequisitionResubmittedNotification
             $recipient = User::where('staff_no', trim($task->assigned_user))
                 ->first();
 
-            Log::info('Sending Mail Notification');
+            Log::debug('Sending Mail Notification');
 
             EmailNotificationService::sendNotification(
                 $recipient,

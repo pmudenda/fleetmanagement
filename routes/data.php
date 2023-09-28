@@ -75,7 +75,7 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
 
         Route::get('defectsCategory', function (Request $request) {
             try {
-                Log::info('Request filter ' . $request->get('key'));
+                Log::debug('Request filter ' . $request->get('key'));
 
                 $workShopTableData = WorkShopTable::where('type_code', 'WCT')
                     //->where('status', '=', 1)
@@ -99,7 +99,7 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
 
         Route::get('defects', function (Request $request) {
             try {
-                Log::info('Request filter ' . $request->get('key'));
+                Log::debug('Request filter ' . $request->get('key'));
 
                 $workShopTableData = WorkShopTable::where('type_code', 'WDF')
                     ->where('status', '=', StatusHelper::active())

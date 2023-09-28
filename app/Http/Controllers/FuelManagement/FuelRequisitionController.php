@@ -216,7 +216,7 @@ class FuelRequisitionController extends Controller
 
     public function edit(Request $request): View
     {
-        Log::info("Running Fuel Edit Request");
+        Log::debug("Running Fuel Edit Request");
 
         list($user,
             $requestDetails,

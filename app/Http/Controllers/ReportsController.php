@@ -57,9 +57,6 @@ class ReportsController extends Controller
             $month = (int)$request->get('month');
         }
 
-        Log::info("Month " . $month);
-        Log::info("Year " . $year);
-
         $costByYear = $query
             ->select(DB::raw('SUM(ttl) as cost, year, fuel_type'))
             ->where('year', '=', $year)

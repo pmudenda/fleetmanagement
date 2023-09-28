@@ -9,9 +9,7 @@ use App\Enums\Constants;
 use App\Exceptions\DataNotFoundException;
 use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\FuelRequisitionException;
-use App\Exceptions\LowerOdometerEntryException;
 use App\Exceptions\MaterialReservationException;
-use App\Exceptions\NoOdometerEntryException;
 use App\Exceptions\OrganisationUnitStateException;
 use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -533,9 +531,10 @@ class MaintenanceController extends Controller
             if ($e instanceof MaterialReservationException
                 || $e instanceof WorkflowTaskCreationFailedException
                 || $e instanceof DuplicateDefectException
-                || $e instanceof VehicleStateException) {
+                || $e instanceof VehicleStateException
+            ) {
                 $message = $e->getMessage();
-                Log::info($e);
+                Log::error($e);
             } else {
                 Log::error($e);
             }
@@ -654,7 +653,7 @@ class MaintenanceController extends Controller
 
     public function getStoreAndPurchaseOffice(Request $request): JsonResponse
     {
-        Log::info($request->has("workshop_code"));
+        Log::debug($request->has("workshop_code"));
         try {
             if (!$request->has("workshop_code")) {
                 return response()->json(
@@ -667,9 +666,8 @@ class MaintenanceController extends Controller
             }
 
             $workshopCode = $request->get("workshop_code");
-            Log::info($workshopCode);
-
-            Log::info("Value Received " . $workshopCode);
+            Log::debug($workshopCode);
+            Log::debug("Value Received " . $workshopCode);
 
             return response()->json(
                 FleetMasterJsonResponse::response(
@@ -715,7 +713,7 @@ class MaintenanceController extends Controller
         }
 
         $vehicleRegistration = $request->get('vehicleRegistration');
-        Log::info("Checking for reservations for $vehicleRegistration");
+        Log::debug("Checking for reservations for $vehicleRegistration");
         $details = $this->workshopService->getReservedMaterialsAndServices($vehicleRegistration);
 
         return response()->json(

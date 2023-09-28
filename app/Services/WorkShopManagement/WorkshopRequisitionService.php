@@ -77,13 +77,13 @@ class WorkshopRequisitionService
      */
     public function processJobCardMaterialRequisition(WorkshopRequisitionRequest $requisitionPostRequest): JsonResponse
     {
-        Log::info("Creating Workshop Material Request");
+        Log::debug("Creating Workshop Material Request");
 
         $dateExpected = Carbon::parse($requisitionPostRequest->get("date_expected")) ?? Carbon::now()->addDays(7);
         $validFrom = Carbon::now();
         $registrationNumber = $requisitionPostRequest->get('vehicle_registration');
 
-        Log::info('********************************* Save Data **********************************');
+        Log::debug('********************************* Save Data **********************************');
 
         $this->vehicleDetailsService->verifyVehicleIsActive($registrationNumber);
 
@@ -113,7 +113,7 @@ class WorkshopRequisitionService
 
         // send notification
         RequisitionRaised::dispatch($matHeader, 'requisition');
-        Log::info("Material Requisition  submitted successfully $requisition_reference_number");
+        Log::debug("Material Requisition  submitted successfully $requisition_reference_number");
 
         return response()->json(
             FleetMasterJsonResponse::response(
@@ -138,7 +138,7 @@ class WorkshopRequisitionService
      */
     public function processMaterialReservation(MaterialReservationRequest $materialReservationRequest): JsonResponse
     {
-        Log::info("Creating Workshop Material Booking");
+        Log::debug("Creating Workshop Material Booking");
 
         $validityTo = Carbon::parse($materialReservationRequest->get("date_expected"))
             ?? Carbon::now()->addDays(7);
@@ -234,10 +234,10 @@ class WorkshopRequisitionService
 
         $form_order_number = $this->getGenerateFormOrderNumber($articleClass);
 
-        Log::info("Reservation Ref. " . $requisition_reference_number);
-        Log::info("Form Order. " . $form_order_number);
-        Log::info("Reservation Item Type " . $materialReservationRequest->get("itemType"));
-        Log::info("Determined Reservation Item Type Code " . $articleClass);
+        Log::debug("Reservation Ref. " . $requisition_reference_number);
+        Log::debug("Form Order. " . $form_order_number);
+        Log::debug("Reservation Item Type " . $materialReservationRequest->get("itemType"));
+        Log::debug("Determined Reservation Item Type Code " . $articleClass);
 
         $short_description = "Workshop Reservation for Vehicles Reference $requisition_reference_number";
         $long_description = "Workshop Reservation Reference No. $requisition_reference_number For Vehicles";
@@ -308,7 +308,7 @@ class WorkshopRequisitionService
 
         DB::commit();
 
-        Log::info("Raising Reservation Reference # " . $requisition_reference_number . " successful");
+        Log::debug("Raising Reservation Reference # " . $requisition_reference_number . " successful");
 
         return response()->json(
             FleetMasterJsonResponse::response(
@@ -338,7 +338,7 @@ class WorkshopRequisitionService
         WorkshopServiceRequisitionRequest $requisitionPostRequest
     ): JsonResponse
     {
-        Log::info("Creating Workshop Service Request");
+        Log::debug("Creating Workshop Service Request");
 
         $validFrom = Carbon::now();
         $validTo = Carbon::now();
@@ -372,10 +372,10 @@ class WorkshopRequisitionService
             WorkflowModules::PURCHASE_REQUISITION
         );
 
-        Log::info("Requisition Ref. " . $purchaseProcessReference);
-        Log::info("Doc No. " . $formOrder);
-        Log::info("Requisition Item Type " . $requisitionPostRequest->get("itemType"));
-        Log::info("Determined Requisition Item Type Code " . $articleClassCode);
+        Log::debug("Requisition Ref. " . $purchaseProcessReference);
+        Log::debug("Doc No. " . $formOrder);
+        Log::debug("Requisition Item Type " . $requisitionPostRequest->get("itemType"));
+        Log::debug("Determined Requisition Item Type Code " . $articleClassCode);
 
         $shortDescription = "Workshop Requisition for Vehicle Reg No. " . $registrationNumber;
         $longDescription = "Workshop Requisition Ref.No. "
@@ -494,7 +494,7 @@ class WorkshopRequisitionService
 
         // send notification to authoriser
         RequisitionRaised::dispatch($matHeader, 'job_card_material_requisition');
-        Log::info("Requisition " . $purchaseProcessReference . " raised successfully");
+        Log::debug("Requisition " . $purchaseProcessReference . " raised successfully");
 
         return response()->json(
             FleetMasterJsonResponse::response(
@@ -518,7 +518,7 @@ class WorkshopRequisitionService
         WorkshopServiceReservationRequest $serviceReservationRequest
     ): JsonResponse
     {
-        Log::info("Creating Workshop Service Booking");
+        Log::debug("Creating Workshop Service Booking");
 
         $periodFrom = Carbon::now();
         $periodTo = Carbon::now();
@@ -567,10 +567,10 @@ class WorkshopRequisitionService
             WorkflowModules::PURCHASE_REQUISITION
         );
 
-        Log::info("Reservation Ref. $purchaseProcessReference");
-        Log::info("Doc No.  $formOrder");
-        Log::info("Reservation Item Type " . $serviceReservationRequest->get("itemType"));
-        Log::info("Determined Reservation Item Type Code $articleClass");
+        Log::debug("Reservation Ref. $purchaseProcessReference");
+        Log::debug("Doc No.  $formOrder");
+        Log::debug("Reservation Item Type " . $serviceReservationRequest->get("itemType"));
+        Log::debug("Determined Reservation Item Type Code $articleClass");
 
         $shortDescription = "Workshop Reservation Ref.No. $purchaseProcessReference";
         $longDescription = "Workshop Reservation Ref.No. $purchaseProcessReference";
@@ -645,7 +645,7 @@ class WorkshopRequisitionService
         DB::commit();
 
         MaterialReservationMade::dispatch($matHeader, 'service');
-        Log::info("Reservation " . $purchaseProcessReference . " raised successfully");
+        Log::debug("Reservation " . $purchaseProcessReference . " raised successfully");
 
         return response()->json([
             "success" => true,
@@ -694,7 +694,7 @@ class WorkshopRequisitionService
         }
 
 
-        Log::info("Stores Reservation Generated with document " . $results);
+        Log::debug("Stores Reservation Generated with document " . $results);
 
         self::updateStPur($requisitionDetail->req_no, $results);
 
@@ -737,7 +737,7 @@ class WorkshopRequisitionService
 
         self::updateStPur($requisitionDetail->req_no, $results);
 
-        Log::info("Purchase Process Document document " . $results);
+        Log::debug("Purchase Process Document document " . $results);
 
         return $results;
     }
@@ -786,7 +786,7 @@ class WorkshopRequisitionService
 
         self::updateStPur($requisitionDetail->req_no, $results);
 
-        Log::info("Purchase Process Document " . $results);
+        Log::debug("Purchase Process Document " . $results);
 
         return $results;
     }

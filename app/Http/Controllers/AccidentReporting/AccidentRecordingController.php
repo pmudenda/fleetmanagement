@@ -143,7 +143,7 @@ class AccidentRecordingController extends Controller
                 )
             );
         } catch (\Exception $e) {
-            Log::info($e);
+            Log::error($e);
             return response()->json(
                 FleetMasterJsonResponse::response(
                     'failure',

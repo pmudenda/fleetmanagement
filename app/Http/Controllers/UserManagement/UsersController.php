@@ -185,8 +185,9 @@ class UsersController extends Controller
             ]);
         } catch (Exception $e) {
             $message = SystemMessages::userUpdateFailed();
-            Log::info($message);
+            Log::debug($message);
             Log::error($e);
+
             return response()->json([
                 'state' => 'error',
                 'error' => $message
@@ -215,7 +216,7 @@ class UsersController extends Controller
     public function saveDelegation(DelegateProfile $request): JsonResponse
     {
         try {
-            Log::info('Saving Profile Delegation');
+            Log::debug('Saving Profile Delegation');
 
             $this->userService->initiateDelegation($request);
 
@@ -315,7 +316,7 @@ class UsersController extends Controller
     public function sync(UserSync $request): JsonResponse
     {
         try {
-            Log::info('User Data Update: User Id ' . $request->userId);
+            Log::debug('User Data Update: User Id ' . $request->userId);
             UserService::syncEmployeeFullDetails($request->userId);
             return response()->json([
                 'state' => 'success',
@@ -323,7 +324,7 @@ class UsersController extends Controller
             ]);
         } catch (Exception $e) {
             $message = SystemMessages::userUpdateFailed();
-            Log::info($message);
+            Log::debug($message);
             Log::error($e);
             return response()->json([
                 'state' => 'error',

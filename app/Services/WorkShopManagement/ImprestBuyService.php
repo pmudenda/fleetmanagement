@@ -48,9 +48,9 @@ class ImprestBuyService
         $stmt->bindParam(":p_imprest_reference", $imprestReferenceNumber);
         $stmt->execute();
 
-        Log::info("Posting Data");
-        Log::info($results);
-        Log::info("Logging Response From Petty Cash System");
+        Log::debug("Posting Data");
+        Log::debug($results);
+        Log::debug("Logging Response From Petty Cash System");
     }
 
     /**
@@ -164,9 +164,9 @@ class ImprestBuyService
         $stmt->bindParam(":p_imprest_reference", $imprestReferenceNumber);
         $stmt->execute();
 
-        Log::info("Deleting Petty Cash Item");
-        Log::info($results);
-        Log::info("Logging Response From DB");
+        Log::debug("Deleting Petty Cash Item");
+        Log::debug($results);
+        Log::debug("Logging Response From DB");
 
         DB::commit();
     }

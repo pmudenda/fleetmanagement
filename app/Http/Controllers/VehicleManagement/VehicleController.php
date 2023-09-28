@@ -71,9 +71,9 @@ class VehicleController extends Controller
             $vehicle = $this->vehicleDetailsService->getVehicleDetailsById($ref);
 
             if (!empty($vehicle)) {
-                Log::info('Vehicle Details Found ');
+                Log::debug('Vehicle Details Found ');
             } else {
-                Log::info('Vehicle Details Not Found ');
+                Log::debug('Vehicle Details Not Found ');
             }
 
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($ref);
@@ -434,7 +434,7 @@ class VehicleController extends Controller
                 ->orderBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
                 ->get();
         } catch (Exception $e) {
-            Log::info("Fetching Vehicle Spares Report Data");
+            Log::debug("Fetching Vehicle Spares Report Data");
             Log::error($e);
         }
 
@@ -448,7 +448,7 @@ class VehicleController extends Controller
                 ->orderBy('year')
                 ->get();
         } catch (Exception $e) {
-            Log::info("Fetching Vehicle Maintenance Report Data");
+            Log::debug("Fetching Vehicle Maintenance Report Data");
             Log::error($e);
         }
 

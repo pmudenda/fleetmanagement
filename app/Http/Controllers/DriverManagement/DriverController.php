@@ -49,7 +49,7 @@ class DriverController extends Controller
 
     public function store(DriverOnboardingRequest $request): JsonResponse
     {
-        Log::info('Posting Driver Data');
+        Log::debug('Posting Driver Data');
 
         try {
             $model = $this->driverManagementService->onboardDriver($request);
@@ -90,7 +90,7 @@ class DriverController extends Controller
 
             $useDriverModule = config('systeminfo.enableDriverModule');
 
-            Log::info("searching " . $searchParam);
+            Log::debug("searching " . $searchParam);
 
             if ($useDriverModule) {
                 return $this->getAuthorisedDriver($searchParam);

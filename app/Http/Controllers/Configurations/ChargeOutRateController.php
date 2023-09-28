@@ -37,10 +37,10 @@ class ChargeOutRateController extends Controller
             $bodyType = $request->get("bodyType");
             $charge = floatval($request->get("rate"));
 
-            Log::info("Brand Code " . $brand);
-            Log::info("Model Code " . $model);
-            Log::info("Body Type Code " . $bodyType);
-            Log::info("Charge " . $charge);
+            Log::debug("Brand Code " . $brand);
+            Log::debug("Model Code " . $model);
+            Log::debug("Body Type Code " . $bodyType);
+            Log::debug("Charge " . $charge);
 
             $make = VehicleBrand::where('code', '=', $brand)->first();
             $modelType = VehicleModel::where('code', '=', $model)

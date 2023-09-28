@@ -41,7 +41,7 @@ class MechanicsService
     public function syncMechanicFullDetails(mixed $userId): void
     {
         $id = $userId;
-        Log::info('Start Syncing Data ' . $userId);
+        Log::debug('Start Syncing Data ' . $userId);
         self::sync($id);
     }
 
@@ -51,7 +51,7 @@ class MechanicsService
 
             $mechanic = Mechanic::find($id);
 
-            Log::info('Syncing Mechanic ' . $mechanic->staff_no);
+            Log::debug('Syncing Mechanic ' . $mechanic->staff_no);
 
             if (empty($mechanic)) {
                 throw new UserNotFoundException("User Not Found");
@@ -69,7 +69,7 @@ class MechanicsService
             $stmt->bindParam(":p_modified_by", $modifiedBy);
             $stmt->execute();
 
-            Log::info($results);
+            Log::debug($results);
 
             if (str_starts_with($results, "0")) {
                 throw new UserDataSyncException($results);
@@ -77,10 +77,10 @@ class MechanicsService
 
 
         } catch (QueryException $exception) {
-            Log::info('Query For User Details Failed');
+            Log::debug('Query For User Details Failed');
             Log::error($exception);
         } catch (Exception $e) {
-            Log::info('Error Occurred while Attempting to access PHRIS View');
+            Log::debug('Error Occurred while Attempting to access PHRIS View');
             Log::error($e);
         }
     }

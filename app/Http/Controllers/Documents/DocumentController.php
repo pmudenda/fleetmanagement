@@ -16,7 +16,7 @@ class DocumentController extends Controller
 {
     public function documentFollowup(Request $request): View
     {
-        Log::info("Making Document Followup");
+        Log::debug("Making Document Followup");
         try {
             $query = DocumentFollowup::query();
             if ($request->has('documentType') && $request->filled('documentType')) {
@@ -55,7 +55,7 @@ class DocumentController extends Controller
             }
 
             $data = $query->paginate(50);
-            Log::info("Running Query");
+            Log::debug("Running Query");
             return view("documents/documentFollowUp")->with(compact('data'));
 
         } catch (\Exception $e) {

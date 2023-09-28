@@ -136,7 +136,7 @@ class VehicleOnBoardingController extends Controller
             Log::debug(' Reference after onboarding ' . $reference);
 
             if (!empty($reference) && $reference != 0) {
-                Log::info("Find Vehicle By Id $reference");
+                Log::debug("Find Vehicle By Id $reference");
                 $vehicle = $this->vehicleDetailsService->getVehicleDetailsById((int)$reference);
 
                 $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();

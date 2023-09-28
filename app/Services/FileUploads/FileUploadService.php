@@ -98,9 +98,9 @@ class FileUploadService
         // Upload File
         $path = $file->storeAs('public/' . $folder, $fileNameToStore);
 
-        Log::info("Folder Passed" . $folder);
-        Log::info("File Name Passed" . $fileNameToStore);
-        Log::info("File Path" . $path);
+        Log::debug("Folder Passed " . $folder);
+        Log::debug("File Name Passed " . $fileNameToStore);
+        Log::debug("File Path " . $path);
 
         //upload the receipt
         return File::create(

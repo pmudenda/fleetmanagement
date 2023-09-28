@@ -31,7 +31,7 @@ class SendJobCardCreatedEmail
             $action = 'job_card_created';
 
             // send notification
-            Log::info('Sending Mail Notification To Request Workshop Supervisor');
+            Log::debug('Sending Mail Notification To Request Workshop Supervisor');
             $sender = $user;
 
             $recipient = User::where('staff_no', trim($supervisor->staff_no))->first();

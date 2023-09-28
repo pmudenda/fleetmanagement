@@ -26,7 +26,7 @@ class DocumentNumberGenerationService
             $result = $results;
         }
 
-        Log::info('Document Number '.$result);
+        Log::debug('Document Number '.$result);
 
         return $result;
     }

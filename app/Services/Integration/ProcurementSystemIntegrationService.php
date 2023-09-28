@@ -45,7 +45,7 @@ class ProcurementSystemIntegrationService
     {
         try {
             $transactionType = TransactionType::STORES_REQUISITIONS;
-            Log::info("Generating Stores Requisition For Request " . $docNumber);
+            Log::debug("Generating Stores Requisition For Request " . $docNumber);
 
             $systemOfOrigin = SystemOfOrigin::ZESCO_FLEET_MASTER;
             $user = auth()->user()->staff_no;
@@ -99,7 +99,7 @@ class ProcurementSystemIntegrationService
     public function generateDocumentNumber(string $documentType, string $areaCode): string
     {
         try {
-            Log::info("Generating Document For " . $documentType . " and Area " . $areaCode);
+            Log::debug("Generating Document For " . $documentType . " and Area " . $areaCode);
 
             $pdo = DB::getPdo();
 
@@ -177,7 +177,7 @@ class ProcurementSystemIntegrationService
                 return "No Procurement Reference";
             }
 
-            Log::info("Cancelling Stores Requisition For Request " . $procurementSystemReference);
+            Log::debug("Cancelling Stores Requisition For Request " . $procurementSystemReference);
 
             $systemOfOrigin = SystemOfOrigin::ZESCO_FLEET_MASTER;
             $staffNumber = auth()->user()->staff_no;
@@ -230,23 +230,23 @@ class ProcurementSystemIntegrationService
             $account = Accounts::MOTOR_VEHICLE_MAINTENANCE_ACCOUNT;
             $transactionType = TransactionType::STORES_REQUISITIONS;
 
-            Log::info("Generating Stores Reservation For Request " . $docNumber);
+            Log::debug("Generating Stores Reservation For Request " . $docNumber);
 
             $originatingSystem = SystemOfOrigin::ZESCO_FLEET_MASTER;
 
             $user = auth()->user()->staff_no;
 
-            Log::info("param req_ref_no " . $docNumber);
-            Log::info("param veh_reg_no " . $vehRegNumber);
-            Log::info("param store_code " . $storesCode);
-            Log::info("param user_requesting " . $user);
-            Log::info("param job_card_no " . $jobCardNumber);
-            Log::info("param system_origin " . $originatingSystem);
-            Log::info("param fleet_req_code " . $formOrder);
-            Log::info("param req_acc_number " . $account);
-            Log::info("param delivery_site " . $deliverySite);
-            Log::info("param transaction_type " . $transactionType);
-            Log::info("param current_user" . $user);
+            Log::debug("param req_ref_no " . $docNumber);
+            Log::debug("param veh_reg_no " . $vehRegNumber);
+            Log::debug("param store_code " . $storesCode);
+            Log::debug("param user_requesting " . $user);
+            Log::debug("param job_card_no " . $jobCardNumber);
+            Log::debug("param system_origin " . $originatingSystem);
+            Log::debug("param fleet_req_code " . $formOrder);
+            Log::debug("param req_acc_number " . $account);
+            Log::debug("param delivery_site " . $deliverySite);
+            Log::debug("param transaction_type " . $transactionType);
+            Log::debug("param current_user" . $user);
 
             $pdo = DB::getPdo();
 
@@ -327,17 +327,17 @@ class ProcurementSystemIntegrationService
             $systemOfOrigin = SystemOfOrigin::ZESCO_FLEET_MASTER;
             $user = auth()->user()->staff_no;
 
-            Log::info("p reference " . $workshopReference);
-            Log::info("p reg_no " . $regNo);
-            Log::info("p store_code " . $storeCode);
-            Log::info("p user_requesting " . $user);
-            Log::info("p jobCardNo " . $jobCardNo);
-            Log::info("p systemOfOrigin " . $systemOfOrigin);
-            Log::info("p delivery_site " . $deliverySite);
-            Log::info("p form_order " . $formOrder);
-            Log::info("p req_account " . $account);
-            Log::info("p transaction_type " . $transactionType);
-            Log::info("p current_user " . $user);
+            Log::debug("p reference " . $workshopReference);
+            Log::debug("p reg_no " . $regNo);
+            Log::debug("p store_code " . $storeCode);
+            Log::debug("p user_requesting " . $user);
+            Log::debug("p jobCardNo " . $jobCardNo);
+            Log::debug("p systemOfOrigin " . $systemOfOrigin);
+            Log::debug("p delivery_site " . $deliverySite);
+            Log::debug("p form_order " . $formOrder);
+            Log::debug("p req_account " . $account);
+            Log::debug("p transaction_type " . $transactionType);
+            Log::debug("p current_user " . $user);
 
             $pdo = DB::getPdo();
 
@@ -434,23 +434,23 @@ class ProcurementSystemIntegrationService
     {
         try {
             $transactionType = TransactionType::STORES_REQUISITIONS;
-            Log::info("Generating Stores Reservation From Booking Window Request " . $docNumber);
+            Log::debug("Generating Stores Reservation From Booking Window Request " . $docNumber);
 
             $originatingSystem = SystemOfOrigin::ZESCO_FLEET_MASTER;
 
             $user = auth()->user()->staff_no;
 
-            Log::info(":p_req_ref_no " . $docNumber);
-            Log::info(":p_veh_reg_no " . $vehRegNumber);
-            Log::info(":p_store_code " . $storesCode);
-            Log::info(":p_user_requesting " . $user);
-            Log::info(":p_job_card_no " . $jobCardNumber);
-            Log::info(":p_system_origin " . $originatingSystem);
-            Log::info(":p_fleet_req_code " . $formOrder);
-            Log::info(":p_req_acc_number " . $account);
-            Log::info(":p_delivery_site " . $deliverySite);
-            Log::info(":p_transaction_type " . $transactionType);
-            Log::info(":p_current_user " . $user);
+            Log::debug(":p_req_ref_no " . $docNumber);
+            Log::debug(":p_veh_reg_no " . $vehRegNumber);
+            Log::debug(":p_store_code " . $storesCode);
+            Log::debug(":p_user_requesting " . $user);
+            Log::debug(":p_job_card_no " . $jobCardNumber);
+            Log::debug(":p_system_origin " . $originatingSystem);
+            Log::debug(":p_fleet_req_code " . $formOrder);
+            Log::debug(":p_req_acc_number " . $account);
+            Log::debug(":p_delivery_site " . $deliverySite);
+            Log::debug(":p_transaction_type " . $transactionType);
+            Log::debug(":p_current_user " . $user);
 
             $pdo = DB::getPdo();
 
@@ -511,10 +511,10 @@ class ProcurementSystemIntegrationService
 
             $user = auth()->user()->staff_no;
 
-            Log::info(":p_req_ref_no " . $docNumber);
-            Log::info(":p_user_requesting " . $user);
-            Log::info(":p_fleet_req_code " . $formOrder);
-            Log::info(":p_current_user " . $user);
+            Log::debug(":p_req_ref_no " . $docNumber);
+            Log::debug(":p_user_requesting " . $user);
+            Log::debug(":p_fleet_req_code " . $formOrder);
+            Log::debug(":p_current_user " . $user);
 
             $pdo = DB::getPdo();
 

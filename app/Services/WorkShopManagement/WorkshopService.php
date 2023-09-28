@@ -111,7 +111,7 @@ class WorkshopService
             ->first();
 
         if (empty($section)) {
-            Log::info("Receiving Section Not Found");
+            Log::debug("Receiving Section Not Found");
         }
 
         $data = [
@@ -186,7 +186,7 @@ class WorkshopService
         )->get();
 
         $user = auth()->user();
-        Log::info("Saving Accessories on " . $jobCardVoucher);
+        Log::debug("Saving Accessories on " . $jobCardVoucher);
 
         foreach ($accessoryNames as $accessoryName) {
             $accessoryCode = $accessoryName->code;
@@ -215,7 +215,7 @@ class WorkshopService
             $uploadedFiles
         );
 
-        Log::info("General Comments  " . $request->get('accessoriesRemarks'));
+        Log::debug("General Comments  " . $request->get('accessoriesRemarks'));
         if (!empty($comment)) {
             WorkShopComment::firstOrCreate(
                 [
@@ -282,7 +282,7 @@ class WorkshopService
                 $key++;
             }
         } elseif (!empty($uploadedFiles)) {
-            Log::info("Observation Images Found");
+            Log::debug("Observation Images Found");
             foreach ($uploadedFiles as $uploadedFile) {
                 $toSave[] = array('observation' => null, 'file' => $uploadedFile->path);
             }
@@ -293,9 +293,9 @@ class WorkshopService
         }
 
         foreach ($toSave as $item) {
-            Log::info("Looping through Items to save");
+            Log::debug("Looping through Items to save");
             if (!empty($item['file']) && !empty($item['observation'])) {
-                Log::info($item['file'] . " - " . $item['observation']);
+                Log::debug($item['file'] . " - " . $item['observation']);
                 AssessmentObservation::create([
                     'reference' => $request->get('workshop_reference'),
                     'image_path' => $item['file'],
@@ -304,7 +304,7 @@ class WorkshopService
                 ]);
             }
         }
-        Log::info("Observation Uploaded");
+        Log::debug("Observation Uploaded");
     }
 
     /**
@@ -419,7 +419,7 @@ class WorkshopService
                 'updated_at' => Carbon::now()
             ]);
 
-        Log::info('Setting Vehicle State To In Workshop ' . $rowsAffected);
+        Log::debug('Setting Vehicle State To In Workshop ' . $rowsAffected);
     }
 
     /**
@@ -441,7 +441,7 @@ class WorkshopService
 
         $dataBefore = $jobCardHeader->toArray();
 
-        Log::info('closing job card task' . $workOrderNumber);
+        Log::debug('closing job card task' . $workOrderNumber);
         $this->workflowService->cancelProcessTask(
             $workOrderNumber,
             WorkflowProcessCodes::WorkOrderOpened->value

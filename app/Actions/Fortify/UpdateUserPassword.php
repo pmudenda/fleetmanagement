@@ -22,7 +22,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
      */
     public function update(User $user, array $input): void
     {
-        Log::info('Updating User Password');
+        Log::debug('Updating User Password');
         Validator::make($input,
             [
                 'current_password' => ['required', 'string', 'current_password:web'],
