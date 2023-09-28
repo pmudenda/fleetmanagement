@@ -198,7 +198,7 @@
                     <div class="card">
                         <div class="card-header">
                             <ul class="nav nav-pills">
-                                <li class="card-title">
+                                <li class="card-title" @if($passwordChangeOnly) style="display: none;" @endif>
                                     <a class="nav-link active" href="#activity"
                                        data-toggle="tab">
                                         Summary
@@ -206,7 +206,7 @@
                                 </li>
 
                                 @canany([config('rights.user_update')])
-                                    <li class="card-title">
+                                    <li class="card-title" @if($passwordChangeOnly) style="display: none;" @endif>
                                         <a class="nav-link"
                                            href="#userInfoUpdate"
                                            data-toggle="tab">
@@ -226,8 +226,9 @@
                                     </a>
                                 </li>--}}
 
-                                <li class="card-title">
-                                    <a class="nav-link" href="#pass_reset" data-toggle="tab">
+                                <li class="card-title" >
+                                    <a class="nav-link @if($passwordChangeOnly) active @endif"
+                                       href="#pass_reset" data-toggle="tab">
                                         Password Reset
                                     </a>
                                 </li>
@@ -237,7 +238,7 @@
                         <div class="card-body">
                             <div class="tab-content">
 
-                                <div class="active tab-pane" id="activity">
+                                <div class=" @if(!$passwordChangeOnly) active @endif tab-pane" id="activity">
                                     @include('modules.userManagement.userProfileTabs.userDetailsSummary')
                                 </div>
 
@@ -247,7 +248,7 @@
                                     </div>
                                 @endcanany
 
-                                <div class="tab-pane" id="pass_reset">
+                                <div class="tab-pane @if($passwordChangeOnly) active @endif" id="pass_reset">
                                     @include('modules.userManagement.userProfileTabs.passwordReset')
                                 </div>
 

@@ -118,9 +118,11 @@ class UsersController extends Controller
         $this->verifyRequestSignature($request);
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
+        $passwordChangeOnly = false;
         return view('modules.userManagement.show')
             ->with(compact(
                 'user',
+                'passwordChangeOnly',
                 'roles'
             ));
     }
@@ -136,8 +138,9 @@ class UsersController extends Controller
         $id = (int)$request->get('key');
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
+        $passwordChangeOnly = false;
         return view('modules.userManagement.show')
-            ->with(compact('user', 'roles'));
+            ->with(compact('user', 'passwordChangeOnly', 'roles'));
 
     }
 

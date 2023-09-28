@@ -20,8 +20,14 @@ Route::group(['middleware' => ['auth', 'is.active']], function () {
         $id = (int)$request->get('key');
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
+        $passwordChangeOnly = true;
         return view('modules.userManagement.show')
-            ->with(compact('user', 'roles'));
+            ->with(compact(
+                    'user',
+                    'passwordChangeOnly',
+                    'roles'
+                )
+            );
 
     })->name('password.change');
 });
