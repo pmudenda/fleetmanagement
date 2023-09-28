@@ -11,6 +11,7 @@ class ChassisDetailsPostRequest extends FormRequest
     const REQUIRED_FILE_MIMES = 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff';
     const EXCLUDE_UNLESS_CHASSIS_DETAILS = 'exclude_unless:chassisDetailsId,
     0|required|unique:App\Models\VehicleManagement\ChassisDetail';
+    const MIME_TYPES = 'mimes:jpg,jpeg,png,bmp,tif,tiff,pdf';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -39,8 +40,8 @@ class ChassisDetailsPostRequest extends FormRequest
             'initialOdometerReading' => self::REQUIRED_NUMERIC,
             'registrationDate' => 'required|date_format:Y-m-d',
 
-            'motor_vehicle_certificate' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
-            'insurance_cover_note' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
+            'motor_vehicle_certificate' => 'required|file|' . self::MIME_TYPES . '|max:1024',
+            'insurance_cover_note' => 'required|file|'. self::MIME_TYPES . '|max:1024',
             'front_view' => self::REQUIRED_FILE_MIMES,
             'rear_view' => self::REQUIRED_FILE_MIMES,
             'right_view' => self::REQUIRED_FILE_MIMES,

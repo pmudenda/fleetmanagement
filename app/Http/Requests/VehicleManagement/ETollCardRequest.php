@@ -7,6 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ETollCardRequest extends FormRequest
 {
+    const REQUIRED_DATE_WITH_FORMAT = 'required|date_format:d/m/Y';
+    const REQUIRED = 'required';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,19 +26,19 @@ class ETollCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'batchNumber' => 'required',
-            'cardScheme' => 'required',
-            'cardNumber' => 'required',
-            'cardStatus' => 'required',
-            'dateIssued' => 'required|date_format:d/m/Y',
-            'expiryDate' => 'required|date_format:d/m/Y',
-            'cvv' => 'required|string',
-            'contactNumber' => 'required',
-            'assignedTo' => 'required',
-            'responseHead' => 'required',
-            'responseHeadId' => 'required',
+            'batchNumber' => self::REQUIRED,
+            'cardScheme' => self::REQUIRED,
+            'cardNumber' => self::REQUIRED,
+            'cardStatus' => self::REQUIRED,
+            'dateIssued' => self::REQUIRED_DATE_WITH_FORMAT,
+            'expiryDate' => self::REQUIRED_DATE_WITH_FORMAT,
+            'cvv' => 'required|string|max:3',
+            'contactNumber' => self::REQUIRED,
+            'assignedTo' => self::REQUIRED,
+            'responseHead' => self::REQUIRED,
+            'responseHeadId' => self::REQUIRED,
             'comments' => 'nullable|string',
-            'supportingDocument' => 'nullable|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf'
+            'supportingDocument' => 'nullable|file|mimes:pdf|max:1024'
         ];
     }
 }

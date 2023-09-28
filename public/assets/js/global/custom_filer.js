@@ -15,7 +15,7 @@ Copyright (c) 2023 Zambia Electricity Supply Company
             //Example 2
             $("#filer_input2").filer({
                 limit: null,
-                maxSize: null,
+                maxSize: 1,
                 extensions: null,
                 changeInput: '<div class="jFiler-input-dragDrop"><div class="jFiler-input-inner"><div class="jFiler-input-icon"><i class="icon-jfi-cloud-up-o"></i></div><div class="jFiler-input-text"><h3>Drag&Drop files here</h3> <span style="display:inline-block; margin: 15px 0">or</span></div><a class="jFiler-input-choose-btn blue">Browse Files</a></div></div>',
                 showThumbs: true,
@@ -167,7 +167,7 @@ Copyright (c) 2023 Zambia Electricity Supply Company
             //Example single
             $('.filer_input').filer({
                 limit: 1,
-                maxSize: 3,
+                maxSize: 1,
                 extensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf'],
                 changeInput: true,
                 showThumbs: true,
@@ -178,7 +178,7 @@ Copyright (c) 2023 Zambia Electricity Supply Company
         this.makeMultipleFileUploader = function () {
             $('#filer_input').filer({
                 limit: 3,
-                maxSize: 3,
+                maxSize: 1,
                 extensions: ['jpg', 'jpeg', 'png', 'gif', 'psd'],
                 changeInput: true,
                 showThumbs: true,
@@ -189,7 +189,7 @@ Copyright (c) 2023 Zambia Electricity Supply Company
         this.makeUploader = function () {
             $("#filer_input").filer({
                 limit: null,
-                maxSize: null,
+                maxSize: 1,
                 extensions: null,
                 changeInput: '<div class="jFiler-input-dragDrop"><div class="jFiler-input-inner">' +
                     '<div class="jFiler-input-icon"><i class="icon-jfi-cloud-up-o"></i>' +
@@ -337,7 +337,7 @@ Copyright (c) 2023 Zambia Electricity Supply Company
         this.init = function (selector) {
             $(selector).filer({
                 limit: 3,
-                maxSize: 10,
+                maxSize: 1,
                 changeInput: true,
                 showThumbs: true,
                 addMore: true
@@ -347,7 +347,7 @@ Copyright (c) 2023 Zambia Electricity Supply Company
         this.destroy = function (selector) {
             $(selector).filer({
                 limit: 3,
-                maxSize: 10,
+                maxSize: 1,
                 changeInput: true,
                 showThumbs: true,
                 addMore: true
