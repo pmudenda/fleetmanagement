@@ -708,7 +708,7 @@
                             dataLevel[key] = {};
                         }
 
-                        if (k == keys.length - 1) {
+                        if (k === keys.length - 1) {
                             dataLevel[key] = data[originalKey];
                         }
 
