@@ -22,7 +22,7 @@ class IsActiveUser
         Log::debug("Status ". StatusHelper::activeUser());
         if(auth()->user()->con_st_code != StatusHelper::activeUser()){
             Auth::logout();
-            return redirect('/login')->withErrors(['username'=>'You Account Is blocked/suspended.']);
+            return redirect('/login')->withErrors(['message'=>'You Account Is blocked/suspended.']);
         }
         return $next($request);
     }
