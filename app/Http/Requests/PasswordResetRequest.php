@@ -24,13 +24,13 @@ class PasswordResetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'otp' => ['required',
-                Password::min(10)
+            'password' => ['required'],
+                /*Password::min(10)
                     ->letters()
                     ->mixedCase()
                     ->numbers()
                     ->symbols()
-                    ->uncompromised()],
+                    ->uncompromised(),*/
             'userId' => 'required|string'
         ];
     }

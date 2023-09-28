@@ -7,21 +7,21 @@
             <div class="form-group">
                 <label for="password"
                        class="col-form-label pl-2">
-                    {{ __('One Time Password') }}
+                    {{ __('Password') }}
                 </label>
                 <div class="col-md-6 pl-0">
                     <input type="hidden" name="userId" value="{{ParameterEncryption::encrypt($user->id)}}">
-                    <input id="password" type="otp"
-                           class="form-control @error('otp') is-invalid @enderror"
-                           name="otp" value="{{ old('otp') }}" required
-                           autocomplete="otp" autofocus>
-                    @error('otp')
+                    <input id="password" type="password"
+                           class="form-control @error('password') is-invalid @enderror"
+                           name="otp" value="{{ old('password') }}" required
+                           autocomplete="password" autofocus>
+                    @error('password')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $errors }}</strong>
                     </span>
                     @enderror
 
-                    @error('otp')
+                    @error('password')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
