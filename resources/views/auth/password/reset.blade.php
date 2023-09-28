@@ -19,12 +19,16 @@
 <main class="register-content">
     <div class="bg-img-hero position-fixed top-0 right-0 left-0">
         <figure class="position-absolute right-0 bottom-0 left-0 m-0">
-            <img src="{{asset('assets/dist/img/icons/zesco_logo.png')}}" data-pagespeed-url-hash="2593638024"/>
+            <img src="{{asset('assets/dist/img/icons/zesco_logo.png')}}"
+                 alt="Image Description"
+                 data-pagespeed-url-hash="2593638024"/>
         </figure>
     </div>
     <div class="container py-5 py-sm-7">
-        <a class="d-flex justify-content-center mb-5 news365-logo" href="">
-            <img class="z-index-2" src="{{asset('assets/dist/img/icons/zesco_logo.png')}}" alt="Image Description"
+        <a class="d-flex justify-content-center mb-2 news365-logo" href="">
+            <img class="z-index-2"
+                 src="{{asset('assets/dist/img/icons/zesco_logo.png')}}"
+                 alt="Image Description"
                  data-pagespeed-url-hash="799927880">
         </a>
         <div class="row justify-content-center">
@@ -33,7 +37,8 @@
                 </div>
                 <div class="form-card mb-5">
                     <div class="form-card_body">
-                        <form method="POST" action="{{ route('password.update') }}">
+                        <form method="POST"
+                              action="{{ route('password.update') }}">
                             @csrf
 
                             <input type="hidden" name="token" value="{{ $request->token }}">

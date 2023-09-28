@@ -54,7 +54,6 @@ class User extends Authenticatable
         'positions_id',
         'work_shop_code',
         'user_division_id',
-        //'user_directorate_id',
         'station',
         'last_login',
         'total_logins',

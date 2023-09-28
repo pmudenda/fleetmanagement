@@ -3,7 +3,9 @@
 namespace App\Actions\Fortify;
 
 use App\Models\Security\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
@@ -20,6 +22,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
      */
     public function update(User $user, array $input): void
     {
+        Log::info('Updating User Password');
         Validator::make($input,
             [
                 'current_password' => ['required', 'string', 'current_password:web'],
@@ -33,6 +36,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
 
         $user->forceFill([
             'change_password_next_login' => 'N',
+            'change_password_on' => Carbon::now()->addDays(90),
             'password' => Hash::make($input['password']),
         ])->save();
     }
