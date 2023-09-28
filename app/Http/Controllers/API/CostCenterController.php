@@ -21,7 +21,7 @@ class CostCenterController extends Controller
                     'success',
                     true,
                     '',
-                    []
+                    $data
                 )
             );
         } catch (Exception $e) {
