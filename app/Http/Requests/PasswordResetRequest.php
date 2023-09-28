@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Actions\Fortify\PasswordValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 
 class PasswordResetRequest extends FormRequest
 {
+    use PasswordValidationRules;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -24,13 +25,7 @@ class PasswordResetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => ['required'],
-                /*Password::min(10)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised(),*/
+            'password' => $this->passwordRules(),
             'userId' => 'required|string'
         ];
     }

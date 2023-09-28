@@ -686,10 +686,20 @@ $(document).ready(function () {
             formData,
             function (response_data) {
                 if (response_data.success === 'true' || response_data.success === true) {
-                    document.querySelector('[name="accident_number"]').value = payload.reference;
-                    document.querySelector('#accident_number').value = payload.reference;
-                } else {
+                    if(response_data.payload.length === 0){
+                        $(document).find('[href="#next"]').attr('disabled', true);
+                        tmsApp.systemError(
+                            'Accident Report Number',
+                            response_data.message,
+                            function () {}
+                            );
+                        return
+                    }
+                    tmsApp.showToast('Vehicle Report Found','success', 'Accident Report');
+                    document.querySelector('[name="accident_number"]').value = response_data.payload.reference;
+                    document.querySelector('#accident_number').value = response_data.payload.reference;
 
+                } else {
                     tmsApp.systemError(
                         'Accident Report',
                         'No Accident Report found For Vehicle with Registration No.'
@@ -1303,7 +1313,10 @@ $(document).ready(function () {
             if (this.value === document.querySelector('[name="accidentRepairs"]').value) {
                 document.querySelector("#accidentRecordNo").classList.remove('d-none');
                 findAccidentReports();
-            } else {
+            }
+            else
+            {
+                $(document).find('[href="#next"]').attr('disabled', true);
                 document.querySelector("#accidentRecordNo").classList.add('d-none');
             }
         });

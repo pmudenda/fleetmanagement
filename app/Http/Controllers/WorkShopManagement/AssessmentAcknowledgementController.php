@@ -61,9 +61,6 @@ class AssessmentAcknowledgementController extends Controller
                 Log::info('Commence Actual eSignature Authentication');
             }
 
-            Log::info('Username ' . $request->loginId);
-            Log::info('Password ' . $request->password);
-
             if ($driver) {
                 Log::info('eSignature Successful');
                 $entry->updated_at = Carbon::now();

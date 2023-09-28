@@ -17,7 +17,7 @@ trait PasswordValidationRules
         return [
             'required',
             'string', new Password, 'confirmed',
-            \Illuminate\Validation\Rules\Password::min(10)
+            \Illuminate\Validation\Rules\Password::min(8)
                 ->letters()
                 ->mixedCase()
                 ->numbers()

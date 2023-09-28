@@ -35,8 +35,6 @@ class UpdateUserPassword implements UpdatesUserPasswords
         )->validateWithBag('updatePassword');
 
         $user->forceFill([
-            'change_password_next_login' => 'N',
-            'change_password_on' => Carbon::now()->addDays(90),
             'password' => Hash::make($input['password']),
         ])->save();
     }
