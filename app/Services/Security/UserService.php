@@ -4,7 +4,6 @@ namespace App\Services\Security;
 
 use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
-use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
 use App\Exceptions\ActiveUserDelegationException;
 use App\Exceptions\UserDataSyncException;
@@ -25,7 +24,6 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use PDO;
 
 class UserService
@@ -244,13 +242,14 @@ class UserService
      * @param UserOnboardingRequest $request
      * @return bool
      * @throws UserOnBoardingException
+     * @throws UserNotFoundException
      */
     public function createUser(UserOnboardingRequest $request): bool
     {
         $validateWithHCMS = config('systeminfo.enableUserValidation');
 
         // move logic to database function
-        DB::beginTransaction();
+
         if ($validateWithHCMS) {
             try {
                 $employee = PHCMSEmployee::where(
@@ -260,48 +259,12 @@ class UserService
                 )->where(TableColumns::PHCMS_STATUS,
                     QueryComparisonOperator::EQUALS,
                     'ACT')->first();
-
-                if (empty($employee)) {
-                    throw new UserNotFoundException("User Not Found");
-                }
             } catch (\Exception $ex) {
                 Log::error($ex);
-                throw new UserOnBoardingException(
-                    str_replace('@user_name',
-                        $request->staff_number,
-                        SystemMessages::USER_NOT_VERIFIED
-                    )
-                );
             }
 
-            $data = [
-                'password' => Hash::make($request->password),
-                'email' => strtoupper($request->staff_email),
-                'username' => $request->login_name,
-                'phone' => $request->mobile_no,
-                'area_code' => $request->business_area,
-                'functional_section' => $request->user_unit,
-                'bu_code' => $request->business_unit_code,
-                'cc_code' => $request->cost_center_code,
-                'directorate' => $request->directorate,
-                'user_unit' => $request->user_unit,
-                'supervisor_code' => $request->staff_supervisorId,
-                'supervisor_name' => $request->staff_supervisor,
-                'guid' => Str::uuid(),
-                'con_st_code' => StatusHelper::active(),
-                'staff_no' => $employee->con_per_no,
-                'contract_type' => $employee->contract_type,
-                'name' => $employee->name,
-                'nrc' => $employee->nrc,
-                'mobile_no' => $employee->mobile_no,
-                'group_type' => $employee->group_type,
-                'job_title' => $employee->job_title,
-                'grade' => $employee->grade,
-                'location' => $employee->location ?? $employee->functional_section,
-                'pay_point' => $employee->pay_point,
-                'job_code' => $employee->job_code ?? "--",
-            ];
-
+            $password = Hash::make($request->password);
+            $email = strtoupper($request->staff_email);
             $pdo = DB::getPdo();
             $modifiedBy = auth()->user()->staff_no;
             $stmt = $pdo->prepare(
@@ -309,68 +272,55 @@ class UserService
                 :p_staff_no, :p_modified_by); end;"
             );
             $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
-            $stmt->bindParam(":p_staff_no", $userToSync);
-            $stmt->bindParam(":p_modified_by", $modifiedBy);
-$stmt->bindParam(":p_staff_no", null); //           IN sec_users.staff_no%TYPE,
-$stmt->bindParam(":p_password", null); //           IN sec_users.password%TYPE,
-$stmt->bindParam(":p_email", null); //              IN sec_users.email%TYPE,
-$stmt->bindParam(":p_username", null); //           IN sec_users.username%TYPE,
-$stmt->bindParam(":p_phone", null); //              IN sec_users.phone%TYPE DEFAULT NULL,
-$stmt->bindParam(":p_area_code", null); //          IN sec_users.area_code%TYPE DEFAULT NULL,
-$stmt->bindParam(":p_functional_section", null); // IN sec_users.functional_section%TYPE DEFAULT NULL,
-$stmt->bindParam(":p_bu_code", null); //            IN sec_users.bu_code%TYPE DEFAULT NULL,
-$stmt->bindParam(":p_cc_code", null); //            IN sec_users.cc_code%TYPE DEFAULT NULL,
-$stmt->bindParam(":p_work_shop_code", null); //     IN sec_users.work_shop_code%TYPE DEFAULT NULL,
-$stmt->bindParam(":p_directorate", null); //        IN sec_users.directorate%TYPE DEFAULT NULL,
-$stmt->bindParam(":p_user_unit", null); //          IN sec_users.user_unit%TYPE DEFAULT NULL,
-$stmt->bindParam(":p_supervisor_code", null); //    IN sec_users.supervisor_code%TYPE DEFAULT NULL,
-$stmt->bindParam(":p_supervisor_name", null); //    IN sec_users.supervisor_name%TYPE DEFAULT NULL,
-$stmt->bindParam(":p_avatar", null); //             IN sec_users.avatar%TYPE DEFAULT NULL
+            $stmt->bindParam(":p_created_by", $modifiedBy);
+            $stmt->bindParam(":p_staff_no", $request->staff_number);
+            $stmt->bindParam(":p_password", $password);
+            $stmt->bindParam(":p_email", $email);
+            $stmt->bindParam(":p_username", $request->login_name);
+            $stmt->bindParam(":p_phone", $request->mobile_no);
+            $stmt->bindParam(":p_area_code", $request->business_area);
+            $stmt->bindParam(":p_functional_section", $request->user_unit);
+            $stmt->bindParam(":p_bu_code", $request->business_unit_code);
+            $stmt->bindParam(":p_cc_code", $request->cost_center_code);
+            $stmt->bindParam(":p_directorate", $request->directorate);
+            $stmt->bindParam(":p_user_unit", $request->user_unit);
+            $stmt->bindParam(":p_supervisor_code", $request->staff_supervisorId);
+            $stmt->bindParam(":p_supervisor_name", $request->staff_supervisor);
+            //$stmt->bindParam(":p_avatar", );
+            //$stmt->bindParam(":p_work_shop_code", '');
             $stmt->execute();
 
+            if (str_starts_with('0', $results) && str_contains($results, 'Not Found')) {
+                throw new UserNotFoundException($results);
+            }
 
-        } else {
-            $data = [
-                'con_st_code' => StatusHelper::active(),
-                'password' => Hash::make($request->password),
-                'name' => $request->name,
-                'staff_no' => $request->staff_number,
-                'email' => $request->staff_email,
-                'username' => $request->login_name,
-                'phone' => $request->mobile_no,
-                'mobile_no' => $request->mobile_no,
-                'functional_section' => $request->user_unit,
-                'grade' => $request->grade,
-                'bu_code' => $request->business_unit_code,
-                'cc_code' => $request->cost_center_code,
-                'directorate' => $request->directorate,
-                'user_unit' => $request->user_unit,
-                'supervisor_code' => $request->staff_supervisorId,
-                'supervisor_name' => $request->staff_supervisor,
-                'job_title' => $request->job_title,
-                'guid' => Str::uuid(),
-                'area_code' => $request->get('business_area'),
-            ];
+            if (str_starts_with('0', $results) && str_contains($results, 'Occurred')) {
+                throw new UserOnBoardingException(
+                    str_replace('@user_name',
+                        $request->staff_number,
+                        $results
+                    )
+                );
+            }
         }
 
-        $user = User::firstOrCreate(
-            [
-                'staff_no' => $request->staff_number,
-            ],
-            $data
-        );
-
-        DB::commit();
+        $user = User::where('staff_no', QueryComparisonOperator::EQUALS, $request->staff_number);
 
         if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
+            DB::beginTransaction();
             $user->roles()->sync((int)$request->get('user_profile'));
-            HistoryService::record($user->toArray(),
+            DB::commit();
+
+            HistoryService::record(
+                $user->toArray(),
                 "N/A",
                 'Create User',
                 'User Onboarding with profile'
             );
+
         } else {
-            HistoryService::record($user->toArray(),
+            HistoryService::record(
+                $user->toArray(),
                 "N/A",
                 'Create User',
                 'User Onboarding with no profile'

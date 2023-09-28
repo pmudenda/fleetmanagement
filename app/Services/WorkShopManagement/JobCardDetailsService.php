@@ -21,6 +21,7 @@ use App\Models\WorkShopManagement\Mechanic;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
+use App\Services\Workflow\WorkflowService;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -30,12 +31,15 @@ class JobCardDetailsService
 {
     private WorkshopService $workshopService;
     private WorkshopRequisitionService $workshopRequisitionService;
+    private  WorkflowService $workflowService;
 
     public function __construct(WorkshopService            $workshopService,
-                                WorkshopRequisitionService $workshopRequisitionService)
+                                WorkshopRequisitionService $workshopRequisitionService,
+                                WorkflowService            $workflowService)
     {
         $this->workshopService = $workshopService;
         $this->workshopRequisitionService = $workshopRequisitionService;
+        $this->workflowService = $workflowService;
     }
 
     /**
