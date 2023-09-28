@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 
-Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'security'], function () {
+Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix' => 'security'], function () {
 
     Route::post('/roles/assign/permission', [RolesController::class, 'assignPermission'])
         ->name('roles.assign.permission');
@@ -19,5 +21,9 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
         ->name('roles.update');
 
     Route::resource('permissions', PermissionsController::class);
+
+    Route::get('user/change/password', function (Request $request) {
+        return redirect(URL::signedRoute('profile', ['key' => $request->get('key')]));
+    })->name('password.change');
 
 });
