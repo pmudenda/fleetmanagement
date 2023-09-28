@@ -16,7 +16,7 @@
                            autocomplete="otp" autofocus>
                     @error('otp')
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
+                        <strong>{{ $errors }}</strong>
                     </span>
                     @enderror
                 </div>
