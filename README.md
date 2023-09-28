@@ -23,6 +23,14 @@ ZFM is a web based fleet & logistics management system built using laravel frame
 - composer require yajra/laravel-oci8:^10
 - Uncomment Yajra\Oci8\Oci8ServiceProvider::class in app.php providers array
 -  php artisan vendor:publish --tag=oracle
+- 
+-- composer require spatie/laravel-cookie-consentphp artisan vendor:publish --provider="Spatie\CookieConsent\CookieConsentServiceProvider" --tag="config"
+
+DataTables
+-- composer require yajra/laravel-datatables-oracle
+php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvider
+
+
 - [ composer install]()
 #(Optional)
 - [ php artisan migrate:fresh --seed]()
@@ -38,12 +46,6 @@ ZFM is a web based fleet & logistics management system built using laravel frame
 ## Updating Existing Installation
 - [ php artisan migrate]()
 - [ php artisan db:seed --class= {SeederClassName}]() - replace {SeederClassName} with actual class name e.g UserSeeder
--- composer require spatie/laravel-cookie-consentphp artisan vendor:publish --provider="Spatie\CookieConsent\CookieConsentServiceProvider" --tag="config"
-
-DataTables
--- composer require yajra/laravel-datatables-oracle
-php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvider
-
 
 
 In order to ensure that the system remains stable at all times, 
