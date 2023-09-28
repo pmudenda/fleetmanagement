@@ -19,7 +19,7 @@ class IsActiveUser
     public function handle(Request $request, Closure $next): Response
     {
         Log::debug("Running Is User Active Middleware");
-        if($request->user()->status != StatusHelper::activeUser()){
+        if(auth()->user()->status != StatusHelper::activeUser()){
             Auth::logout();
             return redirect('/login')->withErrors(['username'=>'You Account Is blocked/suspended.']);
         }
