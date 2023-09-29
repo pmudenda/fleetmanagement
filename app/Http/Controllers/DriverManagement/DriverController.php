@@ -118,8 +118,6 @@ class DriverController extends Controller
                 ));
             }
 
-
-
             return response()->json([
                 'success' => true,
                 'payload' => $driver
