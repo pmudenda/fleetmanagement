@@ -266,7 +266,7 @@ class UserService
             $staffNumber = $request->staff_number;
             $userName = $request->login_name;
             $phoneNumber = $request->mobile_no;
-            $areaCode = $request->business_area;
+            $areaCode = trim($request->business_area);
             $businessUnit = $request->business_unit_code;
             $costCenterCode = $request->cost_center_code;
             $directorate = $request->directorate;
