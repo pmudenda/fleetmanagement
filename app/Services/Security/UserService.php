@@ -261,13 +261,13 @@ class UserService
         $email = strtoupper($request->staff_email);
         $pdo = DB::getPdo();
         $modifiedBy = auth()->user()->staff_no;
+
         $stmt = $pdo->prepare(
-            "begin :result := pkg_employee.fn_create_user(:p_staff_no, :p_password,
-                                :p_created_by,:p_email,:p_username,:p_phone,
-                                :p_area_code,:p_functional_section,
-                                :p_bu_code,:p_cc_code,:p_directorate,:p_user_unit,
-                                :p_supervisor_code,:p_supervisor_name); end;"
-        );
+            "begin :result := pkg_employee.fn_create_user(
+            :p_staff_no,
+            :p_password,:p_email,:p_username,:p_phone,:p_area_code,:p_functional_section,
+            :p_bu_code,:p_cc_code,:p_work_shop_code,:p_directorate,:p_user_unit,
+            :p_supervisor_code,:p_supervisor_name,:p_avatar,:p_created_by); end;");
 
         $staffNumber = $request->staff_number;
         $userName = $request->login_name;
@@ -279,13 +279,13 @@ class UserService
         $userUnitCode = $request->user_unit;
         $supervisorManNumber = $request->staff_supervisorId;
         $supervisorName = $request->staff_supervisor;
-
+        $avatar = "";
         Log::info("Area Code " . $areaCode);
 
         $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
         $stmt->bindParam(":p_staff_no", $staffNumber);
         $stmt->bindParam(":p_password", $password);
-        $stmt->bindParam(":p_created_by", $modifiedBy);
+
         $stmt->bindParam(":p_email", $email);
         $stmt->bindParam(":p_username", $userName);
         $stmt->bindParam(":p_phone", $phoneNumber);
@@ -297,6 +297,8 @@ class UserService
         $stmt->bindParam(":p_user_unit", $userUnitCode);
         $stmt->bindParam(":p_supervisor_code", $supervisorManNumber);
         $stmt->bindParam(":p_supervisor_name", $supervisorName);
+        $stmt->bindParam(":p_avatar", $avatar);
+        $stmt->bindParam(":p_created_by", $modifiedBy);
 
         $stmt->execute();
 
