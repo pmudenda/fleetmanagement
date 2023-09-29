@@ -4,7 +4,6 @@ namespace App\Http\Controllers\DriverManagement;
 
 use App\Constants\ErrorMessages;
 use App\Enums\ConfigurationTypes;
-use App\Exceptions\DriverNotFoundException;
 use App\Exceptions\DriverSearchException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DriverOnboardingRequest;
@@ -102,8 +101,19 @@ class DriverController extends Controller
                 $driver = $this->userService->searchEmployee($searchParam)->first();
             }
 
+            if(empty($driver)){
+                throw new DriverSearchException(
+                    str_replace(
+                        self::INPUT,
+                        $searchParam,
+                        ErrorMessages::getMessage('err_0011'))
+                );
+
+            }
+
             if ($driver->con_st_code != 'ACT' && $driver->con_st_code != '01') {
-                throw new DriverSearchException(str_replace(self::INPUT,
+                throw new DriverSearchException(
+                    str_replace(self::INPUT,
                     $searchParam,
                     ErrorMessages::getMessage('err_0027')
                 ));
