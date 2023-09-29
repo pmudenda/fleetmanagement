@@ -50,17 +50,11 @@
                             });
                     },
                     function (xhr, settings, errorThrown) {
-                        console.log(errorThrown);
-                        if (errorThrown.hasOwnProperty('errors')) {
-                            tmsApp.printErrorMsg(errorThrown.errors);
-                            return
-                        }
                         setTimeout(function () {
-                            tmsApp.systemError(
+                            tmsApp.showErrorMessages(
+                                xhr,
                                 'User Creation',
-                                'We could not complete processing your request, please try again later',
-                                function () {
-                                })
+                            )
                         }, 300)
 
                     }
