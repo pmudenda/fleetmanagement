@@ -49,6 +49,7 @@ class ReportsController extends Controller
         $query = DB::table('zfm_fuel_cost');
         $year = Carbon::now()->year;
         $month = Carbon::now()->month;
+
         if ($request->has('year') && $request->filled('year')) {
             $year = (int)$request->get('year');
         }
@@ -60,7 +61,7 @@ class ReportsController extends Controller
         $costByYear = $query
             ->select(DB::raw('SUM(ttl) as cost, year, fuel_type'))
             ->where('year', '=', $year)
-            //->where('month', '=', $month)
+            ->where('month', '=', $month)
             ->groupBy('year', 'fuel_type')
             ->orderBy('year')
             ->get();
@@ -68,7 +69,7 @@ class ReportsController extends Controller
         $costByUnit = $query
             ->select(DB::raw('SUM(ttl) as cost, year, fuel_req_unit'))
             ->where('year', '=', $year)
-            //->where('month', '=', $month)
+            ->where('month', '=', $month)
             ->groupBy('year', 'fuel_req_unit')
             ->orderBy('year')
             ->get();
@@ -76,7 +77,7 @@ class ReportsController extends Controller
         $costByType = $query
             ->select(DB::raw('SUM(ttl) as cost, fuel_type'))
             ->where('year', '=', $year)
-            //->where('month', '=', $month)
+            ->where('month', '=', $month)
             ->groupBy('year', 'fuel_type')
             ->orderBy('year')
             ->get();

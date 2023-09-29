@@ -64,10 +64,10 @@ class MaintenanceController extends Controller
 
         list(
             $repairTypes,
-            $accessories_checked_in,
+            $accessoriesCheckedIn,
             $accessories,
             $details,
-            $workshop_sections,
+            $workshopSections,
             $defects,
             $comments,
             $officeDetails,
@@ -95,9 +95,9 @@ class MaintenanceController extends Controller
                     "repairTypes",
                     "accessories",
                     "details",
-                    "accessories_checked_in",
+                    "accessoriesCheckedIn",
                     "step",
-                    "workshop_sections",
+                    "workshopSections",
                     "defects",
                     "comments",
                     "officeDetails",
@@ -119,10 +119,10 @@ class MaintenanceController extends Controller
 
         list(
             $repairTypes,
-            $accessories_checked_in,
+            $accessoriesCheckedIn,
             $accessories,
             $details,
-            $workshop_sections,
+            $workshopSections,
             $defects,
             $comments,
             $officeDetails,
@@ -149,9 +149,9 @@ class MaintenanceController extends Controller
                     "repairTypes",
                     "accessories",
                     "details",
-                    "accessories_checked_in",
+                    "accessoriesCheckedIn",
                     "step",
-                    "workshop_sections",
+                    "workshopSections",
                     "defects",
                     "comments",
                     "officeDetails",
@@ -179,10 +179,10 @@ class MaintenanceController extends Controller
 
         list(
             $repairTypes,
-            $accessories_checked_in,
+            $accessoriesCheckedIn,
             $accessories,
             $details,
-            $workshop_sections,
+            $workshopSections,
             $defects,
             $comments,
             $officeDetails,
@@ -200,9 +200,9 @@ class MaintenanceController extends Controller
                     "repairTypes",
                     "accessories",
                     "details",
-                    "accessories_checked_in",
+                    "accessoriesCheckedIn",
                     "step",
-                    "workshop_sections",
+                    "workshopSections",
                     "defects",
                     "comments",
                     "officeDetails",
@@ -284,10 +284,10 @@ class MaintenanceController extends Controller
 
         list(
             $repairTypes,
-            $accessories_checked_in,
+            $accessoriesCheckedIn,
             $accessories,
             $details,
-            $workshop_sections,
+            $workshopSections,
             $defects,
             $comments,
             $officeDetails,
@@ -305,9 +305,9 @@ class MaintenanceController extends Controller
                     "repairTypes",
                     "accessories",
                     "details",
-                    "accessories_checked_in",
+                    "accessoriesCheckedIn",
                     "step",
-                    "workshop_sections",
+                    "workshopSections",
                     "defects",
                     "comments",
                     "officeDetails",
@@ -334,10 +334,10 @@ class MaintenanceController extends Controller
 
         list(
             $repairTypes,
-            $accessories_checked_in,
+            $accessoriesCheckedIn,
             $accessories,
             $details,
-            $workshop_sections,
+            $workshopSections,
             $defects,
             $comments,
             $officeDetails,
@@ -355,9 +355,9 @@ class MaintenanceController extends Controller
                     "repairTypes",
                     "accessories",
                     "details",
-                    "accessories_checked_in",
+                    "accessoriesCheckedIn",
                     "step",
-                    "workshop_sections",
+                    "workshopSections",
                     "defects",
                     "comments",
                     "officeDetails",
@@ -383,10 +383,10 @@ class MaintenanceController extends Controller
 
         list(
             $repairTypes,
-            $accessories_checked_in,
+            $accessoriesCheckedIn,
             $accessories,
             $details,
-            $workshop_sections,
+            $workshopSections,
             $defects,
             $comments,
             $officeDetails,
@@ -417,9 +417,9 @@ class MaintenanceController extends Controller
                     "repairTypes",
                     "accessories",
                     "details",
-                    "accessories_checked_in",
+                    "accessoriesCheckedIn",
                     "step",
-                    "workshop_sections",
+                    "workshopSections",
                     "defects",
                     "comments",
                     "officeDetails",
@@ -603,9 +603,10 @@ class MaintenanceController extends Controller
      */
     public function getJobCardCreationData($reference, $step): array
     {
-        list($repairTypes, $accessories, $workshop_sections) =
+        list($repairTypes, $accessories, $workshopSections) =
             $this->jobCardDetailsService->getWorkshopsRepairTypesAndSections();
-        $accessories_checked_in = null;
+
+        $accessoriesCheckedIn = null;
         $details = null;
         $defects = collect([]);
         $comments = [];
@@ -618,7 +619,7 @@ class MaintenanceController extends Controller
         $observation = collect([]);
 
         if ($reference) {
-            list($accessories_checked_in,
+            list($accessoriesCheckedIn,
                 $details,
                 $officeDetails,
                 $defects,
@@ -634,10 +635,10 @@ class MaintenanceController extends Controller
         return array(
             $step,
             $repairTypes,
-            $accessories_checked_in,
+            $accessoriesCheckedIn,
             $accessories,
             $details,
-            $workshop_sections,
+            $workshopSections,
             $defects,
             $comments,
             $officeDetails,

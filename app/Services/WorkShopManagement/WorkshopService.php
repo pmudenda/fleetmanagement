@@ -13,6 +13,7 @@ use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\OrganisationUnitStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
+use App\Helpers\VehicleStatus;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
 use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
 use App\Http\Requests\WorkShopManagement\JobCardTaskReassignment;
@@ -415,7 +416,7 @@ class WorkshopService
     {
         $rowsAffected = VehicleHeader::where("registration_number", $vehicleRegistration)
             ->update([
-                "status" => StatusHelper::vehicleInWorkshop(),
+                "status" => VehicleStatus::vehicleInWorkshop(),
                 'updated_at' => Carbon::now()
             ]);
 

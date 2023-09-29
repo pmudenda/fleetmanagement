@@ -22,6 +22,7 @@ use App\Exceptions\ServiceRequisitionException;
 use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
+use App\Helpers\TaskStatus;
 use App\Http\Requests\WorkShopManagement\MaterialReservationRequest;
 use App\Http\Requests\WorkShopManagement\WorkshopRequisitionRequest;
 use App\Http\Requests\WorkShopManagement\WorkshopServiceRequisitionRequest;
@@ -994,7 +995,7 @@ class WorkshopRequisitionService
                 $message = self::APPROVED . $nextUser;
                 $status = StatusHelper::partiallyAuthorised();
             } elseif ($action == WorkflowActions::sendBack()) {
-                $status = StatusHelper::sentBack();
+                $status = TaskStatus::sentBack();
                 $message = 'Request Returned to Originator';
             }
         }

@@ -2177,7 +2177,7 @@ input[type=search] {
 input[type=radio],
 input[type=checkbox] {
     margin: 4px 0 0;
-    margin-top: 1px \;
+    margin-top: 1px;
     line-height: normal;
 }
 
@@ -2325,7 +2325,7 @@ input[type=search] {
 .checkbox input[type=checkbox],
 .checkbox-inline input[type=checkbox] {
     position: absolute;
-    margin-top: 4px \;
+    margin-top: 4px;
     margin-left: -20px;
 }
 
@@ -6447,7 +6447,6 @@ button.close {
     margin: 1px;
     text-indent: -999px;
     cursor: pointer;
-    background-color: #000 \;
     background-color: rgba(0, 0, 0, 0);
     border: 1px solid #fff;
     border-radius: 10px;
@@ -6602,10 +6601,6 @@ button.close {
 
 .affix {
     position: fixed;
-}
-
-@-ms-viewport {
-    width: device-width;
 }
 
 .visible-xs,
@@ -9839,12 +9834,7 @@ body {
 
 :root,
 [data-theme=light] {
-    --xxl-width: map-get($ grid-breakpoints, "2xl");
-    --xl-width: map-get($ grid-breakpoints, "xl");
-    --lg-width: map-get($ grid-breakpoints, "lg");
-    --md-width: map-get($ grid-breakpoints, "md");
-    --sm-width: map-get($ grid-breakpoints, "sm");
-    --xs-width: map-get($ grid-breakpoints, "xs");
+
     --text-bold: 500;
     --navbar-height: 60px;
     --appreciation-color: var(--dark-green-600);
@@ -9887,7 +9877,6 @@ body {
     --heading-color: var(--gray-50);
     --icon-fill: transparent;
     --icon-stroke: var(--gray-300);
-    --error-bg: var(--red-70);
     --error-border: var(--red-400);
     --bg-color: var(--gray-900);
     --fg-color: var(--gray-800);
@@ -12926,12 +12915,7 @@ body {
 
 :root,
 [data-theme=light] {
-    --xxl-width: map-get($ grid-breakpoints, "2xl");
-    --xl-width: map-get($ grid-breakpoints, "xl");
-    --lg-width: map-get($ grid-breakpoints, "lg");
-    --md-width: map-get($ grid-breakpoints, "md");
-    --sm-width: map-get($ grid-breakpoints, "sm");
-    --xs-width: map-get($ grid-breakpoints, "xs");
+
     --text-bold: 500;
     --navbar-height: 60px;
     --appreciation-color: var(--dark-green-600);

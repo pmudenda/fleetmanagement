@@ -36,7 +36,6 @@ class JobCardRequest extends FormRequest
                 . RepairTypes::AccidentRepair->value
                 . '|required|string|exists:App\Models\Accident,reference'
             ,
-
             'current_odometer' => 'required:numeric',
             'fuel_level' => self::REQUIRED_STRING,
             'sub_fuel_level' => 'nullable:string',

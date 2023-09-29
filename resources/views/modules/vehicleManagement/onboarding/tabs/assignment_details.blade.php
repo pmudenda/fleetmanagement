@@ -1,18 +1,21 @@
 <!--begin::Form-->
 <form
-    id="tms_assignment_tab_form"
-    name="tms_assignment_form"
-    class="form fv-plugins-bootstrap5 fv-plugins-framework"
-    action="{{route('vehicle.assignment.detail')}}">
+        id="tms_assignment_tab_form"
+        name="tms_assignment_form"
+        class="form fv-plugins-bootstrap5 fv-plugins-framework"
+        action="{{route('vehicle.assignment.detail')}}">
     <input type="hidden" name="doctype" value="AssignmentDetails"/>
     <input type="hidden" name="headerId" value="{{$reference ?? 0}}"/>
     <input type="hidden" name="assignmentId" value="{{$vehicle->assignmentId ?? 0}}"/>
     <x-error-view/>
     <div class="col-7">
         <table
-            aria-label="Assignment Details"
-            role="table"
-            class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+                aria-label="Assignment Details"
+                role="table"
+                class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+            <thead class="d-none">
+            <th scope="row"></th>
+            </thead>
             <tbody>
 
             <tr>
@@ -28,12 +31,12 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
                                     <select
-                                        class="form-select form-select-sm view_mode"
-                                        maxlength="140"
-                                        id="businessArea"
-                                        name="businessArea"
-                                        v-model="assignmentDetails.businessArea"
-                                        data-doctype="AssignmentDetails">
+                                            class="form-select form-select-sm view_mode"
+                                            maxlength="140"
+                                            id="businessArea"
+                                            name="businessArea"
+                                            v-model="assignmentDetails.businessArea"
+                                            data-doctype="AssignmentDetails">
                                         <option value=""></option>
                                         <option v-for="businessArea in businessAreas" :key="businessArea.area"
                                                 :value="businessArea.area">
@@ -65,10 +68,10 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
                                     <select
-                                        class="form-select form-select-sm view_mode"
-                                        id="directorate"
-                                        name="directorate"
-                                        v-model="assignmentDetails.directorate">
+                                            class="form-select form-select-sm view_mode"
+                                            id="directorate"
+                                            name="directorate"
+                                            v-model="assignmentDetails.directorate">
                                         <option value>--Directorate--</option>
                                         <option v-for="directorate in directorates" :value="directorate.id">
                                             @{{ directorate.name }}

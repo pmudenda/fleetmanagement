@@ -78,13 +78,13 @@
                                     required
                                     class="form-select form-select-sm workshopSection">
                                 <option></option>
-                                @foreach($workshop_sections as $workshop_section)
-                                    @if($labourItem->section == $workshop_section->code)
+                                @foreach($workshopSections as $workshopSection)
+                                    @if($labourItem->section == $workshopSection->code)
                                         <option selected
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                value="{{$workshopSection->code}}">{{$workshopSection->name}}</option>
                                     @else
                                         <option
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                value="{{$workshopSection->code}}">{{$workshopSection->name}}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -222,17 +222,17 @@
                                         required
                                         class="form-select form-select-sm workshopSection">
                                     <option></option>
-                                    @foreach($workshop_sections as $workshop_section)
-                                        @if($defect->section_code == $workshop_section->code)
+                                    @foreach($workshopSections as $workshopSection)
+                                        @if($defect->section_code == $workshopSection->code)
                                             <option
                                                     selected
-                                                    value="{{$workshop_section->code}}">
-                                                {{$workshop_section->name}}
+                                                    value="{{$workshopSection->code}}">
+                                                {{$workshopSection->name}}
                                             </option>
                                         @else
                                             <option
-                                                    value="{{$workshop_section->code}}">
-                                                {{$workshop_section->name}}
+                                                    value="{{$workshopSection->code}}">
+                                                {{$workshopSection->name}}
                                             </option>
                                         @endif
                                     @endforeach

@@ -22,6 +22,7 @@ use App\Exceptions\NoOdometerEntryException;
 use App\Exceptions\OrganisationUnitStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
+use App\Helpers\TaskStatus;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\FuelRequisitionUpdate;
 use App\Models\MaterialDetail;
@@ -838,35 +839,24 @@ class FuelRequisitionService
             $subject
         );
 
-        if (empty($nextUser)) {
-            $nextUser = '';
-        }
-
         $requisitionNumber = null;
         if ($nextStepId == 100) {
-            if ($action == WorkflowActions::approve()) {
-
-                $requisitionNumber = $this->createStoresRequisition(
-                    $reference
-                );
-
-                $message = $message . ' Stores Requisition No.: ' . $requisitionNumber;
-                $this->updateRequisition($reference, StatusHelper::authorised(), $requisitionNumber);
-            } elseif ($action == WorkflowActions::reject()) {
-                $status = StatusHelper::rejected();
-                $message = 'Request Rejected.';
-                $this->updateStatus($reference, $status);
-            }
+            list($requisitionNumber, $message) = $this->processApproval(
+                $action,
+                $reference,
+                $requisitionNumber,
+                $message
+            );
         } else {
             $status = '';
             if (strtolower($submittedAction) == WorkflowActions::APPROVE) {
                 $status = StatusHelper::partiallyAuthorised();
                 $message = self::APPROVED . $nextUser;
             } elseif ($action == WorkflowActions::sendBack()) {
-                $status = StatusHelper::sentBack();
+                $status = TaskStatus::sentBack();
                 $message = 'Request Returned to Originator';
             } elseif ($action == WorkflowActions::resubmit()) {
-                $status = StatusHelper::submitted();
+                $status = TaskStatus::submitted();
             }
 
             $this->updateStatus($reference, $status);
@@ -966,6 +956,32 @@ class FuelRequisitionService
                 "proc_ref" => $requisition
             ]);
         DB::commit();
+    }
+
+    /**
+     * @param mixed $action
+     * @param $reference
+     * @param string $requisitionNumber
+     * @param mixed $message
+     * @return array
+     * @throws FuelRequisitionException
+     */
+    public function processApproval(mixed $action, $reference, string $requisitionNumber, mixed $message): array
+    {
+        if ($action == WorkflowActions::approve()) {
+
+            $requisitionNumber = $this->createStoresRequisition(
+                $reference
+            );
+
+            $message = $message . ' Stores Requisition No.: ' . $requisitionNumber;
+            $this->updateRequisition($reference, StatusHelper::authorised(), $requisitionNumber);
+        } elseif ($action == WorkflowActions::reject()) {
+            $status = StatusHelper::rejected();
+            $message = 'Request Rejected.';
+            $this->updateStatus($reference, $status);
+        }
+        return array($requisitionNumber, $message);
     }
 
 }

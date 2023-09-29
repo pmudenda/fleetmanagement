@@ -68,7 +68,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($workshop_sections as $key => $workshop)
+                                    @foreach($workshopSections as $key => $workshop)
                                         <tr>
                                             <td>
                                                 {{++$key}}

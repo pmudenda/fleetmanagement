@@ -10,6 +10,7 @@ use App\Enums\DocumentState;
 use App\Enums\Modules;
 use App\Exceptions\VehicleStateException;
 use App\Helpers\StatusHelper;
+use App\Helpers\VehicleStatus;
 use App\Models\Common\File;
 use App\Models\VehicleManagement\Insurance;
 use App\Models\VehicleManagement\VehicleAccessory;
@@ -270,7 +271,7 @@ class VehicleDetailsService
      */
     public function verifyVehicleIsActive($reference): void
     {
-        $allowedStatus = [StatusHelper::active(), StatusHelper::vehicleInWorkshop()];
+        $allowedStatus = [StatusHelper::active(), VehicleStatus::vehicleInWorkshop()];
 
         $vehicle = VehicleHeader::where(
             "registration_number",

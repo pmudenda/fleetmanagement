@@ -249,20 +249,7 @@ class UserService
         $validateWithHCMS = config('systeminfo.enableUserValidation');
 
         // move logic to database function
-
         if ($validateWithHCMS) {
-            try {
-                $employee = PHCMSEmployee::where(
-                    TableColumns::PHCMS_STAFF_NUMBER,
-                    QueryComparisonOperator::EQUALS,
-                    $request->staff_number
-                )->where(TableColumns::PHCMS_STATUS,
-                    QueryComparisonOperator::EQUALS,
-                    'ACT')->first();
-            } catch (\Exception $ex) {
-                Log::error($ex);
-            }
-
             $password = Hash::make($request->password);
             $email = strtoupper($request->staff_email);
             $pdo = DB::getPdo();
@@ -286,8 +273,7 @@ class UserService
             $stmt->bindParam(":p_user_unit", $request->user_unit);
             $stmt->bindParam(":p_supervisor_code", $request->staff_supervisorId);
             $stmt->bindParam(":p_supervisor_name", $request->staff_supervisor);
-            //$stmt->bindParam(":p_avatar", );
-            //$stmt->bindParam(":p_work_shop_code", '');
+
             $stmt->execute();
 
             if (str_starts_with('0', $results) && str_contains($results, 'Not Found')) {
@@ -304,7 +290,9 @@ class UserService
             }
         }
 
-        $user = User::where('staff_no', QueryComparisonOperator::EQUALS, $request->staff_number);
+        $user = User::where('staff_no',
+            QueryComparisonOperator::EQUALS,
+            $request->staff_number)->first();
 
         if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
             DB::beginTransaction();
@@ -336,7 +324,10 @@ class UserService
     private function validate(DelegateProfile $request): void
     {
         // 1. user does not already have an active delegation
-        $count = ProfileDelegation::where('delegated_to', '=', $request->staffNumber)
+        $count = ProfileDelegation::where(
+            'delegated_to',
+            QueryComparisonOperator::EQUALS,
+            $request->staffNumber)
             ->whereDate('period_from', '<', Carbon::now())
             ->whereDate('period_to', '>', Carbon::now())
             ->count();

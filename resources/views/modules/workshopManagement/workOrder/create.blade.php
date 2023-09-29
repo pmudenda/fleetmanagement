@@ -1,5 +1,5 @@
 @php
-    use App\Enums\RepairTypes;use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use Carbon\Carbon;
+    use App\Enums\RepairTypes;use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use App\Helpers\VehicleStatus;use Carbon\Carbon;
 @endphp
 @extends('layouts.app')
 @push('styles')
@@ -34,9 +34,9 @@
 @section('content')
 
     <x-content-header
-        :activeCrumb="'New Job Card'"
-        :linkText="'Job Card'"
-        :pageTitle="'Workshop Management'"/>
+            :activeCrumb="'New Job Card'"
+            :linkText="'Job Card'"
+            :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -214,7 +214,7 @@
            value="{{StatusHelper::onboardingComplete()}}"
            name="incompleteOnBoarding"
            id="incompleteOnBoarding"/>
-    <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}"
+    <input type="hidden" value="{{VehicleStatus::vehicleInWorkshop()}}"
            name="vehicleInWorkshop"
            id="vehicleInWorkshop"/>
     <input type="hidden" value="{{StatusHelper::active()}}"
@@ -316,11 +316,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                    required
-                                                    id="acceptance"
-                                                    name="acceptance"
-                                                    type="checkbox"
-                                                    class="checkbox">
+                                                        required
+                                                        id="acceptance"
+                                                        name="acceptance"
+                                                        type="checkbox"
+                                                        class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -415,12 +415,13 @@
                                         Section
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select  form-select-sm" name="reassignmentDefectSection">
+                                    <select class="form-select  form-select-sm"
+                                            name="reassignmentDefectSection">
                                         <option></option>
-                                        @foreach($workshop_sections as $workshop_section)
+                                        @foreach($workshopSections as $workshopSection)
                                             <option
-                                                value="{{$workshop_section->code}}">
-                                                {{$workshop_section->name}}
+                                                    value="{{$workshopSection->code}}">
+                                                {{$workshopSection->name}}
                                             </option>
                                         @endforeach
                                     </select>
@@ -497,11 +498,11 @@
 @endsection
 @push('scripts')
     <script>
-        window.selectedAccessories = {!! json_encode($accessories_checked_in) !!};
+        window.selectedAccessories = {!! json_encode($accessoriesCheckedIn) !!};
         window.defects = {!! json_encode($defects) !!};
         window.materials = {!! json_encode($materials) !!};
         window.step_id = {!! $step !!};
-        window.workshopSections = {!! json_encode($workshop_sections) !!};
+        window.workshopSections = {!! json_encode($workshopSections) !!};
         window.jobCardProcessData = {
             articleNoPrice: 'The Article @articleNumber - @description has no price. ' +
                 ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306,' +

@@ -733,7 +733,7 @@
                 <input type="hidden" value="{{RequisitionTypes::OutOfTown}}" id="outOfTownReqCode">
                 <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
                        id="incompleteOnBoarding"/>
-                <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop"
+                <input type="hidden" value="{{VehicleStatus::vehicleInWorkshop()}}" name="vehicleInWorkshop"
                        id="vehicleInWorkshop"/>
                 <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
             </div>

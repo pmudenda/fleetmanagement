@@ -74,9 +74,9 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <label
-                                                                    class="pl-0 col-xs-12 col-sm-6
+                                                                        class="pl-0 col-xs-12 col-sm-6
                                                                     col-md-5 col-lg-4 app-field-label"
-                                                                    for="staff_no">Find By:
+                                                                        for="staff_no">Find By:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                     <div class="input-group">
@@ -118,12 +118,12 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                                for="staff_name">
+                                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                    for="staff_name">
                                                                                 Staff Number:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control form-control-sm"
                                                                                        id="employee_number"
@@ -147,12 +147,12 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                                for="staff_name">
+                                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                    for="staff_name">
                                                                                 Name:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control form-control-sm"
                                                                                        id="driver_name"
@@ -169,10 +169,10 @@
                                                                     <div class="row" style="display: none;">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                                for="mobile_no">Grade:</label>
+                                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                    for="mobile_no">Grade:</label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control form-control-sm"
                                                                                        id="grade"
@@ -191,12 +191,12 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                                for="staff_name">
+                                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                    for="staff_name">
                                                                                 Position:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control form-control-sm"
                                                                                        id="job_title"
@@ -216,14 +216,18 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                                for="department">
+                                                                                    class="col-xs-12 col-sm-6
+                                                                                    col-md-5 col-lg-4
+                                                                                    field-required"
+                                                                                    for="department">
                                                                                 Department :
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                    class="col-xs-12 col-sm-6
+                                                                                col-md-7 col-lg-6">
                                                                                 <input type="text"
-                                                                                       class="form-control form-control-sm"
+                                                                                       class="form-control
+                                                                                       form-control-sm"
                                                                                        id="department"
                                                                                        name="department"
                                                                                        readonly
@@ -241,18 +245,20 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                                for="staff_name">
+                                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                    for="staff_name">
                                                                                 Location:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                    class="col-xs-12 col-sm-6
+                                                                                    col-md-7 col-lg-6">
                                                                                 <input type="hidden"
                                                                                        name="cost_center_code">
                                                                                 <input type="hidden" name="nrc">
 
                                                                                 <input type="text"
-                                                                                       class="form-control form-control-sm"
+                                                                                       class="form-control
+                                                                                       form-control-sm"
                                                                                        id="location"
                                                                                        name="location" required
                                                                                        readonly/>
@@ -269,32 +275,40 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-4 field-required"
-                                                                                for="staff_name">
+                                                                                    class="col-xs-12 col-sm-12
+                                                                                    col-md-12 col-lg-4 field-required"
+                                                                                    for="staff_name">
                                                                                 Is Driver by designation ?:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                    class="col-xs-12 col-sm-6
+                                                                                col-md-7 col-lg-6">
                                                                                 <label class="inline-check">
                                                                                     <div
-                                                                                        class="form-check form-check-inline">
+                                                                                            class="form-check
+                                                                                        form-check-inline">
                                                                                         <input
-                                                                                            id="designated-driver-yes"
-                                                                                            type="radio"
-                                                                                            name="isDesignatedDriver"
-                                                                                            value="yes" disabled/>
+                                                                                                id="isDesignatedDriver"
+                                                                                                type="radio"
+                                                                                                name="isDesignatedDriver"
+                                                                                                value="yes" disabled/>
                                                                                         <label
-                                                                                            for="designated-driver-yes">Yes</label>
+                                                                                                for="designated-driver-yes">
+                                                                                            Yes
+                                                                                        </label>
                                                                                     </div>
                                                                                     <div
-                                                                                        class="form-check form-check-inline">
+                                                                                            class="form-check
+                                                                                        form-check-inline">
                                                                                         <input id="designated-driver-no"
                                                                                                type="radio"
                                                                                                checked
                                                                                                name="isDesignatedDriver"
                                                                                                value="no" disabled/>
                                                                                         <label
-                                                                                            for="designated-driver-no">No</label>
+                                                                                                for="designated-driver-no">
+                                                                                            No
+                                                                                        </label>
                                                                                     </div>
                                                                                 </label>
 
@@ -320,13 +334,13 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6
+                                                                                    class="col-xs-12 col-sm-6
                                                                                 col-md-5 col-lg-4 field-required"
-                                                                                for="staff_license">
+                                                                                    for="staff_license">
                                                                                 License No:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6
+                                                                                    class="col-xs-12 col-sm-6
                                                                                 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control
@@ -345,13 +359,13 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6
+                                                                                    class="col-xs-12 col-sm-6
                                                                                 col-md-5 col-lg-4 field-required"
-                                                                                for="staff_name">
+                                                                                    for="staff_name">
                                                                                 Date Issued:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6
+                                                                                    class="col-xs-12 col-sm-6
                                                                                 col-md-7 col-lg-6">
                                                                                 <input type="date"
                                                                                        max="{{
@@ -376,13 +390,13 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6
+                                                                                    class="col-xs-12 col-sm-6
                                                                                 col-md-5 col-lg-4 field-required"
-                                                                                for="staff_name">
+                                                                                    for="staff_name">
                                                                                 Expiry Date:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6
+                                                                                    class="col-xs-12 col-sm-6
                                                                                 col-md-7 col-lg-6">
                                                                                 <input type="date"
                                                                                        class="form-control
@@ -401,22 +415,22 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6
+                                                                                    class="col-xs-12 col-sm-6
                                                                                 col-md-6 col-lg-6 field-required"
-                                                                                for="staff_name">
+                                                                                    for="staff_name">
                                                                                 License Category:
                                                                             </label>
                                                                             <div
-                                                                                class="col-xs-12 col-sm-6
+                                                                                    class="col-xs-12 col-sm-6
                                                                                 col-md-7 col-lg-6">
                                                                                 <select
-                                                                                    id="license_class"
-                                                                                    name="license_class"
-                                                                                    class="form-select">
+                                                                                        id="license_class"
+                                                                                        name="license_class"
+                                                                                        class="form-select">
                                                                                     @foreach($licenseClasses
                                                                                         as $licenseClass)
                                                                                         <option
-                                                                                            value="{{
+                                                                                                value="{{
                                                                                             $licenseClass->code
                                                                                             }}">
                                                                                             {{$licenseClass->name}}
@@ -436,8 +450,8 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
-                                                                                for="staff_name">
+                                                                                    class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                                                                                    for="staff_name">
                                                                                 Copy Of License:
                                                                             </label>
                                                                         </div>
@@ -452,8 +466,9 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 field-required"
-                                                                                for="staff_name">
+                                                                                    class="col-xs-12 col-sm-12 col-md-12
+                                                                                col-lg-12 field-required"
+                                                                                    for="staff_name">
                                                                                 Front View:
                                                                                 <small class="text-danger">
                                                                                     JPG, JPEG,PNG, BMP
@@ -461,18 +476,20 @@
                                                                             </label>
                                                                             <div class="col-12">
                                                                                 <div
-                                                                                    class="card text-center
+                                                                                        class="card text-center
                                                                                     py-5 my-2 pt-0">
                                                                                     <div class="form-group">
                                                                                         <p
-                                                                                            class="text-gray-400 fs-4
+                                                                                                class="text-gray-400 fs-4
                                                                                             fw-semibold mb-10 text-center">
                                                                                             <button type="button"
                                                                                                     data-select="file"
                                                                                                     data-input="selectFrontViewFile"
                                                                                                     class="upload-file
-                                                                                                    btn btn-sm btn-primary me-2">
-                                                                                                <i class="fas fa-cloud"></i>
+                                                                                                    btn btn-sm
+                                                                                                    btn-primary me-2">
+                                                                                                <i class="fas fa-cloud">
+                                                                                                </i>
                                                                                                 Upload Image
                                                                                             </button>
                                                                                             <input type="file"
@@ -494,9 +511,10 @@
                                                                                                     float: right;
                                                                                                     padding: 2px;">
                                                                                                 <i
-                                                                                                    class="fa
+                                                                                                        class="fa
                                                                                                     fa-window-close"
-                                                                                                    style="font-size: 20px;"></i>
+                                                                                                        style="font-size: 20px;">
+                                                                                                </i>
                                                                                             </button>
                                                                                         </div>
                                                                                     </div>
@@ -512,8 +530,9 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 field-required"
-                                                                                for="staff_name">
+                                                                                    class="col-xs-12 col-sm-12
+                                                                                col-md-12 col-lg-12 field-required"
+                                                                                    for="staff_name">
                                                                                 Back View:
                                                                                 <small class="text-danger">
                                                                                     JPG, JPEG,PNG, BMP
@@ -521,11 +540,11 @@
                                                                             </label>
                                                                             <div class="col-12">
                                                                                 <div
-                                                                                    class="card text-center
+                                                                                        class="card text-center
                                                                                     py-5 my-2 pt-0">
                                                                                     <div class="form-group">
                                                                                         <p
-                                                                                            class="text-gray-400 fs-4
+                                                                                                class="text-gray-400 fs-4
                                                                                             fw-semibold mb-10
                                                                                             text-center">
                                                                                             <button type="button"
@@ -592,9 +611,9 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6
+                                                                            class="col-xs-12 col-sm-6
                                                                         col-md-5 col-lg-4 field-required"
-                                                                        for="staff_license">
+                                                                            for="staff_license">
                                                                         Permit No:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -614,9 +633,9 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4
                                                                         field-required"
-                                                                        for="staff_name">
+                                                                            for="staff_name">
                                                                         Date Issued:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -641,9 +660,9 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4
                                                                         field-required"
-                                                                        for="staff_name">
+                                                                            for="staff_name">
                                                                         Expiry Date:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -668,8 +687,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                        for="permit_copy">
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                            for="permit_copy">
                                                                         Copy Of Permit (optional):
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class eTollCardController extends Controller
+class ETollCardController extends Controller
 {
 
     public function report(): View|\Illuminate\Foundation\Application|Factory|Application

@@ -111,18 +111,7 @@
                         </div>
                     </div>
                     <div id="newApproval_DIVWait" style="visibility: hidden; display: none">
-                        <table role="none"
-                               aria-label="loader"
-                               style="width:100%; height:100%; border: 0;">
-                            <tr>
-                                <td style="text-align: center">
-                                    Please wait . . .
-                                    <br/>
-                                    <br/>
-                                    Signature being verified.
-                                </td>
-                            </tr>
-                        </table>
+
                     </div>
                 </div>
             </div>

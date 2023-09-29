@@ -76,11 +76,11 @@
                                                         </span>
                                                     @endif
                                                 </td>
-                                                {{-- @can("")--}}
                                                 <td>
                                                     <div class="dropdown">
                                                         <button
-                                                                class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                                class="btn btn-light btn-active-light-primary
+                                                                btn-sm dropdown-toggle"
                                                                 type="button"
                                                                 id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                                                 aria-expanded="false">
@@ -117,7 +117,6 @@
                                                     </div>
 
                                                 </td>
-                                                {{--@endcan--}}
                                             </tr>
                                         @endforeach
 

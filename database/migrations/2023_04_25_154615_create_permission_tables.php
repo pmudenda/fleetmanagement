@@ -1,6 +1,9 @@
 <?php
 
+use App\Exceptions\ConfigurationNotLoadedException;
+use App\Exceptions\DataNotFoundException;
 use App\Exceptions\ForeignKeyConstraintViolationException;
+use App\Exceptions\InvalidDataTypeException;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +24,8 @@ class CreatePermissionTables extends Migration
         $teams = config('permission.teams');
 
         if (empty($tableNames)) {
-            throw new \Exception('Error: config/permission.php not loaded.
+            throw new ConfigurationNotLoadedException(
+                'Error: config/permission.php not loaded.
             Run [php artisan config:clear] and try again.');
         }
         if ($teams && empty($columnNames['team_foreign_key'] ?? null)) {
@@ -32,11 +36,11 @@ class CreatePermissionTables extends Migration
 
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->bigIncrements('id'); // permission id
-            $table->string('name', 255);       // For MySQL 8.0 use string('name', 125);
+            $table->string('name', 255);
             $table->string('description')->nullable();
             $table->string('slug')->nullable();
             $table->string('status')->default('01');
-            $table->string('guard_name', 255); // For MySQL 8.0 use string('guard_name', 125);
+            $table->string('guard_name', 255);
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
             $table->unique(['name', 'guard_name']);
@@ -48,8 +52,8 @@ class CreatePermissionTables extends Migration
                 $table->unsignedBigInteger($columnNames['team_foreign_key'])->nullable();
                 $table->index($columnNames['team_foreign_key'], 'roles_team_foreign_key_index');
             }
-            $table->string('name', 255);       // For MySQL 8.0 use string('name', 125);
-            $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
+            $table->string('name', 255);
+            $table->string('guard_name');
             $table->timestamps();
             $table->string('description', 255)->nullable();
             $table->string('code', 255)->nullable();
@@ -151,7 +155,8 @@ class CreatePermissionTables extends Migration
         $tableNames = config('permission.table_names');
 
         if (empty($tableNames)) {
-            throw new \Exception('Error: config/permission.php not found and defaults could not be merged.
+            throw new DataNotFoundException(
+                'Error: config/permission.php not found and defaults could not be merged.
             Please publish the package configuration before proceeding, or drop the tables manually.');
         }
 

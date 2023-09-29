@@ -465,11 +465,11 @@
                                         <div class="badge badge-light-success">
                                             ACTIVE
                                         </div>
-                                    @elseif($vehicle->status == StatusHelper::vehicleInWorkshop())
+                                    @elseif($vehicle->status == \App\Helpers\VehicleStatus::vehicleInWorkshop())
                                         <div class="badge badge-light-danger">
                                             IN WORKSHOP
                                         </div>
-                                    @elseif($vehicle->status == StatusHelper::vehicleInactive())
+                                    @elseif($vehicle->status == \App\Helpers\VehicleStatus::vehicleInactive())
                                         <div class="badge badge-light-danger">
                                             INACTIVE
                                         </div>

@@ -5,7 +5,8 @@ use App\Http\Controllers\Configurations\GeneralTablesController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix' => 'system-configuration'], function () {
+Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
+    'prefix' => 'system-configuration'], function () {
 
     /** GENERAL TABLES */
     Route::group(['prefix' => 'general'], function () {

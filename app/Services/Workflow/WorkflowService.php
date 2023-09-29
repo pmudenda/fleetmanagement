@@ -7,6 +7,7 @@ use App\Constants\QueryComparisonOperator;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
+use App\Helpers\TaskStatus;
 use App\Models\Common\OrganizationalUnit;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\User;
@@ -102,7 +103,7 @@ class WorkflowService
             $currentUser,
             $action,
             "Create Document",
-            StatusHelper::submitted(),
+            TaskStatus::submitted(),
             $processFirstStep,
             $taskReference
         );
@@ -163,7 +164,7 @@ class WorkflowService
 
         Log::debug('Processing Workflow Reference ' . $reference);
         Log::debug('Workflow Process Code ' . $processId);
-
+        Log::info($subject);
         // get workflow process header for the task
         $taskHeader = WorkflowTaskHeader::where(
             'reference', '=', trim($reference)
@@ -568,7 +569,7 @@ class WorkflowService
             $currentUser,
             $action,
             $actionTaken,
-            StatusHelper::sentBack(),
+            TaskStatus::sentBack(),
             $currentStep,
             $taskDetail->reference
         );

@@ -66,13 +66,13 @@ abstract class BarCodePrint implements IBarcodeGenerator
     /**
      * Render our Bar code
      *
-     * @param string $filepath || Customize folder name under public
      * @param string $text
      * @param string $size
      * @param string $orientation
      * @param string $code_type
      * @param string $print
      * @param string $sizeFactor
+     * @param array $fileData
      * @return mixed
      */
 
@@ -82,7 +82,5 @@ abstract class BarCodePrint implements IBarcodeGenerator
                                               $code_type,
                                               $print,
                                               $sizeFactor,
-                                              $filename,
-                                              $filepath,
-                                              $fileType);
+                                              array $fileData): mixed;
 }

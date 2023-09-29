@@ -1,6 +1,6 @@
 @php
     use App\Enums\RepairTypes;use App\Helpers\StatusHelper;
-    use Carbon\Carbon;
+    use App\Helpers\VehicleStatus;use Carbon\Carbon;
     use App\Enums\RequisitionItemTypes;
 @endphp
 @extends('layouts.app')
@@ -42,9 +42,9 @@
 @section('content')
 
     <x-content-header
-        :activeCrumb="'New Job Card'"
-        :linkText="'Job Card'"
-        :pageTitle="'Workshop Management'"/>
+            :activeCrumb="'New Job Card'"
+            :linkText="'Job Card'"
+            :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -131,7 +131,8 @@
     </section>
     <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
            id="incompleteOnBoarding"/>
-    <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop"/>
+    <input type="hidden" value="{{VehicleStatus::vehicleInWorkshop()}}" name="vehicleInWorkshop"
+           id="vehicleInWorkshop"/>
     <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
 
     <input type="hidden"
@@ -213,11 +214,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                    required
-                                                    id="acceptance"
-                                                    name="acceptance"
-                                                    type="checkbox"
-                                                    class="checkbox">
+                                                        required
+                                                        id="acceptance"
+                                                        name="acceptance"
+                                                        type="checkbox"
+                                                        class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -266,7 +267,7 @@
 @endsection
 @push('scripts')
     <script>
-        window.selectedAccessories = {!! json_encode($accessories_checked_in) !!};
+        window.selectedAccessories = {!! json_encode($accessoriesCheckedIn) !!};
         window.defects = {!! json_encode($defects) !!};
         window.materials = {!! json_encode($materials) !!};
         window.step_id = {!! $step !!};

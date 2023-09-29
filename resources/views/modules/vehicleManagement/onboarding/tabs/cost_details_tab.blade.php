@@ -9,8 +9,11 @@
 
     <x-error-view/>
     <div class="col-8">
-        <table aria-label="PO Header Display"
-                class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+        <table role="table" aria-label="PO Header Display"
+               class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+            <thead class="d-none">
+            <th scope="row"></th>
+            </thead>
             <tbody>
             <tr>
                 <td class="frappe-control ">
@@ -50,7 +53,6 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
-                                    {{--v-model="costingAndValuation.supplierName"--}}
                                     <select class="form-select form-control-sm view_mode"
                                             data-doctype="CostingDetails"
                                             data-value=""
@@ -84,7 +86,7 @@
                                             <select name="bookValueCurrency" class="form-select form-select-sm"
                                                     style="height: 2.6em; border-radius: 0;">
                                                 <option value="001">ZMW</option>
-                                               {{-- <option value="002">USD</option>--}}
+                                                {{-- <option value="002">USD</option>--}}
                                             </select>
                                         </div>
                                     </div>
@@ -219,7 +221,9 @@
                                         <div class="input-group-text">ZMW</div>
                                     </div>
                                     <input type="text"
-                                           class="input-with-feedback form-control form-control-sm bold number_input view_mode"
+                                           class="input-with-feedback
+                                           form-control form-control-sm bold
+                                           number_input view_mode"
                                            id="costOfLicense"
                                            data-a-sign="ZMW"
                                            name="costOfLicense"
@@ -282,13 +286,16 @@
             </tr>
             </tbody>
         </table>
-        <table v-if="documents && documents.purchase_order"
-               class="table align-middle table-row-dashed dataTable no-footer">
+        <table
+                role="table"
+                v-if="documents && documents.purchase_order"
+                class="table align-middle
+                table-row-dashed dataTable no-footer">
             <thead>
             <tr class="bg-dark">
-                <th>Document Type</th>
-                <th>File Name</th>
-                <th></th>
+                <th scope="row">Document Type</th>
+                <th scope="row">File Name</th>
+                <th scope="row"></th>
             </tr>
             </thead>
             <tr>

@@ -111,7 +111,8 @@ return [
      | Optionally, you can also send ServerTiming headers on ajax requests for the Chrome DevTools.
      |
      | Note for your request to be identified as ajax requests they must either send the header
-     | X-Requested-With with the value XMLHttpRequest (most JS libraries send this), or have application/json as a Accept header.
+     | X-Requested-With with the value XMLHttpRequest (most JS libraries send this),
+       or have application/json as a Accept header.
      */
 
     'capture_ajax' => true,
@@ -192,7 +193,8 @@ return [
             'backtrace'         => true,   // Use a backtrace to find the origin of the query in your files.
             'backtrace_exclude_paths' => [],   // Paths to exclude from backtrace. (in addition to defaults)
             'timeline'          => false,  // Add the queries to the timeline
-            'duration_background'  => true,   // Show shaded background on each query relative to how long it took to execute.
+            'duration_background'  => true,   // Show shaded background on each query
+                                             // relative to how long it took to execute.
             'explain' => [                 // Show EXPLAIN output on queries
                 'enabled' => false,
                 'types' => ['SELECT'],     // Deprecated setting, is always only SELECT

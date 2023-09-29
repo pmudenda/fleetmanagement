@@ -13,6 +13,9 @@
             <table aria-label="Engine Details"
                    role="presentation"
                    class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+                <thead class="d-none">
+                <th scope="row"></th>
+                </thead>
                 <tbody>
                 <tr>
                     <td class="frappe-control ">

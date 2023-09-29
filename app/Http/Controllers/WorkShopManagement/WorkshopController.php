@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\WorkShopManagement;
 
+use App\Constants\QueryComparisonOperator;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
 use App\Enums\Modules;
@@ -49,12 +50,23 @@ class WorkshopController extends Controller
     {
         if ($staff_no) {
             return DB::table('GEN_MATERIAL_HEADERS')
-                ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-                ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
-                //->leftJoin('WM_JOB_CARD_HEADER', 'GEN_MATERIAL_HEADERS.REQ_NO', '=', 'WM_JOB_CARD_HEADER.REQ_NO')
-                ->where('GEN_MATERIAL_HEADERS.requested_by', '=', $staff_no)
-                ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'N')
-                ->where('CONFIG_STATUSES.MODULE', '=',
+                ->leftJoin('CONFIG_STATUSES',
+                    'GEN_MATERIAL_HEADERS.status',
+                    QueryComparisonOperator::EQUALS,
+                    'CONFIG_STATUSES.code')
+                ->leftJoin('SEC_USERS',
+                    'GEN_MATERIAL_HEADERS.requested_by',
+                    QueryComparisonOperator::EQUALS,
+                    'SEC_USERS.staff_no')
+                ->where(
+                    'GEN_MATERIAL_HEADERS.requested_by',
+                    QueryComparisonOperator::EQUALS,
+                    $staff_no)
+                ->where('GEN_MATERIAL_HEADERS.IS_FUEL',
+                    QueryComparisonOperator::EQUALS,
+                    'N')
+                ->where('CONFIG_STATUSES.MODULE',
+                    QueryComparisonOperator::EQUALS,
                     Modules::MATERIAL->value)
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
@@ -64,11 +76,21 @@ class WorkshopController extends Controller
                 ->get();
         } else {
             return DB::table('GEN_MATERIAL_HEADERS')
-                ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-                ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
-                //->leftJoin('WM_JOB_CARD_HEADER', 'GEN_MATERIAL_HEADERS.REQ_NO', '=', 'WM_JOB_CARD_HEADER.REQ_NO')
-                ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'N')
-                ->where('CONFIG_STATUSES.MODULE', '=', Modules::MATERIAL->value)
+                ->leftJoin('CONFIG_STATUSES',
+                    'GEN_MATERIAL_HEADERS.status',
+                    QueryComparisonOperator::EQUALS,
+                    'CONFIG_STATUSES.code')
+                ->leftJoin('SEC_USERS',
+                    'GEN_MATERIAL_HEADERS.requested_by',
+                    QueryComparisonOperator::EQUALS,
+                    'SEC_USERS.staff_no')
+                ->where(
+                    'GEN_MATERIAL_HEADERS.IS_FUEL',
+                    QueryComparisonOperator::EQUALS,
+                    'N')
+                ->where('CONFIG_STATUSES.MODULE',
+                    QueryComparisonOperator::EQUALS,
+                    Modules::MATERIAL->value)
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
                     'SEC_USERS.name as originator',
@@ -81,25 +103,30 @@ class WorkshopController extends Controller
 
     public function requisitions(): View|Application
     {
-        $staff_no = auth()->user()->staff_no;
-
-        $requisitions = self::getMyRequisitions(null, 'N');
+        $requisitions = self::getMyRequisitions(
+            auth()->user()->staff_no,
+            'N'
+        );
 
         $requisition_type = "WORKSHOP";
         return view("modules.workshopManagement.list")
-            ->with(compact('requisitions',
-                'requisition_type'));
+            ->with(
+                compact(
+                    'requisitions',
+                    'requisition_type'
+                )
+            );
     }
 
     public function sections(): View
     {
         $type = ConfigurationTypes::WORK_SHOP_SECTION->value;
-        $workshop_sections = GeneralTable::where(Constants::TYPE_KEY, $type)->get();
+        $workshopSections = GeneralTable::where(Constants::TYPE_KEY, $type)->get();
 
         return view('modules.configurations.generalTables.index')->with(
             [
                 'title' => "Workshop Sections",
-                'entries' => $workshop_sections,
+                'entries' => $workshopSections,
                 'type' => $type,
                 'statusList' => []
             ]);
@@ -118,7 +145,9 @@ class WorkshopController extends Controller
 
     public function getActiveWorkShopSections(): JsonResponse
     {
-        $workshopsList = GeneralTable::where('type', '=', ConfigurationTypes::WORK_SHOP_SECTION->value)
+        $workshopsList = GeneralTable::where('type',
+            QueryComparisonOperator::EQUALS,
+            ConfigurationTypes::WORK_SHOP_SECTION->value)
             ->where('active', 1)
             ->get();
 

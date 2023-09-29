@@ -1,5 +1,5 @@
 @php
-    use App\Enums\RepairTypes;use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use Carbon\Carbon;
+    use App\Enums\RepairTypes;use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use App\Helpers\VehicleStatus;use Carbon\Carbon;
 
 @endphp
 @extends('layouts.app')
@@ -41,9 +41,9 @@
 @section('content')
 
     <x-content-header
-        :activeCrumb="'New Reservation'"
-        :linkText="'Booking'"
-        :pageTitle="'New Reservation'"/>
+            :activeCrumb="'New Reservation'"
+            :linkText="'Booking'"
+            :pageTitle="'New Reservation'"/>
 
     <section class="content">
         <div class="card">
@@ -86,7 +86,7 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required">
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required">
                                                     @if(
                                                     RequisitionItemTypes::STOCK_ITEM_CODE
                                                     ==$materialsHeader->item_type_code
@@ -114,47 +114,47 @@
                                                name="materialHeaderId">
                                         <div class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                for="staff_no">
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                    for="staff_no">
                                                 Item Type:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                 @if(!empty($materialsHeader))
                                                     <select
-                                                        data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                        readonly="readonly"
-                                                        class="form-select form-select-sm"
-                                                        name="itemType"
-                                                        id="itemType">
+                                                            data-value="{{$materialsHeader->item_type_code ?? ''}}"
+                                                            readonly="readonly"
+                                                            class="form-select form-select-sm"
+                                                            name="itemType"
+                                                            id="itemType">
                                                         <option></option>
                                                         <option
-                                                            @if(
-                                                            $materialsHeader->item_type_code
-                                                            == RequisitionItemTypes::STOCK_ITEM_CODE
-                                                            ) selected
-                                                            @endif value="01">STOCK ITEM
+                                                                @if(
+                                                                $materialsHeader->item_type_code
+                                                                == RequisitionItemTypes::STOCK_ITEM_CODE
+                                                                ) selected
+                                                                @endif value="01">STOCK ITEM
                                                         </option>
                                                         <option
-                                                            @if(
-                                                            $materialsHeader->item_type_code
-                                                            == RequisitionItemTypes::NON_STOCK_ITEM_CODE
-                                                            ) selected
-                                                            @endif value="02">NON STOCK ITEM
+                                                                @if(
+                                                                $materialsHeader->item_type_code
+                                                                == RequisitionItemTypes::NON_STOCK_ITEM_CODE
+                                                                ) selected
+                                                                @endif value="02">NON STOCK ITEM
                                                         </option>
                                                         <option
-                                                            @if(
-                                                            $materialsHeader->item_type_code ==
-                                                            RequisitionItemTypes::SERVICE_ITEM_CODE
-                                                            ) selected
-                                                            @endif value="03">SERVICE
+                                                                @if(
+                                                                $materialsHeader->item_type_code ==
+                                                                RequisitionItemTypes::SERVICE_ITEM_CODE
+                                                                ) selected
+                                                                @endif value="03">SERVICE
                                                         </option>
                                                     </select>
                                                 @else
                                                     <select
-                                                        required
-                                                        class="form-select form-select-sm"
-                                                        name="itemType"
-                                                        id="itemType">
+                                                            required
+                                                            class="form-select form-select-sm"
+                                                            name="itemType"
+                                                            id="itemType">
                                                         <option></option>
                                                         <option value="{{RequisitionItemTypes::STOCK_ITEM_CODE}}">STOCK
                                                             ITEM
@@ -182,17 +182,17 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6
+                                                    class="col-xs-12 col-sm-6
                                                     col-md-5 col-lg-4 app-field-label field-required"
-                                                for="staff_no">Purchase Office:
+                                                    for="staff_no">Purchase Office:
                                             </label>
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <select
-                                                    data-value=""
-                                                    required
-                                                    class="form-select form-select-sm"
-                                                    name="purchase_office"
-                                                    id="purchase_office">
+                                                        data-value=""
+                                                        required
+                                                        class="form-select form-select-sm"
+                                                        name="purchase_office"
+                                                        id="purchase_office">
                                                     <option value="{{$officeDetails->purchase_office_code ?? ''}}">
                                                         {{$officeDetails->purchase_office ?? ''}}
                                                     </option>
@@ -210,7 +210,7 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <div
-                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                 <div class="control-input">
                                                     <div class="link-field ui-front"
                                                          style="position: relative;">
@@ -223,12 +223,12 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                 <select
-                                                    data-value="{{$details->workshop_code ?? ''}}"
-                                                    required
-                                                    class="form-select form-select-sm"
-                                                    name="workshop_code"
-                                                    autocomplete="off"
-                                                    id="workshop">
+                                                        data-value="{{$details->workshop_code ?? ''}}"
+                                                        required
+                                                        class="form-select form-select-sm"
+                                                        name="workshop_code"
+                                                        autocomplete="off"
+                                                        id="workshop">
                                                 </select>
                                             </div>
                                         </div>
@@ -242,8 +242,8 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                for="job_card_no">
+                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                    for="job_card_no">
                                                 Request Date:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -279,7 +279,7 @@
 
                                         <div id="supplierContainer" style="display: none;" class="form-group row">
                                             <div
-                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                 <div class="control-input">
                                                     <div class="link-field ui-front"
                                                          style="position: relative;">
@@ -291,19 +291,19 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                 <select
-                                                    data-value="{{$materialsHeader->supplier_code ?? ''}}"
-                                                    class="form-select form-select-sm"
-                                                    name="supplier"
-                                                    autocomplete="off"
-                                                    id="supplier">
+                                                        data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                                        class="form-select form-select-sm"
+                                                        name="supplier"
+                                                        autocomplete="off"
+                                                        id="supplier">
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div id="storeContainer" style="display: none;" class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                for="staff_name">
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                    for="staff_name">
                                                 Store:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -331,9 +331,9 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                class="col-xs-12 col-sm-6 col-md-5
+                                                    class="col-xs-12 col-sm-6 col-md-5
                                                     col-lg-4 app-field-label field-required"
-                                                for="staff_no">Servicing Date:
+                                                    for="staff_no">Servicing Date:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                 @if($materialsHeader)
@@ -416,7 +416,7 @@
                value="{{StatusHelper::onboardingComplete()}}">
         <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
                id="incompleteOnBoarding"/>
-        <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop"
+        <input type="hidden" value="{{VehicleStatus::vehicleInWorkshop()}}" name="vehicleInWorkshop"
                id="vehicleInWorkshop"/>
         <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
 

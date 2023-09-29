@@ -3,7 +3,10 @@
 namespace App\Services\BarCodes;
 
 
+use App\Exceptions\InvalidDataTypeException;
+use App\Exceptions\InvalidFileTypeException;
 use App\Interfaces\BarCodePrint;
+use GdImage;
 
 class BarcodeGenerationService extends BarCodePrint
 {
@@ -114,6 +117,16 @@ class BarcodeGenerationService extends BarCodePrint
     const STOP = "2331112";
     const FNC_1 = "411131";
     const CODE_C = "113141";
+    const START_B1 = "Start B";
+    const START_C1 = "Start C";
+    const CODE_C1 = "CODE C";
+    const START_A1 = "Start A";
+    const FNC_11 = "FNC 1";
+    const FNC_41 = "FNC 4";
+    const FNC_21 = "FNC 2";
+    const FNC_3 = "FNC 3";
+    const JPEG = '.jpeg';
+    const STORAGE = 'storage/';
     protected $fileType;
     /**
      * Image file path
@@ -146,37 +159,37 @@ class BarcodeGenerationService extends BarCodePrint
     /**
      * Bar code type
      *
-     * @var string
+     * @var string|array
      */
-    protected $code_type = [];
+    protected string|array $codeType = [];
 
     /**
      * Bar code print [true || false]
      *
      * @var string
      */
-    protected $print;
+    protected string $print;
 
     /**
      * Bar code sizefactor
      *
      * @var string
      */
-    protected $sizefactor;
+    protected string $sizefactor;
 
     /**
      * Bar code string
      *
      * @var string
      */
-    protected $code_string;
+    protected string $codeString;
 
     /**
      * Bar code file name
      *
      * @var string
      */
-    protected $filename;
+    protected string $filename;
 
 
     /**
@@ -189,18 +202,17 @@ class BarcodeGenerationService extends BarCodePrint
 
     /**
      * Translate the $text into barcode the correct code_type like code128
+     * @throws InvalidDataTypeException
      */
 
-    public function code128()
+    public function code128(): string
     {
 
-        if (!is_string($this->code_type)) {
-
-            throw new \RuntimeException("Code type {$this->code_type} must be string");
-
+        if (!is_string($this->codeType)) {
+            throw new InvalidDataTypeException("Code type {$this->codeType} must be string");
         }
 
-        if (strtolower($this->code_type) == "code128") {
+        if (strtolower($this->codeType) == "code128") {
             $chksum = 104;
 
             // Must not change order of array elements as the checksum depends on the array's key to validate final code
@@ -301,16 +313,16 @@ class BarcodeGenerationService extends BarCodePrint
                 "}" => self::RIGHT_CURLY_BRACE,
                 "~" => self::TILDA,
                 "DEL" => self::DEL,
-                "FNC 3" => self::FNC,
-                "FNC 2" => self::FNC_2,
+                self::FNC_3 => self::FNC,
+                self::FNC_21 => self::FNC_2,
                 "SHIFT" => self::SHIFT,
-                "CODE C" => self::CODE_C,
-                "FNC 4" => self::FNC_4,
+                self::CODE_C1 => self::CODE_C,
+                self::FNC_41 => self::FNC_4,
                 "CODE A" => self::CODE_A,
-                "FNC 1" => self::FNC_1,
-                "Start A" => self::START_A,
-                "Start B" => self::START_B,
-                "Start C" => self::START_C,
+                self::FNC_11 => self::FNC_1,
+                self::START_A1 => self::START_A,
+                self::START_B1 => self::START_B,
+                self::START_C1 => self::START_C,
                 "Stop" => self::STOP
             );
 
@@ -318,48 +330,53 @@ class BarcodeGenerationService extends BarCodePrint
 
             $code_values = array_flip($code_keys);
 
-            for ($X = 1; $X <= strlen($this->text); $X++) {
+            for ($x = 1; $x <= strlen($this->text); $x++) {
 
-                $activeKey = substr($this->text, ($X - 1), 1);
+                $activeKey = substr($this->text, ($x - 1), 1);
 
-                $this->code_string .= $code_array[$activeKey];
+                $this->codeString .= $code_array[$activeKey];
 
-                $chksum = ($chksum + ($code_values[$activeKey] * $X));
+                $chksum = ($chksum + ($code_values[$activeKey] * $x));
 
             }
 
-            $this->code_string .= $code_array[$code_keys[($chksum - (intval($chksum / 103) * 103))]];
+            $this->codeString .= $code_array[$code_keys[($chksum - (intval($chksum / 103) * 103))]];
 
-            $this->code_string = self::START_B . $this->code_string . self::STOP;
+            $this->codeString = self::START_B . $this->codeString . self::STOP;
 
-            return $this->code_string;
+            return $this->codeString;
 
         }
 
-        throw new \RuntimeException("Invalid {$this->code_type} type");
+        throw new InvalidDataTypeException("Invalid {$this->codeType} type");
     }
 
     /**
      * Translate the $text into barcode the correct code_type like code128b
+     * @throws InvalidDataTypeException
      */
 
-    public function code128b()
+    public function code128b(): string
     {
 
-        if (!is_string($this->code_type)) {
+        if (!is_string($this->codeType)) {
 
-            throw new \RuntimeException("Code type {$this->code_type} must be string");
+            throw new InvalidDataTypeException("Code type {$this->codeType} must be string");
 
         }
 
-        if (strtolower($this->code_type) == "code128b") {
+        if (strtolower($this->codeType) == "code128b") {
 
             $chksum = 104;
 
             // Must not change order of array elements as the checksum depends on the array's key to validate final code
-            $codesArray = array(" " => self::SPACE, "!" => self::EXCLAIMATION, "\"" => self::BACK_SLASH, "#" => self::HASH,
-                "$" => self::DOLLAR_SIGN, "%" => self::PERCENTAGE, "&" => self::AMPERSAND, "'" => self::SINGLE_QUOTE,
-                "(" => self::OPENNING_BRACE, ")" => self::CLOSING_BRACE, "*" => self::ASTERIX, "+" => self::PLUS,
+            $codesArray = array(" " => self::SPACE,
+                "!" => self::EXCLAIMATION,
+                "\"" => self::BACK_SLASH, "#" => self::HASH,
+                "$" => self::DOLLAR_SIGN, "%" => self::PERCENTAGE,
+                "&" => self::AMPERSAND, "'" => self::SINGLE_QUOTE,
+                "(" => self::OPENNING_BRACE, ")" => self::CLOSING_BRACE,
+                "*" => self::ASTERIX, "+" => self::PLUS,
                 "," => self::COMMA, "-" => self::HYPHEN, "." => self::PERIOD, "/" => self::FORWARD_SLASH,
                 "0" => self::ZERO, "1" => self::ONE, "2" => self::TWO, "3" => self::THREE,
                 "4" => self::FOUR, "5" => self::FIVE, "6" => self::SIX, "7" => self::SEVEN,
@@ -373,7 +390,9 @@ class BarcodeGenerationService extends BarCodePrint
                 "T" => self::T, "U" => self::U, "V" => self::V, "W" => self::UPPER_W,
                 "character" => self::UPPER_X, "Y" => self::UPPER_Y,
                 "Z" => self::UPPER_Z, "[" => self::LEFT_SQUARE_BRACKET,
-                "\\" => self::DOUBLE_BACK_SLASH, "]" => self::RIGHT_SQUARE_BRACKET, "^" => self::EXPONENTION, "_" => self::UNDER_SCORE,
+                "\\" => self::DOUBLE_BACK_SLASH,
+                "]" => self::RIGHT_SQUARE_BRACKET, "^" => self::EXPONENTION,
+                "_" => self::UNDER_SCORE,
                 "\`" => self::APOSTROPHE, "a" => self::LOWER_A, "b" => self::LOWER_B, "c" => self::LOWER_C,
                 "d" => self::LOWER_D, "e" => self::LOWER_E, "f" => self::LOWER_F, "g" => self::LOWER_G,
                 "h" => self::LOWER_H, "i" => self::LOWER_I, "j" => self::LOWER_J, "k" => self::LOWER_K,
@@ -381,11 +400,15 @@ class BarcodeGenerationService extends BarCodePrint
                 "p" => self::LOWEP, "q" => self::LOWER_Q, "r" => self::LOWER_R, "s" => self::LOWER_S,
                 "t" => self::LOWER_T, "u" => self::LOWER_U, "v" => self::LOWER_V, "w" => self::LOWER_W,
                 "x" => self::LOWER_X, "y" => self::LOWER_Y, "z" => self::LOWER_Z, "{" => self::LEFT_CURLY_BRACE,
-                "|" => self::PIPE, "}" => self::RIGHT_CURLY_BRACE, "~" => self::TILDA, "DEL" => self::DEL,
-                "FNC 3" => self::FNC, "FNC 2" => self::FNC_2, "SHIFT" => self::SHIFT,
-                "CODE C" => self::CODE_C, "FNC 4" => self::FNC_4, "CODE A" => self::CODE_A,
-                "FNC 1" => self::FNC_1, "Start A" => self::START_A, "Start B" => self::START_B,
-                "Start C" => self::START_C, "Stop" => self::STOP
+                "|" => self::PIPE, "}" => self::RIGHT_CURLY_BRACE,
+                "~" => self::TILDA, "DEL" => self::DEL,
+                self::FNC_3 => self::FNC, self::FNC_21 => self::FNC_2,
+                "SHIFT" => self::SHIFT,
+                self::CODE_C1 => self::CODE_C, self::FNC_41 => self::FNC_4,
+                "CODE A" => self::CODE_A,
+                self::FNC_11 => self::FNC_1,
+                self::START_A1 => self::START_A, self::START_B1 => self::START_B,
+                self::START_C1 => self::START_C, "Stop" => self::STOP
             );
 
             $codeKeys = array_keys($codesArray);
@@ -396,45 +419,48 @@ class BarcodeGenerationService extends BarCodePrint
 
                 $activeKey = substr($this->text, ($character - 1), 1);
 
-                $this->code_string .= $codesArray[$activeKey];
+                $this->codeString .= $codesArray[$activeKey];
 
                 $chksum = ($chksum + ($codeValues[$activeKey] * $character));
 
             }
 
-            $this->code_string .= $codesArray[$codeKeys[($chksum - (intval($chksum / 103) * 103))]];
+            $this->codeString .= $codesArray[$codeKeys[($chksum - (intval($chksum / 103) * 103))]];
 
-            $this->code_string = self::START_B . $this->code_string . self::STOP;
+            $this->codeString = self::START_B . $this->codeString . self::STOP;
 
-            return $this->code_string;
+            return $this->codeString;
         }
 
-        throw new \RuntimeException("Invalid {$this->code_type} type");
+        throw new InvalidDataTypeException("Invalid {$this->codeType} type");
     }
 
     /**
      * Translate the $text into barcode the correct code_type like code128a
+     * @throws InvalidFileTypeException
+     * @throws InvalidDataTypeException
      */
 
-    public function code128a()
+    public function code128a(): string
     {
 
-        if (!is_string($this->code_type)) {
-
-            throw new \RuntimeException("Code type {$this->code_type} must be string");
-
+        if (!is_string($this->codeType)) {
+            throw new InvalidDataTypeException("Code type {$this->codeType} must be string");
         }
 
-        if (strtolower($this->code_type) == "code128a") {
+        if (strtolower($this->codeType) == "code128a") {
 
             $chksum = 103;
 
             // Code 128A doesn't support lower case
-            $text = strtoupper($this->text);
+            // $text = strtoupper($this->text);
 
             // Must not change order of array elements as the checksum depends on the array's key to validate final code
-            $code_array = array(" " => self::SPACE, "!" => self::EXCLAIMATION, "\"" => self::BACK_SLASH, "#" => self::HASH,
-                "$" => self::DOLLAR_SIGN, "%" => self::PERCENTAGE, "&" => self::AMPERSAND, "'" => self::SINGLE_QUOTE,
+            $code_array = array(
+                " " => self::SPACE, "!" => self::EXCLAIMATION,
+                "\"" => self::BACK_SLASH, "#" => self::HASH,
+                "$" => self::DOLLAR_SIGN, "%" => self::PERCENTAGE,
+                "&" => self::AMPERSAND, "'" => self::SINGLE_QUOTE,
                 "(" => self::OPENNING_BRACE, ")" => self::CLOSING_BRACE, "*" => self::ASTERIX, "+" => self::PLUS,
                 "," => self::COMMA, "-" => self::HYPHEN, "." => self::PERIOD, "/" => self::FORWARD_SLASH,
                 "0" => self::ZERO, "1" => self::ONE, "2" => self::TWO, "3" => self::THREE,
@@ -447,56 +473,69 @@ class BarcodeGenerationService extends BarCodePrint
                 "L" => self::UPPER_L, "M" => self::UPPER_M, "N" => self::UPPER_N, "O" => self::UPPER_O,
                 "P" => self::UPPER_P, "Q" => self::Q, "R" => self::R, "S" => self::S,
                 "T" => self::T, "U" => self::U, "V" => self::V, "W" => self::UPPER_W,
-                "X" => self::UPPER_X, "Y" => self::UPPER_Y, "Z" => self::UPPER_Z, "[" => self::LEFT_SQUARE_BRACKET,
-                "\\" => self::DOUBLE_BACK_SLASH, "]" => self::RIGHT_SQUARE_BRACKET, "^" => self::EXPONENTION, "_" => self::UNDER_SCORE,
-                "NUL" => self::APOSTROPHE, "SOH" => self::LOWER_A, "STX" => self::LOWER_B, "ETX" => self::LOWER_C,
-                "EOT" => self::LOWER_D, "ENQ" => self::LOWER_E, "ACK" => self::LOWER_F, "BEL" => self::LOWER_G,
+                "X" => self::UPPER_X, "Y" => self::UPPER_Y,
+                "Z" => self::UPPER_Z, "[" => self::LEFT_SQUARE_BRACKET,
+                "\\" => self::DOUBLE_BACK_SLASH,
+                "]" => self::RIGHT_SQUARE_BRACKET,
+                "^" => self::EXPONENTION, "_" => self::UNDER_SCORE,
+                "NUL" => self::APOSTROPHE, "SOH" => self::LOWER_A,
+                "STX" => self::LOWER_B, "ETX" => self::LOWER_C,
+                "EOT" => self::LOWER_D, "ENQ" => self::LOWER_E,
+                "ACK" => self::LOWER_F, "BEL" => self::LOWER_G,
                 "BS" => self::LOWER_H, "HT" => self::LOWER_I, "LF" => self::LOWER_J, "VT" => self::LOWER_K,
                 "FF" => self::LOWER_L, "CR" => self::LOWER_M, "SO" => self::LOWER_N, "SI" => self::LOWER_O,
                 "DLE" => self::LOWEP, "DC1" => self::LOWER_Q, "DC2" => self::LOWER_R, "DC3" => self::LOWER_S,
                 "DC4" => self::LOWER_T, "NAK" => self::LOWER_U, "SYN" => self::LOWER_V, "ETB" => self::LOWER_W,
                 "CAN" => self::LOWER_X, "EM" => self::LOWER_Y, "SUB" => self::LOWER_Z, "ESC" => self::LEFT_CURLY_BRACE,
                 "FS" => self::PIPE, "GS" => self::RIGHT_CURLY_BRACE, "RS" => self::TILDA, "US" => self::DEL,
-                "FNC 3" => self::FNC, "FNC 2" => self::FNC_2, "SHIFT" => self::SHIFT, "CODE C" => self::CODE_C,
-                "CODE B" => self::FNC_4, "FNC 4" => self::CODE_A, "FNC 1" => self::FNC_1, "Start A" => self::START_A,
-                "Start B" => self::START_B, "Start C" => self::START_C, "Stop" => self::STOP
+                self::FNC_3 => self::FNC,
+                self::FNC_21 => self::FNC_2,
+                "SHIFT" => self::SHIFT, self::CODE_C1 => self::CODE_C,
+                "CODE B" => self::FNC_4,
+                self::FNC_41 => self::CODE_A,
+                self::FNC_11 => self::FNC_1, self::START_A1 => self::START_A,
+                self::START_B1 => self::START_B,
+                self::START_C1 => self::START_C, "Stop" => self::STOP
             );
             $code_keys = array_keys($code_array);
 
             $code_values = array_flip($code_keys);
 
-            for ($X = 1; $X <= strlen($this->text); $X++) {
+            for ($x = 1; $x <= strlen($this->text); $x++) {
 
-                $activeKey = substr($this->text, ($X - 1), 1);
+                $activeKey = substr($this->text, ($x - 1), 1);
 
-                $this->code_string .= $code_array[$activeKey];
+                $this->codeString .= $code_array[$activeKey];
 
-                $chksum = ($chksum + ($code_values[$activeKey] * $X));
+                $chksum = ($chksum + ($code_values[$activeKey] * $x));
 
             }
 
-            $this->code_string .= $code_array[$code_keys[($chksum - (intval($chksum / 103) * 103))]];
+            $this->codeString .= $code_array[$code_keys[($chksum - (intval($chksum / 103) * 103))]];
 
-            $this->code_string = self::START_A . $this->code_string . self::STOP;
+            $this->codeString = self::START_A . $this->codeString . self::STOP;
 
-            return $this->code_string;
+            return $this->codeString;
         }
 
-        throw new \RuntimeException("Invalid {$this->code_type} type");
+        throw new InvalidFileTypeException("Invalid {$this->codeType} type");
     }
 
     /**
      * Translate the $text into barcode the correct code_type like code39
+     * @throws InvalidDataTypeException
+     * @throws InvalidFileTypeException
      */
 
-    public function code39()
+    public function code39(): string
     {
 
-        if (!is_string($this->code_type)) {
-            throw new \RuntimeException("Code type {$this->code_type} must be string");
+        if (!is_string($this->codeType)) {
+            throw new InvalidDataTypeException("Code type {
+            $this->codeType} must be string");
         }
 
-        if (strtolower($this->code_type) == "code39") {
+        if (strtolower($this->codeType) == "code39") {
 
             $code_array = array("0" => "111221211", "1" => "211211112", "2" => "112211112",
                 "3" => "212211111", "4" => "111221112", "5" => "211221111",
@@ -517,34 +556,35 @@ class BarcodeGenerationService extends BarCodePrint
             // Convert to uppercase
             $upper_text = strtoupper($this->text);
 
-            for ($X = 1; $X <= strlen($upper_text); $X++) {
+            for ($x = 1; $x <= strlen($upper_text); $x++) {
 
-                $this->code_string .= $code_array[substr($upper_text, ($X - 1), 1)] . "1";
+                $this->codeString .= $code_array[substr($upper_text, ($x - 1), 1)] . "1";
 
             }
 
-            $this->code_string = "1211212111" . $this->code_string . "121121211";
+            $this->codeString = "1211212111" . $this->codeString . "121121211";
 
-            return $this->code_string;
+            return $this->codeString;
         }
 
-        throw new \RuntimeException("Invalid {$this->code_type} type");
+        throw new InvalidFileTypeException("Invalid {$this->codeType} type");
     }
 
     /**
      * Translate the $text into barcode the correct code_type like code25
+     * @throws InvalidDataTypeException
+     * @throws InvalidFileTypeException
      */
 
-    public function code25()
+    public function code25(): string
     {
 
-        if (!is_string($this->code_type)) {
-
-            throw new \RuntimeException("Code type {$this->code_type} must be string");
-
+        if (!is_string($this->codeType)) {
+            throw new InvalidDataTypeException(
+                "Code type {$this->codeType} must be string");
         }
 
-        if (strtolower($this->code_type) == "code25") {
+        if (strtolower($this->codeType) == "code25") {
 
             $code_array1 = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
 
@@ -554,57 +594,33 @@ class BarcodeGenerationService extends BarCodePrint
                 "1-1-3-3-1"
             );
 
-            for ($characterPosition = 1; $characterPosition <= strlen($this->text); $characterPosition++) {
-
-                for ($Y = 0; $Y < count($code_array1); $Y++) {
-
-                    if (substr($this->text, ($characterPosition - 1), 1) == $code_array1[$Y]) {
-                        $temp[$characterPosition] = $code_array2[$Y];
-                    }
-
-                }
-            }
-            for ($characterPosition = 1; $characterPosition <= strlen($this->text); $characterPosition += 2) {
-
-                if (isset($temp[$characterPosition]) && isset($temp[($characterPosition + 1)])) {
-
-                    $temp1 = explode("-", $temp[$characterPosition]);
-
-                    $temp2 = explode("-", $temp[($characterPosition + 1)]);
-
-                    for ($Y = 0; $Y < count($temp1); $Y++)
-
-                        $this->code_string .= $temp1[$Y] . $temp2[$Y];
-
-                }
-            }
-
-            $this->code_string = "1111" . $this->code_string . "311";
-
-            return $this->code_string;
+            return $this->generateCode25Code($code_array1, $code_array2);
         }
 
-        throw new \RuntimeException("Invalid {$this->code_type} type");
+        throw new InvalidFileTypeException("Invalid {$this->codeType} type");
 
     }
 
 
     /**
      * Translate the $text into barcode the correct code_type like codabar
+     * @throws InvalidDataTypeException
+     * @throws InvalidFileTypeException
      */
 
-    public function codabar()
+    public function codabar(): string
     {
-        //return $this->text;
-        if (!is_string($this->code_type)) {
+        if (!is_string($this->codeType)) {
 
-            throw new \RuntimeException("Code type {$this->code_type} must be string");
+            throw new InvalidDataTypeException("Code type {
+            $this->codeType} must be string");
 
         }
 
-        if (strtolower($this->code_type) == "codabar") {
+        if (strtolower($this->codeType) == "codabar") {
 
-            $code_array1 = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "$", ":", "/", ".", "+", "A", "B", "C", "D");
+            $code_array1 = array("1", "2", "3", "4", "5", "6", "7", "8", "9",
+                "0", "-", "$", ":", "/", ".", "+", "A", "B", "C", "D");
 
             $code_array2 = array("1111221", "1112112", "2211111", "1121121",
                 "2111121", "1211112", "1211211", "1221111",
@@ -616,35 +632,38 @@ class BarcodeGenerationService extends BarCodePrint
             // Convert to uppercase
             $upper_text = strtoupper($this->text);
 
-            for ($X = 1; $X <= strlen($upper_text); $X++) {
+            for ($x = 1; $x <= strlen($upper_text); $x++) {
 
-                for ($Y = 0; $Y < count($code_array1); $Y++) {
+                for ($character = 0; $character < count($code_array1); $character++) {
 
-                    if (substr($upper_text, ($X - 1), 1) == $code_array1[$Y]) {
-                        $this->code_string .= $code_array2[$Y] . "1";
+                    if (substr($upper_text, ($character - 1), 1)
+                        == $code_array1[$character]) {
+                        $this->codeString .= $code_array2[$character] . "1";
                     }
                 }
             }
 
-            $this->code_string = "11221211" . $this->code_string . "1122121";
+            $this->codeString = "11221211" . $this->codeString . "1122121";
 
-            return $this->code_string;
+            return $this->codeString;
 
         }
 
-        throw new \RuntimeException("Invalid {$this->code_type} type");
+        throw new InvalidFileTypeException("Invalid {$this->codeType} type");
     }
 
     /**
      * Process bar code type factory
      *
+     * @throws InvalidDataTypeException
+     * @throws InvalidFileTypeException
      */
 
-    protected function generateBarcode()
+    protected function generateBarcode(): void
     {
 
         // Pad the edges of the barcode
-        switch ($this->code_type) {
+        switch ($this->codeType) {
             case "code128":
                 $this->code128();
                 break;
@@ -681,30 +700,34 @@ class BarcodeGenerationService extends BarCodePrint
      *
      */
 
-    protected function createImage()
+    protected function createImage(): void
     {
         /**
          * filepath = Customize folder name under public
          */
         if (empty($this->filepath)) {
             // Draw barcode to the screen or save in a file
-            if ($this->fileType === '.jpeg') {
+            if ($this->fileType === self::JPEG) {
                 header('Content-Type: image/jpeg');
-                imagejpeg($this->prepareImage(), public_path('storage' . "/" . $this->filename));
+                imagejpeg($this->prepareImage(),
+                    public_path('storage' . "/" . $this->filename));
             } else {
-                imagepng($this->prepareImage(), public_path('storage' . "/" . $this->filename));
+                imagepng($this->prepareImage(),
+                    public_path('storage' . "/" . $this->filename));
             }
 
         } else {
-            if (!file_exists(public_path('storage/' . $this->filepath))) {
-                mkdir(public_path('storage/' . $this->filepath));
+            if (!file_exists(public_path(self::STORAGE . $this->filepath))) {
+                mkdir(public_path(self::STORAGE . $this->filepath));
             }
 
-            if ($this->fileType === '.jpeg') {
+            if ($this->fileType === self::JPEG) {
                 //Storage::disk('local')->put(public_path() )
-                imagejpeg($this->prepareImage(), public_path('storage/' . $this->filepath . "/" . $this->filename));
+                imagejpeg($this->prepareImage(),
+                    public_path(self::STORAGE . $this->filepath . "/" . $this->filename));
             } else {
-                imagepng($this->prepareImage(), public_path('storage/' . $this->filepath . "/" . $this->filename));
+                imagepng($this->prepareImage(),
+                    public_path(self::STORAGE . $this->filepath . "/" . $this->filename));
             }
         }
 
@@ -717,7 +740,7 @@ class BarcodeGenerationService extends BarCodePrint
      * @return image resource
      */
 
-    protected function prepareImage()
+    protected function prepareImage(): image
     {
         $code_length = 20;
 
@@ -731,9 +754,10 @@ class BarcodeGenerationService extends BarCodePrint
 
         }
 
-        for ($i = 1; $i <= strlen($this->code_string); $i++) {
+        for ($i = 1; $i <= strlen($this->codeString); $i++) {
 
-            $code_length = $code_length + (integer)(substr($this->code_string, ($i - 1), 1));
+            $code_length = $code_length
+                + (integer)(substr($this->codeString, ($i - 1), 1));
 
         }
 
@@ -751,67 +775,29 @@ class BarcodeGenerationService extends BarCodePrint
 
         }
 
-        $image = imagecreate($img_width, $img_height + $text_height);
-
-        $black = imagecolorallocate($image, 0, 0, 0);
-
-        $white = imagecolorallocate($image, 255, 255, 255);
-
-        imagefill($image, 0, 0, $white);
-
-        if ($this->print) {
-
-            imagestring($image, 5, 31, $img_height, "Reg No. " . $this->text, $black);
-
-        }
-
-        $location = 10;
-
-        for ($position = 1; $position <= strlen($this->code_string); $position++) {
-
-            $cur_size = $location + (substr($this->code_string, ($position - 1), 1));
-
-            if (strtolower($this->orientation) == "horizontal") {
-
-                imagefilledrectangle($image, $location * $this->sizefactor, 0, $cur_size * $this->sizefactor, $img_height, ($position % 2 == 0 ? $white : $black));
-            } else {
-                imagefilledrectangle($image, 0, $location * $this->sizefactor, $img_width, $cur_size * $this->sizefactor, ($position % 2 == 0 ? $white : $black));
-            }
-
-            $location = $cur_size;
-        }
-
-        return $image;
+        return $this->getImageCreate($img_width, $img_height, $text_height);
     }
 
 
-    /**
-     * Render our Bar code
-     *
-     * @param string $filepath || Customize folder name under public
-     * @param string $text
-     * @param string $size
-     * @param string $orientation
-     * @param string $code_type
-     * @param string $print
-     * @param string $sizeFactor
-     * @return BarcodeGenerationService
-     */
     public function renderBarcode($text,
-                                  $size,
-                                  $orientation,
-                                  $code_type,
-                                  $print,
-                                  $sizeFactor,
-                                  $filename, $filepath = "", $fileType = ".jpeg")
+        $size,
+        $orientation,
+        $code_type,
+        $print,
+        $sizeFactor,
+                                  array $fileData
+    ): mixed
     {
+        $filename = $fileData(0);
+        $filepath = $fileData(1) ?? "";
+        $fileType = $fileData(2) ?? self::JPEG;
         $this->text = $text;
 
         $this->size = $size;
 
         $this->orientation = $orientation;
 
-        $this->code_type = $code_type;
+        $this->codeType = $code_type;
 
         $this->print = $print;
 
@@ -842,6 +828,95 @@ class BarcodeGenerationService extends BarCodePrint
         }
 
         return "deviceBarcodes/" . $this->filename . $this->fileType;
+    }
+
+    /**
+     * @param array $code_array1
+     * @param array $code_array2
+     * @return string
+     */
+    public function generateCode25Code(array $code_array1, array $code_array2): string
+    {
+        for ($characterPosition = 1; $characterPosition <= strlen($this->text); $characterPosition++) {
+
+            for ($character = 0; $character < count($code_array1); $character++) {
+
+                if (substr($this->text, ($characterPosition - 1), 1)
+                    == $code_array1[$character]) {
+                    $temp[$characterPosition] = $code_array2[$character];
+                }
+
+            }
+        }
+
+        for ($characterPosition = 1; $characterPosition <= strlen($this->text); $characterPosition += 2) {
+
+            if (isset($temp[$characterPosition]) && isset($temp[($characterPosition + 1)])) {
+
+                $temp1 = explode("-", $temp[$characterPosition]);
+
+                $temp2 = explode("-", $temp[($characterPosition + 1)]);
+
+                for ($y = 0; $y < count($temp1); $y++) {
+                    $this->codeString .= $temp1[$y] . $temp2[$y];
+                }
+
+            }
+        }
+
+        $this->codeString = "1111" . $this->codeString . "311";
+
+        return $this->codeString;
+    }
+
+    /**
+     * @param float|int $img_width
+     * @param float|int $img_height
+     * @param int $text_height
+     * @return false|GdImage|resource
+     */
+    public function getImageCreate(float|int $img_width,
+                                   float|int $img_height,
+                                   int       $text_height): false|\GdImage|resource
+    {
+        $image = imagecreate($img_width, $img_height + $text_height);
+
+        $black = imagecolorallocate($image, 0, 0, 0);
+
+        $white = imagecolorallocate($image, 255, 255, 255);
+
+        imagefill($image, 0, 0, $white);
+
+        if ($this->print) {
+
+            imagestring($image, 5, 31, $img_height, "Reg No. "
+                . $this->text, $black);
+        }
+
+        $location = 10;
+
+        for ($position = 1; $position <= strlen($this->codeString); $position++) {
+
+            $cur_size = $location + (substr($this->codeString, ($position - 1), 1));
+
+            if (strtolower($this->orientation) == "horizontal") {
+
+                imagefilledrectangle($image,
+                    $location * $this->sizefactor,
+                    0,
+                    $cur_size * $this->sizefactor, $img_height, ($position % 2 == 0 ? $white : $black)
+                );
+            } else {
+                imagefilledrectangle($image,
+                    0, $location
+                    * $this->sizefactor, $img_width,
+                    $cur_size * $this->sizefactor, ($position % 2 == 0 ? $white : $black)
+                );
+            }
+
+            $location = $cur_size;
+        }
+        return $image;
     }
 
 }

@@ -10,6 +10,7 @@ use App\Enums\DocumentState;
 use App\Enums\Modules;
 use App\Exceptions\DataNotFoundException;
 use App\Helpers\StatusHelper;
+use App\Helpers\VehicleStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Settings\Accessory;
@@ -381,14 +382,14 @@ class VehicleController extends Controller
             );
         }
 
-        $vehicle_state = '';
+        $vehicleState = '';
         if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
-            $vehicle_state = str_replace(
+            $vehicleState = str_replace(
                 self::REG,
                 $vehicle->registration_number,
                 SystemMessages::vehiclePendingOnboardingCompletion()
             );
-        } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
+        } elseif ($vehicle->status == VehicleStatus::vehicleInWorkshop()) {
             $jobCard = JobCardHeader::where('reg_no',
                QueryComparisonOperator::EQUALS,
                 $vehicle->registration_number)->first();
@@ -399,21 +400,21 @@ class VehicleController extends Controller
                     ->first()->workshop_name;
             }
 
-            $vehicle_state = str_replace(self::REG,
+            $vehicleState = str_replace(self::REG,
                 $vehicle->registration_number,
                 str_replace("@workshop",
                     $workshopName,
                     SystemMessages::vehicleInWorkshop())
             );
         } elseif ($vehicle->status != StatusHelper::active()) {
-            $vehicle_state = str_replace(self::REG,
+            $vehicleState = str_replace(self::REG,
                 $vehicle->registration_number,
                 str_replace("@state",
                     $vehicle->status_name,
                     ErrorMessages::getMessage('err_0029'))
             );
         }
-        return array($vehicle, $vehicle_state);
+        return array($vehicle, $vehicleState);
     }
 
     /**

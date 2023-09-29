@@ -31,25 +31,38 @@
                     <div class="col">
                         <table
                                 aria-label="Accessories Table"
-                                role="none"
+                                role="table"
                                 class="table table-row-dashed align-middle gs-0 table-bordered">
                             <thead>
                             <tr class="bg-dark">
-                                <th class="pl-2">Item</th>
-                                <th>Present</th>
-                                <th class="pr-2">Not Present</th>
-                                <th class="pr-2">Remarks</th>
+                                <th scope="row" class="pl-2">Item</th>
+                                <th scope="row">Present</th>
+                                <th scope="row" class="pr-2">Not Present</th>
+                                <th scope="row" class="pr-2">Remarks</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($accessories as $key => $accessory)
                                 @if(($key%2) == 0)
                                     <tr>
-                                        <td class="pl-2" style="width: 35%;">{{$accessory->name}}</td>
-                                        <td><input type="radio" value="YES" required name="{{str_replace(' ','', $accessory->code)}}"></td>
-                                        <td><input type="radio" value="NO" required name="{{str_replace(' ','', $accessory->code)}}"></td>
+                                        <td class="pl-2" style="width: 35%;">
+                                            {{$accessory->name}}
+                                        </td>
+                                        <td>
+                                            <input type="radio"
+                                                   value="YES"
+                                                   required
+                                                   name="{{str_replace(' ','', $accessory->code)}}"/>
+                                        </td>
+                                        <td>
+                                            <input type="radio"
+                                                   value="NO"
+                                                   required
+                                                   name="{{str_replace(' ','', $accessory->code)}}"/>
+                                        </td>
                                         <td style="width: 45%;">
-                                            <input typeof="text" name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
+                                            <input typeof="text"
+                                                   name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
                                                    class="form-control form-control-sm"/>
                                         </td>
                                     </tr>
@@ -61,14 +74,14 @@
                     <div class="col">
                         <table
                                 aria-label="Accessories Table"
-                                role="none"
+                                role="table"
                                 class="table table-row-dashed align-middle gs-0 table-bordered">
                             <thead>
                             <tr class="bg-dark">
-                                <th class="pl-2">Item</th>
-                                <th>Present</th>
-                                <th class="pr-2">Not Present</th>
-                                <th class="pr-2">Remarks</th>
+                                <th scope="row" class="pl-2">Item</th>
+                                <th scope="row">Present</th>
+                                <th scope="row" class="pr-2">Not Present</th>
+                                <th scope="row" class="pr-2">Remarks</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -78,10 +91,13 @@
                                         <td class="pl-2" style="width: 35%;">
                                             {{$accessory->name}}
                                         </td>
-                                        <td><input type="radio" required value="YES" name="{{str_replace(' ','', $accessory->code)}}"></td>
-                                        <td><input type="radio" required value="NO" name="{{str_replace(' ','', $accessory->code)}}"></td>
+                                        <td><input type="radio" required value="YES"
+                                                   name="{{str_replace(' ','', $accessory->code)}}"></td>
+                                        <td><input type="radio" required value="NO"
+                                                   name="{{str_replace(' ','', $accessory->code)}}"></td>
                                         <td style="width: 45%;">
-                                            <input typeof="text" name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
+                                            <input typeof="text"
+                                                   name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
                                                    class="form-control form-control-sm">
                                         </td>
                                     </tr>

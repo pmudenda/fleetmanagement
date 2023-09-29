@@ -103,7 +103,7 @@ class JobCardDetailsService
 
     public function getFullJobCardDetails($reference): array
     {
-        list($repairTypes, $accessories, $workshop_sections) = $this->getWorkshopsRepairTypesAndSections();
+        list($repairTypes, $accessories, $workshopSections) = $this->getWorkshopsRepairTypesAndSections();
 
         $accessoriesCheckedIn = null;
         $details = null;
@@ -136,7 +136,7 @@ class JobCardDetailsService
             $accessoriesCheckedIn,
             $accessories,
             $details,
-            $workshop_sections,
+            $workshopSections,
             $defects,
             $comments,
             $officeDetails,

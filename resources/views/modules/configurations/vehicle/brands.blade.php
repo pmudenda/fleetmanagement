@@ -135,17 +135,22 @@
         <div class="modal fade" id="kt_modal_add_brand" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-dialog-centered mw-650px">
                 <div class="modal-content">
-                    <form class="form" action="{{ route('brands.save') }}" method="post" name="addRecordForm">
+                    <form class="form" action="{{ route('brands.save') }}"
+                          method="post" name="addRecordForm">
                         <div class="modal-header">
                             <h2 class="fw-bold">Add a Vehicle Make (Brand)</h2>
 
-                            <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
+                            <div class="btn btn-icon btn-sm btn-active-icon-primary"
+                                 data-bs-dismiss="modal">
                         <span class="svg-icon svg-icon-1">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
-                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
-                                      transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
-                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)"
+                                <rect opacity="0.5" x="6" y="17.3137" width="16"
+                                      height="2" rx="1"
+                                      transform="rotate(-45 6 17.3137)"
+                                      fill="currentColor"></rect>
+                                <rect x="7.41422" y="6" width="16"
+                                      height="2" rx="1" transform="rotate(45 7.41422 6)"
                                       fill="currentColor"></rect>
                             </svg>
 
@@ -157,11 +162,14 @@
 
                             <div class="scroll-y mh-300px me-n7 pe-7">
                                 <div class="fv-row">
-                                    <div class="d-flex flex-column mb-7 fv-row fv-plugins-icon-container">
+                                    <div class="d-flex flex-column mb-7
+                                    fv-row fv-plugins-icon-container">
                                         <label for="brand_name"
-                                               class="d-flex align-items-center fs-6 fw-semibold form-label mb-2 control-label">
+                                               class="d-flex align-items-center
+                                               fs-6 fw-semibold form-label mb-2 control-label">
                                             <span class="required">Name</span>
-                                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
+                                            <i class="fas fa-exclamation-circle ms-2 fs-7"
+                                               data-bs-toggle="tooltip"
                                                aria-label="Specify brand name"
                                                data-bs-original-title="Specify brand name"
                                                data-kt-initialized="1"></i>
@@ -171,7 +179,8 @@
                                                autocomplete="off"
                                                maxlength="50"
                                                required
-                                               class="input-with-feedback form-control form-control-solid"
+                                               class="input-with-feedback form-control
+                                               form-control-solid"
                                                placeholder="e.g Toyota"
                                                v-model="brand_name"
                                                id="brand_name"
@@ -180,7 +189,9 @@
 
                                     <div class="form-group d-none">
                                         <div class="clearfix">
-                                            <label for="status" class="control-label reqd" style="padding-right: 0px;">Status</label>
+                                            <label for="status"
+                                                   class="control-label reqd"
+                                                   style="padding-right: 0px;">Status</label>
                                             <span class="help"></span>
                                         </div>
                                         <div class="control-input-wrapper">
@@ -188,7 +199,8 @@
                                                 <input name="status" id="status"
                                                         autocomplete="off"
                                                         required
-                                                        class="input-with-feedback form-control ellipsis bold"
+                                                        class="input-with-feedback
+                                                        form-control ellipsis bold"
                                                         maxlength="140"
                                                         data-fieldtype="Select"
                                                         data-fieldname="status"
@@ -200,11 +212,13 @@
                                     <div class="d-flex flex-stack d-none">
 
                                         <div class="me-5">
-                                            <label class="fs-6 fw-semibold form-label">Is Brand Active ?</label>
+                                            <label class="fs-6 fw-semibold form-label">
+                                                Is Brand Active ?</label>
                                         </div>
 
                                         <label class="form-check form-switch form-check-custom form-check-solid">
-                                            <input class="form-check-input" v-model='isEnabled' type="checkbox"
+                                            <input class="form-check-input"
+                                                   v-model='isEnabled' type="checkbox"
                                                    value="1"
                                                    checked="checked">
                                             <span class="form-check-label fw-semibold text-muted">

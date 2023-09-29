@@ -35,19 +35,23 @@ return [
              */
             'match' => [
                 /*
-                 * Match only routes whose paths match this pattern (use * as a wildcard to match any characters). Example: 'users/*'.
+                 * Match only routes whose paths match this pattern
+                 *
+                 *(use * as a wildcard to match any characters). Example: 'users/*'.
                  */
 
                 'prefixes' => ['api/*'],
 
                 /*
-                 * Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.
+                 * Match only routes whose domains match this pattern
+                 * (use * as a wildcard to match any characters). Example: 'api.*'.
                  */
 
                 'domains' => ['*'],
 
                 /*
-                 * [Dingo router only] Match only routes registered under this version. Wildcards are not supported.
+                 * [Dingo router only] Match only routes registered under this version.
+                 * Wildcards are not supported.
                  */
 
                 /*'versions' => ['v1'],*/
@@ -72,7 +76,8 @@ return [
             ],
 
             /*
-             * Settings to be applied to all the matched routes in this group when generating documentation
+             * Settings to be applied to all the matched routes in this
+             * group when generating documentation
              */
             'apply' => [
                 /*
@@ -92,17 +97,21 @@ return [
                 'response_calls' => [
 
                     /*
-                     * API calls will be made only for routes in this group matching these HTTP methods (GET, POST, etc).
-                     * List the methods here or use '*' to mean all methods. Leave empty to disable API calls.
+                     * API calls will be made only for routes in this group
+                     * matching these HTTP methods (GET, POST, etc).
+                     * List the methods here or use '*' to mean all methods.
+                     * Leave empty to disable API calls.
                      */
 
                     'methods' => ['GET'],
 
                     /*
                      * Laravel config variables which should be set for the API call.
-                     * This is a good place to ensure that notifications, emails and other external services
+                     * This is a good place to ensure that notifications,
+                     * emails and other external services
                      * are not triggered during the documentation API calls.
-                     * You can also create a `.env.docs` file and run the generate command with `--env docs`.
+                     * You can also create a `.env.docs` file and run the generate
+                     * command with `--env docs`.
                      */
 
                     'config' => [
@@ -128,7 +137,9 @@ return [
 
                     /*
                      * Files which should be sent with the API call.
-                     * Each value should be a valid path (absolute or relative to your project directory) to a file on this machine (but not in the project root).
+                     * Each value should be a valid path
+                     * (absolute or relative to your project directory)
+                     * to a file on this machine (but not in the project root).
                      */
 
                     'fileParams' => [
@@ -176,7 +187,9 @@ return [
 
         /*
          * URL path to use for the docs endpoint (if `add_routes` is true).
-         * By default, `/docs` opens the HTML page, `/docs.postman` opens the Postman collection, and `/docs.openapi` the OpenAPI spec.
+         * By default, `/docs` opens the HTML page,
+         * `/docs.postman` opens the Postman collection,
+         * and `/docs.openapi` the OpenAPI spec.
          */
         'docs_url' => '/docs',
 
@@ -207,7 +220,8 @@ return [
         'base_url' => null,
 
         /**
-         * Fetch a CSRF token before each request, and add it as an X-XSRF-TOKEN header. Needed if you're using Laravel Sanctum.
+         * Fetch a CSRF token before each request, and add it as an
+         * X-XSRF-TOKEN header. Needed if you're using Laravel Sanctum.
          */
         'use_csrf' => false,
 
@@ -218,7 +232,8 @@ return [
     ],
 
     /*
-     * How is your API authenticated? This information will be used in the displayed docs, generated examples and response calls.
+     * How is your API authenticated? This information will be
+     * used in the displayed docs, generated examples and response calls.
      */
     'auth' => [
         /*
@@ -227,8 +242,10 @@ return [
         'enabled' => false,
 
         /*
-         * Set this to true if your API should be authenticated by default. If so, you must also set `enabled` (above) to true.
-         * You can then use @unauthenticated or @authenticated on individual endpoints to change their status from the default.
+         * Set this to true if your API should be authenticated by default.
+         * If so, you must also set `enabled` (above) to true.
+         * You can then use @unauthenticated or @authenticated on individual
+         * endpoints to change their status from the default.
          */
         'default' => false,
 
@@ -257,27 +274,30 @@ return [
         'placeholder' => '{YOUR_AUTH_KEY}',
 
         /*
-         * Any extra authentication-related info for your users. For instance, you can describe how to find or generate their auth credentials.
+         * Any extra authentication-related info for your users.
+         * For instance, you can describe how to find or generate their auth credentials.
          * Markdown and HTML are supported.
          */
-        'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
+        'extra_info' => 'You can retrieve your token by visiting your
+                         dashboard and clicking <b>Generate API token</b>.',
     ],
 
     /*
      * Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
      */
     'intro_text' => <<<INTRO
-This documentation aims to provide all the information you need to work with our API.
-
-<aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
-You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
-INTRO
-    ,
+        This documentation aims to provide all the information you need to work with our API.
+        <aside>As you scroll, you'll see code examples for working with the API in different
+        programming languages in the dark area to the right (or as part of the content on mobile).
+        You can switch the language used with the tabs at the top right
+        (or from the nav menu at the top left on mobile).</aside>
+        INTRO,
 
     /*
      * Example requests for each endpoint will be shown in each of these languages.
      * Supported options are: bash, javascript, php, python
-     * To add a language of your own, see https://scribe.knuckles.wtf/laravel/advanced/example-requests
+     * To add a language of your own, see
+     * https://scribe.knuckles.wtf/laravel/advanced/example-requests
      *
      */
     'example_languages' => [

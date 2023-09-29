@@ -6,6 +6,7 @@ use App\Constants\ErrorMessages;
 use App\Exceptions\VehicleOnBoardingException;
 use App\Helpers\OnboardingStateHelper;
 use App\Helpers\StatusHelper;
+use App\Helpers\VehicleStatus;
 use App\Http\Requests\AssignmentPostRequest;
 use App\Http\Requests\BodyDetailsPost;
 use App\Http\Requests\CostingDetailsPost;
@@ -261,7 +262,7 @@ class OnBoardingService
                 'created_name' => $user->name,
                 'mileage' => '0',
                 'on_boarding_status' => StatusHelper::pendingGeneralDataEntry(),
-                'status' => StatusHelper::vehicleInactive(),
+                'status' => VehicleStatus::vehicleInactive(),
                 'registration_type' => $request->get('registration_type')
             ]);
 
@@ -492,9 +493,11 @@ class OnBoardingService
             $barCodeParams['code_type'], // code_type : code128,code39,code128b,code128a,,
             $barCodeParams['print'],
             $barCodeParams['sizeFactor'],
-            $barCodeParams['filename'] . $barCodeParams['fileType'],
-            $barCodeParams['filePath'],
-            $barCodeParams['fileType'],
+            array(
+                $barCodeParams['filename'] . $barCodeParams['fileType'],
+                $barCodeParams['filePath'],
+                $barCodeParams['fileType']
+            )
         )->filename($barCodeParams['filename'] . $barCodeParams['fileType']);
 
         $record->barcode = $barCodePath;
