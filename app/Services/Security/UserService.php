@@ -292,6 +292,8 @@ class UserService
 
             $stmt->execute();
 
+            Log::info($results);
+
             if (str_starts_with('0', $results) && str_contains($results, 'Not Found')) {
                 throw new UserNotFoundException($results);
             }
@@ -306,9 +308,11 @@ class UserService
             }
         }
 
-        $user = User::where('staff_no',
+        $user = User::where(
+            'staff_no',
             QueryComparisonOperator::EQUALS,
-            $request->staff_number)->first();
+            $request->staff_number
+        )->first();
 
         if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
             DB::beginTransaction();
