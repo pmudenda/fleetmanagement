@@ -256,6 +256,7 @@ class UserService
                 SystemMessages::USER_NOT_VERIFIED
             );
         }
+
         $password = Hash::make($request->password);
         $email = strtoupper($request->staff_email);
         $pdo = DB::getPdo();
@@ -299,7 +300,7 @@ class UserService
 
         Log::info($results);
 
-        if (str_contains('0-Error', $results)) {
+        if (str_contains($results, 'Error')) {
             throw new UserOnBoardingException(
                 str_replace('@user_name',
                     $request->staff_number,
