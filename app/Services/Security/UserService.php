@@ -280,6 +280,7 @@ class UserService
         $supervisorManNumber = $request->staff_supervisorId;
         $supervisorName = $request->staff_supervisor;
         $avatar = "";
+        $workShopCode = "";
         Log::info("Area Code " . $areaCode);
 
         $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
@@ -292,6 +293,7 @@ class UserService
         $stmt->bindParam(":p_area_code", $areaCode);
         $stmt->bindParam(":p_functional_section", $userUnitCode);
         $stmt->bindParam(":p_bu_code", $businessUnit);
+        $stmt->bindParam(":p_work_shop_code", $workShopCode);
         $stmt->bindParam(":p_cc_code", $costCenterCode);
         $stmt->bindParam(":p_directorate", $directorate);
         $stmt->bindParam(":p_user_unit", $userUnitCode);
