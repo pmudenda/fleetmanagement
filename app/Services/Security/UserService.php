@@ -256,22 +256,11 @@ class UserService
             $pdo = DB::getPdo();
             $modifiedBy = auth()->user()->staff_no;
             $stmt = $pdo->prepare(
-                "begin :result := pkg_employee.fn_create_user(
-                                :p_created_by
-                                :p_staff_no
-                                :p_password
-                                :p_email
-                                :p_username
-                                :p_phone
-                                :p_area_code
-                                :p_functional_section
-                                :p_bu_code
-                                :p_cc_code
-                                :p_directorate
-                                :p_user_unit
-                                :p_supervisor_code
-                                :p_supervisor_name
-                ); end;"
+                "begin :result := pkg_employee.fn_create_user(:p_staff_no, :p_password,
+                                :p_created_by,:p_email,:p_username,:p_phone,
+                                :p_area_code,:p_functional_section,
+                                :p_bu_code,:p_cc_code,:p_directorate,:p_user_unit,
+                                :p_supervisor_code,:p_supervisor_name); end;"
             );
 
             $staffNumber = $request->staff_number;
@@ -286,9 +275,9 @@ class UserService
             $supervisorName = $request->staff_supervisor;
 
             $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
-            $stmt->bindParam(":p_created_by", $modifiedBy);
             $stmt->bindParam(":p_staff_no", $staffNumber);
             $stmt->bindParam(":p_password", $password);
+            $stmt->bindParam(":p_created_by", $modifiedBy);
             $stmt->bindParam(":p_email", $email);
             $stmt->bindParam(":p_username", $userName);
             $stmt->bindParam(":p_phone", $phoneNumber);
