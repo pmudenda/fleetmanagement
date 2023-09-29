@@ -299,7 +299,7 @@ class UserService
 
         Log::info($results);
 
-        if (str_starts_with('0-', $results) && str_contains($results, 'Not Found')) {
+        if (str_starts_with('0-', $results)) {
             throw new UserOnBoardingException(
                 str_replace('@user_name',
                     $request->staff_number,

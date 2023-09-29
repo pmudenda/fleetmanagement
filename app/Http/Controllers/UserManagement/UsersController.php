@@ -87,6 +87,7 @@ class UsersController extends Controller
         try {
 
             $this->userService->createUser($request);
+
             return response()->json(
                 FleetMasterJsonResponse::response(
                     'success',
