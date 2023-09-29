@@ -273,21 +273,33 @@ class UserService
                                 :p_supervisor_name
                 ); end;"
             );
+
+            $staffNumber = $request->staff_number;
+            $userName = $request->login_name;
+            $phoneNumber = $request->mobile_no;
+            $areaCode = $request->business_area;
+            $businessUnit = $request->business_unit_code;
+            $costCenterCode = $request->cost_center_code;
+            $directorate = $request->directorate;
+            $userUnitCode = $request->user_unit;
+            $supervisorManNumber = $request->staff_supervisorId;
+            $supervisorName = $request->staff_supervisor;
+
             $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_created_by", $modifiedBy);
-            $stmt->bindParam(":p_staff_no", $request->staff_number);
+            $stmt->bindParam(":p_staff_no", $staffNumber);
             $stmt->bindParam(":p_password", $password);
             $stmt->bindParam(":p_email", $email);
-            $stmt->bindParam(":p_username", $request->login_name);
-            $stmt->bindParam(":p_phone", $request->mobile_no);
-            $stmt->bindParam(":p_area_code", $request->business_area);
-            $stmt->bindParam(":p_functional_section", $request->user_unit);
-            $stmt->bindParam(":p_bu_code", $request->business_unit_code);
-            $stmt->bindParam(":p_cc_code", $request->cost_center_code);
-            $stmt->bindParam(":p_directorate", $request->directorate);
-            $stmt->bindParam(":p_user_unit", $request->user_unit);
-            $stmt->bindParam(":p_supervisor_code", $request->staff_supervisorId);
-            $stmt->bindParam(":p_supervisor_name", $request->staff_supervisor);
+            $stmt->bindParam(":p_username", $userName);
+            $stmt->bindParam(":p_phone", $phoneNumber);
+            $stmt->bindParam(":p_area_code", $areaCode);
+            $stmt->bindParam(":p_functional_section", $userUnitCode);
+            $stmt->bindParam(":p_bu_code", $businessUnit);
+            $stmt->bindParam(":p_cc_code", $costCenterCode);
+            $stmt->bindParam(":p_directorate", $directorate);
+            $stmt->bindParam(":p_user_unit", $userUnitCode);
+            $stmt->bindParam(":p_supervisor_code", $supervisorManNumber);
+            $stmt->bindParam(":p_supervisor_name", $supervisorName);
 
             $stmt->execute();
 
