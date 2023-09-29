@@ -231,7 +231,9 @@
                     return;
                 }
 
+                $("#driver_staff_number").val(response.payload?.con_per_no ?? response.payload.staff_no);
                 document.querySelector('#driver_name').value = response.payload.name;
+                //document.querySelector('#driver_name').value = response.payload.name;
             })
             .catch(function (xhr, settings, error) {
                 tmsApp.showErrorMessages(xhr, 'Driver Validation');
@@ -410,7 +412,7 @@
         }, 300);
     });
 
-    $vehicleRegistrationCtl.on('change paste', function () {
+    $vehicleRegistrationCtl.on('paste', function () {
         if (!this.value || this.value.indexOf('_') > -1) {
             return;
         }

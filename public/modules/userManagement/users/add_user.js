@@ -51,6 +51,10 @@
                     },
                     function (xhr, settings, errorThrown) {
                         console.log(errorThrown);
+                        if (errorThrown.hasOwnProperty('errors')) {
+                            tmsApp.printErrorMsg(errorThrown.errors);
+                            return
+                        }
                         setTimeout(function () {
                             tmsApp.systemError(
                                 'User Creation',

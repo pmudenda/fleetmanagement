@@ -21,12 +21,10 @@
             </div>
 
             <div class="card-body py-4 min-h-600px">
-
-                <x-error-view/>
-
                 <form name="tms_user_definition" data-action="{{route('user.search')}}" action="{{route('user.store')}}"
                       method="post">
                     @csrf
+                    <x-error-view/>
                     <div class="card-header">
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-5">
