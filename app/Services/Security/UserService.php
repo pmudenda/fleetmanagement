@@ -280,6 +280,8 @@ class UserService
         $supervisorManNumber = $request->staff_supervisorId;
         $supervisorName = $request->staff_supervisor;
 
+        Log::info($areaCode);
+
         $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
         $stmt->bindParam(":p_staff_no", $staffNumber);
         $stmt->bindParam(":p_password", $password);
