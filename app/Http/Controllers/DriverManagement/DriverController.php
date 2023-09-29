@@ -101,14 +101,13 @@ class DriverController extends Controller
                 $driver = $this->userService->searchEmployee($searchParam)->first();
             }
 
-            if(empty($driver)){
+            if (empty($driver)) {
                 throw new DriverSearchException(
                     str_replace(
                         self::INPUT,
                         $searchParam,
                         ErrorMessages::getMessage('err_0011'))
                 );
-
             }
 
             if ($driver->con_st_code != 'ACT' && $driver->con_st_code != '01') {
@@ -119,14 +118,7 @@ class DriverController extends Controller
                 ));
             }
 
-            if (empty($driver)) {
-                throw new DriverSearchException(
-                    str_replace(
-                        self::INPUT,
-                        $searchParam,
-                        ErrorMessages::getMessage('err_0011'))
-                );
-            }
+
 
             return response()->json([
                 'success' => true,
