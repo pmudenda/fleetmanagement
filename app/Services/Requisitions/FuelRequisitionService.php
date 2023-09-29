@@ -844,7 +844,6 @@ class FuelRequisitionService
             list($requisitionNumber, $message) = $this->processApproval(
                 $action,
                 $reference,
-                $requisitionNumber,
                 $message
             );
         } else {
@@ -961,13 +960,13 @@ class FuelRequisitionService
     /**
      * @param mixed $action
      * @param $reference
-     * @param string $requisitionNumber
      * @param mixed $message
      * @return array
      * @throws FuelRequisitionException
      */
-    public function processApproval(mixed $action, $reference, string $requisitionNumber, mixed $message): array
+    public function processApproval(mixed $action, $reference, mixed $message): array
     {
+        $requisitionNumber = '';
         if ($action == WorkflowActions::approve()) {
 
             $requisitionNumber = $this->createStoresRequisition(
