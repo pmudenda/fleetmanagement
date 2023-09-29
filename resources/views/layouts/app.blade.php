@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="{{asset('themes/plugins/fontawesome-free/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('themes/ionicons/2.0.1/css/ionicons.min.css')}}">
 
-    <link rel="stylesheet"
+    {{--<link rel="stylesheet"
           type="text/css"
-          href="{{asset('themes/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+          href="{{asset('themes/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">--}}
     <link rel="stylesheet" href="{{asset('themes/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('libs/bootstrap-5.2.3/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('themes/dist/css/adminlte.min2167.css')}}?v=3.2.0">
