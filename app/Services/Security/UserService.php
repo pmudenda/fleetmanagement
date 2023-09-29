@@ -4,6 +4,7 @@ namespace App\Services\Security;
 
 use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
+use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
 use App\Exceptions\ActiveUserDelegationException;
 use App\Exceptions\UserDataSyncException;
@@ -250,62 +251,61 @@ class UserService
         $validateWithHCMS = config('systeminfo.enableUserValidation');
 
         // move logic to database function
-        if ($validateWithHCMS) {
-            $password = Hash::make($request->password);
-            $email = strtoupper($request->staff_email);
-            $pdo = DB::getPdo();
-            $modifiedBy = auth()->user()->staff_no;
-            $stmt = $pdo->prepare(
-                "begin :result := pkg_employee.fn_create_user(:p_staff_no, :p_password,
+        if (!$validateWithHCMS) {
+            throw new UserOnBoardingException(
+                SystemMessages::USER_NOT_VERIFIED
+            );
+        }
+        $password = Hash::make($request->password);
+        $email = strtoupper($request->staff_email);
+        $pdo = DB::getPdo();
+        $modifiedBy = auth()->user()->staff_no;
+        $stmt = $pdo->prepare(
+            "begin :result := pkg_employee.fn_create_user(:p_staff_no, :p_password,
                                 :p_created_by,:p_email,:p_username,:p_phone,
                                 :p_area_code,:p_functional_section,
                                 :p_bu_code,:p_cc_code,:p_directorate,:p_user_unit,
                                 :p_supervisor_code,:p_supervisor_name); end;"
+        );
+
+        $staffNumber = $request->staff_number;
+        $userName = $request->login_name;
+        $phoneNumber = $request->mobile_no;
+        $areaCode = trim($request->business_area);
+        $businessUnit = $request->business_unit_code;
+        $costCenterCode = $request->cost_center_code;
+        $directorate = $request->directorate;
+        $userUnitCode = $request->user_unit;
+        $supervisorManNumber = $request->staff_supervisorId;
+        $supervisorName = $request->staff_supervisor;
+
+        $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
+        $stmt->bindParam(":p_staff_no", $staffNumber);
+        $stmt->bindParam(":p_password", $password);
+        $stmt->bindParam(":p_created_by", $modifiedBy);
+        $stmt->bindParam(":p_email", $email);
+        $stmt->bindParam(":p_username", $userName);
+        $stmt->bindParam(":p_phone", $phoneNumber);
+        $stmt->bindParam(":p_area_code", $areaCode);
+        $stmt->bindParam(":p_functional_section", $userUnitCode);
+        $stmt->bindParam(":p_bu_code", $businessUnit);
+        $stmt->bindParam(":p_cc_code", $costCenterCode);
+        $stmt->bindParam(":p_directorate", $directorate);
+        $stmt->bindParam(":p_user_unit", $userUnitCode);
+        $stmt->bindParam(":p_supervisor_code", $supervisorManNumber);
+        $stmt->bindParam(":p_supervisor_name", $supervisorName);
+
+        $stmt->execute();
+
+        Log::info($results);
+
+        if (str_starts_with('0-', $results) && str_contains($results, 'Not Found')) {
+            throw new UserOnBoardingException(
+                str_replace('@user_name',
+                    $request->staff_number,
+                    $results
+                )
             );
-
-            $staffNumber = $request->staff_number;
-            $userName = $request->login_name;
-            $phoneNumber = $request->mobile_no;
-            $areaCode = trim($request->business_area);
-            $businessUnit = $request->business_unit_code;
-            $costCenterCode = $request->cost_center_code;
-            $directorate = $request->directorate;
-            $userUnitCode = $request->user_unit;
-            $supervisorManNumber = $request->staff_supervisorId;
-            $supervisorName = $request->staff_supervisor;
-
-            $stmt->bindParam(self::RESULT, $results, PDO::PARAM_STR, 2000);
-            $stmt->bindParam(":p_staff_no", $staffNumber);
-            $stmt->bindParam(":p_password", $password);
-            $stmt->bindParam(":p_created_by", $modifiedBy);
-            $stmt->bindParam(":p_email", $email);
-            $stmt->bindParam(":p_username", $userName);
-            $stmt->bindParam(":p_phone", $phoneNumber);
-            $stmt->bindParam(":p_area_code", $areaCode);
-            $stmt->bindParam(":p_functional_section", $userUnitCode);
-            $stmt->bindParam(":p_bu_code", $businessUnit);
-            $stmt->bindParam(":p_cc_code", $costCenterCode);
-            $stmt->bindParam(":p_directorate", $directorate);
-            $stmt->bindParam(":p_user_unit", $userUnitCode);
-            $stmt->bindParam(":p_supervisor_code", $supervisorManNumber);
-            $stmt->bindParam(":p_supervisor_name", $supervisorName);
-
-            $stmt->execute();
-
-            Log::info($results);
-
-            if (str_starts_with('0', $results) && str_contains($results, 'Not Found')) {
-                throw new UserNotFoundException($results);
-            }
-
-            if (str_starts_with('0', $results) && str_contains($results, 'Occurred')) {
-                throw new UserOnBoardingException(
-                    str_replace('@user_name',
-                        $request->staff_number,
-                        $results
-                    )
-                );
-            }
         }
 
         $user = User::where(
@@ -314,13 +314,15 @@ class UserService
             $request->staff_number
         )->first();
 
-        if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
+        if ($request->has('user_profile')
+            || !empty($request->get('user_profile'))
+            && $user) {
             DB::beginTransaction();
             $user->roles()->sync((int)$request->get('user_profile'));
             DB::commit();
 
             HistoryService::record(
-                $user->toArray(),
+                $user,
                 "N/A",
                 'Create User',
                 'User Onboarding with profile'
@@ -328,7 +330,7 @@ class UserService
 
         } else {
             HistoryService::record(
-                $user->toArray(),
+                $user,
                 "N/A",
                 'Create User',
                 'User Onboarding with no profile'
