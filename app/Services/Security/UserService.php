@@ -299,7 +299,7 @@ class UserService
 
         Log::info($results);
 
-        if (str_starts_with('0-', $results)) {
+        if (str_contains('0-Error', $results)) {
             throw new UserOnBoardingException(
                 str_replace('@user_name',
                     $request->staff_number,
