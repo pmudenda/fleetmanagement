@@ -175,6 +175,7 @@ class UserService
     public function initiateDelegation(DelegateProfile $request): void
     {
         $this->validate($request);
+
         $user = auth()->user();
 
         $profileOwnerUserNo = $request->get('profileOwner');

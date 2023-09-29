@@ -19,7 +19,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'v1/en',], function (): void {
+Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'v1/en',],
+    function (): void {
 
     Route::group(['prefix' => 'organisation/structure'], function () {
 
