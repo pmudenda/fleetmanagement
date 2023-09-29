@@ -17,6 +17,7 @@ use App\Models\Workflow\WorkflowProcess;
 use App\Models\Workflow\WorkflowStep;
 use App\Models\Workflow\WorkflowTaskDetail;
 use App\Models\Workflow\WorkflowTaskHeader;
+use App\Services\Security\ProfileDelegationService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +33,12 @@ class WorkflowService
     const PROCESS_STEP_DATA_IS_MISSING = "Approval Process Current State Data Is Missing";
     const APPROVAL_PROCESS_CURRENT_STATE_RECORD_NOT_FOUND = "Approval Process Current State Record Not Found";
     const APPROVAL_PROCESS_NEXT_STATE_RECORD_NOT_FOUND = "Approval Process Next State Record Not Found";
+    private ProfileDelegationService $profileDelegationService;
+
+    public function __construct(ProfileDelegationService $profileDelegationService)
+    {
+        $this->profileDelegationService = $profileDelegationService;
+    }
 
 
     /**
@@ -204,7 +211,9 @@ class WorkflowService
             'step_id',
             QueryComparisonOperator::EQUALS,
             $taskDetail->current_step_id
-        )->where('process_id', '=', $processId)->first();
+        )->where('process_id',
+            QueryComparisonOperator::EQUALS,
+            $processId)->first();
 
         // update workflow log
         if (empty($currentStep)) {
@@ -273,14 +282,28 @@ class WorkflowService
         return $response;
     }
 
-    public function getMyApprovalTasks($staff_no): Collection
+    public function getMyApprovalTasks($staffNumber): Collection
     {
-        return DB::table('WFL_WORKFLOW_TASK')
-            ->leftJoin('SEC_USERS', 'WFL_WORKFLOW_TASK.created_by', '=', 'SEC_USERS.id')
-            ->where('WFL_WORKFLOW_TASK.assigned_user', '=', $staff_no)
-            ->whereNull('WFL_WORKFLOW_TASK.date_ended')
-            ->select('WFL_WORKFLOW_TASK.*', 'SEC_USERS.name as originator')
-            ->orderBy('WFL_WORKFLOW_TASK.created_at', 'desc')
+
+        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($staffNumber);
+
+        return DB::table('WFL_WORKFLOW_TASK task_header')
+            ->leftJoin('SEC_USERS users',
+                'task_header.created_by',
+                QueryComparisonOperator::EQUALS,
+                'users.id')
+            ->where('task_header.assigned_user',
+                QueryComparisonOperator::EQUALS,
+                $staffNumber)
+            ->orWhere(
+                'task_header.assigned_user',
+                QueryComparisonOperator::EQUALS,
+                $delegatedProfileOwner
+            )
+            ->whereNull('task_header.date_ended')
+            ->select('task_header.*',
+                'users.name as originator')
+            ->orderBy('task_header.created_at', 'desc')
             ->get();
     }
 

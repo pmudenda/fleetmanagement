@@ -24,6 +24,7 @@ use App\Models\Town;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\Requisitions\DistanceChartService;
 use App\Services\Requisitions\FuelRequisitionService;
+use App\Services\Security\ProfileDelegationService;
 use App\Services\VehicleManagement\OdometerValidationService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -41,14 +42,17 @@ class FuelRequisitionController extends Controller
     private readonly OdometerValidationService $odometerValidationService;
     private FuelRequisitionService $requisitionService;
     private DistanceChartService $distanceChartService;
+    private ProfileDelegationService $profileDelegationService;
 
     public function __construct(FuelRequisitionService    $requisitionService,
                                 OdometerValidationService $odometerValidationService,
-                                DistanceChartService      $distanceChartService)
+                                DistanceChartService      $distanceChartService,
+                                ProfileDelegationService $profileDelegationService)
     {
         $this->odometerValidationService = $odometerValidationService;
         $this->requisitionService = $requisitionService;
         $this->distanceChartService = $distanceChartService;
+        $this->profileDelegationService = $profileDelegationService;
     }
 
     public function list(): View
@@ -65,6 +69,8 @@ class FuelRequisitionController extends Controller
 
     public function show(Request $request): View
     {
+        $staffNumber = auth()->user()->staff_no;
+        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($staffNumber);
         list($user,
             $requestDetails,
             $supportingDocument,
@@ -82,6 +88,7 @@ class FuelRequisitionController extends Controller
                 'daysToNextRefuel',
                 'approvalHistory',
                 'workflowTask',
+                'delegatedProfileOwner',
                 'supportingDocument'
             ));
     }

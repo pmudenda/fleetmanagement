@@ -1,4 +1,4 @@
-@php use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use App\Models\Reference\Store;use App\Models\Security\User; use App\Models\Reference\PurchaseOrder; @endphp
+@php use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use App\Models\Reference\PurchaseOrder;use App\Models\Reference\Store;use App\Models\Security\User;  @endphp
 @php @endphp
 @extends('layouts.app')
 @push('styles')
@@ -40,7 +40,9 @@
                     @csrf
                     <div class="card-body user-data">
 
-                        <table border="1"
+                        <table role="table"
+                               aria-label="header table"
+                               border="1"
                                width="100%"
                                data-height="100px"
                                cellspacing="0"
@@ -79,7 +81,10 @@
                             </tr>
                             </thead>
                         </table>
-                        <table class="corporate mb-5" border="1" width="100%" data-height="100px" cellspacing="0"
+                        <table class="corporate mb-5"
+                               border="1"
+                               width="100%"
+                               data-height="100px" cellspacing="0"
                                cellpadding="0"
                                align="Centre"
                                class="mb-4 ">
@@ -119,8 +124,9 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Vehicle Registration #:
+                                                                class="col-xs-12 col-sm-6
+                                                            col-md-5 col-lg-4 field-required"
+                                                                for="staff_no">Vehicle Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
@@ -165,8 +171,9 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Store:
+                                                                    class="col-xs-12 col-sm-6
+                                                                col-md-5 col-lg-4 field-required"
+                                                                    for="request_date">Store:
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <input type="text" class="form-control form-control-sm"
@@ -186,8 +193,9 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">
+                                                                    class="col-xs-12 col-sm-6
+                                                                col-md-5 col-lg-4 field-required"
+                                                                    for="request_date">
                                                                 Supplier:
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -208,8 +216,8 @@
                                                 <div class="row">
                                                     <div class="form-group row" style="display: none;">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Collection Date:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Collection Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="fuel_allocation"
@@ -230,8 +238,8 @@
                                                 <div style="display: none;" class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Collection Date:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Collection Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="fuel_allocation"
@@ -245,26 +253,7 @@
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-6 col-md-6">
-                                            {{--<div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
-                                                            Odometer Reading :
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="text" class="form-control form-control-sm"
-                                                                   id="odometer_reading"
-                                                                   value="{{$requestDetails->odometer ?? ''}}"
-                                                                   readonly
-                                                                   required
-                                                                   name="odometer_reading"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>--}}
+
                                         </div>
                                     </div>
 
@@ -275,8 +264,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Request Date:
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">Request Date:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
@@ -295,22 +284,25 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="staff_name">
                                                             Item Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            @if($requestDetails->item_type == RequisitionItemTypes::STOCK_ITEM)
+                                                            @if($requestDetails->item_type
+                                                                == RequisitionItemTypes::STOCK_ITEM)
                                                                 <input type="text"
                                                                        class="form-control form-control-sm"
                                                                        readonly
                                                                        value="STOCK">
-                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::NON_STOCK_ITEM)
+                                                            @elseif($requestDetails->item_type
+                                                                == RequisitionItemTypes::NON_STOCK_ITEM)
                                                                 <input type="text"
                                                                        class="form-control form-control-sm"
                                                                        readonly
                                                                        value="NON-STOCK">
-                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::SERVICE)
+                                                            @elseif($requestDetails->item_type
+                                                                == RequisitionItemTypes::SERVICE)
                                                                 <input type="text"
                                                                        class="form-control form-control-sm"
                                                                        readonly
@@ -329,8 +321,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="requester">Request Originator:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="requester">Request Originator:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="requester"
@@ -349,8 +341,9 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="jobCardNo">Job Card #:</label>
+                                                                    class="col-xs-12 col-sm-6
+                                                                col-md-5 col-lg-4 field-required"
+                                                                    for="jobCardNo">Job Card #:</label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <input type="text"
                                                                        class="form-control form-control-sm"
@@ -372,15 +365,17 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Purpose:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Purpose:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <textarea type="text"
                                                                   readonly
                                                                   id="justification"
                                                                   name="justification"
                                                                   style="height: 129px;"
-                                                                  class="form-control form-control-sm">{{$requestDetails->comments ?? ''}}</textarea>
+                                                                  class="form-control
+                                                                  form-control-sm"
+                                                        >{{$requestDetails->comments ?? ''}}</textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -419,7 +414,8 @@
 
                         <div class="container-fluid">
                             <div id="materialDetailsContainer" class="table-responsive mt-3">
-                                <table id="materialDetailsTable" class="table table-bordered">
+                                <table id="materialDetailsTable"
+                                       class="table table-bordered">
                                     <thead>
                                     <tr class="bg-orange">
                                         <th class="text-white">Reg No.</th>
@@ -495,8 +491,8 @@
                                         <td class="text-right"><strong>Total Amount</strong></td>
                                         <td>
                                             <span
-                                                class="text-bold"
-                                                id="totalAmount">{{number_format($totalAmount, 2)}}
+                                                    class="text-bold"
+                                                    id="totalAmount">{{number_format($totalAmount, 2)}}
                                             </span>
                                         </td>
                                     </tr>
@@ -507,7 +503,16 @@
                     </div>
 
                     @if(!empty($workflowTask->assigned_user))
-                        @if(auth()->user()->staff_no == $workflowTask->assigned_user && empty($workflowTask->date_ended))
+                        @if((
+                            auth()->user()->staff_no == $workflowTask->assigned_user
+                            && empty($workflowTask->date_ended)
+                            )
+                            &&
+                            (
+                                $delegatedProfileOwner == $workflowTask->assigned_user
+                                && empty($workflowTask->date_ended)
+                            )
+                            )
                             <div class="card-footer">
                                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                                     <button type="button" id="approveRequisitionBtn"
@@ -553,7 +558,8 @@
                 }
 
                 // BAD 1010
-                if (vehicle['on_boarding_status'] != document.querySelector('[name="onboarding_status"]').value) {
+                if (vehicle['on_boarding_status']
+                    != document.querySelector('[name="onboarding_status"]').value) {
                     tmsApp.showSystemMessage("Incomplete Vehicle Details",
                         `The vehicle ${vehicle['registration_number']} is ${vehicle_state}. Please Contact Fleet Master
                             System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
@@ -563,14 +569,19 @@
                     return;
                 }
 
-                let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+                let vLabel = vehicle['body_type_name']
+                    + ' ' + vehicle['brand_name']
+                    + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
-                let row = `<tr><th>Make</th><td id="make">${vehicle.brand_name}</td></tr>
+                let row = `<tr><th>Make</th><td id="make">
+                               ${vehicle.brand_name}</td></tr>
                                <tr>
-                                    <th>Model</th><td id="model">${vehicle.model_name} ${vehicle.model_code}</td>
+                                    <th>Model</th><td id="model">
+                                    ${vehicle.model_name} ${vehicle.model_code}</td>
                                </tr>
                                <tr style="">
-                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
+                                     <th>Type</th><td id="registration">
+                                    ${vehicle['body_type_name']}</td>
                                 </tr>`;
 
                 $('tbody#vehicleDetails').html(row);
