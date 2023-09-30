@@ -124,6 +124,7 @@ class UsersController extends Controller
 
     public function show(Request $request, $id): Factory|View|Application
     {
+        Log::debug("Showing Profile for $id");
         $this->verifyRequestSignature($request);
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
@@ -150,8 +151,9 @@ class UsersController extends Controller
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
         $passwordChangeOnly = false;
+        $userDelegating = $this->profileDelegation->getDelegatedProfileOwner($user->staff_no);
         return view('modules.userManagement.show')
-            ->with(compact('user', 'passwordChangeOnly', 'roles'));
+            ->with(compact('user', 'passwordChangeOnly', 'userDelegating', 'roles'));
 
     }
 
