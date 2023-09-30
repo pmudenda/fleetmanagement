@@ -30,6 +30,11 @@ use PDO;
 class UserService
 {
     const RESULT = ":result";
+    private readonly ProfileService $profileService;
+    public function __construct(ProfileService $profileService)
+    {
+        $this->profileService = $profileService;
+    }
 
     public static function syncEmployeeFullDetails($userId): void
     {
@@ -170,49 +175,6 @@ class UserService
         }
     }
 
-    /**
-     * @throws ActiveUserDelegationException
-     */
-    public function initiateDelegation(DelegateProfile $request): void
-    {
-        $this->validate($request);
-
-        $user = auth()->user();
-
-        $profileOwnerUserNo = $request->get('profileOwner');
-        $delegatedUserStaffNo = $request->get('staffNumber');
-
-        $profileOwner = User::where(
-            TableColumns::STAFF_NUMBER,
-            QueryComparisonOperator::EQUALS,
-            $profileOwnerUserNo
-        )->first();
-        $profileOwnerProfile = $profileOwner->roles()->first();
-
-        $delegatedUser = User::where(
-            TableColumns::STAFF_NUMBER,
-            QueryComparisonOperator::EQUALS,
-            $delegatedUserStaffNo
-        )->first();
-        $delegatedUserProfile = $delegatedUser->roles()->first();
-
-        DB::beginTransaction();
-        ProfileDelegation::create([
-            'profile_owner' => $profileOwnerUserNo,
-            'delegated_to' => $delegatedUserStaffNo,
-            'owner_profile_id' => $profileOwnerProfile->id,
-            'delegated_profile_id' => $delegatedUserProfile->id ?? 0,
-            'period_from' => $request->get('startDate'),
-            'period_to' => $request->get('endDate'),
-            'justification' => $request->get('remarks'),
-            'created_by' => $user->staff_no,
-        ]);
-
-        $this->assignProfile($delegatedUser->id, [$profileOwnerProfile->id]);
-
-        DB::commit();
-    }
-
     public function updateUserDetails(UserProfileUpdate $request): void
     {
         DB::beginTransaction();
@@ -345,38 +307,5 @@ class UserService
         }
 
         return true;
-    }
-
-    /**
-     * @throws ActiveUserDelegationException
-     */
-    private function validate(DelegateProfile $request): void
-    {
-        // 1. user does not already have an active delegation
-        $count = ProfileDelegation::where(
-            'delegated_to',
-            QueryComparisonOperator::EQUALS,
-            $request->staffNumber)
-            ->whereDate('period_from', '<', Carbon::now())
-            ->whereDate('period_to', '>', Carbon::now())
-            ->count();
-
-        if ($count > 0) {
-            throw new ActiveUserDelegationException(
-                ErrorMessages::getMessage('err_0036')
-            );
-        }
-    }
-
-    public function assignProfile($userId, array $roleIds): void
-    {
-        $user = User::find($userId);
-        $user->roles()->sync($roleIds);
-    }
-
-    public function revokeProfile(mixed $userId, mixed $roleIds): void
-    {
-        $user = User::find($userId);
-        $user->roles()->detach($roleIds);
     }
 }

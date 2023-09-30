@@ -17,6 +17,8 @@ use App\Models\Security\Role;
 use App\Models\Security\User;
 use App\Services\Logging\ActivityLogsService;
 use App\Services\Organization\StructureService;
+use App\Services\Security\ProfileDelegationService;
+use App\Services\Security\ProfileService;
 use App\Services\Security\RoleService;
 use App\Services\Security\UserService;
 use Exception;
@@ -34,10 +36,16 @@ class UsersController extends Controller
 {
 
     private readonly UserService $userService;
+    private ProfileService $profileService;
+    private ProfileDelegationService $profileDelegation;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService              $userService,
+                                ProfileService           $profileService,
+                                ProfileDelegationService $profileDelegation)
     {
         $this->userService = $userService;
+        $this->profileService = $profileService;
+        $this->profileDelegation = $profileDelegation;
     }
 
     public function index(): Factory|View|Application
@@ -149,7 +157,7 @@ class UsersController extends Controller
     {
         try {
             DB::beginTransaction();
-            $this->userService->assignProfile($request->id, $request->role_ids);
+            $this->profileService->assignProfile($request->id, $request->role_ids);
             DB::commit();
             return redirect()->back()->with('message', 'User Successfully Added To Selected Groups ..');
         } catch (\Exception $e) {
@@ -161,7 +169,7 @@ class UsersController extends Controller
     public function detach(Request $request): RedirectResponse
     {
         DB::beginTransaction();
-        $this->userService->revokeProfile($request->id, $request->role_ids);
+        $this->profileService->revokeProfile($request->id, $request->role_ids);
         DB::commit();
 
         return redirect()->back()
@@ -219,7 +227,7 @@ class UsersController extends Controller
         try {
             Log::debug('Saving Profile Delegation');
 
-            $this->userService->initiateDelegation($request);
+            $this->profileDelegation->initiateDelegation($request);
 
             return response()->json(
                 FleetMasterJsonResponse::response(
