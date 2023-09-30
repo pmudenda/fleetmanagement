@@ -83,12 +83,12 @@
                                             {{$rec->quantity_issued ?? 0}}
                                         </td>
                                         <td>
-                                            @if(empty($rec->quantity_issued))
+                                            {{$rec->quantity - $rec->quantity_issued ?? 0 }}
+                                           {{-- @if(empty($rec->quantity_issued))
                                                 {{$rec->quantity ?? 0}}
                                             @else
                                                 {{$rec->issue_balance ?? 0}}
-                                            @endif
-
+                                            @endif--}}
                                         </td>
 
                                         <td>

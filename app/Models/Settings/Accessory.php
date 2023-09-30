@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Accessory extends Model
 {
-    use HasFactory;
-
     protected $table = 'CONFIG_ACCESSORIES';
 
     protected $fillable = [

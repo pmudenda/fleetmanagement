@@ -507,9 +507,9 @@
                             auth()->user()->staff_no == $workflowTask->assigned_user
                             && empty($workflowTask->date_ended)
                             )
-                            &&
+                            ||
                             (
-                                $delegatedProfileOwner == $workflowTask->assigned_user
+                                $workflowTask->assigned_user= $delegatedProfileOwner
                                 && empty($workflowTask->date_ended)
                             )
                             )

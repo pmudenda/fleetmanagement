@@ -20,7 +20,7 @@
                                                class="form-control form-control-sm"
                                                autocapitalize="characters"
                                                id="driver_staff_number"
-                                               placeholder=""
+                                               placeholder="Enter Name Or Staff Number"
                                                name="driver_staff_number"/>
                                         <div class="input-group-addon">
                                             <button type="button"

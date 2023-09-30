@@ -673,7 +673,13 @@
                     </div>
                     @if(!empty($workflowTask->assigned_user))
                         @if( (auth()->user()->staff_no == $workflowTask->assigned_user
-                            && empty($workflowTask->date_ended))
+                            && empty($workflowTask->date_ended)
+                            )
+                            ||
+                            (
+                                $delegatedProfileOwner == $workflowTask->assigned_user
+                                && empty($workflowTask->date_ended)
+                                )
                         )
                             <div class="card-footer">
                                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
