@@ -8,29 +8,40 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label class="field-required col-form-label  p-0 mb-2">Workshop</label>
-                    <select class="form-control form-control-solid" wire:model="workshop_code">
-                        <option value="">--</option>
-                        @foreach($workshops as $workshop)
-                            <option value="{{$workshop->workshop_code}}">{{$workshop->workshop_name}}</option>
-                        @endforeach
-                    </select>
-                </div>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <div class="form-group">
                     <label class="field-required col-form-label  p-0 mb-2">Workshop</label>
                     <select class="form-control form-control-solid" wire:model="workshop_code">
                         <option value="">--</option>
                         @foreach($workshops as $workshop)
-                            <option value="{{$workshop->workshop_code}}">{{$workshop->workshop_name}}</option>
+                            <option value="{{$workshop->id}}">{{$workshop->workshop_name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="field-required col-form-label  p-0 mb-2">Is Supervisor</label>
+                    <select class="form-control form-control-solid" wire:model="is_supervisor">
+                        <option value="">--</option>
+                        @foreach($supervisors as $id => $name)
+                            <option value="{{$id}}">{{$name}}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <x-button type="submit" class="btn btn-primary" wire:target="save">Save changes</x-button>
             </div>
         </div>
     </div>

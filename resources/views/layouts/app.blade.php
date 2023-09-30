@@ -598,6 +598,8 @@
     });
 
     $(document).ready(function (event) {
+
+
         $(document).on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
         });
@@ -627,6 +629,16 @@
 
     (function (tmsApp, $) {
         const mainProcessMetaData = {};
+
+        window.addEventListener('message', (event) => {
+                tmsApp.showToast(event.detail,"success")
+            });
+
+        window.addEventListener('modal-close', () => {
+            $('.modal').modal('hide');
+        });
+
+
         $(document).on('keypress', '.number_input', function (event) {
             tmsApp.numberOnly(event);
         });

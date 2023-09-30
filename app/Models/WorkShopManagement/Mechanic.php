@@ -36,8 +36,9 @@ class Mechanic extends Model {
     ];
 
     public function workshops() {
-        return $this->belongsToMany(WorkShop::class, 'MECHANIC_WORKSHOP','MECHANIC_ID','WORKSHOP_CODE','ID','WORKSHOP_CODE')
+        return $this->belongsToMany(WorkShop::class, 'MECHANIC_WORKSHOP')
             ->withTimestamps()
+            ->using(MechanicWorkshop::class)
             ->withPivot([
                 'is_supervisor',
                 'deleted_at'
