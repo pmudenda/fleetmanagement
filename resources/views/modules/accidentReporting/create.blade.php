@@ -410,6 +410,11 @@
                                 $('[name="job_title"]').val(driverDetails?.job_title);
 
                                 $("#driver_name").val(driverDetails.name);
+                                if(driverDetails.hasOwnProperty('con_per_no')){
+                                    $("#driver_staff_number").val(driverDetails.con_per_no);
+                                }else{
+                                    $("#driver_staff_number").val(driverDetails.staff_no);
+                                }
 
                                 $('[name="experience"]')
                                     .val(getYearsDifferenceFromNow(driverDetails?.license_date_issued));
@@ -439,11 +444,7 @@
                                 toastr.error('Connection error, no data found')
                                 return;
                             }
-
-
                             let userUnits = response['payload'];
-
-
                             window.organizationUnits = userUnits;
                             tmsApp.populateDropDownList(selectElem, userUnits, "code", ['name']);
 
