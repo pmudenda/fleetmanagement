@@ -26,6 +26,6 @@ class  ProfileDelegation extends Model
 
     public function delegatedRole(): HasOne
     {
-        return $this->hasOne(Role::class, 'owner_profile_id', 'id');
+        return $this->hasOne(Role::class, 'id', 'owner_profile_id');
     }
 }
