@@ -288,7 +288,8 @@
                 return {
                     dimension: ['product', ...years],
                     source: sourceData,
-                    years: years
+                    years: years,
+                    product: productValue
                 };
             }
 
@@ -310,18 +311,21 @@
                             ${accounting.formatMoney(params[0].data.value)}`;
                     }
                 },
+                legend: {
+                    data: dataByYear.productValue//['Forest', 'Steppe', 'Desert', 'Wetland']
+                },
                 /*dataset: {
                     dimensions: dataByYear.dimension,
                     source: dataByYear.source
                 },*/
-                legend: {
+                /*legend: {
                     type: 'scroll',
                     orient: 'horizontal',
                     right: 10,
                     top: 20,
                     bottom: 20,
                     data: dataByYear.years
-                },
+                },*/
                 xAxis: {
                     type: 'category',
                     data: dataByYear.years
