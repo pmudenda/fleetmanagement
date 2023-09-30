@@ -272,13 +272,38 @@
                     if (years.indexOf(datum['year']) === -1) {
                         years.push(datum['year']);
                     }
-
-                    series.push({
-                        value: obj[datum['year']],
-                        name: datum['fuel_type'],
-                        year: datum['year']
-                    });
                 }
+
+                console.log(obj);
+
+                let seriesData = {};
+                for (const fuelType of legendData) {
+                    seriesData[fuelType] = {
+                        name: fuelType,
+                        type: 'bar',
+                        barGap: 0,
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [320, 332, 301, 334, 390]
+                    }
+                }
+
+
+                /* [{
+                       data: dataByYear.source,
+                       type: 'bar',
+                       colorBy: 'data',
+                       showBackground: true,
+                       backgroundStyle: {
+                           color: 'rgba(180, 180, 180, 0.2)'
+                       }
+                   }])*/
+
+                for (const fuelType of legendData) {
+                    series = seriesData[fuelType]
+                }
+
 
                 for (const key in productValue) {
                     const dat = productValue[key];
@@ -286,10 +311,9 @@
                 }
 
                 return {
-                    dimension: ['product', ...years],
-                    source: sourceData,
+                    series: series,
                     years: years,
-                    product: productValue
+                    products: legendData
                 };
             }
 
@@ -311,37 +335,19 @@
                             ${accounting.formatMoney(params[0].data.value)}`;
                     }
                 },
+
                 legend: {
-                    data: dataByYear.productValue//['Forest', 'Steppe', 'Desert', 'Wetland']
+                    data: dataByYear.products
                 },
-                /*dataset: {
-                    dimensions: dataByYear.dimension,
-                    source: dataByYear.source
-                },*/
-                /*legend: {
-                    type: 'scroll',
-                    orient: 'horizontal',
-                    right: 10,
-                    top: 20,
-                    bottom: 20,
-                    data: dataByYear.years
-                },*/
                 xAxis: {
                     type: 'category',
+                    axisTick: {show: false},
                     data: dataByYear.years
                 },
                 yAxis: {
                     type: 'value'
                 },
-                series: [{
-                    data: dataByYear.source,
-                    type: 'bar',
-                    colorBy: 'data',
-                    showBackground: true,
-                    backgroundStyle: {
-                        color: 'rgba(180, 180, 180, 0.2)'
-                    }
-                }]
+                series: dataByYear.series
             };
 
             bar_chart.setOption(barCharOption)
