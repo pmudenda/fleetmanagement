@@ -74,7 +74,6 @@
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
                       id="jobCardForm"
-                      {{--action="{{route('save.workshop.requisition')}}"--}}
                       method="post">
                     @csrf
                     <h1>DETAILS</h1>
@@ -116,8 +115,7 @@
                        id="vehicle_registration"/>
                 <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_reg_no"
                        id="vehicle_reg_no"/>
-                {{--<input type="hidden" value="{{$details->workshop_doc_no ?? ''}}" name="workshop_reference"
-                       id="workshop_reference"/>--}}
+
                 <input type="hidden" value="{{$details->wshp_act_code ?? ''}}" name="workshop_reference"
                        id="workshop_reference"/>
                 <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
@@ -191,14 +189,6 @@
                                                size="25" maxlength="25"/><br/>
                                     </div>
                                 </div>
-                                {{-- <div >
-                                     <label class="app-label field-required app-field-null">Login Password</label>
-                                     <div>
-                                         <input type="password" id="loginPasswordInput"
-                                                class="form-control"
-                                                size="25" maxlength="25"/><br/>
-                                     </div>
-                                 </div>--}}
                                 <div class="signAsElement">
                                     <label class="app-label field-required app-field-null">eSignature Password</label>
                                     <div>
@@ -246,11 +236,6 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        {{--<button class="btn btn-sm btn-danger "
-                                id="closeSignatureModal"
-                                type="button">
-                            Close
-                        </button>--}}
                         <button type="button" class="btn btn-default pull-left"
                                 data-bs-dismiss="modal">Close
                         </button>
@@ -488,7 +473,8 @@
                             text: 'The Article '
                                 + article?.id
                                 + ' - ' + description + ' has no price. ' +
-                                ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
+                                ' Please Contact Fleet Master System Administrator ' +
+                                'on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
                         });
                         return;
                     }
@@ -637,7 +623,6 @@
                     let option = new Option(data.text, data.id, true, true);
                     selectElem.append(option).trigger('change');
 
-                    // manually trigger the `select2:select` event
                     selectElem.trigger({
                         type: 'select2:select',
                         params: {
@@ -745,9 +730,12 @@
                             $(row).find('input[name], select[name]').each(function (i, item) {
                                 let val = item.value.replace(/,/g, '');
 
-                                if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
+                                if (item.name === 'endDate'
+                                    || item.name === 'startDate'
+                                    || item.name === 'invoiceDate') {
                                     let dateField = val;
-                                    dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+                                    dateField = DateFormatter
+                                        .format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
 
                                     obj[item.name] = dateField;
                                 } else {
@@ -759,8 +747,6 @@
                         });
 
                         obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
-                        // obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
-                        // obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
 
                         if (formSel.data('modelName') === 'Defects') {
                             obj['job_card_no'] = $('input[name="job_card_voucher"]').val();
@@ -824,7 +810,8 @@
                         if (response.hasOwnProperty("success") && response.success) {
                             const message = response.message > ""
                                 ? response.message
-                                : "Request submitted successfully, Click 'Ok' Proceed to provide information for other sections";
+                                : "Request submitted successfully, Click 'Ok' " +
+                                "Proceed to provide information for other sections";
 
                             tmsApp.showSystemMessage(
                                 "Request Submission",
@@ -911,11 +898,11 @@
                     onStepChanged: function (event, currentIndex, priorIndex) {
 
                         if (currentIndex === 2 && priorIndex === 3) {
-                            //form.steps("previous");
+
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').removeClass('d-none');
                         }
                         adjustIframeHeight();
-                        //$('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
+
                         window.global_currentIndex = currentIndex;
                         if (currentIndex === 3) {
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').addClass('d-none');
@@ -948,8 +935,6 @@
                                 }
                             );
                         } else {
-                            //$('a[role="#finish"]').enableBtn();
-                            //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
                         }
 
                     },
@@ -1172,17 +1157,27 @@
                     }
                 }
 
-                let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+                let vLabel = vehicle['body_type_name']
+                    + ' ' + vehicle['brand_name']
+                    + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
-                let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
+                let row = `<tr><th>Make</th><td id="make">
+                                  ${vehicle['brand_name']}</td>
+                               </tr>
                                <tr>
-                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
+                                    <th>Model</th><td id="model">
+                                    ${vehicle['model_name']}${vehicle['model_code']}
+                                    </td>
                                </tr>
                                <tr style="">
-                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
+                                     <th>Type</th><td id="registration">
+                                    ${vehicle['body_type_name']}
+                                    </td>
                                 </tr>
                                 <tr style="">
-                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
+                                     <th>State:</th><td id="registration">
+                                        ${vehicle['status_name']}
+                                    </td>
                                 </tr>`;
 
                 $('tbody#vehicleDetails').html(row);
@@ -1273,7 +1268,9 @@
                         let optionListStr = '';
                         if (Array.isArray(response.payload)) {
                             response.payload.forEach(function (item) {
-                                optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
+                                optionListStr += `<option value="${item['con_per_no']}">
+                                                    ${item['con_per_no']} =>${item.name}
+                                                  </option>`;
                             })
 
                             $('#employee_list').html(optionListStr);
@@ -1299,7 +1296,9 @@
                         // set value in footer
                         $('#quantityTotal').text(tmsApp.getRawNumber(summaryTotalQty));
 
-                        let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=unit_price]").val());
+                        let lineAmountTotal = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr")
+                                .find("input[name=unit_price]").val());
                         $(element).closest("tr").find("input[name=total_price]").val(lineAmountTotal).change();
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
                         break;
@@ -1313,23 +1312,31 @@
                         // set value in footer
                         $('#serviceQuantityTotal').text(tmsApp.getRawNumber(serviceSummaryTotalQty));
 
-                        let serviceLineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_unit_price]").val());
-                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceLineAmountTotal);//.change();
-                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(serviceLineAmountTotal));
+                        let serviceLineAmountTotal = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr").find("input[name=service_unit_price]").val());
+                        $(element).closest("tr").find("input[name=service_total_price]")
+                            .val(serviceLineAmountTotal);//.change();
+                        $(element).closest("tr").find("#total_price")
+                            .text(tmsApp.numberFormat(serviceLineAmountTotal));
                         break;
 
                     case 'unit_price':
                         // line total = new material price multiplied by quantity value
-                        let totalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=quantity]").val());
+                        let totalAmount = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr").find("input[name=quantity]").val());
                         $(element).closest("tr").find("input[name=total_price]").val(totalAmount).change();
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(totalAmount));
                         break;
 
                     case 'service_unit_price':
-                        let serviceTotalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_quantity]").val());
-                        $(element).closest("tr").find("input[name=service_quantity]").change();
-                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceTotalAmount).change();
-                        $(element).closest("tr").find("#service_total_price").text(tmsApp.numberFormat(serviceTotalAmount));
+                        let serviceTotalAmount = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr").find("input[name=service_quantity]").val());
+                        $(element).closest("tr").find("input[name=service_quantity]")
+                            .change();
+                        $(element).closest("tr").find("input[name=service_total_price]")
+                            .val(serviceTotalAmount).change();
+                        $(element).closest("tr").find("#service_total_price")
+                            .text(tmsApp.numberFormat(serviceTotalAmount));
                         break;
 
                     case 'total_price':
@@ -1430,26 +1437,21 @@
                     document.querySelector('[name="imprestBuySupplier"]').removeAttribute('required');
 
                     document.querySelector('#pettyCashStoreContainer').style.display = null;
-                    //document.querySelector('[name="store_code"]').setAttribute('required', 'required');
                     $('.quantity').attr('readonly', false);
 
 
                 } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
-                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
                     document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
 
                     document.querySelector('#pettyCashStoreContainer').style.display = 'none';
-                    //document.querySelector('[name="store_code"]').removeAttribute('required');
                     $('.quantity').attr('readonly', 'readonly');
                     $('.quantity').val(1);
                 } else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
                     document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
-                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
 
                     document.querySelector('#storeContainer').style.display = 'none';
-                    //document.querySelector('[name="store_code"]').removeAttribute('required');
 
                     $('.quantity').attr('readonly', false);
                     $('[name="unit_price"]').attr('readonly', false);
@@ -1457,10 +1459,8 @@
                 } else {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
                     document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
-                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
 
                     document.querySelector('#pettyCashStoreContainer').style.display = 'none';
-                    //document.querySelector('[name="store_code"]').removeAttribute('required');
 
                     $('.quantity').attr('readonly', false);
                 }
@@ -1534,10 +1534,6 @@
                 }
 
                 if (tableId === "services_table") {
-                    // let row = lastRow[0];
-                    // $(row).find('.select2-container').remove();
-                    // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
                     lastRow.find('[name="service_article"]').val('');
                     // lastRow.find('[name="service_article"]')
                     lastRow.find('[name="serviceArticleCode"]').val('');
@@ -1627,11 +1623,9 @@
 
                 const $table = $('table#' + tableId);
                 if (tableId === "material_table") {
-                    //const materialTableRowTemplate = document.querySelector('#materialTableRowTemplate');
                     $table.find('tbody').append(materialTableRowTemplate);
                 } else {
                     if (tableId === "services_table") {
-                        //const serviceTableRowTemplate = document.querySelector('#serviceTableRowTemplate');
                         $table.find('tbody').append(serviceTableRowTemplate);
                     }
                 }
@@ -1693,7 +1687,8 @@
 
                 tmsApp.confirm(
                     "Are you sure ?",
-                    "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
+                    "The data entered on this line will be cleared out, " +
+                    "if not saved already, you will not be able to recover it",
                     "Yes",
                     "No",
                     function () {

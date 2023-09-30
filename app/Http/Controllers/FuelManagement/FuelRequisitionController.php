@@ -71,6 +71,7 @@ class FuelRequisitionController extends Controller
     {
         $staffNumber = auth()->user()->staff_no;
         $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($staffNumber);
+
         list($user,
             $requestDetails,
             $supportingDocument,
@@ -224,6 +225,8 @@ class FuelRequisitionController extends Controller
     public function edit(Request $request): View
     {
         Log::debug("Running Fuel Edit Request");
+        $staffNumber = auth()->user()->staff_no;
+        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($staffNumber);
 
         list($user,
             $requestDetails,
@@ -246,7 +249,8 @@ class FuelRequisitionController extends Controller
                 'workflowTask',
                 'supportingDocument',
                 'cities',
-                'citiesFrom'
+                'citiesFrom',
+                'delegatedProfileOwner'
             ));
     }
 
