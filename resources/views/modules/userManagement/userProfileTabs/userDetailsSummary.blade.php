@@ -86,7 +86,7 @@
                 @endforeach
             </p>
         </div>
-{{dd($userDelegating)}}
+
         @if(!empty($userDelegating) && Carbon\Carbon::now()->isBefore($userDelegating->period_to))
             <div class="col-lg-6 col-sm-12">
                 <p class="text-muted">
