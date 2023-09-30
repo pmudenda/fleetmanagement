@@ -14,7 +14,7 @@ use App\Http\Controllers\OrganizationStructure\DirectoratesController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\WorkShopManagement\WorkShopArticleController;
 use App\Models\Settings\GeneralTable;
-use App\Models\WorkShopManagement\WorkShopTable;
+use App\Models\WorkShopManagement\VehicleSystemDefects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
 
         Route::get('vehicle/systems', function (Request $request) {
             try {
-                $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))
+                $workShopTableData = VehicleSystemDefects::where('type_code', $request->get('key'))
                     ->where('status', '=', StatusHelper::active())
                     ->get();
                 return response()->json([
@@ -78,7 +78,7 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
             try {
                 Log::debug('Request filter ' . $request->get('key'));
 
-                $workShopTableData = WorkShopTable::where('type_code', 'WCT')
+                $workShopTableData = VehicleSystemDefects::where('type_code', 'WCT')
                     //->where('status', '=', 1)
                     ->where('parent', $request->get('key'))->get();
 
@@ -102,7 +102,7 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
             try {
                 Log::debug('Request filter ' . $request->get('key'));
 
-                $workShopTableData = WorkShopTable::where('type_code', 'WDF')
+                $workShopTableData = VehicleSystemDefects::where('type_code', 'WDF')
                     ->where('status', '=', StatusHelper::active())
                     ->where('parent', $request->get('key'))->get();
 

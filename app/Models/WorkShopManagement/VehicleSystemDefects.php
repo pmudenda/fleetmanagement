@@ -2,14 +2,13 @@
 
 namespace App\Models\WorkShopManagement;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WorkShopTable extends Model
+class VehicleSystemDefects extends Model
 {
     protected $table = 'CONFIG_VEHICLE_DEFECTS';
 
-    protected $fillable =[
+    protected $fillable = [
         'type_code',
         'parent',
         'code',

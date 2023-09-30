@@ -6,7 +6,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\RTSAIntegrationController;
 use App\Models\Settings\GeneralTable;
 use App\Models\Reference\GtaVehicle;
-use App\Models\WorkShopManagement\WorkShopTable;
+use App\Models\WorkShopManagement\VehicleSystemDefects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
