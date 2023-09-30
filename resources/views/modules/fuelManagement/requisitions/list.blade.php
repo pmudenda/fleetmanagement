@@ -35,7 +35,7 @@
                                     <th>Originator</th>
                                     <th>Odometer</th>
                                     <th>Qty. Requested</th>
-                                    <th>Qty. Issued</th>
+                                    <th>Qty. Bal</th>
                                     <th>Status</th>
                                     <th>Remarks</th>
                                     <th>Action</th>
@@ -79,7 +79,7 @@
                                             {{$rec->quantity}}
                                         </td>
                                         <td>
-                                            {{$rec->quantity_issued ?? 0}}
+                                            {{$rec->issue_balance ?? 0}}
                                         </td>
 
                                         <td>
