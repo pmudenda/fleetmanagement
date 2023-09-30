@@ -56,12 +56,13 @@
     </div>
 </div>
 <div class="post">
-    <div class="user-block">
-        <span class="username ml-1"><a href="#">POSITION AND PROFILES</a> </span>
-    </div>
+
     <div class="row">
 
         <div class="col-lg-6 col-sm-12">
+            <div class="user-block">
+                <span class="username ml-1"><a href="#">POSITION AND PROFILES</a> </span>
+            </div>
             <p class="text-muted">
                 <strong>Contract Type:</strong>
                 {{ $user->contract_type ?? '' }}
@@ -89,6 +90,9 @@
 
         @if(!empty($userDelegating) && Carbon\Carbon::now()->isBefore($userDelegating->period_to))
             <div class="col-lg-6 col-sm-12">
+                <div class="user-block">
+                    <span class="username ml-1"><a href="#">DELEGATED PROFILE</a> </span>
+                </div>
                 <p class="text-muted">
                     <strong>Delegation Period :</strong>
                     {{ Carbon\Carbon::parse($userDelegating->period_from ?? '0')->format('d-M-Y') ?? '' }}
@@ -96,7 +100,7 @@
                     {{ Carbon\Carbon::parse($userDelegating->period_to ?? '0')->format('d-M-Y') ??  '' }}
                 </p>
                 <p class="text-muted">
-                    <b>Acting Grade:</b>
+                    <b>Delegation Profile:</b>
                     {{ $userDelegating->delegatedRole->name ?? '' }}
                 </p>
                 {{--<p class="text-muted">
