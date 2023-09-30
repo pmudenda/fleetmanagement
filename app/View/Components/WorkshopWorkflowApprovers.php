@@ -8,6 +8,7 @@ use App\Models\Security\User;
 use App\Models\Workflow\WorkflowLog;
 use App\Models\Workflow\WorkflowTaskDetail;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\Component;
 
 class WorkshopWorkflowApprovers extends Component
@@ -43,13 +44,17 @@ class WorkshopWorkflowApprovers extends Component
             $this->task->reference)
             ->first();
 
-        $claimant = User::where(TableColumns::STAFF_NUMBER,
+        $claimant = User::where(
+            TableColumns::STAFF_NUMBER,
             QueryComparisonOperator::EQUALS,
             $this->request->created_by)->first();
 
+        Log::info($claimant);
+
         $supervisor = null;
         if (!empty($claimant)) {
-            $supervisor = User::where(TableColumns::STAFF_NUMBER,
+            $supervisor = User::where(
+                TableColumns::STAFF_NUMBER,
                 QueryComparisonOperator::EQUALS,
                 $claimant->supervisor_code)->first();
         }
@@ -58,7 +63,8 @@ class WorkshopWorkflowApprovers extends Component
 
         if (!empty($supervisor) && ($currentStep->current_step_id == '03'
                 || in_array('03', $steps))) {
-            $manager = User::where(TableColumns::STAFF_NUMBER,
+            $manager = User::where(
+                TableColumns::STAFF_NUMBER,
                 QueryComparisonOperator::EQUALS,
                 $supervisor->supervisor_code)->first();
         }
