@@ -2,6 +2,8 @@
 
 namespace App\View\Components;
 
+use App\Constants\QueryComparisonOperator;
+use App\Constants\TableColumns;
 use App\Models\Security\User;
 use App\Models\Workflow\WorkflowLog;
 use App\Models\Workflow\WorkflowTaskDetail;
@@ -29,21 +31,35 @@ class WorkshopWorkflowApprovers extends Component
     public function render(): View|string
     {
         $documentStatus = $this->request->status;
-        $approvalsArray = WorkflowLog::where('reference', $this->task->reference)
+        $approvalsArray = WorkflowLog::where('reference',
+            $this->task->reference)
             ->orderBy('action_date')
             ->get();
 
         $steps = $approvalsArray->pluck('step_id')->toArray();
-        $currentStep = WorkflowTaskDetail::where('reference', '=', $this->task->reference)
+        $currentStep = WorkflowTaskDetail::where(
+            'reference',
+            QueryComparisonOperator::EQUALS,
+            $this->task->reference)
             ->first();
 
-        $claimant = User::where('staff_no', '=', $this->request->created_by)->first();
-        $supervisor = User::where('staff_no', '=', $claimant->supervisor_code)->first();
+        $claimant = User::where(TableColumns::STAFF_NUMBER,
+            QueryComparisonOperator::EQUALS,
+            $this->request->created_by)->first();
+
+        $supervisor = null;
+        if (!empty($claimant)) {
+            $supervisor = User::where(TableColumns::STAFF_NUMBER,
+                QueryComparisonOperator::EQUALS,
+                $claimant->supervisor_code)->first();
+        }
+
         $manager = null;
 
-
         if (!empty($supervisor) && ($currentStep->current_step_id == '03' || in_array('03', $steps))) {
-            $manager = User::where('staff_no', '=', $supervisor->supervisor_code)->first();
+            $manager = User::where(TableColumns::STAFF_NUMBER,
+                QueryComparisonOperator::EQUALS,
+                $supervisor->supervisor_code)->first();
         }
 
         $snrManager = null;
