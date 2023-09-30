@@ -104,9 +104,9 @@ class ProfileDelegationService
             ]
         );
 
-        $roleIds = $delegatedUserProfile->pluck('id')->toArray();
+        $roleIds = $profileOwnerProfile->pluck('id')->toArray();
         $this->profileService->assignProfile($delegatedUser->id, $roleIds);
-        $this->profileService->revokeProfile($profileOwnerProfile->id, $roleIds);
+        $this->profileService->revokeProfile($profileOwner->id, $roleIds);
 
         DB::commit();
     }
