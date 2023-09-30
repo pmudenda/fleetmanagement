@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Driver extends Model
 {
-    use HasFactory;
     use SoftDeletes;
 
     protected $table = 'DM_DRIVER';

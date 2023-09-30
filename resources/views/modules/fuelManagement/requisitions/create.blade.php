@@ -681,7 +681,7 @@
                                                    class="form-control form-control-sm border-0"/>
                                         </td>
                                         <td>
-                                            <input type="number" name="material_quantity"
+                                            <input type="text" name="material_quantity"
                                                    max=""
                                                    min=""
                                                    disabled

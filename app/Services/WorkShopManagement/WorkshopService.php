@@ -28,7 +28,7 @@ use App\Models\WorkShopManagement\AssessmentObservation;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkshopLabour;
-use App\Models\WorkShopManagement\WorkShopTable;
+use App\Models\WorkShopManagement\VehicleSystemDefects;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
 use App\Models\WorkShopManagement\WorkShopVehicleDefect;
 use App\Services\FileUploads\FileUploadService;
@@ -329,7 +329,7 @@ class WorkshopService
                     "Defect already Registered for vehicle $vehicleRegistrationNumber");
             }
 
-            $dbDefect = WorkShopTable::where('parent', '=', $defect["defectCategory"])
+            $dbDefect = VehicleSystemDefects::where('parent', '=', $defect["defectCategory"])
                 ->where('code', '=', $defect["defect"])
                 ->first();
             WorkShopVehicleDefect::firstOrCreate(

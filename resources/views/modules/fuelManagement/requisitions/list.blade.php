@@ -36,6 +36,7 @@
                                     <th>Odometer</th>
                                     <th>Qty. Requested</th>
                                     <th>Qty. Issued</th>
+                                    <th>Qty. Bal.</th>
                                     <th>Status</th>
                                     <th>Remarks</th>
                                     <th>Action</th>
@@ -80,6 +81,14 @@
                                         </td>
                                         <td>
                                             {{$rec->quantity_issued ?? 0}}
+                                        </td>
+                                        <td>
+                                            @if(empty($rec->quantity_issued))
+                                                {{$rec->quantity ?? 0}}
+                                            @else
+                                                {{$rec->issue_balance ?? 0}}
+                                            @endif
+
                                         </td>
 
                                         <td>

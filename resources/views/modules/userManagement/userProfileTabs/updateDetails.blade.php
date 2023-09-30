@@ -149,12 +149,8 @@
         <label class="col-sm-2 field-required col-form-label"
                for="user_profile">Profile: </label>
         <div class="col-sm-10">
-            <select name="user_profile"
-                    id="user_profile"
+            <select id="user_profile"
                     @if(!$allowUpdate)
-                        disabled
-                    @endif
-                    @if(Auth::user()->id==$user->id)
                         disabled
                     @endif
                     class="@if($allowUpdate) form-select form-select-sm @else form-control  @endif"

@@ -198,7 +198,7 @@ class JobCardDetailsService
         $vehicleSys = 'VEH_SYS';
         $defectCategory = 'WCT';
         $defects = DB::table("wm_vehicle_defects def")
-            ->join("wm_workshop_tables wckt", function (JoinClause $join) use ($defectCategory) {
+            ->join("config_vehicle_defects wckt", function (JoinClause $join) use ($defectCategory) {
                 $join->on("def.defect_category_code",
                     QueryComparisonOperator::EQUALS,
                     "wckt.code")
@@ -209,7 +209,7 @@ class JobCardDetailsService
                         );
                     });
             })
-            ->join("wm_workshop_tables wckta",
+            ->join("config_vehicle_defects wckta",
                 function (JoinClause $join) use ($vehicleSys) {
                     $join->on("def.veh_sys",
                         QueryComparisonOperator::EQUALS,
@@ -264,7 +264,7 @@ class JobCardDetailsService
             ->where("wshp_act_code",
                 QueryComparisonOperator::EQUALS,
                 $details->wshp_act_code)
-            ->join('wm_workshop_tables defect',
+            ->join('config_vehicle_defects defect',
                 'labour.defect_id',
                 QueryComparisonOperator::EQUALS,
                 'defect.id')

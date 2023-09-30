@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DataCleanUp extends Model
 {
-    use HasFactory;
     use SoftDeletes;
 
     protected $table = 'TMS_DATA_CLEAN_UP';

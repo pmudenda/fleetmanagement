@@ -272,13 +272,83 @@
                     if (years.indexOf(datum['year']) === -1) {
                         years.push(datum['year']);
                     }
-
-                    series.push({
-                        value: obj[datum['year']],
-                        name: datum['fuel_type'],
-                        year: datum['year']
-                    });
                 }
+
+                let seriesData = {};
+                let app = {};
+                app.config = {
+                    rotate: 90,
+                    align: 'left',
+                    verticalAlign: 'middle',
+                    position: 'insideBottom',
+                    distance: 15,
+                    onChange: function () {
+                        const labelOption = {
+                            rotate: app.config.rotate,
+                            align: app.config.align,
+                            verticalAlign: app.config.verticalAlign,
+                            position: app.config.position,
+                            distance: app.config.distance
+                        };
+                        myChart.setOption({
+                            series: [
+                                {
+                                    label: labelOption
+                                },
+                                {
+                                    label: labelOption
+                                },
+                                {
+                                    label: labelOption
+                                },
+                                {
+                                    label: labelOption
+                                }
+                            ]
+                        });
+                    }
+                };
+                const labelOption = {
+                    show: true,
+                    position: app.config.position,
+                    distance: app.config.distance,
+                    align: app.config.align,
+                    verticalAlign: app.config.verticalAlign,
+                    rotate: app.config.rotate,
+                    formatter: '{c}  {name|{a}}',
+                    fontSize: 16,
+                    rich: {
+                        name: {}
+                    }
+                };
+                for (const fuelType of legendData) {
+                    seriesData[fuelType] = {
+                        name: fuelType,
+                        type: 'bar',
+                        label: labelOption,
+                        barGap: 0,
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [320, 332, 301, 334, 390]
+                    }
+                }
+
+
+                /* [{
+                       data: dataByYear.source,
+                       type: 'bar',
+                       colorBy: 'data',
+                       showBackground: true,
+                       backgroundStyle: {
+                           color: 'rgba(180, 180, 180, 0.2)'
+                       }
+                   }])*/
+
+                for (const fuelType of legendData) {
+                    series = seriesData[fuelType]
+                }
+
 
                 for (const key in productValue) {
                     const dat = productValue[key];
@@ -286,9 +356,9 @@
                 }
 
                 return {
-                    dimension: ['product', ...years],
-                    source: sourceData,
-                    years: years
+                    series: series,
+                    years: years,
+                    products: legendData
                 };
             }
 
@@ -310,34 +380,19 @@
                             ${accounting.formatMoney(params[0].data.value)}`;
                     }
                 },
-                dataset: {
-                    dimensions: dataByYear.dimension,
-                    source: dataByYear.source
+
+                legend: {
+                    data: dataByYear.products
                 },
-                /*legend: {
-                    type: 'scroll',
-                    orient: 'horizontal',
-                    right: 10,
-                    top: 20,
-                    bottom: 20,
-                    data: dataByYear.years
-                },*/
                 xAxis: {
                     type: 'category',
+                    axisTick: {show: false},
                     data: dataByYear.years
                 },
                 yAxis: {
                     type: 'value'
                 },
-                series: [{
-                    data: dataByYear.source,
-                    type: 'bar',
-                    colorBy: 'data',
-                    showBackground: true,
-                    backgroundStyle: {
-                        color: 'rgba(180, 180, 180, 0.2)'
-                    }
-                }]
+                series: dataByYear.series
             };
 
             bar_chart.setOption(barCharOption)
@@ -366,94 +421,4 @@
 
         })(window.tmsApp || {});
     </script>
-
-    <script>
-        /* let chartDom = document.getElementById('pie2');
-         let myPieChart = echarts.init(chartDom);
-
-         let pieOption = {
-             legend: {},
-             tooltip: {
-                 trigger: 'axis',
-                 showContent: false
-             },
-             dataset: {
-                 source: [
-                     ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
-                     ['Milk Tea', 56.5, 82.1, 88.7, 70.1, 53.4, 85.1],
-                     ['Matcha Latte', 51.1, 51.4, 55.1, 53.3, 73.8, 68.7],
-                     ['Cheese Cocoa', 40.1, 62.2, 69.5, 36.4, 45.2, 32.5],
-                     ['Walnut Brownie', 25.2, 37.1, 41.2, 18, 33.9, 49.1]
-                 ]
-             },
-             xAxis: {type: 'category'},
-             yAxis: {gridIndex: 0},
-             grid: {top: '55%'},
-             series: [
-                 {
-                     type: 'line',
-                     smooth: true,
-                     seriesLayoutBy: 'row',
-                     emphasis: {focus: 'series'}
-                 },
-                 {
-                     type: 'line',
-                     smooth: true,
-                     seriesLayoutBy: 'row',
-                     emphasis: {focus: 'series'}
-                 },
-                 {
-                     type: 'line',
-                     smooth: true,
-                     seriesLayoutBy: 'row',
-                     emphasis: {focus: 'series'}
-                 },
-                 {
-                     type: 'line',
-                     smooth: true,
-                     seriesLayoutBy: 'row',
-                     emphasis: {focus: 'series'}
-                 },
-                 {
-                     type: 'pie',
-                     id: 'pie',
-                     radius: '30%',
-                     center: ['50%', '25%'],
-                     emphasis: {
-                         focus: 'self'
-                     },
-                     label: {
-                         formatter: '{b}: {@2012} ({d}%)'
-                     },
-                     encode: {
-                         itemName: 'product',
-                         value: '2012',
-                         tooltip: '2012'
-                     }
-                 }
-             ]
-         };
-         myPieChart.on('updateAxisPointer', function (event) {
-             const xAxisInfo = event.axesInfo[0];
-             if (xAxisInfo) {
-                 const dimension = xAxisInfo.value + 1;
-                 myChart.setOption({
-                     series: {
-                         id: 'pie',
-                         label: {
-                             formatter: '{b}: {@[' + dimension + ']} ({d}%)'
-                         },
-                         encode: {
-                             value: dimension,
-                             tooltip: dimension
-                         }
-                     }
-                 });
-             }
-         });
-
-         myPieChart &&
-         myPieChart.setOption(pieOption);*/
-    </script>
-
 @endpush

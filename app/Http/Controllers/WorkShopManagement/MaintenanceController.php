@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\WorkShopManagement;
 
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
+use App\Constants\TableColumns;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
 use App\Exceptions\DataNotFoundException;
@@ -26,6 +28,7 @@ use App\Models\RequisitionType;
 use App\Models\Settings\GeneralTable;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Models\WorkShopManagement\Mechanic;
+use App\Services\Security\ProfileDelegationService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\JobCardDetailsService;
 use App\Services\WorkShopManagement\WorkshopRequisitionService;
@@ -45,17 +48,20 @@ class MaintenanceController extends Controller
     private DocumentNumberGenerationService $numberGeneratorService;
     private WorkshopRequisitionService $workshopRequisitionService;
     private readonly JobCardDetailsService $jobCardDetailsService;
+    private ProfileDelegationService $profileDelegationService;
 
     public function __construct(WorkshopService                 $workshopService,
                                 DocumentNumberGenerationService $numberGeneratorService,
                                 WorkshopRequisitionService      $workshopRequisitionService,
-                                JobCardDetailsService           $jobCardDetailsService
+                                JobCardDetailsService           $jobCardDetailsService,
+                                ProfileDelegationService        $profileDelegationService
     )
     {
         $this->workshopService = $workshopService;
         $this->numberGeneratorService = $numberGeneratorService;
         $this->workshopRequisitionService = $workshopRequisitionService;
         $this->jobCardDetailsService = $jobCardDetailsService;
+        $this->profileDelegationService = $profileDelegationService;
     }
 
     public function create(Request $request): View
@@ -78,7 +84,8 @@ class MaintenanceController extends Controller
             $pettyCashItems,
             $observation
             ) = $this->jobCardDetailsService->getFullJobCardDetails(
-            $request->get("reference") ?? $request->get('ref'));
+            $request->get("reference") ?? $request->get('ref')
+        );
 
         $mechanics = [];
         if (!empty($details)) {
@@ -241,11 +248,15 @@ class MaintenanceController extends Controller
 
     public function show(Request $request): View
     {
+
         $this->verifyRequestSignature($request);
 
         $requestNumber = $request->get("ref");
 
         $user = Auth::user();
+
+        $staffNumber = $user->staff_no;
+        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($staffNumber);
 
         [$header, $details] = $this->workshopRequisitionService->getWorkShopReservationDetails($requestNumber);
 
@@ -255,9 +266,18 @@ class MaintenanceController extends Controller
             abort(404);
         }
 
-        $workflowTask = WorkflowTaskHeader::where("reference", "=", $requestNumber)->first();
+        $workflowTask = WorkflowTaskHeader::where(
+            "reference",
+            QueryComparisonOperator::EQUALS,
+            $requestNumber
+        )->first();
 
-        $requisitionTypes = RequisitionType::where("status", "01")->where("module", "FR")->get();
+        $requisitionTypes = RequisitionType::where(
+            TableColumns::STATUS,
+            QueryComparisonOperator::EQUALS,
+            StatusHelper::active()
+        )->where("module", "FR")
+            ->get();
 
         $daysToNextRefuel = config("settings.fuel_requisition_validity");
 
@@ -271,7 +291,8 @@ class MaintenanceController extends Controller
                 "details",
                 "daysToNextRefuel",
                 "approvalHistory",
-                "workflowTask"
+                "workflowTask",
+                "delegatedProfileOwner"
             ));
     }
 

@@ -168,9 +168,8 @@
                                       id="remarks"
                                       name="remarks"
                                       style="height: 129px;"
-                                      class="form-control form-control-sm">
-                                {{$comments->where('type','=','DEF')->first()->remarks ??''}}
-                            </textarea>
+                                      class="form-control form-control-sm"
+                            >{{$comments->where('type','=','DEF')->first()->remarks ??''}}</textarea>
                         @else
                             <textarea type="text"
                                       id="remarks"

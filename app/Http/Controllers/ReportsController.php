@@ -60,24 +60,24 @@ class ReportsController extends Controller
 
         $costByYear = $query
             ->select(DB::raw('SUM(ttl) as cost, year, fuel_type'))
-            ->where('year', '=', $year)
-            ->where('month', '=', $month)
+            //->where('year', '=', $year)
+            //->where('month', '=', $month)
             ->groupBy('year', 'fuel_type')
             ->orderBy('year')
             ->get();
 
         $costByUnit = $query
             ->select(DB::raw('SUM(ttl) as cost, year, fuel_req_unit'))
-            ->where('year', '=', $year)
-            ->where('month', '=', $month)
+            //->where('year', '=', $year)
+            //->where('month', '=', $month)
             ->groupBy('year', 'fuel_req_unit')
             ->orderBy('year')
             ->get();
 
         $costByType = $query
             ->select(DB::raw('SUM(ttl) as cost, fuel_type'))
-            ->where('year', '=', $year)
-            ->where('month', '=', $month)
+            //->where('year', '=', $year)
+            //->where('month', '=', $month)
             ->groupBy('year', 'fuel_type')
             ->orderBy('year')
             ->get();
