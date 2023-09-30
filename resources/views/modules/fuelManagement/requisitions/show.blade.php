@@ -695,7 +695,7 @@
             </div>
         </div>
 
-        <x-workshop-workflow-approvers :task="$workflowTask" :request="$requestDetails"/>
+        <x-fuel-workflow-approvers :task="$workflowTask" :request="$requestDetails"/>
 
         <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
     </section>
