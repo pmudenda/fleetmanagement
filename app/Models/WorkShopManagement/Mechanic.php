@@ -2,10 +2,10 @@
 
 namespace App\Models\WorkShopManagement;
 
+use App\Models\Settings\WorkShop;
 use Illuminate\Database\Eloquent\Model;
 
-class Mechanic extends Model
-{
+class Mechanic extends Model {
     protected $table = 'wm_mechanics';
     protected $fillable = [
         'email',
@@ -34,6 +34,15 @@ class Mechanic extends Model
         'pay_point',
         'job_code'
     ];
+
+    public function workshops() {
+        return $this->belongsToMany(WorkShop::class, 'MECHANIC_WORKSHOP','MECHANIC_ID','WORKSHOP_CODE','ID','WORKSHOP_CODE')
+            ->withTimestamps()
+            ->withPivot([
+                'is_supervisor',
+                'deleted_at'
+            ]);
+    }
 
 
 }

@@ -30,6 +30,5 @@ Homestead.json
 vendor
 vendor/*
 .scribe
-composer.lock
-composer.json
+
 .scannerwork/
