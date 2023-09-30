@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('WM_WORKSHOP_TABLES', function (Blueprint $table) {
+        Schema::create('CONFIG_VEHICLE_DEFECTS', function (Blueprint $table) {
             $table->id();
             $table->string('type_code', 10)->nullable();
             $table->string('parent', 10)->nullable();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('WM_WORKSHOP_TABLES');
+        Schema::dropIfExists('CONFIG_VEHICLE_DEFECTS');
     }
 };

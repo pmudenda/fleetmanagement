@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class WorkShopTable extends Model
 {
-    protected $table = 'WM_WORKSHOP_TABLES';
+    protected $table = 'CONFIG_VEHICLE_DEFECTS';
 
     protected $fillable =[
         'type_code',
