@@ -26,9 +26,9 @@ class WorkshopAdd extends Component {
     public function save() {
         $this->validate();
 
-
-        $this->mechanic->workshops()->attach($this->workshop_code, ['is_supervisor' => $this->is_supervisor]);
+        $this->mechanic->workshops()->attach($this->workshop_code, ['is_superpvisor' => $this->is_supervisor]);
         $this->dispatch('modal-close','close');
+        $this->dispatch('update');
 
         $this->dispatch('message', 'Workshop added successfully');
     }

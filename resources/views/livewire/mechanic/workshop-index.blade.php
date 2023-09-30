@@ -19,7 +19,7 @@
                     <td>{{$workshop->pivot->created_at->toformattedDateString()}}</td>
                     <td>
                       <div class="btn-toolbar">
-                          <button class="btn btn-icon"><i class="fa fa-pencil"></i> </button>
+                          <x-button class="btn btn-link btn-sm text-danger" wire:click="remove({{$workshop->id}})" wire:target="remove({{$workshop->id}})">remove </x-button>
                       </div>
                     </td>
                 </tr>
@@ -32,6 +32,9 @@
 
             @endforelse
             </tbody>
+            <tfoot>
+            {{$workshops->links()}}
+            </tfoot>
         </table>
     </div>
 

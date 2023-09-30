@@ -42,7 +42,7 @@ class Mechanic extends Model {
             ->withPivot([
                 'is_supervisor',
                 'deleted_at'
-            ]);
+            ])->wherePivotNull('deleted_at');
     }
 
 
