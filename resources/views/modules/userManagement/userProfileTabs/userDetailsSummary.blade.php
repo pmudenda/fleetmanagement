@@ -87,28 +87,22 @@
             </p>
         </div>
 
-        @if(!empty($user_acting->acting_date_from))
+        @if(!empty($userDelegating) && Carbon\Carbon::now()->isBefore($userDelegating->period_to))
             <div class="col-lg-6 col-sm-12">
                 <p class="text-muted">
                     <strong>Acting Period :</strong>
-                    {{ Carbon\Carbon::parse($user_acting->acting_date_from ?? '0')->format('d-M-Y') ?? '' }}
+                    {{ Carbon\Carbon::parse($userDelegating->period_from ?? '0')->format('d-M-Y') ?? '' }}
                     To
-                    {{ Carbon\Carbon::parse($user_acting->acting_date_to ?? '0')->format('d-M-Y') ?? ('' ?? '') }}
+                    {{ Carbon\Carbon::parse($userDelegating->period_to ?? '0')->format('d-M-Y') ??  '' }}
                 </p>
                 <p class="text-muted">
                     <b>Acting Grade:</b>
-                    {{ $user_acting->grade->name ?? '' }}
+                    {{ $userDelegating->delegatedRole->name ?? '' }}
                 </p>
-                <p class="text-muted">
+                {{--<p class="text-muted">
                     <b>Acting Category:</b>
-                    {{ $user_acting->grade->category->name ?? '' }}
-                </p>
-                <p class="text-muted">
-                    <b>
-                        Acting Position:
-                    </b>
-                    {{ $user_acting->acting_position ?? '' }}
-                </p>
+                    {{ $userDelegating->grade->category->name ?? '' }}
+                </p>--}}
             </div>
         @endif
     </div>

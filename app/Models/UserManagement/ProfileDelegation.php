@@ -2,7 +2,9 @@
 
 namespace App\Models\UserManagement;
 
+use App\Models\Security\Role;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class  ProfileDelegation extends Model
 {
@@ -21,4 +23,9 @@ class  ProfileDelegation extends Model
         'cancelled_by',
         'date_cancelled',
     ];
+
+    public function delegatedRole(): HasOne
+    {
+        return $this->hasOne(Role::class, 'owner_profile_id', 'id');
+    }
 }

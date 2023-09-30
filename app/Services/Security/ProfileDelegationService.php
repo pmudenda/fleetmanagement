@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 class ProfileDelegationService
 {
     private ProfileService $profileService;
+
     public function __construct(ProfileService $profileService)
     {
         $this->profileService = $profileService;
@@ -90,16 +91,18 @@ class ProfileDelegationService
         $delegatedUserProfile = $delegatedUser->roles()->first();
 
         DB::beginTransaction();
-        ProfileDelegation::create([
-            'profile_owner' => $profileOwnerUserNo,
-            'delegated_to' => $delegatedUserStaffNo,
-            'owner_profile_id' => $profileOwnerProfile->id,
-            'delegated_profile_id' => $delegatedUserProfile->id ?? 0,
-            'period_from' => $request->get('startDate'),
-            'period_to' => $request->get('endDate'),
-            'justification' => $request->get('remarks'),
-            'created_by' => $user->staff_no,
-        ]);
+        ProfileDelegation::create(
+            [
+                'profile_owner' => $profileOwnerUserNo,
+                'delegated_to' => $delegatedUserStaffNo,
+                'owner_profile_id' => $profileOwnerProfile->id,
+                'delegated_profile_id' => $delegatedUserProfile->id ?? 0,
+                'period_from' => $request->get('startDate'),
+                'period_to' => $request->get('endDate'),
+                'justification' => $request->get('remarks'),
+                'created_by' => $user->staff_no,
+            ]
+        );
 
         $roleIds = $delegatedUserProfile->pluck('id')->toArray();
         $this->profileService->assignProfile($delegatedUser->id, $roleIds);

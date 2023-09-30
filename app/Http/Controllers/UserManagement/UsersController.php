@@ -128,9 +128,11 @@ class UsersController extends Controller
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
         $passwordChangeOnly = false;
+        $userDelegating = $this->profileDelegation->getDelegatedProfileOwner($user->staff_no);
         return view('modules.userManagement.show')
             ->with(compact(
                 'user',
+                'userDelegating',
                 'passwordChangeOnly',
                 'roles'
             ));
