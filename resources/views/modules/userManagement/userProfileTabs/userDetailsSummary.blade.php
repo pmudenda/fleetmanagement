@@ -86,11 +86,11 @@
                 @endforeach
             </p>
         </div>
-
+{{dd($userDelegating)}}
         @if(!empty($userDelegating) && Carbon\Carbon::now()->isBefore($userDelegating->period_to))
             <div class="col-lg-6 col-sm-12">
                 <p class="text-muted">
-                    <strong>Acting Period :</strong>
+                    <strong>Delegation Period :</strong>
                     {{ Carbon\Carbon::parse($userDelegating->period_from ?? '0')->format('d-M-Y') ?? '' }}
                     To
                     {{ Carbon\Carbon::parse($userDelegating->period_to ?? '0')->format('d-M-Y') ??  '' }}
