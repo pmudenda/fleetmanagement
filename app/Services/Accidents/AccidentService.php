@@ -3,6 +3,7 @@
 namespace App\Services\Accidents;
 
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
 use App\Constants\WorkflowModules;
 use App\Exceptions\DuplicateDataException;
 use App\Http\Requests\AccidentRecordingRequest;
@@ -112,9 +113,17 @@ class AccidentService
      */
     private function validateAccidentReport(AccidentRecordingRequest $request): void
     {
-        $accidentRecords = Accident::where('vehicle_reg_no', '=', $request->get('registrationNo'))
-            ->where('date_of_accident', '=', Carbon::parse($request->validated('date')))
-            ->get();
+        $dateOfAccident = $request->get('date_of_accident');
+
+        $accidentRecords = Accident::where('vehicle_reg_no',
+            QueryComparisonOperator::EQUALS,
+            $request->get('registrationNo')
+        )
+            ->where('date_of_accident',
+                QueryComparisonOperator::EQUALS,
+                Carbon::parse($dateOfAccident)
+            )
+            ->first();
 
         if (!empty($accidentRecords)) {
             throw new DuplicateDataException(
