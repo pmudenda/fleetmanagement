@@ -69,7 +69,7 @@
                                         </td>
                                         <td>
                                             <div class="text-sm">
-                                                <h5 class="text-white">{{$claimant->name}}</h5>
+                                                <h5 class="text-white">{{$claimant->name ?? ''}}</h5>
                                             </div>
                                             <small>
                                                 {{$claimant->job_title ?? '-'}}
@@ -92,7 +92,8 @@
                             <div class="card card-body
                             @if ($documentStatus == StatusHelper::new())
                                 next
-                            @elseif ($documentStatus != StatusHelper::new() || in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
+                            @elseif ($documentStatus != StatusHelper::new() || in_array($documentStatus,
+                                    [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
                                 processed
                             @else
                                 pending
@@ -105,7 +106,9 @@
                                     <tbody>
                                     <tr>
                                         <td>
-                                            @if ($documentStatus != StatusHelper::new() || in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
+                                            @if ($documentStatus != StatusHelper::new()
+                                            || in_array($documentStatus,
+                                             [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
                                                 <input type="checkbox" checked="checked">
                                             @else
                                                 <input type="checkbox" disabled>
@@ -113,7 +116,7 @@
                                         </td>
                                         <td>
                                             <div class="text-sm">
-                                                <h5 class="text-white">{{ $supervisor->name }}</h5>
+                                                <h5 class="text-white">{{ $supervisor->name ?? ''}}</h5>
                                             </div>
                                             <small>
                                                 {{$supervisor->job_title ?? '-'}}
@@ -131,7 +134,8 @@
                                 </table>
                             </div>
                         </div>
-                        @if ($documentStatus != StatusHelper::new() || in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
+                        @if ($documentStatus != StatusHelper::new() || in_array($documentStatus,
+                            [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
                             <div class="col-1">
                                 <span class="arrow"></span>
                             </div>
@@ -139,57 +143,59 @@
                     </div>
                 </div>
 
-                @if(!empty($manager)))
-                <div class="col-3">
-                    <div class="row">
-                        <div class="col-11">
-                            <div class="card card-body
+                @if(!empty($manager))
+                    )
+                    <div class="col-3">
+                        <div class="row">
+                            <div class="col-11">
+                                <div class="card card-body
                             @if ($documentStatus != StatusHelper::new() && !in_array('03', $steps))
                                 next
-                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]) && in_array('03', $steps))
+                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(),
+                            StatusHelper::authorised()]) && in_array('03', $steps))
                                 processed
                             @else
                                 pending
                             @endif"
-                                 style="border-radius: 2em;">
+                                     style="border-radius: 2em;">
                                 <span class="font-weight-bold">
                                         3. SECOND LEVEL APPROVAL
                                 </span>
-                                <table class="table table-sm ">
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            @if ($documentStatus != StatusHelper::new() && in_array('03', $steps))
-                                                <input type="checkbox" checked="checked">
-                                            @else
-                                                <input type="checkbox" disabled>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <div class="text-sm">
-                                                <h5 class="text-white">{{$manager->name }}</h5>
-                                            </div>
-                                            <small>
-                                                {{$manager->job_title ?? '-'}}
-                                            </small>
-                                        </td>
-                                    </tr>
-                                    @if (empty($manager))
-                                        <tr class="text-danger">
-                                            <td><input type="checkbox" disabled></td>
-                                            <td>Not Aligned</td>
+                                    <table class="table table-sm ">
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                @if ($documentStatus != StatusHelper::new() && in_array('03', $steps))
+                                                    <input type="checkbox" checked="checked">
+                                                @else
+                                                    <input type="checkbox" disabled>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div class="text-sm">
+                                                    <h5 class="text-white">{{$manager->name ?? '' }}</h5>
+                                                </div>
+                                                <small>
+                                                    {{$manager->job_title ?? '-'}}
+                                                </small>
+                                            </td>
                                         </tr>
-                                    @endif
+                                        @if (empty($manager))
+                                            <tr class="text-danger">
+                                                <td><input type="checkbox" disabled></td>
+                                                <td>Not Aligned</td>
+                                            </tr>
+                                        @endif
 
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-1  ">
+                                <span class="arrow"></span>
                             </div>
                         </div>
-                        <div class="col-1  ">
-                            <span class="arrow"></span>
-                        </div>
                     </div>
-                </div>
                 @endif
 
                 @if(!empty($snrManager))
@@ -199,7 +205,8 @@
                                 <div class="card card-body
                                 @if ($documentStatus != StatusHelper::new() && !in_array('03', $steps))
                                 next
-                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]) && in_array('03', $steps))
+                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(),
+                                StatusHelper::authorised()]) && in_array('03', $steps))
                                 processed
                             @else
                                 pending
@@ -215,7 +222,8 @@
                                         {{--  @foreach ($dm_unit_users as $item)
                                               <tr>
                                                   <td>
-                                                      @if (in_array(config('constants.subsistence_status.station_mgr_approved'), $approvals_array))
+                                                      @if (in_array(config('constants.subsistence_status.station_mgr_approved'),
+                                                      $approvals_array))
                                                           <input type="checkbox" checked="checked">
                                                       @else
                                                           <input type="checkbox" disabled>
@@ -253,7 +261,8 @@
                                 <div class="card card-body
                                 @if ($documentStatus != StatusHelper::new() && !in_array('03', $steps))
                                 next
-                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]) && in_array('03', $steps))
+                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(),
+                                StatusHelper::authorised()]) && in_array('03', $steps))
                                 processed
                             @else
                                 pending
@@ -268,7 +277,8 @@
                                         {{--   @foreach ($hrm_unit_users as $item)
                                                <tr>
                                                    <td>
-                                                       @if (in_array(config('constants.subsistence_status.hr_approved'), $approvals_array))
+                                                       @if (in_array(config('constants.subsistence_status.hr_approved'),
+                                                        $approvals_array))
                                                            <input type="checkbox" checked="checked">
                                                        @else
                                                            <input type="checkbox" disabled>
@@ -307,7 +317,8 @@
                                 <div class="card card-body
                                 @if ($documentStatus != StatusHelper::new() && !in_array('03', $steps))
                                 next
-                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]) && in_array('03', $steps))
+                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(),
+                                StatusHelper::authorised()]) && in_array('03', $steps))
                                 processed
                             @else
                                 pending
@@ -321,7 +332,9 @@
                                         {{--     @foreach ($ca_unit_users as $item)
                                                  <tr>
                                                      <td>
-                                                         @if (in_array(config('constants.subsistence_status.chief_accountant'), $approvals_array))
+                                                         @if (in_array(
+                                                                config('constants.subsistence_status.chief_accountant'),
+                                                                $approvals_array))
                                                              <input type="checkbox" checked="checked">
                                                          @else
                                                              <input type="checkbox" disabled>
@@ -359,7 +372,8 @@
                                 <div class="card card-body
                                  @if ($documentStatus != StatusHelper::new() && !in_array('03', $steps))
                                 next
-                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]) && in_array('03', $steps))
+                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(),
+                                    StatusHelper::authorised()]) && in_array('03', $steps))
                                 processed
                             @else
                                 pending
@@ -374,7 +388,8 @@
                                         {{--@foreach ($expenditure_unit_users as $item)
                                             <tr>
                                                 <td>
-                                                    @if (in_array(config('constants.subsistence_status.chief_accountant'), $approvals_array))
+                                                    @if (in_array(config('constants.subsistence_status.chief_accountant')
+                                                    , $approvals_array))
                                                         <input type="checkbox" checked="checked">
                                                     @else
                                                         <input type="checkbox" disabled>
