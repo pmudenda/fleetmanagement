@@ -91,6 +91,7 @@ class AccidentRecordingController extends Controller
     public function list(Request $request): View
     {
         $accidents = Accident::paginate(100);
+
         return view("modules.accidentReporting.list")
             ->with(compact(
                 'accidents',
