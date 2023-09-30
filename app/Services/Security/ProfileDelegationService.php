@@ -52,7 +52,7 @@ class ProfileDelegationService
             'delegated_to',
             QueryComparisonOperator::EQUALS,
             $request->staffNumber)
-            ->whereDate('period_from', '<', Carbon::now())
+            ->whereDate('period_from', '<=', Carbon::now())
             ->whereDate('period_to', '>', Carbon::now())
             ->count();
 
@@ -114,10 +114,11 @@ class ProfileDelegationService
     public function getDelegatedProfile($staffNumber)
     {
         $activeDelegation = ProfileDelegation::where(
-            'delegated_to', QueryComparisonOperator::EQUALS,
+            'delegated_to',
+            QueryComparisonOperator::EQUALS,
             $staffNumber
         )
-            ->whereDate('period_from', '<', Carbon::now())
+            ->whereDate('period_from', '<=', Carbon::now())
             ->whereDate('period_to', '>', Carbon::now())
             ->first();
 
