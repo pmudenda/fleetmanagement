@@ -40,6 +40,8 @@
     <link rel="stylesheet" href="{{asset('libs/session.timeout/session.timeout.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/asyncLoader.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/jquery-ui.css')}}"/>
+    @livewireStyles
+
     <style>
         .nav-link {
             padding: 0.65rem 1rem;
@@ -575,6 +577,8 @@
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/qrcode/qrcode.min.js').'?v='.Carbon::now()->format('his')}}"></script>
+@livewireScripts
+
 @include('layouts.partials.dataTableScripts')
 <script type="text/javascript">
     function generateBarcode(data) {

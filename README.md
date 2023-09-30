@@ -33,8 +33,7 @@ php artisan vendor:publish --provider="Yajra\DataTables\DataTablesServiceProvide
 
 - [ composer install]()
 #(Optional)
-- [ php artisan migrate:fresh --seed]()
-- [ php artisan adldap:import ]()
+
 ## Folder Permissions
 - change directory to application root directory
 1. sudo chown -R $USER:apache . 	

@@ -199,7 +199,17 @@
                                             Data Update
                                         </a>
                                     </li>
+
+                                    <li class="card-title">
+                                        <a class="nav-link"
+                                           href="#workshops"
+                                           data-toggle="tab">
+                                            Workshops
+                                        </a>
+                                    </li>
                                 @endcan
+
+
                             </ul>
                         </div>
                         <div class="card-body">
@@ -284,25 +294,6 @@
                                                     <p class="text-muted">
                                                         <strong>Staff No.:</strong>
                                                         {{--{{ $user->supervisor_code ?? '' }}--}}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="post">
-                                            <div class="user-block">
-                                                <span class="username ml-1"><a href="#">WORKSHOP</a> </span>
-                                            </div>
-                                            <div class="row">
-
-                                                <div class="col-lg-6 col-sm-12">
-                                                    <p class="text-muted">
-                                                        <strong>Name:</strong>
-                                                        {{ $mechanic->workshop_name ?? '' }}
-                                                    </p>
-                                                    <p class="text-muted">
-                                                        <strong>Section .:</strong>
-                                                        {{ $mechanic->wkshp_section_name ?? '' }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -515,6 +506,10 @@
                                     </form>
                                     <x-employee-search-modal/>
 
+                                </div>
+
+                                <div class="tab-pane" id="workshops">
+                                    <livewire:mechanic.workshop-index :mechanic="$mechanic->id"/>
                                 </div>
                             </div>
                         </div>
