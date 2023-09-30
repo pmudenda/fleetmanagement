@@ -20,6 +20,11 @@ class WorkshopAdd extends Component
     public function render()
     {
         $workshops = WorkShop::all();
+//        $supervisors
         return view('livewire.mechanic.workshop-add',compact('workshops'));
+    }
+
+    public function save(){
+
     }
 }
