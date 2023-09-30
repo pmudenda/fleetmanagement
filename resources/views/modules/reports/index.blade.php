@@ -274,13 +274,25 @@
                     }
                 }
 
-                console.log(obj);
-
                 let seriesData = {};
+                const labelOption = {
+                    show: true,
+                    position: app.config.position,
+                    distance: app.config.distance,
+                    align: app.config.align,
+                    verticalAlign: app.config.verticalAlign,
+                    rotate: app.config.rotate,
+                    formatter: '{c}  {name|{a}}',
+                    fontSize: 16,
+                    rich: {
+                        name: {}
+                    }
+                };
                 for (const fuelType of legendData) {
                     seriesData[fuelType] = {
                         name: fuelType,
                         type: 'bar',
+                        label: labelOption,
                         barGap: 0,
                         emphasis: {
                             focus: 'series'
