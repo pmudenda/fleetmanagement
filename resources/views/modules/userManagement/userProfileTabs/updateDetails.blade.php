@@ -149,10 +149,12 @@
         <label class="col-sm-2 field-required col-form-label"
                for="user_profile">Profile: </label>
         <div class="col-sm-10">
-            <select id="user_profile"
+            <select name="user_profile"
+                    id="user_profile"
                     @if(!$allowUpdate)
                         disabled
                     @endif
+
                     class="@if($allowUpdate) form-select form-select-sm @else form-control  @endif"
                     required>
                 <option value>--Choose Profile--</option>
