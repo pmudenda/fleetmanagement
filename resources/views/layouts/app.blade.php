@@ -636,7 +636,6 @@
 
         window.addEventListener('modal-close', () => {
             $('.modal').modal('hide');
-            console.log('I am listening');
         });
 
 

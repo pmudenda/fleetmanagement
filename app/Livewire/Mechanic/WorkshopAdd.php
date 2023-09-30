@@ -31,5 +31,6 @@ class WorkshopAdd extends Component {
         $this->dispatch('update');
 
         $this->dispatch('message', 'Workshop added successfully');
+        $this->reset('workshop_code','is_supervisor');
     }
 }
