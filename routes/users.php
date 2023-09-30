@@ -18,7 +18,7 @@ Route::group(['middleware' => ['auth','is.active','change.password']], function 
         Route::post('users/resetPassword', [PasswordResetController::class, 'resetPassword'])
             ->name('user.reset.password');
 
-        Route::resource('/user', UsersController::class);
+        Route::resource('/user', UsersController::class)->except(['update']);
 
         Route::post('/get-employee-data', [UsersController::class, 'employeeSearch'])->name('user.search');
 
@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth','is.active','change.password']], function 
         Route::post('user/profile/delegation', [UsersController::class, 'saveDelegation'])
             ->name('user.profile.delegation.store');
 
-        Route::post('user/update', [UsersController::class, 'update'])->name('user.update');
+        Route::post('user/details/update', [UsersController::class, 'update'])->name('user.update');
 
         Route::post('user/simulation/start', [UserSimulationController::class, 'start'])->name('start.user.simulation');
 
