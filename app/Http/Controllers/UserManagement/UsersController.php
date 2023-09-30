@@ -129,7 +129,7 @@ class UsersController extends Controller
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
         $passwordChangeOnly = false;
-        $userDelegating = $this->profileDelegation->getDelegatedProfileOwner($user->staff_no);
+        $userDelegating = $this->profileDelegation->getDelegatedProfile($user->staff_no);
         return view('modules.userManagement.show')
             ->with(compact(
                 'user',
@@ -151,9 +151,12 @@ class UsersController extends Controller
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
         $passwordChangeOnly = false;
-        $userDelegating = $this->profileDelegation->getDelegatedProfileOwner($user->staff_no);
+        $userDelegating = $this->profileDelegation->getDelegatedProfile($user->staff_no);
         return view('modules.userManagement.show')
-            ->with(compact('user', 'passwordChangeOnly', 'userDelegating', 'roles'));
+            ->with(compact('user',
+                'passwordChangeOnly',
+                'userDelegating',
+                'roles'));
 
     }
 

@@ -111,4 +111,21 @@ class ProfileDelegationService
         DB::commit();
     }
 
+    public function getDelegatedProfile($staffNumber)
+    {
+        $activeDelegation = ProfileDelegation::where(
+            'delegated_to', QueryComparisonOperator::EQUALS,
+            $staffNumber
+        )
+            ->whereDate('period_from', '<', Carbon::now())
+            ->whereDate('period_to', '>', Carbon::now())
+            ->first();
+
+        if (empty($activeDelegation)) {
+            return null;
+        }
+
+        return $activeDelegation;
+    }
+
 }
