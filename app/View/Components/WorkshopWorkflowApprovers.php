@@ -56,7 +56,8 @@ class WorkshopWorkflowApprovers extends Component
 
         $manager = null;
 
-        if (!empty($supervisor) && ($currentStep->current_step_id == '03' || in_array('03', $steps))) {
+        if (!empty($supervisor) && ($currentStep->current_step_id == '03'
+                || in_array('03', $steps))) {
             $manager = User::where(TableColumns::STAFF_NUMBER,
                 QueryComparisonOperator::EQUALS,
                 $supervisor->supervisor_code)->first();
