@@ -180,7 +180,7 @@
                             @can(config('rights.set_vehicle_fuel_allocation'))
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
+                                       href="{{ route('vehicle.fuel.allocation') }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Fuel Allocation</p>
                                     </a>
