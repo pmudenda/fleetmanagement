@@ -320,7 +320,7 @@
 
                 tmsApp.confirmWithInput(
                     'Are you sure you want to cancel the delegation ?',
-                    'Enter Justification',
+                    'Justification',
                     'Yes',
                     'No, Cancel',
                     function () {
