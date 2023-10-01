@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\UserManagement;
 
 use App\Constants\ErrorMessages;
+use App\Constants\SystemMessages;
 use App\Exceptions\ActiveUserDelegationException;
 use App\Exceptions\UserNotActiveException;
 use App\Http\Controllers\Controller;
@@ -85,16 +86,15 @@ class ProfileDelegationController extends Controller
     public function cancel(Request $request): JsonResponse
     {
         try {
-            Log::debug('Saving Profile Delegation');
+            Log::debug('Cancelling Profile Delegation');
 
-            $this->profileDelegation->initiateDelegation($request);
+            $this->profileDelegation->cancelDelegation($request);
 
             return response()->json(
                 FleetMasterJsonResponse::response(
                     '',
                     true,
-                    'User Profile Delegation Started Successfully',
-                    []
+                    SystemMessages::DELEGATION_CANCELLED
                 )
             );
 
@@ -111,8 +111,7 @@ class ProfileDelegationController extends Controller
                 FleetMasterJsonResponse::response(
                     '',
                     false,
-                    $message,
-                    []
+                    $message
                 )
             );
         }

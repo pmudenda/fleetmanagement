@@ -1,7 +1,12 @@
 (function (appInstance, $, i) {
-        appInstance.confirmWithInput = async function (title, labelText, confirmButtonText, cancelButtonText,
-                                                       confirmCallBack, cancelCallBack,
-                                                       inputMaxLength, isMultilineInput) {
+        appInstance.confirmWithInput = async function (title,
+                                                       labelText,
+                                                       confirmButtonText,
+                                                       cancelButtonText,
+                                                       confirmCallBack,
+                                                       cancelCallBack,
+                                                       inputMaxLength,
+                                                       isMultilineInput) {
 
             const {value: dataVal} = await Swal.fire({
                 title: title !== "" && title !== i && title !== null ? title : " Prompt",

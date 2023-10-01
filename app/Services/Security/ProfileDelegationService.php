@@ -10,6 +10,7 @@ use App\Http\Requests\DelegateProfile;
 use App\Models\Security\User;
 use App\Models\UserManagement\ProfileDelegation;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProfileDelegationService
@@ -131,6 +132,11 @@ class ProfileDelegationService
         }
 
         return $activeDelegation;
+    }
+
+    public function cancelDelegation(Request $request)
+    {
+
     }
 
 }

@@ -318,9 +318,9 @@
                 const url = form.action;
                 let formData = new FormData(form);
 
-                tmsApp.confirm(
-                    'Are you sure ?',
-                    'You want to cancel the delegation',
+                tmsApp.confirmWithInput(
+                    'Are you sure you want to cancel the delegation ?',
+                    'Enter Justification',
                     'Yes',
                     'No, Cancel',
                     function () {
@@ -380,7 +380,9 @@
                     },
                     () => {
 
-                    }
+                    },
+                    255,
+                    true
                 );
 
             });
