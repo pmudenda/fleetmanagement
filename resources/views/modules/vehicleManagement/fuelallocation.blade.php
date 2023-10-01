@@ -66,9 +66,9 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-xs-12 col-sm-6
+                                                                    class="col-xs-12 col-sm-6
                                                                 col-md-5 col-lg-4 field-required"
-                                                                for="vehicle_registration">Registration #:
+                                                                    for="vehicle_registration">Registration #:
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <div class="input-group">
@@ -122,7 +122,7 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <div
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4
                                                                 control-input-wrapper">
                                                                 <div class="control-input">
                                                                     <div class="link-field ui-front"
@@ -156,7 +156,7 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <div
-                                                                class=" col-xs-12 col-sm-6 col-md-5
+                                                                    class=" col-xs-12 col-sm-6 col-md-5
                                                                  col-lg-4 control-input-wrapper">
                                                                 <div class="control-input">
                                                                     <div class="link-field ui-front"
@@ -191,10 +191,10 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-xs-12 col-sm-6
+                                                                    class="col-xs-12 col-sm-6
                                                                 col-md-5
                                                                 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                                    for="staff_name">
                                                                 Requisition Type:
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -285,7 +285,7 @@
                     return;
                 }
 
-                findVehicle();
+                tmsApp.findVehicle();
             });
 
         })(window.tmsApp || {}, jQuery);
