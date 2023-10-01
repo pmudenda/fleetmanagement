@@ -101,7 +101,7 @@
                                                 <div data-qbefield="tasknumber"
                                                      class="qbefield">
                                                     <label
-                                                        class="qbefieldlabel" title="Reg #">
+                                                            class="qbefieldlabel" title="Reg #">
                                                         REG NUMBER
                                                     </label>
                                                     <div class="qbe_operator">
@@ -143,6 +143,26 @@
                                                     <select name="status"
                                                             class="qbe_operator form-select form-select-sm">
                                                     </select>
+                                                </div>
+
+                                                <div data-qbefield="status"
+                                                     style="min-width: 220px;"
+                                                     class="qbefield">
+                                                    <label class="qbefieldlabel" title="Status">
+                                                        Has Tom Card
+                                                    </label>
+                                                    <div class="qbe_operator mb-3">
+                                                        <select name="hasTomCard"
+                                                                class="qbe_operator form-select form-select-sm">
+                                                            <option></option>
+                                                            <option value="YES">
+                                                                YES
+                                                            </option>
+                                                            <option value="NO">
+                                                                NO
+                                                            </option>
+                                                        </select>
+                                                    </div>
                                                 </div>
 
                                                 {{--<div data-qbefield="tasksubject" class="qbefield">
