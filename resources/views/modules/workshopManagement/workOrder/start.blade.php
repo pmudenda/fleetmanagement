@@ -73,6 +73,7 @@
 
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
+                      data-form-url="{{route('job.card.task')}}"
                       data-model-name="PostJobCard"
                       id="jobCardForm"
                       method="post">

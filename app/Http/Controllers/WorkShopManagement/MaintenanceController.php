@@ -223,7 +223,7 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function createTaskForWorkShopSupervisor(SubmitJobCardToSupervisor $request): ?JsonResponse
+    public function task(SubmitJobCardToSupervisor $request): ?JsonResponse
     {
         try {
             return $this->jobCardDetailsService->createTaskForWorkShopSupervisor($request);
