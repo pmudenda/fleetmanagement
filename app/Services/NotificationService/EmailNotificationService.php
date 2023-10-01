@@ -132,9 +132,8 @@ class EmailNotificationService
                     return false;
             }
 
-            Mail::to($to)
-                ->bcc(config("mail.blindCarbonCopy"))
-                ->send(new SendMail($details));
+            Mail::to($to)->send(new SendMail($details));
+
             Log::info('Email Sent ');
         } catch (Exception $e) {
             Log::error($e);
