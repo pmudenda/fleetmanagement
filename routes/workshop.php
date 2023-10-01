@@ -40,7 +40,6 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
     //Job Card Processing
     Route::group(['prefix' => 'maintenance'], function () {
 
-
         Route::get('open/job-card', [MaintenanceController::class, 'create'])
             ->name('show.job.card');
 

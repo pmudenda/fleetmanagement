@@ -1198,9 +1198,9 @@
                                                                                     data-doctype="EngineDetails"
                                                                                     @change="transmissionTypeChanged">
                                                                                 <option
-                                                                                        v-for="t in transmissionTypes"
-                                                                                        :value="t.code">
-                                                                                    @{{ transType.name }}
+                                                                                        v-for="transmissionType in transmissionTypes"
+                                                                                        :value="transmissionType.code">
+                                                                                    @{{ transmissionType.name }}
                                                                                 </option>
                                                                             </select>
                                                                             <input type="hidden" required/>
