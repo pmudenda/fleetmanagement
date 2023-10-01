@@ -142,7 +142,7 @@ $(document).ready(function (event) {
                             }
                             $("#simulationUsers").html(rows);
                             const name = obj[0].name;
-                            //$('#userIdentifier').val(obj?.con_per_no ?? obj?.staff_no);
+                            $('#userIdentifier').val(obj[0].staff_no);
                             $('#userNameIdentifier').val(name);
                         } else {
                             const name = obj?.name;
