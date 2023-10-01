@@ -89,7 +89,8 @@
     @include('layouts.menus.side_bar')
 
     <div class="content-wrapper">
-        @yield('content')
+        {{$slot}}
+
 
     </div>
     <!--Footer-->
