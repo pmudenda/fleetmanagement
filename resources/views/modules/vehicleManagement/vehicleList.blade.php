@@ -163,10 +163,10 @@
                                                         <select name="hasTomCard"
                                                                 class="qbe_operator form-select form-select-sm">
                                                             <option></option>
-                                                            <option value="YES">
+                                                            <option value="Y">
                                                                 YES
                                                             </option>
-                                                            <option value="NO">
+                                                            <option value="N">
                                                                 NO
                                                             </option>
                                                         </select>
