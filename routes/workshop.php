@@ -22,7 +22,8 @@ use Yajra\DataTables\Facades\DataTables;
 | Web Routes
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix' => 'workshop-management'], function () {
+Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
+    'prefix' => 'workshop-management'], function () {
 
     Route::get('workshops/list', [WorkshopController::class, 'index'])
         ->name('workshop.list');
@@ -47,9 +48,9 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
 
         // front desk
         Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])
-            ->name('vehicle.workshop.checkin');
+            ->name('workshop.checkin');
 
-        Route::post('vehicle/workshop/checkin', [MaintenanceController::class, 'createTaskForWorkShopSupervisor'])
+        Route::post('vehicle/workshop/create-task', [MaintenanceController::class, 'createTaskForWorkShopSupervisor'])
             ->name('vehicle.workshop.checkin');
 
         Route::post('assessment/acknowledgment', AssessmentAcknowledgementController::class)

@@ -3,12 +3,13 @@
 namespace App\Models\Security;
 
 use App\Models\MaterialHeader;
+use App\Models\UserManagement\ProfileDelegation;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
@@ -94,4 +95,23 @@ class User extends Authenticatable
     {
         return $this->hasMany(MaterialHeader::class, 'requested_by', 'staff_no');
     }
+
+    public function delegatedProfile(): HasOne
+    {
+        return $this->hasOne(ProfileDelegation::class, 'delegated_to', 'id')
+            ->whereDate('period_from', '<=', Carbon::now())
+            ->whereDate('period_to', '>', Carbon::now())
+            ->whereNull('date_cancelled');
+    }
+
+    public function profileDelegation(): HasOne
+    {
+        return $this->hasOne(ProfileDelegation::class, 'profile_owner')
+            ->whereDate('period_from', '<=', Carbon::now())
+            ->whereDate('period_to', '>', Carbon::now())
+            ->whereNull('date_cancelled');
+    }
+
+
+
 }

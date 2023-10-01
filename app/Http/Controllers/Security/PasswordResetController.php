@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class PasswordResetController extends Controller
 {
-    public function resetPassword(PasswordResetRequest $request): RedirectResponse
+    public function __invoke(PasswordResetRequest $request): RedirectResponse
     {
         $userId = ParameterEncryption::decrypt($request->get('userId'));
         $user = User::where('id', '=', $userId)->first();

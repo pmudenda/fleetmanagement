@@ -7,6 +7,7 @@
             tmsApp.showToast('User Not Found', 'error')
             return;
         }
+
         document.querySelector('[name="name"]').value = data?.name;
         document.querySelector('[name="staff_email"]').value = data?.staff_email;
         document.querySelector('[name="staff_number"]').value = data?.con_per_no;
@@ -75,7 +76,6 @@
         event.stopPropagation();
 
         let form = $(this);
-        // $("#loader_inv").removeClass('d-none');
 
         tmsApp.asyncPostFormData(
             form.attr('action'),
@@ -179,32 +179,6 @@
                                 </tr>`;
 
                 }
-
-                /*for (let i = 0; i < obj.length; i++) {
-                    rows += `<tr>
-                                <td>
-                                    <div class='form-group clearfix'>
-                                        <div class='icheck-warning d-inline'>`;
-                    rows += `<input type='radio'
-                                                            value='${obj.con_per_no}'
-                                                            data-userid='${obj.con_per_no}'
-                                                            data-name='${obj.name}'
-                                                            data-email='${obj.email}'
-                                                            id='users'
-                                                            name='users[]'>`;
-                    rows += `</div></div>
-                                    </td>
-                                    <td>
-                                       ${obj.name}
-                                    </td>
-                                    <td>
-                                        ${obj.email}
-                                    </td>
-                                    <td>
-                                        ${obj.job_title}
-                                    </td>
-                                </tr>`;
-                }*/
 
                 let tableClose = `</tbody></table>`;
 

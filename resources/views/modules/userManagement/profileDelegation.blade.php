@@ -276,7 +276,7 @@
                                                             <input type="hidden"
                                                                    id="currentProfile"
                                                                    name="currentProfile"
-                                                                   value="{{$user->roles()->first()->id}}"
+                                                                   value="{{$user->roles()->first()->id ?? 0}}"
                                                             />
                                                             <input type="text"
                                                                    value="{{$user->roles()->first()->name ?? 'N/A'}}"

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'reports'], function () {
 
-    Route::get('fuel/cost', [ReportsController::class, 'fuelCost'])
+    Route::get('fuel/cost', \App\Livewire\Reports\Fuel\FuelIndex::class)
         ->name('reports.fuel.requisitions');
 
     Route::get('data/fuel/cost', [ReportsController::class, 'getFuelCost'])->name('reports.fuel.data');

@@ -24,28 +24,6 @@
             border: 2px solid orangered;
         }
 
-        label:before {
-            font-family: fontawesome;
-            font-weight: normal;
-            margin-right: 10px;
-        }
-
-        label[for*='1']:before {
-            content: '\f1cb';
-        }
-
-        label[for*='2']:before {
-            content: '\f17d';
-        }
-
-        label[for*='3']:before {
-            content: '\f16b';
-        }
-
-        label[for*='4']:before {
-            content: '\f1a9';
-        }
-
         label:hover {
             color: #888;
             cursor: pointer;
@@ -92,7 +70,7 @@
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"
-                                            @endif
+                                                @endif
                                         />
                                     @else
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
@@ -102,7 +80,7 @@
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"
-                                            @endif
+                                                @endif
                                         />
                                     @endif
                                 </a>
@@ -333,6 +311,66 @@
         (function (tmsApp) {
             tmsApp.initDatatable("#groupsTable", false, true, []);
 
+            $(document).on('submit', 'form[name="formCancelDelegation"]', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const form = this;
+                const url = form.action;
+                let formData = new FormData(form);
+
+                tmsApp.confirmWithInput(
+                    'Are you sure you want to cancel the delegation ?',
+                    'Justification',
+                    'Yes',
+                    'No, Cancel',
+                    function (comments) {
+                        formData.set('justification', comments);
+                        tmsApp.asyncPostFormData(
+                            url,
+                            formData,
+                            function (asyncResponse) {
+                                if (asyncResponse.hasOwnProperty('success')
+                                    && asyncResponse['success']) {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'Cancel Delegation',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'Cancel Delegation',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                }
+                            },
+                            function (xhr, settings, errorThrown) {
+                                setTimeout(function () {
+                                    tmsApp.showErrorMessages(xhr, 'Cancel Delegation');
+                                }, 300);
+                            }
+                        );
+                    },
+                    () => {
+
+                    },
+                    255,
+                    true
+                );
+
+            });
+
             $(document).on('submit', 'form[name="updateDataUpdate"]', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -376,25 +414,9 @@
                                 }
                             },
                             function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
                                 setTimeout(function () {
-                                    if ('responseJSON' in xhr) {
-                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                        }
-                                        if (xhr.responseJSON.hasOwnProperty('message')) {
-                                            tmsApp.systemError(
-                                                'User Detail Update',
-                                                xhr.responseJSON['message']
-                                            );
-                                        }
-                                        return;
-                                    }
-
-                                    tmsApp.systemError(
-                                        'User Detail Update',
-                                        'We could not complete processing your request, please try again later');
-                                }, 300)
+                                    tmsApp.showErrorMessages(xhr, 'User Detail Update');
+                                }, 300);
                             }
                         );
                     },
@@ -447,25 +469,9 @@
                                 }
                             },
                             function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
                                 setTimeout(function () {
-                                    if ('responseJSON' in xhr) {
-                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                        }
-                                        if (xhr.responseJSON.hasOwnProperty('message')) {
-                                            tmsApp.systemError(
-                                                'User Detail Update',
-                                                xhr.responseJSON['message']
-                                            );
-                                        }
-                                        return;
-                                    }
-
-                                    tmsApp.systemError(
-                                        'User Detail Update',
-                                        'We could not complete processing your request, please try again later');
-                                }, 300)
+                                    tmsApp.showErrorMessages(xhr, 'User Detail Update');
+                                }, 300);
                             }
                         )
                     },

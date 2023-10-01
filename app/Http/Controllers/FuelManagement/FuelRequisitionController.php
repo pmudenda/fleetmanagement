@@ -69,8 +69,8 @@ class FuelRequisitionController extends Controller
 
     public function show(Request $request): View
     {
-        $staffNumber = auth()->user()->staff_no;
-        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($staffNumber);
+        $userId = auth()->user()->id;
+        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($userId);
 
         list($user,
             $requestDetails,
@@ -225,8 +225,8 @@ class FuelRequisitionController extends Controller
     public function edit(Request $request): View
     {
         Log::debug("Running Fuel Edit Request");
-        $staffNumber = auth()->user()->staff_no;
-        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($staffNumber);
+
+        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner(auth()->user()->id);
 
         list($user,
             $requestDetails,

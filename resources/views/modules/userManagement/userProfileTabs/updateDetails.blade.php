@@ -65,7 +65,8 @@
     </div>
 
     <div class="form-group row">
-        <label for="inputExperience" class="col-sm-2 col-form-label field-required">
+        <label for="inputExperience"
+               class="col-sm-2 col-form-label field-required">
             Business Area:
         </label>
         <div class="col-sm-10">
@@ -115,10 +116,10 @@
                     <div class="input-group-append">
                         @if($allowUpdate)
                             <div
-                                data-assignmenttype="single"
-                                data-inputfield="staff_supervisor"
-                                data-field="userSelection"
-                                class="input-group-text">
+                                    data-assignmenttype="single"
+                                    data-inputfield="staff_supervisor"
+                                    data-field="userSelection"
+                                    class="input-group-text">
                                 <i class="fa fa-user"></i>
                             </div>
                             <div style="cursor: pointer;"
@@ -130,7 +131,7 @@
                             </div>
                         @else
                             <div
-                                class="input-group-text">
+                                    class="input-group-text">
                                 <i class="fa fa-user"></i>
                             </div>
                             <div style="cursor: pointer;"
@@ -165,11 +166,11 @@
                                     value="{{$groupName->id}}">{{$groupName->description}}</option>
                         @else
                             <option
-                                value="{{$groupName->id}}">{{$groupName->description}}</option>
+                                    value="{{$groupName->id}}">{{$groupName->description}}</option>
                         @endif
                     @else
                         <option
-                            value="{{$groupName->id}}">{{$groupName->description}}</option>
+                                value="{{$groupName->id}}">{{$groupName->description}}</option>
                     @endif
 
                 @endforeach

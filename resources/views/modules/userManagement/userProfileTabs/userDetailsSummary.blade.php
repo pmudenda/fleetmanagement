@@ -28,19 +28,6 @@
                     User Unit:
                 </b>
                 {{$user->user_unit ?? '' }}
-                {{--@if (Auth::user()->type_id == config('constants.user_types.developer')
-                    || Auth::user()->type_id == config('constants.user_types.mgt'))
-                    <a href="{{ route('logout') }}" class="text-dark"
-                       onclick="event.preventDefault(); document.getElementById('search-form12').submit();">
-                        {{ $user->user_unit ?? ''}}
-                    </a>
-            <form id="search-form12"
-                  action="#"
-                  method="post" class="d-none">
-                @csrf
-            </form>
-            @else
-            @endif--}}
             </p>
             <p class="text-muted">
                 <b class="text-dark">
@@ -56,12 +43,13 @@
     </div>
 </div>
 <div class="post">
-    <div class="user-block">
-        <span class="username ml-1"><a href="#">POSITION AND PROFILES</a> </span>
-    </div>
+
     <div class="row">
 
         <div class="col-lg-6 col-sm-12">
+            <div class="user-block">
+                <span class="username ml-1"><a href="#">POSITION AND PROFILES</a> </span>
+            </div>
             <p class="text-muted">
                 <strong>Contract Type:</strong>
                 {{ $user->contract_type ?? '' }}
@@ -87,28 +75,71 @@
             </p>
         </div>
 
-        @if(!empty($user_acting->acting_date_from))
+        @if(!empty($userDelegating) && Carbon\Carbon::now()->isBefore($userDelegating->period_to))
             <div class="col-lg-6 col-sm-12">
+                <div class="user-block">
+                    <span class="username ml-1"><a href="#">DELEGATED PROFILE</a> </span>
+                </div>
                 <p class="text-muted">
-                    <strong>Acting Period :</strong>
-                    {{ Carbon\Carbon::parse($user_acting->acting_date_from ?? '0')->format('d-M-Y') ?? '' }}
+                    <strong>Period :</strong>
+                    {{ Carbon\Carbon::parse($userDelegating->period_from ?? '0')->format('d-M-Y') ?? '' }}
                     To
-                    {{ Carbon\Carbon::parse($user_acting->acting_date_to ?? '0')->format('d-M-Y') ?? ('' ?? '') }}
+                    {{ Carbon\Carbon::parse($userDelegating->period_to ?? '0')->format('d-M-Y') ??  '' }}
                 </p>
                 <p class="text-muted">
-                    <b>Acting Grade:</b>
-                    {{ $user_acting->grade->name ?? '' }}
+                    <b>Profile:</b>
+                    {{ $userDelegating->delegatedProfile->name ?? '' }}
                 </p>
+
                 <p class="text-muted">
-                    <b>Acting Category:</b>
-                    {{ $user_acting->grade->category->name ?? '' }}
+                    <b>Owner:</b>
+                    {{ $userDelegating->profileOwner->name ?? '' }}
                 </p>
-                <p class="text-muted">
-                    <b>
-                        Acting Position:
-                    </b>
-                    {{ $user_acting->acting_position ?? '' }}
-                </p>
+            </div>
+        @endif
+
+
+        @if(!empty($user->profileDelegation))
+            <div class="col-lg-6 col-sm-12">
+                <form name="formCancelDelegation"
+                      method="post"
+                      action="{{ route('user.profile.delegation.cancel') }}">
+                    <input type="hidden" name="profileOwner"
+                           value="{{$user->profileDelegation->profile_owner}}">
+                    <input type="hidden" name="delegatedUser"
+                           value="{{$user->profileDelegation->delegated_to}}">
+                    <div class="user-block">
+                        <span class="username ml-1">
+                            <a href="#">DELEGATED PROFILE</a>
+                        </span>
+                    </div>
+                    <p class="text-muted">
+                        <strong>Period :</strong>
+                        {{ Carbon\Carbon::parse($user->profileDelegation->period_from ?? '0')->format('d-M-Y') ?? '' }}
+                        To
+                        {{ Carbon\Carbon::parse($user->profileDelegation->period_to ?? '0')->format('d-M-Y') ??  '' }}
+                    </p>
+                    <p class="text-muted">
+                        <b>Profile:</b>
+                        {{ $user->profileDelegation->delegatedProfile->name ?? '' }}
+                    </p>
+
+                    <p class="text-muted">
+                        <b>Delegated To:</b>
+                        {{ $user->profileDelegation->delegatedUser->name ?? '' }}
+                    </p>
+
+                    @if(
+                        auth()->user()->can(config('rights.user_update'))
+                        ||
+                        auth()->user()->id = $user->profileDelegation->profile_owner
+                        )
+                        <button type="submit"
+                                class="btn btn-sm btn-danger">
+                            Cancel Delegation
+                        </button>
+                    @endif
+                </form>
             </div>
         @endif
     </div>

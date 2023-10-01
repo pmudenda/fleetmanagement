@@ -26,6 +26,5 @@ class WorkshopIndex extends Component {
         $this->mechanic->workshops()->updateExistingPivot($workshopId, ['deleted_at' => now()]);
         $this->dispatch('modal-close', 'close');
         $this->dispatch('message', 'Workshop removed successfully');
-        $this->dispatch('update');
     }
 }

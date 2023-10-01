@@ -222,6 +222,7 @@
                                     <input type="text"
                                            id="accident_number"
                                            readonly
+                                           value="{{$details->accident_ref ?? ''}}"
                                            class="form-control form-control-sm when_valid"
                                            required/>
                                 </div>

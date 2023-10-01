@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
     Route::post('/roles/revoke/permission', [RolesController::class, 'revokePermission'])
         ->name('roles.revoke.permission');
 
-    Route::resource('roles', RolesController::class);
+    Route::resource('roles', RolesController::class)->except(['update']);
 
     Route::post('roles/update/{role}', [RolesController::class, 'updateRole'])
         ->name('roles.update');

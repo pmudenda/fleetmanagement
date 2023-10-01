@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class PHCMSEmployee extends  Model
 {
-    protected $table = 'ipa_phris_view';
+    protected $table = 'IPA_PHCMS_FLEET_VIEW';
 }

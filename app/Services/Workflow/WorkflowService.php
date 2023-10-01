@@ -282,10 +282,11 @@ class WorkflowService
         return $response;
     }
 
-    public function getMyApprovalTasks($staffNumber): Collection
+    public function getMyApprovalTasks($user): Collection
     {
+        $staffNumber = $user->staff_no;
 
-        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($staffNumber);
+        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($user->id);
 
         return DB::table('WFL_WORKFLOW_TASK task_header')
             ->leftJoin('SEC_USERS users',
