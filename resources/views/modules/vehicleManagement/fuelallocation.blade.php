@@ -119,37 +119,56 @@
                                             </div>
                                         </div>
 
-                                        <div class="row">
+                                        <div class="row mt-5">
                                             <div class="col-xs-12 col-sm-6 col-md-6">
                                                 <div class="container-fluid pl-0">
                                                     <div class="row">
                                                         <div class="form-group row">
+                                                            <label
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                    for="staff_number">Start-Date:
+                                                            </label>
                                                             <div
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4
-                                                                control-input-wrapper">
-                                                                <div class="control-input">
-                                                                    <div class="link-field ui-front"
-                                                                         style="position: relative;">
-                                                                        <label class="form-check-inline">
-                                                                            <input type="radio" id="costOnCostCentre"
-                                                                                   class="list-row-checkbox
-                                                                                   bold mr-3 when_valid"
-                                                                                   name="CostAssignedTo"
-                                                                                   value="CostCenterBasedRequisition"
-                                                                                   checked>
-                                                                            Cost Center
-                                                                        </label>
+                                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                                                                <div class="input-group">
+                                                                    <input type="date"
+                                                                           onkeydown="return false"
+                                                                           class="form-control
+                                                                   form-control-sm"
+                                                                           id="startDate"
+                                                                           min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                           name="startDate"
+                                                                           required
+                                                                    />
+                                                                    <div class="input-group-append">
+                                                                        <div class="input-group-text">
+                                                                            <i class="fas fa-calendar">
+                                                                            </i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                <input type="text"
-                                                                       class="form-control form-control-sm"
-                                                                       id="cost_centre_code"
-                                                                       value="14456"
-                                                                       name="cost_centre_code"
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                <div class="container-fluid pl-0">
+                                                    <div class="row">
+                                                        <div class="form-group row">
+                                                            <label
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                    for="staff_number">End Date:
+                                                            </label>
+                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                                                                <input type="date"
+                                                                       onkeydown="return false"
+                                                                       class="form-control
+                                                               form-control-sm"
+                                                                       id="endDate"
+                                                                       min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                       name="endDate"
                                                                        required
-                                                                       readonly
                                                                 />
                                                             </div>
                                                         </div>
@@ -158,11 +177,42 @@
                                             </div>
                                         </div>
 
+                                        <div class="row mt-3">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                            for="remarks">
+                                                        Remarks :
+                                                    </label>
+                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                                    <textarea type="text"
+                                                              id="remarks"
+                                                              minlength="50"
+                                                              maxlength="255"
+                                                              required
+                                                              name="remarks"
+                                                              style="height: 129px;"
+                                                              class="form-control comments form-control-sm"
+                                                    ></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="submit"
+                                                    id="profileDelegationBtn"
+                                                    class="btn btn-sm btn-success">
+                                                <i class="fas fa-paper-plane"></i>
+                                                Submit
+                                            </button>
+                                        </div>
+
                                     </div>
                                     <div class="col-3">
                                         <div id="vehicleDetailsContainer" style="display: none;"
                                              class="col-xs-12 col-sm-12 col-md-12">
-                                            <h1>Vehicle Details</h1>
                                             <table role="table"
                                                    aria-label="vehicle details"
                                                    class="table">
@@ -177,7 +227,6 @@
                                         </div>
 
                                         <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
-                                            <h2 class="fs-2x fw-bold mb-10">Front View</h2>
                                             <div class="form-group">
                                                 <div class="imagePreview"></div>
                                             </div>
