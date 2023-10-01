@@ -35,11 +35,15 @@
                 <div class="">
                 </div>
                 <div class="form-card mb-2">
-                    <div class="form-card_body">
+                    <div class="form-card_body p-0">
                         @yield('content')
                         @if(env('APP_ENV') == "local")
                             <div class="row">
-                                <label>ZFM UAT</label>
+                                <div class="col-6">
+                                    <label>ZFMS UAT</label></div>
+                                <div class="col-6">
+                                    {{config('systeminfo.version')}}
+                                </div>
                             </div>
                         @endif
 
