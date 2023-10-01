@@ -35,7 +35,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-4">
                     <div class="alert alert-danger text-center">
-                        <h1>ZFM UAT</h1>
+                        <h1>ZFMS DEV</h1>
                     </div>
                 </div>
             </div>
