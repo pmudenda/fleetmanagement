@@ -363,9 +363,14 @@ class VehicleController extends Controller
     public function save(Request $request): void
     {
         $allocation = $request->allocationAmount;
-        $periodFrom = Carbon::parse($request->periodFrom);
-        $periodTo = Carbon::parse($request->periodTo);
+        $periodFrom = Carbon::parse($request->startDate);
+        $periodTo = null;
 
+        if (empty($request->endDate)) {
+            $periodTo = Carbon::parse($request->endDate);
+        }
+
+        DB::beginTransaction();
         FuelAllocation::create([
             'created_by' => auth()->user()->staff_no,
             'allocation_amount' => $allocation,
@@ -377,6 +382,7 @@ class VehicleController extends Controller
             'valid_for',
             'balance',
         ]);
+        DB::commit();
     }
 
     /**
