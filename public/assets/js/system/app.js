@@ -146,16 +146,16 @@ $(document).ready(function (event) {
                 .then(response => {
                     console.log(response);
                     if (response.success === 'true' || response.success === true) {
-
+                        const obj = response.payload;
                         let rows = '';
-                        if (Array.isArray(response.payload)) {
+                        if (Array.isArray(obj)) {
                             for (let i = 0; i < obj.length; i++) {
                                 rows += ``;
                             }
-                            const name = response.payload[0].name;
+                            const name = obj[0].name;
                             $('#userNameIdentifier').val(name);
                         } else {
-                            const name = response.payload?.name;
+                            const name = obj?.name;
                             $('#userNameIdentifier').val(name);
                         }
                     } else {
