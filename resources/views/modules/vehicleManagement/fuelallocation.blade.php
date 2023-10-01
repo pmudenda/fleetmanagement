@@ -119,73 +119,75 @@
                                             </div>
                                         </div>
 
-                                        <div class="row mt-5">
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                    for="staff_number">Start-Date:
-                                                            </label>
-                                                            <div
-                                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-                                                                <div class="input-group">
-                                                                    <input type="date"
-                                                                           onkeydown="return false"
-                                                                           class="form-control
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <div class="row mt-5">
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                            for="staff_number">Start-Date:
+                                                                    </label>
+                                                                    <div
+                                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                                                                        <div class="input-group">
+                                                                            <input type="date"
+                                                                                   onkeydown="return false"
+                                                                                   class="form-control
                                                                    form-control-sm"
-                                                                           id="startDate"
-                                                                           min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                                           name="startDate"
-                                                                           required
-                                                                    />
-                                                                    <div class="input-group-append">
-                                                                        <div class="input-group-text">
-                                                                            <i class="fas fa-calendar">
-                                                                            </i>
+                                                                                   id="startDate"
+                                                                                   min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                                   name="startDate"
+                                                                                   required
+                                                                            />
+                                                                            <div class="input-group-append">
+                                                                                <div class="input-group-text">
+                                                                                    <i class="fas fa-calendar">
+                                                                                    </i>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                    for="staff_number">End Date:
-                                                            </label>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-                                                                <input type="date"
-                                                                       onkeydown="return false"
-                                                                       class="form-control
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                            for="staff_number">End Date:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                                                                        <input type="date"
+                                                                               onkeydown="return false"
+                                                                               class="form-control
                                                                form-control-sm"
-                                                                       id="endDate"
-                                                                       min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                                       name="endDate"
-                                                                       required
-                                                                />
+                                                                               id="endDate"
+                                                                               min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                               name="endDate"
+                                                                               required
+                                                                        />
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="row mt-3">
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                            for="remarks">
-                                                        Remarks :
-                                                    </label>
-                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                                <div class="row mt-3">
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            <label
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                    for="remarks">
+                                                                Remarks :
+                                                            </label>
+                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                                                     <textarea type="text"
                                                               id="remarks"
                                                               minlength="50"
@@ -195,8 +197,11 @@
                                                               style="height: 129px;"
                                                               class="form-control comments form-control-sm"
                                                     ></textarea>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
 
