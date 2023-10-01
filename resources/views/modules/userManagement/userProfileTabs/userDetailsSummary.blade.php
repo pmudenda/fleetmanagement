@@ -100,10 +100,11 @@
 
 
         @if(!empty($user->profileDelegation))
-            <form name="formCancelDelegation"
-                  method="post"
-                  action="{{ route('user.profile.delegation.cancel') }}">
-                <div class="col-lg-6 col-sm-12">
+            <div class="col-lg-6 col-sm-12">
+                <form name="formCancelDelegation"
+                      method="post"
+                      action="{{ route('user.profile.delegation.cancel') }}">
+
                     <div class="user-block">
                         <span class="username ml-1">
                             <a href="#">DELEGATED PROFILE</a>
@@ -131,12 +132,12 @@
                         auth()->user()->id = $user->profileDelegation->profile_owner
                         )
                         <button type="submit"
-                                class="btn btn-sm btn-warning">
+                                class="btn btn-sm btn-danger">
                             Cancel Delegation
                         </button>
                     @endif
-                </div>
-            </form>
+                </form>
+            </div>
         @endif
     </div>
 </div>
