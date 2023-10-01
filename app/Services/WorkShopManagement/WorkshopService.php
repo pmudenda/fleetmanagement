@@ -165,12 +165,13 @@ class WorkshopService
                 QueryComparisonOperator::EQUALS,
                 "CONFIG_STATUSES.code")
             ->where("WM_JOB_CARD_HEADER.job_card_no",
-                QueryComparisonOperator::EQUALS, $reference)
+                QueryComparisonOperator::EQUALS,
+                $reference)
             ->select("WM_JOB_CARD_HEADER.*",
                 "CONFIG_GENERAL_TABLES.name as section_in_name",
                 "SEC_USERS.name as service_advisor",
                 "CONFIG_STATUSES.name as status_name",
-                "CONFIG_STATUSES.color_codee",
+                "CONFIG_STATUSES.color_code",
             )
             ->get();
 
