@@ -96,6 +96,11 @@ $(document).ready(function (event) {
         });
     });
 
+    $(document).on('change', '#simulationUsers', function () {
+        const  user = this.options[this.selectedIndex]
+        console.log(user);
+    })
+
     $(document).on('change', '[name="userIdentifier"]', function () {
         let searchTerm = this.value;
 
@@ -130,13 +135,14 @@ $(document).ready(function (event) {
                         let rows = '';
                         if (Array.isArray(obj)) {
                             for (let i = 0; i < obj.length; i++) {
-                                rows += `<option value="${obj[i].staff_no}">
+                                rows += `<option data-name="${obj[i].staff_no}}"
+                                            value="${obj[i].name}">
                                             ${obj[i].staff_no} ${obj[i].name}
                                         </option>`;
                             }
                             $("#simulationUsers").html(rows);
-                            const name = obj[0].name;
-                            $('#userIdentifier').val(obj?.con_per_no ?? obj?.staff_no);
+                            //const name = obj[0].name;
+                            //$('#userIdentifier').val(obj?.con_per_no ?? obj?.staff_no);
                             $('#userNameIdentifier').attr('readonly', false);
                             //.val(name);
                         } else {
