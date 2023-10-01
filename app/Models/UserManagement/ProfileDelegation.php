@@ -38,11 +38,11 @@ class  ProfileDelegation extends Model
 
     public function profileOwner(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id', 'profile_owner');
+        return $this->belongsTo(User::class, 'profile_owner', 'id');
     }
 
     public function delegatedUser(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id', 'delegated_to');
+        return $this->belongsTo(User::class, 'delegated_to', 'id');
     }
 }
