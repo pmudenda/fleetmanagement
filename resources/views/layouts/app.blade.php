@@ -40,7 +40,7 @@
     <link rel="stylesheet" href="{{secure_asset('libs/session.timeout/session.timeout.css')}}">
     <link rel="stylesheet" type="text/css" href="{{secure_asset('assets/css/asyncLoader.css')}}">
     <link rel="stylesheet" type="text/css" href="{{secure_asset('assets/css/jquery-ui.css')}}"/>
-    <livewire:styles />
+    {{--<livewire:styles />--}}
 
     <style>
         .nav-link {
@@ -205,8 +205,8 @@
 <script src="{{secure_asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ secure_asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ secure_asset('libs/qrcode/qrcode.min.js').'?v='.Carbon::now()->format('his')}}"></script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<livewire:scripts />
+{{--<script src="https://code.highcharts.com/highcharts.js"></script>
+<livewire:scripts />--}}
 
 @include('layouts.partials.dataTableScripts')
 <script type="text/javascript">
