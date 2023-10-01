@@ -99,7 +99,7 @@
         @endif
 
 
-        @if(!empty($user->profileDelegion))
+        @if(!empty($user->profileDelegation))
             <form name="formCancelDelegation"
                   method="post"
                   action="{{ route('profile.delegation.remove') }}">
@@ -111,24 +111,24 @@
                     </div>
                     <p class="text-muted">
                         <strong>Period :</strong>
-                        {{ Carbon\Carbon::parse($user->profileDelegion->period_from ?? '0')->format('d-M-Y') ?? '' }}
+                        {{ Carbon\Carbon::parse($user->profileDelegation->period_from ?? '0')->format('d-M-Y') ?? '' }}
                         To
-                        {{ Carbon\Carbon::parse($user->profileDelegion->period_to ?? '0')->format('d-M-Y') ??  '' }}
+                        {{ Carbon\Carbon::parse($user->profileDelegation->period_to ?? '0')->format('d-M-Y') ??  '' }}
                     </p>
                     <p class="text-muted">
                         <b>Profile:</b>
-                        {{ $user->profileDelegion->delegatedProfile->name ?? '' }}
+                        {{ $user->profileDelegation->delegatedProfile->name ?? '' }}
                     </p>
 
                     <p class="text-muted">
                         <b>Delegated To:</b>
-                        {{ $user->profileDelegion->delegatedUser->name ?? '' }}
+                        {{ $user->profileDelegation->delegatedUser->name ?? '' }}
                     </p>
 
                     @if(
                         auth()->user()->can(config('rights.user_update'))
                         ||
-                        auth()->user()->id = $user->profileDelegion->profile_owner
+                        auth()->user()->id = $user->profileDelegation->profile_owner
                         )
                         <button type="submit"
                                 class="btn btn-sm btn-warning">
