@@ -50,8 +50,8 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
         Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])
             ->name('vehicle.workshop.checkin');
 
-        Route::post('vehicle/workshop/create-task', [MaintenanceController::class, 'createTaskForWorkShopSupervisor'])
-            ->name('workshop.task');
+        Route::post('vehicle/workshop/create-task', [MaintenanceController::class, 'task'])
+            ->name('job.card.task');
 
         Route::post('assessment/acknowledgment', AssessmentAcknowledgementController::class)
             ->name('sign.assessment');
@@ -65,7 +65,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
                 $data = JobCardHeader::latest()->get();
                 return Datatables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('action', function ($row) {
+                    ->addColumn('action', function () {
                         return '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">
                                         Edit
                                         </a>
@@ -78,7 +78,8 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
             }
 
             return DataTables::of((object)[])->make();
-        })->name('job_card.list.json');
+        })
+            ->name('job_card.list.json');
 
         Route::get('all/job-card/list', [JobCardController::class, 'list'])
             ->name('jobCard.list');
