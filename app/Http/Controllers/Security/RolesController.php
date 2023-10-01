@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Security;
 
 use App\Constants\SystemMessages;
+use App\Exceptions\RecordCreationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PermissionAssignment;
 use App\Http\Requests\RoleUpdate;
@@ -42,14 +43,30 @@ class RolesController extends Controller
     }
 
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): JsonResponse
     {
-        $slug = $request->name;
-        $roleName = $request->name;
-        $roleDescription = $request->name;
-        $this->roleService->createRole($slug, $roleName, $roleDescription);
-        return redirect()->route('roles.index')
-            ->with('message', 'Role Successfully defined..');
+        try {
+            $slug = $request->name;
+            $roleName = $request->name;
+            $roleDescription = $request->name;
+            $this->roleService->createRole($slug, $roleName, $roleDescription);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'success',
+                    true,
+                    'Profile Creation Successful..'
+                ));
+        } catch (RecordCreationException $e) {
+            Log::error($e);
+            $message = $e->getMessage();
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    'failure',
+                    false,
+                    $message
+                )
+            );
+        }
     }
 
 

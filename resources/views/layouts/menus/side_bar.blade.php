@@ -180,7 +180,7 @@
                             @can(config('rights.set_vehicle_fuel_allocation'))
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
+                                       href="{{ route('vehicle.fuel.allocation') }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Fuel Allocation</p>
                                     </a>
@@ -253,7 +253,7 @@
                                         @endcanany
 
                                         @can(config('rights.view_job_card'))
-                                                <li class="nav-item pl-2">
+                                                <li class="nav-item">
                                                     <a href="#" class="nav-link">
                                                         <i class="far fa-circle nav-icon"></i>
                                                         <p>
@@ -283,9 +283,6 @@
                                                         </li>
                                                     </ul>
                                                 </li>
-
-
-
                                         @endcan
                                     </ul>
                                 </li>

@@ -248,6 +248,16 @@ class VehicleDetailsService
             });
         }
 
+        if ($request->has('hasTomCard') && $request->filled('hasTomCard')) {
+            $hasTomCard = strtoupper(trim($request->get('hasTomCard')));
+
+            Log::info("Filtering with Status $hasTomCard");
+
+            $query->where(function ($q) use ($hasTomCard) {
+                $q->where("v_header.has_tom_card", "=", $hasTomCard);
+            });
+        }
+
         if ($request->has('brand') && $request->filled('brand')) {
             $brand = $request->get('brand');
 

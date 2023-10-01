@@ -16,6 +16,7 @@ use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\general\Status;
 use App\Models\Settings\WorkShop;
+use App\Models\VehicleManagement\FuelAllocation;
 use App\Models\VehicleManagement\VehicleAccessory;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
@@ -23,6 +24,7 @@ use App\Services\VehicleManagement\FitnessService;
 use App\Services\VehicleManagement\InsuranceService;
 use App\Services\VehicleManagement\RoadTaxService;
 use App\Services\VehicleManagement\VehicleDetailsService;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -358,6 +360,25 @@ class VehicleController extends Controller
             ->with(compact('accessories'));
     }
 
+    public function save(Request $request): void
+    {
+        $allocation = $request->allocationAmount;
+        $periodFrom = Carbon::parse($request->periodFrom);
+        $periodTo = Carbon::parse($request->periodTo);
+
+        FuelAllocation::create([
+            'created_by' => auth()->user()->staff_no,
+            'allocation_amount' => $allocation,
+            'period_from' => $periodFrom,
+            'period_to' => $periodTo,
+            'status',
+            'reg_no',
+            'user_update',
+            'valid_for',
+            'balance',
+        ]);
+    }
+
     /**
      * @param string $registrationNumber
      * @return array
@@ -391,7 +412,7 @@ class VehicleController extends Controller
             );
         } elseif ($vehicle->status == VehicleStatus::vehicleInWorkshop()) {
             $jobCard = JobCardHeader::where('reg_no',
-               QueryComparisonOperator::EQUALS,
+                QueryComparisonOperator::EQUALS,
                 $vehicle->registration_number)->first();
 
             $workshopName = "";

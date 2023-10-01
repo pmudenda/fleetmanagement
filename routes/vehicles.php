@@ -106,6 +106,10 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
 
     Route::get('/vehicle/list/json', [VehicleController::class, 'record'])->name('vehicles.records.list');
 
+    Route::get('vehicle/fuel-allocation', function () {
+        return view('modules.vehicleManagement.fuelallocation');
+    })->name('vehicle.fuel.allocation');
+
     Route::get('/accessories', [VehicleController::class, 'accessories'])
         ->name('vehicle.accessories');
 

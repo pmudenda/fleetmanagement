@@ -137,10 +137,9 @@
                 .backgroundImage = "url(/storage" + imagePath + ")";
         }
 
-        // findLatestRequisition();
     }
 
-    tmsApp.findVehicle = function () {
+    tmsApp.findVehicle = function ($vehicleRegistrationCtl) {
         const numberPlate = $vehicleRegistrationCtl.val();
         let formData = new FormData();
         formData.append('vehicle_registration', numberPlate);
@@ -149,7 +148,8 @@
             $vehicleRegistrationCtl.attr('data-action') + '?vehicle_registration=' + numberPlate,
             formData,
             function (response_data) {
-                if (response_data.success === 'true' || response_data.success === true) {
+                if (response_data.success === 'true'
+                    || response_data.success === true) {
                     tmsApp.populateVehicleDetails(response_data.payload, response_data['message']);
 
                     let $odometerCtrl = $('[data-validation="fuelRequisitionOdometerReading"]');
