@@ -313,7 +313,7 @@
                                 <input type="text"
                                        required
                                        id="userIdentifier"
-                                       data-action="{{route('user.search')}}"
+                                       data-action="{{route('get.user')}}"
                                        class="form-control form-control-sm"
                                        name="userIdentifier"
                                 />
@@ -334,7 +334,6 @@
                                 />
 
                                 <input type="hidden"
-                                       required
                                        id="staffNumberIdentifier"
                                        class="form-control form-control-sm"
                                        name="staffNumberIdentifier"

@@ -153,9 +153,11 @@ $(document).ready(function (event) {
                                 rows += ``;
                             }
                             const name = obj[0].name;
+                            $('#userIdentifier').val(obj?.con_per_no ?? obj?.staff_no);
                             $('#userNameIdentifier').val(name);
                         } else {
                             const name = obj?.name;
+                            $('#userIdentifier').val(obj?.con_per_no ?? obj?.staff_no);
                             $('#userNameIdentifier').val(name);
                         }
                     } else {

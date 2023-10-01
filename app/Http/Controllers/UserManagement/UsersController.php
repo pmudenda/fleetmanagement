@@ -272,6 +272,34 @@ class UsersController extends Controller
         }
     }
 
+    public function search(Request $request): JsonResponse
+    {
+        try {
+            $searchParam = strtoupper(trim($request->searchCriteria));
+
+            $dataset = $this->userService->search($searchParam);
+
+            return response()->json([
+                'success' => true,
+                'payload' => $dataset
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::getMessage('err_0012');
+
+            if ($e instanceof UserNotActiveException) {
+                $message = $e->getMessage();
+            }
+
+            return response()->json([
+                'success' => false,
+                'payload' => [],
+                'message' => $message
+            ]);
+        }
+    }
+
     public function sync(UserSync $request): JsonResponse
     {
         try {

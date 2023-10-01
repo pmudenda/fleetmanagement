@@ -21,9 +21,14 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password']], functio
 
         Route::resource('/user', UsersController::class)->except(['update']);
 
-        Route::post('users/get-employee-data', [UsersController::class, 'employeeSearch'])->name('user.search');
+        Route::post('users/get-employee-data', [UsersController::class, 'employeeSearch'])
+            ->name('user.search');
 
-        Route::post('users/find-user-data', [UsersController::class, 'userSearch'])->name('find.user');
+        Route::post('users/find', [UsersController::class, 'search'])
+            ->name('get.user');
+
+        Route::post('users/find-user-data', [UsersController::class, 'userSearch'])
+            ->name('find.user');
 
         Route::post('user/role/attach', [UsersController::class, 'attach'])->name('user.attach');
 

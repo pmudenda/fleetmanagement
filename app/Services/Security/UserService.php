@@ -6,20 +6,16 @@ use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
-use App\Exceptions\ActiveUserDelegationException;
 use App\Exceptions\UserDataSyncException;
 use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
-use App\Http\Requests\DelegateProfile;
 use App\Http\Requests\UserOnboardingRequest;
 use App\Http\Requests\UserProfileUpdate;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\User;
-use App\Models\UserManagement\ProfileDelegation;
 use App\Services\Logging\HistoryService;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +27,7 @@ class UserService
 {
     const RESULT = ":result";
     private readonly ProfileService $profileService;
+
     public function __construct(ProfileService $profileService)
     {
         $this->profileService = $profileService;
@@ -127,16 +124,17 @@ class UserService
     /**
      * @throws UserNotActiveException
      */
-    public static function searchUser(string $searchParam)
+    public function search(string $searchParam)
     {
         $dataset = User::select('*')
             ->where('name', 'LIKE', "%{$searchParam}%")
+            ->orWhere('staff_no', 'LIKE', "%{$searchParam}%")
             ->where(TableColumns::PHCMS_STAFF_NUMBER,
                 QueryComparisonOperator::EQUALS,
                 StatusHelper::active())
             ->where(function ($query) {
-                $query->where('con_per_no', 'LIKE', "C7%")
-                    ->orWhere('con_per_no', 'LIKE', "7%");
+                $query->where('staff_no', 'LIKE', "C7%")
+                    ->orWhere('staff_no', 'LIKE', "7%");
             })
             ->get();
 
