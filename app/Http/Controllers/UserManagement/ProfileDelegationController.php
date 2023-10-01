@@ -5,8 +5,10 @@ namespace App\Http\Controllers\UserManagement;
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Exceptions\ActiveUserDelegationException;
+use App\Exceptions\DataNotFoundException;
 use App\Exceptions\UserNotActiveException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CancelDelegation;
 use App\Http\Requests\DelegateProfile;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Security\User;
@@ -83,7 +85,7 @@ class ProfileDelegationController extends Controller
         }
     }
 
-    public function cancel(Request $request): JsonResponse
+    public function cancel(CancelDelegation $request): JsonResponse
     {
         try {
             Log::debug('Cancelling Profile Delegation');
@@ -102,7 +104,7 @@ class ProfileDelegationController extends Controller
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0012');
 
-            if ($e instanceof UserNotActiveException
+            if ($e instanceof DataNotFoundException
                 || $e instanceof ActiveUserDelegationException) {
                 $message = $e->getMessage();
             }

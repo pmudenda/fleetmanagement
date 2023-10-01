@@ -104,7 +104,10 @@
                 <form name="formCancelDelegation"
                       method="post"
                       action="{{ route('user.profile.delegation.cancel') }}">
-
+                    <input type="hidden" name="profileOwner"
+                           value="{{$user->profileDelegation->profile_owner}}">
+                    <input type="hidden" name="delegatedUser"
+                           value="{{$user->profileDelegation->delegated_to}}">
                     <div class="user-block">
                         <span class="username ml-1">
                             <a href="#">DELEGATED PROFILE</a>

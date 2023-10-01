@@ -30,7 +30,7 @@
 
             if (dataVal) {
                 if (typeof confirmCallBack === 'function') {
-                    confirmCallBack(null, dataVal)
+                    confirmCallBack(dataVal)
                 }
             }
         };

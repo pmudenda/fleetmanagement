@@ -764,9 +764,8 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
         }
         appInstance.systemError(
             title,
-            'We could not complete processing your request, please try again later');
-
-
+            'We could not complete processing your request, please try again later'
+        );
     }
 
 })(window.tmsApp = window.tmsApp || {}, jQuery);

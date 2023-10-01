@@ -323,13 +323,14 @@
                     'Justification',
                     'Yes',
                     'No, Cancel',
-                    function () {
+                    function (comments) {
+                        formData.set('justification', comments);
                         tmsApp.asyncPostFormData(
                             url,
                             formData,
                             function (asyncResponse) {
-                                if (asyncResponse.hasOwnProperty('state')
-                                    && asyncResponse['state'] === 'success') {
+                                if (asyncResponse.hasOwnProperty('success')
+                                    && asyncResponse['success']) {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
                                             'Cancel Delegation',
@@ -355,26 +356,9 @@
                                 }
                             },
                             function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
                                 setTimeout(function () {
-                                    if ('responseJSON' in xhr) {
-                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                        }
-                                        if (xhr.responseJSON.hasOwnProperty('message')) {
-                                            tmsApp.systemError(
-                                                'Cancel Delegation',
-                                                xhr.responseJSON['message']
-                                            );
-                                        }
-                                        return;
-                                    }
-
-                                    tmsApp.systemError(
-                                        'Cancel Delegation',
-                                        'We could not complete processing your request, please try again later'
-                                    );
-                                }, 300)
+                                    tmsApp.showErrorMessages(xhr, 'Cancel Delegation');
+                                }, 300);
                             }
                         );
                     },
@@ -430,25 +414,9 @@
                                 }
                             },
                             function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
                                 setTimeout(function () {
-                                    if ('responseJSON' in xhr) {
-                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                        }
-                                        if (xhr.responseJSON.hasOwnProperty('message')) {
-                                            tmsApp.systemError(
-                                                'User Detail Update',
-                                                xhr.responseJSON['message']
-                                            );
-                                        }
-                                        return;
-                                    }
-
-                                    tmsApp.systemError(
-                                        'User Detail Update',
-                                        'We could not complete processing your request, please try again later');
-                                }, 300)
+                                    tmsApp.showErrorMessages(xhr, 'User Detail Update');
+                                }, 300);
                             }
                         );
                     },
@@ -501,25 +469,9 @@
                                 }
                             },
                             function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
                                 setTimeout(function () {
-                                    if ('responseJSON' in xhr) {
-                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                        }
-                                        if (xhr.responseJSON.hasOwnProperty('message')) {
-                                            tmsApp.systemError(
-                                                'User Detail Update',
-                                                xhr.responseJSON['message']
-                                            );
-                                        }
-                                        return;
-                                    }
-
-                                    tmsApp.systemError(
-                                        'User Detail Update',
-                                        'We could not complete processing your request, please try again later');
-                                }, 300)
+                                    tmsApp.showErrorMessages(xhr, 'User Detail Update');
+                                }, 300);
                             }
                         )
                     },

@@ -4,13 +4,15 @@ namespace App\Services\Security;
 
 use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
+use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
 use App\Exceptions\ActiveUserDelegationException;
+use App\Exceptions\DataNotFoundException;
+use App\Http\Requests\CancelDelegation;
 use App\Http\Requests\DelegateProfile;
 use App\Models\Security\User;
 use App\Models\UserManagement\ProfileDelegation;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProfileDelegationService
@@ -134,9 +136,53 @@ class ProfileDelegationService
         return $activeDelegation;
     }
 
-    public function cancelDelegation(Request $request)
+    /**
+     * @throws DataNotFoundException
+     */
+    public function cancelDelegation(CancelDelegation $request): void
     {
+        $profileOwner = $request->get('profileOwner');
+        $delegatedUser = $request->get('delegatedUser');
+        $justification = $request->get('justification');
 
+        $activeDelegation = ProfileDelegation::where(
+            'profile_owner',
+            QueryComparisonOperator::EQUALS,
+            $profileOwner
+        )->where(
+            'delegated_to',
+            QueryComparisonOperator::EQUALS,
+            $delegatedUser
+        )
+            ->whereDate('period_from', '<=', Carbon::now())
+            ->whereDate('period_to', '>', Carbon::now())
+            ->whereNull('date_cancelled')
+            ->first();
+
+        if (empty($activeDelegation)) {
+            throw new DataNotFoundException(SystemMessages::DELEGATION_NOT_FOUND);
+        }
+
+        DB::beginTransaction();
+
+        $activeDelegation->cancellation_remarks = $justification;
+        $activeDelegation->date_cancelled = Carbon::now();
+        $activeDelegation->cancelled_by = auth()->user()->staff_no;
+        $activeDelegation->save();
+
+
+        $this->profileService->assignProfile($activeDelegation->profile_owner,
+            [$activeDelegation->owner_profile_id]);
+
+        $this->profileService->revokeProfile($activeDelegation->delegated_to,
+            [$activeDelegation->owner_profile_id]);
+
+        if (!empty($activeDelegation->delegated_profile_id)) {
+            $this->profileService->assignProfile($activeDelegation->delegated_to,
+                [$activeDelegation->delegated_profile_id]);
+        }
+
+        DB::commit();
     }
 
 }

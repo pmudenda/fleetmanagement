@@ -548,25 +548,9 @@
                                 }
                             },
                             function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
                                 setTimeout(function () {
-                                    if ('responseJSON' in xhr) {
-                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                        }
-                                        if (xhr.responseJSON.hasOwnProperty('message')) {
-                                            tmsApp.systemError(
-                                                'Detail Update',
-                                                xhr.responseJSON['message']
-                                            );
-                                        }
-                                        return;
-                                    }
-
-                                    tmsApp.systemError(
-                                        'User Detail Update',
-                                        'We could not complete processing your request, please try again later');
-                                }, 300)
+                                    tmsApp.showErrorMessages(xhr, 'Details Update');
+                                }, 300);
                             }
                         )
                     },
@@ -619,25 +603,9 @@
                                 }
                             },
                             function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
                                 setTimeout(function () {
-                                    if ('responseJSON' in xhr) {
-                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                        }
-                                        if (xhr.responseJSON.hasOwnProperty('message')) {
-                                            tmsApp.systemError(
-                                                'Details Auto Update',
-                                                xhr.responseJSON['message']
-                                            );
-                                        }
-                                        return;
-                                    }
-
-                                    tmsApp.systemError(
-                                        'Details Auto Update',
-                                        'We could not complete processing your request, please try again later');
-                                }, 300)
+                                    tmsApp.showErrorMessages(xhr, 'Details Auto Update',);
+                                }, 300);
                             }
                         );
                     },
