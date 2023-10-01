@@ -102,7 +102,7 @@
         @if(!empty($user->profileDelegation))
             <form name="formCancelDelegation"
                   method="post"
-                  action="{{ route('profile.delegation.remove') }}">
+                  action="{{ route('user.profile.delegation.cancel') }}">
                 <div class="col-lg-6 col-sm-12">
                     <div class="user-block">
                         <span class="username ml-1">

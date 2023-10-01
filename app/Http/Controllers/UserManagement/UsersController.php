@@ -211,60 +211,6 @@ class UsersController extends Controller
         }
     }
 
-    public function delegation(Request $request): View
-    {
-        $this->verifyRequestSignature($request);
-
-        $id = (int)$request->get('key');
-        $user = User::where('id', '=', $id)->first();
-        $selfDelegation = $request->get('self');
-
-        $profiles = (new RoleService())->get();
-
-        return view('modules.userManagement.profileDelegation')
-            ->with(compact(
-                'user',
-                'profiles',
-                'selfDelegation'
-            ));
-    }
-
-    public function saveDelegation(DelegateProfile $request): JsonResponse
-    {
-        try {
-            Log::debug('Saving Profile Delegation');
-
-            $this->profileDelegation->initiateDelegation($request);
-
-            return response()->json(
-                FleetMasterJsonResponse::response(
-                    '',
-                    true,
-                    'User Profile Delegation Started Successfully',
-                    []
-                )
-            );
-
-        } catch (\Exception $e) {
-            Log::error($e);
-            $message = ErrorMessages::getMessage('err_0012');
-
-            if ($e instanceof UserNotActiveException
-                || $e instanceof ActiveUserDelegationException) {
-                $message = $e->getMessage();
-            }
-
-            return response()->json(
-                FleetMasterJsonResponse::response(
-                    '',
-                    false,
-                    $message,
-                    []
-                )
-            );
-        }
-    }
-
     public function employeeSearch(Request $request): JsonResponse
     {
         try {

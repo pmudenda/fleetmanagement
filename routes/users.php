@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\Security\PasswordResetController;
+use App\Http\Controllers\UserManagement\ProfileDelegationController;
 use App\Http\Controllers\UserManagement\UsersController;
 use App\Http\Controllers\UserManagement\UserSimulationController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['auth','is.active','change.password']], function () {
+Route::group(['middleware' => ['auth', 'is.active', 'change.password']], function () {
 
     Route::group(['prefix' => 'user-management'], function () {
 
@@ -15,14 +16,14 @@ Route::group(['middleware' => ['auth','is.active','change.password']], function 
 
         Route::get('users/list', [UsersController::class, 'index'])->name('users.list');
 
-        Route::post('users/resetPassword', [PasswordResetController::class, 'resetPassword'])
+        Route::post('users/resetPassword', [PasswordResetController::class])
             ->name('user.reset.password');
 
         Route::resource('/user', UsersController::class)->except(['update']);
 
-        Route::post('/get-employee-data', [UsersController::class, 'employeeSearch'])->name('user.search');
+        Route::post('users/get-employee-data', [UsersController::class, 'employeeSearch'])->name('user.search');
 
-        Route::post('/find-user-data', [UsersController::class, 'userSearch'])->name('find.user');
+        Route::post('users/find-user-data', [UsersController::class, 'userSearch'])->name('find.user');
 
         Route::post('user/role/attach', [UsersController::class, 'attach'])->name('user.attach');
 
@@ -30,11 +31,18 @@ Route::group(['middleware' => ['auth','is.active','change.password']], function 
 
         Route::post('user/data/sync', [UsersController::class, 'sync'])->name('user.sync');
 
-        Route::get('user/profile/delegation', [UsersController::class, 'delegation'])
-            ->name('user.profile.delegation');
+        Route::group(['prefix' => 'user/profile/delegation',
+            'as' => 'user.profile.delegation.'
+        ], function () {
+            Route::get('/create', [ProfileDelegationController::class, 'create'])
+                ->name('user.profile.create');
 
-        Route::post('user/profile/delegation', [UsersController::class, 'saveDelegation'])
-            ->name('user.profile.delegation.store');
+            Route::post('cancel', [ProfileDelegationController::class, 'cancel'])
+                ->name('.cancel');
+
+            Route::post('save', [ProfileDelegationController::class, 'save'])
+                ->name('store');
+        });
 
         Route::post('user/details/update', [UsersController::class, 'update'])->name('user.update');
 

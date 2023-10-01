@@ -311,6 +311,80 @@
         (function (tmsApp) {
             tmsApp.initDatatable("#groupsTable", false, true, []);
 
+            $(document).on('submit', 'form[name="formCancelDelegation"]', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const form = this;
+                const url = form.action;
+                let formData = new FormData(form);
+
+                tmsApp.confirm(
+                    'Are you sure ?',
+                    'You want to cancel the delegation',
+                    'Yes',
+                    'No, Cancel',
+                    function () {
+                        tmsApp.asyncPostFormData(
+                            url,
+                            formData,
+                            function (asyncResponse) {
+                                if (asyncResponse.hasOwnProperty('state')
+                                    && asyncResponse['state'] === 'success') {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'Cancel Delegation',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'Cancel Delegation',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                }
+                            },
+                            function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'Cancel Delegation',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
+
+                                    tmsApp.systemError(
+                                        'Cancel Delegation',
+                                        'We could not complete processing your request, please try again later'
+                                    );
+                                }, 300)
+                            }
+                        );
+                    },
+                    () => {
+
+                    }
+                );
+
+            });
+
             $(document).on('submit', 'form[name="updateDataUpdate"]', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
