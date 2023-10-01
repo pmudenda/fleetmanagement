@@ -101,12 +101,12 @@
                 </p>
                 <p class="text-muted">
                     <b>Delegation Profile:</b>
-                    {{ $userDelegating->delegatedRole->name ?? '' }}
+                    {{ $userDelegating->delegatedRole()->name ?? '' }}
                 </p>
 
                 <p class="text-muted">
                     <b>Profile Owner:</b>
-                    {{ $userDelegating->profileOwner->name ?? '' }}
+                    {{ $userDelegating->profileOwner()->name ?? '' }}
                 </p>
             </div>
         @endif
