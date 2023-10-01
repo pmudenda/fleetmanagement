@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password']], functio
                 ->name('user.profile.create');
 
             Route::post('cancel', [ProfileDelegationController::class, 'cancel'])
-                ->name('.cancel');
+                ->name('cancel');
 
             Route::post('save', [ProfileDelegationController::class, 'save'])
                 ->name('store');
