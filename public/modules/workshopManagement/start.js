@@ -93,7 +93,6 @@ $(document).ready(function () {
             }
 
             if (window['materials']) {
-                // prefillSelectedMaterials();
                 $('[name="quantity"]').change();
             }
 
@@ -129,7 +128,6 @@ $(document).ready(function () {
                 obj['commentsToSupervisor'] = $('[name="commentsToSupervisor"]').val();
                 obj['vehicle_registration'] = $('[name="vehicle_registration"]').val();
                 $($container).find('input[name], select[name]').each(function (i, item) {
-                    // let val = item.value.replace(/,/g, '');
                     if (item.type === 'radio') {
                         obj[item.name] = $('[name="' + item.name + '"]:checked').val();
                     } else {
@@ -141,10 +139,10 @@ $(document).ready(function () {
                 formSel.data('modelName') === 'Observations'
                 ||
                 formSel.data('modelName') === 'Accessories'
-            ) {
+            )
+            {
                 let postFormData = new FormData(document.forms.jobCardForm);
                 $($container).find('input[name], select[name]').each(function (i, item) {
-                    // let val = item.value.replace(/,/g, '');
                     if (item.type === 'radio') {
                         postFormData.append(item.name, $('[name="' + item.name + '"]:checked').val());
                     } else {
@@ -164,7 +162,8 @@ $(document).ready(function () {
                     if (response.hasOwnProperty("success") && response.success) {
                         const message = response.message > ""
                             ? response.message
-                            : "Request submitted successfully, Click 'Ok' Proceed to provide information for other sections";
+                            : "Request submitted successfully, " +
+                            "Click 'Ok' Proceed to provide information for other sections";
 
                         tmsApp.showSystemMessage(
                             "Request Submission",
@@ -200,7 +199,6 @@ $(document).ready(function () {
                 return;
             } else {
                 $($container).find('input[name], select[name]').each(function (i, item) {
-                    // let val = item.value.replace(/,/g, '');
                     if (item.type === 'radio') {
                         obj[item.name] = $('[name="' + item.name + '"]:checked').val();
                     } else {
@@ -227,7 +225,8 @@ $(document).ready(function () {
                 if (response.hasOwnProperty("success") && response.success) {
                     const message = response.message > ""
                         ? response.message
-                        : "Request submitted successfully, Click 'Ok' Proceed to provide information for other sections";
+                        : "Request submitted successfully, " +
+                        "Click 'Ok' Proceed to provide information for other sections";
 
                     tmsApp.showSystemMessage(
                         "Request Submission",
@@ -277,9 +276,6 @@ $(document).ready(function () {
             onInit: function () {
             },
             onStepChanging: function (event, currentIndex, newIndex) {
-
-                console.log('currentIndex', currentIndex);
-                console.log('newIndex', newIndex);
 
                 if (currentIndex > newIndex) {
                     return true;
@@ -355,7 +351,6 @@ $(document).ready(function () {
                     );
                 } else {
                     $('a[role="#finish"]').enableBtn();
-                    //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
                 }
 
             },
@@ -406,9 +401,12 @@ $(document).ready(function () {
         );
 
         $(document).on('click', '#saveMaterials', function () {
-            // $('a[href="#finish"]').disableBtn();
             if (form.valid()) {
-                tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                tmsApp.confirm('Confirm',
+                    'Do you want to save the changes ?',
+                    'Yes',
+                    'No',
+                    function () {
                     postData(
                         $('#material_table'),
                         true
@@ -419,7 +417,6 @@ $(document).ready(function () {
         });
 
         $(document).on('click', '#saveServices', function () {
-            //$(this).disableBtn();
             if (form.valid()) {
                 tmsApp.confirm('Confirm',
                     'Do you want to save the changes ?',

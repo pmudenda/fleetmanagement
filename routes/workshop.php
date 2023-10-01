@@ -50,8 +50,8 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
         Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])
             ->name('vehicle.workshop.checkin');
 
-        Route::post('vehicle/workshop/create-task', [MaintenanceController::class, 'createTaskForWorkShopSupervisor'])
-            ->name('vehicle.workshop.checkin');
+        /*Route::post('vehicle/workshop/create-task', [MaintenanceController::class, 'createTaskForWorkShopSupervisor'])
+            ->name('vehicle.workshop.checkin');*/
 
         Route::post('assessment/acknowledgment', AssessmentAcknowledgementController::class)
             ->name('sign.assessment');

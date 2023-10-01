@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class LocationsController extends Controller
 {
-    public function index(): JsonResponse
+    public function __invoke(): JsonResponse
     {
         try {
             $month = 60 * 60 * 24 * 30;
