@@ -152,6 +152,8 @@ $(document).ready(function (event) {
                             for (let i = 0; i < obj.length; i++) {
                                 rows += ``;
                             }
+                            const name = response.payload[0].name;
+                            $('#userNameIdentifier').val(name);
                         } else {
                             const name = response.payload?.name;
                             $('#userNameIdentifier').val(name);
