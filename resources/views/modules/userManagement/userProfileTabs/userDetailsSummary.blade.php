@@ -101,6 +101,7 @@
                 </p>
                 <p class="text-muted">
                     <b>Delegation Profile:</b>
+                    {{dd($userDelegating->delegatedRole)}}
                     {{ $userDelegating->delegatedRole->name ?? '' }}
                 </p>
 
