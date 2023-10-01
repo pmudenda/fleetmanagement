@@ -140,9 +140,14 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                <input type="text" class="form-control form-control-sm"
-                                                                       id="cost_centre_code" value="14456"
-                                                                       name="cost_centre_code" required readonly>
+                                                                <input type="text"
+                                                                       class="form-control form-control-sm"
+                                                                       id="cost_centre_code"
+                                                                       value="14456"
+                                                                       name="cost_centre_code"
+                                                                       required
+                                                                       readonly
+                                                                />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -150,71 +155,6 @@
                                             </div>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <div
-                                                                    class=" col-xs-12 col-sm-6 col-md-5
-                                                                 col-lg-4 control-input-wrapper">
-                                                                <div class="control-input">
-                                                                    <div class="link-field ui-front"
-                                                                         style="position: relative;">
-                                                                        <label class="form-check-inline">
-                                                                            <input type="radio" id="projectInput"
-                                                                                   class="list-row-checkbox
-                                                                                   bold mr-3 when_valid"
-                                                                                   autocomplete="off"
-                                                                                   name="CostAssignedTo"
-                                                                                   value="ProjectBasedRequisition">
-                                                                            Project
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                <select disabled type="text" name="project_code"
-                                                                        class="form-select mt-1 project-code-ajax"
-                                                                        id="project_code">
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <label
-                                                                    class="col-xs-12 col-sm-6
-                                                                col-md-5
-                                                                col-lg-4 field-required"
-                                                                    for="staff_name">
-                                                                Requisition Type:
-                                                            </label>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                <select name="requisition_type"
-                                                                        id="requisition_type"
-                                                                        disabled
-                                                                        class="form-control
-                                                                        form-select-sm when_valid"
-                                                                        required>
-                                                                    <option value=""> --Select--</option>
-                                                                    <option value="010">Normal</option>
-                                                                    <option value="011">Out 0f Town</option>
-                                                                    <option value="012">Override</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="col-3">
                                         <div id="vehicleDetailsContainer" style="display: none;"
@@ -256,6 +196,16 @@
         </div>
     </section>
     <x-employee-search-modal/>
+    <input type="hidden" value="{{StatusHelper::active()}}"
+           name="vehicleActive"
+           id="vehicleActive"/>
+    <input type="hidden"
+           value="{{StatusHelper::onboardingComplete()}}"
+           name="incompleteOnBoarding"
+           id="incompleteOnBoarding"/>
+    <input type="hidden" value="{{VehicleStatus::vehicleInWorkshop()}}"
+           name="vehicleInWorkshop"
+           id="vehicleInWorkshop"/>
 @endsection
 
 @push('scripts')
