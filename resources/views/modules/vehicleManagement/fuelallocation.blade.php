@@ -63,7 +63,7 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <label class="col-xs-12 col-sm-6
-                                                                col-md-5 col-lg-4 field-required"
+                                                                col-md-5 col-lg-4 field-required pl-0"
                                                                        for="vehicle_registration">
                                                                     Registration #:
                                                                 </label>

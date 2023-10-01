@@ -293,14 +293,17 @@ class WorkflowService
                 'task_header.created_by',
                 QueryComparisonOperator::EQUALS,
                 'users.id')
-            ->where('task_header.assigned_user',
-                QueryComparisonOperator::EQUALS,
-                $staffNumber)
-            ->orWhere(
-                'task_header.assigned_user',
-                QueryComparisonOperator::EQUALS,
-                $delegatedProfileOwner
-            )
+            ->where(function ($query) use ($staffNumber, $delegatedProfileOwner) {
+                $query->where(
+                    'task_header.assigned_user',
+                    QueryComparisonOperator::EQUALS,
+                    $staffNumber
+                )->orWhere(
+                    'task_header.assigned_user',
+                    QueryComparisonOperator::EQUALS,
+                    $delegatedProfileOwner
+                );
+            })
             ->whereNull('task_header.date_ended')
             ->select('task_header.*',
                 'users.name as originator')
