@@ -89,9 +89,7 @@
     @include('layouts.menus.side_bar')
 
     <div class="content-wrapper">
-        {{$slot}}
-
-
+        {{$slot}}¬
     </div>
     <!--Footer-->
     <aside class="control-sidebar control-sidebar-dark"></aside>
