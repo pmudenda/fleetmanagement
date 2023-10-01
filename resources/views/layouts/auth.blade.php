@@ -31,18 +31,18 @@
                  data-pagespeed-url-hash="799927880">
         </a>
         <div class="row justify-content-center">
-            <div class="col-sm-8 col-md-6 col-lg-6">
+            <div class="col-sm-8 col-md-6 col-lg-4">
                 <div class="">
                 </div>
                 <div class="form-card mb-2">
-                    <div class="form-card_body p-0">
+                    <div class="form-card_body px-3">
                         @yield('content')
                         @if(env('APP_ENV') == "local")
                             <div class="row">
                                 <div class="col-6">
                                     <label>ZFMS UAT</label></div>
                                 <div class="col-6">
-                                    {{config('systeminfo.version')}}
+                                    Version {{config('systeminfo.version')}}
                                 </div>
                             </div>
                         @endif
