@@ -139,7 +139,7 @@
         $("#vehicle_status").text(vehicle['status_name']);
 
         if (vehicle.fuel_allocation) {
-            let perWeekAllocation = vehicle.fuel_allocation * 7;
+            let perWeekAllocation = tmsApp.getFloat(vehicle.fuel_allocation * 7).toFixed(2);
             document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
             document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
 
