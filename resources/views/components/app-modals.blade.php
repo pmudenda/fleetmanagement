@@ -307,7 +307,7 @@
                         <div class="row">
                             <div class="form-group">
                                 <label for="userIdentifier" class="app-field-label">
-                                    User
+                                    Staff Number
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text"

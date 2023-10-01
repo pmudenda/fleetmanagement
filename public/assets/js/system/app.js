@@ -97,7 +97,7 @@ $(document).ready(function (event) {
     });
 
     $(document).on('change', '#simulationUsers', function () {
-        const  user = this.options[this.selectedIndex]
+        const user = this.options[this.selectedIndex]
         console.log(user);
     })
 
@@ -141,13 +141,12 @@ $(document).ready(function (event) {
                                         </option>`;
                             }
                             $("#simulationUsers").html(rows);
-                            //const name = obj[0].name;
+                            const name = obj[0].name;
                             //$('#userIdentifier').val(obj?.con_per_no ?? obj?.staff_no);
-                            $('#userNameIdentifier').attr('readonly', false);
-                            //.val(name);
+                            $('#userNameIdentifier').val(name);
                         } else {
                             const name = obj?.name;
-                            $('#userIdentifier').val(obj?.con_per_no ?? obj?.staff_no);
+                            $('#userIdentifier').val(obj?.staff_no);
                             $('#userNameIdentifier').val(name);
                         }
                     } else {
