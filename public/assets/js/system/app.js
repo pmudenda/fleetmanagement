@@ -65,13 +65,9 @@ $(document).ready(function (event) {
         }
 
         $.ajax({
-            url: form.action,
-            headers: {
+            url: form.action, headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: 'GET',
-            dataType: 'html',
-            data: postData
+            }, type: 'GET', dataType: 'html', data: postData
         }).done(function (response) {
             showDocumentFollowUpResults(response);
         }).fail(function (xhr) {
@@ -79,36 +75,26 @@ $(document).ready(function (event) {
         });
     });
 
-    $(document).on(
-        "click",
-        'button[value="applyAuditTrailFilter"]',
-        function (event) {
-            const form = document.querySelector('form[name="documentAuditTrail"]');
-            const formData = new FormData(form);
-            let postData = {};
-            for (const keyValuePair of formData.entries()) {
-                postData[keyValuePair[0]] = keyValuePair[1];
-            }
+    $(document).on("click", 'button[value="applyAuditTrailFilter"]', function (event) {
+        const form = document.querySelector('form[name="documentAuditTrail"]');
+        const formData = new FormData(form);
+        let postData = {};
+        for (const keyValuePair of formData.entries()) {
+            postData[keyValuePair[0]] = keyValuePair[1];
+        }
 
-            const settings = {
-                url: form.action,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'GET',
-                dataType: 'json',
-                data: postData
-            };
+        const settings = {
+            url: form.action, headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, type: 'GET', dataType: 'json', data: postData
+        };
 
-            $.ajax(settings).done(function (response) {
-                showDocumentAuditTrailResults(response);
-            }).fail(function (xhr) {
-                tmsApp.showErrorMessages(
-                    xhr,
-                    'Document Audit Trail'
-                );
-            });
+        $.ajax(settings).done(function (response) {
+            showDocumentAuditTrailResults(response);
+        }).fail(function (xhr) {
+            tmsApp.showErrorMessages(xhr, 'Document Audit Trail');
         });
+    });
 
     $(document).on('change', '[name="userIdentifier"]', function () {
         let searchTerm = this.value;
@@ -118,26 +104,20 @@ $(document).ready(function (event) {
                 return;
             }
             const url = $('#userIdentifier').attr('data-action') + '?searchCriteria=' + searchTerm;
-            fetch(
-                url,
-                {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    body: JSON.stringify({searchCriteria: searchTerm}),
-                    referrer: window.baseUrl,
-                    mode: 'cors',
-                    credentials: 'same-origin',
-                }
-            )
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                body: JSON.stringify({searchCriteria: searchTerm}),
+                referrer: window.baseUrl,
+                mode: 'cors',
+                credentials: 'same-origin',
+            })
                 .then((response) => {
                     if (!response.ok) {
-                        tmsApp.systemError(
-                            'User Verification',
-                            'We could not user search',
-                            function () {
-                            });
+                        tmsApp.systemError('User Verification', 'We could not user search', function () {
+                        });
                         return;
                     }
 
@@ -150,19 +130,22 @@ $(document).ready(function (event) {
                         let rows = '';
                         if (Array.isArray(obj)) {
                             for (let i = 0; i < obj.length; i++) {
-                                rows += ``;
+                                rows += `<option value="${obj[i].staff_no}">
+                                            ${obj[i].staff_no} ${obj[i].name}
+                                        </option>`;
                             }
+                            $("#simulationUsers").html(rows);
                             const name = obj[0].name;
                             $('#userIdentifier').val(obj?.con_per_no ?? obj?.staff_no);
-                            $('#userNameIdentifier').val(name);
+                            $('#userNameIdentifier').attr('readonly', false);
+                            //.val(name);
                         } else {
                             const name = obj?.name;
                             $('#userIdentifier').val(obj?.con_per_no ?? obj?.staff_no);
                             $('#userNameIdentifier').val(name);
                         }
                     } else {
-                        tmsApp.systemError(
-                            'User Verification',
+                        tmsApp.systemError('User Verification',
                             'User with Staff No.' + searchTerm
                             + ' was not found, Check your input and try again',
                             function () {
@@ -170,20 +153,16 @@ $(document).ready(function (event) {
                     }
                 })
                 .catch(function (error) {
-                    tmsApp.systemError(
-                        'User Verification',
-                        'We could not user search',
-                        function () {
+                    tmsApp.systemError('User Verification',
+                        'We could not user search', function () {
                         });
                 });
         }
 
         if (searchTerm === $("#currentUser").val()) {
             $('#startSimulationBtn').attr('disabled', true);
-            tmsApp.systemError(
-                'User Simulation',
-                "You can not simulate yourself",
-                function () {
+            tmsApp.systemError('User Simulation',
+                "You can not simulate yourself", function () {
                 });
             return;
         } else {
@@ -203,79 +182,46 @@ $(document).ready(function (event) {
 
         $("#modalSimulateUser").modal('hide');
 
-        tmsApp.asyncPostFormData(
-            this.action,
-            formData,
-            function (response_data) {
-                if (response_data.success === 'true' || response_data.success === true) {
-                    if (response_data['payload'].length === 0) {
-                        tmsApp.systemError(
-                            'User Simulation',
-                            'Could Not Start User Simulation'
-                        );
-                    }
-                    tmsApp.showSystemMessage(
-                        'User Simulation',
-                        'User Session Started Successfully',
-                        function () {
-                            window.location.reload()
-                        },
-                        'success'
-                    )
-
-                } else {
-                    tmsApp.play_alert('sound-error');
-                    tmsApp.systemError('User Simulation',
-                        'Could Not Start User Simulation');
+        tmsApp.asyncPostFormData(this.action, formData, function (response_data) {
+            if (response_data.success === 'true' || response_data.success === true) {
+                if (response_data['payload'].length === 0) {
+                    tmsApp.systemError('User Simulation', 'Could Not Start User Simulation');
                 }
-            },
-            function (xhr, settings, errorThrown) {
+                tmsApp.showSystemMessage('User Simulation', 'User Session Started Successfully', function () {
+                    window.location.reload()
+                }, 'success')
+
+            } else {
                 tmsApp.play_alert('sound-error');
-                console.log(xhr);
-                tmsApp.systemError(
-                    'User Simulation',
-                    'We could not complete processing your request, please try again later')
+                tmsApp.systemError('User Simulation', 'Could Not Start User Simulation');
             }
-        );
+        }, function (xhr, settings, errorThrown) {
+            tmsApp.play_alert('sound-error');
+            console.log(xhr);
+            tmsApp.systemError('User Simulation', 'We could not complete processing your request, please try again later')
+        });
     });
 
     $(document).on('click', '[data-action="endSimulation"]', function () {
         let formData = new FormData();
-        tmsApp.asyncPostFormData(
-            $(this).data('formUrl'),
-            formData,
-            function (response_data) {
-                if (response_data.success === 'true' || response_data.success === true) {
-                    if (response_data['payload'].length === 0) {
-                        tmsApp.systemError(
-                            'End User Simulation',
-                            'Could Not Start User Simulation'
-                        );
-                    }
-                    tmsApp.showSystemMessage(
-                        'End User Simulation',
-                        'User Simulation Ended Successfully',
-                        function () {
-                            window.location.reload()
-                        },
-                        'success'
-                    )
-
-                } else {
-                    tmsApp.play_alert('sound-error');
-                    tmsApp.systemError(
-                        'End User Simulation',
-                        'Could Not End User Simulation');
+        tmsApp.asyncPostFormData($(this).data('formUrl'), formData, function (response_data) {
+            if (response_data.success === 'true' || response_data.success === true) {
+                if (response_data['payload'].length === 0) {
+                    tmsApp.systemError('End User Simulation', 'Could Not Start User Simulation');
                 }
-            },
-            function (xhr, settings, errorThrown) {
+                tmsApp.showSystemMessage('End User Simulation', 'User Simulation Ended Successfully', function () {
+                    window.location.reload()
+                }, 'success')
+
+            } else {
                 tmsApp.play_alert('sound-error');
-                console.log(xhr);
-                tmsApp.systemError(
-                    'End User Simulation',
-                    'We could not complete processing your request, please try again later')
+                tmsApp.systemError('End User Simulation', 'Could Not End User Simulation');
             }
-        );
+        }, function (xhr, settings, errorThrown) {
+            tmsApp.play_alert('sound-error');
+            console.log(xhr);
+            tmsApp.systemError('End User Simulation', 'We could not complete processing your request, please try again later')
+        });
     });
 
     function showDocumentAuditTrailResults(results) {
@@ -286,8 +232,7 @@ $(document).ready(function (event) {
         setTimeout(() => {
             $("#documentFollowUpContent").html(results);
             let resultsModal = bootstrap.Modal.getOrCreateInstance(resultsModalEl, {
-                'backdrop': true,
-                'keyboard': false
+                'backdrop': true, 'keyboard': false
             });
             resultsModal.show();
         }, 300);
@@ -301,8 +246,7 @@ $(document).ready(function (event) {
         setTimeout(() => {
             $("#documentFollowUpContent").html(results);
             let resultsModal = bootstrap.Modal.getOrCreateInstance(resultsModalEl, {
-                'backdrop': true,
-                'keyboard': false
+                'backdrop': true, 'keyboard': false
             });
             resultsModal.show();
         }, 300);

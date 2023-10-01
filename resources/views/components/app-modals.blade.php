@@ -331,6 +331,7 @@
                                        id="userNameIdentifier"
                                        class="form-control form-control-sm"
                                        name="userNameIdentifier"
+                                       list="simulationUsers"
                                 />
 
                                 <input type="hidden"
@@ -394,3 +395,5 @@
     </div>
 
 </div>
+<datalist id="simulationUsers">
+</datalist>
