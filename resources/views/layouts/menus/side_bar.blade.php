@@ -244,7 +244,7 @@
                                     <ul class="nav nav-treeview pl-2">
                                         @canany([config('rights.create_job_card')])
                                             <li class="nav-item">
-                                                <a href="{{URL::signedRoute('workshop.checkin')}}"
+                                                <a href="{{URL::signedRoute('vehicle.workshop.checkin')}}"
                                                    class="nav-link">
                                                     <i class="fas fa-plus nav-icon"></i>
                                                     <p>New (Job Card)</p>
