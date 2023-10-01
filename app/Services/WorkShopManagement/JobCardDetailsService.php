@@ -25,6 +25,7 @@ use App\Services\Workflow\WorkflowService;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class JobCardDetailsService
@@ -191,9 +192,11 @@ class JobCardDetailsService
             $reference)
             ->get();
 
+        Log::info("Reference " . $reference);
         $details = $this->workshopService->getJobCardDetails($reference);
 
-        $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
+        $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore(
+            $details->workshop_code);
 
         $vehicleSys = 'VEH_SYS';
         $defectCategory = 'WCT';
