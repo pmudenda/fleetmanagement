@@ -5,6 +5,7 @@ namespace App\Models\UserManagement;
 use App\Models\Security\Role;
 use App\Models\Security\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class  ProfileDelegation extends Model
@@ -29,18 +30,19 @@ class  ProfileDelegation extends Model
     {
         return $this->hasOne(Role::class, 'id', 'owner_profile_id');
     }
-  public function delegatedUserProfile(): HasOne
+
+    public function delegatedUserProfile(): HasOne
     {
         return $this->hasOne(Role::class, 'id', 'delegated_profile_id');
     }
 
-    public function profileOwner()
+    public function profileOwner(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'profile_owner', 'id');
+        return $this->belongsTo(User::class, 'id', 'profile_owner');
     }
 
-    public function delegatedUser()
+    public function delegatedUser(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'delegated_to', 'id');
+        return $this->belongsTo(User::class, 'id', 'delegated_to');
     }
 }
