@@ -98,7 +98,7 @@
             </div>
         @endif
 
-        {{dd($user)}}
+        {{dd($user->profileDelegion)}}
         @if(!empty($user->profileDelegion))
             <form name="formCancelDelegation"
                   method="post"
