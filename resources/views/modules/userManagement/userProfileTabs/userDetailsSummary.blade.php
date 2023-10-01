@@ -100,8 +100,7 @@
                     {{ Carbon\Carbon::parse($userDelegating->period_to ?? '0')->format('d-M-Y') ??  '' }}
                 </p>
                 <p class="text-muted">
-                    <b>Delegation Profile:</b>
-                    {{dd($userDelegating->delegatedRole)}}
+                    <b>Delegated Profile:</b>
                     {{ $userDelegating->delegatedRole->name ?? '' }}
                 </p>
 
