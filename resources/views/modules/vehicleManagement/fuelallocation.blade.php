@@ -275,7 +275,7 @@
                     return;
                 }
                 setTimeout(function () {
-                    tmsApp.findVehicle();
+                    tmsApp.findVehicle($vehicleRegistrationCtl);
                 }, 300);
             });
 
@@ -285,7 +285,7 @@
                     return;
                 }
 
-                tmsApp.findVehicle();
+                tmsApp.findVehicle($vehicleRegistrationCtl);
             });
 
         })(window.tmsApp || {}, jQuery);

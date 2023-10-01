@@ -140,7 +140,7 @@
         // findLatestRequisition();
     }
 
-    tmsApp.findVehicle = function () {
+    tmsApp.findVehicle = function ($vehicleRegistrationCtl) {
         const numberPlate = $vehicleRegistrationCtl.val();
         let formData = new FormData();
         formData.append('vehicle_registration', numberPlate);
