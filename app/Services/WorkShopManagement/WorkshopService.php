@@ -151,7 +151,7 @@ class WorkshopService
                 "WM_JOB_CARD_HEADER.received_by",
                 QueryComparisonOperator::EQUALS,
                 "SEC_USERS.staff_no")
-            ->join("CONFIG_GENERAL_TABLES",
+            ->leftJoin("CONFIG_GENERAL_TABLES",
                 function (JoinClause $joinClause) {
                     $joinClause->on("WM_JOB_CARD_HEADER.receiving_section",
                         QueryComparisonOperator::EQUALS,
@@ -160,10 +160,15 @@ class WorkshopService
                             QueryComparisonOperator::EQUALS,
                             ConfigurationTypes::WORK_SHOP_SECTION);
                 })
-            ->leftJoin("CONFIG_STATUSES",
-                "WM_JOB_CARD_HEADER.status",
-                QueryComparisonOperator::EQUALS,
-                "CONFIG_STATUSES.code")
+            ->leftJoin("CONFIG_STATUSES", function (JoinClause $joinClause) {
+                $joinClause->on(
+                    "WM_JOB_CARD_HEADER.status",
+                    QueryComparisonOperator::EQUALS,
+                    "CONFIG_STATUSES.code")
+                    ->where("CONFIG_GENERAL_TABLES.type",
+                        QueryComparisonOperator::EQUALS,
+                        Modules::MATERIAL->value);
+            })
             ->where("WM_JOB_CARD_HEADER.job_card_no",
                 QueryComparisonOperator::EQUALS,
                 $reference)
