@@ -398,7 +398,7 @@ class WorkshopService
                         ConfigurationTypes::REPAIR_TYPE);
             })
             ->leftJoin("CONFIG_WORKSHOP",
-                "header.receiving_section",
+                "header.workshop_code",
                 QueryComparisonOperator::EQUALS,
                 "CONFIG_WORKSHOP.workshop_code")
             ->where("header.status",
