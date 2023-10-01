@@ -149,7 +149,7 @@
                                                      style="min-width: 220px;"
                                                      class="qbefield">
                                                     <label class="qbefieldlabel" title="Status">
-                                                        Has Tom Card
+                                                        HAS TOM CARD
                                                     </label>
                                                     <div class="qbe_operator mb-3">
                                                         <select name="brandOperator"
