@@ -352,7 +352,7 @@ class WorkshopRequisitionService
 
         // check that each article selected is of correct class
         $requestItemType = $requisitionPostRequest->itemType;
-        if ($requestItemType == RequisitionItemTypes::SERVICE_ITEM_CODE) {
+        if ($requestItemType != RequisitionItemTypes::SERVICE_ITEM_CODE) {
             throw new InvalidArticleTypeException(ErrorMessages::getMessage('err_0036'));
         }
 
