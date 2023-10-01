@@ -30,6 +30,7 @@
             <img class="z-index-2" src="{{asset('assets/dist/img/icons/zesco_logo.png')}}" alt="Image Description"
                  data-pagespeed-url-hash="799927880">
         </a>
+        {{dd(env('APP_ENV'))}}
         @if(env('APP_ENV') == "local")
             <div class="col-md-6 col-lg-4">
                 <div class="alert alert-danger">
