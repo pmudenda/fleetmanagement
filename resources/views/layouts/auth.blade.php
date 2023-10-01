@@ -45,7 +45,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="">
                 </div>
-                <div class="form-card mb-5">
+                <div class="form-card mb-2">
                     <div class="form-card_body">
                         @yield('content')
                     </div>
