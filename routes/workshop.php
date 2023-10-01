@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
     //Job Card Processing
     Route::group(['prefix' => 'maintenance'], function () {
 
+
         Route::get('open/job-card', [MaintenanceController::class, 'create'])
             ->name('show.job.card');
 
@@ -50,8 +51,8 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
         Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])
             ->name('vehicle.workshop.checkin');
 
-        /*Route::post('vehicle/workshop/create-task', [MaintenanceController::class, 'createTaskForWorkShopSupervisor'])
-            ->name('vehicle.workshop.checkin');*/
+        Route::post('vehicle/workshop/create-task', [MaintenanceController::class, 'createTaskForWorkShopSupervisor'])
+            ->name('workshop.task');
 
         Route::post('assessment/acknowledgment', AssessmentAcknowledgementController::class)
             ->name('sign.assessment');
@@ -111,18 +112,6 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
         Route::post('save/job-card/defects', [MaintenanceController::class, 'saveJobCardDefects'])
             ->name('defects.job_card');
 
-        Route::post('save/material/requisition', [MaterialReservationController::class, 'saveJobCardMaterialRequest'])
-            ->name('process.requisition');
-
-        Route::post('save/material/reservation', [MaterialReservationController::class, 'saveMaterialRequest'])
-            ->name('save.material.reservation');
-
-        Route::post('save/services/requisition', [ServiceReservationController::class, 'saveJobCardService'])
-            ->name('process.service.requisition');
-
-        Route::post('save/service/reservation', [ServiceReservationController::class, 'saveServiceBooking'])
-            ->name('save.service.reservation');
-
         Route::post('save/job/assignment', [MaintenanceController::class, 'saveJobCardWorkAssignments'])
             ->name('save.job.assignment');
 
@@ -148,6 +137,19 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
 
         Route::post('store/petty-cash/item', [ImprestBuysController::class, 'saveImprestBuyItems'])
             ->name('petty.cash.store');
+
+
+        Route::post('save/material/requisition', [MaterialReservationController::class, 'saveJobCardMaterialRequest'])
+            ->name('process.requisition');
+
+        Route::post('save/material/reservation', [MaterialReservationController::class, 'saveMaterialRequest'])
+            ->name('save.material.reservation');
+
+        Route::post('save/services/requisition', [ServiceReservationController::class, 'saveJobCardService'])
+            ->name('process.service.requisition');
+
+        Route::post('save/service/reservation', [ServiceReservationController::class, 'saveServiceBooking'])
+            ->name('save.service.reservation');
 
     });
 
