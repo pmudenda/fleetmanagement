@@ -171,14 +171,6 @@
                                                            name="commentsToSupervisor"
                                                            style="height: 129px;"
                                                            class="form-control form-control-sm comments"></textarea>
-                                                    {{--@if(!empty($comments))
-                                                             <textarea type="text"
-                                                                       id="accessoriesRemarks"
-                                                                       name="accessoriesRemarks"
-                                                                       style="height: 129px;"
-                                                                       class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
-                                                         @else
-                                                         @endif--}}
                                                 </div>
                                             </div>
                                         </div>

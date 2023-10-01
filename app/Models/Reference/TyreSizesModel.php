@@ -7,7 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class TyreSizesModel extends Model
 {
-    use HasFactory;
-
     protected $table = 'TYRE_VIEW';
 }

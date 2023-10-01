@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:locale" content="en_US">
     <link rel="canonical" href="">
-    <link rel="shortcut icon" href="{{ asset('assets/dist/img/icons/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{asset('assets/dist/img/icons/logo.png') }}" type="image/x-icon">
 
     <link rel="stylesheet" href="{{asset('themes/plugins/fontawesome-free/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('themes/ionicons/2.0.1/css/ionicons.min.css')}}">

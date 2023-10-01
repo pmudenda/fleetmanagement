@@ -15,7 +15,8 @@ return [
         'stores' => 'ZFM_STORES_VIEW',
         'generalTables' => 'ZFM_GENERAL_TABLES',
         'documentStatus' => 'ZFM_DOCUMENT_STATUS_VIEW',
-        'employee' => 'IPA_PHCMS_FLEET_VIEW'
+        'employee' => 'IPA_PHCMS_FLEET_VIEW',
+        'tyres' => 'TYRE_VIEW'
     ],
 
     'column_names' => [
