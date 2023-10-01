@@ -152,6 +152,14 @@
                                                         Has Tom Card
                                                     </label>
                                                     <div class="qbe_operator mb-3">
+                                                        <select name="brandOperator"
+                                                                class="qbe_operator form-select form-select-sm">
+                                                            <option value="{{ComparisonOperator::EQUAL}}">
+                                                                Is
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="qbe_operator mb-3">
                                                         <select name="hasTomCard"
                                                                 class="qbe_operator form-select form-select-sm">
                                                             <option></option>
