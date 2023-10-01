@@ -34,8 +34,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password']], functio
         Route::post('user/details/update', [UsersController::class, 'update'])->name('user.update');
 
         Route::group([
-            'prefix' =>
-                'profile-delegation',
+            'prefix' => 'profile-delegation',
             'as' => 'user.profile.delegation.'
         ], function () {
             Route::get('create', [ProfileDelegationController::class, 'create'])
@@ -44,13 +43,20 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password']], functio
             Route::post('cancel', [ProfileDelegationController::class, 'cancel'])
                 ->name('cancel');
 
-            Route::post('save', [ProfileDelegationController::class, 'save'])
+            Route::post('save', [ProfileDelegationController::class, 'store'])
                 ->name('store');
         });
 
-        Route::post('user/simulation/start', [UserSimulationController::class, 'start'])->name('start.user.simulation');
 
-        Route::post('user/simulation/end', [UserSimulationController::class, 'end'])->name('end.user.simulation');
+        Route::group([
+            'prefix' => 'simulation',
+            'as' => 'user.simulation.'
+        ], function () {
+            Route::post('start', [UserSimulationController::class, 'start'])->name('start');
+
+            Route::post('end', [UserSimulationController::class, 'end'])->name('end');
+        });
+
     });
 });
 

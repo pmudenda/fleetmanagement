@@ -394,7 +394,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
-                <form action="{{route('start.user.simulation')}}"
+                <form action="{{route('user.simulation.start')}}"
                       method="POST"
                       enctype="application/x-www-form-urlencoded"
                       name="startUserSimulationForm"
