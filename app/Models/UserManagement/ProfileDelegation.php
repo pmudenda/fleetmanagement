@@ -28,12 +28,12 @@ class  ProfileDelegation extends Model
 
     public function delegatedProfile(): HasOne
     {
-        return $this->hasOne(Role::class, 'id', 'owner_profile_id');
+        return $this->hasOne(Role::class, 'owner_profile_id', 'id');
     }
 
     public function delegatedUserProfile(): HasOne
     {
-        return $this->hasOne(Role::class, 'id', 'delegated_profile_id');
+        return $this->hasOne(Role::class, 'delegated_profile_id','id' );
     }
 
     public function profileOwner(): BelongsTo
