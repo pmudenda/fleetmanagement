@@ -655,37 +655,39 @@
                     </div>
                     {{--</div>--}}
 
-                    @if(!empty($workflowTask->assigned_user))
-                        @if( (auth()->user()->staff_no == $workflowTask->assigned_user
-                            && empty($workflowTask->date_ended))
-                            ||
-                            (auth()->user()->hasRole('final_authoriser') && empty($workflowTask->date_ended))
-                            ||
-                            (
-                                $delegatedProfileOwner == $workflowTask->assigned_user
-                                && empty($workflowTask->date_ended)
+                    @if(!$viewOnly)
+                        @if(!empty($workflowTask->assigned_user))
+                            @if( (auth()->user()->staff_no == $workflowTask->assigned_user
+                                && empty($workflowTask->date_ended))
+                                ||
+                                (auth()->user()->hasRole('final_authoriser') && empty($workflowTask->date_ended))
+                                ||
+                                (
+                                    $delegatedProfileOwner == $workflowTask->assigned_user
+                                    && empty($workflowTask->date_ended)
+                                    )
                                 )
-                            )
-                            <div class="card-footer">
-                                <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                                    <button type="button" id="approveRequisitionBtn"
-                                            class="btn btn-success btn-sm mr-3">
-                                        <i class="fas fa-thumbs-up"></i> Approve
-                                    </button>
-                                    <button type="button"
-                                            id="declineRequisitionBtn"
-                                            class="btn btn-danger btn-sm mr-3">
-                                        <i class="fas fa-thumbs-down"></i> Reject
-                                    </button>
+                                <div class="card-footer">
+                                    <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                                        <button type="button" id="approveRequisitionBtn"
+                                                class="btn btn-success btn-sm mr-3">
+                                            <i class="fas fa-thumbs-up"></i> Approve
+                                        </button>
+                                        <button type="button"
+                                                id="declineRequisitionBtn"
+                                                class="btn btn-danger btn-sm mr-3">
+                                            <i class="fas fa-thumbs-down"></i> Reject
+                                        </button>
 
-                                    <button type="button"
-                                            id="sendBackRequisitionBtn"
-                                            class="btn btn-primary btn-sm mr-3">
-                                        <i class="fas fa-arrow-left"></i>
-                                        Send Back To Originator
-                                    </button>
+                                        <button type="button"
+                                                id="sendBackRequisitionBtn"
+                                                class="btn btn-primary btn-sm mr-3">
+                                            <i class="fas fa-arrow-left"></i>
+                                            Send Back To Originator
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         @endif
                     @endif
                 </form>

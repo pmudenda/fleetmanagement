@@ -47,7 +47,7 @@
                                     <tr>
                                         <td>
                                             <a href="{{URL::signedRoute('show.fuel.requisition',
-                                                ['ref'=>  $rec->req_no]
+                                                ['ref'=>  $rec->req_no, 'view_only'=> true]
                                                 )}}">
                                                 {{$rec->req_no}}
                                             </a>
@@ -84,11 +84,11 @@
                                         </td>
                                         <td>
                                             {{$rec->quantity - $rec->quantity_issued ?? 0 }}
-                                           {{-- @if(empty($rec->quantity_issued))
-                                                {{$rec->quantity ?? 0}}
-                                            @else
-                                                {{$rec->issue_balance ?? 0}}
-                                            @endif--}}
+                                            {{-- @if(empty($rec->quantity_issued))
+                                                 {{$rec->quantity ?? 0}}
+                                             @else
+                                                 {{$rec->issue_balance ?? 0}}
+                                             @endif--}}
                                         </td>
 
                                         <td>
@@ -99,8 +99,9 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{URL::signedRoute('show.fuel.requisition',
-                                               ['ref'=>  $rec->req_no])
+                                            <a href="{{URL::signedRoute(
+                                                'show.fuel.requisition',
+                                                ['ref'=>  $rec->req_no, 'view_only'=> true])
                                                }}">
                                                 <i class="fas fa-eye"></i> Open
                                             </a>

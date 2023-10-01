@@ -47,7 +47,7 @@ class FuelRequisitionController extends Controller
     public function __construct(FuelRequisitionService    $requisitionService,
                                 OdometerValidationService $odometerValidationService,
                                 DistanceChartService      $distanceChartService,
-                                ProfileDelegationService $profileDelegationService)
+                                ProfileDelegationService  $profileDelegationService)
     {
         $this->odometerValidationService = $odometerValidationService;
         $this->requisitionService = $requisitionService;
@@ -71,6 +71,10 @@ class FuelRequisitionController extends Controller
     {
         $userId = auth()->user()->id;
         $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($userId);
+        $viewOnly = false;
+        if ($request->has('view_only')) {
+            $viewOnly = $request->view_only ?? false;
+        }
 
         list($user,
             $requestDetails,
@@ -90,7 +94,8 @@ class FuelRequisitionController extends Controller
                 'approvalHistory',
                 'workflowTask',
                 'delegatedProfileOwner',
-                'supportingDocument'
+                'supportingDocument',
+                'viewOnly'
             ));
     }
 
