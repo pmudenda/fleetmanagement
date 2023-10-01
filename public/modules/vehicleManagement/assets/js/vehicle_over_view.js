@@ -656,9 +656,9 @@ let app = new Vue({
             "mask": "9999"
         }).mask("#yearOfManufacture");
 
-       /* Inputmask({
-            "mask": "999/99/A99"
-        }).mask(".tyre-size");*/
+        /* Inputmask({
+             "mask": "999/99/A99"
+         }).mask(".tyre-size");*/
 
         /*Inputmask({
             "mask": "99.9"
@@ -1874,7 +1874,8 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.', 'Invalid Registration')
+                toastr.error('Connection error. Could not retrieve data, ' +
+                    'some feature might not work.', 'Invalid Registration')
             });
     }
 
@@ -1886,12 +1887,16 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    toastr.error('Connection error, no data found',
+                        'Failed to fetch Locations')
                     return;
                 }
 
                 let locations = response['payload'];
-                tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "");
+                tmsApp.populateDropDownList(selectElem, locations,
+                    "location",
+                    ["location"],
+                    "");
 
                 let location = selectElem.attr('data-value');
 
@@ -1902,7 +1907,9 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. ' +
+                    'Could not retrieve data, some feature might not work.',
+                    'Failed to fetch Locations')
             });
     }
 
@@ -1914,14 +1921,17 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    toastr.error('Connection error, no data found',
+                        'Vehicle Models')
                     return;
                 }
                 window.VehicleModels = response['payload'];
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. Could not retrieve data, ' +
+                    'some feature might not work.',
+                    'Vehicle Models')
             });
     }
 
@@ -1933,15 +1943,10 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
+                    toastr.error('Failed to retrieve Supplier Records',
+                        'Connection Error');
                     return;
                 }
-                /*<option value>--Supplier--</option>
-                <option v-for="supplier in supplierList"
-                                            :key="supplier.code_supplier"
-                    :value="supplier.code_supplier">
-                            @{{ supplier.name_of_supplier }}
-                    </option>*/
 
                 app.supplierList = response['payload'];
 
