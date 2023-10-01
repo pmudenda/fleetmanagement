@@ -107,7 +107,7 @@ class User extends Authenticatable
     public function profileDelegation(): HasOne
     {
         return $this->hasOne(ProfileDelegation::class, 'profile_owner')
-            ->whereDate('period_frosm', '<=', Carbon::now())
+            ->whereDate('period_from', '<=', Carbon::now())
             ->whereDate('period_to', '>', Carbon::now())
             ->whereNull('date_cancelled');
     }
