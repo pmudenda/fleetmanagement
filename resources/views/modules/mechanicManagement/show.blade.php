@@ -20,28 +20,6 @@
             border: 1px solid transparent;
         }
 
-        label:before {
-            font-family: fontawesome;
-            font-weight: normal;
-            margin-right: 10px;
-        }
-
-        label[for*='1']:before {
-            content: '\f1cb';
-        }
-
-        label[for*='2']:before {
-            content: '\f17d';
-        }
-
-        label[for*='3']:before {
-            content: '\f16b';
-        }
-
-        label[for*='4']:before {
-            content: '\f1a9';
-        }
-
         label:hover {
             color: #888;
             cursor: pointer;
