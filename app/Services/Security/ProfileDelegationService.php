@@ -29,6 +29,7 @@ class ProfileDelegationService
         )
             ->whereDate('period_from', '<', Carbon::now())
             ->whereDate('period_to', '>', Carbon::now())
+            ->whereNull('date_cancelled')
             ->first();
 
         if (empty($activeDelegation)) {
@@ -54,6 +55,7 @@ class ProfileDelegationService
             $request->staffNumber)
             ->whereDate('period_from', '<=', Carbon::now())
             ->whereDate('period_to', '>', Carbon::now())
+            ->whereNull('date_cancelled')
             ->count();
 
         if ($count > 0) {
@@ -121,6 +123,7 @@ class ProfileDelegationService
         )
             ->whereDate('period_from', '<=', Carbon::now())
             ->whereDate('period_to', '>', Carbon::now())
+            ->whereNull('date_cancelled')
             ->first();
 
         if (empty($activeDelegation)) {

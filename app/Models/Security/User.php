@@ -4,6 +4,7 @@ namespace App\Models\Security;
 
 use App\Models\MaterialHeader;
 use App\Models\UserManagement\ProfileDelegation;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -97,8 +98,20 @@ class User extends Authenticatable
 
     public function delegatedProfile(): HasOne
     {
-        return $this->hasOne(ProfileDelegation::class, 'owner_profile_id', 'id');
+        return $this->hasOne(ProfileDelegation::class, 'delegated_to', 'id')
+            ->whereDate('period_from', '<=', Carbon::now())
+            ->whereDate('period_to', '>', Carbon::now())
+            ->whereNull('date_cancelled');
     }
+
+    public function profileDelegation(): HasOne
+    {
+        return $this->hasOne(ProfileDelegation::class, 'profile_owner', 'id')
+            ->whereDate('period_from', '<=', Carbon::now())
+            ->whereDate('period_to', '>', Carbon::now())
+            ->whereNull('date_cancelled');
+    }
+
 
 
 }

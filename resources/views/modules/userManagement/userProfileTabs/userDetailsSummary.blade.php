@@ -28,19 +28,6 @@
                     User Unit:
                 </b>
                 {{$user->user_unit ?? '' }}
-                {{--@if (Auth::user()->type_id == config('constants.user_types.developer')
-                    || Auth::user()->type_id == config('constants.user_types.mgt'))
-                    <a href="{{ route('logout') }}" class="text-dark"
-                       onclick="event.preventDefault(); document.getElementById('search-form12').submit();">
-                        {{ $user->user_unit ?? ''}}
-                    </a>
-            <form id="search-form12"
-                  action="#"
-                  method="post" class="d-none">
-                @csrf
-            </form>
-            @else
-            @endif--}}
             </p>
             <p class="text-muted">
                 <b class="text-dark">
@@ -109,6 +96,46 @@
                     {{ $userDelegating->profileOwner->name ?? '' }}
                 </p>
             </div>
+        @endif
+
+        @if(!empty($user->profileDelegion))
+            <form name="formCancelDelegation"
+                  method="post"
+                  action="{{ route('profile.delegation.remove') }}">
+                <div class="col-lg-6 col-sm-12">
+                    <div class="user-block">
+                        <span class="username ml-1">
+                            <a href="#">DELEGATED PROFILE</a>
+                        </span>
+                    </div>
+                    <p class="text-muted">
+                        <strong>Period :</strong>
+                        {{ Carbon\Carbon::parse($user->profileDelegion->period_from ?? '0')->format('d-M-Y') ?? '' }}
+                        To
+                        {{ Carbon\Carbon::parse($user->profileDelegion->period_to ?? '0')->format('d-M-Y') ??  '' }}
+                    </p>
+                    <p class="text-muted">
+                        <b>Profile:</b>
+                        {{ $user->profileDelegion->delegatedProfile->name ?? '' }}
+                    </p>
+
+                    <p class="text-muted">
+                        <b>Delegated To:</b>
+                        {{ $user->profileDelegion->delegatedUser->name ?? '' }}
+                    </p>
+
+                    @if(
+                        auth()->user()->can(config('rights.user_update'))
+                        ||
+                        auth()->user()->id = $user->profileDelegion->profile_owner
+                        )
+                        <button type="submit"
+                                class="btn btn-sm btn-warning">
+                            Cancel Delegation
+                        </button>
+                    @endif
+                </div>
+            </form>
         @endif
     </div>
 </div>
