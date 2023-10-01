@@ -47,8 +47,9 @@
                         <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                     </div>
 
-                    <form name="fuelRequisitionForm" id="fuelRequisitionForm"
-                          action="{{route()}}" method="post">
+                    <form name="fuelRequisitionForm"
+                          id="fuelRequisitionForm"
+                          action="{{route('vehicle.fuel.save')}}" method="post">
                         @csrf
                         <div class="card-body user-data">
                             <label class="app-required-marker"></label>

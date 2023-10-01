@@ -147,26 +147,30 @@ class WorkshopService
     public function getJobCardDetails(mixed $reference)
     {
         $query = DB::table("WM_JOB_CARD_HEADER")
-            ->leftJoin("SEC_USERS", "WM_JOB_CARD_HEADER.received_by",
-                "=", "SEC_USERS.staff_no")
-            ->join("CONFIG_GENERAL_TABLES", function (JoinClause $joinClause) {
-                $joinClause->on("WM_JOB_CARD_HEADER.receiving_section",
-                    "=",
-                    "CONFIG_GENERAL_TABLES.code")
-                    ->where("CONFIG_GENERAL_TABLES.type",
-                        "=",
-                        ConfigurationTypes::WORK_SHOP_SECTION);
-            })
+            ->leftJoin("SEC_USERS",
+                "WM_JOB_CARD_HEADER.received_by",
+                QueryComparisonOperator::EQUALS,
+                "SEC_USERS.staff_no")
+            ->join("CONFIG_GENERAL_TABLES",
+                function (JoinClause $joinClause) {
+                    $joinClause->on("WM_JOB_CARD_HEADER.receiving_section",
+                        QueryComparisonOperator::EQUALS,
+                        "CONFIG_GENERAL_TABLES.code")
+                        ->where("CONFIG_GENERAL_TABLES.type",
+                            QueryComparisonOperator::EQUALS,
+                            ConfigurationTypes::WORK_SHOP_SECTION);
+                })
             ->leftJoin("CONFIG_STATUSES",
                 "WM_JOB_CARD_HEADER.status",
-                "=",
+                QueryComparisonOperator::EQUALS,
                 "CONFIG_STATUSES.code")
-            ->where("WM_JOB_CARD_HEADER.job_card_no", "=", $reference)
+            ->where("WM_JOB_CARD_HEADER.job_card_no",
+                QueryComparisonOperator::EQUALS, $reference)
             ->select("WM_JOB_CARD_HEADER.*",
                 "CONFIG_GENERAL_TABLES.name as section_in_name",
                 "SEC_USERS.name as service_advisor",
                 "CONFIG_STATUSES.name as status_name",
-                "CONFIG_STATUSES.color_code",
+                "CONFIG_STATUSES.color_codee",
             )
             ->get();
 
