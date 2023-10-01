@@ -52,7 +52,7 @@ class RolesController extends Controller
             $this->roleService->createRole($slug, $roleName, $roleDescription);
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    '',
+                    'success',
                     true,
                     'Profile Creation Successful..'
                 ));
