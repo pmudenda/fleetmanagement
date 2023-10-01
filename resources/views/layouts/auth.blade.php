@@ -30,24 +30,19 @@
             <img class="z-index-2" src="{{asset('assets/dist/img/icons/zesco_logo.png')}}" alt="Image Description"
                  data-pagespeed-url-hash="799927880">
         </a>
-
-        @if(env('APP_ENV') == "local")
-            <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-4">
-                    <div class="alert alert-danger text-center">
-                        <h1>ZFM UAT</h1>
-                    </div>
-                </div>
-            </div>
-        @endif
-
         <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-4">
+            <div class="col-sm-8 col-md-6 col-lg-6">
                 <div class="">
                 </div>
                 <div class="form-card mb-2">
                     <div class="form-card_body">
                         @yield('content')
+                        @if(env('APP_ENV') == "local")
+                            <div class="row">
+                                <label>ZFM UAT</label>
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
