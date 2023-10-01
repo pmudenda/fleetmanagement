@@ -94,18 +94,18 @@
                     <span class="username ml-1"><a href="#">DELEGATED PROFILE</a> </span>
                 </div>
                 <p class="text-muted">
-                    <strong>Delegation Period :</strong>
+                    <strong>Period :</strong>
                     {{ Carbon\Carbon::parse($userDelegating->period_from ?? '0')->format('d-M-Y') ?? '' }}
                     To
                     {{ Carbon\Carbon::parse($userDelegating->period_to ?? '0')->format('d-M-Y') ??  '' }}
                 </p>
                 <p class="text-muted">
-                    <b>Delegated Profile:</b>
-                    {{ $userDelegating->delegatedRole->name ?? '' }}
+                    <b>Profile:</b>
+                    {{ $userDelegating->delegatedProfile->name ?? '' }}
                 </p>
 
                 <p class="text-muted">
-                    <b>Profile Owner:</b>
+                    <b>Owner:</b>
                     {{ $userDelegating->profileOwner->name ?? '' }}
                 </p>
             </div>
