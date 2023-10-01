@@ -38,8 +38,8 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password']], functio
                 'profile-delegation',
             'as' => 'user.profile.delegation.'
         ], function () {
-            Route::get('/create', [ProfileDelegationController::class, 'create'])
-                ->name('user.profile.create');
+            Route::get('create', [ProfileDelegationController::class, 'create'])
+                ->name('create');
 
             Route::post('cancel', [ProfileDelegationController::class, 'cancel'])
                 ->name('cancel');
