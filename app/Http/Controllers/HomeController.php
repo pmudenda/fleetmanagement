@@ -42,7 +42,7 @@ class HomeController extends Controller
     public function dashboard(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $user = auth()->user();
-        $approvalTasks = $this->workflowService->getMyApprovalTasks($user->staff_no);
+        $approvalTasks = $this->workflowService->getMyApprovalTasks($user);
 
         $vehicleData = $this->vehicleDetailsService->getAllVehiclesByStatus(['01', '02', '04', '05', '09']);
 

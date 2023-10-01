@@ -21,11 +21,11 @@ class ProfileDelegationService
         $this->profileService = $profileService;
     }
 
-    public function getDelegatedProfileOwner(string $staffNumber): mixed
+    public function getDelegatedProfileOwner(string $userId): mixed
     {
         $activeDelegation = ProfileDelegation::where(
             'delegated_to', QueryComparisonOperator::EQUALS,
-            $staffNumber
+            $userId
         )
             ->whereDate('period_from', '<', Carbon::now())
             ->whereDate('period_to', '>', Carbon::now())
@@ -80,7 +80,8 @@ class ProfileDelegationService
             QueryComparisonOperator::EQUALS,
             $profileOwnerUserNo
         )->first();
-        $profileOwnerProfile = $profileOwner->roles()->first();
+
+        $delegatingProfile = $profileOwner->roles()->first();
 
         $delegatedUser = User::where(
             TableColumns::STAFF_NUMBER,
@@ -93,9 +94,9 @@ class ProfileDelegationService
         DB::beginTransaction();
         ProfileDelegation::create(
             [
-                'profile_owner' => $profileOwnerUserNo,
-                'delegated_to' => $delegatedUserStaffNo,
-                'owner_profile_id' => $profileOwnerProfile->id,
+                'profile_owner' => $profileOwner->id,
+                'delegated_to' => $delegatedUser->id,
+                'owner_profile_id' => $delegatingProfile->id,
                 'delegated_profile_id' => $delegatedUserProfile->id ?? 0,
                 'period_from' => $request->get('startDate'),
                 'period_to' => $request->get('endDate'),
@@ -104,19 +105,19 @@ class ProfileDelegationService
             ]
         );
 
-        $roleIds = $profileOwnerProfile->pluck('id')->toArray();
+        $roleIds = $delegatingProfile->pluck('id')->toArray();
         $this->profileService->assignProfile($delegatedUser->id, $roleIds);
         $this->profileService->revokeProfile($profileOwner->id, $roleIds);
 
         DB::commit();
     }
 
-    public function getDelegatedProfile($staffNumber)
+    public function getDelegatedProfile($userId)
     {
         $activeDelegation = ProfileDelegation::where(
             'delegated_to',
             QueryComparisonOperator::EQUALS,
-            $staffNumber
+            $userId
         )
             ->whereDate('period_from', '<=', Carbon::now())
             ->whereDate('period_to', '>', Carbon::now())
