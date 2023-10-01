@@ -129,7 +129,7 @@ class UserService
         $dataset = User::select('*')
             ->where('name', 'LIKE', "%{$searchParam}%")
             ->orWhere('staff_no', 'LIKE', "%{$searchParam}%")
-            ->where(TableColumns::PHCMS_STAFF_NUMBER,
+            ->where(TableColumns::PHCMS_STATUS,
                 QueryComparisonOperator::EQUALS,
                 StatusHelper::active())
             ->where(function ($query) {
