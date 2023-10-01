@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@php
+    use App\Enums\RepairTypes;use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use App\Helpers\VehicleStatus;use Carbon\Carbon;
+@endphp
 @push('styles')
     <style>
         .imagePreview {
