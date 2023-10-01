@@ -34,7 +34,7 @@
         @if(env('APP_ENV') == "local")
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-4">
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger text-center">
                         <h1>UAT</h1>
                     </div>
                 </div>
