@@ -82,7 +82,8 @@
                             <div class="text-center">
                                 <a href="#">
                                     @if(!empty($mechanic->avatar))
-                                        <img class="profile-user-img img-fluid img-circle" width="100%"
+                                        <img class="profile-user-img img-fluid img-circle"
+                                             width="100%"
                                              src="{{ asset('storage/user_avatar/' . $mechanic->avatar) }}"
                                              alt="Image not found"
                                              @if(auth::user()->id==$mechanic->id)
@@ -91,7 +92,8 @@
                                              data-target="#modal-edit-profile"@endif
                                         />
                                     @else
-                                        <img class="profile-user-img img-fluid img-circle" width="100%"
+                                        <img class="profile-user-img img-fluid img-circle"
+                                             width="100%"
                                              src="{{ asset('assets/media/avatars/avatar.png') }}"
                                              alt="Image not found"
                                              @if(Auth::user()->id==$mechanic->id)
