@@ -258,7 +258,7 @@
                                                    class="nav-link">
                                                     <i class="fas fa-list nav-icon"></i>
                                                     <p>
-                                                        View (Open Card)
+                                                        View (Open Cards)
                                                     </p>
                                                 </a>
                                             </li>
@@ -268,7 +268,7 @@
                                                    class="nav-link">
                                                     <i class="fas fa-list nav-icon"></i>
                                                     <p>
-                                                        View (Closed Card)
+                                                        View (Closed Cards)
                                                     </p>
                                                 </a>
                                             </li>
