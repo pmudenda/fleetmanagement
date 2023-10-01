@@ -24,12 +24,6 @@
             border: 2px solid orangered;
         }
 
-        label:before {
-            font-family: fontawesome;
-            font-weight: normal;
-            margin-right: 10px;
-        }
-
         label[for*='1']:before {
             content: '\f1cb';
         }
@@ -92,7 +86,7 @@
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"
-                                            @endif
+                                                @endif
                                         />
                                     @else
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
@@ -102,7 +96,7 @@
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"
-                                            @endif
+                                                @endif
                                         />
                                     @endif
                                 </a>
