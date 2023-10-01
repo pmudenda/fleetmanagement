@@ -117,7 +117,7 @@
     </section>
 
     <!-- Profile Addition Modal -->
-    <div class="modal fade"
+    <div class="modal fade createProfileModal"
          id="createProfileModal"
          tabindex="-1"
          role="dialog"
@@ -136,7 +136,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form name="db2" method="post" action="{{route('roles.store')}}">
+                    <form name="createRoleForm" method="post" action="{{route('roles.store')}}">
                         @csrf
                         <div class="card-body">
                             <div class="row">
@@ -322,6 +322,10 @@
 
             tmsApp.initDatatable("#groupsTable", true, true, []);
 
+            $(document).on('input', '[name="name"]', function () {
+                $('[name="slug"]').val(this.value?.replaceAll(' ', '_'));
+            });
+
             $('[name="roleUpdateForm"]').on('submit', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -414,6 +418,108 @@
                     messages: {
                         name: {
                             required: "Permission name is required"
+                        }
+                    }
+                }
+            );
+
+            $('[name="createRoleForm"]').on('submit', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                let $form = this;
+
+                if (!$($form).valid()) {
+                    toastr.warning(appMessages.validationFailureMessage);
+                    return;
+                }
+
+                let element = document.querySelector('.createProfileModal');
+                let modal = null;
+                if (element) {
+                    modal = bootstrap.Modal.getOrCreateInstance(element);
+                }
+
+                let formData = new FormData($form);
+                tmsApp.play_alert('sound-submit');
+                tmsApp.asyncPostFormData(
+                    $form.action,
+                    formData,
+                    function (response) {
+                        window.loaderMessage = "Loading... please wait";
+                        if (response.hasOwnProperty("state") && response.state === 'success') {
+                            if (modal) {
+                                modal.hide();
+                            }
+                            const message = response.message > ""
+                                ? response.message
+                                : appMessages.profileUpdateDefaultMessage;
+
+                            tmsApp.showSystemMessage(
+                                appMessages.profileUpdateTitle,
+                                message,
+                                function () {
+                                    window.location.reload();
+
+                                },
+                                "success"
+                            );
+                        } else {
+                            tmsApp.play_alert('sound-error');
+                            if (!Util.isEmpty(response.errors)) {
+                                if (response.errors) {
+                                    tmsApp.printErrorMsg(response.errors);
+                                }
+                            } else if (!Util.isEmpty(response.message)) {
+                                tmsApp.systemError(appMessages.profileUpdateTitle,
+                                    response.message);
+                            }
+
+                            if (modal) {
+                                modal.hide();
+                            }
+                        }
+                    },
+                    function (xhr) {
+                        tmsApp.play_alert('sound-error');
+                        tmsApp.showErrorMessages(xhr, appMessages.profileUpdateTitle);
+                    },
+                    'POST'
+                );
+            }).validate(
+                {
+                    errorClass: "error-class",
+                    validClass: "valid-class",
+                    errorElement: 'div',
+                    errorPlacement: function (error, element) {
+                        if (element.parent('.input-group').length) {
+                            error.insertAfter(element.parent());
+                        } else {
+                            error.insertAfter(element);
+                        }
+                    },
+                    onError: function () {
+                        $('.input-group.error-class')
+                            .find('.help-block.form-error')
+                            .each(function () {
+                                $(this).closest('.form-group')
+                                    .addClass('error-class')
+                                    .append($(this));
+                            });
+                    },
+                    rules: {
+                        name: {
+                            required: true
+                        },
+                        slug: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        name: {
+                            required: "Permission name is required"
+                        },
+                        slug: {
+                            required: "System Profile Name is required"
                         }
                     }
                 }

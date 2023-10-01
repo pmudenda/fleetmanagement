@@ -47,71 +47,64 @@
                         <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                     </div>
 
-                    {{--vehicle reg number --}}
-                    {{--vehicle photos --}}
-                    {{--vehicle fuel type --}}
-                    {{--vehicle current allocation --}}
-                    {{--vehicle daily == / number of days--}}
-                    {{--vehicle TOtal == --}}
-                    {{--vehicle allocation fuel comment == --}}
-
                     <form name="fuelRequisitionForm" id="fuelRequisitionForm"
-                          action="http://127.0.0.1:8000/requisitions/fuel/save" method="post">
-                        <input type="hidden" name="_token" value="oUzo9VdwnBw13JoY5MccxVAWrWPkeRXhypM4fmon">
+                          action="{{route()}}" method="post">
+                        @csrf
                         <div class="card-body user-data">
                             <label class="app-required-marker"></label>
                             <div class="container-fluid mt-2">
                                 <div class="row">
                                     <div class="col-9">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <label class="col-xs-12 col-sm-6
+                                            <div class="col-9">
+                                                <div class="col-xs-12 col-sm-6 col-md-6">
+                                                    <div class="container-fluid pl-0">
+                                                        <div class="row">
+                                                            <div class="form-group row">
+                                                                <label class="col-xs-12 col-sm-6
                                                                 col-md-5 col-lg-4 field-required"
-                                                                   for="vehicle_registration">
-                                                                Registration #:
-                                                            </label>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                <div class="input-group">
-                                                                    <input type="text"
-                                                                           data-action="{{
+                                                                       for="vehicle_registration">
+                                                                    Registration #:
+                                                                </label>
+                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                    <div class="input-group">
+                                                                        <input type="text"
+                                                                               data-action="{{
                                                                             route('requisition.vehicle.details')
                                                                             }}"
-                                                                           class="form-control form-control-sm"
-                                                                           autocapitalize="characters"
-                                                                           id="vehicleRegistration"
-                                                                           placeholder="Vehicle Reg e.g AAB 6757"
-                                                                           name="vehicleRegistration"
-                                                                           required>
-                                                                    <div class="input-group-addon">
-                                                                        <button type="button" id="vehicleSearchBtn"
-                                                                                name="vehicleSearchBtn"
-                                                                                class="btn btn-success btn-sm
+                                                                               class="form-control form-control-sm"
+                                                                               autocapitalize="characters"
+                                                                               id="vehicleRegistration"
+                                                                               placeholder="Vehicle Reg e.g AAB 6757"
+                                                                               name="vehicleRegistration"
+                                                                               required>
+                                                                        <div class="input-group-addon">
+                                                                            <button type="button" id="vehicleSearchBtn"
+                                                                                    name="vehicleSearchBtn"
+                                                                                    class="btn btn-success btn-sm
                                                                                 border-radius-0">
-                                                                            <i class="fas fa-search"></i>
-                                                                        </button>
+                                                                                <i class="fas fa-search"></i>
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                                <input type="hidden"
-                                                                       class="form-control form-control-sm"
-                                                                       id="vehicle_description"
-                                                                       name="vehicle_description"
-                                                                       required
-                                                                       readonly
-                                                                />
+                                                <div class="col-xs-12 col-sm-6 col-md-6">
+                                                    <div class="container-fluid pl-0">
+                                                        <div class="row">
+                                                            <div class="form-group row">
+                                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                                    <input type="hidden"
+                                                                           class="form-control form-control-sm"
+                                                                           id="vehicle_description"
+                                                                           name="vehicle_description"
+                                                                           required
+                                                                           readonly
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -178,7 +171,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="row mt-3">
                                                     <div class="row">
                                                         <div class="form-group">
@@ -201,7 +193,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
 
