@@ -383,7 +383,6 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
     };
 
 
-
     appInstance.isEmpty = function (obj) {
         if (!obj)
             return true;
@@ -510,7 +509,11 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
      * @param successCallBack
      * @param errorCallBack
      */
-    appInstance.asyncPostFormData = function (url, requestPayload, successCallBack, errorCallBack, method = 'POST') {
+    appInstance.asyncPostFormData = function (url,
+                                              requestPayload,
+                                              successCallBack,
+                                              errorCallBack,
+                                              method = 'POST') {
         $.ajax({
             type: method,
             url: url,
@@ -761,9 +764,8 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
         }
         appInstance.systemError(
             title,
-            'We could not complete processing your request, please try again later');
-
-
+            'We could not complete processing your request, please try again later'
+        );
     }
 
 })(window.tmsApp = window.tmsApp || {}, jQuery);

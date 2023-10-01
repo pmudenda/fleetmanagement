@@ -4,11 +4,9 @@ namespace App\Http\Controllers\UserManagement;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
-use App\Exceptions\ActiveUserDelegationException;
 use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserOnBoardingException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DelegateProfile;
 use App\Http\Requests\UserOnboardingRequest;
 use App\Http\Requests\UserProfileUpdate;
 use App\Http\Requests\UserSync;
@@ -17,7 +15,8 @@ use App\Models\Security\Role;
 use App\Models\Security\User;
 use App\Services\Logging\ActivityLogsService;
 use App\Services\Organization\StructureService;
-use App\Services\Security\RoleService;
+use App\Services\Security\ProfileDelegationService;
+use App\Services\Security\ProfileService;
 use App\Services\Security\UserService;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -34,10 +33,16 @@ class UsersController extends Controller
 {
 
     private readonly UserService $userService;
+    private ProfileService $profileService;
+    private ProfileDelegationService $profileDelegation;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService              $userService,
+                                ProfileService           $profileService,
+                                ProfileDelegationService $profileDelegation)
     {
         $this->userService = $userService;
+        $this->profileService = $profileService;
+        $this->profileDelegation = $profileDelegation;
     }
 
     public function index(): Factory|View|Application
@@ -116,13 +121,16 @@ class UsersController extends Controller
 
     public function show(Request $request, $id): Factory|View|Application
     {
+        Log::debug("Showing Profile for $id");
         $this->verifyRequestSignature($request);
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
         $passwordChangeOnly = false;
+        $userDelegating = $this->profileDelegation->getDelegatedProfile($user->id);
         return view('modules.userManagement.show')
             ->with(compact(
                 'user',
+                'userDelegating',
                 'passwordChangeOnly',
                 'roles'
             ));
@@ -140,8 +148,12 @@ class UsersController extends Controller
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
         $passwordChangeOnly = false;
+        $userDelegating = $this->profileDelegation->getDelegatedProfile($user->id);
         return view('modules.userManagement.show')
-            ->with(compact('user', 'passwordChangeOnly', 'roles'));
+            ->with(compact('user',
+                'passwordChangeOnly',
+                'userDelegating',
+                'roles'));
 
     }
 
@@ -149,7 +161,7 @@ class UsersController extends Controller
     {
         try {
             DB::beginTransaction();
-            $this->userService->assignProfile($request->id, $request->role_ids);
+            $this->profileService->assignProfile($request->id, $request->role_ids);
             DB::commit();
             return redirect()->back()->with('message', 'User Successfully Added To Selected Groups ..');
         } catch (\Exception $e) {
@@ -161,7 +173,7 @@ class UsersController extends Controller
     public function detach(Request $request): RedirectResponse
     {
         DB::beginTransaction();
-        $this->userService->revokeProfile($request->id, $request->role_ids);
+        $this->profileService->revokeProfile($request->id, $request->role_ids);
         DB::commit();
 
         return redirect()->back()
@@ -193,60 +205,6 @@ class UsersController extends Controller
                 'state' => 'error',
                 'error' => $message
             ]);
-        }
-    }
-
-    public function delegation(Request $request): View
-    {
-        $this->verifyRequestSignature($request);
-
-        $id = (int)$request->get('key');
-        $user = User::where('id', '=', $id)->first();
-        $selfDelegation = $request->get('self');
-
-        $profiles = (new RoleService())->get();
-
-        return view('modules.userManagement.profileDelegation')
-            ->with(compact(
-                'user',
-                'profiles',
-                'selfDelegation'
-            ));
-    }
-
-    public function saveDelegation(DelegateProfile $request): JsonResponse
-    {
-        try {
-            Log::debug('Saving Profile Delegation');
-
-            $this->userService->initiateDelegation($request);
-
-            return response()->json(
-                FleetMasterJsonResponse::response(
-                    '',
-                    true,
-                    'User Profile Delegation Started Successfully',
-                    []
-                )
-            );
-
-        } catch (\Exception $e) {
-            Log::error($e);
-            $message = ErrorMessages::getMessage('err_0012');
-
-            if ($e instanceof UserNotActiveException
-                || $e instanceof ActiveUserDelegationException) {
-                $message = $e->getMessage();
-            }
-
-            return response()->json(
-                FleetMasterJsonResponse::response(
-                    '',
-                    false,
-                    $message,
-                    []
-                )
-            );
         }
     }
 
@@ -292,6 +250,34 @@ class UsersController extends Controller
             $searchParam = strtoupper(trim($request->searchCriteria));
 
             $dataset = $this->userService->searchEmployee($searchParam);
+
+            return response()->json([
+                'success' => true,
+                'payload' => $dataset
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::getMessage('err_0012');
+
+            if ($e instanceof UserNotActiveException) {
+                $message = $e->getMessage();
+            }
+
+            return response()->json([
+                'success' => false,
+                'payload' => [],
+                'message' => $message
+            ]);
+        }
+    }
+
+    public function search(Request $request): JsonResponse
+    {
+        try {
+            $searchParam = strtoupper(trim($request->searchCriteria));
+
+            $dataset = $this->userService->search($searchParam);
 
             return response()->json([
                 'success' => true,

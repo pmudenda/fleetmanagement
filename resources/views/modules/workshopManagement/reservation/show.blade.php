@@ -537,7 +537,8 @@
         <input type="hidden" name="onboarding_status" id="onboarding_status"
                value="{{StatusHelper::onboardingComplete()}}">
 
-        {{--<x-fuel-workflow-approvers :request="$requestDetails"/>--}}
+
+        <x-workshop-workflow-approvers :task="$workflowTask" :request="$requestDetails"/>
 
         <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
 

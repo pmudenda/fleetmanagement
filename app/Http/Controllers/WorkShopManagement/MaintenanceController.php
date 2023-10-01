@@ -255,8 +255,7 @@ class MaintenanceController extends Controller
 
         $user = Auth::user();
 
-        $staffNumber = $user->staff_no;
-        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($staffNumber);
+        $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($user->id);
 
         [$header, $details] = $this->workshopRequisitionService->getWorkShopReservationDetails($requestNumber);
 

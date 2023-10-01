@@ -20,28 +20,6 @@
             border: 1px solid transparent;
         }
 
-        label:before {
-            font-family: fontawesome;
-            font-weight: normal;
-            margin-right: 10px;
-        }
-
-        label[for*='1']:before {
-            content: '\f1cb';
-        }
-
-        label[for*='2']:before {
-            content: '\f17d';
-        }
-
-        label[for*='3']:before {
-            content: '\f16b';
-        }
-
-        label[for*='4']:before {
-            content: '\f1a9';
-        }
-
         label:hover {
             color: #888;
             cursor: pointer;
@@ -82,7 +60,8 @@
                             <div class="text-center">
                                 <a href="#">
                                     @if(!empty($mechanic->avatar))
-                                        <img class="profile-user-img img-fluid img-circle" width="100%"
+                                        <img class="profile-user-img img-fluid img-circle"
+                                             width="100%"
                                              src="{{ asset('storage/user_avatar/' . $mechanic->avatar) }}"
                                              alt="Image not found"
                                              @if(auth::user()->id==$mechanic->id)
@@ -91,7 +70,8 @@
                                              data-target="#modal-edit-profile"@endif
                                         />
                                     @else
-                                        <img class="profile-user-img img-fluid img-circle" width="100%"
+                                        <img class="profile-user-img img-fluid img-circle"
+                                             width="100%"
                                              src="{{ asset('assets/media/avatars/avatar.png') }}"
                                              alt="Image not found"
                                              @if(Auth::user()->id==$mechanic->id)
@@ -568,25 +548,9 @@
                                 }
                             },
                             function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
                                 setTimeout(function () {
-                                    if ('responseJSON' in xhr) {
-                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                        }
-                                        if (xhr.responseJSON.hasOwnProperty('message')) {
-                                            tmsApp.systemError(
-                                                'Detail Update',
-                                                xhr.responseJSON['message']
-                                            );
-                                        }
-                                        return;
-                                    }
-
-                                    tmsApp.systemError(
-                                        'User Detail Update',
-                                        'We could not complete processing your request, please try again later');
-                                }, 300)
+                                    tmsApp.showErrorMessages(xhr, 'Details Update');
+                                }, 300);
                             }
                         )
                     },
@@ -639,25 +603,9 @@
                                 }
                             },
                             function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
                                 setTimeout(function () {
-                                    if ('responseJSON' in xhr) {
-                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                        }
-                                        if (xhr.responseJSON.hasOwnProperty('message')) {
-                                            tmsApp.systemError(
-                                                'Details Auto Update',
-                                                xhr.responseJSON['message']
-                                            );
-                                        }
-                                        return;
-                                    }
-
-                                    tmsApp.systemError(
-                                        'Details Auto Update',
-                                        'We could not complete processing your request, please try again later');
-                                }, 300)
+                                    tmsApp.showErrorMessages(xhr, 'Details Auto Update',);
+                                }, 300);
                             }
                         );
                     },

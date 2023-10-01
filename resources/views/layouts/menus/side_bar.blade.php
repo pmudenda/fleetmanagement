@@ -244,7 +244,7 @@
                                     <ul class="nav nav-treeview pl-2">
                                         @canany([config('rights.create_job_card')])
                                             <li class="nav-item">
-                                                <a href="{{URL::signedRoute('vehicle.workshop.checkin')}}"
+                                                <a href="{{URL::signedRoute('workshop.checkin')}}"
                                                    class="nav-link">
                                                     <i class="fas fa-plus nav-icon"></i>
                                                     <p>New (Job Card)</p>
@@ -253,25 +253,39 @@
                                         @endcanany
 
                                         @can(config('rights.view_job_card'))
-                                            <li class="nav-item pl-2">
-                                                <a href="{{URL::signedRoute('jobCard.list')}}"
-                                                   class="nav-link">
-                                                    <i class="fas fa-list nav-icon"></i>
-                                                    <p>
-                                                        View (Open Card)
-                                                    </p>
-                                                </a>
-                                            </li>
+                                                <li class="nav-item pl-2">
+                                                    <a href="#" class="nav-link">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        <p>
+                                                            View Cards
+                                                            <i class="right fas fa-angle-left"></i>
+                                                        </p>
+                                                    </a>
+                                                    <ul class="nav nav-treeview pl-2">
+                                                        <li class="nav-item pl-2">
+                                                            <a href="{{URL::signedRoute('jobCard.list')}}"
+                                                               class="nav-link">
+                                                                <i class="fas fa-list nav-icon"></i>
+                                                                <p>
+                                                                    Open Cards
+                                                                </p>
+                                                            </a>
+                                                        </li>
 
-                                            <li class="nav-item pl-2">
-                                                <a href="{{URL::signedRoute('closed.jobCard.list')}}"
-                                                   class="nav-link">
-                                                    <i class="fas fa-list nav-icon"></i>
-                                                    <p>
-                                                        View (Closed Card)
-                                                    </p>
-                                                </a>
-                                            </li>
+                                                        <li class="nav-item pl-2">
+                                                            <a href="{{URL::signedRoute('closed.jobCard.list')}}"
+                                                               class="nav-link">
+                                                                <i class="fas fa-list nav-icon"></i>
+                                                                <p>
+                                                                    Closed Cards
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+
+
+
                                         @endcan
                                     </ul>
                                 </li>

@@ -1,7 +1,12 @@
 (function (appInstance, $, i) {
-        appInstance.confirmWithInput = async function (title, labelText, confirmButtonText, cancelButtonText,
-                                                       confirmCallBack, cancelCallBack,
-                                                       inputMaxLength, isMultilineInput) {
+        appInstance.confirmWithInput = async function (title,
+                                                       labelText,
+                                                       confirmButtonText,
+                                                       cancelButtonText,
+                                                       confirmCallBack,
+                                                       cancelCallBack,
+                                                       inputMaxLength,
+                                                       isMultilineInput) {
 
             const {value: dataVal} = await Swal.fire({
                 title: title !== "" && title !== i && title !== null ? title : " Prompt",
@@ -11,19 +16,21 @@
                 showCancelButton: true,
                 inputPlaceholder: 'Enter your ' + labelText,
                 inputAttributes: isMultilineInput ? {
-                        'aria-label': 'Type your message here'
+                        'aria-label': 'Type your message here',
+                        'required': true
                     } :
                     {
-                        maxlength: 10,
+                        maxlength: inputMaxLength ?? 10,
                         autocapitalize: 'off',
                         autocorrect: 'off'
                     },
             })
 
+            console.log(dataVal);
+
             if (dataVal) {
-                // Swal.fire(`Entered email: ${dataVal}`)
                 if (typeof confirmCallBack === 'function') {
-                    confirmCallBack(null, dataVal)
+                    confirmCallBack(dataVal)
                 }
             }
         };

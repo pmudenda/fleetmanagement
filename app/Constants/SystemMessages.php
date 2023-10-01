@@ -38,6 +38,8 @@ class SystemMessages
     const REQUISITION_SUCCESSFUL = "Requisition @req Generated and submitted to the next authority for Authorisation";
     const ACCIDENT_REPORT_FOUND = 'Accident Report Found';
     const ACCIDENT_REPORT_NOT_FOUND = 'No Accident Report Found for Vehicle @reg';
+    const DELEGATION_CANCELLED = 'Delegation Cancelled Successfully';
+    const DELEGATION_NOT_FOUND = "No Active Delegation Found";
 
     public static function chargeOutRateAddedSuccessfully(): string
     {

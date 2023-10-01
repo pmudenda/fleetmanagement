@@ -58,7 +58,7 @@
             @if(session('simulating', false))
                 <li class="nav-item d-sm-inline-block">
                     <a href="#"
-                       data-form-url="{{route('end.user.simulation')}}"
+                       data-form-url="{{route('user.simulation.end')}}"
                        data-action="endSimulation"
                        class="nav-link">
                         <i class="fas fa-sign-out-alt mr-2"></i>
@@ -215,7 +215,7 @@
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="{{URL::signedRoute(
-                        'user.profile.delegation',[
+                        'user.profile.delegation.create',[
                         'key'=> Auth::user()->id,
                         'self'=> true
                         ])}}"
