@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\FuelManagement;
 
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
 use App\Enums\Modules;
 use App\Exceptions\DataNotFoundException;
@@ -139,10 +140,16 @@ class FuelRequisitionController extends Controller
 
     public function create(Request $request): View|Application
     {
+        Log::info("Starting to request Fuel");
         $user = Auth::user();
 
-        $organizationalUnit = OrganizationalUnit::where('cc_code', '=', $user->cc_code)
-            ->where('bu_code', '=', $user->bu_code)
+        $organizationalUnit = OrganizationalUnit::where('cc_code',
+            QueryComparisonOperator::EQUALS,
+            $user->cc_code)
+            ->where(
+                'bu_code',
+                QueryComparisonOperator::EQUALS,
+                $user->bu_code)
             ->first();
 
         $requisitionTypes = RequisitionType::where('status', StatusHelper::active())
