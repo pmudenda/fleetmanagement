@@ -40,7 +40,7 @@
                         @if(env('APP_ENV') == "local")
                             <div class="row">
                                 <div class="col-6">
-                                    <label>ZFMS UAT</label></div>
+                                    <label class="text-danger">ZFMS UAT</label></div>
                                 <div class="col-6">
                                     Version {{config('systeminfo.version')}}
                                 </div>

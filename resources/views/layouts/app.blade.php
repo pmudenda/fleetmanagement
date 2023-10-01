@@ -40,7 +40,7 @@
     <link rel="stylesheet" href="{{asset('libs/session.timeout/session.timeout.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/asyncLoader.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/jquery-ui.css')}}"/>
-    <livewire:styles />
+    <livewire:styles/>
 
     <style>
         .nav-link {
@@ -577,7 +577,7 @@
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/qrcode/qrcode.min.js').'?v='.Carbon::now()->format('his')}}"></script>
-<livewire:scripts />
+<livewire:scripts/>
 
 @include('layouts.partials.dataTableScripts')
 <script type="text/javascript">
@@ -631,8 +631,8 @@
         const mainProcessMetaData = {};
 
         window.addEventListener('message', (event) => {
-                tmsApp.showToast(event.detail,"success")
-            });
+            tmsApp.showToast(event.detail, "success")
+        });
 
         window.addEventListener('modal-close', () => {
             $('.modal').modal('hide');
@@ -741,8 +741,16 @@
                     .then(response => {
                         console.log(response);
                         if (response.success === 'true' || response.success === true) {
-                            const name = response.payload?.name;
-                            $('#userNameIdentifier').val(name);
+
+                            let rows = '';
+                            if (Array.isArray(response.payload)) {
+                                for (let i = 0; i < obj.length; i++) {
+                                    rows += ``;
+                                }
+                            } else {
+                                const name = response.payload?.name;
+                                $('#userNameIdentifier').val(name);
+                            }
                         } else {
                             tmsApp.systemError(
                                 'User Verification',
