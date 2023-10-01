@@ -68,10 +68,10 @@
                                                 <div class="container-fluid pl-0">
                                                     <div class="row">
                                                         <div class="form-group row">
-                                                            <label
-                                                                    class="col-xs-12 col-sm-6
+                                                            <label class="col-xs-12 col-sm-6
                                                                 col-md-5 col-lg-4 field-required"
-                                                                    for="vehicle_registration">Registration #:
+                                                                   for="vehicle_registration">
+                                                                Registration #:
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <div class="input-group">
@@ -209,6 +209,14 @@
     <input type="hidden" value="{{VehicleStatus::vehicleInWorkshop()}}"
            name="vehicleInWorkshop"
            id="vehicleInWorkshop"/>
+
+    <input type="hidden" value=""
+           name="material_quantity"
+           id="material_quantity"/>
+
+    <input type="hidden" value=""
+           name="fuel_allocation"
+           id="fuel_allocation"/>
 @endsection
 
 @push('scripts')
