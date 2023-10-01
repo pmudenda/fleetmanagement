@@ -30,6 +30,17 @@
             <img class="z-index-2" src="{{asset('assets/dist/img/icons/zesco_logo.png')}}" alt="Image Description"
                  data-pagespeed-url-hash="799927880">
         </a>
+
+        @if(env('APP_ENV') == "local")
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="alert alert-danger text-center">
+                        <h1>ZFM UAT</h1>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         <div class="row justify-content-center">
             <div class="col-sm-8 col-md-6 col-lg-4">
                 <div class="">
@@ -39,9 +50,7 @@
                         @yield('content')
                         @if(env('APP_ENV') == "local")
                             <div class="row">
-                                <div class="col-6">
-                                    <label class="text-danger">ZFMS UAT</label></div>
-                                <div class="col-6">
+                                <div class="col-12 text-center">
                                     Version {{config('systeminfo.version')}}
                                 </div>
                             </div>

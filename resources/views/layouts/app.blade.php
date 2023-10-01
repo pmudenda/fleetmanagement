@@ -98,19 +98,6 @@
 
     <x-approval-modal/>
 
-    <div aria-live="polite" aria-atomic="true" class="position-relative">
-        <div class="toast-container position-fixed top-0 end-0 p-3">
-
-            <div id="liveToast" class="toast align-items-center text-bg-primary border-0"
-                 role="alert"
-                 aria-live="assertive" aria-atomic="true">
-                <div class="toast-body bg-white">
-                    Hello, world! This is a toast message.
-                </div>
-            </div>
-        </div>
-    </div>
-
     <x-app-modals/>
 </div>
 <input type="hidden" name="gatePassUrl" id="gatePassUrl" value="{{URL::signedRoute("gate.pass")}}"/>
