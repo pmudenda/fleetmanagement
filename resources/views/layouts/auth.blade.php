@@ -26,7 +26,7 @@
         </figure>
     </div>
     <div class="container py-5 py-sm-7">
-        <a class="d-flex justify-content-center mb-5 news365-logo" href="">
+        <a class="d-flex justify-content-center mb-3 news365-logo" href="">
             <img class="z-index-2" src="{{asset('assets/dist/img/icons/zesco_logo.png')}}" alt="Image Description"
                  data-pagespeed-url-hash="799927880">
         </a>
@@ -35,7 +35,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-4">
                     <div class="alert alert-danger text-center">
-                        <h1>ZFMS DEV</h1>
+                        <h1>{{env('APP_NAME')}}</h1>
                     </div>
                 </div>
             </div>
