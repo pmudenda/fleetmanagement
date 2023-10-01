@@ -3,12 +3,12 @@
 namespace App\Models\Security;
 
 use App\Models\MaterialHeader;
+use App\Models\UserManagement\ProfileDelegation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
@@ -94,4 +94,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(MaterialHeader::class, 'requested_by', 'staff_no');
     }
+
+    public function delegatedProfile(): HasOne
+    {
+        return $this->hasOne(ProfileDelegation::class, 'owner_profile_id', 'id');
+    }
+
+
 }
