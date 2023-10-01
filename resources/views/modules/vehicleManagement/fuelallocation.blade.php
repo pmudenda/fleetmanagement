@@ -130,7 +130,7 @@
                                                                             class="col-xs-12 col-sm-6
                                                                             col-md-7 col-lg-8">
                                                                         <div class="input-group">
-                                                                            <input type="date"
+                                                                            <input type="text"
                                                                                    class="form-control form-control-sm"
                                                                                    id="allocationAmount"
                                                                                    name="allocationAmount"
