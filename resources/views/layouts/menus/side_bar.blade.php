@@ -94,7 +94,7 @@
                             @endcan
 
                             {{--@can(config('rights.manage_tom_card'))--}}
-                            <li class="nav-item pl-2 d-none">
+                            <li class="nav-item pl-2">
                                 <a href="{{ URL::signedRoute('insurance.create') }}"
                                    class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>

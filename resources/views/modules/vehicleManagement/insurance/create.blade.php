@@ -76,9 +76,6 @@
                                        data-model-name="insurance">
                                     <thead>
                                     <tr>
-                                        <th>Batch ID</th>
-                                        <th>Scheme</th>
-                                        <th>Assigned Distributor</th>
                                         <th class="text-center">Reg. Number</th>
                                         <th class="text-center">Policy No.</th>
                                         <th class="text-center">Valid From</th>
