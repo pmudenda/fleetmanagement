@@ -9,6 +9,7 @@ use App\Exceptions\UserSimulationException;
 use App\Http\Controllers\Controller;
 use App\Models\Security\User;
 use App\Models\Simulation;
+use App\Services\Security\UserSimulationService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -19,6 +20,13 @@ use Illuminate\Support\Facades\Log;
 
 class UserSimulationController extends Controller
 {
+    private UserSimulationService $userSimulationService;
+
+    public function __construct(UserSimulationService $userSimulationService)
+    {
+        $this->userSimulationService = $userSimulationService;
+    }
+
     /**
      * @throws UserNotFoundException
      * @throws UserSimulationException
@@ -73,28 +81,16 @@ class UserSimulationController extends Controller
     }
 
     /**
-     * @throws UserSimulationException
      */
     public function end(Request $request): JsonResponse
     {
         try {
+
             $simulatedUser = Auth::user();
-            $activeSimulation = Simulation::where('simulated',
-                QueryComparisonOperator::EQUALS,
-                $simulatedUser->staff_no)
-                ->whereNull('simulate_end')
-                ->first();
-            if (empty($activeSimulation)) {
-                throw  new UserSimulationException("User Is not being simulated");
-            }
-            DB::beginTransaction();
-            $simulatingUser = $activeSimulation->simulator;
-            $activeSimulation->simulate_end = Carbon::now();
-            $user = User::where('staff_no', '=', $simulatingUser)
-                ->first();
-            Auth::loginUsingId($user->id);
-            $activeSimulation->save();
-            DB::commit();
+            $staffNumber = $simulatedUser->staff_no;
+
+            $this->userSimulationService->endSimulation($staffNumber);
+
             $request->session()->forget('simulating');
             return response()->json([
                 'success' => true,

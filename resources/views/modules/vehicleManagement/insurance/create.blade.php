@@ -83,7 +83,7 @@
                                         <th class="text-center">Insured Amount</th>
                                         <th class="text-center">Premium</th>
                                         <th class="text-center">Certificate</th>
-                                        <th class="text-center">Ins. Sub Type</th>
+                                        <th class="text-center">Insurance. Sub Type</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -130,16 +130,19 @@
                                             <select name="insuranceSubType"
                                                     class="form-select form-select-sm"
                                                     type="text">
-                                                <option value="new">NEW</option>
-                                                <option value="Assigned to End User">Assigned to End User</option>
-                                                <option value="Inactive">INACTIVE</option>
+                                                <option value=""></option>
+                                                @foreach($insuranceSubTypes as $insuranceSubType)
+                                                    <option value="{{$insuranceSubType->code}}">
+                                                        {{$insuranceSubType->name}}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </td>
 
                                         <td class="">
-                                            <input name="Mobile"
+                                            <input name="supportingDocuments"
                                                    class="form-control form-control-sm"
-                                                   type="text"/>
+                                                   type="file"/>
                                         </td>
                                         <td class="">
                                             <button value="deleteRow"
