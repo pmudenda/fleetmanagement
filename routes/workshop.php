@@ -166,7 +166,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
     Route::post('approve/stores/requisition/', [WorkflowController::class, 'processStoresRequisitionApproval'])
         ->name('stores.requisition.approve');
 
-    Route::post('tasks/view', [WorkflowController::class, 'viewTasks'])
+    Route::get('tasks/view', [WorkflowController::class, 'viewTasks'])
         ->name('workflow.task');
 
     Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])
