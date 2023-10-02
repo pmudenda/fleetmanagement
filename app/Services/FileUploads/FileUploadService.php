@@ -99,6 +99,8 @@ class FileUploadService
         // Upload File
         $filePath = 'public/' . $folder;
 
+        Log::info($filePath);
+
         $path = $file->storeAs($filePath, $fileNameToStore);
 
         if(empty($path)){
@@ -108,7 +110,9 @@ class FileUploadService
         }
 
         Log::debug("Folder Passed " . $filePath);
+
         Log::debug("File Name Passed " . $fileNameToStore);
+
         Log::debug("File Path " . $path);
 
         //upload the receipt
@@ -119,7 +123,7 @@ class FileUploadService
                 'name' => $fileNameToStore,
                 'originalDocumentName' => $file->getClientOriginalName(),
                 'extension' => $extension,
-                'path' => trim(str_replace('public', '', $path)),
+                'path' => trim($filePath.'/'.$fileNameToStore),
                 'file_type' => $fileType,
                 'file_size' => $size,
                 'created_by' => $user->id
