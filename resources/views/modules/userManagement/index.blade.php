@@ -160,7 +160,7 @@
                                                                         ])}}"
                                                                    class="dropdown-item">
                                                                     Delegation
-                                                                    <i class="fas fa-user-friends mr-2"></i>
+                                                                    <i class="fas fa-user-friends pull-right"></i>
                                                                 </a>
                                                             </li>
                                                         </ul>
