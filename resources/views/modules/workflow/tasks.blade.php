@@ -31,6 +31,7 @@
                                         <th>Reference</th>
                                         <th>Subject</th>
                                         <th>Description</th>
+                                        <th>Approver</th>
                                         <th>Originator</th>
                                         <th>Date Requested</th>
                                         <th>Action</th>
@@ -51,7 +52,9 @@
                                             <td>
                                                 {{$rec->description}}
                                             </td>
-
+                                            <td>
+                                                {{$rec->approver}}
+                                            </td>
                                             <td>
                                                 {{$rec->originator}}
                                             </td>

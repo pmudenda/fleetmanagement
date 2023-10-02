@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class FuelManagement extends Model
 {
-    use HasFactory;
-
     protected $table = 'VM_FUEL_ISSUE';
 
     protected $fillable = [
