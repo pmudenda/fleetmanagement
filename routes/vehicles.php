@@ -1,5 +1,8 @@
 <?php
 
+use App\Constants\SystemMessages;
+use App\Exceptions\DataNotFoundException;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Http\Controllers\Configurations\VehicleBodyTypesController;
@@ -8,6 +11,11 @@ use App\Http\Controllers\VehicleManagement\TomCardManagementController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleModelsController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
+use App\Models\VehicleManagement\TomCardAllocation;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix' => 'v1/en'], function (): void {
@@ -113,8 +121,61 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
                 return view('modules.vehicleManagement.fuelallocation');
             })->name('allocation');
 
-            Route::get('save', function () {
-                return view('modules.vehicleManagement.fuelallocation');
+            Route::post('save', function () {
+
+            })->name('save');
+
+        });
+
+    Route::group(['prefix' => 'insurance',
+        'as' => 'insurance.'],
+        function () {
+
+            Route::get('create', function () {
+                return view('modules.vehicleManagement.insurance.create');
+            }
+            )->name('create');
+
+            Route::post('save', function () {
+                /*try {
+                    DB::beginTransaction();
+
+                    $allocation = TomCardAllocation::where('id',
+                        '=',
+                        $request->get('record'))->first();
+                    if (empty($allocation)) {
+                        throw new DataNotFoundException("Allocation Record Not Found");
+                    }
+
+                    $comments = $request->get('justification');
+                    $vehicleRegistration = $allocation->reg_no;
+
+                    $allocation->status = StatusHelper::inactive();
+                    $allocation->revocation_justification = $comments;
+                    $allocation->date_revoked = Carbon::now();
+                    $allocation->revoked_by = Auth::user()->staff_no;
+                    $allocation->save();
+                    DB::table('vm_vehicle_header')
+                        ->where('registration_number',
+                            '=',
+                            $vehicleRegistration)
+                        ->update(['has_tom_card' => 'N']);
+                    DB::commit();
+                    return response()->json([
+                        'state' => 'success',
+                        'message' => SystemMessages::TOM_CARD_REVOKED
+                    ]);
+                } catch (\Exception $e) {
+                    $message = SystemMessages::TOM_CARD_REVOCATION_FAILED;
+                    if ($e instanceof DataNotFoundException) {
+                        $message = $e->getMessage();
+                    }
+                    Log::error($e);
+                    return response()->json([
+                        'state' => 'failure',
+                        'message' => $message
+                    ]);
+                }*/
             })->name('save');
 
         });
