@@ -79,13 +79,13 @@
                                         <th>Batch ID</th>
                                         <th>Scheme</th>
                                         <th>Assigned Distributor</th>
-                                        <th class="text-center">Card Number</th>
-                                        <th class="text-center">Expiry Date</th>
-                                        <th class="text-center">CVV</th>
-                                        <th class="text-center">Current Value</th>
-                                        <th class="text-center">Card Status</th>
-                                        <th class="text-center">First Name</th>
-                                        <th class="text-center">Last Name</th>
+                                        <th class="text-center">Reg. Number</th>
+                                        <th class="text-center">Policy No.</th>
+                                        <th class="text-center">Valid From</th>
+                                        <th class="text-center">Valid To</th>
+                                        <th class="text-center">Insured Amount</th>
+                                        <th class="text-center">Premium</th>
+                                        <th class="text-center">Certificate</th>
                                         <th class="text-center">Mobile</th>
                                         <th>Actions</th>
                                     </tr>
@@ -93,7 +93,7 @@
                                     <tbody>
                                     <tr class="increment">
                                         <td class="">
-                                            <input name="BatchId"
+                                            <input name="registrationNumber"
                                                    class="form-control form-control-sm required"
                                                    type="text"/>
                                         </td>
