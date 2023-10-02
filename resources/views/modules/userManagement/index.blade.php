@@ -146,7 +146,7 @@
                                                                             $user->id
                                                                             )
                                                                         }}"
-                                                                   class="btn btn-sm btn-success m-1">
+                                                                   class="dropdown-item">
                                                                     Details
                                                                     <i class="fas fa-eye pull-right"></i>
                                                                 </a>
@@ -159,8 +159,8 @@
                                                                         'self'=> true
                                                                         ])}}"
                                                                    class="dropdown-item">
-                                                                    <i class="fas fa-user-friends mr-2"></i>
                                                                     Delegation
+                                                                    <i class="fas fa-user-friends mr-2"></i>
                                                                 </a>
                                                             </li>
                                                         </ul>
