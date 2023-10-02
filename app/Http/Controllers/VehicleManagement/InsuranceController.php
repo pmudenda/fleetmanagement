@@ -13,7 +13,7 @@ class InsuranceController extends Controller
     public function create(): View
     {
         $insuranceSubTypes = GeneralTable::where(
-            'module',
+            'type',
             QueryComparisonOperator::EQUALS,
             ConfigurationTypes::INSURANCE_SUB_TYPES->value
         )->get();

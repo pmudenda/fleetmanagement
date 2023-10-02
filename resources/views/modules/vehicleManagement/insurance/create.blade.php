@@ -84,6 +84,7 @@
                                         <th class="text-center">Premium</th>
                                         <th class="text-center">Certificate</th>
                                         <th class="text-center">Insurance. Sub Type</th>
+                                        <th class="text-center">Cover Note</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
