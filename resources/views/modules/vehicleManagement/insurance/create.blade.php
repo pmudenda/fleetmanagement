@@ -38,8 +38,8 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'eToll Card'" :activeCrumb="'eToll Cards'" :link="'e-toll.card.list'"
-                      :linkText="'eToll Card Transaction'"/>
+    <x-content-header :pageTitle="'Insurance Management'" :activeCrumb="'Insurance Management'" :link="'home'"
+                      :linkText="'Insurance Management'"/>
 
     <!-- Main content -->
     <section class="content">
@@ -52,7 +52,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <h4>e-Toll Cards Transactions</h4>
+                                <h4>Insurance Management</h4>
                             </div>
                             <div class="card-toolbar justify-content-end">
                                 <button type="button"
@@ -65,15 +65,15 @@
                                 </span>
                                     Save
                                 </button>
-                                <!--begin::Filter-->
                             </div>
                         </div>
                         <div class="card-body p-2">
                             <div class="table-responsive" style="max-height:500px; min-width: fit-content">
-                                <table class="table table-striped table-bordered table-numbered dataTable nowrap"
-                                       id="part1"
-                                       data-url="{{route('e-toll.card.save.transactions')}}"
-                                       data-model-name="eTollCards">
+                                <table
+                                        class="table table-striped table-bordered table-numbered dataTable nowrap"
+                                        id="part1"
+                                        data-url="{{route('insurance..save')}}"
+                                        data-model-name="eTollCards">
                                     <thead>
                                     <tr>
                                         <th>Batch ID</th>
@@ -151,43 +151,18 @@
                                         </td>
                                         <td class="">
                                             <input name="Mobile"
-                                                   class="form-control form-control-sm" type="text"/>
+                                                   class="form-control form-control-sm"
+                                                   type="text"/>
                                         </td>
                                         <td class="">
-                                            <button value="deleteRow" type="button" class="btn btn-danger p-2">
+                                            <button value="deleteRow"
+                                                    type="button"
+                                                    class="btn btn-danger p-2">
                                                 <i class="fa fa-trash m-0"></i>
                                             </button>
                                         </td>
                                     </tr>
                                     </tbody>
-                                    {{--<tfoot>
-                                    <tr>
-                                        <td colspan="2" style="text-align: right;">
-                                            <b>Total</b>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            <b id="quantityTotal" class="input-number">0.00</b>
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                            <b id="salesTotal" class="input-number">0.00</b>
-                                        </td>
-                                        <td>
-                                            <b id="licenseFeeTotal" class="input-number">0.00</b>
-                                        </td>
-                                        <td>
-                                            <b id="srfTotal" class="input-number">0.00</b>
-                                        </td>
-                                        <td>
-                                            <b id="fuelMarkingTotal" class="input-number">0.00</b>
-                                        </td>
-                                        <td>
-                                            <b></b>
-                                        </td>
-                                    </tr>
-                                    </tfoot>--}}
                                 </table>
                             </div>
                             <hr>
@@ -272,7 +247,8 @@
                     </button>
                 </div>
                 <div class="modal-body p-b-0">
-                    <table class="table table-striped table-bordered">
+                    <table
+                            class="table table-striped table-bordered">
                         <thead>
                         <tr>
                             <th>Row Number</th>
