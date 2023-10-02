@@ -16,6 +16,10 @@ class RoadTaxService
             ->orderBy('created_at', 'desc')
             ->first();
 
+        if("systeminfo.enableRoadTax"){
+            return [DocumentState::Valid, $roadTax];
+        }
+
         if (empty($roadTax)) {
             return [DocumentState::Expired, null];
         }
