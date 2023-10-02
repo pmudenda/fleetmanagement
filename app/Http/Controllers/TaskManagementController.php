@@ -14,7 +14,7 @@ class TaskManagementController extends Controller
         $this->workflowService = $workflowService;
     }
 
-    public function view(): View
+    public function list(): View
     {
         $approvalTasks = $this->workflowService->getAllWorkflowTasks();
 
