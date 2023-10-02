@@ -93,14 +93,14 @@
                                 </li>
                             @endcan
 
-                                {{--@can(config('rights.manage_tom_card'))--}}
-                                <li class="nav-item pl-2">
-                                    <a href="{{ URL::signedRoute('insurance.create') }}"
-                                       class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Insurance Management</p>
-                                    </a>
-                                </li>
+                            {{--@can(config('rights.manage_tom_card'))--}}
+                            <li class="nav-item pl-2">
+                                <a href="{{ URL::signedRoute('insurance.create') }}"
+                                   class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Insurance</p>
+                                </a>
+                            </li>
                             {{--@endcan--}}
 
                             <li class="nav-item d-none">
