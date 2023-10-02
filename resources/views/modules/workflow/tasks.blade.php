@@ -18,19 +18,20 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <h3>My Tasks</h3>
+                                <h3>All Tasks</h3>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table aria-label="tasks table"
-                                       id="listTable"
+                                       id="allTasksTable"
                                        class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
                                     <thead>
                                     <tr>
                                         <th>Reference</th>
                                         <th>Subject</th>
                                         <th>Description</th>
+                                        <th>Approver</th>
                                         <th>Originator</th>
                                         <th>Date Requested</th>
                                         <th>Action</th>
@@ -40,7 +41,8 @@
                                     @foreach($approvalTasks as $rec)
                                         <tr>
                                             <td>
-                                                <a href="{{URL::signedRoute($rec->url, ['ref'=>  $rec->reference])}}">
+                                                <a href="{{URL::signedRoute($rec->url,
+                                                    ['ref'=>  $rec->reference, 'view_only'=>true])}}">
                                                     {{$rec->reference}}
                                                 </a>
                                             </td>
@@ -50,7 +52,9 @@
                                             <td>
                                                 {{$rec->description}}
                                             </td>
-
+                                            <td>
+                                                {{$rec->approver}}
+                                            </td>
                                             <td>
                                                 {{$rec->originator}}
                                             </td>
@@ -59,7 +63,10 @@
                                             </td>
                                             <td>
                                                 @canany(config('rights.manage_tasks'), config('rights.view_tasks'))
-                                                    <a href="{{URL::signedRoute($rec->url,['ref'=> $rec->reference])}}"
+                                                    <a href="{{URL::signedRoute($rec->url,[
+                                                        'ref'=> $rec->reference,
+                                                        'view_only'=>true
+                                                        ])}}"
                                                        class="btn btn-sm btn-success">
                                                         Details
                                                     </a>
@@ -91,7 +98,7 @@
     <script>
         window.vehicleData = {!! json_encode($approvalTasks) !!};
         (function (appInstance) {
-            appInstance.initDatatable("#listTable", false, true);
+            appInstance.initDatatable("#allTasksTable", false, true);
 
             function genData() {
                 let legendData = [];

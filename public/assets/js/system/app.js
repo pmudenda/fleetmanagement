@@ -178,11 +178,12 @@ $(document).ready(function (event) {
     });
 
     $(document).on('submit', '[name="startUserSimulationForm"]', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
         if (!$(this).valid()) {
             return;
         }
-        e.preventDefault();
-        e.stopPropagation();
         let formData = new FormData(this);
 
         $("#modalSimulateUser").modal('hide');

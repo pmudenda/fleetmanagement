@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Log;
 class HomeController extends Controller
 {
     private WorkflowService $workflowService;
-    private VehicleDetailsService  $vehicleDetailsService;
+    private VehicleDetailsService $vehicleDetailsService;
 
     public function __construct(WorkflowService       $workflowService,
                                 VehicleDetailsService $vehicleDetailsService)
@@ -34,6 +34,7 @@ class HomeController extends Controller
         $user = auth()->user();
         Log::debug("Logging Off The System" . $user->staff_no);
         session()->pull('simulating', false);
+        session()->forget('simulating');
         Auth::logout();
         return redirect('/login')
             ->with(['msg_body' => 'Signing out!']);
@@ -57,7 +58,8 @@ class HomeController extends Controller
                 'vehicleData', 'mechanics', 'activeUsers', 'activeDrivers'));
     }
 
-    public function gatePass(Request $request): View| RedirectResponse {
+    public function gatePass(Request $request): View|RedirectResponse
+    {
         if (!$request->has('ref')) {
             return redirect(route('home'));
         }

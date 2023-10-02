@@ -54,18 +54,19 @@
             </li>
         @endcan
 
-        @can(config('rights.simulate_user'))
-            @if(session('simulating', false))
-                <li class="nav-item d-sm-inline-block">
-                    <a href="#"
-                       data-form-url="{{route('user.simulation.end')}}"
-                       data-action="endSimulation"
-                       class="nav-link">
-                        <i class="fas fa-sign-out-alt mr-2"></i>
-                        End Simulation
-                    </a>
-                </li>
-            @else
+
+        @if(session('simulating', false))
+            <li class="nav-item d-sm-inline-block">
+                <a href="#"
+                   data-form-url="{{route('user.simulation.end')}}"
+                   data-action="endSimulation"
+                   class="nav-link">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    End Simulation
+                </a>
+            </li>
+        @else
+            @can(config('rights.simulate_user'))
                 <li class="nav-item d-sm-inline-block">
                     <a href="#"
                        data-toggle="modal"
@@ -74,9 +75,8 @@
                         Simulator User
                     </a>
                 </li>
-            @endif
-        @endcan
-
+            @endcan
+        @endif
     </ul>
 
     <ul class="navbar-nav ml-auto">

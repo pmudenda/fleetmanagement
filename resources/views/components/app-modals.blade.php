@@ -302,7 +302,7 @@
                       enctype="application/x-www-form-urlencoded"
                       name="startUserSimulationForm"
                       id="startUserSimulationForm">
-
+                      @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-group">

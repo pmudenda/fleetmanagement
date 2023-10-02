@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskManagementController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkShopManagement\AssessmentAcknowledgementController;
 use App\Http\Controllers\WorkShopManagement\BookingController;
@@ -166,7 +167,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
     Route::post('approve/stores/requisition/', [WorkflowController::class, 'processStoresRequisitionApproval'])
         ->name('stores.requisition.approve');
 
-    Route::get('tasks/view', [WorkflowController::class, 'viewTasks'])
+    Route::get('tasks/view', [TaskManagementController::class, 'list'])
         ->name('workflow.task');
 
     Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])
