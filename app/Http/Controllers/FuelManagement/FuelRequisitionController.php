@@ -6,11 +6,11 @@ use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
 use App\Enums\Modules;
+use App\Exceptions\BaseException;
 use App\Exceptions\DataNotFoundException;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\LowerOdometerEntryException;
 use App\Exceptions\NoOdometerEntryException;
-use App\Exceptions\OrganisationUnitStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Mockery\CountValidator\Exception;
+use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 
 class FuelRequisitionController extends Controller
 {
@@ -183,12 +184,8 @@ class FuelRequisitionController extends Controller
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
 
-            if ($e instanceof FuelRequisitionException
-                || $e instanceof WorkflowTaskCreationFailedException
-                || $e instanceof NoOdometerEntryException
-                || $e instanceof LowerOdometerEntryException
-                || $e instanceof OrganisationUnitStateException
-            ) {
+            if ($e instanceof BaseException
+                || $e instanceof UploadException) {
                 $message = $e->getMessage();
             }
 
