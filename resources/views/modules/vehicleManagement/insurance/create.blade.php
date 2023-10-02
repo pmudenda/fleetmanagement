@@ -72,7 +72,7 @@
                                 <table
                                         class="table table-striped table-bordered table-numbered dataTable nowrap"
                                         id="part1"
-                                        data-url="{{route('insurance..save')}}"
+                                        data-url="{{route('insurance.save')}}"
                                         data-model-name="eTollCards">
                                     <thead>
                                     <tr>
