@@ -103,11 +103,11 @@ class FileUploadService
 
         $path = $file->storeAs($filePath, $fileNameToStore);
 
-        if(empty($path)){
+        /*if(empty($path)){
             throw new UploadException(
                 "Failed to upload " . $filename
             );
-        }
+        }*/
 
         Log::debug("Folder Passed " . $filePath);
 
