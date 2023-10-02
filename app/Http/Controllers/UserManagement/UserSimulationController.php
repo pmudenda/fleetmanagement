@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\UserManagement;
 
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
 use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserSimulationException;
 use App\Http\Controllers\Controller;
@@ -14,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserSimulationController extends Controller
 {
@@ -78,7 +80,7 @@ class UserSimulationController extends Controller
         try {
             $simulatedUser = Auth::user();
             $activeSimulation = Simulation::where('simulated',
-                '=',
+                QueryComparisonOperator::EQUALS,
                 $simulatedUser->staff_no)
                 ->whereNull('simulate_end')
                 ->first();
@@ -99,7 +101,10 @@ class UserSimulationController extends Controller
                 'payload' => []
             ]);
         } catch (Exception $e) {
+
+            Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
+
             if ($e instanceof UserNotFoundException) {
                 $message = $e->getMessage();
             }
