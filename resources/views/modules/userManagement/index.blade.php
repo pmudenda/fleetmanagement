@@ -155,8 +155,8 @@
                                                             <li>
                                                                 <a href="{{URL::signedRoute(
                                                                         'user.profile.delegation.create',[
-                                                                        'key'=> Auth::user()->id,
-                                                                        'self'=> true
+                                                                        'key'=> $user->id,
+                                                                        'self'=> false
                                                                         ])}}"
                                                                    class="dropdown-item">
                                                                     Delegation
