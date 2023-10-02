@@ -69,11 +69,11 @@
                         </div>
                         <div class="card-body p-2">
                             <div class="table-responsive" style="max-height:500px; min-width: fit-content">
-                                <table
-                                        class="table table-striped table-bordered table-numbered dataTable nowrap"
-                                        id="part1"
-                                        data-url="{{route('insurance.save')}}"
-                                        data-model-name="eTollCards">
+                                <table aria-label="Insurance"
+                                       class="table table-striped table-bordered dataTable nowrap"
+                                       id="part1"
+                                       data-url="{{route('insurance.save')}}"
+                                       data-model-name="insurance">
                                     <thead>
                                     <tr>
                                         <th>Batch ID</th>
@@ -86,7 +86,7 @@
                                         <th class="text-center">Insured Amount</th>
                                         <th class="text-center">Premium</th>
                                         <th class="text-center">Certificate</th>
-                                        <th class="text-center">Mobile</th>
+                                        <th class="text-center">Ins. Sub Type</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -98,40 +98,39 @@
                                                    type="text"/>
                                         </td>
                                         <td class="">
-                                            <select name="Scheme"
-                                                    required
-                                                    data-display-text="Card Scheme"
-                                                    class="form-select form-select-sm required">
-                                                <option value="Standard Card">Standard Card</option>
-                                            </select>
-                                        </td>
-                                        <td class="">
-                                            <input name="AssignedDistributor"
+                                            <input name="policyNumber"
                                                    class="form-control form-control-sm required"
                                                    type="text"/>
                                         </td>
                                         <td class="">
-                                            <input name="CardNumber"
-                                                   class="form-control form-control-sm required" type="text"/>
+                                            <input name="validFrom"
+                                                   class="form-control form-control-sm required"
+                                                   type="text"/>
                                         </td>
                                         <td class="">
-                                            <input name="ExpiryDate"
+                                            <input name="validTo"
+                                                   class="form-control form-control-sm required"
+                                                   type="text"/>
+                                        </td>
+                                        <td class="">
+                                            <input name="insuredAmount"
                                                    class="form-control form-control-sm required"
                                                    type="text"/>
                                         </td>
 
                                         <td class="">
-                                            <input name="Cvv"
-                                                   class="form-control form-control-sm" type="text"/>
+                                            <input name="premium"
+                                                   class="form-control form-control-sm"
+                                                   type="text"/>
                                         </td>
 
                                         <td class="">
-                                            <input name="CurrentValue"
+                                            <input name="certificateNumber"
                                                    class="form-control form-control-sm input-number required"
                                                    type="text"/>
                                         </td>
                                         <td class="">
-                                            <select name="CardStatus"
+                                            <select name="insuranceSubType"
                                                     class="form-select form-select-sm"
                                                     type="text">
                                                 <option value="new">NEW</option>
@@ -139,16 +138,7 @@
                                                 <option value="Inactive">INACTIVE</option>
                                             </select>
                                         </td>
-                                        <td class="">
-                                            <input name="FirstName"
-                                                   class="form-control form-control-sm form-control-sm"
-                                                   type="text"/>
-                                        </td>
-                                        <td class="">
-                                            <input name="LastName"
-                                                   class="form-control form-control-sm"
-                                                   type="text"/>
-                                        </td>
+
                                         <td class="">
                                             <input name="Mobile"
                                                    class="form-control form-control-sm"
