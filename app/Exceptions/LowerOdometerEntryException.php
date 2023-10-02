@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class LowerOdometerEntryException extends Exception
+class LowerOdometerEntryException extends BaseException
 {
     //
 }
