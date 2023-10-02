@@ -6,6 +6,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Http\Controllers\Configurations\VehicleBodyTypesController;
+use App\Http\Controllers\VehicleManagement\InsuranceController;
 use App\Http\Controllers\VehicleManagement\MeterEntryController;
 use App\Http\Controllers\VehicleManagement\TomCardManagementController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
@@ -131,10 +132,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
         'as' => 'insurance.'],
         function () {
 
-            Route::get('create', function () {
-                return view('modules.vehicleManagement.insurance.create');
-            }
-            )->name('create');
+            Route::get('create', [InsuranceController::class, 'create'])->name('create');
 
             Route::post('save', function () {
                 /*try {
