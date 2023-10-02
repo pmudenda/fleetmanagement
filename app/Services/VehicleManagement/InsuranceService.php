@@ -16,6 +16,10 @@ class InsuranceService
             ->orderBy('created_at', 'desc')
             ->first();
 
+        if("systeminfo.enableInsurance"){
+            return [DocumentState::Valid, $insurance];
+        }
+
         if (empty($insurance)) {
             return [DocumentState::Expired, null];
         }
