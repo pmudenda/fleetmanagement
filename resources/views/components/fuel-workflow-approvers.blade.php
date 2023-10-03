@@ -98,9 +98,19 @@
                                 pending
                             @endif
                             " style="border-radius: 2em;">
-                            <span class="font-weight-bold">
-                                2. FIRST LEVEL APPROVAL
-                            </span>
+                                @if(auth()->user()->staff_no == '71265')
+                                    {{dd(auth()->user()->can(config('rights.final_authoriser'))}}
+                                @endif
+                                @if(auth()->user()->can(config('rights.final_authoriser')))
+                                    <span class="font-weight-bold">
+                                        2. FINAL LEVEL APPROVAL
+                                     </span>
+                                @else
+                                    <span class="font-weight-bold">
+                                        2. FIRST LEVEL APPROVAL
+                                    </span>
+                                @endif
+
                                 <table class="table table-sm ">
                                     <tbody>
                                     <tr>
