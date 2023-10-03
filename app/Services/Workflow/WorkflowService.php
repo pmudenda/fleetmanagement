@@ -4,6 +4,7 @@ namespace App\Services\Workflow;
 
 
 use App\Constants\QueryComparisonOperator;
+use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
@@ -74,7 +75,7 @@ class WorkflowService
             . $comment . ' Amount ' . $amount
         );
 
-        $process = WorkflowProcess::where('process_code',  QueryComparisonOperator::EQUALS, $processCode)->first();
+        $process = WorkflowProcess::where('process_code', QueryComparisonOperator::EQUALS, $processCode)->first();
 
         if (empty($process)) {
             throw new WorkflowTaskCreationFailedException("Process not Found");
@@ -82,8 +83,12 @@ class WorkflowService
 
         // get the first step in this process
         $processFirstStep = WorkflowStep::where(
-            'process_id', '=', $processCode
-        )->where('is_initial_step', true)->where('is_initial_step', QueryComparisonOperator::EQUALS, 1)->first();
+            'process_id', QueryComparisonOperator::EQUALS,
+            $processCode
+        )->where('is_initial_step', true)
+            ->where('is_initial_step',
+                QueryComparisonOperator::EQUALS,
+                1)->first();
 
         if ($processFirstStep == null) {
             throw new WorkflowTaskCreationFailedException("Could not Determine Initial Step");
@@ -93,8 +98,10 @@ class WorkflowService
             throw new WorkflowTaskCreationFailedException("Could not Determine Next Step Id");
         }
 
-        $stepAfterSubmission = WorkflowStep::where('process_id',  QueryComparisonOperator::EQUALS, $processCode)
-            ->where('step_id',  QueryComparisonOperator::EQUALS, $processFirstStep->next_step)->first();
+        $stepAfterSubmission = WorkflowStep::where('process_id', QueryComparisonOperator::EQUALS, $processCode)
+            ->where('step_id',
+                QueryComparisonOperator::EQUALS,
+                $processFirstStep->next_step)->first();
 
         if ($stepAfterSubmission == null) {
             throw new WorkflowTaskCreationFailedException(
@@ -238,7 +245,8 @@ class WorkflowService
                     $actionTaken,
                     $currentStep,
                     $taskHeader,
-                    $taskDetail);
+                    $taskDetail
+                );
                 break;
             case self::APPROVE:
                 $response = $this->approveRequest(
@@ -397,8 +405,21 @@ class WorkflowService
     ): array
     {
         $currentUser = auth()->user();
+        $finalStep = false;
 
-        if ($this->isFinalStep($currentStep, $lastStep)) {
+        if (auth()->user()->can(config('rights.final_authoriser'))
+            && $taskHeader->process_code == WorkflowProcessCodes::OutOfTownFuelRequisition) {
+            $finalStep = true;
+            Log::info("User Has OOT Final Authority.. Finally Approving Process ");
+        } elseif (auth()->user()->can(config('rights.final_authoriser'))
+            && $taskHeader->process_code == WorkflowProcessCodes::LocalFuelRequisition) {
+            $finalStep = true;
+            Log::info("User Has Local Final Authority.. Finally Approving Process ");
+        } else {
+            $finalStep = $this->isFinalStep($currentStep, $lastStep);
+        }
+
+        if ($finalStep) {
 
             Log::info("Final Step Approving and Ending Process");
 

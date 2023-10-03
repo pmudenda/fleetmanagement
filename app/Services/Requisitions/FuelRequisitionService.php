@@ -493,14 +493,19 @@ class FuelRequisitionService
         $justification = $request->get('justification');
         $materialQuantity = $request->get('material_quantity');
 
+        Log::info("Resubmission Action " . $submittedAction);
+
         Log::debug("Update Here $requisitionReferenceNumber");
 
         DB::beginTransaction();
-        MaterialHeader::where("req_no", $requisitionReferenceNumber)
-            ->update(["comments" => $justification,]);
 
-        MaterialDetail::where("req_no", $requisitionReferenceNumber)
-            ->update(["quantity" => $materialQuantity]);
+        if ($submittedAction == WorkflowActions::RESUBMIT) {
+            MaterialHeader::where("req_no", $requisitionReferenceNumber)
+                ->update(["comments" => $justification,]);
+
+            MaterialDetail::where("req_no", $requisitionReferenceNumber)
+                ->update(["quantity" => $materialQuantity]);
+        }
 
         $this->processFuelRequisitionWorkflow(
             $requisitionReferenceNumber,
@@ -637,7 +642,7 @@ class FuelRequisitionService
             $townFrom = $requisitionPostRequest->get("departureTown") ?? '';
             $townTo = $requisitionPostRequest->get("destinationTown") ?? '';
         } elseif ($requisitionType == RequisitionTypes::Normal->value) {
-            $workflowProcess = WorkflowProcessCodes::NormalFuelRequisition->value;
+            $workflowProcess = WorkflowProcessCodes::LocalFuelRequisition->value;
             $description = "Normal ";
         } elseif ($requisitionType == RequisitionTypes::Override->value) {
             $workflowProcess = WorkflowProcessCodes::OverrideFuelRequisition->value;
@@ -908,7 +913,7 @@ class FuelRequisitionService
         if ($requisitionType == RequisitionTypes::OutOfTown->value) {
             $process_code = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
         } elseif ($requisitionType == RequisitionTypes::Normal->value) {
-            $process_code = WorkflowProcessCodes::NormalFuelRequisition->value;
+            $process_code = WorkflowProcessCodes::LocalFuelRequisition->value;
         } elseif ($requisitionType == RequisitionTypes::Override->value) {
             $process_code = WorkflowProcessCodes::OverrideFuelRequisition->value;
         }
@@ -941,6 +946,10 @@ class FuelRequisitionService
             $action = WorkflowActions::resubmit();
             $actionTaken = "Resubmit";
             $message = 'Task Resubmitted To Previous Authority For Approval';
+        } elseif ($submittedAction === WorkflowActions::CANCEL) {
+            $action = WorkflowActions::cancel();
+            $actionTaken = "Cancellation";
+            $message = 'Task Cancelled';
         }
         return array($action, $actionTaken, $message);
     }
