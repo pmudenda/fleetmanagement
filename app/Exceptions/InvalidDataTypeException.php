@@ -2,9 +2,7 @@
 
 namespace App\Exceptions;
 
-use Exception;
-
-class InvalidDataTypeException extends Exception
+class InvalidDataTypeException extends BaseException
 {
     //
 }

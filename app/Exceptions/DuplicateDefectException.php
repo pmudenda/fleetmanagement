@@ -5,7 +5,7 @@ use Exception;
 use Throwable;
 
 
-class DuplicateDefectException extends Exception
+class DuplicateDefectException extends BaseException
 {
     public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null)
     {

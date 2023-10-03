@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class DuplicateDataException extends Exception
+class DuplicateDataException extends BaseException
 {
     //
 }

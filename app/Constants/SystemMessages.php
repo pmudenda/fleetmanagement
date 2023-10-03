@@ -4,6 +4,8 @@ namespace App\Constants;
 
 class SystemMessages
 {
+    const SERVICE_DESK_MESSAGE = "Please Contact Fleet Master System Administrator on 3309,3350,3351,3306,
+            fleetmaster@zesco.co.com for assistance";
     const RECORD_NOT_FOUND = "Record Not Found";
     const ODOMETER_VALIDATED_SUCCESSFULLY = "Odometer validated successfully";
     const VEHICLE_GENERAL_DATA_PROCESSED_SUCCESSFULLY = 'Vehicle General Data Processed Successfully';
@@ -40,6 +42,9 @@ class SystemMessages
     const ACCIDENT_REPORT_NOT_FOUND = 'No Accident Report Found for Vehicle @reg';
     const DELEGATION_CANCELLED = 'Delegation Cancelled Successfully';
     const DELEGATION_NOT_FOUND = "No Active Delegation Found";
+    const ORGNIZATIONAL_UNIT_INACTIVE = "Organization Unit with Business Unit @bu and Cost Center @cc Is Not Active,"
+    . self::SERVICE_DESK_MESSAGE;
+
 
     public static function chargeOutRateAddedSuccessfully(): string
     {
@@ -64,15 +69,13 @@ class SystemMessages
     public static function vehiclePendingOnboardingCompletion(): string
     {
         return
-            "The vehicle @reg has not completed the onboarding process.
-            Please Contact Fleet Master System Administrator on 3309,3350,3351,3306,
-            fleetmaster@zesco.co.com for assistance";
+            "The vehicle @reg has not completed the onboarding process." . self::SERVICE_DESK_MESSAGE;
     }
 
     public static function vehicleInWorkshop(): string
     {
-        return "The vehicle @reg is in the @workshop Please Contact Fleet Master System Administrator on
-        3309,3350,3351,3306, fleetmaster@zesco.co.com for assistance";
+        return "The vehicle @reg is in the @workshop "
+            . self::SERVICE_DESK_MESSAGE;
     }
 
     public static function userUpdateFailed(): string

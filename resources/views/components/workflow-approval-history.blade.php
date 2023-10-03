@@ -72,7 +72,8 @@
                             @if($key == 0)
                                 N/A
                             @else
-                                {{Carbon::parse($approvals[$key-1]->created_at)->diffAsCarbonInterval($item->action_date)}}
+                                {{Carbon::parse($approvals[$key-1]->created_at)
+                                   ->diffAsCarbonInterval($item->action_date)}}
                             @endif
                         </td>
                     </tr>

@@ -443,9 +443,7 @@
                                     $('.when_odo_valid').addClass('disabled').attr('disabled', true);
                                     tmsApp.showSystemMessage("Vehicle State",
                                         'Vehicle Is Not Active, ' +
-                                        'Please Contact Fleet Master System Administrator ' +
-                                        'on 3309,3350,3351,3306, ' +
-                                        'fleetmaster@zesco.co.com',
+                                        window['zmfServiceDesk'],
                                         () => {
                                         },
                                         "error");
