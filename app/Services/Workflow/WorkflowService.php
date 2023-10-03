@@ -407,7 +407,7 @@ class WorkflowService
         $currentUser = auth()->user();
         $finalStep = false;
 
-        Log::info("Running New Logic");
+        Log::info("Running New Approval Logic");
         if (auth()->user()->can(config('rights.final_authoriser'))
             && $taskHeader->process_code == WorkflowProcessCodes::OutOfTownFuelRequisition->value) {
             $finalStep = true;
