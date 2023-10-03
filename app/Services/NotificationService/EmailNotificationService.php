@@ -18,7 +18,7 @@ class EmailNotificationService
     public static function sendNotification($recipient, $sender, $record, string $action): bool
     {
         try {
-            $recipientMail = config("mail.default_mail") ?? $recipient->email;
+            $recipientMail = $recipient->email;
             $to[] = ['email' => $recipientMail, 'name' => $recipient->name ?? ''];
             $names = $recipient->name;
 
