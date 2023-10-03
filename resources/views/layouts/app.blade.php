@@ -152,6 +152,8 @@
 <script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
 <script>
+    window.zmfServiceDesk= ' Please Contact Fleet Master System Administrator ' +
+        'on 3309,3350,3351,3306, zfmservicedesk@zesco.co.zm';
     $(document).ready(function () {
         toastr.options = {
             "preventDuplicates": true,
@@ -192,8 +194,6 @@
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/qrcode/qrcode.min.js').'?v='.Carbon::now()->format('his')}}"></script>
-{{--<script src="https://code.highcharts.com/highcharts.js"></script>
-<livewire:scripts />--}}
 
 @include('layouts.partials.dataTableScripts')
 <script type="text/javascript">

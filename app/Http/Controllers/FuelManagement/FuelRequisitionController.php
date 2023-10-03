@@ -5,12 +5,14 @@ namespace App\Http\Controllers\FuelManagement;
 use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
+use App\Constants\TableColumns;
 use App\Enums\Modules;
 use App\Exceptions\BaseException;
 use App\Exceptions\DataNotFoundException;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\LowerOdometerEntryException;
 use App\Exceptions\NoOdometerEntryException;
+use App\Exceptions\OrganisationUnitStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
@@ -27,6 +29,7 @@ use App\Services\Requisitions\DistanceChartService;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Security\ProfileDelegationService;
 use App\Services\VehicleManagement\OdometerValidationService;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -34,8 +37,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
-use Mockery\CountValidator\Exception;
-use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 
 class FuelRequisitionController extends Controller
 {
@@ -121,7 +122,7 @@ class FuelRequisitionController extends Controller
 
                 )
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage("err_0005");
 
@@ -151,7 +152,19 @@ class FuelRequisitionController extends Controller
                 'bu_code',
                 QueryComparisonOperator::EQUALS,
                 $user->bu_code)
+            ->where(TableColumns::STATUS,
+                QueryComparisonOperator::EQUALS,
+                StatusHelper::organizationStructureActive())
             ->first();
+
+        $message = "";
+        if (empty($organizationalUnit)) {
+            $message =
+                str_replace("@bu", $user->bu_code,
+                    str_replace('@cc', $user->cc,
+                        SystemMessages::ORGNIZATIONAL_UNIT_INACTIVE)
+                );
+        }
 
         $requisitionTypes = RequisitionType::where('status', StatusHelper::active())
             ->where(self::MODULE, Modules::FUEL_REQUISITION->value)
@@ -171,7 +184,8 @@ class FuelRequisitionController extends Controller
                     'organizationalUnit',
                     'daysToNextRefuel',
                     'cities',
-                    'citiesFrom'
+                    'citiesFrom',
+                    'message'
                 )
             );
     }
@@ -180,12 +194,11 @@ class FuelRequisitionController extends Controller
     {
         try {
             return $this->requisitionService->processRequest($request);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
 
-            if ($e instanceof BaseException
-                || $e instanceof UploadException) {
+            if ($e instanceof BaseException) {
                 $message = $e->getMessage();
             }
 
@@ -216,7 +229,7 @@ class FuelRequisitionController extends Controller
     {
         try {
             return $this->requisitionService->processRequisitionUpdate($request);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
 

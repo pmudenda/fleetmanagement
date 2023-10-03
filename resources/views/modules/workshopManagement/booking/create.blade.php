@@ -1858,9 +1858,7 @@
                                 text: 'The Article '
                                     + article?.id
                                     + ' - ' + description + ' has no price. ' +
-                                    ' Please Contact Fleet Master System Administrator ' +
-                                    ' on 3309,3350,3351,3306, ' +
-                                    'fleetmaster@zesco.co.com'
+                                    window['zmfServiceDesk']
                             });
                             return;
                         }
