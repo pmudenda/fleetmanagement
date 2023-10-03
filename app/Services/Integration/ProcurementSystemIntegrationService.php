@@ -46,9 +46,20 @@ class ProcurementSystemIntegrationService
         try {
             $transactionType = TransactionType::STORES_REQUISITIONS;
             Log::debug("Generating Stores Requisition For Request " . $docNumber);
-
             $systemOfOrigin = SystemOfOrigin::ZESCO_FLEET_MASTER;
             $user = auth()->user()->staff_no;
+
+            Log::info("Requisition No.". $docNumber);
+            Log::info("Registration Number ". $vehRegNumber);
+            Log::info("Job_card ". $jobCardNumber);
+            Log::info("Store Code " . $storeCode);
+            Log::info("Requesting " . $user);
+            Log::info("System Of System " . $systemOfOrigin);
+            Log::info("Form Order " . $storesRequisitionNumber);
+            Log::info("Account " . $account);
+            Log::info("Delivery " . $deliverySite);
+            Log::info("Transaction Type" .  $transactionType);
+            Log::info("Current User " . $user);
 
             $pdo = DB::getPdo();
 
