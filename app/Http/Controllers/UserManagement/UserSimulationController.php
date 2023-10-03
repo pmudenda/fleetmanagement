@@ -8,7 +8,7 @@ use App\Exceptions\UserNotFoundException;
 use App\Exceptions\UserSimulationException;
 use App\Http\Controllers\Controller;
 use App\Models\Security\User;
-use App\Models\Simulation;
+use App\Models\UserManagement\Simulation;
 use App\Services\Security\UserSimulationService;
 use Carbon\Carbon;
 use Exception;
@@ -36,7 +36,9 @@ class UserSimulationController extends Controller
         try {
 
             $staffNumber = $request->get('userIdentifier');
-            $user = User::where('staff_no', '=', $staffNumber)->first();
+            $user = User::where('staff_no',
+                QueryComparisonOperator::EQUALS,
+                $staffNumber)->first();
 
             if (empty($user)) {
                 throw new UserNotFoundException("User To Simulate Could Not Be Found");
@@ -44,7 +46,9 @@ class UserSimulationController extends Controller
 
             DB::commit();
             $simulationJustification = $request->get('simulationJustification');
-            $activeSimulations = Simulation::where('simulated', '=', $staffNumber)
+            $activeSimulations = Simulation::where('simulated',
+                QueryComparisonOperator::EQUALS,
+                $staffNumber)
                 ->whereNull('simulate_end')
                 ->count();
 
@@ -69,6 +73,7 @@ class UserSimulationController extends Controller
             ]);
 
         } catch (Exception $e) {
+            Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
             if ($e instanceof UserNotFoundException || $e instanceof UserSimulationException) {
                 $message = $e->getMessage();
