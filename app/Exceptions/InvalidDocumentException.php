@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Throwable;
 
-class InvalidDocumentException extends \Exception
+class InvalidDocumentException extends BaseException
 {
     public function __construct(string $message = "", int $code = 0, ? Throwable $previous = null)
     {

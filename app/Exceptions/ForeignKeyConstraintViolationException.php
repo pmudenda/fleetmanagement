@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-class ForeignKeyConstraintViolationException extends \Exception
+class ForeignKeyConstraintViolationException extends BaseException
 {
 
 }

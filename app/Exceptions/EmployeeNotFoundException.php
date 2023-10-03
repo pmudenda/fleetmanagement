@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
-class EmployeeNotFoundException extends Exception
+use Throwable;
+
+class EmployeeNotFoundException extends BaseException
 {
     public function __construct(string $message = "", int $code = 0, ? Throwable $previous = null)
     {

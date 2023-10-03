@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class ConfigurationNotLoadedException extends Exception
+class ConfigurationNotLoadedException extends BaseException
 {
     //
 }
