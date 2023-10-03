@@ -157,7 +157,7 @@ class FuelRequisitionController extends Controller
                 StatusHelper::organizationStructureActive())
             ->first();
 
-        $message = "";
+        $message = null;
         if (empty($organizationalUnit)) {
             $message =
                 str_replace("@bu", $user->bu_code,

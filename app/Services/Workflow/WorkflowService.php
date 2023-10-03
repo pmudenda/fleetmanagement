@@ -4,6 +4,7 @@ namespace App\Services\Workflow;
 
 
 use App\Constants\QueryComparisonOperator;
+use App\Constants\TableColumns;
 use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
@@ -98,7 +99,8 @@ class WorkflowService
             throw new WorkflowTaskCreationFailedException("Could not Determine Next Step Id");
         }
 
-        $stepAfterSubmission = WorkflowStep::where('process_id', QueryComparisonOperator::EQUALS, $processCode)
+        $stepAfterSubmission = WorkflowStep::where('process_id',
+            QueryComparisonOperator::EQUALS, $processCode)
             ->where('step_id',
                 QueryComparisonOperator::EQUALS,
                 $processFirstStep->next_step)->first();
@@ -517,7 +519,7 @@ class WorkflowService
         // get workflow process header
         $task_header = WorkflowTaskHeader::where('reference',
             QueryComparisonOperator::EQUALS, $req_no)
-            ->where('process_code',
+            ->where(TableColumns::HEADER_PROCESS_CODE_COLUMN,
                 QueryComparisonOperator::EQUALS,
                 $process_id)
             ->first();
@@ -525,7 +527,7 @@ class WorkflowService
         // get workflow process detail
         $task_detail = WorkflowTaskDetail::where('reference',
             QueryComparisonOperator::EQUALS, $req_no)
-            ->where('process_code',
+            ->where(TableColumns::HEADER_PROCESS_CODE_COLUMN,
                 QueryComparisonOperator::EQUALS,
                 $process_id)
             ->orderBy('id', 'desc')
@@ -708,7 +710,7 @@ class WorkflowService
 
         $previousStepLog = WorkflowLog::where(
             'reference',
-            '=',
+            QueryComparisonOperator::EQUALS,
             $taskDetail->reference
         )
             ->orderBy('id', 'desc')
