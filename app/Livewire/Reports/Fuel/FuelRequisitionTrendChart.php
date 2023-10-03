@@ -8,13 +8,13 @@ use Livewire\Component;
 
 class FuelRequisitionTrendChart extends Component
 {
-    public $month = '2023';
+    public $year;
     public function render()
     {
-        $data = Cache::remember("fuel-year-trend-{$this->month}",36000,function (){
+        $data = Cache::rememberForever("fuel-year-trend-{$this->year}",function (){
             return DB::table('FUEL_BY_UNIT_VIEW')
                 ->selectRaw('month,fuel_type, SUM(qty) as total')
-                ->where('month','LIKE',"%{$this->month}%")
+                ->where('month','LIKE',"%{$this->year}%")
                 ->groupBy(['month','fuel_type'])
                 ->orderBy('month', 'ASC')
                 ->get();
@@ -24,7 +24,7 @@ class FuelRequisitionTrendChart extends Component
         $months = [];
 
         for ($i = 1;$i <= 12; $i++){
-            $months[] = sprintf("%s%02d",$this->month, $i);
+            $months[] = sprintf("%s%02d",$this->year, $i);
         }
 
         $months = collect($months);

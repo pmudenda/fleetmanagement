@@ -16,7 +16,7 @@
                     type: 'line'
                 },
                 title: {
-                    text: 'Fuel Requisition Trend Analysis - {{now()->year}}'
+                    text: 'Fuel Requisition Trend Analysis - {{$year}}'
                 },
                 xAxis: {
                     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
