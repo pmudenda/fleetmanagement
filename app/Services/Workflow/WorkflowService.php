@@ -408,10 +408,10 @@ class WorkflowService
         $finalStep = false;
 
         if (auth()->user()->can(config('rights.final_authoriser'))
-            && WorkflowProcessCodes::OutOfTownFuelRequisition) {
+            && $taskHeader->process_code == WorkflowProcessCodes::OutOfTownFuelRequisition) {
             $finalStep = true;
         } elseif (auth()->user()->can(config('rights.final_authoriser'))
-            && WorkflowProcessCodes::LocalFuelRequisition) {
+            && $taskHeader->process_code == WorkflowProcessCodes::LocalFuelRequisition) {
             $finalStep = true;
         } else {
             $finalStep = $this->isFinalStep($currentStep, $lastStep);
