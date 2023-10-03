@@ -27,7 +27,7 @@ class RequisitionAndTaskCancellation
         if (RequisitionTypes::Normal->value == $latestPreviousRequisition->requisition_type) {
             $this->workflowService->cancelProcessTask(
                 $latestPreviousRequisition->req_no,
-                WorkflowProcessCodes::NormalFuelRequisition->value
+                WorkflowProcessCodes::LocalFuelRequisition->value
             );
         } elseif (RequisitionTypes::OutOfTown->value == $latestPreviousRequisition->requisition_type) {
             $this->workflowService->cancelProcessTask(

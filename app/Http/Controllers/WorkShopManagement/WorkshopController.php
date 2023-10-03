@@ -104,7 +104,7 @@ class WorkshopController extends Controller
     public function requisitions(): View|Application
     {
         $requisitions = self::getMyRequisitions(
-            auth()->user()->staff_no,
+            null,
             'N'
         );
 

@@ -660,7 +660,7 @@
                             @if( (auth()->user()->staff_no == $workflowTask->assigned_user
                                 && empty($workflowTask->date_ended))
                                 ||
-                                (auth()->user()->hasRole('final_authoriser') && empty($workflowTask->date_ended))
+                                (auth()->user()->can('final_authoriser') && empty($workflowTask->date_ended))
                                 ||
                                 (
                                     $delegatedProfileOwner == $workflowTask->assigned_user
