@@ -5,7 +5,7 @@ namespace App\Services\Security;
 use App\Constants\QueryComparisonOperator;
 use App\Exceptions\UserSimulationException;
 use App\Models\Security\User;
-use App\Models\Simulation;
+use App\Models\UserManagement\Simulation;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
