@@ -410,9 +410,11 @@ class WorkflowService
         if (auth()->user()->can(config('rights.final_authoriser'))
             && $taskHeader->process_code == WorkflowProcessCodes::OutOfTownFuelRequisition) {
             $finalStep = true;
+            Log::info("User Has OOT Final Authority.. Finally Approving Process ");
         } elseif (auth()->user()->can(config('rights.final_authoriser'))
             && $taskHeader->process_code == WorkflowProcessCodes::LocalFuelRequisition) {
             $finalStep = true;
+            Log::info("User Has Local Final Authority.. Finally Approving Process ");
         } else {
             $finalStep = $this->isFinalStep($currentStep, $lastStep);
         }
