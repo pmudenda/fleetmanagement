@@ -101,7 +101,7 @@
                                                 <div data-qbefield="tasknumber"
                                                      class="qbefield">
                                                     <label
-                                                        class="qbefieldlabel" title="Reg #">
+                                                            class="qbefieldlabel" title="Reg #">
                                                         REG NUMBER
                                                     </label>
                                                     <div class="qbe_operator">
@@ -143,6 +143,34 @@
                                                     <select name="status"
                                                             class="qbe_operator form-select form-select-sm">
                                                     </select>
+                                                </div>
+
+                                                <div data-qbefield="status"
+                                                     style="min-width: 220px;"
+                                                     class="qbefield">
+                                                    <label class="qbefieldlabel" title="Status">
+                                                        HAS TOM CARD
+                                                    </label>
+                                                    <div class="qbe_operator mb-3">
+                                                        <select name="hasTomCardOperator"
+                                                                class="qbe_operator form-select form-select-sm">
+                                                            <option value="{{ComparisonOperator::EQUAL}}">
+                                                                Is
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="qbe_operator mb-3">
+                                                        <select name="hasTomCard"
+                                                                class="qbe_operator form-select form-select-sm">
+                                                            <option></option>
+                                                            <option value="Y">
+                                                                YES
+                                                            </option>
+                                                            <option value="N">
+                                                                NO
+                                                            </option>
+                                                        </select>
+                                                    </div>
                                                 </div>
 
                                                 {{--<div data-qbefield="tasksubject" class="qbefield">

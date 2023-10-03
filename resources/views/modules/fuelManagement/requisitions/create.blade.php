@@ -45,6 +45,13 @@
                     @csrf
                     <div class="card-body user-data pl-0">
                         <label class="app-required-marker"></label>
+                        @if(!empty($message))
+                            <label class="text-danger">
+                                {{$message}}
+                            </label>
+                        @endif
+
+
                         <div class="container-fluid mt-2">
                             <div class="row">
                                 <div class="col-9">
@@ -54,8 +61,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_no">Registration #:
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="staff_no">Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
@@ -96,9 +103,9 @@
                                                         </div>
                                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4
                                                                 app-field-label"
-                                                                for="staff_no">Status:
+                                                                    for="staff_no">Status:
                                                             </label>
                                                             <span id="vehicle_status" class="ml-3 badge badge-success"
                                                                   data-name="vehicle_status"></span>
@@ -115,7 +122,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4
                                                             control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
@@ -173,7 +180,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4
                                                             control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
@@ -192,7 +199,7 @@
                                                             </div>
                                                         </div>
                                                         <div
-                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-6
+                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6
                                                             d-none project_view_item">
                                                             <select disabled type="text" name="project_code"
                                                                     class="form-select mt-1 project-code-ajax"
@@ -228,8 +235,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="requisition_type">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="requisition_type">
                                                             Requisition Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -240,7 +247,7 @@
                                                                 <option value="">--Select--</option>
                                                                 @foreach ($requisitionTypes as $requisitionType)
                                                                     <option
-                                                                        value="{{$requisitionType->code}}">
+                                                                            value="{{$requisitionType->code}}">
                                                                         {{$requisitionType->name}}
                                                                     </option>
                                                                 @endforeach
@@ -256,8 +263,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="odometer_reading">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="odometer_reading">
                                                             Current Odometer Reading :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -286,8 +293,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="driver_staff_number">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="driver_staff_number">
                                                             Driver:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -343,8 +350,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="departure_date">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="departure_date">
                                                             Departure Date:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -380,8 +387,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="return_date">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="return_date">
                                                             Return Date:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -421,8 +428,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="departureTown">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="departureTown">
                                                             Departure Town:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -441,8 +448,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="destinationTown">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="destinationTown">
                                                             Destination Town:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -466,9 +473,9 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4
                                                                 field-required"
-                                                                for="covered_kilometers">
+                                                                    for="covered_kilometers">
                                                                 Estimated Distance (Km):
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -480,8 +487,8 @@
                                                                        readonly
                                                                        placeholder="Enter the Kilometers to be Covered">
                                                                 <table
-                                                                    id="trip_path"
-                                                                    aria-label="Distance Chart">
+                                                                        id="trip_path"
+                                                                        aria-label="Distance Chart">
                                                                     <thead class="d-none">
                                                                     <tr>
                                                                         <th scope="row"></th>
@@ -512,8 +519,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="fuel_allocation">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="fuel_allocation">
                                                             Allocation Per Week:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -539,8 +546,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">
                                                             Request Date:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -563,8 +570,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                            for="next_fuel_date">
+                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                                for="next_fuel_date">
                                                             Next Refueling Date :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
@@ -589,8 +596,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="justification">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="justification">
                                                             Purpose:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
@@ -612,8 +619,8 @@
                                                 <div class="row d-none" id="authorityToTravelContainer">
                                                     <div class="form-group row">
                                                         <label
-                                                            id="authority"
-                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12
+                                                                id="authority"
+                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12
                                                             field-required">
                                                             Authority To Travel(<small>Any Authorization
                                                                 Document</small>)

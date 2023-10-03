@@ -505,8 +505,7 @@
         window.workshopSections = {!! json_encode($workshopSections) !!};
         window.jobCardProcessData = {
             articleNoPrice: 'The Article @articleNumber - @description has no price. ' +
-                ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306,' +
-                ' fleetmaster@zesco.co.com',
+                window['zmfServiceDesk'],
             storeHasNoStock: 'The Store @store '
                 + ' does not have  @articleNumber'
                 + ' - description  in stock. ' +

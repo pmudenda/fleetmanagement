@@ -93,6 +93,16 @@
                                 </li>
                             @endcan
 
+                            {{--@can(config('rights.manage_tom_card'))--}}
+                            {{--<li class="nav-item pl-2">
+                                <a href="{{ URL::signedRoute('insurance.create') }}"
+                                   class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Insurance</p>
+                                </a>
+                            </li>--}}
+                            {{--@endcan--}}
+
                             <li class="nav-item d-none">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-circle"></i>
@@ -180,7 +190,7 @@
                             @can(config('rights.set_vehicle_fuel_allocation'))
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
+                                       href="{{ route('vehicle.fuel.allocation') }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Fuel Allocation</p>
                                     </a>
@@ -207,12 +217,12 @@
                                 <svg width="24" height="24" viewBox="0 0 24 24"
                                      fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                        d="M20 14H18V10H20C20.6 10 21 10.4
+                                            d="M20 14H18V10H20C20.6 10 21 10.4
                                             21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21
                                             16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21
                                             19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8
                                             21 7.6 21 7Z"
-                                        fill="currentColor"></path>
+                                            fill="currentColor"></path>
                                     <path opacity="0.3"
                                           d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3
                                           2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17
@@ -244,7 +254,7 @@
                                     <ul class="nav nav-treeview pl-2">
                                         @canany([config('rights.create_job_card')])
                                             <li class="nav-item">
-                                                <a href="{{URL::signedRoute('workshop.checkin')}}"
+                                                <a href="{{URL::signedRoute('vehicle.workshop.checkin')}}"
                                                    class="nav-link">
                                                     <i class="fas fa-plus nav-icon"></i>
                                                     <p>New (Job Card)</p>
@@ -253,39 +263,36 @@
                                         @endcanany
 
                                         @can(config('rights.view_job_card'))
-                                                <li class="nav-item pl-2">
-                                                    <a href="#" class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>
-                                                            View Cards
-                                                            <i class="right fas fa-angle-left"></i>
-                                                        </p>
-                                                    </a>
-                                                    <ul class="nav nav-treeview pl-2">
-                                                        <li class="nav-item pl-2">
-                                                            <a href="{{URL::signedRoute('jobCard.list')}}"
-                                                               class="nav-link">
-                                                                <i class="fas fa-list nav-icon"></i>
-                                                                <p>
-                                                                    Open Cards
-                                                                </p>
-                                                            </a>
-                                                        </li>
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>
+                                                        View Cards
+                                                        <i class="right fas fa-angle-left"></i>
+                                                    </p>
+                                                </a>
+                                                <ul class="nav nav-treeview pl-2">
+                                                    <li class="nav-item pl-2">
+                                                        <a href="{{URL::signedRoute('jobCard.list')}}"
+                                                           class="nav-link">
+                                                            <i class="fas fa-list nav-icon"></i>
+                                                            <p>
+                                                                Open Cards
+                                                            </p>
+                                                        </a>
+                                                    </li>
 
-                                                        <li class="nav-item pl-2">
-                                                            <a href="{{URL::signedRoute('closed.jobCard.list')}}"
-                                                               class="nav-link">
-                                                                <i class="fas fa-list nav-icon"></i>
-                                                                <p>
-                                                                    Closed Cards
-                                                                </p>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-
-
-
+                                                    <li class="nav-item pl-2">
+                                                        <a href="{{URL::signedRoute('closed.jobCard.list')}}"
+                                                           class="nav-link">
+                                                            <i class="fas fa-list nav-icon"></i>
+                                                            <p>
+                                                                Closed Cards
+                                                            </p>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
                                         @endcan
                                     </ul>
                                 </li>
@@ -559,13 +566,13 @@
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                        d="M17.5 11H6.5C4 11 2 9 2
+                                            d="M17.5 11H6.5C4 11 2 9 2
                                             6.5C2 4 4 2 6.5 2H17.5C20 2 22 4
                                             22 6.5C22 9 20 11 17.5 11ZM15
                                             6.5C15 7.9 16.1 9 17.5 9C18.9 9
                                             20 7.9 20 6.5C20 5.1 18.9
                                             4 17.5 4C16.1 4 15 5.1 15 6.5Z"
-                                        fill="currentColor"></path>
+                                            fill="currentColor"></path>
                                     <path opacity="0.3"
                                           d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15
                                           4 13 6.5 13H17.5C20 13 22 15 22 17.5C22

@@ -2,9 +2,7 @@
 
 namespace App\Exceptions;
 
-use Exception;
-
-class MaterialRequisitionException extends Exception
+class MaterialRequisitionException extends BaseException
 {
     //
 }

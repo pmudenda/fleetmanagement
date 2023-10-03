@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 
-class UserNotActiveException extends Exception
+class UserNotActiveException extends BaseException
 {
     public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null)
     {

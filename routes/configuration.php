@@ -34,9 +34,6 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
         return view('modules.configurations.vehicle.types');
     })->name('vehicle.body.types');
 
-    Route::get('vehicle/fuel-allocation', function () {
-        return view('modules.configurations.fuelallocation');
-    })->name('vehicle.fuel.allocation');
 
     Route::get('vehicle/charge-out-rate', [ChargeOutRateController::class, 'create'])
         ->name('charge.out.rate');

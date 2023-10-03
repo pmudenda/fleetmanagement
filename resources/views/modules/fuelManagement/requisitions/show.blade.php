@@ -38,19 +38,19 @@
                     {{-- <div class="card-body user-data">--}}
 
                     <table
-                            aria-label="header"
-                            role="table"
-                            style="width: 100%;
+                        aria-label="header"
+                        role="table"
+                        style="width: 100%;
                         border: 1px;
                         text-align: center"
-                            data-height="100px"
-                            class="border-0">
+                        data-height="100px"
+                        class="border-0">
                         <thead>
                         <tr class="border-0">
                             <th style="width:33%; border:none;" colspan="4" class="text-left">
                                 @if(!empty($requestDetails)  && !empty($requestDetails->proc_ref))
                                     REQUISITION NUMBER: <span
-                                            class="text-orange">
+                                        class="text-orange">
                                         {{ $requestDetails->proc_ref }}
                                     </span>
                                 @endif
@@ -63,7 +63,7 @@
                                 style="width:34%; border:none; text-align:right;"
                                 class="p-3 text-right">
                                 DOCUMENT REFERENCE NUMBER: <span
-                                        class="text-orange">
+                                    class="text-orange">
                                     {{ $requestDetails->req_no }}
                                 </span>
                             </th>
@@ -71,13 +71,13 @@
                         </thead>
                     </table>
                     <table
-                            aria-label="sub header"
-                            role="table"
-                            data-height="100px"
-                            style="width: 100%;
+                        aria-label="sub header"
+                        role="table"
+                        data-height="100px"
+                        style="width: 100%;
                         border: 1px;
                         text-align: center"
-                            class="mb-4 ">
+                        class="mb-4 ">
                         <thead>
                         <tr class="border-success" style="border-width: 1px;">
                             <th style="width: 33%;" class="text-center"><a href="#">
@@ -105,8 +105,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_no">Registration #:
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="staff_no">Registration #:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                         <div class="input-group">
@@ -151,7 +151,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4
                                                             control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
@@ -204,7 +204,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4
+                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4
                                                             control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
@@ -256,8 +256,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="staff_name">
                                                         Requisition Type:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -275,7 +275,7 @@
                                                                     </option>
                                                                 @else
                                                                     <option
-                                                                            value="{{$requisitionType->code}}">
+                                                                        value="{{$requisitionType->code}}">
                                                                         {{$requisitionType->name}}
                                                                     </option>
                                                                 @endif
@@ -292,8 +292,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="odometer_reading">
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="odometer_reading">
                                                         Odometer Reading :
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -318,8 +318,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="departure_date">Departure Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="departure_date">Departure Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="date" class="form-control form-control-sm"
                                                                    id="departure_date"
@@ -339,8 +339,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Return Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Return Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
 
                                                             <input type="date" class="form-control form-control-sm"
@@ -363,8 +363,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Departure Town:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Departure Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input id="departureTown" name="departureTown"
                                                                    readonly
@@ -380,8 +380,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Destination Town:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Destination Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input id="destinationTown"
                                                                    readonly
@@ -404,8 +404,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Allocation Per Week:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Allocation Per Week:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group input-group-sm">
                                                                 <input type="text" class="form-control form-control-sm"
@@ -431,8 +431,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Request Date:</label>
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="request_date">Request Date:</label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                         <input type="text" class="form-control form-control-sm"
                                                                id="request_date"
@@ -457,8 +457,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                                for="next_fuel_date">
+                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                            for="next_fuel_date">
                                                             Next Refueling Date :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
@@ -480,8 +480,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="requester">Request Originator:</label>
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="requester">Request Originator:</label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                         <input type="text" class="form-control form-control-sm"
                                                                id="requester"
@@ -501,8 +501,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="justification">
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="justification">
                                                         Purpose:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
@@ -653,14 +653,16 @@
                             </table>
                         </div>
                     </div>
-                    {{--</div>--}}
 
                     @if(!$viewOnly)
                         @if(!empty($workflowTask->assigned_user))
                             @if( (auth()->user()->staff_no == $workflowTask->assigned_user
                                 && empty($workflowTask->date_ended))
                                 ||
-                                (auth()->user()->hasRole('final_authoriser') && empty($workflowTask->date_ended))
+                                (
+                                    auth()->user()->can(config('rights.final_authoriser'))
+                                    && empty($workflowTask->date_ended)
+                                )
                                 ||
                                 (
                                     $delegatedProfileOwner == $workflowTask->assigned_user

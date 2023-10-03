@@ -99,9 +99,11 @@
                                 pending
                             @endif
                             " style="border-radius: 2em;">
-                            <span class="font-weight-bold">
+
+                              <span class="font-weight-bold">
                                 2. FIRST LEVEL APPROVAL
-                            </span>
+                             </span>
+
                                 <table class="table table-sm ">
                                     <tbody>
                                     <tr>

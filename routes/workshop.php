@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskManagementController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkShopManagement\AssessmentAcknowledgementController;
 use App\Http\Controllers\WorkShopManagement\BookingController;
@@ -48,10 +49,10 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
 
         // front desk
         Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])
-            ->name('workshop.checkin');
-
-        Route::post('vehicle/workshop/create-task', [MaintenanceController::class, 'createTaskForWorkShopSupervisor'])
             ->name('vehicle.workshop.checkin');
+
+        Route::post('vehicle/workshop/create-task', [MaintenanceController::class, 'task'])
+            ->name('job.card.task');
 
         Route::post('assessment/acknowledgment', AssessmentAcknowledgementController::class)
             ->name('sign.assessment');
@@ -65,7 +66,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
                 $data = JobCardHeader::latest()->get();
                 return Datatables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('action', function ($row) {
+                    ->addColumn('action', function () {
                         return '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">
                                         Edit
                                         </a>
@@ -78,7 +79,8 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
             }
 
             return DataTables::of((object)[])->make();
-        })->name('job_card.list.json');
+        })
+            ->name('job_card.list.json');
 
         Route::get('all/job-card/list', [JobCardController::class, 'list'])
             ->name('jobCard.list');
@@ -111,18 +113,6 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
         Route::post('save/job-card/defects', [MaintenanceController::class, 'saveJobCardDefects'])
             ->name('defects.job_card');
 
-        Route::post('save/material/requisition', [MaterialReservationController::class, 'saveJobCardMaterialRequest'])
-            ->name('process.requisition');
-
-        Route::post('save/material/reservation', [MaterialReservationController::class, 'saveMaterialRequest'])
-            ->name('save.material.reservation');
-
-        Route::post('save/services/requisition', [ServiceReservationController::class, 'saveJobCardService'])
-            ->name('process.service.requisition');
-
-        Route::post('save/service/reservation', [ServiceReservationController::class, 'saveServiceBooking'])
-            ->name('save.service.reservation');
-
         Route::post('save/job/assignment', [MaintenanceController::class, 'saveJobCardWorkAssignments'])
             ->name('save.job.assignment');
 
@@ -149,6 +139,19 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
         Route::post('store/petty-cash/item', [ImprestBuysController::class, 'saveImprestBuyItems'])
             ->name('petty.cash.store');
 
+
+        Route::post('save/material/requisition', [MaterialReservationController::class, 'saveJobCardMaterialRequest'])
+            ->name('process.requisition');
+
+        Route::post('save/material/reservation', [MaterialReservationController::class, 'saveMaterialRequest'])
+            ->name('save.material.reservation');
+
+        Route::post('save/services/requisition', [ServiceReservationController::class, 'saveJobCardService'])
+            ->name('process.service.requisition');
+
+        Route::post('save/service/reservation', [ServiceReservationController::class, 'saveServiceBooking'])
+            ->name('save.service.reservation');
+
     });
 
     Route::get('/workshop/booking', [BookingController::class, 'create'])
@@ -164,7 +167,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
     Route::post('approve/stores/requisition/', [WorkflowController::class, 'processStoresRequisitionApproval'])
         ->name('stores.requisition.approve');
 
-    Route::post('tasks/view', [WorkflowController::class, 'viewTasks'])
+    Route::get('tasks/view', [TaskManagementController::class, 'list'])
         ->name('workflow.task');
 
     Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])

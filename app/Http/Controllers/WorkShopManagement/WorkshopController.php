@@ -12,6 +12,7 @@ use App\Models\Common\CostCenter;
 use App\Models\Reference\Area;
 use App\Models\Settings\GeneralTable;
 use App\Models\Settings\WorkShop;
+use Exception;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
@@ -26,13 +27,13 @@ class WorkshopController extends Controller
         $workshopsList = [];
         try {
             $workshopsList = WorkShop::get();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e);
         }
         $businessAreas = [];
         try {
             $businessAreas = Area::get();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e);
         }
 
@@ -104,7 +105,7 @@ class WorkshopController extends Controller
     public function requisitions(): View|Application
     {
         $requisitions = self::getMyRequisitions(
-            auth()->user()->staff_no,
+            null,
             'N'
         );
 

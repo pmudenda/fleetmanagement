@@ -15,7 +15,7 @@ class File extends Model
         'name',
         'originalDocumentName',
         'extension',
-        'path',
+            'path',
         'file_type',
         'file_size',
         'created_by',

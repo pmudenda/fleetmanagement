@@ -17,6 +17,10 @@ class FitnessService
             ->orderBy('created_at', 'desc')
             ->first();
 
+        if("systeminfo.enableFitness"){
+            return [DocumentState::Valid, $record];
+        }
+
         if (empty($record)) {
             return [DocumentState::Expired, null];
         }

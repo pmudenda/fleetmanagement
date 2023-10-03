@@ -8,6 +8,8 @@ class WorkflowActions
     const SEND_BACK = 'send_back';
     const RESUBMIT = 'resubmit';
 
+    const CANCEL = 'cancel';
+
     public static function submit(): int
     {
         return 1;
@@ -31,5 +33,10 @@ class WorkflowActions
     public static function resubmit(): int
     {
         return 5;
+    }
+
+    public static function cancel(): int
+    {
+        return 6;
     }
 }

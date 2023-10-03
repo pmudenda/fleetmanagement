@@ -47,15 +47,6 @@ class WorkflowController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
-    public function viewTasks(): View
-    {
-        $user = auth()->user();
-        $approvalTasks = $this->workflowService->getMyApprovalTasks($user->staff_no);
-
-        return view('dashboard.home')
-            ->with(compact('approvalTasks'));
-    }
-
     public function processFuelRequisitionApproval(Request $request): JsonResponse
     {
         try {

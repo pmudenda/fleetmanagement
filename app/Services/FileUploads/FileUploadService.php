@@ -5,6 +5,7 @@ namespace App\Services\FileUploads;
 use App\Models\Common\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 
 class FileUploadService
 {
@@ -96,10 +97,22 @@ class FileUploadService
             $filename . '_' . time() . '.' . $extension));
 
         // Upload File
-        $path = $file->storeAs('public/' . $folder, $fileNameToStore);
+        $filePath = 'public/' . $folder;
 
-        Log::debug("Folder Passed " . $folder);
+        Log::info($filePath);
+
+        $path = $file->storeAs($filePath, $fileNameToStore);
+
+        /*if(empty($path)){
+            throw new UploadException(
+                "Failed to upload " . $filename
+            );
+        }*/
+
+        Log::debug("Folder Passed " . $filePath);
+
         Log::debug("File Name Passed " . $fileNameToStore);
+
         Log::debug("File Path " . $path);
 
         //upload the receipt
@@ -110,7 +123,7 @@ class FileUploadService
                 'name' => $fileNameToStore,
                 'originalDocumentName' => $file->getClientOriginalName(),
                 'extension' => $extension,
-                'path' => trim(str_replace('public', '', $path)),
+                'path' => trim($filePath.'/'.$fileNameToStore),
                 'file_type' => $fileType,
                 'file_size' => $size,
                 'created_by' => $user->id

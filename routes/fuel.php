@@ -13,7 +13,7 @@ Route::group(['middleware' => ['auth','is.active','change.password'],
     'prefix' => 'fuel-management'],
     function () {
 
-        Route::get('/', [FuelRequisitionController::class, 'create'])
+        Route::get('create', [FuelRequisitionController::class, 'create'])
             ->name('new.fuel.requisition');
 
         Route::post('/requisition/save', [FuelRequisitionController::class, 'store'])

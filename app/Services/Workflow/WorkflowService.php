@@ -4,6 +4,8 @@ namespace App\Services\Workflow;
 
 
 use App\Constants\QueryComparisonOperator;
+use App\Constants\TableColumns;
+use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
@@ -74,7 +76,7 @@ class WorkflowService
             . $comment . ' Amount ' . $amount
         );
 
-        $process = WorkflowProcess::where('process_code', '=', $processCode)->first();
+        $process = WorkflowProcess::where('process_code', QueryComparisonOperator::EQUALS, $processCode)->first();
 
         if (empty($process)) {
             throw new WorkflowTaskCreationFailedException("Process not Found");
@@ -82,8 +84,12 @@ class WorkflowService
 
         // get the first step in this process
         $processFirstStep = WorkflowStep::where(
-            'process_id', '=', $processCode
-        )->where('is_initial_step', true)->where('is_initial_step', '=', 1)->first();
+            'process_id', QueryComparisonOperator::EQUALS,
+            $processCode
+        )->where('is_initial_step', true)
+            ->where('is_initial_step',
+                QueryComparisonOperator::EQUALS,
+                1)->first();
 
         if ($processFirstStep == null) {
             throw new WorkflowTaskCreationFailedException("Could not Determine Initial Step");
@@ -93,8 +99,11 @@ class WorkflowService
             throw new WorkflowTaskCreationFailedException("Could not Determine Next Step Id");
         }
 
-        $stepAfterSubmission = WorkflowStep::where('process_id', '=', $processCode)
-            ->where('step_id', '=', $processFirstStep->next_step)->first();
+        $stepAfterSubmission = WorkflowStep::where('process_id',
+            QueryComparisonOperator::EQUALS, $processCode)
+            ->where('step_id',
+                QueryComparisonOperator::EQUALS,
+                $processFirstStep->next_step)->first();
 
         if ($stepAfterSubmission == null) {
             throw new WorkflowTaskCreationFailedException(
@@ -120,7 +129,7 @@ class WorkflowService
             $assignToUser = $this->getApprovingOfficer($currentUser);
         } else {
             $assignToUser = PHCMSEmployee::where('con_st_code', '=', 'ACT')
-                ->where('alt_per_no', '=', $assignTo)
+                ->where('alt_per_no', QueryComparisonOperator::EQUALS, $assignTo)
                 ->first();
         }
 
@@ -174,8 +183,8 @@ class WorkflowService
         Log::info($subject);
         // get workflow process header for the task
         $taskHeader = WorkflowTaskHeader::where(
-            'reference', '=', trim($reference)
-        )->where('process_code', '=', $processId)
+            'reference', QueryComparisonOperator::EQUALS, trim($reference)
+        )->where('process_code', QueryComparisonOperator::EQUALS, $processId)
             ->first();
 
         // get workflow process detail
@@ -238,7 +247,8 @@ class WorkflowService
                     $actionTaken,
                     $currentStep,
                     $taskHeader,
-                    $taskDetail);
+                    $taskDetail
+                );
                 break;
             case self::APPROVE:
                 $response = $this->approveRequest(
@@ -293,14 +303,17 @@ class WorkflowService
                 'task_header.created_by',
                 QueryComparisonOperator::EQUALS,
                 'users.id')
-            ->where('task_header.assigned_user',
-                QueryComparisonOperator::EQUALS,
-                $staffNumber)
-            ->orWhere(
-                'task_header.assigned_user',
-                QueryComparisonOperator::EQUALS,
-                $delegatedProfileOwner
-            )
+            ->where(function ($query) use ($staffNumber, $delegatedProfileOwner) {
+                $query->where(
+                    'task_header.assigned_user',
+                    QueryComparisonOperator::EQUALS,
+                    $staffNumber
+                )->orWhere(
+                    'task_header.assigned_user',
+                    QueryComparisonOperator::EQUALS,
+                    $delegatedProfileOwner
+                );
+            })
             ->whereNull('task_header.date_ended')
             ->select('task_header.*',
                 'users.name as originator')
@@ -394,8 +407,22 @@ class WorkflowService
     ): array
     {
         $currentUser = auth()->user();
+        $finalStep = false;
 
-        if ($this->isFinalStep($currentStep, $lastStep)) {
+        Log::info("Running New Approval Logic");
+        if (auth()->user()->can(config('rights.final_authoriser'))
+            && $taskHeader->process_code == WorkflowProcessCodes::OutOfTownFuelRequisition->value) {
+            $finalStep = true;
+            Log::info("User Has OOT Final Authority.. Finally Approving Process ");
+        } elseif (auth()->user()->can(config('rights.final_authoriser'))
+            && $taskHeader->process_code == WorkflowProcessCodes::LocalFuelRequisition->value) {
+            $finalStep = true;
+            Log::info("User Has Local Final Authority.. Finally Approving Process ");
+        } else {
+            $finalStep = $this->isFinalStep($currentStep, $lastStep);
+        }
+
+        if ($finalStep) {
 
             Log::info("Final Step Approving and Ending Process");
 
@@ -421,8 +448,12 @@ class WorkflowService
 
         Log::info("Workflow Step Not Final ");
         // get step
-        $nextStep = WorkflowStep::where('step_id', '=', $currentStep->next_step)
-            ->where('process_id', '=', $taskHeader->process_code)
+        $nextStep = WorkflowStep::where('step_id',
+            QueryComparisonOperator::EQUALS,
+            $currentStep->next_step)
+            ->where('process_id',
+                QueryComparisonOperator::EQUALS,
+                $taskHeader->process_code)
             ->first();
 
         Log::info("Next Step Determined As " . $nextStep->step_id);
@@ -486,13 +517,19 @@ class WorkflowService
         DB::beginTransaction();
 
         // get workflow process header
-        $task_header = WorkflowTaskHeader::where('reference', '=', $req_no)
-            ->where('process_code', '=', $process_id)
+        $task_header = WorkflowTaskHeader::where('reference',
+            QueryComparisonOperator::EQUALS, $req_no)
+            ->where(TableColumns::HEADER_PROCESS_CODE_COLUMN,
+                QueryComparisonOperator::EQUALS,
+                $process_id)
             ->first();
 
         // get workflow process detail
-        $task_detail = WorkflowTaskDetail::where('reference', '=', $req_no)
-            ->where('process_code', '=', $process_id)
+        $task_detail = WorkflowTaskDetail::where('reference',
+            QueryComparisonOperator::EQUALS, $req_no)
+            ->where(TableColumns::HEADER_PROCESS_CODE_COLUMN,
+                QueryComparisonOperator::EQUALS,
+                $process_id)
             ->orderBy('id', 'desc')
             ->first();
 
@@ -512,7 +549,9 @@ class WorkflowService
 
     private function getApprovalLimit($user_unit, $amount)
     {
-        $result = WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
+        $result = WorkflowApprovalLimit::where('user_unit_code',
+            QueryComparisonOperator::EQUALS,
+            $user_unit)
             ->where(function ($query) use ($amount) {
                 return $query->where('approval_lower_limit', '<=', $amount)
                     ->where('approval_upper_limit', '>=', $amount);
@@ -529,7 +568,9 @@ class WorkflowService
 
     private function closePreviousTasks(WorkflowTaskDetail $process): void
     {
-        $existingNotifications = WorkflowTaskHeader::where('reference', '=', $process->reference)->get();
+        $existingNotifications = WorkflowTaskHeader::where('reference',
+            QueryComparisonOperator::EQUALS,
+            $process->reference)->get();
 
         foreach ($existingNotifications as $existingNotification) {
             $existingNotification->status = StatusHelper::closed();
@@ -544,8 +585,12 @@ class WorkflowService
      */
     private function getUserUnit($currentUser)
     {
-        $ou = OrganizationalUnit::where('cc_code', '=', $currentUser->cc_code)
-            ->where('bu_code', '=', $currentUser->bu_code)
+        $ou = OrganizationalUnit::where('cc_code',
+            QueryComparisonOperator::EQUALS,
+            $currentUser->cc_code)
+            ->where('bu_code',
+                QueryComparisonOperator::EQUALS,
+                $currentUser->bu_code)
             ->first();
         if (!$ou) {
             throw new WorkflowTaskCreationFailedException("User Unit Not Found");
@@ -568,21 +613,21 @@ class WorkflowService
         // send back
         $firstStep = WorkflowStep::where(
             'process_id',
-            '=',
+            QueryComparisonOperator::EQUALS,
             $taskHeader->process_code
         )->where(
             'is_initial_step',
-            '=',
+            QueryComparisonOperator::EQUALS,
             "1"
         )->first();
 
         $firstStepLog = WorkflowLog::where(
             'reference',
-            '=',
+            QueryComparisonOperator::EQUALS,
             $taskHeader->reference
         )->where(
             'step_id',
-            '=',
+            QueryComparisonOperator::EQUALS,
             $firstStep->step_id
         )->first();
 
@@ -665,7 +710,7 @@ class WorkflowService
 
         $previousStepLog = WorkflowLog::where(
             'reference',
-            '=',
+            QueryComparisonOperator::EQUALS,
             $taskDetail->reference
         )
             ->orderBy('id', 'desc')
@@ -679,11 +724,11 @@ class WorkflowService
 
         $previousStep = WorkflowStep::where(
             'process_id',
-            '=',
+            QueryComparisonOperator::EQUALS,
             $taskHeader->process_code
         )->where(
             'step_id',
-            '=',
+            QueryComparisonOperator::EQUALS,
             $previousStepLog->step_id
         )->first();
 
@@ -702,6 +747,26 @@ class WorkflowService
         );
 
         return [$taskDetail->current_step_id, '0'];
+    }
+
+    public function getAllWorkflowTasks(): Collection
+    {
+        return DB::table('WFL_WORKFLOW_TASK task_header')
+            ->leftJoin('SEC_USERS users',
+                'task_header.created_by',
+                QueryComparisonOperator::EQUALS,
+                'users.id')
+            ->leftJoin('SEC_USERS approvers',
+                'task_header.assigned_user',
+                QueryComparisonOperator::EQUALS,
+                'approvers.staff_no')
+            ->whereNull('task_header.date_ended')
+            ->select('task_header.*',
+                'users.name as originator',
+                'approvers.name as approver'
+            )
+            ->orderBy('task_header.created_at', 'desc')
+            ->get();
     }
 
 }
