@@ -99,7 +99,11 @@
                             @endif
                             " style="border-radius: 2em;">
                                 @if(auth()->user()->staff_no == '71265')
-                                    {{dd(auth()->user()->can(config('rights.final_authoriser'))}}
+                                    @if(auth()->user()->can(config('rights.final_authoriser')))
+                                        FINAL AUTH
+                                    @else
+                                        NOT FINAL AUTH
+                                    @endif
                                 @endif
                                 @if(auth()->user()->can(config('rights.final_authoriser')))
                                     <span class="font-weight-bold">
