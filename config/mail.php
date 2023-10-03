@@ -128,6 +128,6 @@ return [
 
     ],
 
-    'default_mail' =>
+    'default_mail' => ''
 
 ];
