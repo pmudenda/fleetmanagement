@@ -51,6 +51,7 @@ class SystemMessages
     const VEHICLE_STATE_FAILED = "Vehicle Status Change Failed";
     const JOBCARD_ASSIGNMENT_TASK_GENERATED =
         "Job Card Assignment Task Generated For  (Workshop Supervisor)";
+    const INSURANCE_RECORD_SAVED = "Insurance Saved Successfully";
 
 
     public static function chargeOutRateAddedSuccessfully(): string
