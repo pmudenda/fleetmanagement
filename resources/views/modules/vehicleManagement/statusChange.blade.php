@@ -210,7 +210,8 @@
                                                     <div class="row">
                                                         <div class="form-group">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                class="col-xs-12 col-sm-6
+                                                                col-md-5 col-lg-4 pl-0 field-required"
                                                                 for="remarks">
                                                                 Remarks :
                                                             </label>
@@ -300,7 +301,6 @@
 
 @push('scripts')
 
-    {{-- <script src="{{asset('modules/common/vehicle.details.js')}}"></script>--}}
     <script>
         const appMessages = {
             permissionAlertWindowTitle: "Permission Assignment",
@@ -359,7 +359,7 @@
                     return;
                 }
                 setTimeout(function () {
-                    tmsApp.findVehicle($vehicleRegistrationCtl);
+                    findVehicle($vehicleRegistrationCtl);
                 }, 300);
             });
 
@@ -369,7 +369,7 @@
                     return;
                 }
 
-                tmsApp.findVehicle($vehicleRegistrationCtl);
+                findVehicle($vehicleRegistrationCtl);
             });
 
             $(document).on('submit', 'form[name="fuelAllocationForm"]', function (e) {
@@ -431,7 +431,7 @@
 
             });
 
-            tmsApp.populateVehicleDetails = function (payload) {
+            let populateVehicleDetails = function (payload) {
                 let vehicle = payload['vehicle'];
                 let article = payload['article'];
                 let images = payload['images'];
@@ -439,26 +439,12 @@
                 const hasValidRoadTax = payload['hasValidRoadTax'];
                 const hasValidInsurance = payload['hasValidInsurance'];
                 let vehicle_state = payload['vehicle_state'];
-                let vehicle_tom_card_message = payload['vehicle_tom_card_message'];
-                let insuranceMessage = payload['insuranceMessage'];
-                let roadTaxMessage = payload['roadTaxMessage'];
-                let fitnessMessage = payload['fitnessMessage'];
 
                 if (!vehicle || !vehicle.brand_name) {
                     return;
                 }
 
-                if (!vehicle.fuel_allocation) {
-                    tmsApp.showSystemMessage("Vehicle State",
-                        appMessages.noFuelAllocation,
-                        () => {
-                        },
-                        "error"
-                    );
-                    return;
-                }
-
-                if (vehicle['status'] !== $('[name="vehicleActive"]').val()) {
+                if (vehicle['status'] === $('[name="vehicleInWorkshop"]').val()) {
                     tmsApp.showSystemMessage("Vehicle State",
                         vehicle_state,
                         () => {
@@ -468,57 +454,6 @@
                     return;
                 }
 
-                if (vehicle['has_tom_card'] === 'Y') {
-                    tmsApp.showSystemMessage("Vehicle Has A Tom Card",
-                        vehicle_tom_card_message,
-                        () => {
-                        },
-                        "error"
-                    );
-                    return;
-                }
-
-                if (!hasValidInsurance) {
-                    tmsApp.showSystemMessage("Vehicle Has Expired Insurance",
-                        insuranceMessage,
-                        () => {
-                        },
-                        "error"
-                    );
-                    return;
-                }
-
-                if (!hasValidFitness) {
-                    tmsApp.confirm(
-                        "Vehicle Has Expired Fitness",
-                        fitnessMessage,
-                        'Yes',
-                        'No, Cancel',
-                        () => {
-                        },
-                        () => {
-                            window.location.reload();
-                        },
-                        "error"
-                    );
-                }
-
-                if (!hasValidRoadTax) {
-                    tmsApp.confirm(
-                        "Vehicle Has Expired Road Tax",
-                        roadTaxMessage,
-                        'Yes',
-                        'No, Cancel',
-                        () => {
-                        },
-                        () => {
-                            window.location.reload();
-                        },
-                        "error"
-                    );
-                }
-
-
                 let vLabel = vehicle['body_type_name'] ? vehicle['body_type_name'] : ''
                     + ' ' + vehicle['brand_name']
                     + ' ' + vehicle['model_name']
@@ -526,36 +461,7 @@
                 $("#vehicle_description").val(vLabel);
                 $("#vehicle_status").text(vehicle['status_name']);
 
-                if (vehicle.fuel_allocation) {
-                    let perWeekAllocation = vehicle.fuel_allocation * 7;
-                    document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
-                    document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
-
-                    $('[name="material_quantity"]')
-                        .attr('max', perWeekAllocation?.toString())
-                        .attr('data-max', perWeekAllocation?.toString())
-                        .attr('min', vehicle.fuel_allocation);
-
-                    $('#totalQty').text(tmsApp.numberFormat(perWeekAllocation));
-                }
-
                 enableSubmissionAndDetailsOptions();
-
-                if (article) {
-
-                    /* Material Description and name */
-                    $("#material_description").text(article['name']);
-                    $('input[name="material_description"]').val(article['name']);
-                    $('input[name="material_article_code"]').val(article['code']);
-
-                    /* Unit Of Measure */
-                    $("#unit_of_measure").text(article['description']);
-                    $('input[name="unit_of_measure"]').val(article['description']);
-
-                    /* Material Price*/
-                    $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
-                    $('input[name="material_price"]').val(article['price']).change();
-                }
 
                 if (images && images.length > 0) {
                     let frontViewImages = images.filter((image) => {
@@ -569,7 +475,7 @@
 
             }
 
-            tmsApp.findVehicle = function ($vehicleRegistrationCtl) {
+            let findVehicle = function ($vehicleRegistrationCtl) {
                 const numberPlate = $vehicleRegistrationCtl.val();
                 let formData = new FormData();
                 formData.append('vehicle_registration', numberPlate);
@@ -580,7 +486,7 @@
                     function (response_data) {
                         if (response_data.success === 'true'
                             || response_data.success === true) {
-                            tmsApp.populateVehicleDetails(response_data.payload, response_data['message']);
+                            populateVehicleDetails(response_data.payload, response_data['message']);
 
                             let $odometerCtrl = $('[data-validation="fuelRequisitionOdometerReading"]');
                             if ($odometerCtrl.val()) {
