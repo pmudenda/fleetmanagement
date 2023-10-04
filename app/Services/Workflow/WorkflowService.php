@@ -76,7 +76,9 @@ class WorkflowService
             . $comment . ' Amount ' . $amount
         );
 
-        $process = WorkflowProcess::where('process_code', QueryComparisonOperator::EQUALS, $processCode)->first();
+        $process = WorkflowProcess::where('process_code',
+            QueryComparisonOperator::EQUALS,
+            $processCode)->first();
 
         if (empty($process)) {
             throw new WorkflowTaskCreationFailedException("Process not Found");
@@ -84,7 +86,8 @@ class WorkflowService
 
         // get the first step in this process
         $processFirstStep = WorkflowStep::where(
-            'process_id', QueryComparisonOperator::EQUALS,
+            'process_id',
+            QueryComparisonOperator::EQUALS,
             $processCode
         )->where('is_initial_step', true)
             ->where('is_initial_step',
@@ -128,7 +131,9 @@ class WorkflowService
         if (empty($assignTo)) {
             $assignToUser = $this->getApprovingOfficer($currentUser);
         } else {
-            $assignToUser = PHCMSEmployee::where('con_st_code', '=', 'ACT')
+            $assignToUser = PHCMSEmployee::where('con_st_code',
+                QueryComparisonOperator::EQUALS,
+                'ACT')
                 ->where('alt_per_no', QueryComparisonOperator::EQUALS, $assignTo)
                 ->first();
         }
@@ -183,14 +188,25 @@ class WorkflowService
         Log::info($subject);
         // get workflow process header for the task
         $taskHeader = WorkflowTaskHeader::where(
-            'reference', QueryComparisonOperator::EQUALS, trim($reference)
-        )->where('process_code', QueryComparisonOperator::EQUALS, $processId)
+            TableColumns::REFERENCE,
+            QueryComparisonOperator::EQUALS,
+            trim($reference)
+        )->where(
+            TableColumns::HEADER_PROCESS_CODE_COLUMN,
+            QueryComparisonOperator::EQUALS,
+            $processId)
             ->first();
 
         // get workflow process detail
         $taskDetail = WorkflowTaskDetail::where(
-            'reference', '=', trim($reference))
-            ->where('process_code', '=', $processId)
+            TableColumns::REFERENCE,
+            QueryComparisonOperator::EQUALS,
+            trim($reference))
+            ->where(
+                TableColumns::HEADER_PROCESS_CODE_COLUMN,
+                QueryComparisonOperator::EQUALS,
+                $processId
+            )
             ->orderBy('id', 'desc')
             ->first();
 
@@ -235,7 +251,7 @@ class WorkflowService
         Log::debug("Action Passed is " . $action);
         Log::debug("Action Taken " . $actionTaken);
 
-        $userUnit = $taskHeader->user_unit ?? 'G1500';
+        $userUnit = $taskHeader->user_unit;
 
         $lastStep = $this->getApprovalLimit($userUnit, $taskHeader->amount);
 
@@ -547,6 +563,11 @@ class WorkflowService
         DB::commit();
     }
 
+    /** Logic Needs refinement
+     * @param $user_unit
+     * @param $amount
+     * @return string
+     */
     private function getApprovalLimit($user_unit, $amount)
     {
         $result = WorkflowApprovalLimit::where('user_unit_code',
@@ -568,9 +589,11 @@ class WorkflowService
 
     private function closePreviousTasks(WorkflowTaskDetail $process): void
     {
-        $existingNotifications = WorkflowTaskHeader::where('reference',
+        $existingNotifications = WorkflowTaskHeader::where(
+            TableColumns::REFERENCE,
             QueryComparisonOperator::EQUALS,
-            $process->reference)->get();
+            $process->reference
+        )->get();
 
         foreach ($existingNotifications as $existingNotification) {
             $existingNotification->status = StatusHelper::closed();
@@ -585,7 +608,8 @@ class WorkflowService
      */
     private function getUserUnit($currentUser)
     {
-        $ou = OrganizationalUnit::where('cc_code',
+        $ou = OrganizationalUnit::where(
+            'cc_code',
             QueryComparisonOperator::EQUALS,
             $currentUser->cc_code)
             ->where('bu_code',
@@ -622,7 +646,7 @@ class WorkflowService
         )->first();
 
         $firstStepLog = WorkflowLog::where(
-            'reference',
+            TableColumns::REFERENCE,
             QueryComparisonOperator::EQUALS,
             $taskHeader->reference
         )->where(

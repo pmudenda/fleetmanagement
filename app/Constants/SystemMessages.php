@@ -47,6 +47,10 @@ class SystemMessages
     const FUEL_ALLOCATION_SET = "Fuel Allocation Set Successfully";
     const FUEL_ALLOCATION_FAILED = "Could not Set Fuel Allocation on Vehicle";
     const JOBCARD_TASKS_ASSIGNMENTS = "Work Assignments Saved Successfully";
+    const VEHICLE_STATE_CHANGED = "Vehicle Status Changed Successfully";
+    const VEHICLE_STATE_FAILED = "Vehicle Status Change Failed";
+    const JOBCARD_ASSIGNMENT_TASK_GENERATED =
+        "Job Card Assignment Task Generated For  (Workshop Supervisor)";
 
 
     public static function chargeOutRateAddedSuccessfully(): string

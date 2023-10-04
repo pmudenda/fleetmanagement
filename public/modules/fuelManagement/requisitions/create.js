@@ -11,8 +11,12 @@
         inactiveEmployee: 'Employee with Staff_no @staff is not active',
         vehicleNotFound: ' No Vehicle Found, Check your input and try again',
         generalError: 'We could not complete processing your request, please try again later',
-        invalidTripPeriod: 'You have selected more than the 7 Days Limit' +
-            'If your trip is more than 7 days, you will have to create a second trip '
+        invalidTripPeriod: 'You have selected more than the '
+            + window['tripPeriodLimit']
+            +' Days Limit' +
+            'If your trip is more than '
+            +window['tripPeriodLimit']
+            +' days, you will have to create a second trip '
     };
     let previousRequisition = {};
 

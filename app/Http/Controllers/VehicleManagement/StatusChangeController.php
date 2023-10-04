@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\VehicleManagement;
 
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
+use App\Constants\TableColumns;
+use App\Enums\ResponseState;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\FleetMasterJsonResponse;
-use App\Services\VehicleManagement\FuelAllocationService;
+use App\Models\VehicleManagement\VehicleHeader;
+use App\Models\VehicleManagement\VehicleStatusHistory;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,21 +26,44 @@ class StatusChangeController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            FuelAllocationService::fuelAllocation($request);
+
+
+            $registrationNumber = $request->get('');
+            $status = $request->get('newStatus');
+            $remarks = $request->get('remarks');
+
+            VehicleStatusHistory::create([
+                'created_by' => auth()->user()->staff_no,
+                'code' => 'STATUS',
+                TableColumns::REFERENCE => '',
+                'page' => '1',
+                'description' => $remarks,
+                TableColumns::REG_NO => $registrationNumber,
+                TableColumns::STATUS => $status,
+            ]);
+
+            $vehicleHeader = VehicleHeader::where(
+                TableColumns::VEHICLE_HEADER_REGISTRATION,
+                QueryComparisonOperator::EQUALS,
+                $registrationNumber)
+                ->first();
+
+            $vehicleHeader->status = $status;
+
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    '',
+                    ResponseState::SUCCESS->value,
                     true,
-                    SystemMessages::FUEL_ALLOCATION_SET
+                    SystemMessages::VEHICLE_STATE_CHANGED
                 )
             );
         } catch (Exception $e) {
             Log::error($e);
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    '',
+                    ResponseState::FAILURE->value,
                     false,
-                    SystemMessages::FUEL_ALLOCATION_FAILED
+                    SystemMessages::VEHICLE_STATE_FAILED
                 )
             );
         }

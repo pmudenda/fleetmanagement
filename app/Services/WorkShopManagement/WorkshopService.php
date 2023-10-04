@@ -28,6 +28,8 @@ use App\Models\Settings\GeneralTable;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\WorkShopManagement\AssessmentObservation;
 use App\Models\WorkShopManagement\JobCardHeader;
+use App\Models\WorkShopManagement\Mechanic;
+use App\Models\WorkShopManagement\MechanicWorkshop;
 use App\Models\WorkShopManagement\VehicleSystemDefects;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkshopLabour;
@@ -668,5 +670,19 @@ class WorkshopService
             ->select("mat_header.*",
                 "mat_detail.*"
             )->get();
+    }
+
+    public function getWorkShopSupervisor($workShopCode): Mechanic|null
+    {
+        $mechanic = MechanicWorkshop::where(
+            'work_shop_id',
+            QueryComparisonOperator::EQUALS,
+            $workShopCode
+        )->first();
+
+        return Mechanic::where('id',
+            QueryComparisonOperator::EQUALS,
+            $mechanic->id)
+            ->first();
     }
 }

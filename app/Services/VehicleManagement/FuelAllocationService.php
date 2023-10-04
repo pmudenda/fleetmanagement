@@ -2,9 +2,11 @@
 
 namespace App\Services\VehicleManagement;
 
+use App\Constants\QueryComparisonOperator;
 use App\Helpers\StatusHelper;
 use App\Models\VehicleManagement\EngineDetail;
 use App\Models\VehicleManagement\FuelAllocation;
+use App\Services\Logging\ActivityLogsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,8 +25,12 @@ class FuelAllocationService
 
         $registrationNumber = $request->input('vehicleRegistration');
         $allocationAmount = $request->get('allocationAmount');
+        $daysValid = 7;
+        $allocationAmount = $allocationAmount / $daysValid;
 
-        FuelAllocation::where("reg_no", $registrationNumber)
+        FuelAllocation::where("reg_no",
+            QueryComparisonOperator::EQUALS,
+            $registrationNumber)
             ->update(["deleted_at" => Carbon::now()]);
 
         $periodTo = $request->get('endDate');
@@ -37,13 +43,20 @@ class FuelAllocationService
             'status' => StatusHelper::active(),
             'reg_no' => $registrationNumber,
             'justification' => $request->get('remarks'),
-            'valid_for' => 7,
+            'valid_for' => $daysValid,
             'balance' => $request->get('allocationAmount'),
         ]);
 
-        EngineDetail::where("reg_no", $registrationNumber)
+        EngineDetail::where("reg_no",
+            QueryComparisonOperator::EQUALS,
+            $registrationNumber)
             ->update(["fuel_allocation" => $allocationAmount]);
 
+        ActivityLogsService::store($request,
+            'Setting Vehicle Allocation to' . $allocationAmount,
+            'update',
+            ' Setting Fuel Allocation'
+        );
         DB::commit();
     }
 }

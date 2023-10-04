@@ -15,5 +15,6 @@ class TableColumns
     const NAME = "name";
     const JOB_CARD_NO = "job_card_no";
     const HEADER_PROCESS_CODE_COLUMN = 'process_code';
-    const REFERENCE =  "reference";
+    const REFERENCE = "reference";
+    const VEHICLE_HEADER_REGISTRATION = "registration_number";
 }
