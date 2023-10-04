@@ -158,6 +158,7 @@
             let myPieChart2 = echarts.init(pieChartDom);
 
             const data = genData();
+
             const option2 = {
                 title: {
                     text: 'Fuel Type By Consumption',
@@ -167,7 +168,6 @@
                 tooltip: {
                     trigger: 'item',
                     formatter: function (params) {
-                        //'{a} <br/>{b} : {c} ({d}%)'
                         console.log(params);
                     }
                 },

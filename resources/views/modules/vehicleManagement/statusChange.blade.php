@@ -25,19 +25,31 @@
                 <div id="card_header" class="card-header min-h-2px">
                     <div class="card-header pl-0">
                         <div class="card-title">
-                            <h4>Fuel Allocation</h4>
+                            <h4>Vehicle Status Change</h4>
+                        </div>
+                        <div id="actionButtonsContainer"
+                             class="card-toolbar justify-content-end">
+                            <button type="button" id="submitFuelAllocationBtn"
+                                    class="btn btn-success btn-sm mr-3 when_odo_valid">
+                                <i class="fas fa-save"></i>
+                                Submit
+                            </button>
+                            <button type="button" id="resetRequisitionBtn"
+                                    class="btn btn-danger btn-sm mr-3">
+                                <i class="fas fa-undo"></i>
+                                Clear
+                            </button>
+
                         </div>
                     </div>
                     <div class="card-title">
                         <h2> Fuel Allocation form</h2>
-                        <span class="ml-2 indicator-pill whitespace-nowrap orange">
-                            <span>Not Saved</span></span>
+                        <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                     </div>
 
                     <form name="fuelAllocationForm"
                           id="fuelAllocationForm"
-                          action="{{route('vehicle.fuel.allocation.save')}}"
-                          method="post">
+                          action="{{route('vehicle.fuel.allocation.save')}}" method="post">
                         @csrf
                         <div class="card-body user-data">
                             <label class="app-required-marker"></label>
@@ -112,7 +124,7 @@
                                                                         class="col-xs-12 col-sm-6 col-md-5
                                                                             col-lg-4 field-required"
                                                                         for="allocationAmount">
-                                                                        Weekly Allocation:
+                                                                        Daily Amount:
                                                                     </label>
                                                                     <div
                                                                         class="col-xs-12 col-sm-6
