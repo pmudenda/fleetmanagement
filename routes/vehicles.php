@@ -6,6 +6,7 @@ use App\Http\Controllers\Configurations\VehicleBodyTypesController;
 use App\Http\Controllers\VehicleManagement\FuelAllocationController;
 use App\Http\Controllers\VehicleManagement\InsuranceController;
 use App\Http\Controllers\VehicleManagement\MeterEntryController;
+use App\Http\Controllers\VehicleManagement\StatusChangeController;
 use App\Http\Controllers\VehicleManagement\TomCardManagementController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleModelsController;
@@ -116,8 +117,8 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
 
     Route::group(['prefix' => 'vehicle/status-update',
         'as' => 'vehicle.status.change.'], function () {
-        Route::get('create', [FuelAllocationController::class, 'create'])->name('create');
-        Route::post('save', [FuelAllocationController::class, 'store'])->name('save');
+        Route::get('create', [StatusChangeController::class, 'create'])->name('create');
+        Route::post('save', [StatusChangeController::class, 'store'])->name('save');
     });
 
     Route::group(['prefix' => 'insurance',
