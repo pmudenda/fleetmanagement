@@ -47,9 +47,9 @@
                         <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                     </div>
 
-                    <form name="fuelRequisitionForm"
-                          id="fuelRequisitionForm"
-                          action="{{route('vehicle.fuel.save')}}" method="post">
+                    <form name="fuelAllocationForm"
+                          id="fuelAllocationForm"
+                          action="{{route('vehicle.fuel.allocation.save')}}" method="post">
                         @csrf
                         <div class="card-body user-data">
                             <label class="app-required-marker"></label>
@@ -121,13 +121,13 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5
+                                                                        class="col-xs-12 col-sm-6 col-md-5
                                                                             col-lg-4 field-required"
-                                                                            for="allocationAmount">
+                                                                        for="allocationAmount">
                                                                         Amount:
                                                                     </label>
                                                                     <div
-                                                                            class="col-xs-12 col-sm-6
+                                                                        class="col-xs-12 col-sm-6
                                                                             col-md-7 col-lg-8">
                                                                         <div class="input-group">
                                                                             <input type="text"
@@ -153,8 +153,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                            for="endDate">
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                        for="endDate">
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
 
@@ -171,12 +171,12 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5
+                                                                        class="col-xs-12 col-sm-6 col-md-5
                                                                             col-lg-4 field-required"
-                                                                            for="startDate">Start-Date:
+                                                                        for="startDate">Start-Date:
                                                                     </label>
                                                                     <div
-                                                                            class="col-xs-12 col-sm-6
+                                                                        class="col-xs-12 col-sm-6
                                                                             col-md-7 col-lg-8">
                                                                         <div class="input-group">
                                                                             <input type="date"
@@ -204,8 +204,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                            for="staff_number">End Date:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                        for="staff_number">End Date:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                                         <input type="date"
@@ -225,14 +225,14 @@
                                                     <div class="row">
                                                         <div class="form-group">
                                                             <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                                    for="remarks">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                for="remarks">
                                                                 Remarks :
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                                                     <textarea type="text"
                                                               id="remarks"
-                                                              minlength="50"
+                                                              minlength="10"
                                                               maxlength="255"
                                                               required
                                                               name="remarks"
@@ -248,7 +248,7 @@
 
                                         <div class="modal-footer justify-content-between">
                                             <button type="submit"
-                                                    id="profileDelegationBtn"
+                                                    id="fuelAllocationSubmissionBtn"
                                                     class="btn btn-sm btn-success">
                                                 <i class="fas fa-paper-plane"></i>
                                                 Submit
@@ -287,7 +287,6 @@
                     <!--begin::Card body-->
                     <div class="card-body">
                         <x-error-view/>
-
                     </div>
                 </div>
             </div>
@@ -316,7 +315,7 @@
 
 @push('scripts')
 
-   {{-- <script src="{{asset('modules/common/vehicle.details.js')}}"></script>--}}
+    {{-- <script src="{{asset('modules/common/vehicle.details.js')}}"></script>--}}
     <script>
         const appMessages = {
             permissionAlertWindowTitle: "Permission Assignment",
@@ -361,12 +360,13 @@
             document.querySelector('#vehicleDetailsContainer').style.display = null;
             document.querySelector('#image_view').style.display = null;
         }
+
         (function (tmsApp, $) {
             window['vehicleRegistrationCtl'] = $('#vehicleRegistration');
             let $vehicleRegistrationCtl = window['vehicleRegistrationCtl'];
 
             Inputmask({
-                "mask": "AAA 9999"
+                "mask": "A{1,3} 9{1,4}A{0,1}"
             }).mask("#vehicleRegistration");
 
             $vehicleRegistrationCtl.on('paste', function () {
@@ -387,7 +387,65 @@
                 tmsApp.findVehicle($vehicleRegistrationCtl);
             });
 
-            //let $vehicleRegistrationCtl = window['vehicleRegistrationCtl'];
+            $(document).on('submit', 'form[name="fuelAllocationForm"]', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const form = this;
+                const url = form.action;
+                let formData = new FormData(form);
+
+                tmsApp.confirmWithInput(
+                    'Are you sure you want to cancel the delegation ?',
+                    'Justification',
+                    'Yes',
+                    'No, Cancel',
+                    function (comments) {
+                        formData.set('justification', comments);
+                        tmsApp.asyncPostFormData(
+                            url,
+                            formData,
+                            function (asyncResponse) {
+                                if (asyncResponse.hasOwnProperty('success')
+                                    && asyncResponse['success']) {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'Cancel Delegation',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'Cancel Delegation',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                }
+                            },
+                            function (xhr, settings, errorThrown) {
+                                setTimeout(function () {
+                                    tmsApp.showErrorMessages(xhr, 'Cancel Delegation');
+                                }, 300);
+                            }
+                        );
+                    },
+                    () => {
+
+                    },
+                    255,
+                    true
+                );
+
+            });
 
             tmsApp.populateVehicleDetails = function (payload) {
                 let vehicle = payload['vehicle'];
