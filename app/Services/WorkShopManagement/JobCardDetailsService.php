@@ -20,7 +20,6 @@ use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTable;
 use App\Models\WorkShopManagement\AssessmentObservation;
 use App\Models\WorkShopManagement\JobCardHeader;
-use App\Models\WorkShopManagement\Mechanic;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
@@ -60,7 +59,9 @@ class JobCardDetailsService
         $registration = $request->get('vehicle_registration');
         $comments = $request->get('commentsToSupervisor');
 
-        $jobCard = JobCardHeader::where("job_card_no", "=", $jobCardNo)
+        $jobCard = JobCardHeader::where("job_card_no",
+            QueryComparisonOperator::EQUALS,
+            $jobCardNo)
             ->first();
 
         $jobCard->step = 2;

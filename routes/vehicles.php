@@ -115,7 +115,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
     });
 
         Route::group(['prefix' => 'vehicle/status-update',
-        'as' => 'vehicle.status.change'], function () {
+        'as' => 'vehicle.status.change.'], function () {
         Route::get('create', [FuelAllocationController::class, 'create'])->name('create');
         Route::post('save', [FuelAllocationController::class, 'store'])->name('save');
     });
