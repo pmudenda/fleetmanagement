@@ -162,7 +162,8 @@ class VehicleDetailsService
     public function getVehicleDocuments(mixed $reference)
     {
         return File::where('reference_number', "=", $reference)
-            ->where('status', '=', '01')
+            ->where('status', QueryComparisonOperator::EQUALS,
+                StatusHelper::active())
             ->get();
     }
 
@@ -171,17 +172,25 @@ class VehicleDetailsService
         try {
             $results = DB::table('VM_VEHICLE_HEADER')->
             where('VM_VEHICLE_HEADER.registration_number', $vehicleRegistration)
-                ->leftJoin('CONFIG_STATUSES', 'VM_VEHICLE_HEADER.status',
-                    '=', 'CONFIG_STATUSES.code')
-                ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id',
-                    '=', 'VM_ASSIGNMENTS.vehicle_header_id')
-                ->leftJoin('VM_CHASSIS_DETAILS', 'VM_VEHICLE_HEADER.id',
-                    '=', 'VM_CHASSIS_DETAILS.vehicle_header_id')
+                ->leftJoin('CONFIG_STATUSES',
+                    'VM_VEHICLE_HEADER.status',
+                    QueryComparisonOperator::EQUALS,
+                    'CONFIG_STATUSES.code')
+                ->leftJoin('VM_ASSIGNMENTS',
+                    'VM_VEHICLE_HEADER.id',
+                    QueryComparisonOperator::EQUALS,
+                    'VM_ASSIGNMENTS.vehicle_header_id')
+                ->leftJoin('VM_CHASSIS_DETAILS',
+                    'VM_VEHICLE_HEADER.id',
+                    QueryComparisonOperator::EQUALS,
+                    'VM_CHASSIS_DETAILS.vehicle_header_id')
                 ->leftJoin('VM_ENGINE_DETAILS',
-                    'VM_VEHICLE_HEADER.id', '=',
+                    'VM_VEHICLE_HEADER.id',
+                    QueryComparisonOperator::EQUALS,
                     'VM_ENGINE_DETAILS.vehicle_header_id')
                 ->where('CONFIG_STATUSES.MODULE',
-                    '=', Modules::VEHICLE->value)
+                    QueryComparisonOperator::EQUALS,
+                    Modules::VEHICLE->value)
                 ->select('VM_VEHICLE_HEADER.*',
                     'VM_ASSIGNMENTS.*',
                     'VM_ENGINE_DETAILS.fuel_allocation',
@@ -200,7 +209,8 @@ class VehicleDetailsService
     public function getVehicleImages(mixed $reference)
     {
         return File::where('reference_number', "=", $reference)
-            ->where('status', '=', StatusHelper::active())
+            ->where('status', QueryComparisonOperator::EQUALS,
+                StatusHelper::active())
             ->whereIn('module', ['vehicleRegistration', 'Vehicle Registration'])
             ->whereIn('file_type', ["Front View", "Back View", "Right View", "Left View"])
             ->get();
@@ -209,7 +219,9 @@ class VehicleDetailsService
     public function getSubmittedAccessories($vehicleHeaderId): Collection
     {
         try {
-            return VehicleAccessory::where('vehicle_header_id', '=', $vehicleHeaderId)
+            return VehicleAccessory::where('vehicle_header_id',
+                QueryComparisonOperator::EQUALS,
+                $vehicleHeaderId)
                 ->get();
         } catch (\Exception $e) {
             Log::info('Fetch vehicle accessories');
@@ -230,7 +242,9 @@ class VehicleDetailsService
 
             $query->where(function ($q) use ($registrationNumber, $regNumOperator) {
                 if (ComparisonOperator::EQUAL == $regNumOperator) {
-                    $q->where("v_header.registration_number", "=", $registrationNumber);
+                    $q->where("v_header.registration_number",
+                        QueryComparisonOperator::EQUALS,
+                        $registrationNumber);
                 } elseif (ComparisonOperator::STARTS_WITH == $regNumOperator) {
                     $q->where("v_header.registration_number", "LIKE", "{$registrationNumber}%");
                 } elseif (ComparisonOperator::ENDS_WITH == $regNumOperator) {
@@ -247,7 +261,9 @@ class VehicleDetailsService
             Log::info("Filtering with Status $status");
 
             $query->where(function ($q) use ($status) {
-                $q->where("v_header.status", "=", $status);
+                $q->where("v_header.status",
+                    QueryComparisonOperator::EQUALS,
+                    $status);
             });
         }
 
@@ -257,7 +273,9 @@ class VehicleDetailsService
             Log::info("Filtering with Status $hasTomCard");
 
             $query->where(function ($q) use ($hasTomCard) {
-                $q->where("v_header.has_tom_card", "=", $hasTomCard);
+                $q->where("v_header.has_tom_card",
+                    QueryComparisonOperator::EQUALS,
+                    $hasTomCard);
             });
         }
 
@@ -267,7 +285,9 @@ class VehicleDetailsService
             Log::info("Filtering with Brand $brand");
 
             $query->where(function ($q) use ($brand) {
-                $q->where("v_header.brand_code", '=', $brand);
+                $q->where("v_header.brand_code",
+                    QueryComparisonOperator::EQUALS,
+                    $brand);
             });
         }
 

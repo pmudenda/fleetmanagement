@@ -355,11 +355,6 @@ class VehicleController extends Controller
             ->with(compact('accessories'));
     }
 
-    public function save(Request $request): void
-    {
-        FuelAllocationService::fuelAllocation($request);
-    }
-
     /**
      * @param string $registrationNumber
      * @return array

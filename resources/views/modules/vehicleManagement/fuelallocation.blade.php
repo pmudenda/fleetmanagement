@@ -47,9 +47,9 @@
                         <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                     </div>
 
-                    <form name="fuelRequisitionForm"
-                          id="fuelRequisitionForm"
-                          action="{{route('vehicle.fuel.save')}}" method="post">
+                    <form name="fuelAllocationForm"
+                          id="fuelAllocationForm"
+                          action="{{route('vehicle.fuel.allocation.save')}}" method="post">
                         @csrf
                         <div class="card-body user-data">
                             <label class="app-required-marker"></label>
@@ -121,13 +121,13 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5
+                                                                        class="col-xs-12 col-sm-6 col-md-5
                                                                             col-lg-4 field-required"
-                                                                            for="allocationAmount">
+                                                                        for="allocationAmount">
                                                                         Amount:
                                                                     </label>
                                                                     <div
-                                                                            class="col-xs-12 col-sm-6
+                                                                        class="col-xs-12 col-sm-6
                                                                             col-md-7 col-lg-8">
                                                                         <div class="input-group">
                                                                             <input type="text"
@@ -153,8 +153,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                            for="endDate">
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                        for="endDate">
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
 
@@ -171,12 +171,12 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5
+                                                                        class="col-xs-12 col-sm-6 col-md-5
                                                                             col-lg-4 field-required"
-                                                                            for="startDate">Start-Date:
+                                                                        for="startDate">Start-Date:
                                                                     </label>
                                                                     <div
-                                                                            class="col-xs-12 col-sm-6
+                                                                        class="col-xs-12 col-sm-6
                                                                             col-md-7 col-lg-8">
                                                                         <div class="input-group">
                                                                             <input type="date"
@@ -204,8 +204,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                            for="staff_number">End Date:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                        for="staff_number">End Date:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                                         <input type="date"
@@ -225,14 +225,14 @@
                                                     <div class="row">
                                                         <div class="form-group">
                                                             <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                                    for="remarks">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                for="remarks">
                                                                 Remarks :
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                                                     <textarea type="text"
                                                               id="remarks"
-                                                              minlength="50"
+                                                              minlength="10"
                                                               maxlength="255"
                                                               required
                                                               name="remarks"
@@ -248,7 +248,7 @@
 
                                         <div class="modal-footer justify-content-between">
                                             <button type="submit"
-                                                    id="profileDelegationBtn"
+                                                    id="fuelAllocationSubmissionBtn"
                                                     class="btn btn-sm btn-success">
                                                 <i class="fas fa-paper-plane"></i>
                                                 Submit
@@ -287,7 +287,6 @@
                     <!--begin::Card body-->
                     <div class="card-body">
                         <x-error-view/>
-
                     </div>
                 </div>
             </div>
@@ -316,14 +315,58 @@
 
 @push('scripts')
 
-    <script src="{{asset('modules/common/vehicle.details.js')}}"></script>
+    {{-- <script src="{{asset('modules/common/vehicle.details.js')}}"></script>--}}
     <script>
+        const appMessages = {
+            permissionAlertWindowTitle: "Permission Assignment",
+            validationFailureMessage: "Sorry, the data did not pass validation check," +
+                "check the data and try again.",
+            permissionsAttachedDefaultMessage: "Permission Assigned Successfully",
+            noFuelAllocation: 'Vehicle has no not been assigned Fuel Allocation, '
+                + 'Request System Administrator to assign allocation',
+            inactiveEmployee: 'Employee with Staff_no @staff is not active',
+            vehicleNotFound: ' No Vehicle Found, Check your input and try again',
+            generalError: 'We could not complete processing your request, please try again later',
+            invalidTripPeriod: 'You have selected more than the 7 Days Limit' +
+                'If your trip is more than 7 days, you will have to create a second trip ',
+            profileDelegationTitle: 'Profile Delegation',
+            selfDelegation: 'You can not delegate a profile to the owner.'
+        };
+
+        function removeSubmissionAndDetailsOptions() {
+            let elements = document.querySelectorAll('.when_valid');
+            elements.forEach(function (element) {
+                element.setAttribute('disabled', 'disabled');
+            });
+
+            document.querySelector('#vehicleDetailsContainer').style.display = 'none';
+            document.querySelector('#image_view').style.display = 'none';
+
+            $('tbody#vehicleDetails').html('');
+            document.querySelector('[name="fuel_allocation"]').value = '';
+
+            $("#material_description").text(tmsApp.formatMoney('0', 2));
+            $('input[name="material_description"]').val(tmsApp.formatMoney('0', 2));
+        }
+
+        function enableSubmissionAndDetailsOptions() {
+
+            let elements = document.querySelectorAll('.when_valid');
+
+            elements.forEach(function (element) {
+                element.removeAttribute('disabled');
+            });
+
+            document.querySelector('#vehicleDetailsContainer').style.display = null;
+            document.querySelector('#image_view').style.display = null;
+        }
+
         (function (tmsApp, $) {
             window['vehicleRegistrationCtl'] = $('#vehicleRegistration');
             let $vehicleRegistrationCtl = window['vehicleRegistrationCtl'];
 
             Inputmask({
-                "mask": "AAA 9999"
+                "mask": "A{1,3} 9{1,4}A{0,1}"
             }).mask("#vehicleRegistration");
 
             $vehicleRegistrationCtl.on('paste', function () {
@@ -343,6 +386,235 @@
 
                 tmsApp.findVehicle($vehicleRegistrationCtl);
             });
+
+            $(document).on('submit', 'form[name="fuelAllocationForm"]', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const form = this;
+                const url = form.action;
+                let formData = new FormData(form);
+
+                tmsApp.confirm(
+                    'Are you sure ?',
+                    'You want to allocation the fuel allocation ?',
+                    'Yes',
+                    'No, Cancel',
+                    function () {
+                        tmsApp.asyncPostFormData(
+                            url,
+                            formData,
+                            function (asyncResponse) {
+                                if (asyncResponse.hasOwnProperty('success')
+                                    && asyncResponse['success']) {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'Fuel Allocation',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'Fuel Allocation',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                }
+                            },
+                            function (xhr, settings, errorThrown) {
+                                setTimeout(function () {
+                                    tmsApp.showErrorMessages(xhr, 'Cancel Delegation');
+                                }, 300);
+                            }
+                        );
+                    },
+                    () => {
+
+                    },
+                    255,
+                    true
+                );
+
+            });
+
+            tmsApp.populateVehicleDetails = function (payload) {
+                let vehicle = payload['vehicle'];
+                let article = payload['article'];
+                let images = payload['images'];
+                const hasValidFitness = payload['hasValidFitness'];
+                const hasValidRoadTax = payload['hasValidRoadTax'];
+                const hasValidInsurance = payload['hasValidInsurance'];
+                let vehicle_state = payload['vehicle_state'];
+                let vehicle_tom_card_message = payload['vehicle_tom_card_message'];
+                let insuranceMessage = payload['insuranceMessage'];
+                let roadTaxMessage = payload['roadTaxMessage'];
+                let fitnessMessage = payload['fitnessMessage'];
+
+                if (!vehicle || !vehicle.brand_name) {
+                    return;
+                }
+
+                if (!vehicle.fuel_allocation) {
+                    tmsApp.showSystemMessage("Vehicle State",
+                        appMessages.noFuelAllocation,
+                        () => {
+                        },
+                        "error"
+                    );
+                    return;
+                }
+
+                if (vehicle['status'] !== $('[name="vehicleActive"]').val()) {
+                    tmsApp.showSystemMessage("Vehicle State",
+                        vehicle_state,
+                        () => {
+                        },
+                        "error"
+                    );
+                    return;
+                }
+
+                if (vehicle['has_tom_card'] === 'Y') {
+                    tmsApp.showSystemMessage("Vehicle Has A Tom Card",
+                        vehicle_tom_card_message,
+                        () => {
+                        },
+                        "error"
+                    );
+                    return;
+                }
+
+                if (!hasValidInsurance) {
+                    tmsApp.showSystemMessage("Vehicle Has Expired Insurance",
+                        insuranceMessage,
+                        () => {
+                        },
+                        "error"
+                    );
+                    return;
+                }
+
+                if (!hasValidFitness) {
+                    tmsApp.confirm(
+                        "Vehicle Has Expired Fitness",
+                        fitnessMessage,
+                        'Yes',
+                        'No, Cancel',
+                        () => {
+                        },
+                        () => {
+                            window.location.reload();
+                        },
+                        "error"
+                    );
+                }
+
+                if (!hasValidRoadTax) {
+                    tmsApp.confirm(
+                        "Vehicle Has Expired Road Tax",
+                        roadTaxMessage,
+                        'Yes',
+                        'No, Cancel',
+                        () => {
+                        },
+                        () => {
+                            window.location.reload();
+                        },
+                        "error"
+                    );
+                }
+
+
+                let vLabel = vehicle['body_type_name'] ? vehicle['body_type_name'] : ''
+                    + ' ' + vehicle['brand_name']
+                    + ' ' + vehicle['model_name']
+                    + ' ' + vehicle['model_code'];
+                $("#vehicle_description").val(vLabel);
+                $("#vehicle_status").text(vehicle['status_name']);
+
+                if (vehicle.fuel_allocation) {
+                    let perWeekAllocation = vehicle.fuel_allocation * 7;
+                    document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
+                    document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
+
+                    $('[name="material_quantity"]')
+                        .attr('max', perWeekAllocation?.toString())
+                        .attr('data-max', perWeekAllocation?.toString())
+                        .attr('min', vehicle.fuel_allocation);
+
+                    $('#totalQty').text(tmsApp.numberFormat(perWeekAllocation));
+                }
+
+                enableSubmissionAndDetailsOptions();
+
+                if (article) {
+
+                    /* Material Description and name */
+                    $("#material_description").text(article['name']);
+                    $('input[name="material_description"]').val(article['name']);
+                    $('input[name="material_article_code"]').val(article['code']);
+
+                    /* Unit Of Measure */
+                    $("#unit_of_measure").text(article['description']);
+                    $('input[name="unit_of_measure"]').val(article['description']);
+
+                    /* Material Price*/
+                    $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
+                    $('input[name="material_price"]').val(article['price']).change();
+                }
+
+                if (images && images.length > 0) {
+                    let frontViewImages = images.filter((image) => {
+                        return image['file_type'] === 'Front View';
+                    })
+                    let imagePath = frontViewImages[0]?.path;
+                    document.querySelector(".imagePreview")
+                        .style
+                        .backgroundImage = "url(/storage" + imagePath + ")";
+                }
+
+            }
+
+            tmsApp.findVehicle = function ($vehicleRegistrationCtl) {
+                const numberPlate = $vehicleRegistrationCtl.val();
+                let formData = new FormData();
+                formData.append('vehicle_registration', numberPlate);
+
+                tmsApp.asyncGetFormData(
+                    $vehicleRegistrationCtl.attr('data-action') + '?vehicle_registration=' + numberPlate,
+                    formData,
+                    function (response_data) {
+                        if (response_data.success === 'true'
+                            || response_data.success === true) {
+                            tmsApp.populateVehicleDetails(response_data.payload, response_data['message']);
+
+                            let $odometerCtrl = $('[data-validation="fuelRequisitionOdometerReading"]');
+                            if ($odometerCtrl.val()) {
+                                $odometerCtrl.trigger('change');
+                            }
+                        } else {
+                            removeSubmissionAndDetailsOptions();
+                            let $message = response_data['message']
+                                ? response_data['message']
+                                : appMessages.vehicleNotFound;
+                            tmsApp.systemError('Vehicle', $message);
+                        }
+                    },
+                    function (xhr) {
+                        tmsApp.systemError('System Message',
+                            appMessages.generalError);
+                    }
+                )
+            }
 
         })(window.tmsApp || {}, jQuery);
     </script>

@@ -2323,7 +2323,7 @@ function checkOnboardingHeaderStatus() {
     });
 
     Inputmask({
-        "mask": "A{2,3} 9{1,4}"
+        "mask": "A{1,3} 9{1,4}A{0,1}"
     }).mask("#registrationNumber");
 
     Inputmask({

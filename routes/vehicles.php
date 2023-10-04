@@ -1,22 +1,15 @@
 <?php
 
-use App\Constants\SystemMessages;
-use App\Exceptions\DataNotFoundException;
-use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Http\Controllers\Configurations\VehicleBodyTypesController;
+use App\Http\Controllers\FuelAllocationController;
 use App\Http\Controllers\VehicleManagement\InsuranceController;
 use App\Http\Controllers\VehicleManagement\MeterEntryController;
 use App\Http\Controllers\VehicleManagement\TomCardManagementController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleModelsController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
-use App\Models\VehicleManagement\TomCardAllocation;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix' => 'v1/en'], function (): void {
@@ -116,17 +109,11 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
     Route::get('/vehicle/list/json', [VehicleController::class, 'record'])->name('vehicles.records.list');
 
     Route::group(['prefix' => 'vehicle/fuel-allocation',
-        'as' => 'vehicle.fuel.'],
-        function () {
-            Route::get('create', function () {
-                return view('modules.vehicleManagement.fuelallocation');
-            })->name('allocation');
+        'as' => 'vehicle.fuel.allocation.'], function () {
+        Route::get('create', [FuelAllocationController::class, 'create'])->name('create');
+        Route::post('save', [FuelAllocationController::class, 'store'])->name('save');
+    });
 
-            Route::post('save', function () {
-
-            })->name('save');
-
-        });
 
     Route::group(['prefix' => 'insurance',
         'as' => 'insurance.'],

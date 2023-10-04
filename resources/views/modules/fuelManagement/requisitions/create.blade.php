@@ -570,7 +570,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                                class="col-xs-12 col-sm-12
+                                                                col-md-5 col-lg-4 field-required"
                                                                 for="next_fuel_date">
                                                             Next Refueling Date :
                                                         </label>
@@ -596,7 +597,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                class="col-xs-12 col-sm-6
+                                                                col-md-5 col-lg-4 field-required"
                                                                 for="justification">
                                                             Purpose:
                                                         </label>
@@ -755,5 +757,6 @@
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset('assets/js/system/project_code.js')}}"></script>
-    <script src="{{asset('modules/fuelManagement/requisitions/create.js')}}"></script>
+    <script src="{{asset('modules/fuelManagement/requisitions/create.js').'?v='.Carbon::now()->format('his')}}">
+    </script>
 @endpush
