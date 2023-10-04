@@ -819,6 +819,6 @@
 
 $(document).ready(function () {
     Inputmask({
-        "mask": "A{1,3} 9{1,4}1{A}"
+        "mask": "A{1,3} 9{1,4}A{0,1}"
     }).mask("#vehicle_registration");
 });
