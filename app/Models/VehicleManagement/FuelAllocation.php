@@ -20,6 +20,7 @@ class FuelAllocation extends Model
         'user_update',
         'valid_for',
         'balance',
-        'justification'
+        'justification',
+        'deleted_at'
     ];
 }

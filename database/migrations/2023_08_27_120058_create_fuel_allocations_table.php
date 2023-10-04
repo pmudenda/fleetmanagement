@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('valid_for', 4);
             $table->integer('balance');
             $table->string('justification', 255);
+            $table->timestamp('deleted_at');
             $table->timestamps();
         });
     }

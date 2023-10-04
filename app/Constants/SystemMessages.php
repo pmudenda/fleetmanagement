@@ -45,6 +45,7 @@ class SystemMessages
     const ORGNIZATIONAL_UNIT_INACTIVE
         = "Organization Unit with Business Unit @bu and Cost Center @cc Is Not Active" . self::SERVICE_DESK_MESSAGE;
     const FUEL_ALLOCATION_SET = "Fuel Allocation Set Successfully";
+    const FUEL_ALLOCATION_FAILED = "Could not Set Fuel Allocation on Vehicle";
 
 
     public static function chargeOutRateAddedSuccessfully(): string

@@ -1,22 +1,15 @@
 <?php
 
-use App\Constants\SystemMessages;
-use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Http\Controllers\Configurations\VehicleBodyTypesController;
+use App\Http\Controllers\FuelAllocationController;
 use App\Http\Controllers\VehicleManagement\InsuranceController;
 use App\Http\Controllers\VehicleManagement\MeterEntryController;
 use App\Http\Controllers\VehicleManagement\TomCardManagementController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleModelsController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
-use App\Http\Responses\FleetMasterJsonResponse;
-use App\Models\VehicleManagement\EngineDetail;
-use App\Models\VehicleManagement\FuelAllocation;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix' => 'v1/en'], function (): void {
@@ -117,44 +110,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
 
     Route::group(['prefix' => 'vehicle/fuel-allocation',
         'as' => 'vehicle.fuel.allocation.'],
-        function () {
-            Route::get('create', function () {
-                return view('modules.vehicleManagement.fuelallocation');
-            })->name('create');
-
-            Route::post('save', function (Request $request) {
-
-                DB::beginTransaction();
-
-                $registrationNumber = $request->input('vehicleRegistration');
-                $allocationAmount = $request->get('allocationAmount');
-                FuelAllocation::create([
-                    'created_by' => auth()->user()->staff_no,
-                    'allocation_amount' => $allocationAmount,
-                    'period_from' => Carbon::parse($request->get('startDate')),
-                    'period_to' => Carbon::parse($request->get('endDate') ?? null),
-                    'status' => StatusHelper::active(),
-                    'reg_no' => $registrationNumber,
-                    'justification' => $request->get('remarks'),
-                    'valid_for' => 7,
-                    'balance' => $request->get('allocationAmount'),
-                ]);
-
-                EngineDetail::where("reg_no", $registrationNumber)
-                    ->update(["fuel_allocation" => $allocationAmount]);
-
-                DB::commit();
-
-                return response()->json(
-                    FleetMasterJsonResponse::response(
-                        '',
-                        true,
-                        SystemMessages::FUEL_ALLOCATION_SET
-                    )
-                );
-            })->name('save');
-
-        });
+        [FuelAllocationController::class]);
 
     Route::group(['prefix' => 'insurance',
         'as' => 'insurance.'],

@@ -2,6 +2,8 @@
 
 namespace App\Services\VehicleManagement;
 
+use App\Helpers\StatusHelper;
+use App\Models\VehicleManagement\EngineDetail;
 use App\Models\VehicleManagement\FuelAllocation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,27 +17,33 @@ class FuelAllocationService
      */
     public static function fuelAllocation(Request $request): void
     {
-        $allocation = $request->allocationAmount;
         $periodFrom = Carbon::parse($request->startDate);
-        $periodTo = null;
-        $endDate = $request->endDate;
-
-        if (empty($endDate)) {
-            $periodTo = Carbon::parse($endDate);
-        }
 
         DB::beginTransaction();
+
+        $registrationNumber = $request->input('vehicleRegistration');
+        $allocationAmount = $request->get('allocationAmount');
+
+        FuelAllocation::where("reg_no", $registrationNumber)
+            ->update(["deleted_at" => Carbon::now()]);
+
+        $periodTo = $request->get('endDate');
+
         FuelAllocation::create([
             'created_by' => auth()->user()->staff_no,
-            'allocation_amount' => $allocation,
+            'allocation_amount' => $allocationAmount,
             'period_from' => $periodFrom,
             'period_to' => $periodTo,
-            'status',
-            'reg_no',
-            'user_update',
-            'valid_for',
-            'balance',
+            'status' => StatusHelper::active(),
+            'reg_no' => $registrationNumber,
+            'justification' => $request->get('remarks'),
+            'valid_for' => 7,
+            'balance' => $request->get('allocationAmount'),
         ]);
+
+        EngineDetail::where("reg_no", $registrationNumber)
+            ->update(["fuel_allocation" => $allocationAmount]);
+
         DB::commit();
     }
 }
