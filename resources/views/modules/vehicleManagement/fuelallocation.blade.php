@@ -124,7 +124,7 @@
                                                                         class="col-xs-12 col-sm-6 col-md-5
                                                                             col-lg-4 field-required"
                                                                         for="allocationAmount">
-                                                                        Amount:
+                                                                        Daily Amount:
                                                                     </label>
                                                                     <div
                                                                         class="col-xs-12 col-sm-6
@@ -143,21 +143,6 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-6 col-md-6">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                        for="endDate">
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -396,7 +381,7 @@
 
                 tmsApp.confirm(
                     'Are you sure ?',
-                    'You want to allocation the fuel allocation ?',
+                    'You want to set the fuel allocation amount',
                     'Yes',
                     'No, Cancel',
                     function () {
