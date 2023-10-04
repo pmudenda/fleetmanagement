@@ -1,5 +1,5 @@
-@php use Carbon\Carbon;use Illuminate\Support\Facades\Auth; @endphp
-        <!DOCTYPE html>
+@php use Illuminate\Support\Facades\Auth; @endphp
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Fleet Master</title>
@@ -152,8 +152,9 @@
 <script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
 <script>
-    window.zmfServiceDesk= ' Please Contact Fleet Master System Administrator ' +
+    window.zmfServiceDesk = ' Please Contact Fleet Master System Administrator ' +
         'on 3309,3350,3351,3306, zfmservicedesk@zesco.co.zm';
+
     $(document).ready(function () {
         toastr.options = {
             "preventDuplicates": true,
@@ -187,13 +188,13 @@
 <script src="{{asset('assets/plugins/vue-select2/js/vue-select.js')}}"></script>
 <script src="{{asset('themes/dist/js/adminlte2167.js')}}?v=3.2.0"></script>
 <script src="{{asset('assets/js/system/core.js')}}"></script>
-<script src="{{asset('assets/js/system/workflow_approvals.js').'?v='.Carbon::now()->format('his')}}"></script>
-<script src="{{asset('assets/js/global/async.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
-<script src="{{asset('assets/js/global/page.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
-<script src="{{asset('assets/js/global/system_alerts.js').'?v='.Carbon::now()->format('his')}}"></script>
-<script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
-<script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>
-<script src="{{ asset('libs/qrcode/qrcode.min.js').'?v='.Carbon::now()->format('his')}}"></script>
+<script src="{{asset('assets/js/system/workflow_approvals.js').'?v='.time()}}"></script>
+<script src="{{asset('assets/js/global/async.loader.js').'?v='.time()}}"></script>
+<script src="{{asset('assets/js/global/page.loader.js').'?v='.time()}}"></script>
+<script src="{{asset('assets/js/global/system_alerts.js').'?v='.time()}}"></script>
+<script src="{{asset('assets/js/global/custom_filer.js').'?v='.time()}}"></script>
+<script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='. time()}}"></script>
+<script src="{{ asset('libs/qrcode/qrcode.min.js').'?v='. time()}}"></script>
 
 @include('layouts.partials.dataTableScripts')
 <script type="text/javascript">

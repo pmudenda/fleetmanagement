@@ -8,17 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
+                <x-error-view/>
                 <div class="form-group">
                     <label class="field-required col-form-label  p-0 mb-2">Workshop</label>
                     <select class="form-control form-control-solid" wire:model="workshop_code">

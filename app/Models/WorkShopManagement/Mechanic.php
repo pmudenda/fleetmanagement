@@ -4,6 +4,7 @@ namespace App\Models\WorkShopManagement;
 
 use App\Models\Settings\WorkShop;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Mechanic extends Model {
     protected $table = 'wm_mechanics';
@@ -35,7 +36,8 @@ class Mechanic extends Model {
         'job_code'
     ];
 
-    public function workshops() {
+    public function workshops(): BelongsToMany
+    {
         return $this->belongsToMany(WorkShop::class, 'MECHANIC_WORKSHOP')
             ->withTimestamps()
             ->using(MechanicWorkshop::class)

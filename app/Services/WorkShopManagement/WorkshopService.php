@@ -7,6 +7,7 @@ use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
 use App\Enums\RequisitionItemTypes;
+use App\Enums\ResponseState;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\WorkOrderCompleted;
 use App\Exceptions\DuplicateDefectException;
@@ -19,6 +20,7 @@ use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
 use App\Http\Requests\WorkShopManagement\JobCardTaskReassignment;
 use App\Http\Requests\WorkShopManagement\VehicleDefects;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Common\File;
 use App\Models\MaterialHeader;
 use App\Models\Settings\Accessory;
@@ -573,7 +575,7 @@ class WorkshopService
         );
     }
 
-    public function saveJobCardWorkAssignments(JobCardTaskAssignment $request): JsonResponse
+    public function saveJobCardWorkAssignments(JobCardTaskAssignment $request): void
     {
         $user = Auth::user();
 
@@ -605,21 +607,14 @@ class WorkshopService
         }
 
         DB::commit();
-
-        return response()->json(
-            [
-                "success" => true,
-                "payload" => [],
-                "message" => "Work Assignments Saved Successfully",
-                "redirectUrl" => URL::signedRoute("workOrder.list"),
-            ]
-        );
     }
 
     public function saveJobCardWorkReassignments(JobCardTaskReassignment $request): JsonResponse
     {
         $recordId = $request->get("reassignmentReference");
-        $assignmentRecord = WorkshopLabour::where("id", "=", $recordId)->first();
+        $assignmentRecord = WorkshopLabour::where("id",
+            QueryComparisonOperator::EQUALS,
+            $recordId)->first();
         $recordBefore = $assignmentRecord->toArray();
         DB::beginTransaction();
         $assignmentRecord->mechanic = $request->validated('reassignTo');
@@ -638,12 +633,13 @@ class WorkshopService
         DB::commit();
 
         return response()->json(
-            [
-                "success" => true,
-                "payload" => [],
-                "message" => "Work Assignments Saved Successfully",
-                "redirectUrl" => URL::signedRoute("workOrder.list"),
-            ]
+            FleetMasterJsonResponse::response(
+                ResponseState::SUCCESS->value,
+                true,
+                SystemMessages::JOBCARD_TASKS_ASSIGNMENTS,
+                [],
+                URL::signedRoute("workOrder.list")
+            )
         );
     }
 

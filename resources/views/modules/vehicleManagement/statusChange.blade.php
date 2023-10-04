@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="card-title">
-                        <h2> Fuel Allocation form</h2>
+                        <h2>Vehicle Status Change Form</h2>
                         <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                     </div>
 

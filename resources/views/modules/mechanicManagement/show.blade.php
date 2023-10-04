@@ -25,13 +25,6 @@
             cursor: pointer;
         }
 
-        /*  input:checked + label {
-              color: #555;
-              border: 1px solid #ddd;
-              border-top: 2px solid orange;
-              border-bottom: 1px solid #fff;
-          }*/
-
         #tab4:checked ~ #content4 {
             display: block;
         }
@@ -48,7 +41,7 @@
                       :activeCrumb="'Mechanic Details'"
                       :link="'mechanic.list'"
                       :linkText="'Mechanic'"/>
-    <!-- Main content -->
+
     <section class="content">
         <x-error-view/>
         <div class="container-fluid">
@@ -119,7 +112,7 @@
                                                 Active
                                             </span>
                                         @else
-                                            {{$mechanic->status ?? '--'}}
+                                            {{'Inactive'}}
                                         @endif
                                     </a>
                                 </li>
@@ -132,14 +125,16 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="">
-                                            <form class="row" method="post" action="">
+                                            <form class="row" method="post"
+                                                  action="">
                                                 @csrf
                                                 <div class="input-group input-group-sm">
                                                     <input class="form-control form-control-sm" type="search"
                                                            name="search" placeholder="Enter Man Number/Name"
                                                            aria-label="Enter Search Term">
                                                     <div class="input-group-addon">
-                                                        <button class="btn btn-primary " type="submit">
+                                                        <button class="btn btn-primary"
+                                                                type="submit">
                                                             <i class="fas fa-search"></i>
                                                         </button>
                                                     </div>
@@ -207,7 +202,8 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <p class="text-muted">
-                                                    <b>Directorate:</b> {{ $mechanic->directorate ?? '--' }}
+                                                    <b>Directorate:</b>
+                                                    {{ $mechanic->directorate ?? '--' }}
                                                 </p>
                                                 <p class="text-muted">
                                                     <b>Location:</b>
@@ -235,7 +231,9 @@
                                     </div>
                                     <div class="post">
                                         <div class="user-block">
-                                            <span class="username ml-1"><a href="#">POSITION AND PROFILES</a> </span>
+                                            <span class="username ml-1">
+                                                <a href="#">POSITION AND PROFILES</a>
+                                            </span>
                                         </div>
                                         <div class="row">
 
@@ -262,18 +260,18 @@
                                     <div class="row">
                                         <div class="post d-none">
                                             <div class="user-block">
-                                                <span class="username ml-1"><a href="#">LINE SUPERVISOR</a> </span>
+                                                <span class="username ml-1">
+                                                    <a href="#">LINE SUPERVISOR</a>
+                                                </span>
                                             </div>
                                             <div class="row">
 
                                                 <div class="col-lg-6 col-sm-12">
                                                     <p class="text-muted">
                                                         <strong>Name:</strong>
-                                                        {{--{{ $user->supervisor_name ?? '' }}--}}
                                                     </p>
                                                     <p class="text-muted">
                                                         <strong>Staff No.:</strong>
-                                                        {{--{{ $user->supervisor_code ?? '' }}--}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -353,13 +351,16 @@
                                                 <input type="text"
                                                        class="form-control"
                                                        name="job_code"
-                                                       placeholder="job_code" value="{{ $mechanic->job_code }}">
+                                                       placeholder="job_code"
+                                                       value="{{ $mechanic->job_code }}">
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label for="inputName2"
-                                                   class="col-sm-2 col-form-label">Staff No:</label>
+                                                   class="col-sm-2 col-form-label">
+                                                Staff No:
+                                            </label>
                                             <div class="col-sm-10">
                                                 <input disabled type="text"
                                                        class="form-control"
@@ -384,7 +385,7 @@
                                                         @endif
                                                         class="@if($allowUpdate)
                                                              form-select form-select-sm
-                                                             @else form-control  @endif"
+                                                             @else form-control @endif"
                                                         id="workshop_code"
                                                         name="workshop_code">
                                                     @foreach($workshopList as $workshop)
@@ -414,7 +415,7 @@
                                                         @endif
                                                         class="@if($allowUpdate)
                                                              form-select form-select-sm
-                                                             @else form-control  @endif"
+                                                             @else form-control @endif"
                                                         id="work_shop_section"
                                                         name="workShopSection">
                                                     @foreach($workshopSectionList
@@ -449,7 +450,9 @@
                                                            name="workshopSupervisor"
                                                            value="Y">
                                                     <label class="p-1"
-                                                           for="workshopSupervisor">Yes</label>
+                                                           for="workshopSupervisor">
+                                                        Yes
+                                                    </label>
                                                 </label>
                                                 <label class="checkbox-inline">
                                                     <input type="radio"
@@ -459,7 +462,9 @@
                                                            name="workshopSupervisor"
                                                            value="N">
                                                     <label class="p-1"
-                                                           for="workshopSupervisor">No</label>
+                                                           for="workshopSupervisor">
+                                                        No
+                                                    </label>
                                                 </label>
                                             </div>
                                         </div>
@@ -471,13 +476,15 @@
                                                         <button type="submit"
                                                                 class="btn btn-sm btn-success mr-3">
                                                             Save
+                                                            <i class="fa fa-paper-plane"></i>
                                                         </button>
 
                                                         <button type="button"
                                                                 id="syncMechanicData"
                                                                 data-href="{{ route('mechanic.sync') }}"
                                                                 class="btn btn-sm btn-default">
-                                                            Sync <i class="fas fa-sync"></i>
+                                                            Sync
+                                                            <i class="fas fa-sync"></i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -547,7 +554,7 @@
                                     }, 300);
                                 }
                             },
-                            function (xhr, settings, errorThrown) {
+                            function (xhr) {
                                 setTimeout(function () {
                                     tmsApp.showErrorMessages(xhr, 'Details Update');
                                 }, 300);
