@@ -3,7 +3,7 @@
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Http\Controllers\Configurations\VehicleBodyTypesController;
-use App\Http\Controllers\FuelAllocationController;
+use App\Http\Controllers\VehicleManagement\FuelAllocationController;
 use App\Http\Controllers\VehicleManagement\InsuranceController;
 use App\Http\Controllers\VehicleManagement\MeterEntryController;
 use App\Http\Controllers\VehicleManagement\TomCardManagementController;
@@ -114,6 +114,11 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
         Route::post('save', [FuelAllocationController::class, 'store'])->name('save');
     });
 
+        Route::group(['prefix' => 'vehicle/status-update',
+        'as' => 'vehicle.status.change'], function () {
+        Route::get('create', [FuelAllocationController::class, 'create'])->name('create');
+        Route::post('save', [FuelAllocationController::class, 'store'])->name('save');
+    });
 
     Route::group(['prefix' => 'insurance',
         'as' => 'insurance.'],

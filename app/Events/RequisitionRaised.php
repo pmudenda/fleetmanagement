@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\MaterialHeader;
+use App\Models\Common\MaterialHeader;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;

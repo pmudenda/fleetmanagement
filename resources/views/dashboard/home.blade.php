@@ -1,4 +1,4 @@
-@php use App\Models\Driver;use App\Models\MaterialHeader;use Carbon\Carbon; @endphp
+@php use App\Models\Common\MaterialHeader;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 @push('styles')

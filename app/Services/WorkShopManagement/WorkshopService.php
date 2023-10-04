@@ -22,7 +22,7 @@ use App\Http\Requests\WorkShopManagement\VehicleDefects;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Common\File;
-use App\Models\MaterialHeader;
+use App\Models\Common\MaterialHeader;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTable;
 use App\Models\VehicleManagement\VehicleHeader;

@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Workflow;
 
 use App\Helpers\DataTables;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Request;
 use App\Services\Workflow\WorkflowService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
