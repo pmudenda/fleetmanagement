@@ -120,7 +120,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
         function () {
             Route::get('create', function () {
                 return view('modules.vehicleManagement.fuelallocation');
-            })->name('allocation');
+            })->name('create');
 
             Route::post('save', function (Request $request) {
 
