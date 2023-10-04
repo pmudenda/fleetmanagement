@@ -8,6 +8,7 @@ use App\Constants\TableColumns;
 use App\Enums\ResponseState;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\FleetMasterJsonResponse;
+use App\Models\Settings\general\Status;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\VehicleManagement\VehicleStatusHistory;
 use Exception;
@@ -20,14 +21,15 @@ class StatusChangeController extends Controller
 {
     public function create(): View
     {
-        return view('modules.vehicleManagement.statusChange');
+        $vehicleStatuses = Status::where('module', 'VEH')->get();
+        return view('modules.vehicleManagement.statusChange',
+            compact('vehicleStatuses'));
+
     }
 
     public function store(Request $request): JsonResponse
     {
         try {
-
-
             $registrationNumber = $request->get('');
             $status = $request->get('newStatus');
             $remarks = $request->get('remarks');
