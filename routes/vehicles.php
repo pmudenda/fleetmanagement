@@ -109,8 +109,11 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
     Route::get('/vehicle/list/json', [VehicleController::class, 'record'])->name('vehicles.records.list');
 
     Route::group(['prefix' => 'vehicle/fuel-allocation',
-        'as' => 'vehicle.fuel.allocation.'],
-        [FuelAllocationController::class]);
+        'as' => 'vehicle.fuel.allocation.'], function () {
+        Route::get('create', [FuelAllocationController::class, 'create'])->name('create');
+        Route::get('save', [FuelAllocationController::class, 'store'])->name('save');
+    });
+
 
     Route::group(['prefix' => 'insurance',
         'as' => 'insurance.'],

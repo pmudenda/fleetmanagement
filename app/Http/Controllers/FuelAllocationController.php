@@ -18,7 +18,7 @@ class FuelAllocationController extends Controller
         return view('modules.vehicleManagement.fuelallocation');
     }
 
-    public function save(Request $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         try {
             FuelAllocationService::fuelAllocation($request);
