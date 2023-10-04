@@ -13,7 +13,6 @@ use Illuminate\View\View;
 
 class FuelAllocationController extends Controller
 {
-
     public function create(): View
     {
         return view('modules.vehicleManagement.fuelallocation');
