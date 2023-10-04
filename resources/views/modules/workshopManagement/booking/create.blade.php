@@ -1772,11 +1772,11 @@
                 }, 600);
 
                 Inputmask({
-                    "mask": "AAA 9{1,4}"
+                    "mask": "A{1,3} 9{1,4}A{0,1}"
                 }).mask('.vehicle_registration');
 
                 Inputmask({
-                    "mask": "AAA 9{1,4}"
+                    "mask": "A{1,3} 9{1,4}A{0,1}"
                 }).mask('.registration');
 
             }
@@ -2005,7 +2005,7 @@
                 initServiceArticleSelector($('.servicesArticlesDropDownList'));
 
                 Inputmask({
-                    "mask": "AAA 9{1,4}"
+                    "mask": "A{1,3} 9{1,4}A{0,1}"
                 }).mask('.vehicle_registration');
 
                 $.fn.disableBtn = function () {

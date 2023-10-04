@@ -39,9 +39,17 @@ class FuelWorkflowApprovers extends Component
             ->first();
 
         $claimant = User::where('staff_no', '=', $this->request->created_by)->first();
-        $supervisor = User::where('staff_no', '=', $claimant->supervisor_code)->first();
-        $manager = null;
 
+        $supervisor = User::where('staff_no', '=', $claimant->supervisor_code)->first();
+
+        /* if (in_array('02', $steps)) {
+             //
+             $supervisor = User::where('staff_no', '=', $supervisor->supervisor_code)->first();
+         }else{}*/
+        $supervisor = User::where('staff_no', '=', $supervisor->supervisor_code)->first();
+
+
+        $manager = null;
 
         if (!empty($supervisor) && ($currentStep->current_step_id == '03' || in_array('03', $steps))) {
             $manager = User::where('staff_no', '=', $supervisor->supervisor_code)->first();

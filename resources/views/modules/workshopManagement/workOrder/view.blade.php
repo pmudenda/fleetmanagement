@@ -1784,7 +1784,7 @@
             }, 1000);
 
             Inputmask({
-                "mask": "AAA 9{1,4}"
+                "mask": "A{1,3} 9{1,4}A{0,1}"
             }).mask('[name="vehicle_registration"]');
 
             $.fn.disableBtn = function () {

@@ -43,6 +43,10 @@ class ProfileDelegationService
             QueryComparisonOperator::EQUALS,
             $activeDelegation->profile_owner)->first();
 
+        if(empty($user)){
+            return "";
+        }
+
         return $user->staff_no;
     }
 

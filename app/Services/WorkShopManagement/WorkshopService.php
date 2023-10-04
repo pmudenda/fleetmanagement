@@ -583,23 +583,25 @@ class WorkshopService
         $workOrder = JobCardHeader::where("job_card_no", "=", $jobCardNumber)
             ->first();
 
-        foreach ($request->validated("items") as $labourItem) {
-            WorkshopLabour::firstOrCreate(
-                [
-                    'wshp_act_code' => $workOrder->wshp_act_code,
-                    'def_no' => $labourItem['assignedDefect'],
-                ],
+        if ($request->has("items")) {
+            foreach ($request->validated("items") as $labourItem) {
+                WorkshopLabour::firstOrCreate(
+                    [
+                        'wshp_act_code' => $workOrder->wshp_act_code,
+                        'def_no' => $labourItem['assignedDefect'],
+                    ],
 
-                [
-                    'wshp_code' => $workOrder->workshop_code,
-                    'section' => $labourItem['workshopSection'],
-                    'evaluation' => 'N',
-                    'job_card_instruction' => $labourItem['jobCardInstruction'],
-                    'date_lab' => Carbon::now(),
-                    'mechanic' => $labourItem['mechanic'],
-                    'defect_id' => $labourItem['assignedDefectId'],
-                    'created_by' => $user->staff_no,
-                ]);
+                    [
+                        'wshp_code' => $workOrder->workshop_code,
+                        'section' => $labourItem['workshopSection'],
+                        'evaluation' => 'N',
+                        'job_card_instruction' => $labourItem['jobCardInstruction'],
+                        'date_lab' => Carbon::now(),
+                        'mechanic' => $labourItem['mechanic'],
+                        'defect_id' => $labourItem['assignedDefectId'],
+                        'created_by' => $user->staff_no,
+                    ]);
+            }
         }
 
         DB::commit();
