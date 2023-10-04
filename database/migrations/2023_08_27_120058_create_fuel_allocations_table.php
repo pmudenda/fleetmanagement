@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('user_update', 12);
             $table->string('valid_for', 4);
             $table->integer('balance');
+            $table->string('justification', 255);
             $table->timestamps();
         });
     }
