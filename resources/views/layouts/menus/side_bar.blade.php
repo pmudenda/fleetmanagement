@@ -93,15 +93,25 @@
                                 </li>
                             @endcan
 
-                            {{--@can(config('rights.manage_tom_card'))--}}
-                            {{--<li class="nav-item pl-2">
-                                <a href="{{ URL::signedRoute('insurance.create') }}"
-                                   class="nav-link">
+                            {{-- @can(config('rights.vehicle_status_change'))--}}
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="{{ route('vehicle.status.change.create') }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Insurance</p>
+                                    <p>Status Management</p>
                                 </a>
-                            </li>--}}
+                            </li>
                             {{--@endcan--}}
+
+                            @can(config('rights.manage_insurance'))
+                                <li class="nav-item pl-2">
+                                    <a href="{{ URL::signedRoute('insurance.create') }}"
+                                       class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Insurance</p>
+                                    </a>
+                                </li>
+                            @endcan
 
                             <li class="nav-item d-none">
                                 <a href="#" class="nav-link">
@@ -196,15 +206,6 @@
                                     </a>
                                 </li>
                             @endcan
-                           {{-- @can(config('rights.vehicle_status_change'))--}}
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       href="{{ route('vehicle.status.change.create') }}">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Fuel Allocation</p>
-                                    </a>
-                                </li>
-                            {{--@endcan--}}
                         </ul>
                     </li>
                 @endcanany
