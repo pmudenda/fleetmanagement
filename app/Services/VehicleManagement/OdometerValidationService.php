@@ -2,6 +2,7 @@
 
 namespace App\Services\VehicleManagement;
 
+use App\Constants\QueryComparisonOperator;
 use App\Exceptions\DataNotFoundException;
 use App\Models\VehicleManagement\VehicleHeader;
 use Illuminate\Support\Facades\Log;
@@ -14,7 +15,8 @@ class OdometerValidationService
      */
     public function validate(string $vehicleRegistration, mixed $userProvidedOdometer): bool
     {
-        $vehicle = VehicleHeader::where('registration_number', '=', $vehicleRegistration)->first();
+        $vehicle = VehicleHeader::where('registration_number', QueryComparisonOperator::EQUALS,
+            $vehicleRegistration)->first();
         Log::debug("Validating Odometer");
         Log::debug("Usr $userProvidedOdometer vs on Vehicle $vehicle->mileage");
 

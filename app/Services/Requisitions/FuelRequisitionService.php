@@ -25,6 +25,7 @@ use App\Helpers\StatusHelper;
 use App\Helpers\TaskStatus;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\FuelRequisitionUpdate;
+use App\Models\Common\OrganizationalUnit;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Services\FileUploads\FileUploadService;
@@ -87,6 +88,8 @@ class FuelRequisitionService
         $registrationNumber = $requisitionPostRequest->get("vehicle_registration");
 
         $this->validateVehicleStatus($registrationNumber);
+
+        $this->verifyUserUnitState($requisitionPostRequest->get("cost_centre_code"));
 
         $latestOdometerLogsMaxOdometer = $this->getLatestOdometerLogsEntry($registrationNumber);
 
@@ -176,7 +179,8 @@ class FuelRequisitionService
                 $latestActiveRequisition,
                 $openRequisitionStatusList,
                 $registrationNumber,
-                $validFrom, $requisitionPostRequest
+                $validFrom,
+                $requisitionPostRequest
             );
 
             /* override is only valid from date of request to when the
@@ -990,6 +994,31 @@ class FuelRequisitionService
             $this->updateStatus($reference, $status);
         }
         return array($requisitionNumber, $message);
+    }
+
+    /**
+     * @throws OrganisationUnitStateException
+     */
+    private function verifyUserUnitState($codeUnit): void
+    {
+
+        $unitCount = OrganizationalUnit::where(
+            'code_unit',
+            QueryComparisonOperator::EQUALS,
+            $codeUnit
+        )
+            ->where('status',
+                QueryComparisonOperator::EQUALS,
+                StatusHelper::organizationStructureActive()
+            )
+            ->count();
+
+        if ($unitCount == 0) {
+            throw  new  OrganisationUnitStateException(
+                ErrorMessages::getMessage('err_0039')
+            );
+        }
+
     }
 
 }

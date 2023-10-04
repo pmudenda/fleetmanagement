@@ -4,27 +4,22 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
-use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
 use App\Enums\DocumentState;
 use App\Enums\Modules;
 use App\Exceptions\DataNotFoundException;
 use App\Helpers\StatusHelper;
-use App\Helpers\VehicleStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\general\Status;
-use App\Models\Settings\WorkShop;
-use App\Models\VehicleManagement\FuelAllocation;
 use App\Models\VehicleManagement\VehicleAccessory;
-use App\Models\WorkShopManagement\JobCardHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\FitnessService;
+use App\Services\VehicleManagement\FuelAllocationService;
 use App\Services\VehicleManagement\InsuranceService;
 use App\Services\VehicleManagement\RoadTaxService;
 use App\Services\VehicleManagement\VehicleDetailsService;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -362,27 +357,7 @@ class VehicleController extends Controller
 
     public function save(Request $request): void
     {
-        $allocation = $request->allocationAmount;
-        $periodFrom = Carbon::parse($request->startDate);
-        $periodTo = null;
-
-        if (empty($request->endDate)) {
-            $periodTo = Carbon::parse($request->endDate);
-        }
-
-        DB::beginTransaction();
-        FuelAllocation::create([
-            'created_by' => auth()->user()->staff_no,
-            'allocation_amount' => $allocation,
-            'period_from' => $periodFrom,
-            'period_to' => $periodTo,
-            'status',
-            'reg_no',
-            'user_update',
-            'valid_for',
-            'balance',
-        ]);
-        DB::commit();
+        FuelAllocationService::fuelAllocation($request);
     }
 
     /**
@@ -392,56 +367,9 @@ class VehicleController extends Controller
      */
     public function getVehicleStateDetails(string $registrationNumber): array
     {
-        if (empty($registrationNumber)) {
-            throw new BadRequestException(
-                'Missing required parameter'
-            );
-        }
-
-        // determine material type in form of fuel
-        $vehicle = $this->vehicleDetailsService->getBasicVehicleDetails(
+        return $this->vehicleDetailsService->getVehicleStateDetails(
             $registrationNumber
         );
-
-        if (empty($vehicle)) {
-            throw new DataNotFoundException(
-                'Vehicle not found'
-            );
-        }
-
-        $vehicleState = '';
-        if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
-            $vehicleState = str_replace(
-                self::REG,
-                $vehicle->registration_number,
-                SystemMessages::vehiclePendingOnboardingCompletion()
-            );
-        } elseif ($vehicle->status == VehicleStatus::vehicleInWorkshop()) {
-            $jobCard = JobCardHeader::where('reg_no',
-                QueryComparisonOperator::EQUALS,
-                $vehicle->registration_number)->first();
-
-            $workshopName = "";
-            if (!empty($jobCard) && !empty($jobCard->workshop_code)) {
-                $workshopName = WorkShop::where('workshop_code', $jobCard->workshop_code)
-                    ->first()->workshop_name;
-            }
-
-            $vehicleState = str_replace(self::REG,
-                $vehicle->registration_number,
-                str_replace("@workshop",
-                    $workshopName,
-                    SystemMessages::vehicleInWorkshop())
-            );
-        } elseif ($vehicle->status != StatusHelper::active()) {
-            $vehicleState = str_replace(self::REG,
-                $vehicle->registration_number,
-                str_replace("@state",
-                    $vehicle->status_name,
-                    ErrorMessages::getMessage('err_0029'))
-            );
-        }
-        return array($vehicle, $vehicleState);
     }
 
     /**
@@ -482,4 +410,5 @@ class VehicleController extends Controller
 
         return array($fuelCostByYear, $sparesCostByYear);
     }
+
 }

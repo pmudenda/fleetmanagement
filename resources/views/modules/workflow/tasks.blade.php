@@ -41,8 +41,10 @@
                                     @foreach($approvalTasks as $rec)
                                         <tr>
                                             <td>
-                                                <a href="{{URL::signedRoute($rec->url,
-                                                    ['ref'=>  $rec->reference, 'view_only'=>true])}}">
+                                                <a href="{{URL::signedRoute(
+                                                    $rec->url,
+                                                    ['ref'=>  $rec->reference, 'view_only'=>true
+                                                    ])}}">
                                                     {{$rec->reference}}
                                                 </a>
                                             </td>
