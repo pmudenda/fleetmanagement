@@ -394,13 +394,12 @@
                 const url = form.action;
                 let formData = new FormData(form);
 
-                tmsApp.confirmWithInput(
-                    'Are you sure you want to cancel the delegation ?',
-                    'Justification',
+                tmsApp.confirm(
+                    'Are you sure ?',
+                    'You want to allocation the fuel allocation ?',
                     'Yes',
                     'No, Cancel',
-                    function (comments) {
-                        formData.set('justification', comments);
+                    function () {
                         tmsApp.asyncPostFormData(
                             url,
                             formData,
@@ -409,7 +408,7 @@
                                     && asyncResponse['success']) {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
-                                            'Cancel Delegation',
+                                            'Fuel Allocation',
                                             asyncResponse['message'],
                                             function () {
                                                 window.location.reload();
@@ -424,7 +423,7 @@
                                     }
                                     setTimeout(function () {
                                         tmsApp.systemError(
-                                            'Cancel Delegation',
+                                            'Fuel Allocation',
                                             asyncResponse['message'],
                                             function () {
                                             }, 'error');

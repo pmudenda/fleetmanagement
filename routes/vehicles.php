@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\SystemMessages;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
@@ -145,7 +146,11 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
                 DB::commit();
 
                 return response()->json(
-                    FleetMasterJsonResponse::response()
+                    FleetMasterJsonResponse::response(
+                        '',
+                        true,
+                        SystemMessages::FUEL_ALLOCATION_SET
+                    )
                 );
             })->name('save');
 

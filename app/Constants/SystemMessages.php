@@ -42,8 +42,9 @@ class SystemMessages
     const ACCIDENT_REPORT_NOT_FOUND = 'No Accident Report Found for Vehicle @reg';
     const DELEGATION_CANCELLED = 'Delegation Cancelled Successfully';
     const DELEGATION_NOT_FOUND = "No Active Delegation Found";
-    const ORGNIZATIONAL_UNIT_INACTIVE = "Organization Unit with Business Unit @bu and Cost Center @cc Is Not Active"
-    . self::SERVICE_DESK_MESSAGE;
+    const ORGNIZATIONAL_UNIT_INACTIVE
+        = "Organization Unit with Business Unit @bu and Cost Center @cc Is Not Active" . self::SERVICE_DESK_MESSAGE;
+    const FUEL_ALLOCATION_SET = "Fuel Allocation Set Successfully";
 
 
     public static function chargeOutRateAddedSuccessfully(): string
