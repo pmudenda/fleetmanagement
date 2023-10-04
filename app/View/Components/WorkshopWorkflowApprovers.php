@@ -32,7 +32,8 @@ class WorkshopWorkflowApprovers extends Component
     public function render(): View|string
     {
         $documentStatus = $this->request->status;
-        $approvalsArray = WorkflowLog::where('reference',
+        $approvalsArray = WorkflowLog::where(
+            'reference',
             $this->task->reference)
             ->orderBy('action_date')
             ->get();
@@ -47,7 +48,8 @@ class WorkshopWorkflowApprovers extends Component
         $claimant = User::where(
             TableColumns::STAFF_NUMBER,
             QueryComparisonOperator::EQUALS,
-            $this->request->created_by)->first();
+            $this->request->created_by
+        )->first();
 
         Log::info($claimant);
 

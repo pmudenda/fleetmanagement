@@ -5,26 +5,29 @@ namespace App\Services\VehicleManagement;
 use App\Constants\ComparisonOperator;
 use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
-use App\Constants\TableColumns;
-use App\Enums\DocumentState;
+use App\Constants\SystemMessages;
 use App\Enums\Modules;
+use App\Exceptions\DataNotFoundException;
 use App\Exceptions\VehicleStateException;
 use App\Helpers\StatusHelper;
 use App\Helpers\VehicleStatus;
 use App\Models\Common\File;
-use App\Models\VehicleManagement\Insurance;
+use App\Models\Settings\WorkShop;
 use App\Models\VehicleManagement\VehicleAccessory;
 use App\Models\VehicleManagement\VehicleHeader;
-use Carbon\Carbon;
+use App\Models\WorkShopManagement\JobCardHeader;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class VehicleDetailsService
 {
+    const REG = "@reg";
+
     public function getAllVehicles(): LengthAwarePaginator
     {
         $query = $this->getVehicleDataQuery();
@@ -293,5 +296,63 @@ class VehicleDetailsService
                 ErrorMessages::getMessage("err_0004")
             );
         }
+    }
+
+    /**
+     * @throws DataNotFoundException
+     */
+    public function getVehicleStateDetails($registrationNumber): array
+    {
+        if (empty($registrationNumber)) {
+            throw new BadRequestException(
+                'Missing required parameter'
+            );
+        }
+
+        // determine material type in form of fuel
+        $vehicle = $this->getBasicVehicleDetails(
+            $registrationNumber
+        );
+
+        if (empty($vehicle)) {
+            throw new DataNotFoundException(
+                'Vehicle not found'
+            );
+        }
+
+        $vehicleState = '';
+        if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
+            $vehicleState = str_replace(
+                self::REG,
+                $vehicle->registration_number,
+                SystemMessages::vehiclePendingOnboardingCompletion()
+            );
+        } elseif ($vehicle->status == VehicleStatus::vehicleInWorkshop()) {
+            $jobCard = JobCardHeader::where('reg_no',
+                QueryComparisonOperator::EQUALS,
+                $vehicle->registration_number)->first();
+
+            $workshopName = "";
+            if (!empty($jobCard) && !empty($jobCard->workshop_code)) {
+                $workshopName = WorkShop::where('workshop_code',
+                    $jobCard->workshop_code)
+                    ->first()->workshop_name;
+            }
+
+            $vehicleState = str_replace(self::REG,
+                $vehicle->registration_number,
+                str_replace("@workshop",
+                    $workshopName,
+                    SystemMessages::vehicleInWorkshop())
+            );
+        } elseif ($vehicle->status != StatusHelper::active()) {
+            $vehicleState = str_replace(self::REG,
+                $vehicle->registration_number,
+                str_replace("@state",
+                    $vehicle->status_name,
+                    ErrorMessages::getMessage('err_0029'))
+            );
+        }
+        return array($vehicle, $vehicleState);
     }
 }

@@ -761,11 +761,14 @@ class WorkflowService
                 QueryComparisonOperator::EQUALS,
                 'approvers.staff_no')
             ->whereNull('task_header.date_ended')
-            ->select('task_header.*',
+            ->select(
+                'task_header.*',
                 'users.name as originator',
                 'approvers.name as approver'
             )
-            ->orderBy('task_header.created_at', 'desc')
+            ->orderBy(
+                'task_header.created_at',
+                'desc')
             ->get();
     }
 

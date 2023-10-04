@@ -61,23 +61,23 @@
                             <span class="font-weight-bold">
                                 1. CLAIMANT
                             </span>
-                            <table class="table table-sm ">
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" checked="checked">
-                                    </td>
-                                    <td>
-                                        <div class="text-sm">
-                                            <h5 class="text-white">{{$claimant->name}}</h5>
-                                        </div>
-                                        <small>
-                                            {{$claimant->job_title ?? '-'}}
-                                        </small>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                <table class="table table-sm ">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" checked="checked">
+                                        </td>
+                                        <td>
+                                            <div class="text-sm">
+                                                <h5 class="text-white">{{$claimant->name}}</h5>
+                                            </div>
+                                            <small>
+                                                {{$claimant->job_title ?? '-'}}
+                                            </small>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="col-1  ">
@@ -92,7 +92,9 @@
                             <div class="card card-body
                             @if ($documentStatus == StatusHelper::new())
                                 next
-                            @elseif ($documentStatus != StatusHelper::new() || in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
+                            @elseif ($documentStatus != StatusHelper::new()
+                                        || in_array($documentStatus, [StatusHelper::partiallyAuthorised(),
+                                         StatusHelper::authorised()]))
                                 processed
                             @else
                                 pending
@@ -112,7 +114,9 @@
                                     <tbody>
                                     <tr>
                                         <td>
-                                            @if ($documentStatus != StatusHelper::new() || in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
+                                            @if ($documentStatus != StatusHelper::new()
+                                            || in_array($documentStatus, [StatusHelper::partiallyAuthorised(),
+                                            StatusHelper::authorised()]))
                                                 <input type="checkbox" checked="checked">
                                             @else
                                                 <input type="checkbox" disabled>
@@ -138,7 +142,10 @@
                                 </table>
                             </div>
                         </div>
-                        @if ($documentStatus != StatusHelper::new() || in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
+                        @if ($documentStatus != StatusHelper::new()
+                            || in_array($documentStatus, [
+                                StatusHelper::partiallyAuthorised(), StatusHelper::authorised()
+                                ]))
                             <div class="col-1">
                                 <span class="arrow"></span>
                             </div>
@@ -146,14 +153,17 @@
                     </div>
                 </div>
 
-                @if(!empty($manager)))
+                @if(!empty($manager))
                     <div class="col-3">
                         <div class="row">
                             <div class="col-11">
                                 <div class="card card-body
                             @if ($documentStatus != StatusHelper::new() && !in_array('03', $steps))
                                 next
-                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]) && in_array('03', $steps))
+                            @elseif (in_array($documentStatus,
+                                    [StatusHelper::partiallyAuthorised(),
+                                    StatusHelper::authorised()])
+                                    && in_array('03', $steps))
                                 processed
                             @else
                                 pending
@@ -206,7 +216,10 @@
                                 <div class="card card-body
                                 @if ($documentStatus != StatusHelper::new() && !in_array('03', $steps))
                                 next
-                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]) && in_array('03', $steps))
+                            @elseif (in_array($documentStatus,
+                                [StatusHelper::partiallyAuthorised(),
+                                StatusHelper::authorised()])
+                                && in_array('03', $steps))
                                 processed
                             @else
                                 pending

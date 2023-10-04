@@ -11,7 +11,8 @@ class InsuranceService
 {
     public function getCheckInsurance(mixed $registrationNumber): array
     {
-        Log::info("Checking Insurance State for $registrationNumber - " . Carbon::today()->toDateString());
+        Log::info("Checking Insurance State for $registrationNumber - "
+            . Carbon::today()->toDateString());
         $insurance = Insurance::where('reg_no', '=', $registrationNumber)
             ->orderBy('created_at', 'desc')
             ->first();
