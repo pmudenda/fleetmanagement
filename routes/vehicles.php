@@ -111,7 +111,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
     Route::group(['prefix' => 'vehicle/fuel-allocation',
         'as' => 'vehicle.fuel.allocation.'], function () {
         Route::get('create', [FuelAllocationController::class, 'create'])->name('create');
-        Route::get('save', [FuelAllocationController::class, 'store'])->name('save');
+        Route::post('save', [FuelAllocationController::class, 'store'])->name('save');
     });
 
 
