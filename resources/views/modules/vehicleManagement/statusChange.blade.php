@@ -49,7 +49,7 @@
 
                     <form name="fuelAllocationForm"
                           id="fuelAllocationForm"
-                          action="{{route('vehicle.fuel.allocation.save')}}" method="post">
+                          action="{{route('vehicle.status.change.save')}}" method="post">
                         @csrf
                         <div class="card-body user-data pl-1">
                             <label class="app-required-marker"></label>
