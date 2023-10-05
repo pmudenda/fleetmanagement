@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Documents\DocumentController;
+use App\Http\Controllers\FuelManagement\FuelRequisitionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\SessionStateController;
@@ -20,7 +21,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::get('/odometer/validation/test', [FuelRequisitionController::class, 'validateOdometertest'])
+    ->name('fuel.odometer.validation.test');
 Route::get('/', function () {
     return redirect(route('login'));
 });

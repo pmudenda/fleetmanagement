@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/odometer/validation/test', [FuelRequisitionController::class, 'validateOdometertest'])
-    ->name('fuel.odometer.validation.test');
+
 Route::group(['middleware' => ['auth','is.active','change.password'],
     'prefix' => 'fuel-management'],
     function () {
