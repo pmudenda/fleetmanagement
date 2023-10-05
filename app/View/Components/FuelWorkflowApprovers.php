@@ -47,7 +47,7 @@ class FuelWorkflowApprovers extends Component
             $actionedUser = WorkflowLog::where('reference', $this->task->reference)
                 ->where('step_id', QueryComparisonOperator::EQUALS, '02')
                 ->orderBy('action_date')
-                ->get();
+                ->first();
             $supervisor = User::where('staff_no', '=', $actionedUser->actioning_officer)->first();
         } else {
             $supervisor = User::where('staff_no', '=', $claimant->supervisor_code)->first();
