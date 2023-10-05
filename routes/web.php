@@ -21,8 +21,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/odometer/validation/test', [FuelRequisitionController::class, 'validateOdometertest'])
-    ->name('fuel.odometer.validation.test');
+
 Route::get('/', function () {
     return redirect(route('login'));
 });
