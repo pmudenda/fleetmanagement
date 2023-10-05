@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 | Web Routes
 |--------------------------------------------------------------------------
 */
+
+Route::get('/odometer/validation/test', [FuelRequisitionController::class, 'validateOdometertest'])
+    ->name('fuel.odometer.validation.test');
 Route::group(['middleware' => ['auth','is.active','change.password'],
     'prefix' => 'fuel-management'],
     function () {
@@ -37,8 +40,7 @@ Route::group(['middleware' => ['auth','is.active','change.password'],
         Route::post('/odometer/validation', [FuelRequisitionController::class, 'validateOdometer'])
             ->name('fuel.odometer.validation');
 
-        Route::get('/odometer/validation/test', [FuelRequisitionController::class, 'validateOdometertest'])
-            ->name('fuel.odometer.validation.test');
+
 
         Route::post('/workflow/approve', [WorkflowController::class, 'processFuelRequisitionApproval'])
             ->name('workflow.fuel.approve');
