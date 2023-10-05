@@ -49,7 +49,7 @@
 
                     <form name="fuelAllocationForm"
                           id="fuelAllocationForm"
-                          action="{{route('vehicle.fuel.allocation.save')}}" method="post">
+                          action="{{route('vehicle.status.change.save')}}" method="post">
                         @csrf
                         <div class="card-body user-data pl-1">
                             <label class="app-required-marker"></label>
@@ -321,7 +321,7 @@
 
                 tmsApp.confirm(
                     'Are you sure ?',
-                    'You want to set the fuel allocation amount',
+                    'You want to change the status of this vehicle',
                     'Yes',
                     'No, Cancel',
                     function () {
@@ -333,7 +333,7 @@
                                     && asyncResponse['success']) {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
-                                            'Fuel Allocation',
+                                            'Status Change',
                                             asyncResponse['message'],
                                             function () {
                                                 window.location.reload();
@@ -348,7 +348,7 @@
                                     }
                                     setTimeout(function () {
                                         tmsApp.systemError(
-                                            'Fuel Allocation',
+                                            'Status Change',
                                             asyncResponse['message'],
                                             function () {
                                             }, 'error');
@@ -357,7 +357,7 @@
                             },
                             function (xhr, settings, errorThrown) {
                                 setTimeout(function () {
-                                    tmsApp.showErrorMessages(xhr, 'Cancel Delegation');
+                                    tmsApp.showErrorMessages(xhr, 'Status Change');
                                 }, 300);
                             }
                         );

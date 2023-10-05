@@ -109,13 +109,13 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                                            class="col-xs-12 col-sm-6 col-md-5
                                                                             col-lg-4 field-required"
-                                                                        for="allocationAmount">
+                                                                            for="allocationAmount">
                                                                         Weekly Allocation:
                                                                     </label>
                                                                     <div
-                                                                        class="col-xs-12 col-sm-6
+                                                                            class="col-xs-12 col-sm-6
                                                                             col-md-7 col-lg-8">
                                                                         <div class="input-group">
                                                                             <input type="text"
@@ -144,12 +144,12 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5
+                                                                            class="col-xs-12 col-sm-6 col-md-5
                                                                             col-lg-4 field-required"
-                                                                        for="startDate">Start-Date:
+                                                                            for="startDate">Start-Date:
                                                                     </label>
                                                                     <div
-                                                                        class="col-xs-12 col-sm-6
+                                                                            class="col-xs-12 col-sm-6
                                                                             col-md-7 col-lg-8">
                                                                         <div class="input-group">
                                                                             <input type="date"
@@ -177,8 +177,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                        for="staff_number">End Date:
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                            for="staff_number">End Date:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                                         <input type="date"
@@ -198,8 +198,8 @@
                                                     <div class="row">
                                                         <div class="form-group">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                                for="remarks">
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                    for="remarks">
                                                                 Remarks :
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -405,7 +405,7 @@
                             },
                             function (xhr, settings, errorThrown) {
                                 setTimeout(function () {
-                                    tmsApp.showErrorMessages(xhr, 'Cancel Delegation');
+                                    tmsApp.showErrorMessages(xhr, 'Fuel Allocation');
                                 }, 300);
                             }
                         );
@@ -423,14 +423,7 @@
                 let vehicle = payload['vehicle'];
                 let article = payload['article'];
                 let images = payload['images'];
-                const hasValidFitness = payload['hasValidFitness'];
-                const hasValidRoadTax = payload['hasValidRoadTax'];
-                const hasValidInsurance = payload['hasValidInsurance'];
-                let vehicle_state = payload['vehicle_state'];
                 let vehicle_tom_card_message = payload['vehicle_tom_card_message'];
-                let insuranceMessage = payload['insuranceMessage'];
-                let roadTaxMessage = payload['roadTaxMessage'];
-                let fitnessMessage = payload['fitnessMessage'];
 
                 if (!vehicle || !vehicle.brand_name) {
                     return;
@@ -439,16 +432,6 @@
                 if (!vehicle.fuel_allocation) {
                     tmsApp.showSystemMessage("Vehicle State",
                         appMessages.noFuelAllocation,
-                        () => {
-                        },
-                        "error"
-                    );
-                    return;
-                }
-
-                if (vehicle['status'] !== $('[name="vehicleActive"]').val()) {
-                    tmsApp.showSystemMessage("Vehicle State",
-                        vehicle_state,
                         () => {
                         },
                         "error"
@@ -465,47 +448,6 @@
                     );
                     return;
                 }
-
-                if (!hasValidInsurance) {
-                    tmsApp.showSystemMessage("Vehicle Has Expired Insurance",
-                        insuranceMessage,
-                        () => {
-                        },
-                        "error"
-                    );
-                    return;
-                }
-
-                if (!hasValidFitness) {
-                    tmsApp.confirm(
-                        "Vehicle Has Expired Fitness",
-                        fitnessMessage,
-                        'Yes',
-                        'No, Cancel',
-                        () => {
-                        },
-                        () => {
-                            window.location.reload();
-                        },
-                        "error"
-                    );
-                }
-
-                if (!hasValidRoadTax) {
-                    tmsApp.confirm(
-                        "Vehicle Has Expired Road Tax",
-                        roadTaxMessage,
-                        'Yes',
-                        'No, Cancel',
-                        () => {
-                        },
-                        () => {
-                            window.location.reload();
-                        },
-                        "error"
-                    );
-                }
-
 
                 let vLabel = vehicle['body_type_name'] ? vehicle['body_type_name'] : ''
                     + ' ' + vehicle['brand_name']
