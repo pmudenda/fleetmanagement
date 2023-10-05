@@ -405,7 +405,7 @@
                             },
                             function (xhr, settings, errorThrown) {
                                 setTimeout(function () {
-                                    tmsApp.showErrorMessages(xhr, 'Cancel Delegation');
+                                    tmsApp.showErrorMessages(xhr, 'Fuel Allocation');
                                 }, 300);
                             }
                         );
@@ -446,16 +446,6 @@
                     return;
                 }
 
-                if (vehicle['status'] !== $('[name="vehicleActive"]').val()) {
-                    tmsApp.showSystemMessage("Vehicle State",
-                        vehicle_state,
-                        () => {
-                        },
-                        "error"
-                    );
-                    return;
-                }
-
                 if (vehicle['has_tom_card'] === 'Y') {
                     tmsApp.showSystemMessage("Vehicle Has A Tom Card",
                         vehicle_tom_card_message,
@@ -465,47 +455,6 @@
                     );
                     return;
                 }
-
-                if (!hasValidInsurance) {
-                    tmsApp.showSystemMessage("Vehicle Has Expired Insurance",
-                        insuranceMessage,
-                        () => {
-                        },
-                        "error"
-                    );
-                    return;
-                }
-
-                if (!hasValidFitness) {
-                    tmsApp.confirm(
-                        "Vehicle Has Expired Fitness",
-                        fitnessMessage,
-                        'Yes',
-                        'No, Cancel',
-                        () => {
-                        },
-                        () => {
-                            window.location.reload();
-                        },
-                        "error"
-                    );
-                }
-
-                if (!hasValidRoadTax) {
-                    tmsApp.confirm(
-                        "Vehicle Has Expired Road Tax",
-                        roadTaxMessage,
-                        'Yes',
-                        'No, Cancel',
-                        () => {
-                        },
-                        () => {
-                            window.location.reload();
-                        },
-                        "error"
-                    );
-                }
-
 
                 let vLabel = vehicle['body_type_name'] ? vehicle['body_type_name'] : ''
                     + ' ' + vehicle['brand_name']
