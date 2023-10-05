@@ -139,6 +139,45 @@ class FuelRequisitionController extends Controller
         }
     }
 
+    public function validateOdometertest(OdometerValidationRequest $request): JsonResponse
+    {
+        try {
+            $vehicleRegistration = trim($request->get('vehicle_registration'));
+            $userProvidedOdometer = $request->get('odometer_reading');
+
+            $valid = $this->odometerValidationService->validate(
+                $vehicleRegistration,
+                $userProvidedOdometer);
+
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    '',
+                    $valid,
+                    $valid ?
+                        SystemMessages::ODOMETER_VALIDATED_SUCCESSFULLY
+                        : ErrorMessages::getMessage("err_0018")
+
+                )
+            );
+        } catch (Exception $e) {
+            dd($e);
+            Log::error($e);
+            $message = ErrorMessages::getMessage("err_0005");
+
+            if ($e instanceof DataNotFoundException) {
+                $message = $e->getMessage();
+            }
+
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    '',
+                    false,
+                    $message
+                )
+            );
+        }
+    }
+
     public function create(Request $request): View|Application
     {
         Log::info("Starting to request Fuel");
