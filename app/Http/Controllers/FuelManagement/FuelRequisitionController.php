@@ -133,7 +133,7 @@ class FuelRequisitionController extends Controller
                 FleetMasterJsonResponse::response(
                     '',
                     false,
-                    $message
+                    $e
                 )
             );
         }
@@ -172,7 +172,7 @@ class FuelRequisitionController extends Controller
                 FleetMasterJsonResponse::response(
                     '',
                     false,
-                    $message
+                    $e
                 )
             );
         }
