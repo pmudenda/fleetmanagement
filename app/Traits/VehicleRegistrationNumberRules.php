@@ -14,7 +14,7 @@ trait VehicleRegistrationNumberRules
         return
             [
                 'required',
-                'string|max:10|',
+                'string|max:10',
                 'exists:App\Models\VehicleManagement\VehicleHeader,registration_number'
             ];
     }
