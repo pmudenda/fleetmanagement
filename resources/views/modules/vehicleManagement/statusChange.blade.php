@@ -444,6 +444,13 @@
             }
 
         })(window.tmsApp || {}, jQuery);
+
+
+        (function(tmsApp, zesco){
+            zesco(document).ready();
+
+
+        })(window.tmsApp, jQuery)
     </script>
 
 @endpush

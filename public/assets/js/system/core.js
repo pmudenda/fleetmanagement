@@ -85,7 +85,6 @@ window.Table = {
         }
         return tableSelector.find('tbody tr').eq((skipBottom + 1) * -1);
     },
-
     addRequiredAttClass: function (tableElement) {
         //":disabled,:hidden"
         // make all field mandatory
@@ -99,7 +98,6 @@ window.Table = {
 
         return false;
     },
-
     removeRequiredAttClass: function (tableId, tableElement) {
         tableElement.find("tbody").children().map(function (index, row) {
             $(row).find('input[name], select[name]').each(function (i, item) {

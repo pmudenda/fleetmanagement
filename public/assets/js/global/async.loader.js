@@ -137,7 +137,7 @@ $.ajaxSetup({
         }
     };
 
-})(window.sysApp || {}, jQuery);
+})(window.tmsApp || {}, jQuery);
 
 
 
