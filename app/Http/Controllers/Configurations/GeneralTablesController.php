@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\Configurations;
 
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
+use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
+use App\Enums\ResponseState;
+use App\Exceptions\BaseException;
 use App\Exceptions\GeneralTableRecordException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateRecordRequest;
-use App\Http\Requests\GeneralTableEditRequest;
 use App\Http\Requests\GeneralTableDeleteRequest;
+use App\Http\Requests\GeneralTableEditRequest;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Settings\general\Status;
 use App\Models\Settings\GeneralTable;
 use Exception;
@@ -100,7 +105,6 @@ class GeneralTablesController extends Controller
     public function show(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $entries = GeneralTable::all();
-        $type = 'nothing';
 
         return view('modules.configurations.generalTables.index')
             ->with(compact('entries', Constants::TYPE_KEY));
@@ -136,12 +140,19 @@ class GeneralTablesController extends Controller
         $user = Auth::user();
         try {
 
-            $dbRecord = GeneralTable::where('code', '=', $request->get('code'))
-                ->where('type', '=', $request->get(Constants::TYPE_KEY))->first();
+            $dbRecord = GeneralTable::where('code',
+                QueryComparisonOperator::EQUALS,
+                $request->get('code'))
+                ->where('type',
+                    QueryComparisonOperator::EQUALS,
+                    $request->get(Constants::TYPE_KEY)
+                )->first();
 
             if (!empty($dbRecord)) {
-                throw new GeneralTableRecordException('Record with Code '
-                    . $request->get('code') . ' already Exists');
+                throw new GeneralTableRecordException(
+                    'Record with Code '
+                    . $request->get('code') . ' already Exists'
+                );
             }
 
             $savedData = GeneralTable::firstOrCreate(
@@ -159,20 +170,24 @@ class GeneralTablesController extends Controller
             return [
                 'success' => true,
                 'payload' => $savedData,
-                'message' => "Record created successfully",
+                'message' => SystemMessages::RECORD_SUCCESSFUL,
             ];
 
         } catch (Exception $exception) {
             Log::error($exception);
             $message = ErrorMessages::getMessage('err_0005');
-            if ($exception instanceof GeneralTableRecordException) {
+
+            if ($exception instanceof BaseException) {
                 $message = $exception->getMessage();
             }
 
-            return response()->json([
-                'success' => false,
-                'message' => $message,
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::FAILURE->value,
+                    false,
+                    $message
+                )
+            );
         }
 
     }
@@ -182,15 +197,20 @@ class GeneralTablesController extends Controller
         Log::debug('Editing Record');
         try {
 
-            $entry = GeneralTable::where('code', '=', $request->get('code'))
-                ->where('type', '=', $request->get('type'))
+            $entry = GeneralTable::where('code',
+                QueryComparisonOperator::EQUALS,
+                $request->get('code'))
+                ->where('type',
+                    QueryComparisonOperator::EQUALS,
+                    $request->get('type'))
                 ->first();
 
-            if(empty($entry)){
-                return response()->json([
-                    'success' => false,
-                    'message' => "Record Not Found",
-                ]);
+            if (empty($entry)) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => SystemMessages::RECORD_NOT_FOUND,
+                    ]);
             }
 
             $entry->name = $request->name;
@@ -198,20 +218,25 @@ class GeneralTablesController extends Controller
             $entry->active = 1;
             $entry->save();
 
-            return response()->json([
-                'success' => true,
-                'message' => "Record Submitted Successfully",
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::FAILURE->value,
+                    false,
+                    SystemMessages::RECORD_SUCCESSFUL
+                )
+            );
 
         } catch (Exception $exception) {
+
             Log::error($exception->getMessage());
 
-            $output = [
-                'success' => false,
-                'message' => "We could not complete processing your request to an error",
-            ];
-
-            return response()->json($output);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::FAILURE->value,
+                    false,
+                    ErrorMessages::getMessage('err_0005')
+                )
+            );
         }
     }
 
@@ -219,31 +244,43 @@ class GeneralTablesController extends Controller
     {
         try {
 
-            $entry = GeneralTable::where('id', '=', $request->id)
-                ->first();
+            $entry = GeneralTable::where(
+                'id',
+                QueryComparisonOperator::EQUALS,
+                $request->id
+            )->first();
 
-            if(empty($entry)){
-                return response()->json([
-                    'success' => false,
-                    'message' => "Record Not Found",
-                ]);
+            if (empty($entry)) {
+                return response()->json(
+                    FleetMasterJsonResponse::response(
+                        ResponseState::SUCCESS->value,
+                        true,
+                        SystemMessages::RECORD_NOT_FOUND
+                    )
+                );
             }
 
             $entry->active = 0;
             $entry->deleted_at = Carbon::now();
             $entry->save();
-            return response()->json([
-                'success' => true,
-                'message' => "Record Removed Successfully",
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::SUCCESS->value,
+                    true,
+                    SystemMessages::RECORD_SUCCESSFUL
+                )
+            );
 
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
-            return response()->json([
-                'success' => false,
-                'message' => "We could not complete processing your request to an error",
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::FAILURE->value,
+                    false,
+                    ErrorMessages::getMessage('err_0005'),
+                )
+            );
         }
     }
 }

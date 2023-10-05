@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Constants\QueryComparisonOperator;
+use App\Constants\TableColumns;
+use App\Enums\ResponseState;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\FleetMasterJsonResponse;
@@ -15,12 +18,14 @@ class BusinessUnitsController extends Controller
     public function __invoke(): JsonResponse
     {
         try {
-            $data = BusinessUnit::where('status', '=', StatusHelper::active())
+            $data = BusinessUnit::where(TableColumns::STATUS,
+                QueryComparisonOperator::EQUALS,
+                StatusHelper::active())
                 ->orderBy('code_bu')
                 ->get();
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'success',
+                    ResponseState::SUCCESS->value,
                     true,
                     '',
                     $data
@@ -30,7 +35,7 @@ class BusinessUnitsController extends Controller
             Log::error($e);
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     '',
                     []

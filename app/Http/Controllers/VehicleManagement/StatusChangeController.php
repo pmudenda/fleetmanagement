@@ -7,13 +7,13 @@ use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
 use App\Enums\ResponseState;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VehicleManagement\StatusChangeRequest;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Settings\general\Status;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\VehicleManagement\VehicleStatusHistory;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
@@ -28,12 +28,12 @@ class StatusChangeController extends Controller
 
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(StatusChangeRequest $changeRequest): JsonResponse
     {
         try {
-            $registrationNumber = $request->get('');
-            $status = $request->get('newStatus');
-            $remarks = $request->get('remarks');
+            $registrationNumber = $changeRequest->get('');
+            $status = $changeRequest->get('newStatus');
+            $remarks = $changeRequest->get('remarks');
 
             VehicleStatusHistory::create([
                 'created_by' => auth()->user()->staff_no,

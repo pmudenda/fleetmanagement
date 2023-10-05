@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use App\Constants\SystemMessages;
+use App\Enums\ResponseState;
 use App\Http\Controllers\Controller;
-use App\Models\Reference\LocationsModel;
+use App\Http\Responses\FleetMasterJsonResponse;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -13,18 +15,21 @@ class RTSAIntegrationController extends Controller
     {
         try {
 
-            return response()->json([
-                'success' => true,
-                'payload' => [],
-                'message' => 'Valid'
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::SUCCESS->value,
+                    true,
+                    'Valid'
+                ));
         } catch (Exception $e) {
             Log::error($e);
-            return response()->json([
-                'success' => 'false',
-                'payload' => [],
-                'message' => 'License Details Could not be verified'
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::FAILURE->value,
+                    false,
+                    SystemMessages::LICENSE_VALID
+                )
+            );
         }
 
     }

@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 class OnboardingStateHelper
 {
-
     const ASSIGNMENT = 'ASSIGNMENT';
     const GENERAL_DATA = 'GENERAL_DATA';
     const TECHNICAL_DATA = 'TECHNICAL_DATA';

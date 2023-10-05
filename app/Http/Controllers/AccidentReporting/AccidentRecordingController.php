@@ -5,7 +5,9 @@ namespace App\Http\Controllers\AccidentReporting;
 use App\Constants\Articles;
 use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
+use App\Constants\TableColumns;
 use App\Enums\ConfigurationTypes;
+use App\Enums\ResponseState;
 use App\Exceptions\DataNotFoundException;
 use App\Exceptions\DuplicateDataException;
 use App\Http\Controllers\Controller;
@@ -63,10 +65,15 @@ class AccidentRecordingController extends Controller
 
         $minDate = Carbon::now()->subtract('year', 10);
 
-        $accident = Accident::where('reference', '=', $request->get('reference'))
-            ->first();
+        $accident = Accident::where(
+            TableColumns::REFERENCE,
+            QueryComparisonOperator::EQUALS,
+            $request->get(TableColumns::REFERENCE)
+        )->first();
 
-        $files = File::where('reference_number', '=', $request->get('reference'))
+        $files = File::where('reference_number',
+            QueryComparisonOperator::EQUALS,
+            $request->get(TableColumns::REFERENCE))
             ->get();
 
         $daysOfWeek = [
@@ -106,7 +113,7 @@ class AccidentRecordingController extends Controller
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'success',
+                    ResponseState::SUCCESS->value,
                     true,
                     'Accident Successfully Recorded An Reference ' . $reference,
                     [],
@@ -124,7 +131,7 @@ class AccidentRecordingController extends Controller
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     $message
                 )
@@ -136,13 +143,15 @@ class AccidentRecordingController extends Controller
     public function getAccidentTypes(): JsonResponse
     {
         try {
-            $data = GeneralTable::where('type', '=', ConfigurationTypes::ACCIDENT_TYPES->value)->get();
+            $data = GeneralTable::where('type',
+                QueryComparisonOperator::EQUALS,
+                ConfigurationTypes::ACCIDENT_TYPES->value)->get();
 
             return response()->json(
                 FleetMasterJsonResponse::response(
                     'successful',
                     true,
-                    '',
+                    null,
                     $data
                 )
             );
@@ -150,9 +159,9 @@ class AccidentRecordingController extends Controller
             Log::error($e);
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
-                    '',
+                    null,
                     []
                 )
             );
@@ -177,7 +186,7 @@ class AccidentRecordingController extends Controller
             Log::error($e);
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     '',
                     []
@@ -206,7 +215,7 @@ class AccidentRecordingController extends Controller
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'success',
+                    ResponseState::SUCCESS->value,
                     true,
                     SystemMessages::ACCIDENT_REPORT_FOUND,
                     $data
@@ -217,7 +226,7 @@ class AccidentRecordingController extends Controller
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     str_replace(
                         Articles::REG_FIELD,

@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' =>
     ['auth', 'is.active', 'change.password'],
     'prefix' => 'v1/en',],
-    function (): void {
+    function () {
 
         Route::group(['prefix' => 'organisation/structure'], function () {
 
@@ -152,7 +152,6 @@ Route::group(['middleware' =>
             })
                 ->name('load.workshop.section');
         });
-
 
         Route::get('load/licence/classes', function () {
             try {

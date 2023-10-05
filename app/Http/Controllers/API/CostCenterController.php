@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\ResponseState;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Common\CostCenter;
@@ -18,7 +19,7 @@ class CostCenterController extends Controller
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'success',
+                    ResponseState::SUCCESS->value,
                     true,
                     '',
                     $data
@@ -29,7 +30,7 @@ class CostCenterController extends Controller
             return response()->json(
 
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     '',
                     []
