@@ -93,15 +93,15 @@
                                 </li>
                             @endcan
 
-                            {{-- @can(config('rights.vehicle_status_change'))--}}
-                            <li class="nav-item pl-2">
-                                <a class="nav-link"
-                                   href="{{ route('vehicle.status.change.create') }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Status Management</p>
-                                </a>
-                            </li>
-                            {{--@endcan--}}
+                            @can(config('rights.vehicle_status_change'))
+                                <li class="nav-item pl-2">
+                                    <a class="nav-link"
+                                       href="{{ route('vehicle.status.change.create') }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Status Management</p>
+                                    </a>
+                                </li>
+                            @endcan
 
                             @can(config('rights.manage_insurance'))
                                 <li class="nav-item pl-2">

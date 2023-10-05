@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\VehicleRegistrationNumberRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AccidentRecordingRequest extends FormRequest
 {
+    use VehicleRegistrationNumberRules;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,7 +25,7 @@ class AccidentRecordingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'registrationNo' => 'required',
+            'registrationNo' => $this->vehicleRegistrationNumber(),
             'insured' => 'required',
             'mileage' => 'required',
             'accidentType' => 'required',

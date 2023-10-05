@@ -22,7 +22,7 @@ class StatusChangeController extends Controller
     public function create(): View
     {
         $vehicleStatuses = Status::where('module', 'VEH')
-            ->whereNotIn('code', ['08', '05'])->get();
+            ->whereNotIn('code', ['08', '05', '11'])->get();
         return view('modules.vehicleManagement.statusChange',
             compact('vehicleStatuses'));
 

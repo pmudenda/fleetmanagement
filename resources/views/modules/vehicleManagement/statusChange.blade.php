@@ -51,7 +51,7 @@
                           id="fuelAllocationForm"
                           action="{{route('vehicle.fuel.allocation.save')}}" method="post">
                         @csrf
-                        <div class="card-body user-data">
+                        <div class="card-body user-data pl-1">
                             <label class="app-required-marker"></label>
                             <div class="container-fluid mt-2">
                                 <div class="row">
@@ -373,11 +373,7 @@
 
             let populateVehicleDetails = function (payload) {
                 let vehicle = payload['vehicle'];
-                let article = payload['article'];
                 let images = payload['images'];
-                const hasValidFitness = payload['hasValidFitness'];
-                const hasValidRoadTax = payload['hasValidRoadTax'];
-                const hasValidInsurance = payload['hasValidInsurance'];
                 let vehicle_state = payload['vehicle_state'];
 
                 if (!vehicle || !vehicle.brand_name) {

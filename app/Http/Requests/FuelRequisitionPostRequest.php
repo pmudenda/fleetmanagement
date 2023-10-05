@@ -3,11 +3,14 @@
 namespace App\Http\Requests;
 
 use App\Enums\RequisitionTypes;
+use App\Traits\VehicleRegistrationNumberRules;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FuelRequisitionPostRequest extends FormRequest
 {
+    use VehicleRegistrationNumberRules;
+
     const REQUIRED_NUMERIC = 'required|numeric';
     const EXCLUDE_UNLESS_REQUISITION_TYPE = 'exclude_unless:requisition_type,';
 
@@ -27,7 +30,7 @@ class FuelRequisitionPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'vehicle_registration' => 'required',
+            'vehicle_registration' => $this->vehicleRegistrationNumber(),
             'vehicle_description' => 'required',
             'CostAssignedTo' => 'required',
             'requisition_type' => 'required|string',
