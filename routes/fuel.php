@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth','is.active','change.password'],
         Route::post('/odometer/validation', [FuelRequisitionController::class, 'validateOdometer'])
             ->name('fuel.odometer.validation');
 
-        Route::get('/odometer/validation/test', [FuelRequisitionController::class, 'validateOdometer'])
+        Route::get('/odometer/validation/test', [FuelRequisitionController::class, 'validateOdometertest'])
             ->name('fuel.odometer.validation.test');
 
         Route::post('/workflow/approve', [WorkflowController::class, 'processFuelRequisitionApproval'])
