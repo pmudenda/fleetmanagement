@@ -22,13 +22,18 @@
                 <div class="card-title">
                     <h4>New Fuel Requisition</h4>
                 </div>
-                <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                    <button type="button" id="submitRequisitionBtn" class="btn btn-success btn-sm mr-3 when_odo_valid"
+                <div id="actionButtonsContainer"
+                     class="card-toolbar justify-content-end">
+                    <button type="button"
+                            id="submitRequisitionBtn"
+                            class="btn btn-success btn-sm mr-3 when_odo_valid"
                             disabled>
                         <i class="fas fa-save"></i>
                         Submit
                     </button>
-                    <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
+                    <button type="button"
+                            id="resetRequisitionBtn"
+                            class="btn btn-danger btn-sm mr-3">
                         <i class="fas fa-undo"></i> Cancel
                     </button>
                 </div>
@@ -61,7 +66,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                class="col-xs-12 col-sm-6
+                                                                col-md-5 col-lg-4 field-required"
                                                                 for="staff_no">Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -76,7 +82,8 @@
                                                                        placeholder="Vehicle Reg e.g AAB 6757"
                                                                        name="vehicle_registration" required>
                                                                 <div class="input-group-addon">
-                                                                    <button type="button" id="vehicleSearchBtn"
+                                                                    <button type="button"
+                                                                            id="vehicleSearchBtn"
                                                                             name="vehicleSearchBtn"
                                                                             class="btn btn-success
                                                                             btn-sm border-radius-0">
@@ -99,16 +106,21 @@
                                                                    class="form-control form-control-sm"
                                                                    id="vehicle_description"
                                                                    name="vehicle_description"
-                                                                   required readonly>
+                                                                   required
+                                                                   readonly
+                                                            />
                                                         </div>
                                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                             <label
                                                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4
                                                                 app-field-label"
-                                                                    for="staff_no">Status:
+                                                                    for="staff_no">
+                                                                Status:
                                                             </label>
-                                                            <span id="vehicle_status" class="ml-3 badge badge-success"
-                                                                  data-name="vehicle_status"></span>
+                                                            <span id="vehicle_status"
+                                                                  class="ml-3 badge badge-success"
+                                                                  data-name="vehicle_status">
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>

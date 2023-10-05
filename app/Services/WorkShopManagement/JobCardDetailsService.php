@@ -3,21 +3,23 @@
 namespace App\Services\WorkShopManagement;
 
 use App\Constants\QueryComparisonOperator;
+use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
 use App\Constants\WorkflowActions;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
+use App\Enums\ResponseState;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\JobCardCreated;
 use App\Exceptions\DataNotFoundException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\WorkShopManagement\SubmitJobCardToSupervisor;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTable;
 use App\Models\WorkShopManagement\AssessmentObservation;
 use App\Models\WorkShopManagement\JobCardHeader;
-use App\Models\WorkShopManagement\Mechanic;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
@@ -57,7 +59,9 @@ class JobCardDetailsService
         $registration = $request->get('vehicle_registration');
         $comments = $request->get('commentsToSupervisor');
 
-        $jobCard = JobCardHeader::where("job_card_no", "=", $jobCardNo)
+        $jobCard = JobCardHeader::where("job_card_no",
+            QueryComparisonOperator::EQUALS,
+            $jobCardNo)
             ->first();
 
         $jobCard->step = 2;
@@ -65,9 +69,7 @@ class JobCardDetailsService
 
         $workShopCode = $jobCard->workshop_code;
 
-        $supervisor = Mechanic::where('workshop_code', '=', $workShopCode)
-            ->where('is_supervisor', '=', 'Y')
-            ->first();
+        $supervisor = $this->workshopService->getWorkShopSupervisor($workShopCode);
 
         if (!$supervisor) {
             throw new DataNotFoundException("Supervisor for Workshop Not Found");
@@ -87,18 +89,22 @@ class JobCardDetailsService
                 $shortDescription,
                 $longDescription,
             ),
-            $supervisor->staff_no ?? '71997'
+            $supervisor->staff_no
         );
 
         DB::commit();
 
         JobCardCreated::dispatch($user, $supervisor, $jobCard);
 
-        return response()->json([
-            "success" => true,
-            "message" => "Job Card Assignment Task Generated For $supervisor->name (Workshop Supervisor)",
-            "redirectUrl" => URL::signedRoute("workOrder.list"),
-        ]);
+        return response()->json(
+            FleetMasterJsonResponse::response(
+                ResponseState::SUCCESS,
+                true,
+                str_replace("@supervisor", $supervisor->name,
+                    SystemMessages::JOBCARD_ASSIGNMENT_TASK_GENERATED),
+                URL::signedRoute("workOrder.list")
+            )
+        );
     }
 
 

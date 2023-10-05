@@ -46,6 +46,20 @@ class SystemMessages
         = "Organization Unit with Business Unit @bu and Cost Center @cc Is Not Active" . self::SERVICE_DESK_MESSAGE;
     const FUEL_ALLOCATION_SET = "Fuel Allocation Set Successfully";
     const FUEL_ALLOCATION_FAILED = "Could not Set Fuel Allocation on Vehicle";
+    const JOBCARD_TASKS_ASSIGNMENTS = "Work Assignments Saved Successfully";
+    const VEHICLE_STATE_CHANGED = "Vehicle Status Changed Successfully";
+    const VEHICLE_STATE_FAILED = "Vehicle Status Change Failed";
+    const JOBCARD_ASSIGNMENT_TASK_GENERATED =
+        "Job Card Assignment Task Generated For  (Workshop Supervisor)";
+    const INSURANCE_RECORD_SAVED = "Insurance Saved Successfully";
+    const INVALID_PURCHASE_ORDER
+        = 'Invalid Purchase Order Number, The Purchase Order Number did not match any record';
+    const LICENSE_VALID = 'License Details Could not be verified';
+    const DUPLICATE_VEHICLE_MAKE = 'Vehicle make is already registered';
+    const VEHICLE_MAKE_SUCCESSFUL = 'Record Added Successfully';
+    const RECORD_DELETED = 'Deleted Successfully';
+    const RECORD_SUCCESSFUL = "Record created successfully";
+    const DUPLICATE_RECORD = "Record is already registered";
 
 
     public static function chargeOutRateAddedSuccessfully(): string

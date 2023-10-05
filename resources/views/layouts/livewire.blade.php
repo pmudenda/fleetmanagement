@@ -1,5 +1,5 @@
 @php use Carbon\Carbon;use Illuminate\Support\Facades\Auth; @endphp
-        <!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Fleet Master</title>
@@ -13,9 +13,6 @@
     <link rel="stylesheet" href="{{asset('themes/plugins/fontawesome-free/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('themes/ionicons/2.0.1/css/ionicons.min.css')}}">
 
-    {{--<link rel="stylesheet"
-          type="text/css"
-          href="{{asset('themes/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">--}}
     <link rel="stylesheet" href="{{asset('themes/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('libs/bootstrap-5.2.3/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('themes/dist/css/adminlte.min2167.css')}}?v=3.2.0">
@@ -40,7 +37,7 @@
     <link rel="stylesheet" href="{{asset('libs/session.timeout/session.timeout.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/asyncLoader.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/jquery-ui.css')}}"/>
-    <livewire:styles />
+    <livewire:styles/>
 
     <style>
         .nav-link {
@@ -89,27 +86,16 @@
     @include('layouts.menus.side_bar')
 
     <div class="content-wrapper">
-        {{$slot}}¬
+        {{$slot}}
     </div>
     <!--Footer-->
     <aside class="control-sidebar control-sidebar-dark"></aside>
-    <input type="hidden" id="sessionStatusUrl" name="sessionStatusUrl" value="{{route('session.status')}}"/>
+    <input type="hidden"
+           id="sessionStatusUrl"
+           name="sessionStatusUrl"
+           value="{{route('session.status')}}"/>
 
     <x-approval-modal/>
-
-    <div aria-live="polite" aria-atomic="true" class="position-relative">
-        <div class="toast-container position-fixed top-0 end-0 p-3">
-
-            <div id="liveToast" class="toast align-items-center text-bg-primary border-0"
-                 role="alert"
-                 aria-live="assertive" aria-atomic="true">
-                <div class="toast-body bg-white">
-                    Hello, world! This is a toast message.
-                </div>
-            </div>
-        </div>
-    </div>
-
     <x-app-modals/>
 </div>
 <input type="hidden" name="gatePassUrl" id="gatePassUrl" value="{{URL::signedRoute("gate.pass")}}"/>
@@ -205,7 +191,7 @@
 <script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/qrcode/qrcode.min.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
-<livewire:scripts />
+<livewire:scripts/>
 
 @include('layouts.partials.dataTableScripts')
 <script type="text/javascript">

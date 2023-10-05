@@ -2,17 +2,20 @@
 
 namespace App\Http\Requests\VehicleManagement;
 
+use App\Traits\VehicleRegistrationNumberRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TomCardAssignment extends FormRequest
+class StatusChangeRequest extends FormRequest
 {
+    use VehicleRegistrationNumberRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->can(config('rights.vehicle_status_change'));
     }
 
     /**
@@ -23,11 +26,9 @@ class TomCardAssignment extends FormRequest
     public function rules(): array
     {
         return [
-            'vehicleRegistration' => 'required|string|
-             exists:App\Models\VehicleManagement\VehicleHeader,registration_number',
-            'cardNumber' => 'required|string|unique:App\Models\VehicleManagement\TomCardAllocation,card_number',
-            'expiryDate' => 'required',
-            'comments' => 'required',
+            'vehicleRegistration' => $this->vehicleRegistrationNumber(),
+            'status' => 'string|max:2',
+            'remarks' => 'string|max:255',
         ];
     }
 }

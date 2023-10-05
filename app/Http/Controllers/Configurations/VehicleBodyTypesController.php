@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers\Configurations;
 
+use App\Constants\QueryComparisonOperator;
+use App\Constants\SystemMessages;
+use App\Enums\ResponseState;
+use App\Exceptions\BaseException;
+use App\Exceptions\DataNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Settings\vehicle\VehicleBodyType;
 use App\Services\Logging\HistoryService;
 use Carbon\Carbon;
@@ -21,25 +27,24 @@ class VehicleBodyTypesController extends Controller
         try {
             $statusList = [StatusHelper::active()];
             $data = VehicleBodyType::whereIn('status', $statusList)->get();
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::SUCCESS->value,
+                    true,
+                    SystemMessages::RECORD_NOT_FOUND,
+                    $data
+                )
+            );
         } catch (Exception $e) {
             Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::FAILURE->value,
+                    false,
+                    SystemMessages::RECORD_NOT_FOUND
+                )
+            );
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -51,14 +56,12 @@ class VehicleBodyTypesController extends Controller
 
             $name = trim(strtoupper($request->input('body_type_name')));
 
-            $vehicleBodyType = VehicleBodyType::where('body_type_name', '=', $name)->first();
+            $vehicleBodyType = VehicleBodyType::where('body_type_name',
+                QueryComparisonOperator::EQUALS,
+                $name)->first();
 
             if (!empty($vehicleBodyType)) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Body Type is already registered',
-                    'payload' => []
-                ]);
+                throw new DataNotFoundException(SystemMessages::RECORD_NOT_FOUND);
             }
 
             $model = VehicleBodyType::updateOrCreate(
@@ -73,44 +76,30 @@ class VehicleBodyTypesController extends Controller
                     'body_type_name' => $name
                 ]);
 
-            return response()->json([
-                'state' => 'success',
-                'message' => 'Record successfully',
-                'payload' => $model
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::SUCCESS->value,
+                    true,
+                    SystemMessages::RECORD_SUCCESSFUL,
+                    $model
+                )
+            );
 
         } catch (Exception $e) {
             Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'message' => 'Error Occurred while Processing request',
-                'payload' => []
-            ]);
+            $message = SystemMessages::DUPLICATE_RECORD;
+            if ($e instanceof BaseException) {
+                $message = $e->getMessage();
+            }
+
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::FAILURE->value,
+                    false,
+                    $message
+                )
+            );
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(VehicleBodyType $configVehicleBodyType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(VehicleBodyType $configVehicleBodyType)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, VehicleBodyType $configVehicleBodyType)
-    {
-        //
     }
 
     /**
@@ -130,18 +119,32 @@ class VehicleBodyTypesController extends Controller
             DB::commit();
 
             $after = $data->toArray();
-            HistoryService::update($before, $after, 'Body Type', 'update', $request->get('justification'));
+            HistoryService::update($before, $after,
+                'Body Type',
+                'update',
+                $request->get('justification'));
 
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::SUCCESS->value,
+                    false,
+                    null,
+                    $data
+                )
+            );
         } catch (Exception $e) {
             Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
+            $message = "";
+            if ($e instanceof BaseException) {
+                $message = $e->getMessage();
+            }
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::FAILURE->value,
+                    false,
+                    $message
+                )
+            );
         }
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\SystemMessages;
+use App\Http\Controllers\Controller;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Services\VehicleManagement\FuelAllocationService;
 use Exception;

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TaskManagementController;
+use App\Http\Controllers\Workflow\TaskManagementController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkShopManagement\AssessmentAcknowledgementController;
 use App\Http\Controllers\WorkShopManagement\BookingController;

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Configurations;
 
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
+use App\Enums\ResponseState;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChargeOutRateRequest;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Settings\vehicle\VehicleBodyType;
 use App\Models\Settings\vehicle\VehicleBrand;
 use App\Models\Settings\vehicle\VehicleModel;
@@ -37,18 +40,23 @@ class ChargeOutRateController extends Controller
             $bodyType = $request->get("bodyType");
             $charge = floatval($request->get("rate"));
 
-            Log::debug("Brand Code " . $brand);
-            Log::debug("Model Code " . $model);
-            Log::debug("Body Type Code " . $bodyType);
-            Log::debug("Charge " . $charge);
-
-            $make = VehicleBrand::where('code', '=', $brand)->first();
-            $modelType = VehicleModel::where('code', '=', $model)
-                ->where('brand_code', '=', $brand)
-                ->where('body_type_code', '=', $bodyType)
+            $make = VehicleBrand::where('code',
+                QueryComparisonOperator::EQUALS,
+                $brand)->first();
+            $modelType = VehicleModel::where('code',
+                QueryComparisonOperator::EQUALS,
+                $model)
+                ->where('brand_code',
+                    QueryComparisonOperator::EQUALS,
+                    $brand)
+                ->where('body_type_code',
+                    QueryComparisonOperator::EQUALS,
+                    $bodyType)
                 ->first();
 
-            $type = VehicleBodyType::where('code', '=', $bodyType)->first();
+            $type = VehicleBodyType::where('code',
+                QueryComparisonOperator::EQUALS,
+                $bodyType)->first();
             $user = Auth::user();
 
             DB::beginTransaction();
@@ -66,20 +74,23 @@ class ChargeOutRateController extends Controller
             DB::commit();
 
             return response()->json(
-                [
-                    'message' => SystemMessages::chargeOutRateAddedSuccessfully(),
-                    'success' => true,
-                    'payload' => $request->all()
-                ]
+                FleetMasterJsonResponse::response(
+                    ResponseState::SUCCESS->value,
+                    true,
+                    SystemMessages::chargeOutRateAddedSuccessfully(),
+                    $request->all()
+                )
             );
+
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
-                [
-                    'message' => ErrorMessages::getMessage('err_0005'),
-                    'success' => false,
-                    'payload' => $request->all()
-                ]
+                FleetMasterJsonResponse::response(
+                    ResponseState::FAILURE->value,
+                    false,
+                    ErrorMessages::getMessage('err_0005'),
+                    $request->all()
+                )
             );
         }
 

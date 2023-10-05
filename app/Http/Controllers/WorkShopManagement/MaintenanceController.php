@@ -8,13 +8,11 @@ use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
+use App\Enums\ResponseState;
+use App\Exceptions\BaseException;
 use App\Exceptions\DataNotFoundException;
-use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\FuelRequisitionException;
-use App\Exceptions\MaterialReservationException;
 use App\Exceptions\OrganisationUnitStateException;
-use App\Exceptions\VehicleStateException;
-use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
@@ -84,14 +82,19 @@ class MaintenanceController extends Controller
             $pettyCashItems,
             $observation
             ) = $this->jobCardDetailsService->getFullJobCardDetails(
-            $request->get("reference") ?? $request->get('ref')
+            $request->get(TableColumns::REFERENCE) ?? $request->get('ref')
         );
 
         $mechanics = [];
         if (!empty($details)) {
             Log::debug("Fetching Mechanic For $details->workshop_code");
-            $mechanics = Mechanic::where('status', '=', StatusHelper::active())
-                ->where('workshop_code', '=', $details->workshop_code)
+            $mechanics = Mechanic::where(
+                TableColumns::STATUS,
+                QueryComparisonOperator::EQUALS,
+                StatusHelper::active())
+                ->where('workshop_code',
+                    QueryComparisonOperator::EQUALS,
+                    $details->workshop_code)
                 ->get();
         }
 
@@ -140,13 +143,17 @@ class MaintenanceController extends Controller
             $pettyCashItems,
             $observation
             ) = $this->jobCardDetailsService->getFullJobCardDetails(
-            $request->get("reference") ?? $request->get('ref')
+            $request->get(TableColumns::REFERENCE) ?? $request->get('ref')
         );
 
         $mechanics = [];
         if (!empty($details)) {
-            $mechanics = Mechanic::where('status', '=', StatusHelper::active())
-                ->where('workshop_code', '=', $details->workshop_code)
+            $mechanics = Mechanic::where( TableColumns::STATUS,
+                QueryComparisonOperator::EQUALS,
+                StatusHelper::active())
+                ->where('workshop_code',
+                    QueryComparisonOperator::EQUALS,
+                    $details->workshop_code)
                 ->get();
         }
 
@@ -182,7 +189,7 @@ class MaintenanceController extends Controller
     public function start(Request $request): View
     {
         $step = $request->get("step") ?? 0;
-        $reference = $request->get("reference") ?? $request->get('ref');
+        $reference = $request->get(TableColumns::REFERENCE) ?? $request->get('ref');
 
         list(
             $repairTypes,
@@ -238,7 +245,7 @@ class MaintenanceController extends Controller
             return response()->json(
 
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     $message
                 )
@@ -266,7 +273,7 @@ class MaintenanceController extends Controller
         }
 
         $workflowTask = WorkflowTaskHeader::where(
-            "reference",
+            TableColumns::REFERENCE,
             QueryComparisonOperator::EQUALS,
             $requestNumber
         )->first();
@@ -300,7 +307,7 @@ class MaintenanceController extends Controller
         $this->verifyRequestSignature($request);
 
         $step = $request->get("step") ?? 1;
-        $reference = $request->get("reference") ?? $request->get('ref');
+        $reference = $request->get(TableColumns::REFERENCE) ?? $request->get('ref');
 
         list(
             $repairTypes,
@@ -349,7 +356,7 @@ class MaintenanceController extends Controller
             return redirect(URL::signedRoute("show.job.card", ["step" => 1]));
         }
 
-        $reference = $request->get("reference") ?? $request->get('ref');
+        $reference = $request->get(TableColumns::REFERENCE) ?? $request->get('ref');
         $step = $request->get("step") ?? 0;
 
         list(
@@ -420,14 +427,22 @@ class MaintenanceController extends Controller
 
         $taskHeader = null;
         $approvalHistory = [];
-        if ($request->get("reference")) {
-            $taskHeader = WorkflowTaskHeader::where('reference', '=', $request->get("reference"))->first();
+        if ($request->get(TableColumns::REFERENCE)) {
+            $taskHeader = WorkflowTaskHeader::where(
+                'reference',
+                QueryComparisonOperator::EQUALS,
+                $request->get("reference")
+            )->first();
         }
 
         $mechanics = [];
         if (!empty($details)) {
-            $mechanics = Mechanic::where('status', '=', StatusHelper::active())
-                ->where('workshop_code', '=', $details->workshop_code)
+            $mechanics = Mechanic::where(TableColumns::STATUS,
+                QueryComparisonOperator::EQUALS,
+                StatusHelper::active())
+                ->where('workshop_code',
+                    QueryComparisonOperator::EQUALS,
+                    $details->workshop_code)
                 ->get();
         }
 
@@ -460,7 +475,7 @@ class MaintenanceController extends Controller
     {
         return response()->json(
             FleetMasterJsonResponse::response(
-                'success',
+                ResponseState::SUCCESS->value,
                 true,
                 null,
                 GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
@@ -476,13 +491,13 @@ class MaintenanceController extends Controller
             $response = $this->workshopService->createJobCard($request);
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'success',
+                    ResponseState::SUCCESS->value,
                     true,
                     null,
                     null,
                     URL::signedRoute("vehicle.workshop.checkin", [
                         "step" => 2,
-                        "reference" => $response->job_card_no
+                        TableColumns::REFERENCE => $response->job_card_no
                     ])
                 )
             );
@@ -490,15 +505,13 @@ class MaintenanceController extends Controller
 
             $message = ErrorMessages::getMessage('err_0005');
             Log::error($e);
-            if ($e instanceof FuelRequisitionException
-                || $e instanceof OrganisationUnitStateException
-            ) {
+            if ($e instanceof BaseException) {
                 $message = $e->getMessage();
             }
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     $message,
                 )
@@ -512,9 +525,7 @@ class MaintenanceController extends Controller
             return $this->workshopService->closeJobCard($request);
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
-            if ($e instanceof MaterialReservationException
-                || $e instanceof WorkflowTaskCreationFailedException
-                || $e instanceof VehicleStateException) {
+            if ($e instanceof BaseException) {
                 $message = $e->getMessage();
             } else {
                 Log::error($e);
@@ -522,7 +533,7 @@ class MaintenanceController extends Controller
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     $message
                 )
@@ -536,31 +547,30 @@ class MaintenanceController extends Controller
             $this->workshopService->createJobCardDefects($request);
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'success',
+                    ResponseState::SUCCESS->value,
                     true,
                     SystemMessages::defectRecorded(),
                     null,
                     URL::signedRoute("show.job.card",
-                        ["step" => 4, "reference" => $request->get("job_card_no")]
+                        [
+                            "step" => 4,
+                            TableColumns::REFERENCE => $request->get("job_card_no")
+                        ]
                     )
                 )
             );
 
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
-            if ($e instanceof MaterialReservationException
-                || $e instanceof WorkflowTaskCreationFailedException
-                || $e instanceof DuplicateDefectException
-                || $e instanceof VehicleStateException
-            ) {
+
+            if ($e instanceof BaseException) {
                 $message = $e->getMessage();
-                Log::error($e);
             } else {
                 Log::error($e);
             }
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     $message
                 )
@@ -571,12 +581,20 @@ class MaintenanceController extends Controller
     public function saveJobCardWorkAssignments(JobCardTaskAssignment $request): JsonResponse
     {
         try {
-            return $this->workshopService->saveJobCardWorkAssignments($request);
+            $this->workshopService->saveJobCardWorkAssignments($request);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::SUCCESS->value,
+                    true,
+                    SystemMessages::JOBCARD_TASKS_ASSIGNMENTS,
+                    [],
+                    URL::signedRoute("workOrder.list")
+                )
+            );
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
-            if ($e instanceof MaterialReservationException
-                || $e instanceof WorkflowTaskCreationFailedException
-                || $e instanceof VehicleStateException) {
+
+            if ($e instanceof BaseException) {
                 $message = $e->getMessage();
             } else {
                 Log::error($e);
@@ -584,7 +602,7 @@ class MaintenanceController extends Controller
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'success',
+                    ResponseState::FAILURE->value,
                     false,
                     $message
                 )
@@ -598,9 +616,7 @@ class MaintenanceController extends Controller
             return $this->workshopService->saveJobCardWorkReassignments($request);
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
-            if ($e instanceof MaterialReservationException
-                || $e instanceof WorkflowTaskCreationFailedException
-                || $e instanceof VehicleStateException) {
+            if ($e instanceof BaseException) {
                 $message = $e->getMessage();
             } else {
                 Log::error($e);
@@ -608,7 +624,7 @@ class MaintenanceController extends Controller
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     $message
                 )
@@ -679,7 +695,7 @@ class MaintenanceController extends Controller
             if (!$request->has("workshop_code")) {
                 return response()->json(
                     FleetMasterJsonResponse::response(
-                        'failure',
+                        ResponseState::FAILURE->value,
                         false,
                         null
                     )
@@ -692,7 +708,7 @@ class MaintenanceController extends Controller
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'success',
+                    ResponseState::SUCCESS->value,
                     true,
                     null,
                     $this->workshopService->getWorkShopPurchaseOfficeAndStore($workshopCode)
@@ -702,7 +718,7 @@ class MaintenanceController extends Controller
             Log::error($e);
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     null
                 )
@@ -726,7 +742,7 @@ class MaintenanceController extends Controller
         if (!$request->has('vehicleRegistration')) {
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'failure',
+                    ResponseState::FAILURE->value,
                     false,
                     null
                 )
@@ -739,7 +755,7 @@ class MaintenanceController extends Controller
 
         return response()->json(
             FleetMasterJsonResponse::response(
-                'success',
+                ResponseState::SUCCESS->value,
                 true,
                 null,
                 $details

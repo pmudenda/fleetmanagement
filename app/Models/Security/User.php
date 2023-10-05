@@ -2,7 +2,7 @@
 
 namespace App\Models\Security;
 
-use App\Models\MaterialHeader;
+use App\Models\Common\MaterialHeader;
 use App\Models\UserManagement\ProfileDelegation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

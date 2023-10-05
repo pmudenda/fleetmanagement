@@ -15,7 +15,7 @@
     tmsApp.appFormValidator('form[name="addRecordForm"]',
         {
             'brand_name': {
-                required: 'brand name is required',
+                required: true,
                 maxlength: 50
             }
         },

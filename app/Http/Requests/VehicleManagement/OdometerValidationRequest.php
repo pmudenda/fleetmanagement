@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests\VehicleManagement;
 
+use App\Traits\VehicleRegistrationNumberRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OdometerValidationRequest extends FormRequest
 {
+    use VehicleRegistrationNumberRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -24,7 +27,7 @@ class OdometerValidationRequest extends FormRequest
     {
         return [
             'odometer_reading' => 'required|numeric',
-            'vehicle_registration' => 'required|string|max:10',
+            'vehicle_registration' => $this->vehicleRegistrationNumber()
         ];
     }
 }

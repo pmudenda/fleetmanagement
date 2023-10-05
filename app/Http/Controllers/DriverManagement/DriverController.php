@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\DriverManagement;
 
 use App\Constants\ErrorMessages;
+use App\Constants\QueryComparisonOperator;
 use App\Enums\ConfigurationTypes;
+use App\Enums\ResponseState;
 use App\Exceptions\DriverSearchException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DriverOnboardingRequest;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Driver;
 use App\Models\Settings\GeneralTable;
 use App\Services\DriverManagement\DriverManagementService;
@@ -39,7 +42,9 @@ class DriverController extends Controller
 
     public function create(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $licenseClasses = GeneralTable::where('type', '=', ConfigurationTypes::LICENSE_CLASS->value)
+        $licenseClasses = GeneralTable::where('type',
+            QueryComparisonOperator::LESS_THAN_EQUAL,
+            ConfigurationTypes::LICENSE_CLASS->value)
             ->get();
 
         return view('modules.driverManagement.create')
@@ -95,7 +100,8 @@ class DriverController extends Controller
                 return $this->getAuthorisedDriver($searchParam);
             }
 
-            if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
+            if (str_starts_with($searchParam, 'C7')
+                || str_starts_with($searchParam, '7')) {
                 $driver = $this->userService->searchEmployee($searchParam);
             } else {
                 $driver = $this->userService->searchEmployee($searchParam)->first();
@@ -113,9 +119,9 @@ class DriverController extends Controller
             if ($driver->con_st_code != 'ACT' && $driver->con_st_code != '01') {
                 throw new DriverSearchException(
                     str_replace(self::INPUT,
-                    $searchParam,
-                    ErrorMessages::getMessage('err_0027')
-                ));
+                        $searchParam,
+                        ErrorMessages::getMessage('err_0027')
+                    ));
             }
 
             return response()->json([
@@ -142,7 +148,9 @@ class DriverController extends Controller
      */
     private function getAuthorisedDriver(string $searchParam): JsonResponse
     {
-        $driver = Driver::where('staff_number', '=', $searchParam)
+        $driver = Driver::where('staff_number',
+            QueryComparisonOperator::GREATER_THAN_EQUAL,
+            $searchParam)
             ->orWhere('name', 'LIKE', "%{$searchParam}%")
             ->first();
 
@@ -175,9 +183,13 @@ class DriverController extends Controller
                 ));
         }
 
-        return response()->json([
-            'success' => true,
-            'payload' => $driver
-        ]);
+        return response()->json(
+            FleetMasterJsonResponse::response(
+                ResponseState::SUCCESS->value,
+                true,
+                null,
+                $driver
+            )
+        );
     }
 }

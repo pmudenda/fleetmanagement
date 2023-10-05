@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
+use App\Enums\ResponseState;
 use App\Http\Controllers\Controller;
+use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Reference\LocationsModel;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -13,20 +16,30 @@ class LocationsController extends Controller
     {
         try {
             $month = 60 * 60 * 24 * 30;
-            $data = cache()->remember('location', $month, function () {
-                return LocationsModel::get();
-            });
+            $data = cache()->remember('location',
+                $month,
+                function () {
+                    return LocationsModel::get();
+                });
 
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::SUCCESS->value,
+                    true,
+                    null,
+                    $data
+                )
+            );
         } catch (Exception $e) {
             Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
+            return response()->json(
+                FleetMasterJsonResponse::response(
+                    ResponseState::FAILURE->value,
+                    false,
+                    null,
+                    []
+                )
+            );
         }
 
     }

@@ -12,7 +12,6 @@ use App\Exceptions\DataNotFoundException;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\LowerOdometerEntryException;
 use App\Exceptions\NoOdometerEntryException;
-use App\Exceptions\OrganisationUnitStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
@@ -355,7 +354,7 @@ class FuelRequisitionController extends Controller
         );
 
         $supportingDocument = File::where('reference_number',
-            '=',
+            QueryComparisonOperator::EQUALS,
             $requisitionNumber
         )->first();
 
@@ -363,9 +362,14 @@ class FuelRequisitionController extends Controller
             abort(404);
         }
 
-        $workflowTask = WorkflowTaskHeader::where(self::REFERENCE, '=', $requisitionNumber)->first();
+        $workflowTask = WorkflowTaskHeader::where(TableColumns::REFERENCE,
+            QueryComparisonOperator::EQUALS,
+            $requisitionNumber)->first();
 
-        $requisitionTypes = RequisitionType::where('status', '01')->where(self::MODULE, 'FR')->get();
+        $requisitionTypes = RequisitionType::where(
+            TableColumns::STATUS,
+            StatusHelper::active())
+            ->where(self::MODULE, 'FR')->get();
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
 

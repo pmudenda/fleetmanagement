@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Constants\ErrorMessages;
 use App\Constants\QueryComparisonOperator;
 use App\Constants\SystemMessages;
+use App\Enums\ResponseState;
 use App\Exceptions\InvalidPurchaseOrderNumber;
+use App\Http\Controllers\Controller;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Reference\Article;
 use App\Models\Reference\BatteryModel;
@@ -18,7 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
-class ProcurementSystemIntegrationController extends \App\Http\Controllers\Controller
+class ProcurementSystemIntegrationController extends Controller
 {
     private ProcurementSystemIntegrationService $procurementSystemIntegrationService;
 
@@ -42,14 +44,13 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
                 $documentNumber)->get();
             if (empty($purchaseOrder)) {
                 throw new InvalidPurchaseOrderNumber(
-                    'Invalid Purchase Order Number,
-                The Purchase Order Number did not match any record'
+                    SystemMessages::INVALID_PURCHASE_ORDER
                 );
             }
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'success',
+                    ResponseState::SUCCESS->value,
                     true,
                     SystemMessages::PURCHASE_ORDER_RETRIEVED,
                     $purchaseOrder
@@ -65,7 +66,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
 
             return response()->json(
                 FleetMasterJsonResponse::response(
-                    'false',
+                    ResponseState::FAILURE->value,
                     false,
                     $message
                 )

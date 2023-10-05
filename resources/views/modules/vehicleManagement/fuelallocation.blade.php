@@ -39,7 +39,7 @@
                           action="{{route('vehicle.fuel.allocation.save')}}"
                           method="post">
                         @csrf
-                        <div class="card-body user-data">
+                        <div class="card-body user-data pl-1">
                             <label class="app-required-marker"></label>
                             <div class="container-fluid mt-2">
                                 <div class="row">
@@ -55,7 +55,7 @@
                                                                        for="vehicle_registration">
                                                                     Registration #:
                                                                 </label>
-                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                                     <div class="input-group">
                                                                         <input type="text"
                                                                                data-action="{{

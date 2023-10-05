@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Constants\QueryComparisonOperator;
 use App\Models\Security\User;
 use App\Models\Workflow\WorkflowLog;
 use App\Models\Workflow\WorkflowTaskDetail;
@@ -40,13 +41,17 @@ class FuelWorkflowApprovers extends Component
 
         $claimant = User::where('staff_no', '=', $this->request->created_by)->first();
 
-        $supervisor = User::where('staff_no', '=', $claimant->supervisor_code)->first();
+        //$supervisor = User::where('staff_no', '=', $claimant->supervisor_code)->first();
 
-        /* if (in_array('02', $steps)) {
-             //
-             $supervisor = User::where('staff_no', '=', $supervisor->supervisor_code)->first();
-         }else{}*/
-        $supervisor = User::where('staff_no', '=', $supervisor->supervisor_code)->first();
+        if (in_array('02', $steps)) {
+            $actionedUser = WorkflowLog::where('reference', $this->task->reference)
+                ->where('step_id', QueryComparisonOperator::EQUALS, '02')
+                ->orderBy('action_date')
+                ->get();
+            $supervisor = User::where('staff_no', '=', $actionedUser->actioning_officer)->first();
+        } else {
+            $supervisor = User::where('staff_no', '=', $claimant->supervisor_code)->first();
+        }
 
 
         $manager = null;

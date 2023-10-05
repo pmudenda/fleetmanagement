@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\VehicleManagement;
 
+use App\Traits\VehicleRegistrationNumberRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OdometerLogs extends FormRequest
 {
+    use VehicleRegistrationNumberRules;
     const REQUIRED_STRING_MAX_10 = 'required|string|max:10';
     const REQUIRED_NUMERIC = 'required|numeric';
     const REQUIRED_DATE = 'required|date_format:Y-m-d';
@@ -28,7 +30,8 @@ class OdometerLogs extends FormRequest
     public function rules(): array
     {
         return [
-            "vehicleRegistration" => self::REQUIRED_STRING_MAX_10,
+
+            'vehicleRegistration' => $this->vehicleRegistrationNumber(),
             "machineryType" => 'required|string',
             "periodFrom" => self::REQUIRED_DATE,
             "periodTo" => self::REQUIRED_DATE,
