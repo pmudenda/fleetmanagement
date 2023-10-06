@@ -13,6 +13,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password']], functio
         Route::get('user/show', [UsersController::class, 'profile'])->name('profile');
 
         Route::get('users/new', [UsersController::class, 'create'])->name('users.new');
+        Route::get('users/new/external', \App\Livewire\Employees\EmployeeAdd::class)->name('users.new.external');
 
         Route::get('users/list', [UsersController::class, 'index'])->name('users.list');
 

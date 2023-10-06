@@ -45,11 +45,13 @@ class WorkshopWorkflowApprovers extends Component
             $this->task->reference)
             ->first();
 
+//        dd($this->request->created_by);
         $claimant = User::where(
-            TableColumns::STAFF_NUMBER,
+            "ID",
             QueryComparisonOperator::EQUALS,
             $this->request->created_by
         )->first();
+
 
         Log::info($claimant);
 
