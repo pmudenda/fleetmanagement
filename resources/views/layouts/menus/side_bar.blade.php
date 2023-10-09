@@ -378,7 +378,7 @@
 
                                         @canany([config('rights.add_user')])
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{{route('users.new.external')}}">
+                                                <a class="nav-link" href="{{route('users.new')}}">
                                                     <i class="fas fa-user-plus nav-icon"></i>
                                                     <p class="menu-title">Add</p>
                                                 </a>
