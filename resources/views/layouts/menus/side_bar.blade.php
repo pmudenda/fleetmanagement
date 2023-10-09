@@ -376,23 +376,23 @@
                                     </a>
                                     <ul class="nav nav-treeview pl-3">
 
-{{--                                        @canany([config('rights.add_user')])--}}
-{{--                                            <li class="nav-item">--}}
-{{--                                                <a class="nav-link" href="{{route('users.new.external')}}">--}}
-{{--                                                    <i class="fas fa-user-plus nav-icon"></i>--}}
-{{--                                                    <p class="menu-title">Add</p>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                        @endcanany--}}
+                                        @canany([config('rights.add_user')])
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{route('users.new.external')}}">
+                                                    <i class="fas fa-user-plus nav-icon"></i>
+                                                    <p class="menu-title">Add</p>
+                                                </a>
+                                            </li>
+                                        @endcanany
 
-                                            @canany([config('rights.add_user')])
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="{{route('users.new.external')}}">
-                                                        <i class="fas fa-user-plus nav-icon"></i>
-                                                        <p class="menu-title">Add External </p>
-                                                    </a>
-                                                </li>
-                                            @endcanany
+{{--                                            @canany([config('rights.add_user')])--}}
+{{--                                                <li class="nav-item">--}}
+{{--                                                    <a class="nav-link" href="{{route('users.new.external')}}">--}}
+{{--                                                        <i class="fas fa-user-plus nav-icon"></i>--}}
+{{--                                                        <p class="menu-title">Add External </p>--}}
+{{--                                                    </a>--}}
+{{--                                                </li>--}}
+{{--                                            @endcanany--}}
 
                                         @canany([config('rights.view_user')])
                                             <li class="nav-item">
