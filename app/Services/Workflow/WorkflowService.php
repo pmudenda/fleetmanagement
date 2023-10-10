@@ -20,6 +20,7 @@ use App\Models\Workflow\WorkflowStep;
 use App\Models\Workflow\WorkflowTaskDetail;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\Security\ProfileDelegationService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -134,14 +135,17 @@ class WorkflowService
             $assignToUser = PHCMSEmployee::where('con_st_code',
                 QueryComparisonOperator::EQUALS,
                 'ACT')
-                ->where('alt_per_no', QueryComparisonOperator::EQUALS, $assignTo)
+                ->where(function (Builder $query) use ($assignTo) {
+                    $query->where('alt_per_no', QueryComparisonOperator::EQUALS, $assignTo);
+                    $query->orWhere('con_per_no', QueryComparisonOperator::EQUALS, $assignTo);
+                })
                 ->first();
         }
 
         $actionPage = $stepAfterSubmission->action_page;
 
         WorkflowTaskHeader::create([
-            'assigned_user' => $assignToUser->alt_per_no ?? $assignToUser->staff_no,
+            'assigned_user' =>  $assignToUser->staff_no ?? $assignToUser->alt_per_no,
             'subject' => $short_description,
             'status' => StatusHelper::new(),
             'url' => $actionPage,

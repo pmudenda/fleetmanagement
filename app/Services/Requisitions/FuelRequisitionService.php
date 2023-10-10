@@ -33,6 +33,7 @@ use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\Workflow\WorkflowService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
@@ -42,8 +43,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
-class FuelRequisitionService
-{
+class FuelRequisitionService {
     const REQ_NO = "@req_no";
     const ODOMETER = "@odometer";
     const DATE_VALID_TO = "@date_valid_to";
@@ -61,8 +61,7 @@ class FuelRequisitionService
         WorkflowService                     $workflowService,
         ProcurementSystemIntegrationService $procurementService,
         FuelRequisitionValidationService    $validationService,
-        VehicleAssignmentValidationService  $vehicleAssignmentStateValidateService)
-    {
+        VehicleAssignmentValidationService  $vehicleAssignmentStateValidateService) {
         $this->workflowService = $workflowService;
         $this->procurementService = $procurementService;
         $this->validationService = $validationService;
@@ -74,8 +73,7 @@ class FuelRequisitionService
      * @throws NoOdometerEntryException
      * @throws OrganisationUnitStateException
      */
-    public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
-    {
+    public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse {
         $isOutOfTownRequisition = $requisitionPostRequest->get(
                 self::REQUISITION_TYPE) == RequisitionTypes::OutOfTown->value;
 
@@ -94,9 +92,7 @@ class FuelRequisitionService
         $latestOdometerLogsMaxOdometer = $this->getLatestOdometerLogsEntry($registrationNumber);
 
         Log::debug("Last Odometer Log $latestOdometerLogsMaxOdometer");
-
         [$quantityLastIssued, $latestIssue] = $this->getFuelLastIssue($registrationNumber);
-
         Log::debug("Latest Issued Amount $quantityLastIssued");
 
         $odometerOnLastIssue = $this->getOdometerOnLastIssue($registrationNumber);
@@ -197,9 +193,9 @@ class FuelRequisitionService
                    $registrationNumber");
         Log::debug('Consumption ' . $fuel_consumption);
         Log::debug('Quantity Last Issued ' . $quantityLastIssued);
-        $maximumDistance = ($quantityLastIssued * ($fuel_consumption));
+        $maximumDistance = ($quantityLastIssued * ($fuel_consumption)) * 0.75;
         $newEstimatedOdometer = $maximumDistance + $odometerOnLastIssue;
-
+//        dd(compact('maximumDistance','newEstimatedOdometer','userProvidedOdometer'));
         Log::debug("Maximum Distance " . $maximumDistance);
         Log::debug("Odometer Last Issue " . $odometerOnLastIssue);
         Log::debug("Last Issue + Odometer On Last Issue " . $newEstimatedOdometer);
@@ -278,8 +274,7 @@ class FuelRequisitionService
      * Verifies Vehicle is Active otherwise throws exception
      * @throws FuelRequisitionException
      */
-    public function validateVehicleStatus($reference): void
-    {
+    public function validateVehicleStatus($reference): void {
         $allowedStatus = [StatusHelper::active()];
 
         $count = DB::table('vm_vehicle_header header')
@@ -307,8 +302,7 @@ class FuelRequisitionService
      * @param $req_no
      * @return Model|Builder|object|null
      */
-    public function getRequisitionDetail($req_no): mixed
-    {
+    public function getRequisitionDetail($req_no): mixed {
         $results = DB::table("GEN_MATERIAL_HEADERS mat_header")
             ->where("mat_header.req_no", $req_no)
             ->join("GEN_MATERIAL_DETAILS detail",
@@ -342,8 +336,7 @@ class FuelRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function createStoresRequisition(string $reference): string
-    {
+    public function createStoresRequisition(string $reference): string {
         $requisitionDetail = self::getRequisitionDetail($reference);
 
         if ($requisitionDetail->cost_assigned_to === 'CostCenter') {
@@ -377,8 +370,7 @@ class FuelRequisitionService
         return $results;
     }
 
-    public function getLatestRequisition($vehicle_registration)
-    {
+    public function getLatestRequisition($vehicle_registration) {
         $queryResult = DB::table("GEN_MATERIAL_HEADERS as mat_header")
             ->leftJoin("CONFIG_STATUSES as status",
                 "mat_header.status",
@@ -402,8 +394,7 @@ class FuelRequisitionService
         return empty($queryResult) ? [] : $queryResult->first();
     }
 
-    public function getMyRequisitions($staff_no): Collection
-    {
+    public function getMyRequisitions($staff_no): Collection {
         if ($staff_no) {
             return DB::table("GEN_MATERIAL_HEADERS")
                 ->leftJoin("GEN_MATERIAL_DETAILS",
@@ -477,8 +468,7 @@ class FuelRequisitionService
 
     }
 
-    public function updateStatus(mixed $reference, string $status): void
-    {
+    public function updateStatus(mixed $reference, string $status): void {
         DB::beginTransaction();
         MaterialHeader::where("req_no", $reference)
             ->update(["status" => $status]);
@@ -489,8 +479,7 @@ class FuelRequisitionService
      * @throws WorkflowTaskCreationFailedException
      * @throws FuelRequisitionException
      */
-    public function processRequisitionUpdate(FuelRequisitionUpdate $request): JsonResponse
-    {
+    public function processRequisitionUpdate(FuelRequisitionUpdate $request): JsonResponse {
         $requisitionReferenceNumber = $request->get('reference');
         $remarks = $request->get('Comments');
         $submittedAction = $request->get('Approved');
@@ -532,8 +521,7 @@ class FuelRequisitionService
     /**
      * @throws NoOdometerEntryException
      */
-    private function getLatestOdometerLogsEntry(mixed $registrationNumber)
-    {
+    private function getLatestOdometerLogsEntry(mixed $registrationNumber) {
         $odometerLog = DB::table('vm_fleet_movement_header')
             ->where('reg_no',
                 QueryComparisonOperator::EQUALS,
@@ -554,27 +542,25 @@ class FuelRequisitionService
         return $odometerLog->max_odometer;
     }
 
-    private function getOdometerOnLastIssue(mixed $registrationNumber)
-    {
+    private function getOdometerOnLastIssue(mixed $registrationNumber) {
         return DB::table('gen_material_headers')
-            ->where('veh_reg_no',
-                QueryComparisonOperator::EQUALS,
-                $registrationNumber)
-            ->where("is_fuel",
-                QueryComparisonOperator::EQUALS,
-                "Y")
-            ->whereIn('status', [
-                StatusHelper::partiallyReleased(),
-                StatusHelper::fullyReleased(),
-                StatusHelper::partiallyReleasedExpired(),
-                StatusHelper::partiallyReleasedCancelled()
-            ])
-            ->select(DB::raw('MAX(odometer) as odometer'))
-            ->first()->odometer ?? 0;
+                ->where('veh_reg_no',
+                    QueryComparisonOperator::EQUALS,
+                    $registrationNumber)
+                ->where("is_fuel",
+                    QueryComparisonOperator::EQUALS,
+                    "Y")
+                ->whereIn('status', [
+                    StatusHelper::partiallyReleased(),
+                    StatusHelper::fullyReleased(),
+                    StatusHelper::partiallyReleasedExpired(),
+                    StatusHelper::partiallyReleasedCancelled()
+                ])
+                ->select(DB::raw('MAX(odometer) as odometer'))
+                ->first()->odometer ?? 0;
     }
 
-    private function getVehicleFuelConsumptionData(mixed $vehicleReference): array
-    {
+    private function getVehicleFuelConsumptionData(mixed $vehicleReference): array {
         Log::debug("Registration Number $vehicleReference");
 
         $consumptionData = DB::table('vm_vehicle_header vh')
@@ -616,8 +602,7 @@ class FuelRequisitionService
     private function saveFuelRequisition(FuelRequisitionPostRequest $requisitionPostRequest,
                                          mixed                      $registrationNumber,
                                                                     $validFrom,
-                                                                    $validTo): string
-    {
+                                                                    $validTo): string {
 
         Log::debug("Registration Number   $registrationNumber");
         Log::debug("Validity Period From   $validFrom");
@@ -751,18 +736,21 @@ class FuelRequisitionService
      * @param mixed $registrationNumber
      * @return array
      */
-    private static function getFuelLastIssue(mixed $registrationNumber): array
-    {
-        $result = DB::table('gen_material_headers h')
-            ->where('veh_reg_no',
-                QueryComparisonOperator::EQUALS,
-                $registrationNumber)
-            ->where('is_fuel',
-                QueryComparisonOperator::EQUALS,
-                'Y'
-            )->whereNotIn('status', Articles::OPEN_STATUS_GROUP)
-            ->select(DB::raw('MAX(created_at) as max_date'))
-            ->first();
+    private static function getFuelLastIssue(mixed $registrationNumber): array {
+
+           $result = DB::table('gen_material_headers h')
+               ->where('veh_reg_no',
+                   QueryComparisonOperator::EQUALS,
+                   $registrationNumber)
+               ->where('is_fuel',
+                   QueryComparisonOperator::EQUALS,
+                   'Y'
+               )
+               ->whereNotIn('status', ['45', '03', '01', '02'])
+//                   ->whereRaw(DB::raw("status NOT IN('45','03','01','')"))
+               ->select(DB::raw('MAX(created_at) as max_date'))
+               ->first();
+
 
         $latestIssues = DB::table('gen_material_headers h')
             ->leftJoin(
@@ -789,7 +777,6 @@ class FuelRequisitionService
             )->get();
 
         $latestIssue = $latestIssues->first();
-
         if (empty($latestIssue)) {
             return [0, null];
         }
@@ -805,8 +792,7 @@ class FuelRequisitionService
         return [$quantityLastIssued->quantity ?? 0, $latestIssue];
     }
 
-    private static function getLatestActiveRequisition(mixed $registrationNumber): mixed
-    {
+    private static function getLatestActiveRequisition(mixed $registrationNumber): mixed {
         return MaterialHeader::where("veh_reg_no", $registrationNumber)
             ->whereNotIn("status", [
                 StatusHelper::cancelled(),
@@ -830,8 +816,7 @@ class FuelRequisitionService
         $reference,
         $submittedAction,
         string $remarks,
-        string $subject = null): string
-    {
+        string $subject = null): string {
         $requisitionDetail = $this->getRequisitionDetail($reference);
 
         $process_code = $this->getProcessCode($requisitionDetail->requisition_type);
@@ -911,8 +896,7 @@ class FuelRequisitionService
      * @param mixed $requisitionType
      * @return string
      */
-    private function getProcessCode(mixed $requisitionType): string
-    {
+    private function getProcessCode(mixed $requisitionType): string {
         $process_code = '';
         if ($requisitionType == RequisitionTypes::OutOfTown->value) {
             $process_code = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
@@ -928,8 +912,7 @@ class FuelRequisitionService
      * @param $submittedAction
      * @return array
      */
-    private function getActionTaken($submittedAction): array
-    {
+    private function getActionTaken($submittedAction): array {
         $action = 0;
         $actionTaken = '';
         $message = '';
@@ -958,8 +941,7 @@ class FuelRequisitionService
         return array($action, $actionTaken, $message);
     }
 
-    private function updateRequisition($reference, string $status, string $requisition): void
-    {
+    private function updateRequisition($reference, string $status, string $requisition): void {
         DB::beginTransaction();
         MaterialHeader::where("req_no", $reference)
             ->update([
@@ -977,8 +959,7 @@ class FuelRequisitionService
      * @return array
      * @throws FuelRequisitionException
      */
-    public function processApproval(mixed $action, $reference, mixed $message): array
-    {
+    public function processApproval(mixed $action, $reference, mixed $message): array {
         $requisitionNumber = '';
         if ($action == WorkflowActions::approve()) {
 
@@ -999,8 +980,7 @@ class FuelRequisitionService
     /**
      * @throws OrganisationUnitStateException
      */
-    private function verifyUserUnitState($codeUnit): void
-    {
+    private function verifyUserUnitState($codeUnit): void {
 
         $unitCount = OrganizationalUnit::where(
             'code_unit',

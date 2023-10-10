@@ -21,6 +21,6 @@ class Articles
     const ITEM_TYPE = '@itemType';
 
     // 45 -cancelled, 03 -rejected , 01 - new , 02 - authorised
-    const OPEN_STATUS_GROUP = ['45', '03', '01', '02'];
+    const OPEN_STATUS_GROUP = ["45", "03", "01", "02"];
 
 }
