@@ -144,6 +144,7 @@
 
         if (vehicle.fuel_allocation) {
             let perWeekAllocation = tmsApp.getFloat(vehicle.fuel_allocation * 7).toFixed(2);
+            console.log(perWeekAllocation);
             document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
             document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
 
@@ -816,7 +817,8 @@
         eventHandler(this, e);
     }).on('blur', 'input', function (e) {
         if (this.name === 'quantity' || this.name === 'material_quantity') {
-            $(this).val(tmsApp.numberFormat(this.value));
+            // $(this).val(tmsApp.numberFormat(this.value));
+            $(this).val(this.value);
         }
     });
 })(window.tmsApp || {}, jQuery)

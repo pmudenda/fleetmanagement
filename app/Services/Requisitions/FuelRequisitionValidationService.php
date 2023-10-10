@@ -86,6 +86,7 @@ class FuelRequisitionValidationService
         $odometerOnLastIssue,
         $reg_no): void
     {
+
         Log::debug("Odometer on last issue $odometerOnLastIssue");
 
         Log::debug("User Provided reading $userProvidedOdometerReading");

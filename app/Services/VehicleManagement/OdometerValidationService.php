@@ -13,7 +13,7 @@ class OdometerValidationService
     /**
      * @throws DataNotFoundException
      */
-    public function validate(string $vehicleRegistration, mixed $userProvidedOdometer): bool
+    public function validate(string $vehicleRegistration, mixed $userProvidedOdometer)
     {
         $vehicle = VehicleHeader::where('registration_number', QueryComparisonOperator::EQUALS,
             $vehicleRegistration)->first();
@@ -23,6 +23,9 @@ class OdometerValidationService
         if (empty($vehicle)) {
             throw new DataNotFoundException("Vehicle not found");
         }
+
+        $variance = ($userProvidedOdometer / $vehicle->mileage) * 100;
+//        return $variance;
 
         return $userProvidedOdometer >= $vehicle->mileage;
     }
