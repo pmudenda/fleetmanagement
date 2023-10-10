@@ -145,7 +145,7 @@ class WorkflowService
         $actionPage = $stepAfterSubmission->action_page;
 
         WorkflowTaskHeader::create([
-            'assigned_user' => $assignToUser->alt_per_no ?? $assignToUser->staff_no,
+            'assigned_user' =>  $assignToUser->staff_no ?? $assignToUser->alt_per_no,
             'subject' => $short_description,
             'status' => StatusHelper::new(),
             'url' => $actionPage,
