@@ -193,7 +193,7 @@ class FuelRequisitionService {
                    $registrationNumber");
         Log::debug('Consumption ' . $fuel_consumption);
         Log::debug('Quantity Last Issued ' . $quantityLastIssued);
-        $maximumDistance = ($quantityLastIssued * ($fuel_consumption)) * 0.75;
+        $maximumDistance = ($quantityLastIssued * ($fuel_consumption)) * 0.25;
         $newEstimatedOdometer = $maximumDistance + $odometerOnLastIssue;
 //        dd(compact('maximumDistance','newEstimatedOdometer','userProvidedOdometer'));
         Log::debug("Maximum Distance " . $maximumDistance);
