@@ -194,6 +194,7 @@ class FuelRequisitionService {
         Log::debug('Consumption ' . $fuel_consumption);
         Log::debug('Quantity Last Issued ' . $quantityLastIssued);
         $maximumDistance = ($quantityLastIssued * ($fuel_consumption)) * 0.25;
+        $minDistance  = $maximumDistance * 0.25;
         $newEstimatedOdometer = $maximumDistance + $odometerOnLastIssue;
 //        dd(compact('maximumDistance','newEstimatedOdometer','userProvidedOdometer'));
         Log::debug("Maximum Distance " . $maximumDistance);
@@ -201,7 +202,9 @@ class FuelRequisitionService {
         Log::debug("Last Issue + Odometer On Last Issue " . $newEstimatedOdometer);
 
         // check the value of deviation 5 - 8 = -3
-        $variance = $userProvidedOdometer - $newEstimatedOdometer;
+//        $variance = $userProvidedOdometer - $newEstimatedOdometer;
+
+        $variance = $userProvidedOdometer - ($minDistance + $odometerOnLastIssue);
         Log::debug("Odometer Variance " . $variance);
 
         if ($variance < 0) {
@@ -554,7 +557,8 @@ class FuelRequisitionService {
                     StatusHelper::partiallyReleased(),
                     StatusHelper::fullyReleased(),
                     StatusHelper::partiallyReleasedExpired(),
-                    StatusHelper::partiallyReleasedCancelled()
+                    StatusHelper::partiallyReleasedCancelled(),
+                    StatusHelper::expired()
                 ])
                 ->select(DB::raw('MAX(odometer) as odometer'))
                 ->first()->odometer ?? 0;
