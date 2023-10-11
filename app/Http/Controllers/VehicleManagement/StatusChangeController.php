@@ -52,6 +52,7 @@ class StatusChangeController extends Controller
                 ->first();
 
             $vehicleHeader->status = $status;
+            $vehicleHeader->save();
 
             return response()->json(
                 FleetMasterJsonResponse::response(

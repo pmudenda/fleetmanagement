@@ -98,8 +98,8 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                                    <input type="hidden"
-                                                                           class="form-control form-control-sm"
+                                                                    <input type="text"
+                                                                           class="form-control-plaintext"
                                                                            id="vehicle_description"
                                                                            name="vehicle_description"
                                                                            required
@@ -124,7 +124,7 @@
                                                                         class="col-xs-12 col-sm-6 col-md-5
                                                                             col-lg-4 field-required"
                                                                         for="status">
-                                                                        Status:
+                                                                        Status: (Current: <span id="current_status"></span> )
                                                                     </label>
                                                                     <div
                                                                         class="col-xs-12 col-sm-6
@@ -264,7 +264,7 @@
                 element.setAttribute('disabled', 'disabled');
             });
 
-            document.querySelector('#vehicleDetailsContainer').style.display = 'none';
+            // document.querySelector('#vehicleDetailsContainer').style.display = 'none';
             document.querySelector('#image_view').style.display = 'none';
 
             $('tbody#vehicleDetails').html('');
@@ -284,6 +284,8 @@
 
             document.querySelector('#vehicleDetailsContainer').style.display = null;
             document.querySelector('#image_view').style.display = null;
+            // document.querySelector('#vehicleDetailsContainer').style.display = 'none';
+
         }
 
         (function (tmsApp, $) {
@@ -372,23 +374,25 @@
             });
 
             let populateVehicleDetails = function (payload) {
+                // console.log(payload);
                 let vehicle = payload['vehicle'];
                 let images = payload['images'];
                 let vehicle_state = payload['vehicle_state'];
 
-                if (!vehicle || !vehicle.brand_name) {
+                if (!vehicle) {
+                    console.log(vehicle);
                     return;
                 }
 
-                if (vehicle['status'] === $('[name="vehicleInWorkshop"]').val()) {
-                    tmsApp.showSystemMessage("Vehicle State",
-                        vehicle_state,
-                        () => {
-                        },
-                        "error"
-                    );
-                    return;
-                }
+                // if (vehicle['status'] === $('[name="vehicleInWorkshop"]').val()) {
+                //     tmsApp.showSystemMessage("Vehicle State",
+                //         vehicle_state,
+                //         () => {
+                //         },
+                //         "error"
+                //     );
+                //     return;
+                // }
 
                 let vLabel = vehicle['body_type_name'] ? vehicle['body_type_name'] : ''
                     + ' ' + vehicle['brand_name']
@@ -396,7 +400,7 @@
                     + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
                 $("#vehicle_status").text(vehicle['status_name']);
-
+                $("#current_status").html(vehicle['status_name']);
                 enableSubmissionAndDetailsOptions();
 
                 if (images && images.length > 0) {
