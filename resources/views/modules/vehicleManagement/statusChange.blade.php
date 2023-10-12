@@ -20,142 +20,87 @@
 @section('content')
     <x-content-header/>
     <section class="content">
-        <div class="row g-12 g-xl-12" id="kt_app_main">
-            <div class="card mb-xl-10">
-                <div id="card_header" class="card-header min-h-2px">
-                    <div class="card-header pl-0">
-                        <div class="card-title">
-                            <h4>Vehicle Status Change</h4>
+        <div class="row" id="kt_app_main">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div id="card_header" class="card-header min-h-2px">
+                        <div class="card-header pl-0">
+                            <div class="card-title">
+                                <h4>Vehicle Status Change Form</h4>
+                            </div>
                         </div>
-                        <div id="actionButtonsContainer"
-                             class="card-toolbar justify-content-end">
-                            <button type="button" id="submitFuelAllocationBtn"
-                                    class="btn btn-success btn-sm mr-3 when_odo_valid">
-                                <i class="fas fa-save"></i>
-                                Submit
-                            </button>
-                            <button type="button" id="resetRequisitionBtn"
-                                    class="btn btn-danger btn-sm mr-3">
-                                <i class="fas fa-undo"></i>
-                                Clear
-                            </button>
 
-                        </div>
-                    </div>
-                    <div class="card-title">
-                        <h2>Vehicle Status Change Form</h2>
-                        <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
-                    </div>
-
-                    <form name="fuelAllocationForm"
-                          id="fuelAllocationForm"
-                          action="{{route('vehicle.status.change.save')}}" method="post">
-                        @csrf
-                        <div class="card-body user-data pl-1">
-                            <label class="app-required-marker"></label>
-                            <div class="container-fluid mt-2">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <div class="row pl-0">
-                                            <div class="col-9">
-                                                <div class="col-xs-12 col-sm-8 col-md-8">
-                                                    <div class="container-fluid pl-0">
-                                                        <div class="row">
-                                                            <div class="form-group row">
-                                                                <label class="col-xs-12 col-sm-6
-                                                                col-md-5 col-lg-4 field-required pl-0"
-                                                                       for="vehicle_registration">
-                                                                    Registration #:
-                                                                </label>
-                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-                                                                    <div class="input-group">
-                                                                        <input type="text"
-                                                                               data-action="{{
+                        <form name="fuelAllocationForm"
+                              id="fuelAllocationForm"
+                              action="{{route('vehicle.status.change.save')}}" method="post">
+                            @csrf
+                            <div class="card-body user-data pl-1">
+                                <div class="container-fluid pl-0">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="form-group mb-2">
+                                                    <label class="col-lg-12 field-required"
+                                                           for="vehicle_registration">
+                                                        Registration #:
+                                                    </label>
+                                                    <div class="col-lg-12">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   data-action="{{
                                                                             route('requisition.vehicle.details')
                                                                             }}"
-                                                                               class="form-control form-control-sm"
-                                                                               autocapitalize="characters"
-                                                                               id="vehicleRegistration"
-                                                                               placeholder="Vehicle Reg e.g AAB 6757"
-                                                                               name="vehicleRegistration"
-                                                                               required>
-                                                                        <div class="input-group-addon">
-                                                                            <button type="button" id="vehicleSearchBtn"
-                                                                                    name="vehicleSearchBtn"
-                                                                                    class="btn btn-success btn-sm
+                                                                   class="form-control form-control-sm"
+                                                                   autocapitalize="characters"
+                                                                   id="vehicleRegistration"
+                                                                   placeholder="Vehicle Reg e.g AAB 6757"
+                                                                   name="vehicleRegistration"
+                                                                   required>
+                                                            <div class="input-group-addon">
+                                                                <button type="button" id="vehicleSearchBtn"
+                                                                        name="vehicleSearchBtn"
+                                                                        class="btn btn-success btn-sm
                                                                                 border-radius-0">
-                                                                                <i class="fas fa-search"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-8 col-md-8">
-                                                    <div class="container-fluid pl-0">
-                                                        <div class="row">
-                                                            <div class="form-group row">
-                                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                                    <input type="text"
-                                                                           class="form-control-plaintext"
-                                                                           id="vehicle_description"
-                                                                           name="vehicle_description"
-                                                                           required
-                                                                           readonly
-                                                                    />
-                                                                </div>
+                                                                    <i class="fas fa-search"></i>
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-9">
-                                                <div class="row mt-5">
-                                                    <div class="col-xs-12 col-sm-8 col-md-8">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5
-                                                                            col-lg-4 field-required"
-                                                                        for="status">
-                                                                        Status: (Current: <span id="current_status"></span> )
-                                                                    </label>
-                                                                    <div
-                                                                        class="col-xs-12 col-sm-6
-                                                                            col-md-7 col-lg-8">
-                                                                        <select
-                                                                            id="status"
-                                                                            name="status"
-                                                                            class="form-select form-select-sm">
-                                                                            @foreach($vehicleStatuses as $status)
-                                                                                <option value="{{$status->code}}">
-                                                                                    {{$status->name}}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                            <p></p>
+                                            <div class="row">
+                                                <div class="form-group mb-2">
+                                                    <label
+                                                            class="col-lg-12 field-required"
+                                                            for="status">
+                                                        Status:
+                                                    </label>
+                                                    <div
+                                                            class="col-lg-12">
+                                                        <select
+                                                                id="status"
+                                                                name="status"
+                                                                class="form-select form-select-sm">
+                                                            @foreach($vehicleStatuses as $status)
+                                                                <option value="{{$status->code}}">
+                                                                    {{$status->name}}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <p></p>
 
-                                                <div class="row mt-3">
-                                                    <div class="row">
-                                                        <div class="form-group">
-                                                            <label
-                                                                class="col-xs-12 col-sm-6
-                                                                col-md-5 col-lg-4 pl-0 field-required"
-                                                                for="remarks">
-                                                                Remarks :
-                                                            </label>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                            <div class="row">
+                                                <div class="form-group mb-3">
+                                                    <label
+                                                            class="col-lg-12  field-required"
+                                                            for="remarks">
+                                                        Remarks :
+                                                    </label>
+                                                    <div class="col-lg-12 ">
                                                     <textarea type="text"
                                                               id="remarks"
                                                               minlength="10"
@@ -165,14 +110,11 @@
                                                               style="height: 129px;"
                                                               class="form-control comments form-control-sm"
                                                     ></textarea>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <p></p>
 
-                                        <div class="modal-footer justify-content-between">
                                             <button type="submit"
                                                     id="fuelAllocationSubmissionBtn"
                                                     class="btn btn-sm btn-success">
@@ -180,39 +122,62 @@
                                                 Submit
                                             </button>
                                         </div>
-
-                                    </div>
-                                    <div class="col-3">
-                                        <div id="vehicleDetailsContainer" style="display: none;"
-                                             class="col-xs-12 col-sm-12 col-md-12">
-                                            <table role="table"
-                                                   aria-label="vehicle details"
-                                                   class="table">
-                                                <thead class="d-none">
-                                                <tr>
-                                                    <th scope="row"></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody id="vehicleDetails" class="vehicleDetails">
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
-                                            <div class="form-group">
-                                                <div class="imagePreview"></div>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </form>
 
-                    <!--begin::Card body-->
+                            </div>
+                        </form>
+
+                        <!--begin::Card body-->
+                        <div class="card-body">
+                            <x-error-view/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
                     <div class="card-body">
-                        <x-error-view/>
+                        <table class="table table-borderless">
+                            <tr>
+                                <th>Status</th>
+                                <td id="vehicle-status"></td>
+                            </tr>
+
+                            <tr>
+                                <th>Body Type</th>
+                                <td id="vehicle-body_type_name"></td>
+                            </tr>
+
+                            <tr>
+                                <th>Brand</th>
+                                <td id="vehicle-brand_name"></td>
+                            </tr>
+
+                            <tr>
+                                <th>Business Unit</th>
+                                <td id="vehicle-business_unit_name"></td>
+                            </tr>
+
+                            <tr>
+                                <th>Cost Center</th>
+                                <td id="vehicle-cost_center_name"></td>
+                            </tr>
+
+                            <tr>
+                                <th>Mileage</th>
+                                <td id="vehicle-mileage"></td>
+                            </tr>
+
+                            <tr>
+                                <th>Holder Name</th>
+                                <td id="vehicle-vehicleholdername"></td>
+                            </tr>
+
+
+                        </table>
+
                     </div>
                 </div>
             </div>
@@ -265,7 +230,7 @@
             });
 
             // document.querySelector('#vehicleDetailsContainer').style.display = 'none';
-            document.querySelector('#image_view').style.display = 'none';
+            // document.querySelector('#image_view').style.display = 'none';
 
             $('tbody#vehicleDetails').html('');
             document.querySelector('[name="fuel_allocation"]').value = '';
@@ -282,8 +247,8 @@
                 element.removeAttribute('disabled');
             });
 
-            document.querySelector('#vehicleDetailsContainer').style.display = null;
-            document.querySelector('#image_view').style.display = null;
+            // document.querySelector('#vehicleDetailsContainer').style.display = null;
+            // document.querySelector('#image_view').style.display = null;
             // document.querySelector('#vehicleDetailsContainer').style.display = 'none';
 
         }
@@ -380,27 +345,19 @@
                 let vehicle_state = payload['vehicle_state'];
 
                 if (!vehicle) {
-                    console.log(vehicle);
                     return;
                 }
 
-                // if (vehicle['status'] === $('[name="vehicleInWorkshop"]').val()) {
-                //     tmsApp.showSystemMessage("Vehicle State",
-                //         vehicle_state,
-                //         () => {
-                //         },
-                //         "error"
-                //     );
-                //     return;
-                // }
+                console.log(vehicle);
 
-                let vLabel = vehicle['body_type_name'] ? vehicle['body_type_name'] : ''
-                    + ' ' + vehicle['brand_name']
-                    + ' ' + vehicle['model_name']
-                    + ' ' + vehicle['model_code'];
-                $("#vehicle_description").val(vLabel);
-                $("#vehicle_status").text(vehicle['status_name']);
-                $("#current_status").html(vehicle['status_name']);
+                $("#vehicle-status").html(vehicle['status_name']);
+                $("#vehicle-body_type_name").html(vehicle['body_type_name']);
+                $("#vehicle-brand_name").html(vehicle['brand_name']);
+                $("#vehicle-business_unit_name").html(vehicle['business_unit_name']);
+                $("#vehicle-cost_center_name").html(vehicle['cost_center_name']);
+                $("#vehicle-mileage").html(vehicle['mileage']);
+                $("#vehicle-vehicleholdername").html(vehicle['vehicleholdername']);
+
                 enableSubmissionAndDetailsOptions();
 
                 if (images && images.length > 0) {
@@ -450,7 +407,7 @@
         })(window.tmsApp || {}, jQuery);
 
 
-        (function(tmsApp, zesco){
+        (function (tmsApp, zesco) {
             zesco(document).ready();
 
 
