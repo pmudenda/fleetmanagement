@@ -678,8 +678,6 @@ class WorkshopService
             'workshop','workshop_code',$workShopCode
         )->first();
 
-
-
         return Mechanic::where('id',
             QueryComparisonOperator::EQUALS,
             $mechanic->mechanic_id)

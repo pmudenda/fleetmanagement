@@ -31,8 +31,8 @@ class StatusChangeController extends Controller
     public function store(StatusChangeRequest $changeRequest): JsonResponse
     {
         try {
-            $registrationNumber = $changeRequest->get('');
-            $status = $changeRequest->get('newStatus');
+            $registrationNumber = $changeRequest->get('vehicleRegistration');
+            $status = $changeRequest->get('status');
             $remarks = $changeRequest->get('remarks');
 
             VehicleStatusHistory::create([
@@ -52,6 +52,7 @@ class StatusChangeController extends Controller
                 ->first();
 
             $vehicleHeader->status = $status;
+            $vehicleHeader->save();
 
             return response()->json(
                 FleetMasterJsonResponse::response(
