@@ -104,7 +104,7 @@
                                                     <textarea type="text"
                                                               id="remarks"
                                                               minlength="10"
-                                                              maxlength="255"
+                                                              maxlength="200"
                                                               required
                                                               name="remarks"
                                                               style="height: 129px;"
