@@ -1124,19 +1124,19 @@
                                 </li>
                             @endcanany
 
-                            @canany(config('rights.access_reports'),
-                                config('rights.access_vehicle_status_reports'))
-                                <li class="nav-item">
-                                    <a href="{{
-                                        URL::signedRoute('reports.vehicle.status',
-                                        ['step'=> 1]
-                                    )}}"
-                                       class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Vehicles</p>
-                                    </a>
-                                </li>
-                            @endcanany
+{{--                            @canany(config('rights.access_reports'),--}}
+{{--                                config('rights.access_vehicle_status_reports'))--}}
+{{--                                <li class="nav-item">--}}
+{{--                                    <a href="{{--}}
+{{--                                        URL::signedRoute('reports.vehicle.status',--}}
+{{--                                        ['step'=> 1]--}}
+{{--                                    )}}"--}}
+{{--                                       class="nav-link">--}}
+{{--                                        <i class="far fa-circle nav-icon"></i>--}}
+{{--                                        <p>Vehicles</p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                            @endcanany--}}
 
                         </ul>
                     </li>
