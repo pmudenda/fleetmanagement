@@ -1103,15 +1103,15 @@
                         <ul class="nav nav-treeview pl-3">
                             @canany(config('rights.access_reports'),
                                                     config('rights.access_fuel_reports'))
-                                <li class="nav-item">
-                                    <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"
-                                       class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>
-                                            Fuel
-                                        </p>
-                                    </a>
-                                </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"--}}
+{{--                                       class="nav-link">--}}
+{{--                                        <i class="far fa-circle nav-icon"></i>--}}
+{{--                                        <p>--}}
+{{--                                            Fuel--}}
+{{--                                        </p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
 
                                 <li class="nav-item">
                                     <a href="{{route('reports.fuel.status')}}"
