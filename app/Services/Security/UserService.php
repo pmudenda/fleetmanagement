@@ -96,6 +96,7 @@ class UserService
                     'ACT')
                 ->whereNull('alt_per_no')
                 ->first();
+
         } else {
             $dataset = PHCMSEmployee::select('*')
                 ->where('name', 'LIKE', "%{$searchParam}%")
