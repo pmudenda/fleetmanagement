@@ -123,7 +123,7 @@ class FuelRequisitionValidationService
                                                             $reg_num): void
     {
         // check if previous requisition period elapsed
-        if ($valid_from->lessThanOrEqualTo(Carbon::parse($previousRequisition->valid_date_to))) {
+        if ($valid_from->lessThan(Carbon::parse($previousRequisition->valid_date_to))) {
             throw new FuelRequisitionException(
                 str_replace(self::VEH_REG, $reg_num,
                     str_replace(self::DATE_VALID_TO,

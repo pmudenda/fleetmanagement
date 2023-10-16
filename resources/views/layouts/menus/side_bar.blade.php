@@ -1112,6 +1112,16 @@
                                         </p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('reports.fuel.status')}}"
+                                       class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Fuel By Status
+                                        </p>
+                                    </a>
+                                </li>
                             @endcanany
 
                             @canany(config('rights.access_reports'),

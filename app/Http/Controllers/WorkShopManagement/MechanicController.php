@@ -9,10 +9,12 @@ use App\Enums\ConfigurationTypes;
 use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\OrganizationStructure\BusinessAreasController;
 use App\Http\Requests\MechanicOnboarding;
 use App\Http\Requests\MechanicUpdate;
 use App\Http\Requests\UserSync;
 use App\Http\Responses\FleetMasterJsonResponse;
+use App\Models\Common\BusinessArea;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\Role;
 use App\Models\Settings\GeneralTable;
@@ -43,6 +45,7 @@ class MechanicController extends Controller
         $role = Role::where('name', '=', 'MECHANIC')->first();
         $businessUnits = (new StructureService)->getBusinessUnits();
         $costCenters = (new StructureService)->getCostCenters();
+        $businessAreas = BusinessArea::where('status','01');
 
         $workshopList = WorkShop::get();
 
@@ -51,6 +54,7 @@ class MechanicController extends Controller
 
         return view('modules.mechanicManagement.create')
             ->with(compact(
+                'businessAreas',
                 'role',
                 'businessUnits',
                 'costCenters',
