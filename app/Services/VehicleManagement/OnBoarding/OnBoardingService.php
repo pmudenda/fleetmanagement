@@ -475,13 +475,13 @@ class OnBoardingService
     {
         $record = VehicleHeader::find($headerId);
         $barCodeParams = [
-            'text' => $record->registration_number,
+            'text' => $record->registration_number ?? $headerId,
             'size' => 50,
             'orientation' => 'horizontal',
             'code_type' => 'code39',
             'print' => true,
             'sizeFactor' => 2,
-            'filename' => $record->registration_number,
+            'filename' => $record->registration_number ?? $headerId,
             'filePath' => 'vehicleBarcodes',
             'fileType' => '.jpeg',
         ];
