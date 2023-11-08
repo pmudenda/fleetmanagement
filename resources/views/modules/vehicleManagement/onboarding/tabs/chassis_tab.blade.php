@@ -540,7 +540,7 @@
 
                 <div class="form-group">
                     <div class="imagePreview"
-                         :style='{backgroundImage: "url(/storage" + images.frontView.path + ")",}'>
+                         :style='{backgroundImage: "url(/storage/" + images.frontView.path + ")",}'>
                     </div>
                 </div>
             </div>
