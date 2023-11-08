@@ -43,6 +43,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     });
 
     Vue.set(app['vehicleHeader'], 'registration_type', data['registration_type']);
+    Vue.set(app['vehicleHeader'], 'verified', data['verified']);
     Vue.set(app['vehicleHeader'], 'brand_code', data['brand_code']);
 
     if (data['model_code']) {
