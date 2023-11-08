@@ -169,7 +169,7 @@
             <input type="hidden"
                    name="vehicle_details"
                    value="{{route('vehicle.details', [$reference])}}"/>
-            @include('modules.vehicleManagement.partial.data_`end_point')
+            @include('modules.vehicleManagement.partial.data_end_point')
         </div>
     </section>
     <x-employee-search-modal/>

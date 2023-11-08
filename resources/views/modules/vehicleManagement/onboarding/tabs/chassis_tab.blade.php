@@ -550,7 +550,7 @@
                 <h2 class="fs-2x fw-bold mb-10">Rear View</h2>
                 <div class="form-group">
                     <div class="imagePreview"
-                         :style='{backgroundImage: "url(/storage" + images.rearView.path + ")",}'>
+                         :style='{backgroundImage: "url(/storage/" + images.rearView.path + ")",}'>
                     </div>
                 </div>
             </div>
@@ -560,7 +560,7 @@
             <div class="card text-center py-5 my-2">
                 <h2 class="fs-2x fw-bold mb-10">Right View</h2>
                 <div class="form-group">
-                    <div class="imagePreview" :style='{backgroundImage: "url(/storage" + images.rightView.path + ")",}'>
+                    <div class="imagePreview" :style='{backgroundImage: "url(/storage/" + images.rightView.path + ")",}'>
                     </div>
                 </div>
             </div>
@@ -569,7 +569,7 @@
             <div class="card text-center py-5 my-2">
                 <h2 class="fs-2x fw-bold mb-10">Left View</h2>
                 <div class="form-group">
-                    <div class="imagePreview" :style='{backgroundImage: "url(/storage" + images.leftView.path + ")",}'>
+                    <div class="imagePreview" :style='{backgroundImage: "url(/storage/" + images.leftView.path + ")",}'>
                     </div>
                 </div>
             </div>
