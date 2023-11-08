@@ -124,8 +124,9 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
     Route::group(['prefix' => 'insurance',
         'as' => 'insurance.'],
         function () {
-            Route::get('create', [InsuranceController::class, 'create'])->name('create');
+            Route::get('create', \App\Livewire\VehicleManagement\Insurance\InsuranceCreate::class)->name('create');
             Route::post('save', [InsuranceController::class, 'save'])->name('save');
+            Route::get('/',\App\Livewire\VehicleManagement\Insurance\InsuranceIndex::class)->name('index');
         });
 
     Route::get('/accessories', [VehicleController::class, 'accessories'])
