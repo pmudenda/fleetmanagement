@@ -179,7 +179,7 @@ class OnBoardingService
             $user
         );
         try {
-            self::generateBarCode($request->input('headerId'));
+//            self::generateBarCode($request->input('headerId'));
         } catch (\Exception $e) {
             Log::error($e);
         }
