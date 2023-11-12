@@ -37,6 +37,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group row">
+                        <label for="verified" class="fs-6 fw-semibold form-label mt-3 col-md-3">
+                            <span class="required">Verified</span>
+                        </label>
+                        <livewire:vehicle-status :vehicle="$vehicle"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group row">
                         <label for="registration_type" class="fs-6 fw-semibold form-label mt-3 col-md-3">
                             <span class="required">Registration Type</span>
                         </label>
@@ -61,28 +72,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-group row">
-                        <label for="verified" class="fs-6 fw-semibold form-label mt-3 col-md-3">
-                            <span class="required">Verified</span>
-                        </label>
-                        <div class="col-md-9 fv-row">
-                            <div class="col-md-9">
-                                <div class="w-100 fv-row">
-                                    <select class="form-select form-select-sm"
-                                            id="verified"
-                                            name="verified"
-{{--                                            @input="verifiedChanged"--}}
-                                            v-model="vehicleHeader.verified">
-                                        <option>--</option>
-                                        <option value="Y">Yes</option>
-                                        <option value="Y">No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="row  mt-5">
