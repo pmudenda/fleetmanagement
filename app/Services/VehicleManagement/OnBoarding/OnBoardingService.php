@@ -64,6 +64,7 @@ class OnBoardingService
 
         if ($request->chassisDetailsId == 0) {
             $recordByRegistrationNumber = ChassisDetail::where('chassis_number', $chassisNumber)
+                ->whereNot('vehicle_header_id', $request->headerId)
                 ->first();
 
             if (!empty($recordByRegistrationNumber)) {
@@ -71,12 +72,13 @@ class OnBoardingService
                     str_replace(
                         self::DOC_NUMBER,
                         $chassisNumber,
-                        ErrorMessages::INVALID_CHASSIS_NUMBER)
+                        ErrorMessages:: INVALID_CHASSIS_NUMBER)
                 );
             }
 
             $recordMotorVehicleCertificate = ChassisDetail::where(
                 'chassis_number', $whiteBookSerial)
+                ->whereNot('vehicle_header_id', $request->headerId)
                 ->first();
 
             if (!empty($recordMotorVehicleCertificate)) {
@@ -87,7 +89,7 @@ class OnBoardingService
                 );
             }
 
-            $recordByEngineNumber = ChassisDetail::where('engine_number', $engineNumber)->first();
+            $recordByEngineNumber = ChassisDetail::where('engine_number', $engineNumber)->whereNot('vehicle_header_id', $request->headerId)->first();
 
             if (!empty($recordByEngineNumber)) {
                 throw new VehicleOnBoardingException(

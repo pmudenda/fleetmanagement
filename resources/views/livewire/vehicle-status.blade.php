@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-md-8">
         <div class="w-100">
+
             <select class="form-select form-select-sm"
                     wire:model="verified">
                 <option>--</option>
