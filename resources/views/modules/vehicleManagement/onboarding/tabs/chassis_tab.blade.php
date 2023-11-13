@@ -449,7 +449,6 @@
             </table>
         </div>
     </div>
-
     <div class="card card-default" v-if="!documents.insurance && !documents.certificate">
         <div class="card-header pl-0">
             <h3 class="card-title pl-0">Vehicle Document<small class="pl-3 link-info"><strong> Only .pdf,
@@ -533,48 +532,66 @@
         </table>
     </div>
 
-    <div class="row mt-10">
-        <div class="col-md-3" v-if="images && images.frontView">
-            <div class="card text-center py-5 my-2">
-                <h2 class="fs-2x fw-bold mb-10">Front View</h2>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="lightgallery">
+               @foreach($docs as $image)
 
-                <div class="form-group">
-                    <div class="imagePreview"
-                         :style='{backgroundImage: "url(/storage/" + images.frontView.path + ")",}'>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3" v-if="images && images.rearView">
-            <div class="card-px text-center py-5 my-2">
-                <h2 class="fs-2x fw-bold mb-10">Rear View</h2>
-                <div class="form-group">
-                    <div class="imagePreview"
-                         :style='{backgroundImage: "url(/storage/" + images.rearView.path + ")",}'>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <div id="basicExample2" class="justified-gallery">
+                        <a href="{{asset("storage/vehicleRegistration/{$image->name}")}}">
+                            <img alt="{{$image->file_type}}" src="{{asset("storage/vehicleRegistration/{$image->name}")}}"/>
+                        </a>
 
-        <div class="col-md-3" v-if="images && images.rightView">
-            <div class="card text-center py-5 my-2">
-                <h2 class="fs-2x fw-bold mb-10">Right View</h2>
-                <div class="form-group">
-                    <div class="imagePreview" :style='{backgroundImage: "url(/storage/" + images.rightView.path + ")",}'>
                     </div>
-                </div>
+               @endforeach
+
             </div>
-        </div>
-        <div class="col-md-3" v-if="images && images.leftView">
-            <div class="card text-center py-5 my-2">
-                <h2 class="fs-2x fw-bold mb-10">Left View</h2>
-                <div class="form-group">
-                    <div class="imagePreview" :style='{backgroundImage: "url(/storage/" + images.leftView.path + ")",}'>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
+
+{{--    <div class="row mt-10">--}}
+{{--        <div class="col-md-3" v-if="images && images.frontView">--}}
+{{--            <div class="card text-center py-5 my-2">--}}
+{{--                <h2 class="fs-2x fw-bold mb-10">Front View</h2>--}}
+
+{{--                <div class="form-group">--}}
+{{--                    <div class="imagePreview"--}}
+{{--                         :style='{backgroundImage: "url(/storage/" + images.frontView.path + ")",}'>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="col-md-3" v-if="images && images.rearView">--}}
+{{--            <div class="card-px text-center py-5 my-2">--}}
+{{--                <h2 class="fs-2x fw-bold mb-10">Rear View</h2>--}}
+{{--                <div class="form-group">--}}
+{{--                    <div class="imagePreview"--}}
+{{--                         :style='{backgroundImage: "url(/storage/" + images.rearView.path + ")",}'>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+
+{{--        <div class="col-md-3" v-if="images && images.rightView">--}}
+{{--            <div class="card text-center py-5 my-2">--}}
+{{--                <h2 class="fs-2x fw-bold mb-10">Right View</h2>--}}
+{{--                <div class="form-group">--}}
+{{--                    <div class="imagePreview" :style='{backgroundImage: "url(/storage/" + images.rightView.path + ")",}'>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="col-md-3" v-if="images && images.leftView">--}}
+{{--            <div class="card text-center py-5 my-2">--}}
+{{--                <h2 class="fs-2x fw-bold mb-10">Left View</h2>--}}
+{{--                <div class="form-group">--}}
+{{--                    <div class="imagePreview" :style='{backgroundImage: "url(/storage/" + images.leftView.path + ")",}'>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     <div class="row mt-5 mb-10 create_mode">
         <div class="col-md-3">
@@ -711,3 +728,14 @@
         </div>
     </div>
 </form>
+
+@push('scripts')
+    <script type="text/javascript">
+        lightGallery(document.getElementById('lightgallery'), {
+            plugins: [lgZoom, lgThumbnail],
+            licenseKey: 'your_license_key',
+            speed: 500,
+        });
+    </script>
+@endpush
+

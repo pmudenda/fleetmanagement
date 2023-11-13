@@ -29,25 +29,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
-class VehicleOnBoardingController extends Controller
-{
+class VehicleOnBoardingController extends Controller {
     private OnBoardingService $onBoardingService;
     private VehicleDetailsService $vehicleDetailsService;
 
-    public function __construct(OnBoardingService $onBoardingService, VehicleDetailsService $vehicleDetailsService)
-    {
+    public function __construct(OnBoardingService $onBoardingService, VehicleDetailsService $vehicleDetailsService) {
         $this->onBoardingService = $onBoardingService;
         $this->vehicleDetailsService = $vehicleDetailsService;
     }
 
-    public function show(): View
-    {
+    public function show(): View {
         $viewName = 'modules.vehicleManagement.details.index';
         return view($viewName);
     }
 
-    public function showDetails(Request $request): View
-    {
+    public function showDetails(Request $request): View {
         if ($request->has('reference') && !$request->hasValidSignature()) {
             abort(401);
         }
@@ -83,8 +79,7 @@ class VehicleOnBoardingController extends Controller
                 'vehicleDocuments'));
     }
 
-    public function resume(Request $request): RedirectResponse
-    {
+    public function resume(Request $request): RedirectResponse {
         $reference = $request->get('reference');
 
         if (empty($reference)) {
@@ -113,8 +108,7 @@ class VehicleOnBoardingController extends Controller
         return redirect(URL::signedRoute('new.vehicle', ['step' => $step, 'reference' => $reference]));
     }
 
-    public function start(Request $request): View|RedirectResponse
-    {
+    public function start(Request $request): View|RedirectResponse {
         $vehicle = null;
         $vehicleDocuments = [];
         $enteredAccessories = [];
@@ -141,9 +135,10 @@ class VehicleOnBoardingController extends Controller
 
                 $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
 
-                $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
+                $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference)->all();
+//                dd($vehicleDocuments);
             }
-
+            $docs = $vehicleDocuments;
             $accessories = Accessory::where('status', '=', StatusHelper::active())->get();
 
             $viewName = "modules.vehicleManagement.onboarding.start";
@@ -155,7 +150,8 @@ class VehicleOnBoardingController extends Controller
                     'step',
                     'enteredAccessories',
                     'accessories',
-                    'vehicleDocuments'
+                    'vehicleDocuments',
+                    'docs'
                 ));
         } catch (Exception $e) {
             Log::error($e);
@@ -167,8 +163,7 @@ class VehicleOnBoardingController extends Controller
         }
     }
 
-    public function store(AssignmentPostRequest $request): JsonResponse
-    {
+    public function store(AssignmentPostRequest $request): JsonResponse {
         try {
             $model = $this->onBoardingService->processAssignmentDetails($request);
 
@@ -195,8 +190,7 @@ class VehicleOnBoardingController extends Controller
         }
     }
 
-    public function storeVehicleHeader(VehicleHeaderRequest $request): JsonResponse
-    {
+    public function storeVehicleHeader(VehicleHeaderRequest $request): JsonResponse {
         try {
             $model = $this->onBoardingService->processVehicleHeaderInformation($request);
 
@@ -231,8 +225,7 @@ class VehicleOnBoardingController extends Controller
      * @param ChassisDetailsPostRequest $request
      * @return JsonResponse
      */
-    public function storeChassisDetails(ChassisDetailsPostRequest $request): JsonResponse
-    {
+    public function storeChassisDetails(ChassisDetailsPostRequest $request): JsonResponse {
         try {
             $model = $this->onBoardingService->processChassisDetails($request);
             return response()->json([
@@ -260,8 +253,7 @@ class VehicleOnBoardingController extends Controller
 
     }
 
-    public function storeEngineDetails(EngineDetailsPost $request): JsonResponse
-    {
+    public function storeEngineDetails(EngineDetailsPost $request): JsonResponse {
         try {
             $model = $this->onBoardingService->processEngineDetails($request);
             return response()->json([
@@ -288,8 +280,7 @@ class VehicleOnBoardingController extends Controller
         }
     }
 
-    public function storeCostingDetails(CostingDetailsPost $request): JsonResponse
-    {
+    public function storeCostingDetails(CostingDetailsPost $request): JsonResponse {
         try {
             $model = $this->onBoardingService->processCostingDetails($request);
             return response()->json([
@@ -316,8 +307,7 @@ class VehicleOnBoardingController extends Controller
         }
     }
 
-    public function storeAccessoryDetails(OnboardingVehicleAccessoryRequest $request): JsonResponse
-    {
+    public function storeAccessoryDetails(OnboardingVehicleAccessoryRequest $request): JsonResponse {
         try {
             $model = $this->onBoardingService->processAccessory($request);
             return response()->json([
@@ -345,8 +335,7 @@ class VehicleOnBoardingController extends Controller
         }
     }
 
-    public function storeBodyDetails(BodyDetailsPost $request): JsonResponse
-    {
+    public function storeBodyDetails(BodyDetailsPost $request): JsonResponse {
         try {
             $model = $this->onBoardingService->processingBodyDetails($request);
             return response()->json([
@@ -376,8 +365,7 @@ class VehicleOnBoardingController extends Controller
     /**
      * @throws Exception
      */
-    public function validateVehicleIdentifiers(Request $request): JsonResponse
-    {
+    public function validateVehicleIdentifiers(Request $request): JsonResponse {
         $valid = true;
 
         $message = '';
