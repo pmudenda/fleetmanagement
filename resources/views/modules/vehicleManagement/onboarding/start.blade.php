@@ -243,7 +243,8 @@
 $('#basicExample2').justifiedGallery({
     rowHeight : 70,
     lastRow : 'nojustify',
-    margins : 3
+    margins : 3,
+       rel : 'gallery1',   
 }).on('jg.complete', function () {
     $(this).find('a').colorbox({
         maxWidth : '80%',

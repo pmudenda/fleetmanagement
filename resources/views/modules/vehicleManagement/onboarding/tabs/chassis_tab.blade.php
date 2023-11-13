@@ -534,18 +534,17 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div id="lightgallery">
-               @foreach($docs as $image)
+            <div id="basicExample2" class="justified-gallery">
 
-                    <div id="basicExample2" class="justified-gallery">
+            @foreach($docs as $image)
+
                         <a href="{{asset("storage/vehicleRegistration/{$image->name}")}}">
                             <img alt="{{$image->file_type}}" src="{{asset("storage/vehicleRegistration/{$image->name}")}}"/>
                         </a>
 
-                    </div>
                @endforeach
-
             </div>
+
 
         </div>
     </div>
@@ -728,14 +727,4 @@
         </div>
     </div>
 </form>
-
-@push('scripts')
-    <script type="text/javascript">
-        lightGallery(document.getElementById('lightgallery'), {
-            plugins: [lgZoom, lgThumbnail],
-            licenseKey: 'your_license_key',
-            speed: 500,
-        });
-    </script>
-@endpush
 
