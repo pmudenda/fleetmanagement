@@ -49,8 +49,8 @@ return [
             'initialOdometerReading' => self::REQUIRED_NUMERIC,
             'registrationDate' => 'required|date_format:Y-m-d',
 
-            'motor_vehicle_certificate' => 'required|file|' . self::MIME_TYPES . '|max:8000',
-            'insurance_cover_note' => 'required|file|'. self::MIME_TYPES . '|max:8000',
+            'motor_vehicle_certificate' => 'sometimes|required|file|' . self::MIME_TYPES . '|max:8000',
+            'insurance_cover_note' => 'sometimes|required|file|'. self::MIME_TYPES . '|max:8000',
             'front_view' => self::REQUIRED_FILE_MIMES,
             'rear_view' => self::REQUIRED_FILE_MIMES,
             'right_view' => self::REQUIRED_FILE_MIMES,
