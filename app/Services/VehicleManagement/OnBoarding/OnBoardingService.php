@@ -163,23 +163,28 @@ class OnBoardingService
             $user
         );
 
-        $this->fileUploadService->uploadFile($request,
-            'insurance_cover_note',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            self::VEHICLE_ONBOARDING,
-            'Insurance Cover',
-            $user
-        );
+        if($request->hasFile('insurance_cover_note')){
+            $this->fileUploadService->uploadFile($request,
+                'insurance_cover_note',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Insurance Cover',
+                $user
+            );
+        }
 
-        $this->fileUploadService->uploadFile($request,
-            'motor_vehicle_certificate',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            self::VEHICLE_ONBOARDING,
-            'Motor Vehicle Certificate',
-            $user
-        );
+        if($request->hasFile('motor_vehicle_certificate')) {
+
+            $this->fileUploadService->uploadFile($request,
+                'motor_vehicle_certificate',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Motor Vehicle Certificate',
+                $user
+            );
+        }
         try {
 //            self::generateBarCode($request->input('headerId'));
         } catch (\Exception $e) {
