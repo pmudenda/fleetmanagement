@@ -1,5 +1,5 @@
 @php use Illuminate\Support\Facades\Auth; @endphp
-    <!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Fleet Master</title>
@@ -40,48 +40,55 @@
     <link rel="stylesheet" href="{{asset('libs/session.timeout/session.timeout.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/asyncLoader.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/jquery-ui.css')}}"/>
-    {{--<livewire:styles />--}}
-
-    <style>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery-bundle.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lg-thumbnail.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lg-zoom.min.css"
+              integrity="sha512-vIrTyLijDDcUJrQGs1jduUCSVa3+A2DaWpVfNyj4lmXkqURVQJ8LL62nebC388QV3P4yFBSt/ViDX8LRW0U6uw=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        {{--<livewire:styles />--}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-colorbox@1.6.4/example1/colorbox.min.css">
+        <style>
         .nav-link {
             padding: 0.65rem 1rem;
         }
 
         #ui-datepicker-div {
-            z-index: 9003 !important;
+            z - index: 9003 !important;
         }
-    </style>
-    <link rel="stylesheet" type="text/css"
-          href="{{asset('assets/plugins/datatables/datetime/css/dataTables.dateTime.min.css')}}"/>
-    <link rel="stylesheet" type="text/css"
-          href="{{asset('assets/plugins/datatables/searchbuilder/css/searchBuilder.dataTables.min.css')}}"/>
-    @stack('styles')
-</head>
-<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-<div class="wrapper">
-    <x-page-preloader/>
-    <x-async-loader></x-async-loader>
-    <script>
-        let defaultThemeMode = "light";
-        let themeMode;
+        </style>
+        <link rel="stylesheet" type="text/css"
+              href="{{asset('assets/plugins/datatables/datetime/css/dataTables.dateTime.min.css')}}"/>
+        <link rel="stylesheet" type="text/css"
+              href="{{asset('assets/plugins/datatables/searchbuilder/css/searchBuilder.dataTables.min.css')}}"/>
+        @stack('styles')
+        </head>
+        <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+        <div class="wrapper">
+            <x-page-preloader/>
+            <x-async-loader></x-async-loader>
+            <script>
+                let defaultThemeMode = "light";
+                let themeMode;
 
-        if (document.documentElement) {
-            if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+                if (document.documentElement) {
+                if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
                 themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
             } else {
                 if (localStorage.getItem("data-bs-theme") !== null) {
-                    themeMode = localStorage.getItem("data-bs-theme");
-                } else {
-                    themeMode = defaultThemeMode;
-                }
+                themeMode = localStorage.getItem("data-bs-theme");
+            } else {
+                themeMode = defaultThemeMode;
+            }
             }
 
-            if (themeMode === "system") {
+                if (themeMode === "system") {
                 themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
             }
 
-            document.documentElement.setAttribute("data-bs-theme", themeMode);
-        }
+                document.documentElement.setAttribute("data-bs-theme", themeMode);
+            }
     </script>
 
     @include('layouts.menus.top_bar')
@@ -99,117 +106,119 @@
     <x-approval-modal/>
 
     <x-app-modals/>
-</div>
-<input type="hidden" name="gatePassUrl" id="gatePassUrl" value="{{URL::signedRoute("gate.pass")}}"/>
-<input type="hidden" name="currentUser" id="currentUser" value="{{Auth::user()->staff_no}}"/>
-@include('modules.vehicleManagement.partial.data_end_point')
-<audio preload="auto" id="sound-email" volume=0.1>
-    <source src="{{asset('assets/sounds/email.mp3')}}"/>
-</audio>
+    </div>
+    <input type="hidden" name="gatePassUrl" id="gatePassUrl" value="{{URL::signedRoute("gate.pass")}}"/>
+    <input type="hidden" name="currentUser" id="currentUser" value="{{Auth::user()->staff_no}}"/>
+    @include('modules.vehicleManagement.partial.data_end_point')
+    <audio preload="auto" id="sound-email" volume=0.1>
+        <source src="{{asset('assets/sounds/email.mp3')}}"/>
+    </audio>
 
-<audio preload="auto" id="sound-submit" volume=0.1>
-    <source src="{{asset('assets/sounds/submit.mp3')}}"/>
-</audio>
+    <audio preload="auto" id="sound-submit" volume=0.1>
+        <source src="{{asset('assets/sounds/submit.mp3')}}"/>
+    </audio>
 
-<audio preload="auto" id="sound-cancel" volume=0.1>
-    <source src="{{asset('assets/sounds/cancel.mp3')}}"/>
-</audio>
+    <audio preload="auto" id="sound-cancel" volume=0.1>
+        <source src="{{asset('assets/sounds/cancel.mp3')}}"/>
+    </audio>
 
-<audio preload="auto" id="sound-delete" volume=0.05>
-    <source src="{{asset('assets/sounds/delete.mp3')}}"/>
-</audio>
+    <audio preload="auto" id="sound-delete" volume=0.05>
+        <source src="{{asset('assets/sounds/delete.mp3')}}"/>
+    </audio>
 
-<audio preload="auto" id="sound-click" volume=0.05>
-    <source src="{{asset('assets/sounds/click.mp3')}}"/>
-</audio>
+    <audio preload="auto" id="sound-click" volume=0.05>
+        <source src="{{asset('assets/sounds/click.mp3')}}"/>
+    </audio>
 
-<audio preload="auto" id="sound-error" volume=0.1>
-    <source src="{{asset('assets/sounds/error.mp3')}}"/>
-</audio>
+    <audio preload="auto" id="sound-error" volume=0.1>
+        <source src="{{asset('assets/sounds/error.mp3')}}"/>
+    </audio>
 
-<audio preload="auto" id="sound-alert" volume=0.2>
-    <source src="{{asset('assets/sounds/alert.mp3')}}"/>
-</audio>
+    <audio preload="auto" id="sound-alert" volume=0.2>
+        <source src="{{asset('assets/sounds/alert.mp3')}}"/>
+    </audio>
 
-<script>
-    window._version_number = "{{\Illuminate\Support\Str::uuid()}}";
-    window.app = true;
-    window.dev_server = 0;
-    let tmsApp;
-    if (!tmsApp) tmsApp = {};
-    tmsApp.boot = {'messages': {}};
-    tmsApp.messages = tmsApp?.boot['messages'];
-    tmsApp.csrf_token = document.querySelector('meta[name="csrf-token"]').content;
-</script>
+    <script>
+        window._version_number = "{{\Illuminate\Support\Str::uuid()}}";
+        window.app = true;
+        window.dev_server = 0;
+        let tmsApp;
+        if (!tmsApp) tmsApp = {};
+        tmsApp.boot = {'messages': {}};
+        tmsApp.messages = tmsApp?.boot['messages'];
+        tmsApp.csrf_token = document.querySelector('meta[name="csrf-token"]').content;
+    </script>
 
-<script src="{{asset('assets/plugins/jquery/jquery-3.6.3.js')}}"></script>
-<script src="{{asset('themes/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-<script src="{{asset('libs/echarts@5.4.2/dist/echarts.min.js')}}"></script>
-<script>
-    $.widget.bridge('uibutton', $.ui.button)
-</script>
-<script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
-<script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
-<script>
+    <script src="{{asset('assets/plugins/jquery/jquery-3.6.3.js')}}"></script>
+    <script src="{{asset('themes/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('libs/echarts@5.4.2/dist/echarts.min.js')}}"></script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
+    <script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
     window.zmfServiceDesk = ' Please Contact Fleet Master System Administrator ' +
-        'on 3309,3350,3351,3306, zfmservicedesk@zesco.co.zm';
+    'on 3309,3350,3351,3306, zfmservicedesk@zesco.co.zm';
 
     $(document).ready(function () {
-        toastr.options = {
-            "preventDuplicates": true,
-            "preventOpenDuplicates": true
-        };
+    toastr.options = {
+    "preventDuplicates": true,
+    "preventOpenDuplicates": true
+    };
 
-        const toastTrigger = document.getElementById('liveToastBtn')
-        const toastLiveExample = document.getElementById('liveToast')
-        if (toastTrigger) {
-            toastTrigger.addEventListener('click', () => {
+    const toastTrigger = document.getElementById('liveToastBtn')
+    const toastLiveExample = document.getElementById('liveToast')
+    if (toastTrigger) {
+    toastTrigger.addEventListener('click', () => {
+    });
+    }
+
+    tmsApp.toast = new bootstrap.Toast(toastLiveExample)
+    })
+    </script>
+    <script src="{{asset('assets/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('assets/plugins/jquery.filer/js/jquery.filer.min.js')}}"></script>
+    <script src="{{asset('libs/jqueryInputmask/3.3.4/jquery.inputmask.bundle.min.js') }}"></script>
+    <script src="{{asset('assets/plugins/form-masking/autoNumeric.js') }}"></script>
+    <script src="{{asset('themes/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
+    <script src="{{asset('themes/plugins/moment/moment.min.js')}}"></script>
+    <script src="{{asset('themes/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{asset('themes/plugins/summernote/summernote-bs4.min.js')}}"></script>
+    <script src="{{asset('themes/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+    <script src="{{asset('assets/js/accounting.min.js') }}"></script>
+    <script src="{{asset('assets/plugins/select2/js/select2.js')}}"></script>
+    <script src="{{asset('assets/plugins/vue/vue.js')}}"></script>
+    <script src="{{asset('assets/plugins/vue-select/vue-select.js')}}"></script>
+    <script src="{{asset('assets/plugins/vue-select2/js/vue-select.js')}}"></script>
+    <script src="{{asset('themes/dist/js/adminlte2167.js')}}?v=3.2.0"></script>
+    <script src="{{asset('assets/js/system/core.js')}}"></script>
+    <script src="{{asset('assets/js/system/workflow_approvals.js').'?v='.time()}}"></script>
+    <script src="{{asset('assets/js/global/async.loader.js').'?v='.time()}}"></script>
+    <script src="{{asset('assets/js/global/page.loader.js').'?v='.time()}}"></script>
+    <script src="{{asset('assets/js/global/system_alerts.js').'?v='.time()}}"></script>
+    <script src="{{asset('assets/js/global/custom_filer.js').'?v='.time()}}"></script>
+    <script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='. time()}}"></script>
+    <script src="{{ asset('libs/qrcode/qrcode.min.js').'?v='. time()}}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.colorbox/1.6.4/jquery.colorbox-min.js" integrity="sha512-DAVSi/Ovew9ZRpBgHs6hJ+EMdj1fVKE+csL7mdf9v7tMbzM1i4c/jAvHE8AhcKYazlFl7M8guWuO3lDNzIA48A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        @include('layouts.partials.dataTableScripts')
+    <script type="text/javascript">
+        function generateBarcode(data) {
+            let qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: data,
+                width: 128,
+                height: 128,
+                colorDark: "#5868bf",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
             });
         }
 
-        tmsApp.toast = new bootstrap.Toast(toastLiveExample)
-    })
-</script>
-<script src="{{asset('assets/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
-<script src="{{asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
-<script src="{{asset('assets/plugins/jquery.filer/js/jquery.filer.min.js')}}"></script>
-<script src="{{asset('libs/jqueryInputmask/3.3.4/jquery.inputmask.bundle.min.js') }}"></script>
-<script src="{{asset('assets/plugins/form-masking/autoNumeric.js') }}"></script>
-<script src="{{asset('themes/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
-<script src="{{asset('themes/plugins/moment/moment.min.js')}}"></script>
-<script src="{{asset('themes/plugins/daterangepicker/daterangepicker.js')}}"></script>
-<script src="{{asset('themes/plugins/summernote/summernote-bs4.min.js')}}"></script>
-<script src="{{asset('themes/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
-<script src="{{asset('assets/js/accounting.min.js') }}"></script>
-<script src="{{asset('assets/plugins/select2/js/select2.js')}}"></script>
-<script src="{{asset('assets/plugins/vue/vue.js')}}"></script>
-<script src="{{asset('assets/plugins/vue-select/vue-select.js')}}"></script>
-<script src="{{asset('assets/plugins/vue-select2/js/vue-select.js')}}"></script>
-<script src="{{asset('themes/dist/js/adminlte2167.js')}}?v=3.2.0"></script>
-<script src="{{asset('assets/js/system/core.js')}}"></script>
-<script src="{{asset('assets/js/system/workflow_approvals.js').'?v='.time()}}"></script>
-<script src="{{asset('assets/js/global/async.loader.js').'?v='.time()}}"></script>
-<script src="{{asset('assets/js/global/page.loader.js').'?v='.time()}}"></script>
-<script src="{{asset('assets/js/global/system_alerts.js').'?v='.time()}}"></script>
-<script src="{{asset('assets/js/global/custom_filer.js').'?v='.time()}}"></script>
-<script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='. time()}}"></script>
-<script src="{{ asset('libs/qrcode/qrcode.min.js').'?v='. time()}}"></script>
-
-@include('layouts.partials.dataTableScripts')
-<script type="text/javascript">
-    function generateBarcode(data) {
-        let qrcode = new QRCode(document.getElementById("qrcode"), {
-            text: data,
-            width: 128,
-            height: 128,
-            colorDark: "#5868bf",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
-        });
-    }
-</script>
-<script src="{{asset('assets/js/system/app.js')}}"></script>
-@stack('scripts')
-</body>
+    </script>
+    <script src="{{asset('assets/js/system/app.js')}}"></script>
+    @stack('scripts')
+    </body>
 </html>

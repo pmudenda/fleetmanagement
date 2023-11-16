@@ -105,7 +105,7 @@
 
                             @can(config('rights.manage_insurance'))
                                 <li class="nav-item pl-2">
-                                    <a href="{{ URL::signedRoute('insurance.create') }}"
+                                    <a href="{{ route('insurance.index') }}"
                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Insurance</p>
@@ -378,12 +378,22 @@
 
                                         @canany([config('rights.add_user')])
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{{URL::signedRoute('users.new')}}">
+                                                <a class="nav-link" href="{{route('users.new')}}">
                                                     <i class="fas fa-user-plus nav-icon"></i>
                                                     <p class="menu-title">Add</p>
                                                 </a>
                                             </li>
                                         @endcanany
+
+{{--                                            @canany([config('rights.add_user')])--}}
+{{--                                                <li class="nav-item">--}}
+{{--                                                    <a class="nav-link" href="{{route('users.new.external')}}">--}}
+{{--                                                        <i class="fas fa-user-plus nav-icon"></i>--}}
+{{--                                                        <p class="menu-title">Add External </p>--}}
+{{--                                                    </a>--}}
+{{--                                                </li>--}}
+{{--                                            @endcanany--}}
+
                                         @canany([config('rights.view_user')])
                                             <li class="nav-item">
                                                 <a class="nav-link" href="{{URL::signedRoute('users.list')}}">
@@ -1093,30 +1103,40 @@
                         <ul class="nav nav-treeview pl-3">
                             @canany(config('rights.access_reports'),
                                                     config('rights.access_fuel_reports'))
+{{--                                <li class="nav-item">--}}
+{{--                                    <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"--}}
+{{--                                       class="nav-link">--}}
+{{--                                        <i class="far fa-circle nav-icon"></i>--}}
+{{--                                        <p>--}}
+{{--                                            Fuel--}}
+{{--                                        </p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+
                                 <li class="nav-item">
-                                    <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"
+                                    <a href="{{route('reports.fuel.status')}}"
                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
-                                            Fuel
+                                            Fuel By Status
                                         </p>
                                     </a>
                                 </li>
                             @endcanany
 
-                            @canany(config('rights.access_reports'),
-                                config('rights.access_vehicle_status_reports'))
-                                <li class="nav-item">
-                                    <a href="{{
-                                        URL::signedRoute('reports.vehicle.status',
-                                        ['step'=> 1]
-                                    )}}"
-                                       class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Vehicles</p>
-                                    </a>
-                                </li>
-                            @endcanany
+{{--                            @canany(config('rights.access_reports'),--}}
+{{--                                config('rights.access_vehicle_status_reports'))--}}
+{{--                                <li class="nav-item">--}}
+{{--                                    <a href="{{--}}
+{{--                                        URL::signedRoute('reports.vehicle.status',--}}
+{{--                                        ['step'=> 1]--}}
+{{--                                    )}}"--}}
+{{--                                       class="nav-link">--}}
+{{--                                        <i class="far fa-circle nav-icon"></i>--}}
+{{--                                        <p>Vehicles</p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                            @endcanany--}}
 
                         </ul>
                     </li>

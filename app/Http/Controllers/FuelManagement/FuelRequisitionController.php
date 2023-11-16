@@ -29,6 +29,7 @@ use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Security\ProfileDelegationService;
 use App\Services\VehicleManagement\OdometerValidationService;
 use Exception;
+use http\Env\Response;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -111,6 +112,7 @@ class FuelRequisitionController extends Controller
                 $vehicleRegistration,
                 $userProvidedOdometer);
 
+
             return response()->json(
                 FleetMasterJsonResponse::response(
                     '',
@@ -133,11 +135,12 @@ class FuelRequisitionController extends Controller
                 FleetMasterJsonResponse::response(
                     '',
                     false,
-                    $message
+                    $e
                 )
             );
         }
     }
+
 
     public function create(Request $request): View|Application
     {
@@ -191,6 +194,7 @@ class FuelRequisitionController extends Controller
 
     public function store(FuelRequisitionPostRequest $request): JsonResponse
     {
+//        dd($this->requisitionService->processRequest($request));
         try {
             return $this->requisitionService->processRequest($request);
         } catch (Exception $e) {

@@ -86,6 +86,7 @@ class FuelRequisitionValidationService
         $odometerOnLastIssue,
         $reg_no): void
     {
+
         Log::debug("Odometer on last issue $odometerOnLastIssue");
 
         Log::debug("User Provided reading $userProvidedOdometerReading");
@@ -121,8 +122,9 @@ class FuelRequisitionValidationService
                                                             $valid_from,
                                                             $reg_num): void
     {
+//        dd(compact('previousRequisition', 'valid_from'));
         // check if previous requisition period elapsed
-        if ($valid_from->lessThanOrEqualTo(Carbon::parse($previousRequisition->valid_date_to))) {
+        if ($valid_from->endOfDay()->lessThan(Carbon::parse($previousRequisition->valid_date_to)->startOfDay())) {
             throw new FuelRequisitionException(
                 str_replace(self::VEH_REG, $reg_num,
                     str_replace(self::DATE_VALID_TO,

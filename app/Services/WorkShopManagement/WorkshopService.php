@@ -674,15 +674,13 @@ class WorkshopService
 
     public function getWorkShopSupervisor($workShopCode): Mechanic|null
     {
-        $mechanic = MechanicWorkshop::where(
-            'work_shop_id',
-            QueryComparisonOperator::EQUALS,
-            $workShopCode
+        $mechanic = MechanicWorkshop::whereRelation(
+            'workshop','workshop_code',$workShopCode
         )->first();
 
         return Mechanic::where('id',
             QueryComparisonOperator::EQUALS,
-            $mechanic->id)
+            $mechanic->mechanic_id)
             ->first();
     }
 }

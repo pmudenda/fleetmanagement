@@ -22,4 +22,10 @@ class Insurance extends Model
         'modified_by',
         'deleted_at',
     ];
+
+    protected $casts = [
+        'period_from' => 'date:Y-m-d',
+        'period_to' => 'date:Y-m-d',
+        'payment_date' => 'date:Y-m-d',
+    ];
 }

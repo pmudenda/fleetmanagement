@@ -64,6 +64,7 @@ class OnBoardingService
 
         if ($request->chassisDetailsId == 0) {
             $recordByRegistrationNumber = ChassisDetail::where('chassis_number', $chassisNumber)
+                ->whereNot('vehicle_header_id', $request->headerId)
                 ->first();
 
             if (!empty($recordByRegistrationNumber)) {
@@ -71,12 +72,13 @@ class OnBoardingService
                     str_replace(
                         self::DOC_NUMBER,
                         $chassisNumber,
-                        ErrorMessages::INVALID_CHASSIS_NUMBER)
+                        ErrorMessages:: INVALID_CHASSIS_NUMBER)
                 );
             }
 
             $recordMotorVehicleCertificate = ChassisDetail::where(
                 'chassis_number', $whiteBookSerial)
+                ->whereNot('vehicle_header_id', $request->headerId)
                 ->first();
 
             if (!empty($recordMotorVehicleCertificate)) {
@@ -87,7 +89,7 @@ class OnBoardingService
                 );
             }
 
-            $recordByEngineNumber = ChassisDetail::where('engine_number', $engineNumber)->first();
+            $recordByEngineNumber = ChassisDetail::where('engine_number', $engineNumber)->whereNot('vehicle_header_id', $request->headerId)->first();
 
             if (!empty($recordByEngineNumber)) {
                 throw new VehicleOnBoardingException(
@@ -161,25 +163,30 @@ class OnBoardingService
             $user
         );
 
-        $this->fileUploadService->uploadFile($request,
-            'insurance_cover_note',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            self::VEHICLE_ONBOARDING,
-            'Insurance Cover',
-            $user
-        );
+        if($request->hasFile('insurance_cover_note')){
+            $this->fileUploadService->uploadFile($request,
+                'insurance_cover_note',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Insurance Cover',
+                $user
+            );
+        }
 
-        $this->fileUploadService->uploadFile($request,
-            'motor_vehicle_certificate',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            self::VEHICLE_ONBOARDING,
-            'Motor Vehicle Certificate',
-            $user
-        );
+        if($request->hasFile('motor_vehicle_certificate')) {
+
+            $this->fileUploadService->uploadFile($request,
+                'motor_vehicle_certificate',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Motor Vehicle Certificate',
+                $user
+            );
+        }
         try {
-            self::generateBarCode($request->input('headerId'));
+//            self::generateBarCode($request->input('headerId'));
         } catch (\Exception $e) {
             Log::error($e);
         }
@@ -475,13 +482,13 @@ class OnBoardingService
     {
         $record = VehicleHeader::find($headerId);
         $barCodeParams = [
-            'text' => $record->registration_number,
+            'text' => $record->registration_number ?? $headerId,
             'size' => 50,
             'orientation' => 'horizontal',
             'code_type' => 'code39',
             'print' => true,
             'sizeFactor' => 2,
-            'filename' => $record->registration_number,
+            'filename' => $record->registration_number ?? $headerId,
             'filePath' => 'vehicleBarcodes',
             'fileType' => '.jpeg',
         ];

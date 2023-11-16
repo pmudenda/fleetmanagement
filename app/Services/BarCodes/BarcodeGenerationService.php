@@ -788,7 +788,7 @@ class BarcodeGenerationService extends BarCodePrint
                                   array $fileData
     ): mixed
     {
-        $filename = $fileData(0);
+        $filename = $fileData(0) ?? '';
         $filepath = $fileData(1) ?? "";
         $fileType = $fileData(2) ?? self::JPEG;
         $this->text = $text;

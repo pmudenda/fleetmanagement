@@ -2,6 +2,7 @@
 
 namespace App\Models\VehicleManagement;
 
+use App\Models\Settings\general\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -33,4 +34,8 @@ class VehicleHeader extends Model
         'created_by',
         'created_name',
     ];
+
+    public function statusInfo(){
+        return $this->belongsTo(Status::class,'status','code');
+    }
 }

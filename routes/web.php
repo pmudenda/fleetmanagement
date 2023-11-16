@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Documents\DocumentController;
+use App\Http\Controllers\FuelManagement\FuelRequisitionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\SessionStateController;

@@ -113,6 +113,11 @@ class StatusHelper
         return config('status.fully_released', '32');
     }
 
+    public static function expired(): string
+    {
+        return config('status.expired', '33');
+    }
+
     /* VEHICLE STATUS */
 
     public static function inactive(): string
