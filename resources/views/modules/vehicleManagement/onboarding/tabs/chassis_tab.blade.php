@@ -668,7 +668,7 @@
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="front_view"/>
                     </div>
@@ -717,7 +717,7 @@
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="rear_view"/>
                     </div>
@@ -767,7 +767,7 @@
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="right_view"/>
                     </div>
@@ -814,7 +814,7 @@
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="left_view"/>
                     </div>
