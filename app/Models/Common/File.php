@@ -19,6 +19,8 @@ class File extends Model
         'file_type',
         'file_size',
         'created_by',
-        'created_name'
+        'created_name',
+        'status'
+
     ];
 }

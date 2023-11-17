@@ -113,6 +113,7 @@ class VehicleOnBoardingController extends Controller {
         $vehicleDocuments = [];
         $enteredAccessories = [];
 
+
         try {
             if ($request->has('reference') && !$request->hasValidSignature()) {
                 abort(401);
@@ -127,21 +128,20 @@ class VehicleOnBoardingController extends Controller {
             $step = $request->get('step') ?? 0;
             $reference = $request->get('reference') ?? $request->get('ref');
 
-            Log::debug(' Reference after onboarding ' . $reference);
+            Log::debug(' Reference after on-boarding ' . $reference);
 
             if (!empty($reference) && $reference != 0) {
                 Log::debug("Find Vehicle By Id $reference");
                 $vehicle = $this->vehicleDetailsService->getVehicleDetailsById((int)$reference);
 
                 $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
-
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference)->all();
-//                dd($vehicleDocuments);
             }
-            $docs = $vehicleDocuments;
+            $docs = $vehicleDocuments ;
             $accessories = Accessory::where('status', '=', StatusHelper::active())->get();
 
             $viewName = "modules.vehicleManagement.onboarding.start";
+
 
             return view($viewName)
                 ->with(compact(
