@@ -655,7 +655,7 @@
                             <i class="fas fa-cloud-arrow-up"></i> Change Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="front_view_edit"/>
                     </div>
@@ -705,7 +705,7 @@
                             <i class="fas fa-cloud-arrow-up"></i> Change Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="rear_view_edit"/>
                     </div>
@@ -755,7 +755,7 @@
                             <i class="fas fa-cloud-arrow-up"></i> Change Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="right_view_edit"/>
                     </div>
@@ -802,7 +802,7 @@
                             <i class="fas fa-cloud-arrow-up"></i> Change Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="left_view_edit"/>
                     </div>
