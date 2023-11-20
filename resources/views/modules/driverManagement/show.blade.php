@@ -208,6 +208,8 @@
                             <div class="tab-content">
 
                                 <div class="active tab-pane" id="activity">
+                                    <div id="basicExample2" class="justified-gallery">
+
                                     @foreach($files as $image)
 
                                         <a href="{{asset("storage/DriverDocuments/{$image->name}")}}">
@@ -215,6 +217,7 @@
                                         </a>
 
                                     @endforeach
+                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="userInfoUpdate">
