@@ -197,6 +197,6 @@ let app = new Vue({
             });
     }
 
-    //new tmsApp.fileUploader().makeSingleFileUploader();
+    new tmsApp.fileUploader().makeSingleFileUploader();
 
 })(window.tmsApp || {}, jQuery);

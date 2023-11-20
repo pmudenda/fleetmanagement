@@ -51,10 +51,10 @@ return [
 
             'motor_vehicle_certificate' => 'sometimes|required|file|' . self::MIME_TYPES . '|max:8000',
             'insurance_cover_note' => 'sometimes|required|file|'. self::MIME_TYPES . '|max:8000',
-            'front_view' => self::REQUIRED_FILE_MIMES,
-            'rear_view' => self::REQUIRED_FILE_MIMES,
-            'right_view' => self::REQUIRED_FILE_MIMES,
-            'left_view' => self::REQUIRED_FILE_MIMES
+//            'front_view' => self::REQUIRED_FILE_MIMES,
+//            'rear_view' => self::REQUIRED_FILE_MIMES,
+//            'right_view' => self::REQUIRED_FILE_MIMES,
+//            'left_view' => self::REQUIRED_FILE_MIMES
         ];
     }
 }

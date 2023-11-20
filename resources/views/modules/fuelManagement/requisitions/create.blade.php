@@ -654,7 +654,6 @@
                                          style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12">
                                     </div>
-
                                     <div id="image_view"
                                          class="card text-center my-2"
                                          style="display: none;">
@@ -662,7 +661,6 @@
                                             <div class="imagePreview"></div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
