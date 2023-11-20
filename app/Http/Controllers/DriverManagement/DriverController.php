@@ -7,9 +7,11 @@ use App\Constants\QueryComparisonOperator;
 use App\Enums\ConfigurationTypes;
 use App\Enums\ResponseState;
 use App\Exceptions\DriverSearchException;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DriverOnboardingRequest;
 use App\Http\Responses\FleetMasterJsonResponse;
+use App\Models\Common\File;
 use App\Models\Driver;
 use App\Models\Settings\GeneralTable;
 use App\Services\DriverManagement\DriverManagementService;
@@ -76,8 +78,13 @@ class DriverController extends Controller
 
     public function show(Driver $user): Factory|View|Application
     {
+        $files = File::where('reference_number', "=", $user->on_boarding_reference)
+//            ->where('status', QueryComparisonOperator::EQUALS,
+//                StatusHelper::active())
+            ->get();
+
         return view('modules.driverManagement.show')
-            ->with(compact('user'));
+            ->with(compact('user','files'));
     }
 
     public function driverList(): View

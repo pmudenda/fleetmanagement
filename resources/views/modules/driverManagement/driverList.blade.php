@@ -78,6 +78,7 @@
                                         <th scope="row">Permit No</th>
                                         <th scope="row">Permit Expiry</th>
                                         <th scope="row">Status</th>
+                                        <th scope="row"></th>
                                         {{--@can(config('rights.user_show'))--}}
                                         {{--<th>Action</th>--}}
                                         {{--@endcan--}}
@@ -136,14 +137,21 @@
                                                 </span>
                                                 @endif
                                             </td>
-                                            {{--@can(config('rights.user_show'))--}}
-                                            {{--<td>
-                                                <a href="{{route('driver.show', $user->id)}}"
-                                                   class="btn btn-sm btn-success m-1">
-                                                    <i class="fas fa-eye">Details</i>
-                                                </a>
-                                            </td>--}}
-                                            {{-- @endcan--}}
+                                            <td style="display: none;">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle show" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
+                                                        Actions
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" data-popper-placement="bottom-start" data-popper-reference-hidden="" data-popper-escaped="" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 2px);">
+                                                        <li>
+                                                            <a href="{{route('driver.show',$user)}}" class="dropdown-item">
+                                                                Details
+                                                                <i class="fas fa-eye pull-right"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
