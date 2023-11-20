@@ -211,7 +211,7 @@
                                     @foreach($files as $image)
 
                                         <a href="{{asset("storage/DriverDocuments/{$image->name}")}}">
-                                            <img alt="{{$image->file_type}}" src="{{asset("storage/vehicleRegistration/{$image->name}")}}"/>
+                                            <img alt="{{$image->file_type}}" src="{{asset("storage/DriverDocuments/{$image->name}")}}"/>
                                         </a>
 
                                     @endforeach
