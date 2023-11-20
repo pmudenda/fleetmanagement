@@ -45,8 +45,10 @@ class DriverController extends Controller
     public function create(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         $licenseClasses = GeneralTable::where('type',
-            QueryComparisonOperator::LESS_THAN_EQUAL,
-            ConfigurationTypes::LICENSE_CLASS->value)
+            ConfigurationTypes::LICENSE_CLASS)
+            ->where('active',
+                QueryComparisonOperator::EQUALS
+                , "1")
             ->get();
 
         return view('modules.driverManagement.create')
