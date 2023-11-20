@@ -210,7 +210,7 @@
                                 <div class="active tab-pane" id="activity">
                                     @foreach($files as $image)
 
-                                        <a href="{{asset("storage/vehicleRegistration/{$image->name}")}}">
+                                        <a href="{{asset("storage/DriverDocuments/{$image->name}")}}">
                                             <img alt="{{$image->file_type}}" src="{{asset("storage/vehicleRegistration/{$image->name}")}}"/>
                                         </a>
 
