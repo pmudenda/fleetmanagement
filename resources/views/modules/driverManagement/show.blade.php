@@ -125,11 +125,13 @@
                                 </li>
 
                                 <li class="list-group-item">
-                                    <b>License Expiry</b> <a class="float-right">{{ $user->license_date_expiry ?? '' }}</a>
+                                    <b>License Expiry</b> <a
+                                            class="float-right">{{ $user->license_date_expiry ?? '' }}</a>
                                 </li>
 
                                 <li class="list-group-item">
-                                    <b>License Category</b> <a class="float-right">{{ $user->license_category ?? '' }}</a>
+                                    <b>License Category</b> <a
+                                            class="float-right">{{ $user->license_category ?? '' }}</a>
                                 </li>
                             </ul>
 
@@ -196,32 +198,29 @@
                                     </a>
                                 </li>--}}
 
-                                <li class="card-title">
-                                    <a class="nav-link" href="#pass_reset" data-toggle="tab">
-                                        Password Reset
-                                    </a>
-                                </li>
+{{--                                <li class="card-title">--}}
+{{--                                    <a class="nav-link" href="#pass_reset" data-toggle="tab">--}}
+{{--                                        Password Reset--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
 
                             </ul>
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
-
                                 <div class="active tab-pane" id="activity">
                                     <div id="basicExample2" class="justified-gallery">
-
-                                    @foreach($files as $image)
-
-                                        <a href="{{asset("storage/DriverDocuments/{$image->name}")}}">
-                                            <img alt="{{$image->file_type}}" src="{{asset("storage/DriverDocuments/{$image->name}")}}"/>
-                                        </a>
-
-                                    @endforeach
+                                        @foreach($files as $image)
+                                            <a href="{{asset("storage/DriverDocuments/{$image->name}")}}">
+                                                <img alt="{{$image->file_type}}"
+                                                     src="{{asset("storage/DriverDocuments/{$image->name}")}}"/>
+                                            </a>
+                                        @endforeach
                                     </div>
                                 </div>
 
                                 <div class="tab-pane" id="userInfoUpdate">
-{{--                                    @include('modules.userManagement.userProfileTabs.details')--}}
+                                    {{--                                    @include('modules.userManagement.userProfileTabs.details')--}}
                                 </div>
 
                                 {{--
@@ -255,17 +254,17 @@
         })(window.tmsApp || {});
 
         $('#basicExample2').justifiedGallery({
-            rowHeight : 70,
-            lastRow : 'nojustify',
-            margins : 3,
-            rel : 'gallery1',
+            rowHeight: 70,
+            lastRow: 'nojustify',
+            margins: 3,
+            rel: 'gallery1',
         }).on('jg.complete', function () {
             $(this).find('a').colorbox({
-                maxWidth : '80%',
-                maxHeight : '80%',
-                opacity : 0.8,
-                transition : 'elastic',
-                current : ''
+                maxWidth: '80%',
+                maxHeight: '80%',
+                opacity: 0.8,
+                transition: 'elastic',
+                current: ''
             });
         });
     </script>
