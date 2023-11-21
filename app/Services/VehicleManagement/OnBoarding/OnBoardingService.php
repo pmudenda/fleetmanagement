@@ -14,6 +14,7 @@ use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\VehicleHeaderRequest;
 use App\Http\Requests\VehicleManagement\ChassisDetailsPostRequest;
 use App\Http\Requests\VehicleManagement\OnboardingVehicleAccessoryRequest;
+use App\Models\Common\File;
 use App\Models\Common\OrganizationalUnit;
 use App\Models\Reference\Area;
 use App\Models\Settings\Accessory;
@@ -64,6 +65,7 @@ class OnBoardingService
 
         if ($request->chassisDetailsId == 0) {
             $recordByRegistrationNumber = ChassisDetail::where('chassis_number', $chassisNumber)
+                ->whereNot('vehicle_header_id', $request->headerId)
                 ->first();
 
             if (!empty($recordByRegistrationNumber)) {
@@ -71,12 +73,13 @@ class OnBoardingService
                     str_replace(
                         self::DOC_NUMBER,
                         $chassisNumber,
-                        ErrorMessages::INVALID_CHASSIS_NUMBER)
+                        ErrorMessages:: INVALID_CHASSIS_NUMBER)
                 );
             }
 
             $recordMotorVehicleCertificate = ChassisDetail::where(
                 'chassis_number', $whiteBookSerial)
+                ->whereNot('vehicle_header_id', $request->headerId)
                 ->first();
 
             if (!empty($recordMotorVehicleCertificate)) {
@@ -87,7 +90,7 @@ class OnBoardingService
                 );
             }
 
-            $recordByEngineNumber = ChassisDetail::where('engine_number', $engineNumber)->first();
+            $recordByEngineNumber = ChassisDetail::where('engine_number', $engineNumber)->whereNot('vehicle_header_id', $request->headerId)->first();
 
             if (!empty($recordByEngineNumber)) {
                 throw new VehicleOnBoardingException(
@@ -125,59 +128,203 @@ class OnBoardingService
                 'created_name' => $user->name,
             ]);
 
-        $this->fileUploadService->uploadFile($request,
-            'front_view',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            self::VEHICLE_ONBOARDING,
-            'Front View',
-            $user
-        );
+        if($request->hasFile('front_view')) {
 
-        $this->fileUploadService->uploadFile($request,
-            'rear_view',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            self::VEHICLE_ONBOARDING,
-            'Back View',
-            $user
-        );
+             File::where('reference_number',   $request->input('headerId') )
+                ->where('file_type',   'Front View' )
+                ->where('module',   'Vehicle Registration' )
+                ->update( ['status' =>  '02' ] );
+             //
+            $this->fileUploadService->uploadFile($request,
+                'front_view',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Front View',
+                $user
+            );
+        }
 
-        $this->fileUploadService->uploadFile($request,
-            'right_view',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            self::VEHICLE_ONBOARDING,
-            'Right View',
-            $user
-        );
+        if($request->hasFile('rear_view')) {
+            File::where('reference_number',   $request->input('headerId') )
+                ->where('file_type',   'Back View' )
+                ->where('module',   'Vehicle Registration' )
+                ->update([  'status' => '02'  ]  );
+            //
+            $this->fileUploadService->uploadFile($request,
+                'rear_view',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Back View',
+                $user
+            );
+        }
 
-        $this->fileUploadService->uploadFile($request,
-            'left_view',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            self::VEHICLE_ONBOARDING,
-            'Left View',
-            $user
-        );
+        if($request->hasFile('right_view')) {
+            File::where('reference_number',   $request->input('headerId') )
+                ->where('file_type',   'Right View' )
+                ->where('module',   'Vehicle Registration' )
+                ->update([  'status' => '02'  ]  );
+            //
+            $this->fileUploadService->uploadFile($request,
+                'right_view',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Right View',
+                $user
+            );
+        }
 
-        $this->fileUploadService->uploadFile($request,
-            'insurance_cover_note',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            self::VEHICLE_ONBOARDING,
-            'Insurance Cover',
-            $user
-        );
+        if($request->hasFile('left_view')) {
+            File::where('reference_number',   $request->input('headerId') )
+                ->where('file_type',   'Left View' )
+                ->where('module',   'Vehicle Registration' )
+                ->update([  'status' => '02'  ]  );
+            $this->fileUploadService->uploadFile($request,
+                'left_view',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Left View',
+                $user
+            );
+        }
 
-        $this->fileUploadService->uploadFile($request,
-            'motor_vehicle_certificate',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            self::VEHICLE_ONBOARDING,
-            'Motor Vehicle Certificate',
-            $user
-        );
+        if($request->hasFile('insurance_cover_note')){
+            File::where('reference_number',   $request->input('headerId') )
+                ->where('file_type',   'Insurance Cover' )
+                ->where('module',   'Vehicle Registration' )
+                ->update( ['status' =>  '02' ] );
+            //
+            $this->fileUploadService->uploadFile($request,
+                'insurance_cover_note',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Insurance Cover',
+                $user
+            );
+        }
+
+        if($request->hasFile('motor_vehicle_certificate')) {
+            File::where('reference_number',   $request->input('headerId') )
+                ->where('file_type',   'Motor Vehicle Certificate' )
+                ->where('module',   'Vehicle Registration' )
+                ->update( ['status' =>  '02' ] );
+            //
+            $this->fileUploadService->uploadFile($request,
+                'motor_vehicle_certificate',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Motor Vehicle Certificate',
+                $user
+            );
+        }
+
+
+        //EDIT---------------------------------------------------
+        if($request->hasFile('insurance_cover_note_edit')){
+            File::where('reference_number',   $request->input('headerId') )
+                ->where('file_type',   'Insurance Cover' )
+                ->where('module',   'Vehicle Registration' )
+                ->update( ['status' =>  '02' ] );
+            //
+            $this->fileUploadService->uploadFile($request,
+                'insurance_cover_note_edit',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Insurance Cover',
+                $user
+            );
+        }
+        //-------------------------------------------------------
+
+        if($request->hasFile('motor_vehicle_certificate_edit')) {
+            File::where('reference_number',   $request->input('headerId') )
+                ->where('file_type',   'Motor Vehicle Certificate' )
+                ->where('module',   'Vehicle Registration' )
+                ->update( ['status' =>  '02' ] );
+            //
+            $this->fileUploadService->uploadFile($request,
+                'motor_vehicle_certificate_edit',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Motor Vehicle Certificate',
+                $user
+            );
+        }
+        //--------------------------------------------------------
+        if($request->hasFile('front_view_edit')) {
+            File::where('reference_number',   $request->input('headerId') )
+                ->where('file_type',   'Front View' )
+                ->where('module',   'Vehicle Registration' )
+                ->update( ['status' =>  '02' ] );
+            //
+            $this->fileUploadService->uploadFile($request,
+                'front_view_edit',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Front View',
+                $user
+            );
+        }
+        //------------------------------------------------
+            if($request->hasFile('rear_view_edit')) {
+                File::where('reference_number',   $request->input('headerId') )
+                    ->where('file_type',   'Back View' )
+                    ->where('module',   'Vehicle Registration' )
+                    ->update( ['status' =>  '02' ] );
+                //
+                $this->fileUploadService->uploadFile($request,
+                    'rear_view_edit',
+                    'vehicleRegistration',
+                    $request->input('headerId'),
+                    self::VEHICLE_ONBOARDING,
+                    'Back View',
+                    $user
+                );
+            }
+        //------------------------------------------------
+        if($request->hasFile('right_view_edit')) {
+            File::where('reference_number',   $request->input('headerId') )
+                ->where('file_type',   'Right View' )
+                ->where('module',   'Vehicle Registration' )
+                ->update( ['status' =>  '02' ] );
+            //
+            $this->fileUploadService->uploadFile($request,
+                'right_view_edit',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                self::VEHICLE_ONBOARDING,
+                'Right View',
+                $user
+            );
+        }
+        //------------------------------------------------
+            if($request->hasFile('left_view_edit')) {
+                File::where('reference_number',   $request->input('headerId') )
+                    ->where('file_type',   'Left View' )
+                    ->where('module',   'Vehicle Registration' )
+                    ->update( ['status' =>  '02' ] );
+                //
+                $this->fileUploadService->uploadFile($request,
+                    'left_view_edit',
+                    'vehicleRegistration',
+                    $request->input('headerId'),
+                    self::VEHICLE_ONBOARDING,
+                    'Left View',
+                    $user
+                );
+            }
+        //------------------------------------------------
+
+
         try {
 //            self::generateBarCode($request->input('headerId'));
         } catch (\Exception $e) {

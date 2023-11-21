@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\VehicleManagement;
 
+use App\Models\VehicleManagement\ChassisDetail;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -21,6 +22,14 @@ class ChassisDetailsPostRequest extends FormRequest
         return true;
     }
 
+    private function checkChasisDetails($column){
+return [
+    'exclude_unless:chassisDetailsId,0',
+    'required',
+    \Illuminate\Validation\Rule::unique(ChassisDetail::class,$column)->ignore($this->request->get('headerId'),'vehicle_header_id')
+];
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -31,21 +40,21 @@ class ChassisDetailsPostRequest extends FormRequest
         return [
             'doctype' => '',
             'headerId' => '',
-            'chassisNumber' => self::EXCLUDE_UNLESS_CHASSIS_DETAILS . ',chassis_number',
-            'engineNumber' => self::EXCLUDE_UNLESS_CHASSIS_DETAILS . ',engine_number',
-            'whiteBookSerial' => self::EXCLUDE_UNLESS_CHASSIS_DETAILS . ',white_book_serial',
+            'chassisNumber' => $this->checkChasisDetails('chassis_number'),
+            'engineNumber' => $this->checkChasisDetails('engine_number'),
+            'whiteBookSerial' => $this->checkChasisDetails('engine_number'),
             'yearOfManufacture' => self::REQUIRED_NUMERIC,
             'chargeOutRate' => self::REQUIRED_NUMERIC,
             'requiredMinimumDrivingLicense' => 'required',
             'initialOdometerReading' => self::REQUIRED_NUMERIC,
             'registrationDate' => 'required|date_format:Y-m-d',
 
-            'motor_vehicle_certificate' => 'required|file|' . self::MIME_TYPES . '|max:8000',
-            'insurance_cover_note' => 'required|file|'. self::MIME_TYPES . '|max:8000',
-            'front_view' => self::REQUIRED_FILE_MIMES,
-            'rear_view' => self::REQUIRED_FILE_MIMES,
-            'right_view' => self::REQUIRED_FILE_MIMES,
-            'left_view' => self::REQUIRED_FILE_MIMES
+            'motor_vehicle_certificate' => 'sometimes|required|file|' . self::MIME_TYPES . '|max:8000',
+            'insurance_cover_note' => 'sometimes|required|file|'. self::MIME_TYPES . '|max:8000',
+//            'front_view' => self::REQUIRED_FILE_MIMES,
+//            'rear_view' => self::REQUIRED_FILE_MIMES,
+//            'right_view' => self::REQUIRED_FILE_MIMES,
+//            'left_view' => self::REQUIRED_FILE_MIMES
         ];
     }
 }

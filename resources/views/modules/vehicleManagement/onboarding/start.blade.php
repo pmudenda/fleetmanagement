@@ -1,4 +1,4 @@
-@php use Carbon\Carbon; @endphp
+{{--@php use Carbon\Carbon; @endphp--}}
 @extends('layouts.app')
 @push('styles')
     <style>
@@ -115,7 +115,7 @@
                             <div class="tab-pane fade @if($step==2) active show @endif" id="tms_chassis_details_tab"
                                  role="tabpanel">
                                 {{--  @include('vehicleManagement.onboarding.tabs.accessories_tab')--}}
-                                @include('modules.vehicleManagement.onboarding.tabs.chassis_tab')
+                                @include('modules.vehicleManagement.onboarding.tabs.chassis_tab',compact('vehicleDocuments'))
                             </div>
                             <!--End:::Chassis Details Tab pane-->
 
@@ -217,6 +217,30 @@
             </div>
         </div>
     </div>
+
+
+
+    <div class="modal fade" id="fileEditModal"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">File Editor</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="documentView" src="" style="border: none;" width="100%" height="600px;"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-default">Change</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 @endsection
 
 @push('scripts')
@@ -228,6 +252,7 @@
     <script src="{{asset('modules/vehicleManagement/assets/js/lib.vehicle.data.js')}}"></script>
     <script src="{{asset('modules/vehicleManagement/assets/js/new-vehicle-registration.js')}}"></script>
     <script src="{{asset('modules/userManagement/employee.search.js')}}"></script>
+
     <script>
         $(document).ready(function () {
             setInterval(function () {
@@ -238,7 +263,26 @@
                     }
                 }
             }, 600);
+
+$('#basicExample2').justifiedGallery({
+    rowHeight : 70,
+    lastRow : 'nojustify',
+    margins : 3,
+       rel : 'gallery1',   
+}).on('jg.complete', function () {
+    $(this).find('a').colorbox({
+        maxWidth : '80%',
+        maxHeight : '80%',
+        opacity : 0.8,
+        transition : 'elastic',
+        current : ''
+    });
+});
+
+
         });
 
     </script>
+
+
 @endpush

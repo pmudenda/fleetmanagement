@@ -4,10 +4,13 @@
     name="tmsChassisDetailsForm"
     class="form"
     action="{{route('vehicle.chassis.detail')}}">
+
     <input type="hidden" name="doctype" value="ChassisDetails"/>
     <input type="hidden" name="headerId" value="{{$reference}}"/>
     <input type="hidden" name="chassisDetailsId" value="{{$vehicle->chassisDetailsId ?? 0}}"/>
+
     <x-error-view/>
+
     <div class="row">
         <div class="col-8">
             <table aria-label="Engine Details"
@@ -449,7 +452,6 @@
             </table>
         </div>
     </div>
-
     <div class="card card-default" v-if="!documents.insurance && !documents.certificate">
         <div class="card-header pl-0">
             <h3 class="card-title pl-0">Vehicle Document<small class="pl-3 link-info"><strong> Only .pdf,
@@ -500,7 +502,29 @@
         </div>
     </div>
 
-    <div class="row mt-10" v-if="documents && documents.insurance && documents.certificate">
+
+    <div class="row">
+        <div class="col-lg-12 mt-lg-4 mb-lg-3">
+            <label>Preview of all attached files</label>
+        </div>
+        <div class="col-lg-12">
+            <div id="basicExample2" class="justified-gallery">
+                @foreach($docs as $image)
+                    @if( $image->status == App\Helpers\StatusHelper::active())
+                        <a href="{{asset("storage/vehicleRegistration/{$image->name}")}}">
+                            <img alt="{{$image->file_type}}" src="{{asset("storage/vehicleRegistration/{$image->name}")}}"/>
+                        </a>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-lg-12 mt-lg-8">
+        <label>Add or Edit Files</label>
+    </div>
+    </div>
+    <div class="row mt-4" v-if="documents && documents.insurance && documents.certificate">
         <table class="table align-middle table-row-dashed dataTable no-footer" aria-label="Attached Documents">
             <thead>
             <tr class="bg-dark">
@@ -514,9 +538,26 @@
                 <td>@{{ documents.certificate?.originalDocumentName }}</td>
                 <td>
                     <button data-zfm-view-file="certificate"
-                            type="button" v-bind:data-document-url="'/storage'+documents.certificate?.path"
+                            type="button" v-bind:data-document-url="'/storage/vehicleRegistration/'+documents.certificate?.name"
                             class="btn btn-sm btn-success">View File
                     </button>
+
+                </td>
+
+                <td>
+                    <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
+                           style="padding-right: 0px;">
+                        Motor Vehicle Certificate (White Book):
+                        <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
+                    </label>
+                    <div class="col-md-7 fv-row">
+                        <div class="col-md-9 pl-0">
+                            <input type="file" accept="image/*,.pdf"
+                                   id="motor_vehicle_certificate_edit"
+                                   class="filer_input"
+                                   name="motor_vehicle_certificate_edit"/>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -525,10 +566,29 @@
                 <td>
                     <button data-zfm-view-file="insurance"
                             type="button"
-                            v-bind:data-document-url="'/storage'+documents.insurance?.path"
+                            v-bind:data-document-url="'/storage/vehicleRegistration/'+documents.insurance?.name"
                             class="btn btn-sm btn-success">View File
                     </button>
                 </td>
+
+                <td>   <div class="col">
+                        <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
+                               style="padding-right: 0px;">
+                           To Change Insurance Cover Note:
+                            <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
+                        </label>
+
+                        <div class="col-md-7 fv-row">
+                            <div class="col-md-9 pl-0">
+                                <input type="file" accept="image/*,.pdf"
+                                       id="insurance_cover_note_edit"
+                                       class="filer_input"
+                                       name="insurance_cover_note_edit"/>
+                            </div>
+                        </div>
+
+                        <canvas style="display: none;" id="insurance_cover_notePdfViewer"></canvas>
+                    </div> </td>
             </tr>
         </table>
     </div>
@@ -536,11 +596,11 @@
     <div class="row mt-10">
         <div class="col-md-3" v-if="images && images.frontView">
             <div class="card text-center py-5 my-2">
-                <h2 class="fs-2x fw-bold mb-10">Front View</h2>
+                <h2 class="fs-2x fw-bold mb-10">Front View   </h2>
 
                 <div class="form-group">
                     <div class="imagePreview"
-                         :style='{backgroundImage: "url(/storage/" + images.frontView.path + ")",}'>
+                         :style='{backgroundImage: "url(/storage/vehicleRegistration/" + images.frontView.name + ")",}'>
                     </div>
                 </div>
             </div>
@@ -550,7 +610,7 @@
                 <h2 class="fs-2x fw-bold mb-10">Rear View</h2>
                 <div class="form-group">
                     <div class="imagePreview"
-                         :style='{backgroundImage: "url(/storage/" + images.rearView.path + ")",}'>
+                         :style='{backgroundImage: "url(/storage/vehicleRegistration/" + images.rearView.name + ")",}'>
                     </div>
                 </div>
             </div>
@@ -560,7 +620,7 @@
             <div class="card text-center py-5 my-2">
                 <h2 class="fs-2x fw-bold mb-10">Right View</h2>
                 <div class="form-group">
-                    <div class="imagePreview" :style='{backgroundImage: "url(/storage/" + images.rightView.path + ")",}'>
+                    <div class="imagePreview" :style='{backgroundImage: "url(/storage/vehicleRegistration/" + images.rightView.name + ")",}'>
                     </div>
                 </div>
             </div>
@@ -569,7 +629,7 @@
             <div class="card text-center py-5 my-2">
                 <h2 class="fs-2x fw-bold mb-10">Left View</h2>
                 <div class="form-group">
-                    <div class="imagePreview" :style='{backgroundImage: "url(/storage/" + images.leftView.path + ")",}'>
+                    <div class="imagePreview" :style='{backgroundImage: "url(/storage/vehicleRegistration/" + images.leftView.name + ")",}'>
                     </div>
                 </div>
             </div>
@@ -584,6 +644,23 @@
                 <div class="form-group">
                     <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+
+
+                        <!--  Change Image -->
+                    <div v-if="images && images.frontView">
+                        <button type="button"
+                                data-select="file"
+                                data-input="selectFrontViewFile"
+                                class="upload-file btn btn-sm btn-primary me-2">
+                            <i class="fas fa-cloud-arrow-up"></i> Change Image
+                        </button>
+                        <input type="file" accept="image/*"
+                               style="display: block;"
+                               class="fileElem"
+                               name="front_view_edit"/>
+                    </div>
+                    <div v-else >
+                        <!--  ADD IMAGE -->
                         <button type="button"
                                 data-select="file"
                                 data-input="selectFrontViewFile"
@@ -591,9 +668,11 @@
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="front_view"/>
+                    </div>
+
                     </p>
                     <div class="imagePreview" style="display: none;">
                         <button type="button"
@@ -616,15 +695,33 @@
                 <div class="form-group">
                     <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+
+
+                        <!--  Change Image -->
+                    <div v-if="images && images.rearView">
+                        <button type="button"
+                                data-select="file"
+                                class="upload-file btn btn-sm btn-primary me-2">
+                            <i class="fas fa-cloud-arrow-up"></i> Change Image
+                        </button>
+                        <input type="file" accept="image/*"
+                               style="display: block;"
+                               class="fileElem"
+                               name="rear_view_edit"/>
+                    </div>
+
+                    <div v-else>
                         <button type="button"
                                 data-select="file"
                                 class="upload-file btn btn-sm btn-primary me-2">
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="rear_view"/>
+                    </div>
+
                     </p>
 
                     <div class="imagePreview" style="display: none;">
@@ -647,6 +744,22 @@
                 <div class="form-group">
                     <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+
+
+                        <!--  Change Image -->
+                    <div v-if="images && images.rightView">
+                        <button type="button"
+                                data-select="file"
+                                data-input="selectFrontViewFile"
+                                class="upload-file btn btn-sm btn-primary me-2">
+                            <i class="fas fa-cloud-arrow-up"></i> Change Image
+                        </button>
+                        <input type="file" accept="image/*"
+                               style="display: block;"
+                               class="fileElem"
+                               name="right_view_edit"/>
+                    </div>
+                    <div v-else>
                         <button type="button"
                                 data-select="file"
                                 data-input="selectFrontViewFile"
@@ -654,9 +767,11 @@
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="right_view"/>
+                    </div>
+
                     </p>
                     <div class="imagePreview" style="display: none;">
                         <button type="button"
@@ -677,6 +792,21 @@
                 <div class="form-group">
                     <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
                        class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+
+                        <!--  Change Image -->
+                    <div v-if="images && images.leftView">
+                        <button type="button"
+                                data-select="file"
+                                data-input="selectFrontViewFile"
+                                class="upload-file btn btn-sm btn-primary me-2">
+                            <i class="fas fa-cloud-arrow-up"></i> Change Image
+                        </button>
+                        <input type="file" accept="image/*"
+                               style="display: block;"
+                               class="fileElem"
+                               name="left_view_edit"/>
+                    </div>
+                    <div v-else >
                         <button type="button"
                                 data-select="file"
                                 data-input="selectFrontViewFile"
@@ -684,9 +814,11 @@
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: none;"
+                               style="display: block;"
                                class="fileElem"
                                name="left_view"/>
+                    </div>
+
                     </p>
                     <div class="imagePreview" style="display: none;">
                         <button type="button"
@@ -711,3 +843,4 @@
         </div>
     </div>
 </form>
+

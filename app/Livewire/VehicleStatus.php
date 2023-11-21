@@ -2,15 +2,31 @@
 
 namespace App\Livewire;
 
+use App\Models\VehicleManagement\VehicleHeader;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class VehicleStatus extends Component {
-    public $vehicle;
+    public $vehicle, $verified;
+
+    protected $rules = [
+        'verified' => 'required'
+    ];
+
+    public function mount(){
+        $this->verified = $this->vehicle->verified;
+    }
 
     public function render() {
-        if ($this->vehicle) {
-            dd($this->vehicle);
-        }
         return view('livewire.vehicle-status');
+    }
+
+    public function save(){
+        $this->validate();
+        $this->vehicle->verified = $this->verified;
+        $car = VehicleHeader::find($this->vehicle->headerid);
+        $car->verified = $this->verified;
+        $car->save();
+
     }
 }
