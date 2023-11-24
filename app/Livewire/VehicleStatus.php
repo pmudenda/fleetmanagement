@@ -14,7 +14,7 @@ class VehicleStatus extends Component {
     ];
 
     public function mount(){
-        $this->verified = $this->vehicle->verified;
+        $this->verified = $this->vehicle->verified ?? null;
     }
 
     public function render() {
