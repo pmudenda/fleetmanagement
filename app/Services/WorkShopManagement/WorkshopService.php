@@ -442,7 +442,7 @@ class WorkshopService
         $rowsAffected = VehicleHeader::where("registration_number", $vehicleRegistration)
             ->update([
                 "status" => VehicleStatus::vehicleInWorkshop(),
-                'updated_at' => Carbon::now()
+                'updated_at' => now()
             ]);
 
         Log::debug('Setting Vehicle State To In Workshop ' . $rowsAffected);
@@ -680,7 +680,7 @@ class WorkshopService
 
         return Mechanic::where('id',
             QueryComparisonOperator::EQUALS,
-            $mechanic->mechanic_id)
+            $mechanic->mechanic_id ?? null)
             ->first();
     }
 }
