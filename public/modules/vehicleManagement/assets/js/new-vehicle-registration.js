@@ -2,6 +2,7 @@ Vue.component('v-select', VueSelect.VueSelect);
 window.VehicleModels = [];
 window.organizationUnits = [];
 window.businessUnits = [];
+const connectivityError = 'Could not establish Network Connectivity';
 
 function setSelectedAccessories() {
     $.each(window.selectedAccessories, function (index, element) {
@@ -930,10 +931,10 @@ function checkOnboardingHeaderStatus() {
             }
         }
         if (document.querySelector('[name="left_view"]') != null) {
-        if (document.querySelector('[name="left_view"]').files.length === 0) {
-            toastr.error('You have not attached the vehicle Left View Image', 'Validation Failure')
-            return;
-        }
+            if (document.querySelector('[name="left_view"]').files.length === 0) {
+                toastr.error('You have not attached the vehicle Left View Image', 'Validation Failure')
+                return;
+            }
         }
 
         $form = document.forms['tmsChassisDetailsForm'];
@@ -1395,7 +1396,7 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    toastr.error('Connection error, Could not Retrieve Cost Center Information')
                     return;
                 }
 
@@ -1404,7 +1405,7 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. Could not retrieve data read Cost Center Information, some feature might not work.')
             });
     }
 
@@ -1447,7 +1448,7 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    toastr.error('Connection error, Location Data Could Not Be Loaded')
                     return;
                 }
 
@@ -1463,7 +1464,7 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. ' + connectivityError + ' to read Locations.')
             });
     }
 
@@ -1475,14 +1476,14 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    toastr.error('Connection error, no Vehicle Models Could not be loaded.')
                     return;
                 }
                 window.VehicleModels = response['payload'];
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.', 'Model Data')
+                toastr.error('Connection error. '+connectivityError+' to read Vehicle Models', 'Model Data')
             });
     }
 
@@ -1497,12 +1498,7 @@ function checkOnboardingHeaderStatus() {
                     toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
                     return;
                 }
-                /*<option value>--Supplier--</option>
-                <option v-for="supplier in supplierList"
-                                            :key="supplier.code_supplier"
-                    :value="supplier.code_supplier">
-                            @{{ supplier.name_of_supplier }}
-                    </option>*/
+
 
                 app.supplierList = response['payload'];
 
@@ -2294,7 +2290,7 @@ function checkOnboardingHeaderStatus() {
 
     $(document).on('click', '[data-select="file"]', function () {
         const inputName = $(this).attr('data-file');
-        let fileInput = document.querySelector('input[type="'+inputName+'"]');
+        let fileInput = document.querySelector('input[name="' + inputName + '"]');
         $(fileInput).trigger('click');
     });
 
