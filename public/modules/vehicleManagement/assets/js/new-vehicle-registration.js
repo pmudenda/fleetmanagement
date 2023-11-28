@@ -2317,7 +2317,8 @@ function checkOnboardingHeaderStatus() {
                 });
             }
 
-            $(uploadFile).closest('div').find('p').addClass('d-none');
+            const n =event.target.name;
+            $('button[data-file="'+n+'"]').addClass('d-none');
         } else {
 
             toastr.error('only image (.jpg, .jpeg, .png, .bmp) file types are allowed', 'Invalid File Format Selected')
