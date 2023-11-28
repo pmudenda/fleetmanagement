@@ -1483,7 +1483,7 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. '+connectivityError+' to read Vehicle Models', 'Model Data')
+                toastr.error('Connection error. ' + connectivityError + ' to read Vehicle Models', 'Model Data')
             });
     }
 
@@ -2311,7 +2311,8 @@ function checkOnboardingHeaderStatus() {
 
             reader.onloadend = function () {
                 // set image data as background of div
-                uploadFile.closest("div").find('.imagePreview').css({
+                let previewId = uploadFile.attr("data-preview");
+                $(document).find('#' + previewId).css({
                     "background-image": "url(" + this.result + ")", 'display': 'block'
                 });
             }

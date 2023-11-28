@@ -671,11 +671,12 @@
                         <input type="file" accept="image/*"
                                style="display: none;"
                                class="fileElem"
+                               data-preview="front_view_preview"
                                name="front_view"/>
                     </div>
 
                     </p>
-                    <div class="imagePreview" style="display: none;">
+                    <div class="imagePreview" id="front_view_preview" style="display: none;">
                         <button type="button"
                                 class="btn btn-xs clearImage"
                                 style="top: 1px;
@@ -721,12 +722,13 @@
                         <input type="file" accept="image/*"
                                style="display: none;"
                                class="fileElem"
+                               data-preview="rear_view_preview"
                                name="rear_view"/>
                     </div>
 
                     </p>
 
-                    <div class="imagePreview" style="display: none;">
+                    <div class="imagePreview" id="rear_view_preview" style="display: none;">
                         <button type="button"
                                 class="btn btn-xs clearImage" style="top: 1px;
                                             position: relative;
@@ -772,11 +774,12 @@
                         <input type="file" accept="image/*"
                                style="display: none;"
                                class="fileElem"
+                               data-preview="right_view_preview"
                                name="right_view"/>
                     </div>
 
                     </p>
-                    <div class="imagePreview" style="display: none;">
+                    <div class="imagePreview" id="right_view_preview" style="display: none;">
                         <button type="button"
                                 class="btn btn-xs clearImage" style="top: 1px;
                                             position: relative;
@@ -820,11 +823,12 @@
                         <input type="file" accept="image/*"
                                style="display: none;"
                                class="fileElem"
+                               data-preview="left_view_preview"
                                name="left_view"/>
                     </div>
 
                     </p>
-                    <div class="imagePreview" style="display: none;">
+                    <div class="imagePreview" id="left_view_preview" style="display: none;">
                         <button type="button"
                                 class="btn btn-xs clearImage" style="top: 1px;
                                             position: relative;
