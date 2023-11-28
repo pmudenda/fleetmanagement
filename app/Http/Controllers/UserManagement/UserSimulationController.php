@@ -94,6 +94,14 @@ class UserSimulationController extends Controller
             $simulatedUser = Auth::user();
             $staffNumber = $simulatedUser->staff_no;
 
+            if(empty($staffNumber)){
+                $request->session()->forget('simulating');
+                return response()->json([
+                    'success' => true,
+                    'payload' => []
+                ]);
+            }
+
             $this->userSimulationService->endSimulation($staffNumber);
 
             $request->session()->forget('simulating');
