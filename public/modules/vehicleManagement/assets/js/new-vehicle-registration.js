@@ -2350,7 +2350,8 @@ function checkOnboardingHeaderStatus() {
                     "background-image": "", 'display': 'none'
                 });
                 // find the upload btn and make visible
-                $(btn).parent().parent().find('p').removeClass('d-none');
+                const parentId = $(btn).parent().attr('id').replaceAll('_preview','');
+                $(document).find('button[data-file="'+parentId+'"]').removeClass('d-none');
             }
         });
 

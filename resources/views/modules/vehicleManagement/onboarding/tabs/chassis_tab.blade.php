@@ -678,7 +678,7 @@
                     </p>
                     <div class="imagePreview" id="front_view_preview" style="display: none;">
                         <button type="button"
-                                class="btn btn-xs clearImage"
+                                class="btn btn-danger btn-xs clearImage"
                                 style="top: 1px;
                                             position: relative;
                                             right: 1px;
@@ -730,7 +730,7 @@
 
                     <div class="imagePreview" id="rear_view_preview" style="display: none;">
                         <button type="button"
-                                class="btn btn-xs clearImage" style="top: 1px;
+                                class="btn btn-danger btn-xs clearImage" style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
@@ -781,7 +781,7 @@
                     </p>
                     <div class="imagePreview" id="right_view_preview" style="display: none;">
                         <button type="button"
-                                class="btn btn-xs clearImage" style="top: 1px;
+                                class="btn btn-danger btn-xs clearImage" style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
@@ -830,7 +830,7 @@
                     </p>
                     <div class="imagePreview" id="left_view_preview" style="display: none;">
                         <button type="button"
-                                class="btn btn-xs clearImage" style="top: 1px;
+                                class="btn btn-danger btn-xs clearImage" style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
