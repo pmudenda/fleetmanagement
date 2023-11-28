@@ -131,16 +131,19 @@ class WorkflowService
         /****************************** Determine User to assign task ******************************************/
         if (empty($assignTo)) {
             $assignToUser = $this->getApprovingOfficer($currentUser);
+
         } else {
             $assignToUser = PHCMSEmployee::where('con_st_code',
                 QueryComparisonOperator::EQUALS,
                 'ACT')
                 ->where(function (Builder $query) use ($assignTo) {
-                    $query->where('alt_per_no', QueryComparisonOperator::EQUALS, $assignTo);
-                    $query->orWhere('con_per_no', QueryComparisonOperator::EQUALS, $assignTo);
+//                    $query->where('alt_per_no', QueryComparisonOperator::EQUALS, $assignTo);
+                    $query->where('con_per_no', QueryComparisonOperator::EQUALS, $assignTo);
                 })
                 ->first();
         }
+
+        dd($assignToUser);
 
         $actionPage = $stepAfterSubmission->action_page;
 
