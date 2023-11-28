@@ -2293,7 +2293,8 @@ function checkOnboardingHeaderStatus() {
 
 
     $(document).on('click', '[data-select="file"]', function () {
-        let fileInput = $(this).closest('p').find('input[type="file"]');
+        const inputName = $(this).attr('data-file');
+        let fileInput = $(this).parent().find('input[type="'+inputName+'"]');
         $(fileInput).trigger('click');
     });
 

@@ -663,12 +663,13 @@
                         <!--  ADD IMAGE -->
                         <button type="button"
                                 data-select="file"
+                                data-file="front_view"
                                 data-input="selectFrontViewFile"
                                 class="upload-file btn btn-sm btn-primary me-2">
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: block;"
+                               style="display: none;"
                                class="fileElem"
                                name="front_view"/>
                     </div>
@@ -713,11 +714,12 @@
                     <div v-else>
                         <button type="button"
                                 data-select="file"
+                                data-file="rear_view"
                                 class="upload-file btn btn-sm btn-primary me-2">
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: block;"
+                               style="display: none;"
                                class="fileElem"
                                name="rear_view"/>
                     </div>
@@ -762,12 +764,13 @@
                     <div v-else>
                         <button type="button"
                                 data-select="file"
+                                data-file="right_view"
                                 data-input="selectFrontViewFile"
                                 class="upload-file btn btn-sm btn-primary me-2">
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: block;"
+                               style="display: none;"
                                class="fileElem"
                                name="right_view"/>
                     </div>
@@ -809,12 +812,13 @@
                     <div v-else >
                         <button type="button"
                                 data-select="file"
+                                data-file="left_view"
                                 data-input="selectFrontViewFile"
                                 class="upload-file btn btn-sm btn-primary me-2">
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: block;"
+                               style="display: none;"
                                class="fileElem"
                                name="left_view"/>
                     </div>
