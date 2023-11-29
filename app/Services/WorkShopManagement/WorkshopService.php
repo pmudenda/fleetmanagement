@@ -676,7 +676,9 @@ class WorkshopService
     {
         $mechanic = MechanicWorkshop::whereRelation(
             'workshop','workshop_code',$workShopCode
-        )->where('is_supervisor',1)->first();
+        )
+//            ->where('is_supervisor',1)
+            ->first();
         return Mechanic::where('id',
             QueryComparisonOperator::EQUALS,
             $mechanic->mechanic_id ?? null)

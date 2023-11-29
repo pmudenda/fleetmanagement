@@ -137,7 +137,7 @@ class WorkflowService
                 QueryComparisonOperator::EQUALS,
                 'ACT')
                 ->where(function (Builder $query) use ($assignTo) {
-//                    $query->where('alt_per_no', QueryComparisonOperator::EQUALS, $assignTo);
+                    $query->where('alt_per_no', QueryComparisonOperator::EQUALS, $assignTo);
                     $query->where('con_per_no', QueryComparisonOperator::EQUALS, $assignTo);
                 })
                 ->first();
