@@ -131,13 +131,14 @@ class WorkflowService
         /****************************** Determine User to assign task ******************************************/
         if (empty($assignTo)) {
             $assignToUser = $this->getApprovingOfficer($currentUser);
+
         } else {
             $assignToUser = PHCMSEmployee::where('con_st_code',
                 QueryComparisonOperator::EQUALS,
                 'ACT')
                 ->where(function (Builder $query) use ($assignTo) {
-                    $query->where('alt_per_no', QueryComparisonOperator::EQUALS, $assignTo);
-                    $query->orWhere('con_per_no', QueryComparisonOperator::EQUALS, $assignTo);
+//                    $query->where('alt_per_no', QueryComparisonOperator::EQUALS, $assignTo);
+                    $query->where('con_per_no', QueryComparisonOperator::EQUALS, $assignTo);
                 })
                 ->first();
         }
@@ -145,7 +146,7 @@ class WorkflowService
         $actionPage = $stepAfterSubmission->action_page;
 
         WorkflowTaskHeader::create([
-            'assigned_user' =>  $assignToUser->staff_no ?? $assignToUser->alt_per_no,
+            'assigned_user' =>  $assignToUser->con_per_no,
             'subject' => $short_description,
             'status' => StatusHelper::new(),
             'url' => $actionPage,
@@ -165,7 +166,7 @@ class WorkflowService
             'process_code' => $processCode,
             'user_id' => $currentUser->staff_no,
             'current_step_id' => $stepAfterSubmission->step_id,
-            'actioning_officer' => $assignToUser->con_per_no ?? $assignToUser->staff_no,
+            'actioning_officer' => $assignToUser->con_per_no,
             'status' => StatusHelper::new(),
             'step_after_submission' => $actionPage,
             'date_started' => Carbon::now(),
