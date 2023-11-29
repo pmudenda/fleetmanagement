@@ -2,6 +2,7 @@ Vue.component('v-select', VueSelect.VueSelect);
 window.VehicleModels = [];
 window.organizationUnits = [];
 window.businessUnits = [];
+const connectivityError = 'Could not establish Network Connectivity';
 
 function setSelectedAccessories() {
     $.each(window.selectedAccessories, function (index, element) {
@@ -930,10 +931,10 @@ function checkOnboardingHeaderStatus() {
             }
         }
         if (document.querySelector('[name="left_view"]') != null) {
-        if (document.querySelector('[name="left_view"]').files.length === 0) {
-            toastr.error('You have not attached the vehicle Left View Image', 'Validation Failure')
-            return;
-        }
+            if (document.querySelector('[name="left_view"]').files.length === 0) {
+                toastr.error('You have not attached the vehicle Left View Image', 'Validation Failure')
+                return;
+            }
         }
 
         $form = document.forms['tmsChassisDetailsForm'];
@@ -1395,7 +1396,7 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    toastr.error('Connection error, Could not Retrieve Cost Center Information')
                     return;
                 }
 
@@ -1404,7 +1405,7 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. Could not retrieve data read Cost Center Information, some feature might not work.')
             });
     }
 
@@ -1447,7 +1448,7 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    toastr.error('Connection error, Location Data Could Not Be Loaded')
                     return;
                 }
 
@@ -1463,7 +1464,7 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. ' + connectivityError + ' to read Locations.')
             });
     }
 
@@ -1475,14 +1476,14 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    toastr.error('Connection error, no Vehicle Models Could not be loaded.')
                     return;
                 }
                 window.VehicleModels = response['payload'];
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.', 'Model Data')
+                toastr.error('Connection error. ' + connectivityError + ' to read Vehicle Models', 'Model Data')
             });
     }
 
@@ -1497,12 +1498,7 @@ function checkOnboardingHeaderStatus() {
                     toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
                     return;
                 }
-                /*<option value>--Supplier--</option>
-                <option v-for="supplier in supplierList"
-                                            :key="supplier.code_supplier"
-                    :value="supplier.code_supplier">
-                            @{{ supplier.name_of_supplier }}
-                    </option>*/
+
 
                 app.supplierList = response['payload'];
 
@@ -2293,14 +2289,46 @@ function checkOnboardingHeaderStatus() {
 
 
     $(document).on('click', '[data-select="file"]', function () {
-        let fileInput = $(this).closest('p').find('input[type="file"]');
+        const inputName = $(this).attr('data-file');
+        let fileInput = document.querySelector('input[name="' + inputName + '"]');
         $(fileInput).trigger('click');
     });
+
+    function previewVehicleImage(event) {
+        //$('#frame').src = URL.createObjectURL(event.target.files[0]);
+        let uploadFile = $(event.target);
+        let self = event.target;
+        let files = !!self.files ? self.files : [];
+        if (!files.length || !window.FileReader) return;
+        // no file selected, or no FileReader support
+
+        if (/^image/.test(files[0].type)) {
+            // only image file
+            let reader = new FileReader();
+            // instance of the FileReader
+            reader.readAsDataURL(files[0]);
+            // read the local file
+
+            reader.onloadend = function () {
+                // set image data as background of div
+                let previewId = uploadFile.attr("data-preview");
+                $(document).find('#' + previewId).css({
+                    "background-image": "url(" + this.result + ")", 'display': 'block'
+                });
+            }
+
+            const n =event.target.name;
+            $('button[data-file="'+n+'"]').addClass('d-none');
+        } else {
+
+            toastr.error('only image (.jpg, .jpeg, .png, .bmp) file types are allowed', 'Invalid File Format Selected')
+        }
+    }
 
     let fileSelects = [].slice.call(document.querySelectorAll('.fileElem'));
     fileSelects.map(function (fileSelect) {
         fileSelect.addEventListener("change", (e) => {
-            app.preview(e);
+            previewVehicleImage(e);
         }, false);
     });
 
@@ -2322,7 +2350,8 @@ function checkOnboardingHeaderStatus() {
                     "background-image": "", 'display': 'none'
                 });
                 // find the upload btn and make visible
-                $(btn).parent().parent().find('p').removeClass('d-none');
+                const parentId = $(btn).parent().attr('id').replaceAll('_preview','');
+                $(document).find('button[data-file="'+parentId+'"]').removeClass('d-none');
             }
         });
 

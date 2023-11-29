@@ -26,8 +26,10 @@ class UserSimulationService
             $staffNumber
         )->whereNull('simulate_end')
             ->first();
+
         if (empty($activeSimulation)) {
-            throw  new UserSimulationException("User Is not being simulated");
+            //throw  new UserSimulationException("User Is not being simulated");
+            return;
         }
 
         DB::beginTransaction();

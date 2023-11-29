@@ -663,20 +663,22 @@
                         <!--  ADD IMAGE -->
                         <button type="button"
                                 data-select="file"
+                                data-file="front_view"
                                 data-input="selectFrontViewFile"
                                 class="upload-file btn btn-sm btn-primary me-2">
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: block;"
+                               style="display: none;"
                                class="fileElem"
+                               data-preview="front_view_preview"
                                name="front_view"/>
                     </div>
 
                     </p>
-                    <div class="imagePreview" style="display: none;">
+                    <div class="imagePreview" id="front_view_preview" style="display: none;">
                         <button type="button"
-                                class="btn btn-xs clearImage"
+                                class="btn btn-danger btn-xs clearImage"
                                 style="top: 1px;
                                             position: relative;
                                             right: 1px;
@@ -713,20 +715,22 @@
                     <div v-else>
                         <button type="button"
                                 data-select="file"
+                                data-file="rear_view"
                                 class="upload-file btn btn-sm btn-primary me-2">
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: block;"
+                               style="display: none;"
                                class="fileElem"
+                               data-preview="rear_view_preview"
                                name="rear_view"/>
                     </div>
 
                     </p>
 
-                    <div class="imagePreview" style="display: none;">
+                    <div class="imagePreview" id="rear_view_preview" style="display: none;">
                         <button type="button"
-                                class="btn btn-xs clearImage" style="top: 1px;
+                                class="btn btn-danger btn-xs clearImage" style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
@@ -762,20 +766,22 @@
                     <div v-else>
                         <button type="button"
                                 data-select="file"
+                                data-file="right_view"
                                 data-input="selectFrontViewFile"
                                 class="upload-file btn btn-sm btn-primary me-2">
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: block;"
+                               style="display: none;"
                                class="fileElem"
+                               data-preview="right_view_preview"
                                name="right_view"/>
                     </div>
 
                     </p>
-                    <div class="imagePreview" style="display: none;">
+                    <div class="imagePreview" id="right_view_preview" style="display: none;">
                         <button type="button"
-                                class="btn btn-xs clearImage" style="top: 1px;
+                                class="btn btn-danger btn-xs clearImage" style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
@@ -809,20 +815,22 @@
                     <div v-else >
                         <button type="button"
                                 data-select="file"
+                                data-file="left_view"
                                 data-input="selectFrontViewFile"
                                 class="upload-file btn btn-sm btn-primary me-2">
                             <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
-                               style="display: block;"
+                               style="display: none;"
                                class="fileElem"
+                               data-preview="left_view_preview"
                                name="left_view"/>
                     </div>
 
                     </p>
-                    <div class="imagePreview" style="display: none;">
+                    <div class="imagePreview" id="left_view_preview" style="display: none;">
                         <button type="button"
-                                class="btn btn-xs clearImage" style="top: 1px;
+                                class="btn btn-danger btn-xs clearImage" style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;

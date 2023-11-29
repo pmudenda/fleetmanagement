@@ -24,8 +24,8 @@
         <div class="row g-12 g-xl-12" id="kt_app_main">
 
             <!--BEGIN:::VEHICLE HEADER -->
-            @include('modules.vehicleManagement.onboarding.tabs.unsaved_header')
-            <!--END:::VEHICLE HEADER -->
+        @include('modules.vehicleManagement.onboarding.tabs.unsaved_header')
+        <!--END:::VEHICLE HEADER -->
 
             <!--BEGIN:::DETAILS  -->
             <div v-show="vehicleHeader.isHeaderSaved" class="col-md-12 col-sm-12 mb-5 mb-xl-10"
@@ -264,20 +264,20 @@
                 }
             }, 600);
 
-$('#basicExample2').justifiedGallery({
-    rowHeight : 70,
-    lastRow : 'nojustify',
-    margins : 3,
-       rel : 'gallery1',   
-}).on('jg.complete', function () {
-    $(this).find('a').colorbox({
-        maxWidth : '80%',
-        maxHeight : '80%',
-        opacity : 0.8,
-        transition : 'elastic',
-        current : ''
-    });
-});
+            $('#basicExample2').justifiedGallery({
+                rowHeight: 70,
+                lastRow: 'nojustify',
+                margins: 3,
+                rel: 'gallery1',
+            }).on('jg.complete', function () {
+                $(this).find('a').colorbox({
+                    maxWidth: '80%',
+                    maxHeight: '80%',
+                    opacity: 0.8,
+                    transition: 'elastic',
+                    current: ''
+                });
+            });
 
 
         });
