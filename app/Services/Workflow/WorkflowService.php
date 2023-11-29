@@ -4,8 +4,10 @@ namespace App\Services\Workflow;
 
 
 use App\Constants\QueryComparisonOperator;
+use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
 use App\Enums\WorkflowProcessCodes;
+use App\Exceptions\DataNotFoundException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
@@ -129,18 +131,11 @@ class WorkflowService
         );
 
         /****************************** Determine User to assign task ******************************************/
-        if (empty($assignTo)) {
+        if (!empty($assignTo)) {
+            $approvingOfficerStaffNumber = $this->getActiveEmployeeByStaffNumber($assignTo);
+        } else {
             $assignToUser = $this->getApprovingOfficer($currentUser);
             $approvingOfficerStaffNumber = $assignToUser->staff_no;
-        } else {
-            $assignToUser = PHCMSEmployee::where(TableColumns::PHCMS_STATUS, QueryComparisonOperator::EQUALS, 'ACT')
-                ->where(function (Builder $query) use ($assignTo) {
-                    $query->where(TableColumns::PHCMS_STAFF_NUMBER,
-                        QueryComparisonOperator::EQUALS,
-                        $assignTo);
-                })
-                ->first();
-            $approvingOfficerStaffNumber = $assignToUser->con_per_no;
         }
 
         $actionPage = $stepAfterSubmission->action_page;
@@ -796,6 +791,41 @@ class WorkflowService
                 'task_header.created_at',
                 'desc')
             ->get();
+    }
+
+    /**
+     * @param string $assignTo
+     * @return string
+     * @throws DataNotFoundException
+     */
+    private function getActiveEmployeeByStaffNumber(string $assignTo): string
+    {
+        $employee = PHCMSEmployee::where(TableColumns::PHCMS_STATUS, QueryComparisonOperator::EQUALS, 'ACT')
+            ->where(function (Builder $query) use ($assignTo) {
+                $query->where(TableColumns::PHCMS_STAFF_NUMBER,
+                    QueryComparisonOperator::EQUALS,
+                    $assignTo);
+            })
+            ->first();
+
+        if (!empty($employee)) {
+            return $employee->con_per_no;
+        }
+
+        // check using other man number column
+        $oldEmployeeRecord = PHCMSEmployee::where(TableColumns::PHCMS_STATUS, QueryComparisonOperator::EQUALS, 'ACT')
+            ->where(function (Builder $query) use ($assignTo) {
+                $query->where(TableColumns::PHCMS_OLD_STAFF_NUMBER,
+                    QueryComparisonOperator::EQUALS,
+                    $assignTo);
+            })
+            ->first();
+
+        if (!empty($oldEmployeeRecord)) {
+            return $oldEmployeeRecord->alt_per_no;
+        }
+
+        throw new DataNotFoundException(SystemMessages::EmployeeNotActive);
     }
 
 }

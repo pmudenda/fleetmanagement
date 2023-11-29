@@ -60,6 +60,7 @@ class SystemMessages
     const RECORD_DELETED = 'Deleted Successfully';
     const RECORD_SUCCESSFUL = "Record created successfully";
     const DUPLICATE_RECORD = "Record is already registered";
+    const EmployeeNotActive = "Employee Record Not Found";
 
 
     public static function chargeOutRateAddedSuccessfully(): string
