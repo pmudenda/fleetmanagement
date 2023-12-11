@@ -677,8 +677,8 @@ class WorkshopService
         $mechanic = MechanicWorkshop::whereRelation(
             'workshop','workshop_code',$workShopCode
         )
-//            ->where('is_supervisor',1)
-            ->first();
+            ->where('is_supervisor',1)
+            ->first();  Log::info("Workshop Supervisor Has ".$mechanic->staff_no);
         return Mechanic::where('id',
             QueryComparisonOperator::EQUALS,
             $mechanic->mechanic_id ?? null)
