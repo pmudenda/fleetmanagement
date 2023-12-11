@@ -77,6 +77,7 @@ class WorkflowService
             . ' Action ' . $action
             . ' Comment '
             . $comment . ' Amount ' . $amount
+            . ' assignTo ' . $assignTo
         );
 
         $process = WorkflowProcess::where('process_code',
