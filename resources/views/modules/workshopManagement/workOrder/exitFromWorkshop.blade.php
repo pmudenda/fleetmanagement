@@ -1850,7 +1850,6 @@
                         return response.json();
                     })
                     .then(response => {
-                        console.log(response);
                         if (response?.state === 'success') {
                             const $documentStatusCtl = $('[name="documentStatus"]');
                             const documentStatus = $documentStatusCtl.val()
