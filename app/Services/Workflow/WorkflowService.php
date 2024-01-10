@@ -4,8 +4,10 @@ namespace App\Services\Workflow;
 
 
 use App\Constants\QueryComparisonOperator;
+use App\Constants\SystemMessages;
 use App\Constants\TableColumns;
 use App\Enums\WorkflowProcessCodes;
+use App\Exceptions\DataNotFoundException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
@@ -57,11 +59,11 @@ class WorkflowService
      * @throws WorkflowTaskCreationFailedException
      */
     public function initiateWorkflowProcess(string $taskReference,
-                                            int    $processCode,
-                                            int    $action,
+                                            int $processCode,
+                                            int $action,
                                             string $comment,
-                                                   $amount,
-                                            array  $description,
+                                            $amount,
+                                            array $description,
                                             string $assignTo = null
     ): WorkflowTaskDetail
     {
@@ -75,6 +77,7 @@ class WorkflowService
             . ' Action ' . $action
             . ' Comment '
             . $comment . ' Amount ' . $amount
+            . ' assignTo ' . $assignTo
         );
 
         $process = WorkflowProcess::where('process_code',
@@ -129,24 +132,17 @@ class WorkflowService
         );
 
         /****************************** Determine User to assign task ******************************************/
-        if (empty($assignTo)) {
-            $assignToUser = $this->getApprovingOfficer($currentUser);
-
+        if (!empty($assignTo)) {
+            $approvingOfficerStaffNumber = $this->getActiveEmployeeByStaffNumber($assignTo);
         } else {
-            $assignToUser = PHCMSEmployee::where('con_st_code',
-                QueryComparisonOperator::EQUALS,
-                'ACT')
-                ->where(function (Builder $query) use ($assignTo) {
-                    $query->where('alt_per_no', QueryComparisonOperator::EQUALS, $assignTo);
-                    $query->where('con_per_no', QueryComparisonOperator::EQUALS, $assignTo);
-                })
-                ->first();
+            $assignToUser = $this->getApprovingOfficer($currentUser);
+            $approvingOfficerStaffNumber = $assignToUser->staff_no;
         }
 
         $actionPage = $stepAfterSubmission->action_page;
 
         WorkflowTaskHeader::create([
-            'assigned_user' =>  $assignToUser->con_per_no,
+            'assigned_user' => $approvingOfficerStaffNumber,
             'subject' => $short_description,
             'status' => StatusHelper::new(),
             'url' => $actionPage,
@@ -161,16 +157,17 @@ class WorkflowService
             'user_unit' => $userUnit
         ]);
 
+        $loggedInUserStaffNumber = $currentUser->staff_no;
         return WorkflowTaskDetail::create([
             'reference' => $taskReference,
             'process_code' => $processCode,
-            'user_id' => $currentUser->staff_no,
+            'user_id' => $loggedInUserStaffNumber,
             'current_step_id' => $stepAfterSubmission->step_id,
-            'actioning_officer' => $assignToUser->con_per_no,
+            'actioning_officer' => $approvingOfficerStaffNumber,
             'status' => StatusHelper::new(),
             'step_after_submission' => $actionPage,
             'date_started' => Carbon::now(),
-            'created_by' => $currentUser->staff_no
+            'created_by' => $loggedInUserStaffNumber
         ]);
 
     }
@@ -181,10 +178,10 @@ class WorkflowService
      */
     public function invokeWorkFlow(string $reference,
                                    string $processId,
-                                   int    $action,
+                                   int $action,
                                    string $actionTaken,
                                    string $comment,
-                                          $subject
+                                   $subject
     ): array
     {
 
@@ -344,21 +341,17 @@ class WorkflowService
 
     /**
      * @param $currentUser
-     * @return mixed
+     * @return User
      * @throws WorkflowTaskCreationFailedException
      */
-    public function getApprovingOfficer($currentUser): mixed
+    public function getApprovingOfficer($currentUser): User
     {
         /****************************Determine User to assign task*************************************************/
         if (empty($currentUser->supervisor_code)) {
             throw new WorkflowTaskCreationFailedException("Supervisor Not Assigned Found");
         }
 
-        $assignToUser = User::where(
-            'staff_no',
-            '=',
-            $currentUser->supervisor_code)
-            //->where('con_st_code', 'ACT')
+        $assignToUser = User::where('staff_no', QueryComparisonOperator::EQUALS, $currentUser->supervisor_code)
             ->first();
 
         if (empty($assignToUser)) {
@@ -378,11 +371,11 @@ class WorkflowService
      * @return array
      */
     public function rejectRequest(string $comment,
-                                  int    $action,
+                                  int $action,
                                   string $actionTaken,
-                                         $currentStep,
-                                         $taskHeader,
-                                         $taskDetail): array
+                                  $currentStep,
+                                  $taskHeader,
+                                  $taskDetail): array
     {
         $currentUser = auth()->user();
 
@@ -433,15 +426,15 @@ class WorkflowService
         Log::info("Running New Approval Logic");
         if (auth()->user()->can(config('rights.final_authoriser'))
             && $taskHeader->process_code == WorkflowProcessCodes::OutOfTownFuelRequisition->value) {
-            $finalStep = true;
-            Log::info("User Has OOT Final Authority.. Finally Approving Process ");
-        } elseif (auth()->user()->can(config('rights.final_authoriser'))
-            && $taskHeader->process_code == WorkflowProcessCodes::LocalFuelRequisition->value) {
-            $finalStep = true;
-            Log::info("User Has Local Final Authority.. Finally Approving Process ");
-        } else {
-            $finalStep = $this->isFinalStep($currentStep, $lastStep);
-        }
+        $finalStep = true;
+        Log::info("User Has OOT Final Authority.. Finally Approving Process ");
+    } elseif (auth()->user()->can(config('rights.final_authoriser'))
+        && $taskHeader->process_code == WorkflowProcessCodes::LocalFuelRequisition->value) {
+        $finalStep = true;
+        Log::info("User Has Local Final Authority.. Finally Approving Process ");
+    } else {
+        $finalStep = $this->isFinalStep($currentStep, $lastStep);
+    }
 
         if ($finalStep) {
 
@@ -728,10 +721,10 @@ class WorkflowService
      */
     public function resubmitRequest(WorkflowTaskDetail $taskDetail,
                                     WorkflowTaskHeader $taskHeader,
-                                                       $comment,
-                                                       $action,
-                                                       $actionTaken,
-                                                       $currentStep
+                                    $comment,
+                                    $action,
+                                    $actionTaken,
+                                    $currentStep
     ): array
     {
 
@@ -799,6 +792,41 @@ class WorkflowService
                 'task_header.created_at',
                 'desc')
             ->get();
+    }
+
+    /**
+     * @param string $assignTo
+     * @return string
+     * @throws DataNotFoundException
+     */
+    private function getActiveEmployeeByStaffNumber(string $assignTo): string
+    {
+        $employee = PHCMSEmployee::where(TableColumns::PHCMS_STATUS, QueryComparisonOperator::EQUALS, 'ACT')
+            ->where(function (Builder $query) use ($assignTo) {
+                $query->where(TableColumns::PHCMS_STAFF_NUMBER,
+                    QueryComparisonOperator::EQUALS,
+                    $assignTo);
+            })
+            ->first();
+
+        if (!empty($employee)) {
+            return $employee->con_per_no;
+        }
+
+        // check using other man number column
+        $oldEmployeeRecord = PHCMSEmployee::where(TableColumns::PHCMS_STATUS, QueryComparisonOperator::EQUALS, 'ACT')
+            ->where(function (Builder $query) use ($assignTo) {
+                $query->where(TableColumns::PHCMS_OLD_STAFF_NUMBER,
+                    QueryComparisonOperator::EQUALS,
+                    $assignTo);
+            })
+            ->first();
+
+        if (!empty($oldEmployeeRecord)) {
+            return $oldEmployeeRecord->alt_per_no;
+        }
+
+        throw new DataNotFoundException(SystemMessages::EmployeeNotActive);
     }
 
 }

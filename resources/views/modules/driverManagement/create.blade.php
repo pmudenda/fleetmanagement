@@ -291,7 +291,7 @@
                                                                                                 id="isDesignatedDriver"
                                                                                                 type="radio"
                                                                                                 name="isDesignatedDriver"
-                                                                                                value="yes" disabled/>
+                                                                                                value="yes" />
                                                                                         <label
                                                                                                 for="designated-driver-yes">
                                                                                             Yes
@@ -304,7 +304,7 @@
                                                                                                type="radio"
                                                                                                checked
                                                                                                name="isDesignatedDriver"
-                                                                                               value="no" disabled/>
+                                                                                               value="no" />
                                                                                         <label
                                                                                                 for="designated-driver-no">
                                                                                             No

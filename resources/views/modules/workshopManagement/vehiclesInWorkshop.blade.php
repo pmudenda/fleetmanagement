@@ -145,7 +145,7 @@
                                                         @endcan
 
                                                         @canany([config('rights.create_job_card')])
-                                                            @if(empty($workshop->step))
+                                                            @if(empty($workshop->step) || $workshop->step == 1)
                                                                 <li>
                                                                     <a class="dropdown-item"
                                                                        data-kt-action="edit"
