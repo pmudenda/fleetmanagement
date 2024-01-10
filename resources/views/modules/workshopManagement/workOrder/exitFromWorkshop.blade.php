@@ -1762,9 +1762,9 @@
 
             $('[name="itemType"]').attr('disabled', true).change();
 
-            Inputmask({
-                "mask": "AAA 9{1,4}"
-            }).mask('[name="vehicle_registration"]');
+            // Inputmask({
+            //     "mask": "AAA 9{1,4}"
+            // }).mask('[name="vehicle_registration"]');
 
             $.fn.disableBtn = function () {
                 return this.each(function () {
@@ -2271,6 +2271,7 @@
 
             function findVehicle(stage) {
                 const numberPlate = document.querySelector('#vehicle_registration').value;
+                console.log(numberPlate);
                 if (!numberPlate) {
                     return;
                 }

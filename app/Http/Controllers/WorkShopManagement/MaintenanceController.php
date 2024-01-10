@@ -359,6 +359,7 @@ class MaintenanceController extends Controller
         $reference = $request->get(TableColumns::REFERENCE) ?? $request->get('ref');
         $step = $request->get("step") ?? 0;
 
+
         list(
             $repairTypes,
             $accessoriesCheckedIn,
@@ -424,7 +425,6 @@ class MaintenanceController extends Controller
             $pettyCashItems,
             $observation
             ) = $this->jobCardDetailsService->getFullJobCardDetails($request->get("reference"));
-
         $taskHeader = null;
         $approvalHistory = [];
         if ($request->get(TableColumns::REFERENCE)) {
