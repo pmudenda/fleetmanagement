@@ -433,7 +433,6 @@ class FuelRequisitionService {
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
                 ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
-                ->whereRaw("rownum <= 1000")
 
                 ->get();
         } else {
@@ -469,8 +468,8 @@ class FuelRequisitionService {
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
                 ->orderBy("mat_head.created_at", "desc")
-                ->whereRaw("rownum <= 1000")
-//                ->where('srn', '<=', 100)
+                ->whereDate("valid_date_from", '>=', now()->subDays(7))
+                //                ->where('srn', '<=', 100)
 //                ->limit(100)
                 ->get();
         }
