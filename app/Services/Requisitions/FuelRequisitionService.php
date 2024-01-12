@@ -471,6 +471,7 @@ class FuelRequisitionService {
                     $query->where('mat_head.requested_by', $search);
                     $query->orWhere('mat_head.veh_reg_no', $search);
                     $query->orWhere('mat_head.st_pur', $search);
+                    $query->orWhere("SEC_USERS.name", 'like', "%".strtoupper($search)."%");
 
                 })
                 ->when(!$search, function ($query){
