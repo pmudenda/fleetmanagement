@@ -468,11 +468,12 @@ class FuelRequisitionService {
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
                 ->orderBy("mat_head.created_at", "desc")
                 ->when($search, function (Builder $query) use ($search) {
-                    $query->where('mat_head.requested_by', $search);
-                    $query->orWhere('mat_head.veh_reg_no', $search);
-                    $query->orWhere('mat_head.st_pur', $search);
-                    $query->orWhere("SEC_USERS.name", 'like', "%".strtoupper($search)."%");
-
+                   $query->where(function (Builder $query) use ($search) {
+                       $query->where('mat_head.requested_by', $search);
+                       $query->orWhere('mat_head.veh_reg_no', $search);
+                       $query->orWhere('mat_head.st_pur', $search);
+                       $query->orWhere("SEC_USERS.name", 'like', "%".strtoupper($search)."%");
+                   });
                 })
                 ->when(!$search, function ($query){
                     $query->whereDate("valid_date_from", '>=', now()->subDays(7));
