@@ -616,7 +616,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
             stateSave: true,
             colReorder: true,
             'order': [],
-            "pageLength": 10,
+            "pageLength": 1000,
             "responsive": true,
             "searching": searchable,
             "lengthChange": false,

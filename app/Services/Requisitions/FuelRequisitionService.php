@@ -433,9 +433,12 @@ class FuelRequisitionService {
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
                 ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
+                ->whereRaw("rownum <= 1000")
+
                 ->get();
         } else {
-            return DB::table("GEN_MATERIAL_HEADERS as mat_head")
+            return DB::            table("GEN_MATERIAL_HEADERS as mat_head")
+//                ->addSelect()
                 ->leftJoin("GEN_MATERIAL_DETAILS",
                     "mat_head.req_no",
                     QueryComparisonOperator::EQUALS,
@@ -466,6 +469,9 @@ class FuelRequisitionService {
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
                 ->orderBy("mat_head.created_at", "desc")
+                ->whereRaw("rownum <= 1000")
+//                ->where('srn', '<=', 100)
+//                ->limit(100)
                 ->get();
         }
 
