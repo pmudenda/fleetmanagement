@@ -433,7 +433,6 @@ class FuelRequisitionService {
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
                 ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
-
                 ->get();
         } else {
             return DB::            table("GEN_MATERIAL_HEADERS as mat_head")
@@ -468,7 +467,7 @@ class FuelRequisitionService {
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
                 ->orderBy("mat_head.created_at", "desc")
-                ->whereDate("valid_date_from", '>=', now()->subDays(7))
+                ->whereDate("valid_date_from", '>=', now()->subMonths(2))
                 //                ->where('srn', '<=', 100)
 //                ->limit(100)
                 ->get();
