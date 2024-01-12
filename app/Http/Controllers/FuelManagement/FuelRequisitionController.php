@@ -58,14 +58,15 @@ class FuelRequisitionController extends Controller
         $this->profileDelegationService = $profileDelegationService;
     }
 
-    public function list(): View
+    public function list(Request $request): View
     {
-        $requisitions = $this->requisitionService->getMyRequisitions(null);
+        $requisitions = $this->requisitionService->getMyRequisitions(null, $request->search);
         $requisitionType = "FUEL";
         return view("modules.fuelManagement.requisitions.list")
             ->with(compact(
                     'requisitions',
-                    'requisitionType'
+                    'requisitionType',
+                    'request'
                 )
             );
     }

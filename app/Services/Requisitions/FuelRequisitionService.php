@@ -397,7 +397,7 @@ class FuelRequisitionService {
         return empty($queryResult) ? [] : $queryResult->first();
     }
 
-    public function getMyRequisitions($staff_no): Collection {
+    public function getMyRequisitions($staff_no, $search = false): Collection {
         if ($staff_no) {
             return DB::table("GEN_MATERIAL_HEADERS")
                 ->leftJoin("GEN_MATERIAL_DETAILS",
@@ -467,7 +467,15 @@ class FuelRequisitionService {
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
                 ->orderBy("mat_head.created_at", "desc")
-                ->whereDate("valid_date_from", '>=', now()->subMonths(2))
+                ->when($search, function (Builder $query) use ($search) {
+                    $query->where('mat_head.requested_by', $search);
+                    $query->orWhere('mat_head.veh_reg_no', $search);
+                    $query->orWhere('mat_head.st_pur', $search);
+
+                })
+                ->when(!$search, function ($query){
+                    $query->whereDate("valid_date_from", '>=', now()->subDays(7));
+                })
                 //                ->where('srn', '<=', 100)
 //                ->limit(100)
                 ->get();

@@ -17,6 +17,12 @@
             <div class="col-md-12 pl-0">
                 <div class="card">
                     <div class="card-header">
+                        <div class="card-tools">
+                            <form class="form-inline" action="{{route('list.fuel.requisition')}}">
+                                <input type="text" class="form-control mb-2 mr-sm-2" id="query" name="search" value="{{$request->search ?? ''}}" placeholder="Requester, Reg Num, J Number ">
+                                <button type="submit" class="btn btn-primary mb-2 btn-sm">Search</button>
+                            </form>
+                        </div>
                     </div>
                     <div class="card-body p-2">
                         <div class="table-responsive mt-10 ">
@@ -120,7 +126,7 @@
 
     <script>
         (function (appInstance) {
-            appInstance.initDatatable("#fuelRequisitionsTable", false, true, [
+            appInstance.initDatatable("#fuelRequisitionsTable", false, false, [
                 {'orderable': false, targets: 11},
             ]);
         })(window.tmsApp || {});
