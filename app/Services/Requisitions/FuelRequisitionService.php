@@ -476,7 +476,7 @@ class FuelRequisitionService {
                    });
                 })
                 ->when(!$search, function ($query){
-                    $query->whereDate("valid_date_from", '>=', now()->subDays(7));
+                    $query->whereDate("valid_date_from", '>=', now()->months(2));
                 })
                 //                ->where('srn', '<=', 100)
 //                ->limit(100)
