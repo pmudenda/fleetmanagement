@@ -36,7 +36,7 @@ class MechanicOnboarding extends FormRequest
             'directorate' => self::REQUIRED_STRING,
             'user_unit' => self::REQUIRED_STRING,
             'nrc' => self::REQUIRED_STRING,
-            'workshopSupervisor' => self::REQUIRED_STRING,
+//            'workshopSupervisor' => self::REQUIRED_STRING,
             'workshopCode' => self::REQUIRED_STRING,
             'workShopSection' => self::REQUIRED_STRING,
             'business_area' => 'required|string|max:2'

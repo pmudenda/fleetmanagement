@@ -2,42 +2,52 @@
 @push('styles')
 @endpush
 @section('content')
+    <x-content-header
+        :activeCrumb="'Onboard Mechanic'"
+        :linkText="'Booking'"
+        :pageTitle="'New Reservation'"/>
 
-    <x-content-header/>
     <section id="tms_app_main" class="content">
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <h4>Add User</h4>
+                    <h4>Add Mechanic</h4>
                 </div>
-                <div id="actionButtonsContainer" class="card-toolbar justify-content-end" style="display: none;">
-                    <button type="button" id="submitUserBtn" class="btn btn-success btn-sm mr-3">
+                <div id="actionButtonsContainer"
+                     class="card-toolbar justify-content-end"
+                     style="display: none;">
+                    <button type="button" id="submitUserBtn"
+                            class="btn btn-success btn-sm mr-3">
                         <i class="fas fa-save"></i> Save
                     </button>
-                    <button type="button" id="resetUserFormBtn" class="btn btn-danger btn-sm mr-3">
-                        <i class="fas fa-undo"></i> Cancel
+                    <button type="button" id="resetUserFormBtn"
+                            class="btn btn-danger btn-sm mr-3">
+                        <i class="fas fa-undo"></i> Clear Data
                     </button>
                 </div>
             </div>
 
             <div class="card-body py-4 min-h-600px">
-                <form name="tms_user_definition" data-action="{{route('user.search')}}" action="{{route('mechanic.save')}}"
+
+                <x-error-view/>
+
+                <form name="tms_user_definition"
+                      data-action="{{route('user.search')}}"
+                      action="{{route('mechanic.save')}}"
                       method="post">
                     @csrf
-                    <x-error-view/>
                     <div class="card-header">
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-5">
                                 <div class="container-fluid pl-0">
                                     <div class="row">
                                         <div class="form-group row">
-                                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 app-field-label"
-                                                   for="staff_no">Find By:
+                                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
+                                                   for="employee_search_criteria">Find By:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                 <div class="input-group">
-                                                    <input type="text"
-                                                           class="form-control form-control-sm"
+                                                    <input type="text" class="form-control form-control-sm"
                                                            id="employee_search_criteria"
                                                            placeholder="Enter staff number"
                                                            name="employee_search_criteria"
@@ -67,37 +77,20 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="staff_name">
+                                                       for="name">
                                                     Name:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="nane"
                                                            name="name"
-                                                           required readonly>
+                                                           required readonly/>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                {{--<div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="staff_email"> Last Name:
-                                                </label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           id="last_name"
-                                                           name="last_name"
-                                                           required readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>--}}
 
                             </div>
 
@@ -107,21 +100,28 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="mobile_no">Staff Number:</label>
+                                                       for="staff_number">
+                                                    Staff Number:
+                                                </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="staff_number"
                                                            readonly
                                                            name="staff_number"
                                                            autocomplete="off"
-                                                    >
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="col-xs-12 col-sm-6 col-md-5">
+                                    <div class="container-fluid pl-0">
 
+                                    </div>
+                                </div>
                             </div>
 
                             <!--Grade And Position-->
@@ -131,14 +131,15 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="mobile_no">Grade:</label>
+                                                       for="grade">Grade:</label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="grade"
                                                            readonly
                                                            name="grade"
                                                            autocomplete="off"
-                                                    >
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -150,14 +151,16 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="staff_name">
+                                                       for="job_title">
                                                     Position:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="job_title"
                                                            name="job_title"
-                                                           required readonly>
+                                                           required
+                                                           readonly/>
                                                 </div>
                                             </div>
                                         </div>
@@ -173,13 +176,15 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="staff_email"> Email Address:
+                                                       for="staff_email">
+                                                    Email Address:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                     <input type="text" class="form-control form-control-sm"
                                                            id="staff_email"
                                                            name="staff_email"
-                                                           required readonly>
+                                                           required
+                                                           readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -193,9 +198,11 @@
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
                                                        for="mobile_no">Mobile Number:</label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="mobile_no"
-                                                           name="mobile_no">
+                                                           name="mobile_no"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -214,9 +221,13 @@
                                                        for="directorate"> Directorate:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="directorate"
-                                                           name="directorate" readonly required>
+                                                           name="directorate"
+                                                           readonly
+                                                           required
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -232,10 +243,12 @@
                                                     Department :
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
                                                            id="user_unit"
                                                            name="user_unit"
-                                                           readonly required>
+                                                           readonly
+                                                           required>
                                                 </div>
                                             </div>
                                         </div>
@@ -250,10 +263,11 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="mobile_no">Business Unit:</label>
+                                                       for="bc_code">Business Unit:</label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                     <input type="hidden" name="business_unit_code">
-                                                    <select type="text" class="form-select form-control-sm"
+                                                    <select type="text"
+                                                            class="form-select form-control-sm"
                                                             id="bc_code"
                                                             disabled
                                                             name="bu_code"
@@ -261,9 +275,10 @@
                                                         <option></option>
                                                         @foreach ($businessUnits as $businessUnit)
                                                             <option
-                                                                    value="{{$businessUnit->code_bu}}">
+                                                                value="{{$businessUnit->code_bu}}">
                                                                 {{$businessUnit->code_bu}}
-                                                                -> {{$businessUnit->description}}
+                                                                :
+                                                                {{strtoupper($businessUnit->description)}}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -278,22 +293,24 @@
                                         <div class="row">
                                             <div class="form-group row">
                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="staff_name">
+                                                       for="cc_code">
                                                     Cost Center:
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                     <input type="hidden" name="cost_center_code">
                                                     <input type="hidden" name="nrc">
-                                                    <select type="text" class="form-select form-control-sm"
+                                                    <select type="text"
+                                                            class="form-select form-control-sm"
                                                             id="cc_code"
                                                             name="cc_code"
                                                             required disabled>
                                                         <option></option>
                                                         @foreach ($costCenters as $costCenter)
                                                             <option
-                                                                    value="{{$costCenter->code_cost_center}}">
+                                                                value="{{$costCenter->code_cost_center}}">
                                                                 {{$costCenter->code_cost_center}}
-                                                                -> {{$costCenter->description}}
+                                                                :
+                                                                {{strtoupper($costCenter->description)}}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -303,29 +320,66 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="user_profile">Business Area:</label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <select name="business_area" id="business_area"
-                                                            class="form-control form-select-sm"
-                                                            required>
-                                                        <option value>--Choose Business Area--</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+{{--                                <div class="col-xs-12 col-sm-6 col-md-5">--}}
+{{--                                    <div class="container-fluid pl-0">--}}
+{{--                                        <div class="row">--}}
+{{--                                            <div class="form-group row">--}}
+{{--                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"--}}
+{{--                                                       for="bc_code">Business Area:</label>--}}
+{{--                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">--}}
+{{--                                                    <input type="hidden" name="business_area">--}}
+{{--                                                    <select type="text"--}}
+{{--                                                            class="form-select form-control-sm"--}}
+{{--                                                            id="bc_code"--}}
+{{--                                                            disabled--}}
+{{--                                                            name="bu_code"--}}
+{{--                                                            autocomplete="off">--}}
+{{--                                                        <option></option>--}}
+{{--                                                        @foreach ($businessUnits as $businessUnit)--}}
+{{--                                                            <option--}}
+{{--                                                                    value="{{$businessUnit->code_bu}}">--}}
+{{--                                                                {{$businessUnit->code_bu}}--}}
+{{--                                                                :--}}
+{{--                                                                {{strtoupper($businessUnit->description)}}--}}
+{{--                                                            </option>--}}
+{{--                                                        @endforeach--}}
+{{--                                                    </select>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+{{--                                <div class="col-xs-12 col-sm-6 col-md-5">--}}
+{{--                                    <div class="container-fluid pl-0">--}}
+{{--                                        <div class="row">--}}
+{{--                                            <div class="form-group row">--}}
+{{--                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"--}}
+{{--                                                       for="bc_code">Business Unit:</label>--}}
+{{--                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">--}}
+{{--                                                    <input type="hidden" name="business_unit_code">--}}
+{{--                                                    <select type="text"--}}
+{{--                                                            class="form-select form-control-sm"--}}
+{{--                                                            id="bc_code"--}}
+{{--                                                            disabled--}}
+{{--                                                            name="bu_code"--}}
+{{--                                                            autocomplete="off">--}}
+{{--                                                        <option></option>--}}
+{{--                                                        @foreach ($businessUnits as $businessUnit)--}}
+{{--                                                            <option--}}
+{{--                                                                    value="{{$businessUnit->code_bu}}">--}}
+{{--                                                                {{$businessUnit->code_bu}}--}}
+{{--                                                                :--}}
+{{--                                                                {{strtoupper($businessUnit->description)}}--}}
+{{--                                                            </option>--}}
+{{--                                                        @endforeach--}}
+{{--                                                    </select>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                             </div>
-
-
-
-
-
 
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-5">
@@ -338,9 +392,9 @@
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                     <select
-                                                            class="form-select form-select-sm select2"
-                                                            id="workshopCode"
-                                                            name="workshopCode">
+                                                        class="form-select form-select-sm select2"
+                                                        id="workshopCode"
+                                                        name="workshopCode">
                                                         <option>--Select Workshop--</option>
                                                         @foreach($workshopList as $workshop)
                                                             <option value="{{$workshop->workshop_code}}">
@@ -388,6 +442,29 @@
                                            name="login_name"/>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-5">
+                                    <div class="container-fluid pl-0">
+                                        <div class="row">
+                                            {{--<div class="form-group row">
+                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                       for="business_area">
+                                                    Business Area:
+                                                </label>
+                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                    <select name="business_area"
+                                                            id="business_area"
+                                                            class="form-control form-select-sm"
+                                                            required>
+                                                        <option value>--Choose Business Area--</option>
+                                                    </select>
+                                                </div>
+                                            </div>--}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -405,53 +482,11 @@
 @push('scripts')
     <script src="{{asset('modules/userManagement/employee.search.js')}}"></script>
     <script src="{{asset('modules/userManagement/users/add_user.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2({
+                theme: 'bootstrap4'
+            });
+        });
+    </script>
 @endpush
-{{--<div class="row">--}}
-{{--    <div class="col-xs-12 col-sm-6 col-md-5">--}}
-{{--        <div class="container-fluid pl-0">--}}
-{{--            <div class="row">--}}
-{{--                <div class="form-group row">--}}
-{{--                    <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3"--}}
-{{--                           for="mobile_no">Supervisor:</label>--}}
-{{--                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">--}}
-{{--                        <div class="input-group">--}}
-{{--                            <input type="text"--}}
-{{--                                   id="staff_supervisor"--}}
-{{--                                   name="staff_supervisor"--}}
-{{--                                   data-bs-toggle="modal"--}}
-{{--                                   autocomplete="off"--}}
-{{--                                   data-bs-target="#searchEmployeeModal"--}}
-{{--                                   data-assignmenttype="single"--}}
-{{--                                   data-inputfield="staff_supervisor"--}}
-{{--                                   class="form-control form-control-sm"/>--}}
-
-{{--                            <input type="hidden"--}}
-{{--                                   data-assignmenttype="single"--}}
-{{--                                   data-inputfield="staff_supervisorId"--}}
-{{--                                   id="staff_supervisorId"--}}
-{{--                                   name="staff_supervisorId"/>--}}
-{{--                            <div class="input-group-append">--}}
-{{--                                <div--}}
-{{--                                        data-assignmenttype="single"--}}
-{{--                                        data-inputfield="staff_supervisor"--}}
-{{--                                        data-field="userSelection"--}}
-{{--                                        class="input-group-text">--}}
-{{--                                    <i class="fa fa-user"></i>--}}
-{{--                                </div>--}}
-{{--                                <div style="cursor: pointer;"--}}
-{{--                                     title="clear selection"--}}
-{{--                                     data-action="clearUsers"--}}
-{{--                                     class="input-group-text">--}}
-{{--                                    <i data-action="clearUsers"--}}
-{{--                                       class="fa fa-eraser"></i>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-
-{{--</div>--}}
