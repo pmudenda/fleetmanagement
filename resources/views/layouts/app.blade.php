@@ -163,6 +163,15 @@
         'on 3309,3350,3351,3306, zfmservicedesk@zesco.co.zm';
 
     $(document).ready(function () {
+        window.addEventListener('modal-close',()=>{
+            document.querySelectorAll('.modal').forEach(function(modalElem) {
+                const myModal = new bootstrap.Modal(modalElem);
+                myModal.hide();
+
+                $('.modal').modal('hide');
+                console.log('close')
+            });
+        });
         toastr.options = {
             "preventDuplicates": true,
             "preventOpenDuplicates": true

@@ -39,7 +39,7 @@
     </div>
 
     <div class="modal fade" id="modal-workshop-add" tabindex="-1" role="dialog" aria-labelledby="modal-workshop-add"
-         aria-hidden="true">
+         aria-hidden="true" wire:ignore>
         <livewire:mechanic.workshop-add :mechanic="$mechanic"/>
     </div>
 </div>

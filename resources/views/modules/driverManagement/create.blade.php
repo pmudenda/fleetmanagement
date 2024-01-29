@@ -689,7 +689,7 @@
                                                                     <label
                                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
                                                                             for="permit_copy">
-                                                                        Copy Of Permit (optional):
+                                                                        Copy Of Permit (Mandatory):
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="file"

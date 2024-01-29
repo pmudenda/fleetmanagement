@@ -149,8 +149,13 @@
 <script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
+<livewire:scripts/>
 <script>
     $(document).ready(function () {
+        window.addEventListener('modal-close',()=>{
+            $('.modal').modal('hide');
+        });
+
         toastr.options = {
             "preventDuplicates": true,
             "preventOpenDuplicates": true
