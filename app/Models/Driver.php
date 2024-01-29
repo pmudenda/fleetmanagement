@@ -34,4 +34,11 @@ class Driver extends Model
         'deleted_at',
         'is_designated_driver'
     ];
+
+    protected $casts = [
+        'license_date_issued' => 'date:Y-m-d',
+        'license_date_expiry' => 'date:Y-m-d',
+        'permit_date_issued' => 'date:Y-m-d',
+        'permit_date_expiry' => 'date:Y-m-d',
+    ];
 }

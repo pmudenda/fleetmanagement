@@ -9,7 +9,9 @@ use App\Enums\ResponseState;
 use App\Exceptions\DriverSearchException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+
 use App\Http\Requests\DriverOnboardingRequest;
+use App\Http\Requests\DriverUpdateRequest;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Common\File;
 use App\Models\Driver;
@@ -78,6 +80,30 @@ class DriverController extends Controller
         }
     }
 
+    public function update(DriverUpdateRequest $request, Driver $driver): JsonResponse
+    {
+        Log::debug('Updating Driver Data');
+
+//        try {
+            $model = $this->driverManagementService->update($request, $driver);
+            return response()->json([
+                'success' => !empty($model),
+                'payload' => $model,
+                'redirectUrl' => URL::signedRoute('driver.list'),
+                'message' => 'Driver Edited Successfully'
+            ]);
+//        } catch (\Exception $e) {
+//            Log::error($e);
+//            return response()->json([
+//                'success' => false,
+//                'description' => $e,
+//                'payload' => [],
+//                'message' => ErrorMessages::getMessage('err_0005')
+//            ]);
+//        }
+    }
+
+
     public function show(Driver $user): Factory|View|Application
     {
         $files = File::where('reference_number', "=", $user->on_boarding_reference)
@@ -85,8 +111,15 @@ class DriverController extends Controller
 //                StatusHelper::active())
             ->get();
 
+        $licenseClasses = GeneralTable::where('type',
+            ConfigurationTypes::LICENSE_CLASS)
+            ->where('active',
+                QueryComparisonOperator::EQUALS
+                , "1")
+            ->get();
+
         return view('modules.driverManagement.show')
-            ->with(compact('user','files'));
+            ->with(compact('user','files','licenseClasses'));
     }
 
     public function driverList(): View

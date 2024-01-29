@@ -35,33 +35,39 @@ class FileUploadService
         }
 
         $files = $request->file($fileKey);
-
         if (is_array($files)) {
             $uploadedFiles = [];
             foreach ($files as $file) {
-                $uploadedFiles[] = self::upload(
-                    $file,
-                    $folder,
-                    $code,
-                    $formType,
-                    $fileType,
-                    $user
-                );
+                if($file){
+                    $uploadedFiles[] = self::upload(
+                        $file,
+                        $folder,
+                        $code,
+                        $formType,
+                        $fileType,
+                        $user
+                    );
+                }
+
             }
             return $uploadedFiles;
         }
 
         $file = $files;
 
-        $uploadedFile = self::upload(
-            $file,
-            $folder,
-            $code,
-            $formType,
-            $fileType,
-            $user
-        );
-        return array($uploadedFile);
+        if($file){
+            $uploadedFile = self::upload(
+                $file,
+                $folder,
+                $code,
+                $formType,
+                $fileType,
+                $user
+            );
+            return array($uploadedFile);
+        }
+
+       return [];
     }
 
     /**
@@ -82,6 +88,7 @@ class FileUploadService
         $user
     ): File
     {
+
         // Get just filename
         $filename = pathinfo(preg_replace("/[^a-zA-Z]+/",
             "_",
@@ -116,7 +123,12 @@ class FileUploadService
         Log::debug("File Path " . $path);
 
         //upload the receipt
-        return File::create(
+        return File::updateOrCreate(
+            [
+                'module' => $module,
+                'reference_number' => $code,
+                'file_type' => $fileType,
+            ],
             [
                 'module' => $module,
                 'reference_number' => $code,
