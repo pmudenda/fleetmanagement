@@ -19,6 +19,20 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
             ->name('edit.data');
         Route::post('/deleteRecord', [GeneralTablesController::class, "deleteRecord"])
             ->name('delete.data');
+
+
+        Route::prefix('town')->name('general.town.')->group(function () {
+            Route::get('/', \App\Livewire\Config\Town\TownIndex::class)->name('index');
+            Route::get('/create', \App\Livewire\Config\Town\TownCreate::class)->name('create');
+            Route::get('/{town}/edit', \App\Livewire\Config\Town\TownEdit::class)->name('edit');
+
+            Route::prefix('{town}/distance')->name('distance.')->group(function () {
+                Route::get('/', \App\Livewire\Config\Town\Distanceindex::class)->name('index');
+                Route::get('/create', \App\Livewire\Config\Town\DistanceCreate::class)->name('create');
+                Route::get('/{distance}/edit', \App\Livewire\Config\Town\DistanceEdit::class)->name('edit');
+
+            });
+        });
     });
 
     Route::get('vehicle/make', function () {

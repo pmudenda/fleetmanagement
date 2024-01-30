@@ -666,6 +666,11 @@
                         </div>
 
                         <div class="container-fluid">
+
+                            <div id="alert-capacity" class="alert alert-danger d-none">
+                               <p id="text-capacity"></p>
+                            </div>
+
                             <div id="materialDetailsContainer"
                                  class="table-responsive mt-3">
                                 <table id="materialDetailsTable"

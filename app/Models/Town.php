@@ -17,4 +17,8 @@ class Town extends Model
         'modified_by',
         'deleted_at',
     ];
+
+    public function distances(){
+        return $this->hasMany(DistanceChart::class,'town_from','town_name');
+    }
 }

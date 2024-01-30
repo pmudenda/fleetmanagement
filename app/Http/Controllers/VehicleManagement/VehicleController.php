@@ -168,6 +168,9 @@ class VehicleController extends Controller
 
             $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
 
+            $engine_details = $this->vehicleDetailsService->getVehicleDetailsById($vehicle->id);
+//            dd($engine_details);
+
             list($insuranceState, $insurance) = $this->insuranceService->getCheckInsurance($registrationNumber);
 
             list($roadTaxState, $roadTax) = $this->roadTaxService->getRoadLicence($registrationNumber);
@@ -244,7 +247,8 @@ class VehicleController extends Controller
 
                         'hasValidFitness' => $hasValidFitness,
                         'fitnessMessage' => $vehicleFitnessMessage,
-                        'fitness' => $fitnessRecord
+                        'fitness' => $fitnessRecord,
+                        'engine' => $engine_details
                     ]
                 )
             );

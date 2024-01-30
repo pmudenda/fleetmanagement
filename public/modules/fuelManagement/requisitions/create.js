@@ -13,10 +13,10 @@
         generalError: 'We could not complete processing your request, please try again later',
         invalidTripPeriod: 'You have selected more than the '
             + window['tripPeriodLimit']
-            +' Days Limit' +
+            + ' Days Limit' +
             'If your trip is more than '
-            +window['tripPeriodLimit']
-            +' days, you will have to create a second trip '
+            + window['tripPeriodLimit']
+            + ' days, you will have to create a second trip '
     };
     let previousRequisition = {};
 
@@ -55,6 +55,7 @@
         const hasValidFitness = payload['hasValidFitness'];
         const hasValidRoadTax = payload['hasValidRoadTax'];
         const hasValidInsurance = payload['hasValidInsurance'];
+        const engineDetails = payload['engine'];
         let vehicle_state = payload['vehicle_state'];
         let vehicle_tom_card_message = payload['vehicle_tom_card_message'];
         let insuranceMessage = payload['insuranceMessage'];
@@ -139,6 +140,7 @@
             + ' ' + vehicle['brand_name']
             + ' ' + vehicle['model_name']
             + ' ' + vehicle['model_code'];
+
         $("#vehicle_description").val(vLabel);
         $("#vehicle_status").text(vehicle['status_name']);
 
@@ -172,6 +174,12 @@
             /* Material Price*/
             $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
             $('input[name="material_price"]').val(article['price']).change();
+        }
+
+        if (engineDetails) {
+            console.log('Is there data here')
+            $('#alert-capacity').removeClass('d-none');
+            $('#text-capacity').text('The vehicle ' + vehicle.registration_number + ' can only be issued with one-off fuel equal to or less than the system defined tank capacity of ' + engineDetails.tank_capacity  + ' LITRES')
         }
 
         if (images && images.length > 0) {

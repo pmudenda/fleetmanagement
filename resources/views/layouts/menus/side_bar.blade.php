@@ -929,6 +929,25 @@
                                                 </a>
                                             </li>
                                         @endcanany
+
+                                            @canany([config('rights.add_vehicle_status'),
+                                                   config('rights.edit_vehicle_status')])
+                                                <li class="nav-item">
+                                                    <a class="nav-link"
+                                                       href="{{ route('general.town.index')}}">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot">
+                                                    </span>
+                                                </span>
+                                                        <p class="menu-title">
+                                                            Towns
+                                                        </p>
+                                                    </a>
+                                                </li>
+
+                                            @endcanany
+
+
                                     </ul>
                                 </li>
                             @endcanany
