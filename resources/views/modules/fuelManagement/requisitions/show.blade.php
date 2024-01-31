@@ -32,6 +32,13 @@
 
                 <x-error-view/>
 
+                <div id="alert-capacity" class="alert alert-danger">
+                    <p id="text-capacity">
+                        The vehicle  {{$requestDetails->veh_reg_no}}  can only be issued with one-off fuel equal to or less than the system defined tank capacity of {{$consumptionDetails[1]}} LITRES
+                    </p>
+                </div>
+
+
                 <form name="fuelRequisitionForm" id="fuelRequisitionForm" action="{{route('save.fuel.requisition')}}"
                       method="post">
                     @csrf

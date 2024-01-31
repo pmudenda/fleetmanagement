@@ -578,7 +578,7 @@ class FuelRequisitionService {
                 ->first()->odometer ?? 0;
     }
 
-    private function getVehicleFuelConsumptionData(mixed $vehicleReference): array {
+    public function getVehicleFuelConsumptionData(mixed $vehicleReference): array {
         Log::debug("Registration Number $vehicleReference");
 
         $consumptionData = DB::table('vm_vehicle_header vh')

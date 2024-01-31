@@ -80,13 +80,15 @@ class FuelRequisitionController extends Controller
             $viewOnly = $request->view_only ?? false;
         }
 
+
         list($user,
             $requestDetails,
             $supportingDocument,
             $workflowTask,
             $requisitionTypes,
             $daysToNextRefuel,
-            $approvalHistory
+            $approvalHistory,
+            $consumptionDetails
             ) = $this->getRequisitionDetails($request);
 
         return view('modules.fuelManagement.requisitions.show')
@@ -99,7 +101,8 @@ class FuelRequisitionController extends Controller
                 'workflowTask',
                 'delegatedProfileOwner',
                 'supportingDocument',
-                'viewOnly'
+                'viewOnly',
+                'consumptionDetails'
             ));
     }
 
@@ -358,6 +361,9 @@ class FuelRequisitionController extends Controller
             $requisitionNumber
         );
 
+
+        $consumptionDetails = $this->requisitionService->getVehicleFuelConsumptionData($requestDetails->veh_reg_no);
+
         $supportingDocument = File::where('reference_number',
             QueryComparisonOperator::EQUALS,
             $requisitionNumber
@@ -386,7 +392,8 @@ class FuelRequisitionController extends Controller
             $workflowTask,
             $requisitionTypes,
             $daysToNextRefuel,
-            $approvalHistory
+            $approvalHistory,
+            $consumptionDetails
         );
     }
 }
