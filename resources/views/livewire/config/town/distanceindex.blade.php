@@ -47,9 +47,9 @@
             <div class="card-body">
 
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-4">
                         <div class="form-group">
-                            <input type="text" class="form-control" wire:model.live="search">
+                            <input type="text" class="form-control" wire:model.live="search"  placeholder="Search Town">
                             <span class="text-primary"></span>
                         </div>
                     </div>

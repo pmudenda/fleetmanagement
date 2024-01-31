@@ -31,7 +31,7 @@ class Distanceindex extends Component
 
     public function remove(DistanceChart $distanceChart){
         $distanceChart->delete();
-        $distanceChart->dispatch('message', 'Town Distance Removed successfully');
+        $this->dispatch('message', 'Town Distance Removed successfully');
 
     }
 }
