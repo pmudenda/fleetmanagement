@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Responses\FleetMasterJsonResponse;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\general\Status;
+use App\Models\VehicleManagement\EngineDetail;
 use App\Models\VehicleManagement\VehicleAccessory;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\FitnessService;
@@ -157,19 +158,16 @@ class VehicleController extends Controller
     {
         try {
             $registrationNumber = $request->get('vehicle_registration');
-
             list($vehicle, $vehicleState) = $this->getVehicleStateDetails(
                 $registrationNumber
             );
-
             $vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
 
             $accessories = $this->vehicleDetailsService->getSubmittedAccessories($vehicle->vehicle_header_id);
 
             $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
 
-            $engine_details = $this->vehicleDetailsService->getVehicleDetailsById($vehicle->id);
-//            dd($engine_details);
+            $engine_details = EngineDetail::where('reg_no', $registrationNumber)->first();
 
             list($insuranceState, $insurance) = $this->insuranceService->getCheckInsurance($registrationNumber);
 
