@@ -76,4 +76,9 @@ class TaskAlignment extends Component
             ->get();
         $this->selected_tasks = $tasks->pluck('reference')->values()->all();
     }
+
+    public function deselect()
+    {
+        $this->selected_tasks = [];
+    }
 }

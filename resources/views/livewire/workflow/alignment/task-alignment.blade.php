@@ -124,6 +124,11 @@
                                             Select All
                                         </x-button>
 
+                                        <x-button type="button" class="btn btn-light-danger btn-sm ml-3"
+                                                  wire:target="deselect" wire:click="deselect">
+                                            De-Select All
+                                        </x-button>
+
                                         <x-button type="submit" class="btn btn-primary btn-sm  ml-3" wire:target="assign">
                                             Assign
                                         </x-button>
