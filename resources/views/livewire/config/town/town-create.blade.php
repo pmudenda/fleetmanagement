@@ -34,7 +34,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" wire:model.defer="town.town_name">
+                                    <input type="text" class="form-control" wire:model.defer="town.town_name" style="text-transform:uppercase">
                                 </div>
                             </div>
                         </div>
