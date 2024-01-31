@@ -57,12 +57,14 @@
                     <div class="col-lg-12">
                         <table class="table table-bordered table-condensed mt-5">
                             <thead>
+                            <th>#</th>
                             <th>Name</th>
                             <th></th>
                             </thead>
                             <tbody>
                             @forelse($towns as $town)
                                 <tr>
+                                    <td>{{$loop->index + 1}}</td>
                                     <td>{{$town->town_name}}</td>
                                     <td class="align-content-end float-right">
                                         <div class="btn-toolbar">

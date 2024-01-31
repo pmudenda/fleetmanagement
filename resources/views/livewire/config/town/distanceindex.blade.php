@@ -60,6 +60,7 @@
                     <div class="col-lg-12">
                         <table class="table table-bordered table-condensed">
                             <thead>
+                            <th>#</th>
                             <th>Town To</th>
                             <th>Distance</th>
                             <th></th>
@@ -67,6 +68,7 @@
                             <tbody>
                             @forelse($distances as $distance)
                                 <tr>
+                                    <td>{{$loop->index + 1}}</td>
                                     <td>{{$distance->town_to}}</td>
                                     <td>{{$distance->distance}}</td>
                                     <td class="align-content-end float-right">
