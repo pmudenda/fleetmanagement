@@ -9,8 +9,11 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
+                    <h3>Towns</h3>
                 </div>
                 <div class="card-toolbar justify-content-end">
+
+
                     <!--begin::Filter-->
                     <button style="display: none;" type="button" class="btn btn-sm btn-primary me-3"
                             data-menu-trigger="click"
@@ -44,9 +47,15 @@
 
             <div class="card-body">
                 <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" wire:model.live="search">
+                            <span class="text-primary"></span>
+                        </div>
+                    </div>
 
                     <div class="col-lg-12">
-                        <table class="table table-bordered table-condensed">
+                        <table class="table table-bordered table-condensed mt-5">
                             <thead>
                             <th>Name</th>
                             <th></th>
@@ -58,10 +67,12 @@
                                     <td class="align-content-end float-right">
                                         <div class="btn-toolbar">
 
-                                            <a href="{{route('general.town.distance.index',$town)}}" class="btn btn-link btn-sm text-primary mr-3">Distances</a>
+                                            <a href="{{route('general.town.distance.index',$town)}}"
+                                               class="btn btn-link btn-sm text-primary mr-3">Distances</a>
 
 
-                                            <a href="{{route('general.town.edit',$town)}}" class="btn btn-link btn-sm text-primary mr-3">Edit</a>
+                                            <a href="{{route('general.town.edit',$town)}}"
+                                               class="btn btn-link btn-sm text-primary mr-3">Edit</a>
 
 
                                             <x-button class="btn btn-link btn-sm text-danger"
@@ -94,4 +105,17 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        // $(document).ready(function (){
+        document.addEventListener('livewire:init', () => {
+            $('#search').on('select2:select', function (e) {
+                var data = e.params.data;
+                console.log(data)
+                $wire.search = data.id;
+            });
+        })
+
+        // });
+    </script>
 </section>
+

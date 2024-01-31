@@ -9,7 +9,8 @@
         <div class="card w-50">
             <div class="card-header">
                 <div class="card-title">
-                    Add Town Distance for {{$town->town_name}}
+                    <h3>Add {{$town->town_name}} to Other Town Distance</h3>
+
                 </div>
                 <div class="card-toolbar justify-content-end">
 

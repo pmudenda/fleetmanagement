@@ -980,6 +980,15 @@
                                         </p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('tasks.realign') }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p class="menu-title">
+                                            Re-Align Tasks
+                                        </p>
+                                    </a>
+                                </li>
                             @endcanany
                         </ul>
                     </li>

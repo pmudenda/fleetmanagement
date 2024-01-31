@@ -9,6 +9,8 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
+                    <h3>{{$town->town_name}} to Other Town Distances</h3>
+
                 </div>
                 <div class="card-toolbar justify-content-end">
                     <!--begin::Filter-->
@@ -43,6 +45,16 @@
             </div>
 
             <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" wire:model.live="search">
+                            <span class="text-primary"></span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
 
                     <div class="col-lg-12">

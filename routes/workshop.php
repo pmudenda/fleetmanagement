@@ -172,4 +172,6 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
 
     Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])
         ->name('get.store.purchase_office');
+
+    Route::get('/tasks/realign', \App\Livewire\Workflow\Alignment\TaskAlignment::class)->name('tasks.realign');
 });
