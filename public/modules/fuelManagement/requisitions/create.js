@@ -177,8 +177,9 @@
         }
 
         if (engineDetails) {
+            var capacity = parseFloat(engineDetails.tank_capacity) + parseFloat(engineDetails.sub_tank_capacity);
             $('#alert-capacity').removeClass('d-none');
-            $('#text-capacity').text('The vehicle ' + vehicle.registration_number + ' can only be issued with one-off fuel equal to or less than the system defined tank capacity of ' + engineDetails.tank_capacity + engineDetails.sub_tank_capacity  + ' LITRES')
+            $('#text-capacity').text('The vehicle ' + vehicle.registration_number + ' can only be issued with one-off fuel equal to or less than the system defined tank capacity of ' +  capacity  + ' LITRES')
         }
 
         if (images && images.length > 0) {
