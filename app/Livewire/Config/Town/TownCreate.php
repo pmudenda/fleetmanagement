@@ -26,7 +26,7 @@ class TownCreate extends Component {
     public function save() {
         $this->validate();
         $this->town->save();
-        $this->dispatch('message', 'Workshop added successfully');
+        $this->dispatch('message', 'Town added successfully');
         $this->town = new Town();
     }
 }

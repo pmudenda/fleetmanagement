@@ -35,12 +35,8 @@
                                 <div class="col-lg-12">
                                     <div class="form-group" wire:ignore>
                                         <label>Staff Number</label>
-                                        <select id="staff_number_from" class="form-select mb-3 select2"  data-placeholder="Search Vehicle">
-                                            <option>--</option>
-                                            @foreach($users as $user)
-                                                <option value="{{$user->staff_no}}">{{$user->staff_no}} - {{$user->name}}</option>
-                                            @endforeach
-                                        </select>
+                                        <input id="staff_number_from" class="form-control" wire:model="staff_number_from">
+
                                     </div>
                                 </div>
                             </div>
@@ -65,9 +61,9 @@
                           </div>
                           <div class="card-toolbar justify-content-end">
                               <form class="form-inline">
-                                  <input type="text" class="form-control w-50 " id="inlineFormInputName2" placeholder="Assign to">
+                                  <input type="text" class="form-control w-50 " id="inlineFormInputName2" placeholder="Assign to" wire:model="staff_number_to">
 
-                                  <button type="submit" class="btn btn-primary btn-sm ml-3">Assign</button>
+                                  <x-button type="submit" class="btn btn-primary btn-sm ml-3" wire:target="assign">Assign</x-button>
                               </form>
                           </div>
                       </div>
@@ -87,7 +83,7 @@
                                   <tr>
                                       <td>
                                           <div class="form-check">
-                                              <input class="form-check-input" type="checkbox">
+                                              <input class="form-check-input" type="checkbox" value="{{$task->reference}}" wire:model="selected_tasks">
                                           </div>
                                       </td>
                                       <td>{{$task->reference}}</td>

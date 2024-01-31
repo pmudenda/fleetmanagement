@@ -36,6 +36,8 @@ class DistanceCreate extends Component {
         $this->dispatch('message', 'new Town Distance added successfully');
         $this->distance->distance = null;
         $this->distance->town_to = null;
+        $this->distance->id = null;
+        $this->distance = new DistanceChart();
         $this->render();
     }
 }
