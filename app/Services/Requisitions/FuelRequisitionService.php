@@ -194,7 +194,7 @@ class FuelRequisitionService {
         Log::debug('Consumption ' . $fuel_consumption);
         Log::debug('Quantity Last Issued ' . $quantityLastIssued);
         $maximumDistance = ($quantityLastIssued * ($fuel_consumption)) * 0.25;
-        $minDistance  = $maximumDistance * 0.25;
+        $minDistance = $maximumDistance * 0.25;
         $newEstimatedOdometer = $maximumDistance + $odometerOnLastIssue;
 
         Log::debug("Maximum Distance " . $maximumDistance);
@@ -467,14 +467,14 @@ class FuelRequisitionService {
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
                 ->orderBy("mat_head.created_at", "desc")
                 ->when($search, function (Builder $query) use ($search) {
-                   $query->where(function (Builder $query) use ($search) {
-                       $query->where('mat_head.requested_by', $search);
-                       $query->orWhere('mat_head.veh_reg_no', $search);
-                       $query->orWhere('mat_head.st_pur', $search);
-                       $query->orWhere("SEC_USERS.name", 'like', "%".strtoupper($search)."%");
-                   });
+                    $query->where(function (Builder $query) use ($search) {
+                        $query->where('mat_head.requested_by', $search);
+                        $query->orWhere('mat_head.veh_reg_no', $search);
+                        $query->orWhere('mat_head.st_pur', $search);
+                        $query->orWhere("SEC_USERS.name", 'like', "%" . strtoupper($search) . "%");
+                    });
                 })
-                ->when(!$search, function ($query){
+                ->when(!$search, function ($query) {
                     $query->whereDate("valid_date_from", '>=', now()->months(2));
                 })
                 //                ->where('srn', '<=', 100)
@@ -758,19 +758,20 @@ class FuelRequisitionService {
      */
     private static function getFuelLastIssue(mixed $registrationNumber): array {
 
-           $result = DB::table('gen_material_headers h')
-               ->where('veh_reg_no',
-                   QueryComparisonOperator::EQUALS,
-                   $registrationNumber)
-               ->where('is_fuel',
-                   QueryComparisonOperator::EQUALS,
-                   'Y'
-               )
-               ->whereNotIn('status', [ '01', '02'])
+        $result = DB::table('gen_material_headers h')
+            ->where('veh_reg_no',
+                QueryComparisonOperator::EQUALS,
+                $registrationNumber)
+            ->where('is_fuel',
+                QueryComparisonOperator::EQUALS,
+                'Y'
+            )
+            ->whereNotIn('status', ['01', '02'])
 //               ->whereNotIn('status', ['45', '03', '01', '02'])
 //                   ->whereRaw(DB::raw("status NOT IN('45','03','01','')"))
-               ->select(DB::raw('MAX(created_at) as max_date'))
-               ->first();
+            ->whereRaw("REQ_NO IN(select REQ_NO FROM gen_material_details WHERE QUANTITY > 0)")
+            ->select(DB::raw('MAX(created_at) as max_date'))
+            ->first();
 
 
         $latestIssues = DB::table('gen_material_headers h')
