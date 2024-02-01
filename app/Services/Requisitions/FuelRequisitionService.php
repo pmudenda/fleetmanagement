@@ -766,7 +766,8 @@ class FuelRequisitionService {
                    QueryComparisonOperator::EQUALS,
                    'Y'
                )
-               ->whereNotIn('status', ['45', '03', '01', '02'])
+               ->whereNotIn('status', [ '01', '02'])
+//               ->whereNotIn('status', ['45', '03', '01', '02'])
 //                   ->whereRaw(DB::raw("status NOT IN('45','03','01','')"))
                ->select(DB::raw('MAX(created_at) as max_date'))
                ->first();
