@@ -972,14 +972,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             @canany($workflowPermissions)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ URL::signedRoute('workflow.task') }}">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p class="menu-title">
-                                            Tasks
-                                        </p>
-                                    </a>
-                                </li>
+                                ;
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('tasks.realign') }}">
