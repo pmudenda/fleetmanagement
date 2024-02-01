@@ -30,19 +30,17 @@ class ProfileDelegationService
             'delegated_to', QueryComparisonOperator::EQUALS,
             $userId
         )
-            ->whereDate('period_from', '<', Carbon::now())
-            ->whereDate('period_to', '>', Carbon::now())
+            ->whereDate('period_from', '<=', Carbon::now())
+            ->whereDate('period_to', '>=', Carbon::now())
             ->whereNull('date_cancelled')
             ->first();
+
 
         if (empty($activeDelegation)) {
             return null;
         }
 
-        $user = User::where(TableColumns::STAFF_NUMBER,
-            QueryComparisonOperator::EQUALS,
-            $activeDelegation->profile_owner)->first();
-
+        $user = User::find($activeDelegation->profile_owner);
         if(empty($user)){
             return "";
         }

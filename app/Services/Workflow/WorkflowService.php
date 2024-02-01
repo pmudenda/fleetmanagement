@@ -59,11 +59,11 @@ class WorkflowService
      * @throws WorkflowTaskCreationFailedException
      */
     public function initiateWorkflowProcess(string $taskReference,
-                                            int $processCode,
-                                            int $action,
+                                            int    $processCode,
+                                            int    $action,
                                             string $comment,
-                                            $amount,
-                                            array $description,
+                                                   $amount,
+                                            array  $description,
                                             string $assignTo = null
     ): WorkflowTaskDetail
     {
@@ -178,10 +178,10 @@ class WorkflowService
      */
     public function invokeWorkFlow(string $reference,
                                    string $processId,
-                                   int $action,
+                                   int    $action,
                                    string $actionTaken,
                                    string $comment,
-                                   $subject
+                                          $subject
     ): array
     {
 
@@ -315,7 +315,6 @@ class WorkflowService
         $staffNumber = $user->staff_no;
 
         $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($user->id);
-
         return DB::table('WFL_WORKFLOW_TASK task_header')
             ->leftJoin('SEC_USERS users',
                 'task_header.created_by',
@@ -323,14 +322,9 @@ class WorkflowService
                 'users.id')
             ->where(function ($query) use ($staffNumber, $delegatedProfileOwner) {
                 $query->where(
-                    'task_header.assigned_user',
-                    QueryComparisonOperator::EQUALS,
-                    $staffNumber
-                )->orWhere(
-                    'task_header.assigned_user',
-                    QueryComparisonOperator::EQUALS,
-                    $delegatedProfileOwner
-                );
+                    'task_header.assigned_user', $staffNumber);
+                $query->orWhere(
+                    'task_header.assigned_user', $delegatedProfileOwner);
             })
             ->whereNull('task_header.date_ended')
             ->select('task_header.*',
@@ -371,11 +365,11 @@ class WorkflowService
      * @return array
      */
     public function rejectRequest(string $comment,
-                                  int $action,
+                                  int    $action,
                                   string $actionTaken,
-                                  $currentStep,
-                                  $taskHeader,
-                                  $taskDetail): array
+                                         $currentStep,
+                                         $taskHeader,
+                                         $taskDetail): array
     {
         $currentUser = auth()->user();
 
@@ -426,15 +420,15 @@ class WorkflowService
         Log::info("Running New Approval Logic");
         if (auth()->user()->can(config('rights.final_authoriser'))
             && $taskHeader->process_code == WorkflowProcessCodes::OutOfTownFuelRequisition->value) {
-        $finalStep = true;
-        Log::info("User Has OOT Final Authority.. Finally Approving Process ");
-    } elseif (auth()->user()->can(config('rights.final_authoriser'))
-        && $taskHeader->process_code == WorkflowProcessCodes::LocalFuelRequisition->value) {
-        $finalStep = true;
-        Log::info("User Has Local Final Authority.. Finally Approving Process ");
-    } else {
-        $finalStep = $this->isFinalStep($currentStep, $lastStep);
-    }
+            $finalStep = true;
+            Log::info("User Has OOT Final Authority.. Finally Approving Process ");
+        } elseif (auth()->user()->can(config('rights.final_authoriser'))
+            && $taskHeader->process_code == WorkflowProcessCodes::LocalFuelRequisition->value) {
+            $finalStep = true;
+            Log::info("User Has Local Final Authority.. Finally Approving Process ");
+        } else {
+            $finalStep = $this->isFinalStep($currentStep, $lastStep);
+        }
 
         if ($finalStep) {
 
@@ -721,10 +715,10 @@ class WorkflowService
      */
     public function resubmitRequest(WorkflowTaskDetail $taskDetail,
                                     WorkflowTaskHeader $taskHeader,
-                                    $comment,
-                                    $action,
-                                    $actionTaken,
-                                    $currentStep
+                                                       $comment,
+                                                       $action,
+                                                       $actionTaken,
+                                                       $currentStep
     ): array
     {
 
