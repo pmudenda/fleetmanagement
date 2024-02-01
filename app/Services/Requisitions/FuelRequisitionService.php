@@ -196,11 +196,10 @@ class FuelRequisitionService {
         $maximumDistance = ($quantityLastIssued * ($fuel_consumption)) * 0.25;
         $minDistance  = $maximumDistance * 0.25;
         $newEstimatedOdometer = $maximumDistance + $odometerOnLastIssue;
-//        dd(compact('maximumDistance','newEstimatedOdometer','userProvidedOdometer'));
+
         Log::debug("Maximum Distance " . $maximumDistance);
         Log::debug("Odometer Last Issue " . $odometerOnLastIssue);
         Log::debug("Last Issue + Odometer On Last Issue " . $newEstimatedOdometer);
-
         // check the value of deviation 5 - 8 = -3
 //        $variance = $userProvidedOdometer - $newEstimatedOdometer;
 
@@ -573,8 +572,8 @@ class FuelRequisitionService {
                     StatusHelper::partiallyReleasedExpired(),
                     StatusHelper::partiallyReleasedCancelled(),
                     StatusHelper::expired(),
-//                    StatusHelper::cancelled(),
-//                    StatusHelper::rejected()
+                    StatusHelper::cancelled(),
+                    StatusHelper::rejected()
                 ])
 //            ->whereRaw("REQ_NO IN(select REQ_NO FROM gen_material_details WHERE QUANTITY > 0)")
                 ->select(DB::raw('MAX(odometer) as odometer'))
@@ -767,7 +766,7 @@ class FuelRequisitionService {
                    QueryComparisonOperator::EQUALS,
                    'Y'
                )
-               ->whereNotIn('status', ['45', '03', '01', '02'])
+               ->whereIn('status', ['45', '03', '01', '02'])
 //                   ->whereRaw(DB::raw("status NOT IN('45','03','01','')"))
                ->select(DB::raw('MAX(created_at) as max_date'))
                ->first();
