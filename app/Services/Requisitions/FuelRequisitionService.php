@@ -573,8 +573,8 @@ class FuelRequisitionService {
                     StatusHelper::partiallyReleasedExpired(),
                     StatusHelper::partiallyReleasedCancelled(),
                     StatusHelper::expired(),
-                    StatusHelper::cancelled(),
-                    StatusHelper::rejected()
+//                    StatusHelper::cancelled(),
+//                    StatusHelper::rejected()
                 ])
 //            ->whereRaw("REQ_NO IN(select REQ_NO FROM gen_material_details WHERE QUANTITY > 0)")
                 ->select(DB::raw('MAX(odometer) as odometer'))
