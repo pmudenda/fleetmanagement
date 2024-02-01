@@ -769,7 +769,7 @@ class FuelRequisitionService {
             ->whereNotIn('status', ['01', '02'])
 //               ->whereNotIn('status', ['45', '03', '01', '02'])
 //                   ->whereRaw(DB::raw("status NOT IN('45','03','01','')"))
-            ->whereRaw("REQ_NO IN(select REQ_NO FROM gen_material_details WHERE QUANTITY > 0)")
+            ->whereRaw("REQ_NO IN(select REQ_NO FROM gen_material_details WHERE QUANTITY_ISSUED > 0)")
             ->select(DB::raw('MAX(created_at) as max_date'))
             ->first();
 
