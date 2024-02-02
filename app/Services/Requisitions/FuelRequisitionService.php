@@ -195,12 +195,13 @@ class FuelRequisitionService {
         Log::debug('Quantity Last Issued ' . $quantityLastIssued);
         $maximumDistance = ($quantityLastIssued * ($fuel_consumption));
         $minDistance = $maximumDistance * 0.25;
-        $newEstimatedOdometer = $maximumDistance + $odometerOnLastIssue;
+        $newEstimatedOdometer = $minDistance + $odometerOnLastIssue;
 
         Log::debug("Maximum Distance " . $maximumDistance);
         Log::debug("Minimum Distance " . $minDistance);
         Log::debug("Odometer Last Issue " . $odometerOnLastIssue);
-        Log::debug("Last Issue + Odometer On Last Issue " . $newEstimatedOdometer);
+        Log::debug("Last Issue + Min Odometer On Last Issue " . $newEstimatedOdometer);
+        Log::debug("Last Issue + Max Odometer On Last Issue " . $maximumDistance + $odometerOnLastIssue);
         // check the value of deviation 5 - 8 = -3
 //        $variance = $userProvidedOdometer - $newEstimatedOdometer;
 
