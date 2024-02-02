@@ -28,6 +28,8 @@ use App\Http\Requests\FuelRequisitionUpdate;
 use App\Models\Common\MaterialDetail;
 use App\Models\Common\MaterialHeader;
 use App\Models\Common\OrganizationalUnit;
+use App\Models\Settings\vehicle\VehicleBrand;
+use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -96,6 +98,7 @@ class FuelRequisitionService {
         Log::debug("Latest Issued Amount $quantityLastIssued");
 
         $odometerOnLastIssue = $this->getOdometerOnLastIssue($registrationNumber);
+
 
         $this->vehicleAssignmentStateValidateService
             ->checkVehicleAssignedUserUnitAndBuCcStatus($registrationNumber);
@@ -196,6 +199,7 @@ class FuelRequisitionService {
         $maximumDistance = ($quantityLastIssued * ($fuel_consumption));
         $minDistance = $maximumDistance * 0.25;
         $newEstimatedOdometer = $minDistance + $odometerOnLastIssue;
+//        dd(compact('maximumDistance','minDistance','quantityLastIssued','odometerOnLastIssue','newEstimatedOdometer'));
 
         Log::debug("Maximum Distance " . $maximumDistance);
         Log::debug("Minimum Distance " . $minDistance);
@@ -207,6 +211,36 @@ class FuelRequisitionService {
 
         $variance = $userProvidedOdometer - ($minDistance + $odometerOnLastIssue);
         Log::debug("Odometer Variance " . $variance);
+
+//        try {
+        $exempted = VehicleHeader::whereIn('BODY_TYPE_CODE', ['9',
+            '10',
+            '11',
+            '12',
+            '14',
+            '15',
+            '21',
+            '23',
+            '24',
+            '25',
+            '26',
+            '27',
+            '28',
+            '29',
+            '30',
+            '31',
+            '32',
+            '35',
+            '36',
+            '45',
+            '47'])->where('REGISTRATION_NUMBER', $registrationNumber)->exists();
+        if ($exempted) {
+            $variance = $userProvidedOdometer + ($odometerOnLastIssue + 1);
+        }
+//        }catch(Exception $exception){
+//            dd($exception);
+//        }
+
 
         if ($variance < 0) {
             throw new FuelRequisitionException(
@@ -261,6 +295,7 @@ class FuelRequisitionService {
 
         Log::debug("Vehicle Reg Is $registrationNumber");
 
+//        dd("This is the end");
         $requisition_reference_number = $this->saveFuelRequisition(
             $requisitionPostRequest,
             $registrationNumber,
@@ -577,7 +612,7 @@ class FuelRequisitionService {
                     StatusHelper::cancelled(),
                     StatusHelper::rejected()
                 ])
-            ->whereRaw("REQ_NO IN(select REQ_NO FROM gen_material_details WHERE QUANTITY_ISSUED > 0)")
+                ->whereRaw("REQ_NO IN(select REQ_NO FROM gen_material_details WHERE QUANTITY_ISSUED > 0)")
                 ->select(DB::raw('MAX(odometer) as odometer'))
                 ->first()->odometer ?? 0;
     }
