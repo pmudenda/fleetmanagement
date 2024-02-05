@@ -65,7 +65,7 @@ class UserAlignment extends Component
     {
         $tasks = User::where('SUPERVISOR_CODE', $this->staff_number_from)
             ->get();
-        $this->selected_tasks = $tasks->pluck('reference')->values()->all();
+        $this->selected_tasks = $tasks->pluck('staff_no')->values()->all();
     }
 
     public function deselect()

@@ -22,7 +22,7 @@
             </div>
 
             <div class="card-body table-responsive p-0">
-                @if ($errors->any())
+               ` @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -30,7 +30,34 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                @endif`
+
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                {{--                            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>--}}
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Amount</span>
+                                    <span class="info-box-number">K{{number_format($total_amount)}}</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                                {{--                            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>--}}
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Quantity</span>
+                                    <span class="info-box-number">{{number_format($total_quantity)}}</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 <table class="table table-head-fixed text-nowrap table-bordered">
                     <thead>

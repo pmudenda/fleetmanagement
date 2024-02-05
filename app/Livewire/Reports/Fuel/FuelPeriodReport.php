@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class FuelPeriodReport extends Component
-{
+class FuelPeriodReport extends Component {
     use WithPagination;
+
     public $from, $to, $fuel_type, $reg_no;
 
     protected $rules = [
@@ -20,28 +20,28 @@ class FuelPeriodReport extends Component
         'reg_no' => 'nullable|string'
     ];
 
-    public function mount(){
+    public function mount() {
         $this->from = now()->clone()->firstOfMonth()->toDateString();
         $this->to = now()->clone()->toDateString();
     }
 
-    public function render()
-    {
+    public function render() {
         $spares = DB::table('FUEL_REPORT_VIEW')
             ->selectRaw('REG_NO,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
-            ->where('month','>=',Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym') )
-            ->where('month','<=',  Carbon::createFromFormat('Y-m-d',$this->to)->format('Ym'))
+            ->where('month', '>=', Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym'))
+            ->where('month', '<=', Carbon::createFromFormat('Y-m-d', $this->to)->format('Ym'))
             ->when($this->fuel_type, function (Builder $query) {
                 $query->where('fuel_type', $this->fuel_type);
-            })
-            ->groupBy(['REG_NO','FUEL_TYPE','FUEL_REQ_UNIT'])
-            ->orderByRaw('TTL DESC')
-            ->paginate(20);
+            });
 
-        return view('livewire.reports.fuel.fuel-period-report',compact('spares'));
+        $total_quantity = $spares->sum('ttl');
+        $total_amount = $spares->sum('qty');
+        $spares = $spares->groupBy(['REG_NO', 'FUEL_TYPE', 'FUEL_REQ_UNIT'])
+            ->orderByRaw('TTL DESC')->paginate(10);
+        return view('livewire.reports.fuel.fuel-period-report', compact('spares', 'total_amount', 'total_quantity'));
     }
 
-    public function search(){
+    public function search() {
         $this->validate();
     }
 }

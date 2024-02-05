@@ -18,8 +18,6 @@ class SparesPeriodReport extends Component
     protected $rules = [
         'from' => 'required|date',
         'to' => 'required|date',
-//        'fuel_type' => 'nullable',
-//        'reg_no' => 'nullable|string'
     ];
 
     public function mount(){
@@ -34,10 +32,12 @@ class SparesPeriodReport extends Component
 
         $rows = DB::table('CONSOLIDATED_SPARES_VIEW')
             ->where('created_at','>=',Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym') )
-            ->where('created_at','<=',  Carbon::createFromFormat('Y-m-d',$this->to)->format('Ym'))
-            ->paginate(5);
+            ->where('created_at','<=',  Carbon::createFromFormat('Y-m-d',$this->to)->format('Ym'));
 
-        return view('livewire.reports.sprares.spares-period-report',compact('rows','columns'));
+        $total_amount = $rows->sum('amount');
+        $rows = $rows->paginate(10);
+
+        return view('livewire.reports.sprares.spares-period-report',compact('rows','columns','total_amount'));
     }
 
     public function search(){
