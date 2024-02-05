@@ -11,7 +11,7 @@ use Livewire\WithPagination;
 class FuelPeriodReport extends Component
 {
     use WithPagination;
-    public $from, $to, $fuel_type;
+    public $from, $to, $fuel_type, $reg_no;
 
     protected $rules = [
         'from' => 'required|date',
