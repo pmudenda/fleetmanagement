@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Spares report</h3>
+                <h3 class="card-title">Fuel report</h3>
                 <div class="card-tools">
                     <form class="form-inline" wire:submit.prevent="search">
                         <input type="date" class="form-control" placeholder="Search" wire:model="from">
@@ -22,6 +22,16 @@
             </div>
 
             <div class="card-body table-responsive p-0">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <table class="table table-head-fixed text-nowrap table-bordered">
                     <thead>
                     <tr>

@@ -14,8 +14,8 @@ class FuelPeriodReport extends Component
     public $from, $to, $fuel_type, $reg_no;
 
     protected $rules = [
-        'from' => 'required|date',
-        'to' => 'required|date',
+        'from' => 'required|date|before:to',
+        'to' => 'required|date|after:from',
         'fuel_type' => 'nullable',
         'reg_no' => 'nullable|string'
     ];
