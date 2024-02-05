@@ -311,9 +311,9 @@ class VehicleController extends Controller
 
             Log::debug("Get Records Present");
 
-            $vehicleList = $this->vehicleDetailsService->getFilteredVehiclesInformation($request);
+            $vehicleList = $this->vehicleDetailsService->getFilteredVehiclesInformationQuery($request)->paginate(10);
         } else {
-            $vehicleList = $this->vehicleDetailsService->getAllVehicles();
+            $vehicleList = $this->vehicleDetailsService->getAllVehiclesQuery()->paginate(10);
         }
 
         $statusList = Status::where(

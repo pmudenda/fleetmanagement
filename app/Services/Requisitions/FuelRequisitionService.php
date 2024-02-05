@@ -212,16 +212,12 @@ class FuelRequisitionService {
         $variance = $userProvidedOdometer - ($minDistance + $odometerOnLastIssue);
         Log::debug("Odometer Variance " . $variance);
 
-//        try {
         $exempted = VehicleHeader::whereIn('BODY_TYPE_CODE', ['10','11','12','13','14', '15',
             '21','23','24','25','26', '28',
             '29','30','31','32','35','36','45'])->where('REGISTRATION_NUMBER', $registrationNumber)->exists();
         if ($exempted) {
             $variance = $userProvidedOdometer + ($odometerOnLastIssue + 1);
         }
-//        }catch(Exception $exception){
-//            dd($exception);
-//        }
 
 
         if ($variance < 0) {

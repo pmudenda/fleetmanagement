@@ -17,6 +17,12 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
     Route::get('fuel/status', \App\Livewire\Reports\Fuel\Status\FuelStatusIndex::class)
         ->name('reports.fuel.status');
 
+    Route::get('fuel', \App\Livewire\Reports\Fuel\FuelPeriodReport::class)
+        ->name('reports.fuel');
+
+    Route::get('spares', \App\Livewire\Reports\Sprares\SparesPeriodReport::class)
+        ->name('reports.spares');
+
     Route::get('data/fuel/cost', [ReportsController::class, 'getFuelCost'])->name('reports.fuel.data');
 
     Route::get('vehicle/status', [ReportsController::class, 'vehicleByStatus'])

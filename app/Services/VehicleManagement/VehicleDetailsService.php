@@ -37,6 +37,14 @@ class VehicleDetailsService
 
     }
 
+    public function getAllVehiclesQuery()
+    {
+        $query = $this->getVehicleDataQuery();
+        return $query
+            ->orderBy('v_header.status');
+
+    }
+
     public function getVehicleByReg(mixed $ref)
     {
         return $this->getBasicVehicleDetails($ref);
@@ -230,7 +238,7 @@ class VehicleDetailsService
         }
     }
 
-    public function getFilteredVehiclesInformation(Request $request): LengthAwarePaginator
+    public function getFilteredVehiclesInformationQuery(Request $request)
     {
         $query = $this->getVehicleDataQuery();
 
@@ -292,8 +300,7 @@ class VehicleDetailsService
         }
 
         return $query
-            ->orderBy('v_header.status')
-            ->paginate(20);
+            ->orderBy('v_header.status');
     }
 
     /**

@@ -1143,6 +1143,26 @@
                                         </p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('reports.fuel')}}"
+                                       class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Fuel Period Report
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('reports.spares')}}"
+                                       class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                           Consolidated Spares Report
+                                        </p>
+                                    </a>
+                                </li>
                             @endcanany
 
 {{--                            @canany(config('rights.access_reports'),--}}
