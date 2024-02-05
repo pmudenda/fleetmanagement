@@ -26,7 +26,7 @@
                 </div>
             </div>
 
-            <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive">
                ` @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -39,9 +39,9 @@
 
                     <div class="row">
                         <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
+                            <div class="info-box bg-success">
                                 {{--                            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>--}}
-                                <div class="info-box-content">
+                                <div class="info-box-content ">
                                     <span class="info-box-text">Total Amount</span>
                                     <span class="info-box-number">K{{number_format($total_amount)}}</span>
                                 </div>
@@ -51,9 +51,9 @@
                         </div>
 
                         <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
+                            <div class="info-box bg-warning">
                                 {{--                            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>--}}
-                                <div class="info-box-content">
+                                <div class="info-box-content ">
                                     <span class="info-box-text">Total Quantity</span>
                                     <span class="info-box-number">{{number_format($total_quantity)}}</span>
                                 </div>
