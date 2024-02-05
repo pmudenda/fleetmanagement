@@ -3,6 +3,11 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Fuel report</h3>
+
+                <x-button type="button" wire:target="download" wire:click="download"
+                          class="btn btn-light-primary btn-sm ml-2">Export
+                </x-button>
+
                 <div class="card-tools">
                     <form class="form-inline" wire:submit.prevent="search">
                         <input type="date" class="form-control" placeholder="Search" wire:model="from">

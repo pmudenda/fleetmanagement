@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Reports\Fuel;
 
+use App\Exports\ConsolidateSparesReportExport;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -43,5 +45,21 @@ class FuelPeriodReport extends Component {
 
     public function search() {
         $this->validate();
+    }
+
+    public function download(){
+        $this->validate();
+        $columns = Schema::getColumnListing('FUEL_REPORT_VIEW');
+        array_unshift($columns,'#');
+        $rows = DB::table('FUEL_REPORT_VIEW')
+            ->selectRaw('REG_NO,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
+            ->where('month', '>=', Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym'))
+            ->where('month', '<=', Carbon::createFromFormat('Y-m-d', $this->to)->format('Ym'))
+            ->when($this->fuel_type, function (Builder $query) {
+                $query->where('fuel_type', $this->fuel_type);
+            });
+
+        return (new ConsolidateSparesReportExport($rows,$columns))->download('ConsolidatedFuelReport.xlsx');
+
     }
 }
