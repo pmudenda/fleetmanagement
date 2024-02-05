@@ -402,6 +402,15 @@
                                                 </a>
                                             </li>
                                         @endcanany
+
+                                            @canany([config('rights.add_user')])
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="{{route('users.realign')}}">
+                                                        <i class="fas fa-user-plus nav-icon"></i>
+                                                        <p class="menu-title">Re-Align</p>
+                                                    </a>
+                                                </li>
+                                            @endcanany
                                     </ul>
                                 </li>
                             @endcanany

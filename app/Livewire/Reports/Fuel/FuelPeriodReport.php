@@ -37,7 +37,6 @@ class FuelPeriodReport extends Component
             ->groupBy(['REG_NO','FUEL_TYPE','FUEL_REQ_UNIT'])
             ->orderByRaw('TTL DESC')
             ->paginate(20);
-//        dd($spares);
 
         return view('livewire.reports.fuel.fuel-period-report',compact('spares'));
     }

@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password']], functio
                 ->name('store');
         });
 
+        Route::get('/realign', \App\Livewire\Workflow\Alignment\UserAlignment::class)->name('users.realign');
 
         Route::group([
             'prefix' => 'simulation',
