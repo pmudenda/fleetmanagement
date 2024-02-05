@@ -27,7 +27,7 @@ class FuelPeriodReport extends Component
 
     public function render()
     {
-        $spares = DB::table('SPARES_REPORT_VIEW')
+        $spares = DB::table('FUEL_REPORT_VIEW')
             ->selectRaw('REG_NO,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
             ->where('month','>=',Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym') )
             ->where('month','<=',  Carbon::createFromFormat('Y-m-d',$this->to)->format('Ym'))
@@ -37,6 +37,7 @@ class FuelPeriodReport extends Component
             ->groupBy(['REG_NO','FUEL_TYPE','FUEL_REQ_UNIT'])
             ->orderByRaw('TTL DESC')
             ->paginate(20);
+//        dd($spares);
 
         return view('livewire.reports.fuel.fuel-period-report',compact('spares'));
     }
