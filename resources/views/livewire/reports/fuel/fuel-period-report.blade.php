@@ -88,6 +88,10 @@
                 </table>
             </div>
 
+            <div class="card-footer">
+                {{$spares->links()}}
+            </div>
+
         </div>
     </div>
 </section>
