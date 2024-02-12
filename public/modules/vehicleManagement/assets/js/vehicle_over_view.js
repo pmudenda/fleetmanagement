@@ -11,6 +11,7 @@ function setSelectedAccessories() {
 }
 
 function displayVehicleDetails(asyncResponse, requestReference) {
+    console.log('will you run')
     if (!asyncResponse.success) {
         toastr.error(asyncResponse['message'])
     }
@@ -315,6 +316,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
 
     function displayFuelCostGraph() {
+        console.log('will this load')
         let fuelCost = asyncResponse['payload']['cost_by_year'];
 
         let totalCost = parseFloat('0');
@@ -479,20 +481,23 @@ function formatCostPriceAsMoney(el) {
 }
 
 window.getRegistrationDetails = function (requestReference) {
+    console.log("attempting to get vehicle details")
     if (!requestReference || typeof requestReference === 'undefined') {
         //console.log('Returning')
         return;
     }
+    console.log(document.querySelector('[name="vehicle_details"]').value);
     $.ajax({
         type: "GET",
         url: document.querySelector('[name="vehicle_details"]').value,
         data: {reference: requestReference},
         dataType: 'json',
         success: function (asyncResponse) {
-
+            console.log(asyncResponse);
             displayVehicleDetails(asyncResponse, requestReference);
         },
         error: function (xhr, settings, errorThrown) {
+            console.log(errorThrown);
             toastr.error('Vehicle details could not be retrieved due to connection error', 'Vehicle Details')
         }
     })
@@ -2682,6 +2687,7 @@ function checkOnboardingHeaderStatus() {
 
     new tmsApp.fileUploader().makeSingleFileUploader();
 
+    console.log('this has run')
     if (window.reference) {
         window.getRegistrationDetails(window.reference);
     }

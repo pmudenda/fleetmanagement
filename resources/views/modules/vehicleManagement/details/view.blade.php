@@ -2384,7 +2384,7 @@
 
             <input type="hidden"
                    name="vehicle_details"
-                   value="{{route('vehicle.details', [$reference])}}"/>
+                   value="{{route('vehicle.details')}}"/>
             @include('modules.vehicleManagement.partial.data_end_point')
         </div>
     </section>
@@ -2450,6 +2450,7 @@
             src="{{asset('modules/vehicleManagement/assets/js/vehicle_over_view.js')}}"></script>
     <script>
         $(document).ready(function () {
+            console.log('Are you working atleast')
             let elements = document.querySelectorAll('.view_mode');
             let elementsOnCreate = document.querySelectorAll('.create_mode');
 
@@ -2471,6 +2472,7 @@
                 }
 
             }, 600)
+
         });
     </script>
 @endpush

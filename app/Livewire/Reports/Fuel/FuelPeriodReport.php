@@ -28,7 +28,7 @@ class FuelPeriodReport extends Component {
     }
 
     public function render() {
-        $spares = DB::table('FUEL_REPORT_VIEW')
+        $spares = DB::table('MERGED_FUEL_MANAGEMENT')
             ->selectRaw('REG_NO,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
             ->where('month', '>=', Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym'))
             ->where('month', '<=', Carbon::createFromFormat('Y-m-d', $this->to)->format('Ym'))
@@ -47,19 +47,20 @@ class FuelPeriodReport extends Component {
         $this->validate();
     }
 
-    public function download(){
+    public function download() {
         $this->validate();
         $columns = Schema::getColumnListing('FUEL_REPORT_VIEW');
-        array_unshift($columns,'#');
-        $rows = DB::table('FUEL_REPORT_VIEW')
+        array_unshift($columns, '#');
+        $rows = DB::table('MERGED_FUEL_MANAGEMENT')
             ->selectRaw('REG_NO,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
             ->where('month', '>=', Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym'))
             ->where('month', '<=', Carbon::createFromFormat('Y-m-d', $this->to)->format('Ym'))
             ->when($this->fuel_type, function (Builder $query) {
                 $query->where('fuel_type', $this->fuel_type);
-            });
+            })->groupBy(['REG_NO', 'FUEL_TYPE', 'FUEL_REQ_UNIT'])
+            ->orderByRaw('TTL DESC');
 
-        return (new ConsolidateSparesReportExport($rows,$columns))->download('ConsolidatedFuelReport.xlsx');
+        return (new ConsolidateSparesReportExport($rows, $columns))->download('ConsolidatedFuelReport.xlsx');
 
     }
 }
