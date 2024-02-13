@@ -28,7 +28,7 @@ class FuelPeriodReport extends Component {
     }
 
     public function render() {
-        $spares = DB::table('MERGED_FUEL_MANAGEMENT')
+        $spares = DB::table('ZFMS_FUEL_COST')
             ->selectRaw('REG_NO,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
             ->where('month', '>=', Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym'))
             ->where('month', '<=', Carbon::createFromFormat('Y-m-d', $this->to)->format('Ym'))
@@ -49,9 +49,9 @@ class FuelPeriodReport extends Component {
 
     public function download() {
         $this->validate();
-        $columns = Schema::getColumnListing('FUEL_REPORT_VIEW');
+        $columns = Schema::getColumnListing('ZFMS_FUEL_COST');
         array_unshift($columns, '#');
-        $rows = DB::table('MERGED_FUEL_MANAGEMENT')
+        $rows = DB::table('ZFMS_FUEL_COST')
             ->selectRaw('REG_NO,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
             ->where('month', '>=', Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym'))
             ->where('month', '<=', Carbon::createFromFormat('Y-m-d', $this->to)->format('Ym'))
