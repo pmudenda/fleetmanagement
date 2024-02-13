@@ -42,8 +42,8 @@
                             <div class="info-box bg-success">
                                 {{--                            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>--}}
                                 <div class="info-box-content ">
-                                    <span class="info-box-text">Total Amount</span>
-                                    <span class="info-box-number">K{{number_format($total_amount)}}</span>
+                                    <span class="info-box-text">Total Quantity</span>
+                                    <span class="info-box-number">{{number_format($total_amount)}}</span>
                                 </div>
 
                             </div>
@@ -54,7 +54,7 @@
                             <div class="info-box bg-warning">
                                 {{--                            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>--}}
                                 <div class="info-box-content ">
-                                    <span class="info-box-text">Total Quantity</span>
+                                    <span class="info-box-text">Total Amount</span>
                                     <span class="info-box-number">{{number_format($total_quantity)}}</span>
                                 </div>
 
