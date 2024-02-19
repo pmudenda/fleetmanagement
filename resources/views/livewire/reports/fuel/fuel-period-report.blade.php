@@ -68,9 +68,10 @@
                     <thead>
                     <tr>
                         <th>REG NO</th>
+                        <th>Type/Brand/Model</th>
                         <th>Fuel Type</th>
                         <th>Requesting Unit</th>
-                        <th>Qty</th>
+                        <th>Quantity Requested</th>
                         <th>Total</th>
                     </tr>
                     </thead>
@@ -78,6 +79,7 @@
                     @foreach($spares as $spare)
                         <tr>
                             <td>{{$spare->reg_no}}</td>
+                            <td>{{$spare->type_brand}}</td>
                             <td>{{$spare->fuel_type}}</td>
                             <td>{{$spare->fuel_req_unit}}</td>
                             <td>{{number_format($spare->qty)}} Litres</td>

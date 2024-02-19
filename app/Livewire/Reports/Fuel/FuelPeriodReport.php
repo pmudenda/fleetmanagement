@@ -29,7 +29,7 @@ class FuelPeriodReport extends Component {
 
     public function render() {
         $spares = DB::table('ZFMS_FUEL_COST')
-            ->selectRaw('REG_NO,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
+            ->selectRaw('REG_NO,TYPE_BRAND,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
             ->where('month', '>=', Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym'))
             ->where('month', '<=', Carbon::createFromFormat('Y-m-d', $this->to)->format('Ym'))
             ->when($this->fuel_type, function (Builder $query) {
@@ -38,7 +38,7 @@ class FuelPeriodReport extends Component {
 
         $total_quantity = $spares->sum('ttl');
         $total_amount = $spares->sum('qty');
-        $spares = $spares->groupBy(['REG_NO', 'FUEL_TYPE', 'FUEL_REQ_UNIT'])
+        $spares = $spares->groupBy(['REG_NO', 'TYPE_BRAND','FUEL_TYPE', 'FUEL_REQ_UNIT'])
             ->orderByRaw('TTL DESC')->paginate(10);
         return view('livewire.reports.fuel.fuel-period-report', compact('spares', 'total_amount', 'total_quantity'));
     }
@@ -49,7 +49,7 @@ class FuelPeriodReport extends Component {
 
     public function download() {
         $this->validate();
-        $columns = Schema::getColumnListing('ZFMS_FUEL_COST');
+        $columns = ['Month', 'Registration Number','Requesting Unit','Quantity Issued','Total Amount'];
         array_unshift($columns, '#');
         $rows = DB::table('ZFMS_FUEL_COST')
             ->selectRaw('REG_NO,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
