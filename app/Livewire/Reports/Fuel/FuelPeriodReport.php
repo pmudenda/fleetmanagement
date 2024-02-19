@@ -49,7 +49,7 @@ class FuelPeriodReport extends Component {
 
     public function download() {
         $this->validate();
-        $columns = ['Registration Number','Requesting Unit','Quantity Issued','Total Amount'];
+        $columns = ['Registration Number','Fuel Type','Requesting Unit','Quantity Issued','Total Amount'];
         array_unshift($columns, '#');
         $rows = DB::table('ZFMS_FUEL_COST')
             ->selectRaw('REG_NO,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
