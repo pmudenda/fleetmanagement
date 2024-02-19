@@ -303,7 +303,7 @@ class VehicleController extends Controller
         }
     }
 
-    public function list(Request $request): string
+    public function list(Request $request)
     {
         Log::debug('Has Get Records' . $request->has('getRecords'));
 
