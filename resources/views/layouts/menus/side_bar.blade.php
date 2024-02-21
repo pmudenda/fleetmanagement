@@ -982,7 +982,7 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            @can('rights.tasks_realign')
+                            @can(config('rights.tasks_realign'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('tasks.realign') }}">
                                         <i class="far fa-circle nav-icon"></i>
