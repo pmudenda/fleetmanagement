@@ -351,7 +351,8 @@
                         config('rights.add_driver'),
                         config('rights.view_drivers'),
                         config('rights.view_mechanics'),
-                        config('rights.add_mechanic')
+                        config('rights.add_mechanic'),
+                        config('rights.user_realign')
                     ];
                 @endphp
 
@@ -403,14 +404,14 @@
                                             </li>
                                         @endcanany
 
-                                            @canany([config('rights.add_user')])
+                                            @can([config('rights.user_realign')])
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="{{route('users.realign')}}">
                                                         <i class="fas fa-user-plus nav-icon"></i>
                                                         <p class="menu-title">Re-Align</p>
                                                     </a>
                                                 </li>
-                                            @endcanany
+                                            @endcan
                                     </ul>
                                 </li>
                             @endcanany
@@ -980,9 +981,7 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            @canany($workflowPermissions)
-                                ;
-
+                            @can('rights.tasks_realign')
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('tasks.realign') }}">
                                         <i class="far fa-circle nav-icon"></i>
@@ -991,7 +990,7 @@
                                         </p>
                                     </a>
                                 </li>
-                            @endcanany
+                            @endcan
                         </ul>
                     </li>
                 @endcanany
