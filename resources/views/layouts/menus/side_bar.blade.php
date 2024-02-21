@@ -968,7 +968,8 @@
                 @php
                     $workflowPermissions  = [
                         config('rights.manage_tasks'),
-                        config('rights.view_tasks')
+                        config('rights.view_tasks'),
+                        config('rights.tasks_realign')
                     ];
                 @endphp
                 @canany($workflowPermissions)
