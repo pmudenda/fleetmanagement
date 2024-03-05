@@ -53,6 +53,7 @@ class SparesPeriodReport extends Component
             ->where('created_at','<=',  Carbon::createFromFormat('Y-m-d',$this->to)->format('Ym'))
             ->orderBy('created_at');
 
+        ini_set('memory_limit','-1');
         return (new ConsolidateSparesReportExport($rows,$columns))->download('ConsolidatedSparesReport.xlsx');
 
     }
