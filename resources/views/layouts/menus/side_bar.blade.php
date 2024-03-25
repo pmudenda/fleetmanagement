@@ -34,7 +34,7 @@
                         config('rights.view_odometer_logs'),
                         config('rights.add_odometer_logs'),
                         config('rights.manage_tom_card'),
-
+                        config('rights.town_add'),
                         ];
                 @endphp
                 @canany($vehicleManagementPermissions)
@@ -112,6 +112,18 @@
                                     </a>
                                 </li>
                             @endcan
+
+                                @can(config('rights.town_add'))
+
+                                    <li class="nav-item pl-2">
+                                        <a href="{{ route('general.town.index')}}"
+                                           class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Towns</p>
+                                        </a>
+                                    </li>
+
+                                @endcanany
 
                             <li class="nav-item d-none">
                                 <a href="#" class="nav-link">
@@ -940,22 +952,7 @@
                                             </li>
                                         @endcanany
 
-                                            @canany([config('rights.add_vehicle_status'),
-                                                   config('rights.edit_vehicle_status')])
-                                                <li class="nav-item">
-                                                    <a class="nav-link"
-                                                       href="{{ route('general.town.index')}}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot">
-                                                    </span>
-                                                </span>
-                                                        <p class="menu-title">
-                                                            Towns
-                                                        </p>
-                                                    </a>
-                                                </li>
 
-                                            @endcanany
 
 
                                     </ul>
