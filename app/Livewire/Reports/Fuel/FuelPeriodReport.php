@@ -28,10 +28,10 @@ class FuelPeriodReport extends Component {
     }
 
     public function render() {
-        $spares = DB::table('ZFMS_FUEL_COST')
+        $spares = DB::table('MERGED_FUEL_REPORT_VIEW')
             ->selectRaw('REG_NO,TYPE_BRAND,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
-            ->where('month', '>=', Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym'))
-            ->where('month', '<=', Carbon::createFromFormat('Y-m-d', $this->to)->format('Ym'))
+            ->where('month', '>=', Carbon::createFromFormat('Y-m-d', $this->from)->format('Ymd'))
+            ->where('month', '<=', Carbon::createFromFormat('Y-m-d', $this->to)->format('Ymd'))
             ->when($this->fuel_type, function (Builder $query) {
                 $query->where('fuel_type', $this->fuel_type);
             });
@@ -51,7 +51,7 @@ class FuelPeriodReport extends Component {
         $this->validate();
         $columns = ['Registration Number','Fuel Type','Requesting Unit','Quantity Issued','Total Amount'];
         array_unshift($columns, '#');
-        $rows = DB::table('ZFMS_FUEL_COST')
+        $rows = DB::table('MERGED_FUEL_REPORT_VIEW')
             ->selectRaw('REG_NO,FUEL_TYPE, FUEL_REQ_UNIT, SUM(QTY) as QTY, SUM(TTL) AS TTL')
             ->where('month', '>=', Carbon::createFromFormat('Y-m-d', $this->from)->format('Ym'))
             ->where('month', '<=', Carbon::createFromFormat('Y-m-d', $this->to)->format('Ym'))
