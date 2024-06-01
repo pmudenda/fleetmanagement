@@ -411,7 +411,8 @@ class FuelRequisitionService {
         return empty($queryResult) ? [] : $queryResult->first();
     }
 
-    public function getMyRequisitions($staff_no, $search = false): Collection {
+    public function getMyRequisitions($staff_no, $search = false): Collection
+    {
         if ($staff_no) {
             return DB::table("GEN_MATERIAL_HEADERS")
                 ->leftJoin("GEN_MATERIAL_DETAILS",
@@ -439,7 +440,9 @@ class FuelRequisitionService {
                 ->where("GEN_MATERIAL_HEADERS.IS_FUEL",
                     QueryComparisonOperator::EQUALS,
                     "Y"
-                )->select(
+                )
+                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(3)->toDateString())
+                ->select(
                     "GEN_MATERIAL_HEADERS.*",
                     "GEN_MATERIAL_DETAILS.quantity",
                     "GEN_MATERIAL_DETAILS.quantity_issued",
@@ -473,6 +476,7 @@ class FuelRequisitionService {
                 ->where("mat_head.IS_FUEL",
                     QueryComparisonOperator::EQUALS,
                     "Y")
+                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(3)->toDateString())
                 ->select(
                     "mat_head.*",
                     "GEN_MATERIAL_DETAILS.quantity",
