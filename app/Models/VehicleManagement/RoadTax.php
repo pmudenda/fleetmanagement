@@ -22,4 +22,10 @@ class RoadTax extends Model
         'modified_by',
         'deleted_at',
     ];
+
+    protected $casts = [
+        'valid_from' => 'date',
+        'valid_to' => 'date',
+        'payment_date' => 'date',
+    ];
 }

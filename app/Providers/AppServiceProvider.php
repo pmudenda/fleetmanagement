@@ -15,6 +15,7 @@ use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use App\Services\VehicleManagement\RoadTaxServiceImpl;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -40,5 +41,11 @@ class AppServiceProvider extends ServiceProvider {
         Paginator::useBootstrapFive();
         Paginator::useBootstrapFour();
         Schema::defaultStringLength(191);
+        Http::macro('rtsa', function () {
+            return Http::withHeaders([
+                'Accepts' => 'application/json',
+                'Content-type' => 'application/json',
+            ])->baseUrl(config('services.rtsa.base_url'));
+        });
     }
 }

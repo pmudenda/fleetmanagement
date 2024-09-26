@@ -159,8 +159,8 @@
                                                                           id="registrationNumber"></span>
                                                                 </td>
                                                                 <td class="pl-3">
-                                                                     <span class="badge badge-success badge-circle"
-                                                                           style="height: 8px; width: 8px;"></span>
+                                                                    <span class="badge badge-success badge-circle"
+                                                                          style="height: 8px; width: 8px;"></span>
 
                                                                     <span data-name="vehicleState"
                                                                           id="vehicleState"></span>
@@ -326,6 +326,11 @@
                         <li class="nav-item" style="list-style: none;">
                             <a class="nav-link" data-toggle="tab" href="#assignmentHistory" role="tab">Assignment
                                 History</a>
+                        </li>
+
+                        <li class="nav-item" style="list-style: none;">
+                            <a class="nav-link" data-toggle="tab" href="#roadtax" role="tab">
+                                Road Tax</a>
                         </li>
                     </ul>
                     {{-- <hr/>--}}
@@ -2215,12 +2220,12 @@
                                                     class="btn btn-success btn-sm">
                                                 <i class="fas fa-paper-plane"></i>
                                                 <span class="indicator-label">
-                Save
-            </span>
+                                                    Save
+                                                </span>
                                                 <span class="indicator-progress">
-                Please wait...
-                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
+                                                    Please wait...
+                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                </span>
                                             </button>
                                         </div>
                                     </div>
@@ -2335,6 +2340,81 @@
                         <div class="tab-pane fade" id="serviceHistory" role="tabpanel">
                             <div class="container-fluid pl-0">
                                 Service History
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="roadtax" role="tabpanel">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            @if($roadtax)
+                                                <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group ">
+                                                        <label class="m-0 p-0">License No</label>
+                                                        <input type="email" class="form-control-plaintext m-0 p-0"
+                                                               id="exampleInputEmail1"
+                                                               value="{{$roadtax->licence_no}}" readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="m-0 p-0">Valid From</label>
+                                                        <input type="email" class="form-control-plaintext m-0 p-0"
+                                                               id="exampleInputEmail1"
+                                                               value="{{$roadtax->valid_from->toFormattedDateString()}}"
+                                                               readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="m-0 p-0">Valid To</label>
+                                                        <input type="email" class="form-control-plaintext m-0 p-0"
+                                                               id="exampleInputEmail1"
+                                                               value="{{$roadtax->valid_to->toFormattedDateString()}}"
+                                                               readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="m-0 p-0">Cost</label>
+                                                        <input type="email" class="form-control-plaintext m-0 p-0"
+                                                               id="exampleInputEmail1"
+                                                               value="K{{number_format($roadtax->cost,2)}}" readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="m-0 p-0">Payment Date</label>
+                                                        <input type="email" class="form-control-plaintext m-0 p-0"
+                                                               id="exampleInputEmail1"
+                                                               value="{{$roadtax->payment_date->toFormattedDateString()}}"
+                                                               readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="m-0 p-0">Order No</label>
+                                                        <input type="email" class="form-control-plaintext m-0 p-0"
+                                                               id="exampleInputEmail1"
+                                                               value="{{$roadtax->order_no}}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @else
+                                                <h3>This vehicle has no roadtax information</h3>
+                                                @endif
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

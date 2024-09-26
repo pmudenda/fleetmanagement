@@ -17,6 +17,7 @@ use App\Http\Requests\VehicleManagement\ChassisDetailsPostRequest;
 use App\Http\Requests\VehicleManagement\OnboardingVehicleAccessoryRequest;
 use App\Models\Settings\Accessory;
 use App\Models\VehicleManagement\ChassisDetail;
+use App\Models\VehicleManagement\RoadTax;
 use App\Models\VehicleManagement\VehicleAccessory;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
@@ -67,8 +68,8 @@ class VehicleOnBoardingController extends Controller {
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
         }
 
+        $roadtax = RoadTax::where('reg_no', $vehicle->registration_number ?? null)->first();
         $viewName = 'modules.vehicleManagement.details.view';
-
         return view($viewName)
             ->with(compact(
                 'step',
@@ -76,7 +77,9 @@ class VehicleOnBoardingController extends Controller {
                 'accessories',
                 'enteredAccessories',
                 'vehicle',
-                'vehicleDocuments'));
+                'vehicleDocuments',
+                'roadtax'
+            ));
     }
 
     public function resume(Request $request): RedirectResponse {
@@ -137,7 +140,7 @@ class VehicleOnBoardingController extends Controller {
                 $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference)->all();
             }
-            $docs = $vehicleDocuments ;
+            $docs = $vehicleDocuments;
             $accessories = Accessory::where('status', '=', StatusHelper::active())->get();
 
             $viewName = "modules.vehicleManagement.onboarding.start";
