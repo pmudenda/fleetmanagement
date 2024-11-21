@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\JobCardLinkCommand;
 use App\Console\Commands\RoadtaxSyncCommand;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use Illuminate\Console\Scheduling\Schedule;
@@ -22,6 +23,8 @@ class Kernel extends ConsoleKernel
             ->everyFifteenMinutes();
 
         $schedule->command(RoadtaxSyncCommand::class)->daily();
+
+        $schedule->command(JobCardLinkCommand::class)->everyTwoMinutes();
     }
 
     /**

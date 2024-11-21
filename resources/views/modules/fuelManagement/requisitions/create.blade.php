@@ -59,6 +59,14 @@
 
                         <div class="container-fluid mt-2">
                             <div class="row">
+
+                                <div class="col-lg-12 invisible">
+                                    <div id="alert-town" class="alert alert-primary m-2" role="alert">
+                                        Please select the furthest town being travelled to in order to capture the journey distance accurately. In the purpose of travel, indicate all the towns to be visited.
+
+                                    </div>
+                                </div>
+
                                 <div class="col-9">
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">

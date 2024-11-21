@@ -372,6 +372,8 @@
             option.text = value['town_name'];
             selector.add(option, null);
         }
+
+
     }
 
     function reformatDate(date, format = "ISO") {
@@ -618,6 +620,7 @@
         document.forms['fuelRequisitionForm'].reset();
         removeSubmissionAndDetailsOptions();
     });
+    var alert_town =  document.querySelector("#alert-town");
 
     $(document).on('change', 'select[name="requisition_type"]', function () {
 
@@ -647,11 +650,13 @@
             $('[name="material_quantity"]').val('').change();
 
             $('#nextRefuelingDateContainer').addClass('d-none');
-
+            alert_town.classList.remove('invisible');
+            alert_town.classList.add('visible');
         } else {
             $(".outOfTown").addClass('d-none');
             $("#allocationContainer").removeClass('d-none');
-
+            alert_town.classList.remove('visible');
+            alert_town.classList.add('invisible');
             document.querySelector('#departureTown').removeAttribute('required');
             document.querySelector('#destinationTown').removeAttribute('required');
             document.querySelector('#return_date').removeAttribute('required');
