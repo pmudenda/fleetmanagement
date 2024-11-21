@@ -71,6 +71,13 @@ return [
             'days' => 14,
         ],
 
+        'jobcard' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/jobcard.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),

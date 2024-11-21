@@ -219,7 +219,7 @@ class MaterialValidationService
                     StatusHelper::authorised(),
                     StatusHelper::partiallyReleased(),
                     StatusHelper::issued()
-                ])->select("gen_material_headers.req_no")
+                ])->select(["gen_material_headers.req_no","gen_material_headers.st_pur as st_pur"])
                 ->first();
         } else {
             $activeRequests = DB::table("wm_imprest_buy_headers header")
@@ -240,13 +240,15 @@ class MaterialValidationService
                         StatusHelper::authorised()
                     ])->select("header.imprest_reference as req_no")
                 ->first();
+
+
         }
 
         if (!empty($activeRequests)) {
             throw new MaterialReservationException(
                 str_replace(
                     Articles::REQ_NO,
-                    $activeRequests->req_no,
+                    $activeRequests->st_pur ?? $activeRequests->req_no,
                     str_replace(
                         Articles::REG_FIELD,
                         $registrationNumber,
