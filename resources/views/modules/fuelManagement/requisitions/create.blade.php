@@ -61,9 +61,7 @@
 
                                 <div class="col-lg-12 invisible">
                                     <div id="alert-town" class="alert alert-warning m-2 " role="alert">
-                                      <p class="">
                                           Please select the furthest town being travelled to in order to capture the journey distance accurately. In the purpose of travel, indicate all the towns to be visited.
-                                      </p>
 
                                     </div>
                                 </div>
