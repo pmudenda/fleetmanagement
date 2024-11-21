@@ -56,15 +56,14 @@
                             </label>
                         @endif
 
-
                         <div class="container-fluid mt-2">
                             <div class="row">
 
                                 <div class="col-lg-12 invisible">
                                     <div id="alert-town" class="alert alert-warning m-2 " role="alert">
-                                      <h2 class="text-warning">
+                                      <p class="text-warning">
                                           Please select the furthest town being travelled to in order to capture the journey distance accurately. In the purpose of travel, indicate all the towns to be visited.
-                                      </h2>
+                                      </p>
 
                                     </div>
                                 </div>
