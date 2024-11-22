@@ -7,16 +7,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class VehicleOverIssuedNotification extends Notification
-{
+class VehicleOverIssuedNotification extends Notification {
     use Queueable;
+
+    private mixed $overIssue;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
-    {
-        //
+    public function __construct($overIssue) {
+        $this->overIssue = $overIssue;
     }
 
     /**
@@ -24,20 +24,18 @@ class VehicleOverIssuedNotification extends Notification
      *
      * @return array<int, string>
      */
-    public function via(object $notifiable): array
-    {
+    public function via(object $notifiable): array {
         return ['mail'];
     }
 
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
-    {
+    public function toMail(object $notifiable): MailMessage {
+        $overIssue = $this->overIssue;
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject("Fuel issued more than tank capacity alert")
+            ->markdown('mail.over-issue-alert', compact('overIssue'));
     }
 
     /**
@@ -45,8 +43,7 @@ class VehicleOverIssuedNotification extends Notification
      *
      * @return array<string, mixed>
      */
-    public function toArray(object $notifiable): array
-    {
+    public function toArray(object $notifiable): array {
         return [
             //
         ];
