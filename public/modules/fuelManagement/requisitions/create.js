@@ -621,6 +621,7 @@
         removeSubmissionAndDetailsOptions();
     });
     var alert_town =  document.querySelector("#alert-town");
+    var alert_purpose =  document.querySelector("#alert-purpose");
 
     $(document).on('change', 'select[name="requisition_type"]', function () {
 
@@ -652,11 +653,15 @@
             $('#nextRefuelingDateContainer').addClass('d-none');
             alert_town.classList.remove('invisible');
             alert_town.classList.add('visible');
+            alert_purpose.classList.remove('invisible');
+            alert_purpose.classList.add('visible');
         } else {
             $(".outOfTown").addClass('d-none');
             $("#allocationContainer").removeClass('d-none');
             alert_town.classList.remove('visible');
             alert_town.classList.add('invisible');
+            alert_purpose.classList.remove('visible');
+            alert_purpose.classList.add('invisible');
             document.querySelector('#departureTown').removeAttribute('required');
             document.querySelector('#destinationTown').removeAttribute('required');
             document.querySelector('#return_date').removeAttribute('required');

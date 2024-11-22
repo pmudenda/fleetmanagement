@@ -237,7 +237,8 @@ class MaterialValidationService
                 ->whereIn("header.status",
                     [
                         StatusHelper::new(),
-                        StatusHelper::authorised()
+                        StatusHelper::authorised(),
+                        StatusHelper::partiallyReleased(),
                     ])->select("header.imprest_reference as req_no")
                 ->first();
 
