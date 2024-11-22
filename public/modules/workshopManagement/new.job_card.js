@@ -1584,6 +1584,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                 if (response.payload) {
                     let rows = '';
                     for (const payloadElement of response.payload) {
+                        console.log(payloadElement);
                         let row = `<tr>
                                         <td><input type='checkbox' name='reservedMaterial'
                                         value='${payloadElement.id}' class="checkbox"/></td>
@@ -1593,7 +1594,7 @@ const serviceTableRowTemplate = ` <tr class="increment">
                                          <td style="text-wrap: inherit;">${payloadElement.material_code}</td>
                                          <td>${payloadElement.unit_of_measure}</td>
                                         <td>${payloadElement.specifications}</td>
-                                        <td style="text-wrap: nowrap;">${payloadElement.reg_no}</td>
+                                        <td style="text-wrap: nowrap;">${payloadElement.veh_reg_no}</td>
                                         <td>${payloadElement.quantity}</td>
                                         </tr>`;
                         rows += row;

@@ -629,7 +629,7 @@
                                                                   style="height: 129px;"
                                                                   class="form-control
                                                                   form-control-sm when_valid"
-                                                                  placeholder="In the purpose of out of town travel, indicate all the towns to be visited."
+                                                                  placeholder="For out of town travel, always indicate all the towns to be visited."
                                                         ></textarea>
                                                         </div>
                                                     </div>
