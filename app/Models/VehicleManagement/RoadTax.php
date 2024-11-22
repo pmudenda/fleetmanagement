@@ -21,11 +21,14 @@ class RoadTax extends Model
         'created_by',
         'modified_by',
         'deleted_at',
+        'status',
+        'fitness_expiry'
     ];
 
     protected $casts = [
         'valid_from' => 'date',
         'valid_to' => 'date',
         'payment_date' => 'date',
+        'fitness_expiry' => 'date',
     ];
 }

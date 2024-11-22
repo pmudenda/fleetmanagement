@@ -330,7 +330,7 @@
 
                         <li class="nav-item" style="list-style: none;">
                             <a class="nav-link" data-toggle="tab" href="#roadtax" role="tab">
-                                Road Tax</a>
+                                Fitness & Road Tax</a>
                         </li>
                     </ul>
                     {{-- <hr/>--}}
@@ -2362,7 +2362,7 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="m-0 p-0">Valid From</label>
+                                                        <label class="m-0 p-0">Vehicle Registration Date</label>
                                                         <input type="email" class="form-control-plaintext m-0 p-0"
                                                                id="exampleInputEmail1"
                                                                value="{{$roadtax->valid_from->toFormattedDateString()}}"
@@ -2372,44 +2372,35 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="m-0 p-0">Valid To</label>
+                                                        <label class="m-0 p-0">RoadTax Valid till</label>
                                                         <input type="email" class="form-control-plaintext m-0 p-0"
                                                                id="exampleInputEmail1"
-                                                               value="{{$roadtax->valid_to->toFormattedDateString()}}"
+                                                               value="{{$roadtax->valid_to ?  $roadtax->valid_to ->toFormattedDateString() : '--'}}"
                                                                readonly>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="m-0 p-0">Cost</label>
-                                                        <input type="email" class="form-control-plaintext m-0 p-0"
-                                                               id="exampleInputEmail1"
-                                                               value="K{{number_format($roadtax->cost,2)}}" readonly>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="m-0 p-0">Fitness Valid till</label>
+                                                            <input type="email" class="form-control-plaintext m-0 p-0"
+                                                                   id="exampleInputEmail1"
+                                                                   value="{{$roadtax->fitness_expiry ?  $roadtax->fitness_expiry ->toFormattedDateString() : '--'}}"
+                                                                   readonly>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="m-0 p-0">Payment Date</label>
-                                                        <input type="email" class="form-control-plaintext m-0 p-0"
-                                                               id="exampleInputEmail1"
-                                                               value="{{$roadtax->payment_date->toFormattedDateString()}}"
-                                                               readonly>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label class="m-0 p-0">Status</label>
+                                                            <p>{{$roadtax->status ?? '--'}}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="m-0 p-0">Order No</label>
-                                                        <input type="email" class="form-control-plaintext m-0 p-0"
-                                                               id="exampleInputEmail1"
-                                                               value="{{$roadtax->order_no}}" readonly>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                             @else
-                                                <h3>This vehicle has no roadtax information</h3>
+                                                <h3>This vehicle has no roadtax or fitness information</h3>
                                                 @endif
 
                                         </div>
