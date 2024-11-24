@@ -5,8 +5,11 @@ namespace App\Models\WorkShopManagement;
 use App\Models\Settings\WorkShop;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Notifications\Notifiable;
 
 class Mechanic extends Model {
+    use Notifiable;
+
     protected $table = 'wm_mechanics';
     protected $fillable = [
         'email',
@@ -44,7 +47,8 @@ class Mechanic extends Model {
             ->withPivot([
                 'is_supervisor',
                 'deleted_at'
-            ])->wherePivotNull('deleted_at');
+            ])
+            ->wherePivotNull('deleted_at');
     }
 
 

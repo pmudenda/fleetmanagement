@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(RoadtaxSyncCommand::class)->daily();
 
-        $schedule->command(JobCardLinkCommand::class)->everyTwoMinutes();
+        $schedule->command(JobCardLinkCommand::class)->everyMinute();
     }
 
     /**
