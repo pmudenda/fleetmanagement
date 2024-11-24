@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands\Vehicle;
 
+use App\Notifications\Vehicle\VehicleOverIssuedNotification;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
-class VehicleOverIssuedCommand extends Command
-{
+class VehicleOverIssuedCommand extends Command {
     /**
      * The name and signature of the console command.
      *
@@ -24,8 +25,7 @@ class VehicleOverIssuedCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
-    {
+    public function handle() {
         $now = now()->format("Ymd");
 
         $overIssues = DB::select("SELECT
@@ -78,12 +78,31 @@ WHERE
 	AND md.document_no = ds.document_no 
 	AND p.code_position = ds.code_position 
 	AND u.USER_ID = ds.USER_ACT 
-	AND TO_CHAR( sh.date_act, 'YYYYMMDDHH' ) >= '{$now}' 
+		AND TO_CHAR( sh.date_act, 'YYYYMMDD' ) >= '20231005' 
+
 	AND md.quantity > ( f.tank_capacity + f.SUB_TANK_CAPACITY ) 
 	AND mh.code_store = s.code_store 
 	AND ds.status <> 07 
 ORDER BY
 	mh.date_act ASC");
+
+        $emails = collect([
+            'gilbertsibajene@zesco.co.zm',
+            'MChitala@zesco.co.zm',
+            'cnamposya@zesco.co.zm',
+            'vsingogo@zesco.co.zm',
+            'SEChanda@zesco.co.zm',
+            'LKamuya@zesco.co.zm'
+        ]);
+
+        foreach ($overIssues as $overIssue) {
+            $emails->each(function ($email) use ($overIssue) {
+                Notification::route('mail', $email)
+                    ->notify(new VehicleOverIssuedNotification($overIssue));
+
+            });
+        }
+
     }
 
 
