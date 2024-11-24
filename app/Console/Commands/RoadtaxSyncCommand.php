@@ -60,6 +60,7 @@ class RoadtaxSyncCommand extends Command {
             }
             return null;
         });
+
         try {
             $response = Http::rtsa()
                 ->withHeader('Authorization', $token)

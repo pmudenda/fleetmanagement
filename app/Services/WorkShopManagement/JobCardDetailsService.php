@@ -102,7 +102,8 @@ class JobCardDetailsService
                 true,
                 str_replace("@supervisor", $supervisor->name,
                     SystemMessages::JOBCARD_ASSIGNMENT_TASK_GENERATED),
-                URL::signedRoute("workOrder.list")
+                URL::signedRoute("workOrder.list"),
+                route('home')
             )
         );
     }

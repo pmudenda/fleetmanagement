@@ -247,7 +247,7 @@ class MaintenanceController extends Controller
                 FleetMasterJsonResponse::response(
                     ResponseState::FAILURE->value,
                     false,
-                    $message
+                    $message,
                 )
             );
         }
