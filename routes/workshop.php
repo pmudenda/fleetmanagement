@@ -164,6 +164,15 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
     Route::get('/workshop/approve', [MaintenanceController::class, 'show'])
         ->name('show.workshop.requisition');
 
+    Route::post('/workshop/requisitions/search', [MaintenanceController::class, 'fetchRequisitionDetails'])
+        ->name('stores.requisition.details');
+
+    Route::post('/workshop/requisitions/reject', [MaintenanceController::class, 'rejectRequisition'])
+        ->name('stores.requisition.reject');
+
+    Route::get('/workshop/reject', [MaintenanceController::class, 'reject'])
+        ->name('reject.workshop.requisition');
+
     Route::post('approve/stores/requisition/', [WorkflowController::class, 'processStoresRequisitionApproval'])
         ->name('stores.requisition.approve');
 

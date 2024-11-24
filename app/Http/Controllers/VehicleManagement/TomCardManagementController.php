@@ -34,34 +34,30 @@ class TomCardManagementController extends Controller
     {
         try {
             DB::beginTransaction();
+            $allocation = new TomCardAllocation;
+            $vehicleRegistration = $request->get('vehicleRegistration');
+            $comments = $request->get('comments');
+            $expiryDate = $request->get('expiryDate');
 
-            $allocation = TomCardAllocation::where('id',
-                '=',
-                $request->get('record'))->first();
-            if (empty($allocation)) {
-                throw new DataNotFoundException("Allocation Record Not Found");
-            }
-
-            $comments = $request->get('justification');
-            $vehicleRegistration = $allocation->reg_no;
-
-            $allocation->status = StatusHelper::inactive();
-            $allocation->revocation_justification = $comments;
-            $allocation->date_revoked = Carbon::now();
-            $allocation->revoked_by = Auth::user()->staff_no;
+            $allocation->card_number = $request->get('cardNumber');
+            $allocation->reg_no = $vehicleRegistration;
+            $allocation->period_to = $expiryDate;
+            $allocation->status = StatusHelper::active();
+            $allocation->assignment_justification = $comments;
+            $allocation->assigned_by = Auth::user()->staff_no;
             $allocation->save();
             DB::table('vm_vehicle_header')
                 ->where('registration_number',
                     '=',
                     $vehicleRegistration)
-                ->update(['has_tom_card' => 'N']);
+                ->update(['has_tom_card' => 'Y']);
             DB::commit();
             return response()->json([
                 'state' => 'success',
-                'message' => SystemMessages::TOM_CARD_REVOKED
+                'message' => SystemMessages::TOM_CARD_ASSIGNED
             ]);
         } catch (\Exception $e) {
-            $message = SystemMessages::TOM_CARD_REVOCATION_FAILED;
+            $message = SystemMessages::TOM_CARD_ASSIGNMENT_FAILED;
             if ($e instanceof DataNotFoundException) {
                 $message = $e->getMessage();
             }

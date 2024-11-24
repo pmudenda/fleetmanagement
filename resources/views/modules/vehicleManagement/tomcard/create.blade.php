@@ -140,7 +140,7 @@
                                                                     title="Revoke Assignment"
                                                                     name="revokeTomCardBtn"
                                                                     class="btn btn-sm btn-danger">
-                                                                <i class="fas fa-trash"></i>
+                                                                <i class="fas fa-undo-alt"></i> Revoke
                                                             </button>
                                                         @endif
                                                     </td>
@@ -230,8 +230,8 @@
                                                         </div>
 
                                                         <div class="col">
-                                                            <div class="input-group date">
-                                                                <input type="text"
+                                                            <div class="input-group">
+                                                                <input type="date"
                                                                        name="expiryDate"
                                                                        id="expiryDate"
                                                                        class="form-control"
@@ -303,8 +303,8 @@
                                                 <i class="fas fa-save"></i> Save
                                             </button>
                                             <button type="button" id="resetRequisitionBtn"
-                                                    class="btn btn-danger btn-sm mr-3">
-                                                <i class="fas fa-undo"></i> Clear Data
+                                                    class="btn btn-primary btn-sm mr-3">
+                                                <i class="fas fa-eraser"></i> Clear Data
                                             </button>
                                         </div>
                                     </div>
@@ -594,7 +594,7 @@
 
                                     tmsApp.systemError(
                                         'Tom Card Assignment',
-                                        'We could not complete processing your request, please try again later');
+                                        'We could not process your request, please try again later');
                                 }, 300)
                             }
                         )
@@ -679,7 +679,7 @@
 
                                     tmsApp.systemError(
                                         'Tom Card Revocation',
-                                        'We could not complete processing your request, please try again later');
+                                        'We could not process your request, please try again later');
                                 }, 300)
                             }
                         )

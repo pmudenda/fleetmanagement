@@ -22,6 +22,7 @@ use App\Http\Requests\WorkShopManagement\SubmitJobCardToSupervisor;
 use App\Http\Requests\WorkShopManagement\VehicleDefects;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
 use App\Http\Responses\FleetMasterJsonResponse;
+use App\Models\Common\MaterialHeader;
 use App\Models\RequisitionType;
 use App\Models\Settings\GeneralTable;
 use App\Models\Workflow\WorkflowTaskHeader;
@@ -36,6 +37,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
@@ -761,5 +763,74 @@ class MaintenanceController extends Controller
                 $details
             )
         );
+    }
+
+    public function reject()
+    {
+        return view('modules.workshopManagement.storesRequisitions');
+    }
+
+    public function fetchRequisitionDetails(Request $request): JsonResponse
+    {
+        // Validate the input
+        $validatedData = $request->validate([
+            'requisitionNumber' => 'required|string'
+        ]);
+
+        $requisitionNumber = $validatedData['requisitionNumber'];
+
+        // Fetch data from the database
+        $requisition = MaterialHeader::where('st_pur', $requisitionNumber)->first();
+
+        $requisition = DB::table('fleetmaster.gen_material_headers AS H')
+            ->join('fleetmaster.config_statuses AS cs', 'H.STATUS', '=', 'cs.CODE')
+            ->select('H.ST_PUR', 'cs.name', 'H.veh_reg_no', 'H.form_order', 'H.status', 'H.comments')
+            ->where('H.ST_PUR', 'like', $requisitionNumber . '%')
+            ->whereIn('cs.CODE', ['02', '26'])
+            ->where('cs.module', 'MAT')
+            ->first();
+
+        if ($requisition) {
+            return response()->json([
+                'success' => true,
+                'veh_reg_no' => $requisition->veh_reg_no,
+                'form_order' => $requisition->form_order,
+                'status' => $requisition->status,
+                'comments' => $requisition->comments,
+                'status_name' => $requisition->name,
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'No requisition found with the provided number.',
+        ], 404);
+    }
+
+    public function rejectRequisition(Request $request): JsonResponse
+    {
+        $requisitionId = $request->input('requisitionId');
+
+        try {
+            DB::beginTransaction();
+
+            // Update ZFMS table
+            DB::table('fleetmaster.gen_material_headers')
+                ->where('st_pur', $requisitionId)
+                ->update(['STATUS' => '03']);
+
+            // Update SPMS table
+            DB::table('store_requisitions_header')
+                ->where('document_no', $requisitionId)
+                ->update(['STATUS' => '03']);
+
+            DB::commit();
+
+            return response()->json(['message' => 'Requisition rejected successfully!'], 200);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Failed to reject requisition.'], 500);
+        }
     }
 }
