@@ -31,26 +31,7 @@ class OverdueInWorkshopCommand extends Command {
      */
     public function handle() {
 
-        $overdue_vehicles = collect(DB::select("SELECT
-	jc.reg_no,
-	vh.brand_name,
-	cw.ID AS WSHP_ID,
-	cw.WORKSHOP_CODE,
-	jc.WSHP_ACT_CODE,
-	cw.WORKSHOP_NAME,
-	jc.date_in,
-	jc.EXPECTED_DATE_OUT,
-	jc.driver_in,
-	sc.name AS driver_name,
-	TRUNC( jc.EXPECTED_DATE_OUT - jc.date_in ) AS days_overdue 
-FROM
-	fleetmaster.wm_job_card_header jc
-	JOIN fleetmaster.vm_vehicle_header vh ON jc.reg_no = vh.REGISTRATION_NUMBER
-	JOIN fleetmaster.config_workshop cw ON jc.WORKSHOP_CODE = cw.WORKSHOP_CODE
-	JOIN fleetmaster.sec_users sc ON jc.driver_in = sc.staff_no 
-WHERE
-	TRUNC( jc.EXPECTED_DATE_OUT - jc.date_in ) > 90 
-	AND jc.DATE_OUT IS NOT NULL"))
+        $overdue_vehicles = DB::table("VEHICLE_IN_WORKSHOP_OVER_90_DAYS")->get()
             ->groupBy('workshop_code');
 
         foreach ($overdue_vehicles as $code => $vehicles) {

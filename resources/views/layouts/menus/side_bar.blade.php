@@ -1191,6 +1191,29 @@
 
                         </ul>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-warning" style="font-size: 20px;"></i>
+                            <p>
+                                Alerts
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview pl-3">
+                            @canany(config('rights.access_reports'))
+                                <li class="nav-item">
+                                    <a href="{{route('reports.workshop.overdue_in_workshop')}}"
+                                       class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            vehicle Overdue in Workshop
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcanany
+                        </ul>
+                    </li>
                 @endcanany
             </ul>
         </nav>

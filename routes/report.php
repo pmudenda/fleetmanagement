@@ -27,4 +27,7 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
 
     Route::get('vehicle/status', [ReportsController::class, 'vehicleByStatus'])
         ->name('reports.vehicle.status');
+
+    Route::get('overdue-in-workshop', \App\Livewire\Reports\Workshop\OverdueInWorkshopReport::class)
+        ->name('reports.workshop.overdue_in_workshop');
 });
