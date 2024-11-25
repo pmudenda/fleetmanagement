@@ -22,7 +22,7 @@
                             id="rejectRequisitionBtn"
                             class="btn btn-success btn-sm mr-3 when_odo_valid"
                             disabled>
-                        <i class="fas fa-save"></i>
+                        <i class="fas fa-thumbs-down"></i>
                         Reject Requisition
                     </button>
                     <button type="button"
@@ -80,8 +80,9 @@
                                                             </button>
                                                         </div>
                                                         <div class="input-group-append">
-                                                            <div id="loader" style="display: none; text-align: center;">
-                                                                <i class="fas fa-sync-alt fa-spin"></i> Loading...
+                                                            <div class="spinner-border text-success" role="status"
+                                                                 id="loader" style="display: none; text-align: center;">
+                                                                <span class="visually-hidden">Loading...</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -108,22 +109,6 @@
 
                                     <!-- Second Row: Form Order and Status -->
                                     <div class="row">
-                                        <div class="col-12 col-sm-6 col-md-6" id="allocationContainer">
-                                            <div class="form-group row">
-                                                <label for="form_order" class="col-12 col-sm-4 col-md-4 col-form-label">
-                                                    Form Order.:
-                                                </label>
-                                                <div class="col-12 col-sm-8 col-md-8">
-                                                    <div class="input-group input-group-sm">
-                                                        <input type="text"
-                                                               class="form-control form-control-sm"
-                                                               id="form_order"
-                                                               name="form_order"
-                                                               readonly/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
                                         <div class="col-12 col-sm-6 col-md-6">
                                             <div class="form-group row">
@@ -141,11 +126,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Third Row: Comments Section -->
-
-                                    <div class="row">
                                         <div class="col-12 col-sm-6 col-md-6" id="allocationContainer">
                                             <div class="form-group row">
                                                 <label for="form_order" class="col-12 col-sm-4 col-md-4 col-form-label">
@@ -153,11 +134,18 @@
                                                 </label>
                                                 <div class="col-12 col-sm-8 col-md-8">
                                                     <div class="input-group input-group-sm">
-                                                        <textarea type="text" class="form-control form-control-sm" id="comments" name="comments" readonly></textarea>
+                                                        <textarea type="text" class="form-control form-control-sm"
+                                                                  id="comments" name="comments" readonly></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <!-- Third Row: Comments Section -->
+
+                                    <div class="row">
+
 
                                     </div>
 
@@ -169,6 +157,32 @@
                     </div>
                 </form>
 
+            </div>
+        </div>
+        <!-- Reject Requisition Modal -->
+        <div class="modal fade" id="rejectRequisitionModal" tabindex="-1" aria-labelledby="rejectRequisitionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rejectRequisitionModalLabel"><i class="fa fa-pencil-square-o"></i> Reject Requisition</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <span id="rejectSpanMessage" style="color: #f00;" class="errorMessage"></span>
+                            <label for="rejectRemarks" class="app-label">Rejection Remarks</label>
+                            <textarea id="rejectRemarks" name="rejectRemarks" class="form-control" cols="35" rows="4" maxlength="1000"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-end">
+                        <button id="btnRejectRequisition" class="btn btn-sm btn-danger me-2">
+                            <i class="fas fa-save"></i> Submit
+                        </button>
+                        <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-undo"></i> Cancel
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -211,19 +225,12 @@
                 .then(data => {
                     if (data.success) {
                         document.getElementById('veh_reg_no').value = data.veh_reg_no || '';
-                        document.getElementById('form_order').value = data.form_order || '';
                         document.getElementById('status_name').value = data.status_name || '';
                         document.getElementById('comments').value = data.comments || '';
                         document.getElementById('requisitionNumber').readOnly = true;
 
                         document.getElementById('rejectRequisitionBtn').disabled = false;
 
-                        Swal.fire({
-                            title: 'Success',
-                            text: 'Requisition details loaded successfully.',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        });
                     } else {
                         Swal.fire({
                             title: 'Not Found',
@@ -235,9 +242,16 @@
                 })
                 .catch(error => {
                     console.error('Error fetching requisition details:', error);
+                    console.error('Error details:', {
+                        message: error.message,
+                        stack: error.stack,
+                        response: error.response,
+                        status: error.response ? error.response.status : 'N/A',
+                        statusText: error.response ? error.response.statusText : 'N/A'
+                    });
                     Swal.fire({
                         title: 'Error',
-                        text: 'An error occurred while fetching details. Please try again.',
+                        text: 'This requisition has already been fully issued in SPMS.',
                         icon: 'error',
                         confirmButtonText: 'OK'
                     });
@@ -249,8 +263,20 @@
         });
     </script>
     <script>
-        $('#rejectRequisitionBtn').on('click', function() {
-            // Get the requisition ID from the form
+        // Add the button click event listener
+        $('#rejectRequisitionBtn').on('click', function () {
+            // Show the Bootstrap modal
+            $('#rejectRequisitionModal').modal('show');
+        });
+
+        // Handle the form submission inside the modal
+        $('#btnRejectRequisition').on('click', function () {
+            let justification = $('#rejectRemarks').val();
+            if (!justification) {
+                $('#rejectSpanMessage').text('Justification is required');
+                return;
+            }
+
             let requisitionId = $('#requisitionNumber').val();
 
             // Perform AJAX request
@@ -259,18 +285,23 @@
                 type: 'POST',
                 data: {
                     _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
-                    requisitionId: requisitionId
+                    requisitionId: requisitionId,
+                    justification: justification,
+                    status: 3 // Update status to 3
                 },
-                success: function(response) {
+                success: function (response) {
                     Swal.fire({
                         icon: 'success',
                         title: 'Requisition Rejected',
                         text: response.message,
                         showConfirmButton: true,
                         timer: 3000
+                    }).then(() => {
+                        window.location.href = '{{ route('home') }}';
                     });
+                    $('#rejectRequisitionModal').modal('hide');
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',

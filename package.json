@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "nats.ws": "^1.16.1"
+    "nats.ws": "^1.16.1",
+    "oracledb": "^6.7.0"
   }
 }
