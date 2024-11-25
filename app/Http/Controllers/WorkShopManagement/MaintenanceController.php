@@ -150,7 +150,7 @@ class MaintenanceController extends Controller
 
         $mechanics = [];
         if (!empty($details)) {
-            $mechanics = Mechanic::where( TableColumns::STATUS,
+            $mechanics = Mechanic::where(TableColumns::STATUS,
                 QueryComparisonOperator::EQUALS,
                 StatusHelper::active())
                 ->where('workshop_code',
@@ -782,25 +782,45 @@ class MaintenanceController extends Controller
         // Fetch data from the database
         $requisition = MaterialHeader::where('st_pur', $requisitionNumber)->first();
 
+//        $requisition = DB::table('fleetmaster.gen_material_headers AS H')
+//            ->join('fleetmaster.config_statuses AS cs', 'H.STATUS', '=', 'cs.CODE')
+//            ->select('H.ST_PUR', 'cs.name', 'H.veh_reg_no', 'H.form_order', 'H.status', 'H.comments')
+//            ->where('H.ST_PUR', 'like', $requisitionNumber . '%')
+//            ->whereIn('cs.CODE', ['02', '26'])
+//            ->where('cs.module', 'MAT')
+//            ->first();
+//
+//        if ($requisition) {
+//            return response()->json([
+//                'success' => true,
+//                'veh_reg_no' => $requisition->veh_reg_no,
+//                'form_order' => $requisition->form_order,
+//                'status' => $requisition->status,
+//                'comments' => $requisition->comments,
+//                'status_name' => $requisition->name,
+//            ]);
+//        }
+
         $requisition = DB::table('fleetmaster.gen_material_headers AS H')
+            ->join('fleetmaster.gen_material_details AS d', 'H.req_no', '=', 'd.req_no')
             ->join('fleetmaster.config_statuses AS cs', 'H.STATUS', '=', 'cs.CODE')
-            ->select('H.ST_PUR', 'cs.name', 'H.veh_reg_no', 'H.form_order', 'H.status', 'H.comments')
-            ->where('H.ST_PUR', 'like', $requisitionNumber . '%')
-            ->whereIn('cs.CODE', ['02', '26'])
+            ->select('H.ST_PUR', 'cs.name', 'd.REG_NO', 'H.comments')
+            ->where('H.ST_PUR', '=', $requisitionNumber)
+            ->whereIn('H.status', ['02', '26'])
+            ->where('H.is_fuel', 'N')
             ->where('cs.module', 'MAT')
+            ->distinct()
             ->first();
+        Log::info('Requisition Data:', (array) $requisition);
 
         if ($requisition) {
             return response()->json([
                 'success' => true,
-                'veh_reg_no' => $requisition->veh_reg_no,
-                'form_order' => $requisition->form_order,
-                'status' => $requisition->status,
-                'comments' => $requisition->comments,
+                'veh_reg_no' => $requisition->reg_no ?? '',
                 'status_name' => $requisition->name,
+                'comments' => $requisition->comments,
             ]);
         }
-
         return response()->json([
             'success' => false,
             'message' => 'No requisition found with the provided number.',
@@ -810,6 +830,7 @@ class MaintenanceController extends Controller
     public function rejectRequisition(Request $request): JsonResponse
     {
         $requisitionId = $request->input('requisitionId');
+        $justification = $request->input('justification');
 
         try {
             DB::beginTransaction();
@@ -817,12 +838,18 @@ class MaintenanceController extends Controller
             // Update ZFMS table
             DB::table('fleetmaster.gen_material_headers')
                 ->where('st_pur', $requisitionId)
-                ->update(['STATUS' => '03']);
+                ->update([
+                    'STATUS' => '03',
+                    'JUSTIFICATION_REJECTION' => $justification
+                ]);
 
             // Update SPMS table
             DB::table('store_requisitions_header')
                 ->where('document_no', $requisitionId)
-                ->update(['STATUS' => '03']);
+                ->update([
+                    'STATUS' => '03',
+                    'JUSTIFICATION_REJECTION' => $justification
+                ]);
 
             DB::commit();
 
@@ -830,7 +857,15 @@ class MaintenanceController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+
+            // Log the error details
+            Log::error('Failed to reject requisition', [
+                'requisitionId' => $requisitionId,
+                'justification' => $justification,
+                'error' => $e->getMessage(),
+                'stack' => $e->getTraceAsString()
+            ]);
+
             return response()->json(['message' => 'Failed to reject requisition.'], 500);
         }
-    }
-}
+    }}
