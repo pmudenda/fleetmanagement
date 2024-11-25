@@ -78,7 +78,7 @@ WHERE
 	AND md.document_no = ds.document_no 
 	AND p.code_position = ds.code_position 
 	AND u.USER_ID = ds.USER_ACT 
-		AND TO_CHAR( sh.date_act, 'YYYYMMDD' ) >= TO_CHAR( sh.date_act, 'YYYYMMDD' ) 
+		AND TO_CHAR( sh.date_act, 'YYYYMMDDH24' ) >= TO_CHAR( SYSDATE, 'YYYYMMDDH24' ) 
 
 	AND md.quantity > ( f.tank_capacity + f.SUB_TANK_CAPACITY ) 
 	AND mh.code_store = s.code_store 
