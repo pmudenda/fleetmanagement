@@ -123,10 +123,12 @@ class UsersController extends Controller
     {
         Log::debug("Showing Profile for $id");
         $this->verifyRequestSignature($request);
+
         $user = User::where('id', '=', $id)->first();
         $is_admin = auth()->user()->roles()->where('is_superuser',1)->exists();
         $user_is_admin = $user->roles()->where('is_superuser', 1)->exists();
-        $can_change = $user_is_admin && $is_admin;
+        $can_change = !$user_is_admin || $is_admin;
+
         $roles = Role::all();
         $passwordChangeOnly = false;
         $userDelegating = $this->profileDelegation->getDelegatedProfile($user->id);
