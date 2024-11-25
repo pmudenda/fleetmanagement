@@ -28,8 +28,8 @@ class Kernel extends ConsoleKernel
         $schedule->command(RoadtaxSyncCommand::class)->daily();
 
         $schedule->command(JobCardLinkCommand::class)->everyMinute();
-        $schedule->command(OverdueInWorkshopCommand::class)->dailyAt('07:00');
-        $schedule->command(VehicleOverIssuedCommand::class)->hourly();
+//        $schedule->command(OverdueInWorkshopCommand::class)->dailyAt('07:00');
+//        $schedule->command(VehicleOverIssuedCommand::class)->hourly();
     }
 
     /**
