@@ -6,6 +6,7 @@
 <form class="form-horizontal" name="updateDataUpdate" method="post"
       action="{{ route('user.update') }}">
     @csrf
+    <fieldset @if(!$can_change) disabled @endif>
     <div class="form-group row">
         <label for="inputName" class="col-sm-2 col-form-label field-required">Name:</label>
         <div class="col-sm-10">
@@ -21,6 +22,7 @@
             <input type="hidden" id="userId" name="userId" required value="{{ $user->id}}">
         </div>
     </div>
+
     <div class="form-group row">
         <label for="inputEmail" class="col-sm-2 col-form-label field-required">Email:</label>
         <div class="col-sm-10">
@@ -157,13 +159,13 @@
                     @endif
 
                     class="@if($allowUpdate) form-select form-select-sm @else form-control  @endif"
-                    required>
+                    required >
                 <option value>--Choose Profile--</option>
                 @foreach ($roles as $groupName)
                     @if(!empty($user->roles()->first()))
                         @if($groupName->id == $user->roles()->first()->id)
                             <option selected
-                                    value="{{$groupName->id}}">{{$groupName->description}}</option>
+                                    value="{{$groupName->id}}" @if($groupName->is_superuser && !$can_change) disabled @endif>{{$groupName->description}}</option>
                         @else
                             <option
                                     value="{{$groupName->id}}">{{$groupName->description}}</option>
@@ -201,5 +203,6 @@
             </div>
         @endcanany
     </div>
+    </fieldset>
 </form>
 <x-employee-search-modal/>

@@ -124,6 +124,9 @@ class UsersController extends Controller
         Log::debug("Showing Profile for $id");
         $this->verifyRequestSignature($request);
         $user = User::where('id', '=', $id)->first();
+        $is_admin = auth()->user()->roles()->where('is_superuser',1)->exists();
+        $user_is_admin = $user->roles()->where('is_superuser', 1)->exists();
+        $can_change = $user_is_admin && $is_admin;
         $roles = Role::all();
         $passwordChangeOnly = false;
         $userDelegating = $this->profileDelegation->getDelegatedProfile($user->id);
@@ -132,7 +135,7 @@ class UsersController extends Controller
                 'user',
                 'userDelegating',
                 'passwordChangeOnly',
-                'roles'
+                'roles','can_change'
             ));
     }
 
@@ -146,14 +149,20 @@ class UsersController extends Controller
 
         $id = (int)$request->get('key');
         $user = User::where('id', '=', $id)->first();
-        $roles = Role::all();
+        $isnt_admin = auth()->user()->roles()->where('is_superuser','!=', 1)->doesntExist();
+        $is_admin = $user->roles()->where('is_superuser', 1)->doesntExist();
+        $can_change = !$isnt_admin && $is_admin;
+        $roles = Role::when($isnt_admin, function ($query) {
+            $query->where('is_superuser','!=', 1);
+        });
         $passwordChangeOnly = false;
         $userDelegating = $this->profileDelegation->getDelegatedProfile($user->id);
         return view('modules.userManagement.show')
             ->with(compact('user',
                 'passwordChangeOnly',
                 'userDelegating',
-                'roles'));
+                'roles',
+            'can_change'));
 
     }
 
