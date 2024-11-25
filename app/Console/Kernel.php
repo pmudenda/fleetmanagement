@@ -4,6 +4,9 @@ namespace App\Console;
 
 use App\Console\Commands\JobCardLinkCommand;
 use App\Console\Commands\RoadtaxSyncCommand;
+use App\Console\Commands\Vehicle\VehicleOverIssuedCommand;
+use App\Console\Commands\Workshop\OverdueInWorkshopCommand;
+use App\Notifications\Workshop\OverdueInWorkshopNotification;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -24,7 +27,9 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(RoadtaxSyncCommand::class)->daily();
 
-        $schedule->command(JobCardLinkCommand::class)->everyTwoMinutes();
+        $schedule->command(JobCardLinkCommand::class)->everyMinute();
+//        $schedule->command(OverdueInWorkshopCommand::class)->dailyAt('07:00');
+//        $schedule->command(VehicleOverIssuedCommand::class)->hourly();
     }
 
     /**

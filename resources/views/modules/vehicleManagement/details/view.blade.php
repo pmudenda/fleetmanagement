@@ -2353,10 +2353,10 @@
                                                 <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="form-group ">
-                                                        <label class="m-0 p-0">License No</label>
+                                                        <label class="m-0 p-0">Last Synced</label>
                                                         <input type="email" class="form-control-plaintext m-0 p-0"
                                                                id="exampleInputEmail1"
-                                                               value="{{$roadtax->licence_no}}" readonly>
+                                                               value="{{$roadtax->updated_at->toFormattedDateString()}}" readonly>
                                                     </div>
                                                 </div>
 

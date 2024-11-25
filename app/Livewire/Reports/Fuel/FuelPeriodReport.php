@@ -39,12 +39,13 @@ class FuelPeriodReport extends Component {
         $total_quantity = $spares->sum('ttl');
         $total_amount = $spares->sum('qty');
         $spares = $spares->groupBy(['REG_NO', 'TYPE_BRAND','FUEL_TYPE', 'FUEL_REQ_UNIT'])
-            ->orderByRaw('TTL DESC')->paginate(10);
+            ->orderByRaw('TTL DESC')->paginate(20);
         return view('livewire.reports.fuel.fuel-period-report', compact('spares', 'total_amount', 'total_quantity'));
     }
 
     public function search() {
         $this->validate();
+        $this->resetPage();
     }
 
     public function download() {
