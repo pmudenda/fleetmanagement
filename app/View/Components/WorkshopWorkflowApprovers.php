@@ -34,7 +34,7 @@ class WorkshopWorkflowApprovers extends Component
         $documentStatus = $this->request->status;
         $approvalsArray = WorkflowLog::where(
             'reference',
-            $this->task->reference)
+            $this->task->reference ?? null)
             ->orderBy('action_date')
             ->get();
 
@@ -42,7 +42,7 @@ class WorkshopWorkflowApprovers extends Component
         $currentStep = WorkflowTaskDetail::where(
             'reference',
             QueryComparisonOperator::EQUALS,
-            $this->task->reference)
+            $this->task->reference ?? null)
             ->first();
 
 //        dd($this->request->created_by);
@@ -65,7 +65,7 @@ class WorkshopWorkflowApprovers extends Component
 
         $manager = null;
 
-        if (!empty($supervisor) && ($currentStep->current_step_id == '03'
+        if (!empty($supervisor) && ($currentStep->current_step_id ?? '00' == '03'
                 || in_array('03', $steps))) {
             $manager = User::where(
                 TableColumns::STAFF_NUMBER,
