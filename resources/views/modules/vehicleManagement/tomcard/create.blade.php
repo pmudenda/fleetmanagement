@@ -295,18 +295,20 @@
 
                                     </div>
                                     <div class="card-footer">
-                                        <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                                            <button type="button"
-                                                    id="submitTomCardBtn"
-                                                    disabled
-                                                    class="btn btn-success disabled btn-sm mr-3 when_odo_valid">
-                                                <i class="fas fa-save"></i> Save
-                                            </button>
-                                            <button type="button" id="resetRequisitionBtn"
-                                                    class="btn btn-primary btn-sm mr-3">
-                                                <i class="fas fa-eraser"></i> Clear Data
-                                            </button>
-                                        </div>
+                                        @can(config('rights.tom_card_assignment'))
+                                            <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                                                <button type="button"
+                                                        id="submitTomCardBtn"
+                                                        disabled
+                                                        class="btn btn-success disabled btn-sm mr-3 when_odo_valid">
+                                                    <i class="fas fa-save"></i> Save
+                                                </button>
+                                                <button type="button" id="resetRequisitionBtn"
+                                                        class="btn btn-primary btn-sm mr-3">
+                                                    <i class="fas fa-eraser"></i> Clear Data
+                                                </button>
+                                            </div>
+                                        @endcan
                                     </div>
                                 </form>
                             </div>

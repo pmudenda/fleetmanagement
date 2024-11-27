@@ -342,7 +342,8 @@
                             @endcanany
 
                             @canany([config('rights.approve_workshop_requisition'),
-                                config('rights.view_workshop_requisition')])
+                                config('rights.view_workshop_requisition'),
+                                config('rights.manage_requisition')])
                                 <li class="nav-item pl-2">
                                     <a class="nav-link" href="{{URL::signedRoute('list.workshop.requisition') }}">
                                         <i class="fas fa-list nav-icon"></i>
@@ -430,7 +431,7 @@
                                                 </a>
                                             </li>
                                         @endcan
-                                        @can(config('rights.simulate_user'))
+                                        @can(config('rights.stop_user_simulation'))
                                             <li class="nav-item">
                                                 <a class="nav-link" href="{{route('user.simulation.end.form')}}">
                                                     <i class="fas fa-user-alt-slash nav-icon"></i>
@@ -1209,13 +1210,13 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview pl-3">
-                            @canany(config('rights.access_reports'))
+                            @canany(config('rights.view_alerts'))
                                 <li class="nav-item">
                                     <a href="{{route('reports.workshop.overdue_in_workshop')}}"
                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
-                                            vehicle Overdue in Workshop
+                                            Vehicle Overdue in Workshop
                                         </p>
                                     </a>
                                 </li>
