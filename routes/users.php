@@ -62,6 +62,9 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password']], functio
             Route::post('start', [UserSimulationController::class, 'start'])->name('start');
 
             Route::post('end', [UserSimulationController::class, 'end'])->name('end');
+
+            Route::get('end/byadmin/form', [UserSimulationController::class, 'endUserSimulation'])->name('end.form');
+            Route::post('end/byadmin', [UserSimulationController::class, 'endSimulationByAdmin'])->name('end.by.admin');
         });
 
     });

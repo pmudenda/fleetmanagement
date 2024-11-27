@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class UserSimulationController extends Controller
 {
@@ -121,6 +122,41 @@ class UserSimulationController extends Controller
             if ($e instanceof UserNotFoundException) {
                 $message = $e->getMessage();
             }
+            return response()->json([
+                'success' => false,
+                'message' => $message
+            ]);
+        }
+    }
+
+    public function endUserSimulation()
+    {
+        return view('modules.userManagement.endUserSimulation');
+    }
+
+    public function endSimulationByAdmin(Request $request): JsonResponse
+    {
+        try {
+            $staffNumber = $request->get('userIdentifier');
+
+            if (empty($staffNumber)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Staff number is required'
+                ]);
+            }
+            DB::table('fleetmaster.gen_simulations')
+                ->where('SIMULATED', $staffNumber)
+                ->update(['SIMULATE_END' => DB::raw('sysdate')]);
+
+            return response()->json([
+                'success' => true,
+                'payload' => []
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::getMessage('err_0005');
+
             return response()->json([
                 'success' => false,
                 'message' => $message

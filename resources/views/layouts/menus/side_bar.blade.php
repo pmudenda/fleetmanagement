@@ -430,6 +430,14 @@
                                                 </a>
                                             </li>
                                         @endcan
+                                        @can(config('rights.simulate_user'))
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{route('user.simulation.end.form')}}">
+                                                    <i class="fas fa-user-alt-slash nav-icon"></i>
+                                                    <p class="menu-title">Stop User Simulation</p>
+                                                </a>
+                                            </li>
+                                        @endcan
                                     </ul>
                                 </li>
                             @endcanany
