@@ -32,8 +32,8 @@ class JobCardLinkCommand extends Command {
 
         Log::channel('jobcard')->info('Job Card Link command started, currently checking unlinked Purchase Orders');
 
-        try{
-            $pos = DB::select(" SELECT PR.DATE_DOCUMENT,
+        try {
+            $pos = collect(DB::select(" SELECT PR.DATE_DOCUMENT,
 	PO.PURCHASE_REQUISITION_NO,
 	PO.document_no,
 	po.status,
@@ -45,17 +45,17 @@ WHERE
 	 PO.PURCHASE_REQUISITION_NO = PR.DOCUMENT_NO 
 	AND pR.USER_DOCUMENT_NO LIKE 'TMS%' 
 	AND po.status = '04' 
+    AND PO.DOCUMENT_NO NOT IN (SELECT PROC_REF FROM gen_material_headers where PROC_REF = PO.document_no )
 ORDER BY
-	PR.DATE_DOCUMENT DESC");
-        }catch(\Exception $e){
-           return Log::channel('jobcard')->error($e->getMessage());
+	PR.DATE_DOCUMENT DESC"));
+        } catch (\Exception $e) {
+            return Log::channel('jobcard')->error($e->getMessage());
         }
 
-        Log::channel('jobcard')->info('{total} Purchase Orders found, attempting to perform linking',['total' => count($pos)]);
-
+        Log::channel('jobcard')->info('{total} Purchase Orders found, attempting to perform linking', ['total' => count($pos)]);
         $this->withProgressBar($pos, function ($po) use ($pos) {
 
-            Log::channel('jobcard')->info('Processing Document No {document_no} for Vehicle {project_no} - {user_document_no}',(array)$po);
+            Log::channel('jobcard')->info('Processing Document No {document_no} for Vehicle {project_no} - {user_document_no}', (array)$po);
 
             $this->process($po);
         });

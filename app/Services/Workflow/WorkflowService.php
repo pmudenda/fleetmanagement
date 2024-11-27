@@ -12,9 +12,11 @@ use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
 use App\Helpers\TaskStatus;
+use App\Models\Common\MaterialHeader;
 use App\Models\Common\OrganizationalUnit;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\User;
+use App\Models\VehicleManagement\Assignment;
 use App\Models\Workflow\WorkflowApprovalLimit;
 use App\Models\Workflow\WorkflowLog;
 use App\Models\Workflow\WorkflowProcess;
@@ -28,8 +30,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class WorkflowService
-{
+class WorkflowService {
     const APPROVE = 3;
     const REJECT = 2;
     const RESUBMIT = 5;
@@ -40,8 +41,7 @@ class WorkflowService
     const APPROVAL_PROCESS_NEXT_STATE_RECORD_NOT_FOUND = "Approval Process Next State Record Not Found";
     private ProfileDelegationService $profileDelegationService;
 
-    public function __construct(ProfileDelegationService $profileDelegationService)
-    {
+    public function __construct(ProfileDelegationService $profileDelegationService) {
         $this->profileDelegationService = $profileDelegationService;
     }
 
@@ -65,8 +65,7 @@ class WorkflowService
                                                    $amount,
                                             array  $description,
                                             string $assignTo = null
-    ): WorkflowTaskDetail
-    {
+    ): WorkflowTaskDetail {
         $short_description = $description[0];
         $long_description = $description[1];
         $currentUser = Auth()->user();
@@ -119,7 +118,9 @@ class WorkflowService
         }
 
         $userUnit = $this->getUserUnit($currentUser);
-
+        $header = MaterialHeader::where('req_no', $taskReference)->first();
+        $assignment = Assignment::where('reg_no', $header->veh_reg_no ?? null)->first();
+//        $userUnit = OrganizationalUnit::where('bu_code', $assignment->business_unit ?? null)->where('cc_code', $assignment->cost_center)->first();
         // audit trail for submission of task
         $this->createLog(
             $comment,
@@ -182,9 +183,7 @@ class WorkflowService
                                    string $actionTaken,
                                    string $comment,
                                           $subject
-    ): array
-    {
-
+    ): array {
         Log::debug('Processing Workflow Reference ' . $reference);
         Log::debug('Workflow Process Code ' . $processId);
         Log::info($subject);
@@ -310,8 +309,7 @@ class WorkflowService
         return $response;
     }
 
-    public function getMyApprovalTasks($user): Collection
-    {
+    public function getMyApprovalTasks($user): Collection {
         $staffNumber = $user->staff_no;
 
         $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($user->id);
@@ -338,8 +336,7 @@ class WorkflowService
      * @return User
      * @throws WorkflowTaskCreationFailedException
      */
-    public function getApprovingOfficer($currentUser): User
-    {
+    public function getApprovingOfficer($currentUser): User {
         /****************************Determine User to assign task*************************************************/
         if (empty($currentUser->supervisor_code)) {
             throw new WorkflowTaskCreationFailedException("Supervisor Not Assigned Found");
@@ -369,8 +366,7 @@ class WorkflowService
                                   string $actionTaken,
                                          $currentStep,
                                          $taskHeader,
-                                         $taskDetail): array
-    {
+                                         $taskDetail): array {
         $currentUser = auth()->user();
 
         $this->createLog(
@@ -412,8 +408,7 @@ class WorkflowService
         string $actionTaken,
         $taskHeader,
         $taskDetail
-    ): array
-    {
+    ): array {
         $currentUser = auth()->user();
         $finalStep = false;
 
@@ -512,16 +507,14 @@ class WorkflowService
      * @param string $lastStep
      * @return bool
      */
-    public function isFinalStep($currentStep, string $lastStep): bool
-    {
+    public function isFinalStep($currentStep, string $lastStep): bool {
         return $currentStep->is_final_step
             || $currentStep->is_final_step == '1'
             || $currentStep->is_final_step == 1
             || $currentStep == $lastStep;
     }
 
-    public function cancelProcessTask($req_no, $process_id): void
-    {
+    public function cancelProcessTask($req_no, $process_id): void {
         DB::beginTransaction();
 
         // get workflow process header
@@ -560,8 +553,7 @@ class WorkflowService
      * @param $amount
      * @return string
      */
-    private function getApprovalLimit($user_unit, $amount)
-    {
+    private function getApprovalLimit($user_unit, $amount) {
         $result = WorkflowApprovalLimit::where('user_unit_code',
             QueryComparisonOperator::EQUALS,
             $user_unit)
@@ -579,8 +571,7 @@ class WorkflowService
         return $result->final_step;
     }
 
-    private function closePreviousTasks(WorkflowTaskDetail $process): void
-    {
+    private function closePreviousTasks(WorkflowTaskDetail $process): void {
         $existingNotifications = WorkflowTaskHeader::where(
             TableColumns::REFERENCE,
             QueryComparisonOperator::EQUALS,
@@ -598,14 +589,11 @@ class WorkflowService
      * Retrieves the code unit of the user
      * @throws WorkflowTaskCreationFailedException
      */
-    private function getUserUnit($currentUser)
-    {
+    private function getUserUnit($currentUser) {
         $ou = OrganizationalUnit::where(
             'cc_code',
-            QueryComparisonOperator::EQUALS,
             $currentUser->cc_code)
             ->where('bu_code',
-                QueryComparisonOperator::EQUALS,
                 $currentUser->bu_code)
             ->first();
         if (!$ou) {
@@ -620,8 +608,7 @@ class WorkflowService
                                      $actionTaken,
                                      $taskHeader,
                                      $taskDetail,
-                                     $currentStep): array
-    {
+                                     $currentStep): array {
         Log::info("Sending Request Back ");
         Log::info("Reference " . $taskHeader->reference);
         Log::info("Process Code " . $taskHeader->process_code);
@@ -688,8 +675,7 @@ class WorkflowService
                               $status,
                               $step,
                               $taskReference
-    ): void
-    {
+    ): void {
         WorkflowLog::create([
             'reference' => $taskReference,
             'step_id' => $step->step_id,
@@ -719,8 +705,7 @@ class WorkflowService
                                                        $action,
                                                        $actionTaken,
                                                        $currentStep
-    ): array
-    {
+    ): array {
 
         $currentUser = auth()->user();
 
@@ -765,8 +750,7 @@ class WorkflowService
         return [$taskDetail->current_step_id, '0'];
     }
 
-    public function getAllWorkflowTasks(): Collection
-    {
+    public function getAllWorkflowTasks(): Collection {
         return DB::table('WFL_WORKFLOW_TASK task_header')
             ->leftJoin('SEC_USERS users',
                 'task_header.created_by',
@@ -793,8 +777,7 @@ class WorkflowService
      * @return string
      * @throws DataNotFoundException
      */
-    private function getActiveEmployeeByStaffNumber(string $assignTo): string
-    {
+    private function getActiveEmployeeByStaffNumber(string $assignTo): string {
         $employee = PHCMSEmployee::where(TableColumns::PHCMS_STATUS, QueryComparisonOperator::EQUALS, 'ACT')
             ->where(function (Builder $query) use ($assignTo) {
                 $query->where(TableColumns::PHCMS_STAFF_NUMBER,
