@@ -329,8 +329,10 @@
     <script>
         window.vehicleData = {!! json_encode($vehicleData) !!};
         (function (appInstance) {
-            appInstance.initDatatable("#listTable", false, true);
-
+            // appInstance.initDatatable("#listTable", false, true);
+            $('#listTable').DataTable({
+                pageLength: 10 // Number of rows per page
+            });
             function genData() {
                 let legendData = [];
                 let valueObject = {};

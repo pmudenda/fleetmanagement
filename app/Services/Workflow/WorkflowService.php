@@ -118,9 +118,13 @@ class WorkflowService {
         }
 
         $userUnit = $this->getUserUnit($currentUser);
-        $header = MaterialHeader::where('req_no', $taskReference)->first();
-        $assignment = Assignment::where('reg_no', $header->veh_reg_no ?? null)->first();
+//        dd($taskReference);
+//        $header = MaterialHeader::where('req_no', $taskReference)->first();
+//        dd($header);
+//        $assignment = Assignment::where('reg_no', $header->veh_reg_no ?? null)->first();
+//        dd($assignment);
 //        $userUnit = OrganizationalUnit::where('bu_code', $assignment->business_unit ?? null)->where('cc_code', $assignment->cost_center)->first();
+//dd($userUnit);
         // audit trail for submission of task
         $this->createLog(
             $comment,
@@ -311,7 +315,6 @@ class WorkflowService {
 
     public function getMyApprovalTasks($user): Collection {
         $staffNumber = $user->staff_no;
-
         $delegatedProfileOwner = $this->profileDelegationService->getDelegatedProfileOwner($user->id);
         return DB::table('WFL_WORKFLOW_TASK task_header')
             ->leftJoin('SEC_USERS users',
