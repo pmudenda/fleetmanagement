@@ -44,6 +44,10 @@ class UserSimulationController extends Controller
                 throw new UserNotFoundException("User To Simulate Could Not Be Found");
             }
 
+            if($user->roles()->where('is_superuser', 1)->exists()){
+                throw new UserNotFoundException("You can not simulate an Administrator account, please contact an administrator");
+            }
+
             DB::commit();
             $simulationJustification = $request->get('simulationJustification');
             $activeSimulations = Simulation::where('simulated',

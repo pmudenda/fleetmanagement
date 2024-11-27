@@ -327,7 +327,7 @@
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="requester"
                                                                    readonly
-                                                                   value="{{User::where('staff_no','=', $requestDetails->requested_by)->first()->name}}"
+                                                                   value="{{User::where('staff_no','=', $requestDetails->requested_by)->orWhere('u_name', $requestDetails->requested_by)->first()->name}}"
                                                                    name="requester">
                                                         </div>
                                                     </div>
