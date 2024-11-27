@@ -251,7 +251,7 @@
                     });
                     Swal.fire({
                         title: 'Error',
-                        text: 'This requisition has already been fully issued in SPMS.',
+                        text: 'The requisition has already been processed!',
                         icon: 'error',
                         confirmButtonText: 'OK'
                     });
