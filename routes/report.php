@@ -30,4 +30,7 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
 
     Route::get('overdue-in-workshop', \App\Livewire\Reports\Workshop\OverdueInWorkshopReport::class)
         ->name('reports.workshop.overdue_in_workshop');
+
+    Route::get('audit/document', \App\Livewire\Reports\Audit\DocumentAudit::class)
+        ->name('reports.audit.document');
 });

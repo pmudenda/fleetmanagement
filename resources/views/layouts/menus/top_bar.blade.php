@@ -24,14 +24,14 @@
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    @can([config('rights.view_doc_audit')])
-                        <a class="dropdown-item"
-                           data-toggle="modal"
-                           data-target="#modal-auditTrail"
-                           href="#">
-                            Document Audit Trail
-                        </a>
-                    @endcan
+                    {{--                    @can([config('rights.view_doc_audit')])--}}
+                    {{--                        <a class="dropdown-item"--}}
+                    {{--                           data-toggle="modal"--}}
+                    {{--                           data-target="#modal-auditTrail"--}}
+                    {{--                           href="#">--}}
+                    {{--                            Document Audit Trail--}}
+                    {{--                        </a>--}}
+                    {{--                    @endcan--}}
 
                     @can([config('rights.view_doc_follow_up')])
                         <a class="dropdown-item"
@@ -40,8 +40,17 @@
                            href="#">
                             Document Follow Up
                         </a>
+
+                        @can([config('rights.view_grn_tracker')])
+                            <a class="dropdown-item"
+                               data-toggle="modal"
+                               data-target="#modal-grn-tracer"
+                               href="#">
+                                FMS Payment GRN Tracker
+                            </a>
+                        @endcan
                     @endcan
-                    @canany([config('rights.view_doc_follow_up'),config('rights.view_doc_audit')])
+                    @canany([config('rights.view_doc_follow_up')])
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item"
                            data-toggle="modal"

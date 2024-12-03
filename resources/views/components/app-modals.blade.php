@@ -231,61 +231,14 @@
         </div>
     </div>
 
-    <div class="modal" id="modal-taskFollowUp">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">
-                        Document Task Tracking
-                    </h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div id="filterProperty"
-                         class="table">
-                        <div class="row">
-                            <div class="col">
-                                <label>
-                                    <select class="form-select" name="operator">
-                                        <option value="=">Is</option>
-                                        <option value="<>">Is not</option>
-                                        <option value=">">Is After</option>
-                                        <option value="<">Is Before</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="col">
-                                <select class="form-select" name="filterValue">
-                                </select>
-                            </div>
-                        </div>
-
-                    </div>
-                    <button type="button"
-                            data-table-id="filterProperty"
-                            class="btn btn-sm btn-primary add pull-left"
-                            value="addRow">
-                        <i class="fa fa-plus"></i> Add Property
-                    </button>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="modal-footer justify-content-end">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button"
-                            class="btn btn-sm btn-success"
-                            value="applyFilter"> Apply Filter
-                    </button>
-                </div>
-
-            </div>
-
-        </div>
+    <div class="modal" id="modal-taskFollowUp" wire:ignore>
+      <livewire:workflow.task-follow-up-modal/>
     </div>
+
+    <div class="modal" id="modal-grn-tracer" wire:ignore>
+        <livewire:workflow.document-tracker/>
+    </div>
+
 
     <div class="modal" id="modalSimulateUser">
         <div class="modal-dialog">

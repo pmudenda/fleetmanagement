@@ -1129,6 +1129,7 @@
                         config('rights.access_fuel_reports'),
                         config('rights.access_vehicle_status_reports'),
                         config('rights.access_maintenance_reports'),
+                        config('rights.view_audit_document'),
                         ];
                 @endphp
                 @canany($reportsPermissions)
@@ -1179,6 +1180,16 @@
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
                                             Consolidated Spares Report
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('reports.audit.document')}}"
+                                       class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Document Tracking
                                         </p>
                                     </a>
                                 </li>
