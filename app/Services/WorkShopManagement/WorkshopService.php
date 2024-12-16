@@ -413,6 +413,7 @@ class WorkshopService
                 "config.name as repair_type_name",
                 "CONFIG_GENERAL_TABLES.name as section_in_name",
                 "SEC_USERS.name as service_advisor")
+            ->where('header.created_at', '>=', Carbon::now()->subQuarter()->startOfQuarter()->toDateString())
             ->orderBy('header.created_at', 'desc')
             ->get();
 
