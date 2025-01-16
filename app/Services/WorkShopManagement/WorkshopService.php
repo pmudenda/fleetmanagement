@@ -41,6 +41,7 @@ use App\Services\Logging\HistoryService;
 use App\Services\Requisitions\VehicleAssignmentValidationService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\Workflow\WorkflowService;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -378,7 +379,7 @@ class WorkshopService
         DB::commit();
     }
 
-    public function getJobCardHeader(mixed $status): Collection
+    public function getJobCardHeader(mixed $status, $jobcard_no = null)
     {
         return DB::table("WM_JOB_CARD_HEADER header")
             ->leftJoin("SEC_USERS",
@@ -413,9 +414,14 @@ class WorkshopService
                 "config.name as repair_type_name",
                 "CONFIG_GENERAL_TABLES.name as section_in_name",
                 "SEC_USERS.name as service_advisor")
-            ->where('header.created_at', '>=', Carbon::now()->subQuarter()->startOfQuarter()->toDateString())
+            ->when($jobcard_no, function (Builder $query) use ($jobcard_no) {
+                $query->where('header.reg_no', $jobcard_no);
+                $query->orWhere('header.wshp_act_code', $jobcard_no);
+                $query->orWhere('header.job_card_no', $jobcard_no);
+            })
+//            ->where('header.created_at', '>=', Carbon::now()->subQuarter()->startOfQuarter()->format('Ymd'))
             ->orderBy('header.created_at', 'desc')
-            ->get();
+            ->paginate(40);
 
     }
 
@@ -679,7 +685,8 @@ class WorkshopService
             'workshop','workshop_code',$workShopCode
         )
             ->where('is_supervisor',1)
-            ->first();  Log::info("Workshop Supervisor Has ".$mechanic->staff_no);
+            ->first();
+        Log::info("Workshop Supervisor Has ".$mechanic->staff_no);
         return Mechanic::where('id',
             QueryComparisonOperator::EQUALS,
             $mechanic->mechanic_id ?? null)

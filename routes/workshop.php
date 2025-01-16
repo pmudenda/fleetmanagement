@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
             ->name('job_card.list.json');
 
         Route::get('all/job-card/list', [JobCardController::class, 'list'])
-            ->name('jobCard.list');
+            ->name('jobCard.list')->withoutMiddleware(['signed']);
 
         Route::get('closed/job-card/list', [JobCardController::class, 'viewClosedJobCards'])
             ->name('closed.jobCard.list');

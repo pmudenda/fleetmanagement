@@ -37,7 +37,11 @@
                                 <h4>Manage Vehicles In Workshops</h4>
                             </div>
                             <div class="card-toolbar justify-content-end">
-
+                                <form action="{{URL::signedRoute('jobCard.list')}}" method="GET" class="form-inline">
+                                    <input class="form-control" name="search" placeholder="REG No, Document No, Job Card No" value="{{request()->search ?? ''}}">
+                                    <button class="btn btn-primary btn-sm ml-2" type="submit">Search</button>
+                                    <a href="{{URL::signedRoute('jobCard.list')}}" class="btn btn-light-primary btn-sm ml-2" type="button">Clear</a>
+                                </form>
                             </div>
                         </div>
                         <div class="card-body p-2">
@@ -121,11 +125,11 @@
                                             <td>
                                                 <div class="dropdown">
                                                     <button
-                                                        class="btn btn-light
+                                                            class="btn btn-light
                                                             btn-active-light-primary btn-sm dropdown-toggle"
-                                                        type="button"
-                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
+                                                            type="button"
+                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
                                                         Actions
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -182,6 +186,8 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            {{$workshopsVehicleList->links()}}
                         </div>
                     </div>
                 </div>
@@ -195,30 +201,10 @@
 
 @push('scripts')
     <script>
-        /*$(function () {
-            const table = $('#inWorkShopList').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('job_card.list.json') }}",
-                columns: [
-                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                    {data: 'name', name: 'name'},
-                    {data: 'email', name: 'email'},
-                    {data: 'username', name: 'username'},
-                    {data: 'phone', name: 'phone'},
-                    {data: 'dob', name: 'dob'},
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: true,
-                        searchable: true
-                    },
-                ]
-            });
-        });*/
+
         (function (tmsApp) {
 
-            tmsApp.initDatatable("#inWorkShopList", true, true, []);
+            tmsApp.initDatatable("#inWorkShopList", true, false, []);
 
             $('input[name="name"]').on('paste keyup', function () {
                 this.value = this.value.toLocaleUpperCase();

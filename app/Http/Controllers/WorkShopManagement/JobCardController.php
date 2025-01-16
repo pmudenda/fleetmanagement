@@ -21,13 +21,13 @@ class JobCardController extends Controller
 
     public function list(Request $request): View
     {
-        $this->verifyRequestSignature($request);
-
+//        $this->verifyRequestSignature($request);
         if ($request->has('getRecords')) {
             Log::debug("Get Records Present");
-            $workshopsVehicleList = $this->workshopService->getJobCardHeader(StatusHelper::new(), $request);
+            $workshopsVehicleList = $this->workshopService->getJobCardHeader(StatusHelper::new(), trim($request->search));
         } else {
-            $workshopsVehicleList = $this->workshopService->getJobCardHeader(StatusHelper::new());
+            $workshopsVehicleList = $this->workshopService->getJobCardHeader(StatusHelper::new(),trim($request->search));
+
         }
 
         return view("modules.workshopManagement.vehiclesInWorkshop")
