@@ -29,7 +29,7 @@ class AssessmentAcknowledgementController extends Controller
                 })
                 ->first();
 
-            $driverStaffNo = $driver->alt_per_no;
+            $driverStaffNo = $driver->con_per_no ?? $driver->alt_per_no;
 
             if (empty($driver)) {
                 return response()->json([
