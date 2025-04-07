@@ -151,8 +151,8 @@
 <script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
 {{--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
-
 <livewire:scripts/>
+
 <script>
     $(document).ready(function () {
         window.addEventListener('modal-close',()=>{
@@ -177,6 +177,7 @@
         tmsApp.toast = new bootstrap.Toast(toastLiveExample)
     })
 </script>
+
 <script src="{{asset('assets/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery.filer/js/jquery.filer.min.js')}}"></script>
@@ -202,6 +203,9 @@
 <script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/qrcode/qrcode.min.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<script
+        src="https://maps.googleapis.com/maps/api/js?key={{config('services.maps.google_maps_api_key')}}">
+</script>
 
 @include('layouts.partials.dataTableScripts')
 <script type="text/javascript">
@@ -217,6 +221,7 @@
     }
 </script>
 <script src="{{asset('assets/js/system/app.js')}}"></script>
+
 @stack('scripts')
 </body>
 </html>

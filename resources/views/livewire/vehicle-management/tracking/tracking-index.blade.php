@@ -1,0 +1,139 @@
+<section class="content">
+    <x-error-view/>
+    <x-content-header :pageTitle="'Tracking'"
+                      :activeCrumb="'Tracking'"
+                      :link="'home'"
+                      :linkText="'Home'"/>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <input type="text" class="form-control form-control-sm w-100" placeholder="REG No">
+                        </div>
+                        {{--                      <div class="card-toolbar justify-content-end">--}}
+
+                        {{--                      </div>--}}
+                    </div>
+
+                    <div class="card-body p-0">
+                        <table class="table table-condensed table-bordered" style="font-size: 12px">
+                            @foreach($gpses as $gps)
+                                <tr class="m-0 p-0">
+                                    <td class="m-0 p-1">
+                                        {{$gps['reg']}}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <div id="map" class="embed-responsive-item"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+@script
+    <script type="text/javascript">
+
+        let map;
+
+        // The location of Uluru
+        const position = {lat: -15.408955, lng: 28.2847}
+        // Request needed libraries.
+        //@ts-ignore
+        const {Map} = await google.maps.importLibrary("maps");
+        const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
+
+        // The map, centered at Uluru
+        map = new Map(document.getElementById("map"), {
+            zoom: 12,
+            center: position,
+            mapId: "DEMO_MAP_ID",
+        });
+
+
+        // glyphImg.height =
+        //     "60";
+
+
+       for(const location of $wire.gpses ) {
+            const priceTag = document.createElement("div");
+
+            priceTag.className = "vehicle-marker";
+            priceTag.textContent = location.reg;
+
+            const marker = new AdvancedMarkerElement({
+                position: { lat: location.lat, lng: location.lng },
+                map: map,
+                content: buildContent(location),
+                title: location.reg,
+
+            });
+           const infowindow = new google.maps.InfoWindow({
+               content: buildContent(location),
+               ariaLabel: "Uluru",
+           });
+            marker.addListener("click", () => {
+                toggleHighlight(marker, location);
+            });
+        }
+
+        function toggleHighlight(markerView, location) {
+            if (markerView.content.classList.contains("highlight")) {
+                markerView.content.classList.remove("highlight");
+                markerView.zIndex = null;
+            } else {
+                markerView.content.classList.add("highlight");
+                markerView.zIndex = 1;
+            }
+        }
+
+
+        function buildContent(location) {
+            const content = document.createElement("div");
+
+            content.classList.add("property");
+            content.innerHTML = `
+<!--<div class="icon">-->
+        <span class=" fa-house">${location.reg}</span>
+<!--    </div>-->
+
+    <div class="details">
+        <div class="address"><strong>IMEI: </strong>${location.imei}</div>
+        <div class="address"><strong>Type: </strong>${location.brand}</div>
+        <div class="address"><strong>Fuel: </strong>${location.fuel_type}</div>
+        <div class="address"><strong>Unit: </strong>${location.business_unit}</div>
+        <div class="address"><strong>Status: </strong>${location.status}</div>
+        <hr/>
+        <div class="features">
+        <div>
+            <i aria-hidden="true" class="fa fa-tachometer-alt fa-lg bed" title="bedroom"></i>
+            <span>${location.speed} Km/h</span>
+        </div>
+        <div>
+            <i aria-hidden="true" class="fa fa-clock fa-lg bed" title="bathroom"></i>
+            <span>${location.connected_at}</span>
+        </div>
+        <div>
+            <i aria-hidden="true" class="fa fa-map-marked fa-lg bed" title="size"></i>
+            <span>${location.lat},${location.lng}</span>
+        </div>
+        </div>
+
+    </div>
+    `;
+            return content;
+        }
+    </script>
+@endscript

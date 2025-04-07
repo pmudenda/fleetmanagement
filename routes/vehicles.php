@@ -11,6 +11,7 @@ use App\Http\Controllers\VehicleManagement\TomCardManagementController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleModelsController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
+use App\Livewire\VehicleManagement\Tracking\TrackingIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix' => 'v1/en'], function (): void {
@@ -149,6 +150,10 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
 
     Route::post('tom/card/assignment/revoke', [TomCardManagementController::class, 'revoke'])
         ->name('revoke.assign.tom.card');
+
+    Route::name('vehicle.tracking.')->prefix('vehicle/tracking')->group(function (){
+        Route::get('/', TrackingIndex::class)->name('index');
+    });
 });
 
 

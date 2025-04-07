@@ -753,8 +753,12 @@ class MaintenanceController extends Controller
 
         $vehicleRegistration = $request->get('vehicleRegistration');
         Log::debug("Checking for reservations for $vehicleRegistration");
-        $details = $this->workshopService->getReservedMaterialsAndServices($vehicleRegistration);
+        try{
+            $details = $this->workshopService->getReservedMaterialsAndServices($vehicleRegistration);
 
+        }catch(Exception $exception){
+            dd($exception->getMessage());
+        }
         return response()->json(
             FleetMasterJsonResponse::response(
                 ResponseState::SUCCESS->value,
