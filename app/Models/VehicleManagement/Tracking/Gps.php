@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Gps extends Model
 {
     protected $casts = [
-        'status' => GpsStatus::class,
+//        'status' => GpsStatus::class,
         'connected_at' => 'datetime'
     ];
 
@@ -19,7 +19,7 @@ class Gps extends Model
     }
 
     public function lastLocation(){
-        return $this->hasOne(GpsLocation::class)->latestOfMany();
+        return $this->hasOne(GpsLocation::class)->latestOfMany('created_at');
     }
 
 //    public function type()

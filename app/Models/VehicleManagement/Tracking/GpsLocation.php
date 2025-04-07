@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class GpsLocation extends Model
 {
     protected $with = ['user'];
+
+    public $incrementing = false;
+    protected $primaryKey = 'created_at';
+
     protected $fillable = [
         'user_id', 'latitude', 'longitude', 'accuracy', 'altitude', 'heading', 'speed'
     ];

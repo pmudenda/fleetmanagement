@@ -58,7 +58,7 @@
 
 /* HTML marker styles */
 .vehicle-marker {
-    background-color: #4285F4;
+    background-color: orange;
     border-radius: 8px;
     color: #FFFFFF;
     font-size: 12px;
@@ -76,7 +76,7 @@
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-top: 8px solid #4285F4;
+    border-top: 8px solid orange;
 }
 
 /*
@@ -86,6 +86,7 @@
     align-items: center;
     background-color: #FFFFFF;
     border-radius: 50%;
+    border-color: orange !important;
     /*display: flex;*/
     font-size: 14px;
     gap: 15px;
@@ -100,13 +101,13 @@
 .property::after {
     border-left: 9px solid transparent;
     border-right: 9px solid transparent;
-    /*border-top: 9px solid #FFFFFF;*/
+    border-top: 9px solid orange;
     content: "";
     height: 0;
     left: 50%;
     position: absolute;
-    top: 95%;
-    transform: translate(-50%, 0);
+    top: 100%;
+    transform: translateX(-50%) translateY(0px);
     transition: all 0.3s ease-out;
     width: 0;
     z-index: 1;
@@ -168,7 +169,7 @@
 }
 
 .property.highlight::after {
-    border-top: 9px solid #FFFFFF;
+    border-top: 9px solid orange;
 }
 
 .property.highlight .details {
@@ -185,7 +186,7 @@
 }
 
 .property .bath {
-    color: #03A9F4;
+    color: orange;
 }
 
 .property .size {
@@ -196,15 +197,15 @@
  * House icon colors.
  */
 .property.highlight .icon {
-    color: var(--house-color);
+    color: var(--building-color);
 }
 
 .property:not(.highlight):has(.fa-house) {
-    background-color: var(--house-color);
+    background-color: orange;
 }
 
 .property:not(.highlight):has(.fa-house)::after {
-    border-top: 9px solid var(--house-color);
+    border-top: 9px solid orange;
 }
 
 /*

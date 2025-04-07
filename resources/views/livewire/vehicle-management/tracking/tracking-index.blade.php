@@ -19,10 +19,11 @@
                     </div>
 
                     <div class="card-body p-0">
-                        <table class="table table-condensed table-bordered" style="font-size: 12px">
+                        <table class="table table-condensed table-bordered table-sm" style="font-size: 12px">
                             @foreach($gpses as $gps)
-                                <tr class="m-0 p-0">
-                                    <td class="m-0 p-1">
+                                <tr class="m-0 p-0 @if($gps['id'] == ($selectedGps->id ?? 0)) table-active @endif"
+                                    style="cursor: pointer;">
+                                    <td class="m-0 p-2" wire:click="select({{$gps['id']}})">
                                         {{$gps['reg']}}
                                     </td>
                                 </tr>
@@ -33,7 +34,7 @@
             </div>
 
             <div class="col-lg-9">
-                <div class="embed-responsive embed-responsive-16by9">
+                <div class="embed-responsive embed-responsive-16by9" wire:ignore>
                     <div id="map" class="embed-responsive-item"></div>
                 </div>
             </div>
@@ -44,10 +45,13 @@
 </section>
 
 @script
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        let map;
+    let map;
+    let markers = {};
 
+
+    async function initMap() {
         // The location of Uluru
         const position = {lat: -15.408955, lng: 28.2847}
         // Request needed libraries.
@@ -59,52 +63,52 @@
         map = new Map(document.getElementById("map"), {
             zoom: 12,
             center: position,
-            mapId: "DEMO_MAP_ID",
+            mapId: "ALL_DEVICE_MAP",
+            mapTypeId: 'hybrid'
+
         });
 
+        for (const location of $wire.gpses) {
+            // const priceTag = document.createElement("div");
+            //
+            // priceTag.className = "vehicle-marker";
+            // priceTag.textContent = location.reg;
+            //
+            // const marker = new AdvancedMarkerElement({
+            //     position: {lat: location.lat, lng: location.lng},
+            //     map: map,
+            //     content: buildContent(location),
+            //     title: location.reg,
+            //
+            // });
 
-        // glyphImg.height =
-        //     "60";
+            await addOrUpdateMarker(location)
 
-
-       for(const location of $wire.gpses ) {
-            const priceTag = document.createElement("div");
-
-            priceTag.className = "vehicle-marker";
-            priceTag.textContent = location.reg;
-
-            const marker = new AdvancedMarkerElement({
-                position: { lat: location.lat, lng: location.lng },
-                map: map,
-                content: buildContent(location),
-                title: location.reg,
-
-            });
-           const infowindow = new google.maps.InfoWindow({
-               content: buildContent(location),
-               ariaLabel: "Uluru",
-           });
-            marker.addListener("click", () => {
-                toggleHighlight(marker, location);
-            });
+            // marker.addListener("click", () => {
+            //     toggleHighlight(marker, location);
+            // });
         }
+    }
 
-        function toggleHighlight(markerView, location) {
-            if (markerView.content.classList.contains("highlight")) {
-                markerView.content.classList.remove("highlight");
-                markerView.zIndex = null;
-            } else {
-                markerView.content.classList.add("highlight");
-                markerView.zIndex = 1;
-            }
+    initMap();
+
+    // document.addEventListener('DOMContentLoaded', initMap);
+
+    function toggleHighlight(markerView, location) {
+        if (markerView.content.classList.contains("highlight")) {
+            markerView.content.classList.remove("highlight");
+            markerView.zIndex = null;
+        } else {
+            markerView.content.classList.add("highlight");
+            markerView.zIndex = 1;
         }
+    }
 
+    function buildContent(location) {
+        const content = document.createElement("div");
 
-        function buildContent(location) {
-            const content = document.createElement("div");
-
-            content.classList.add("property");
-            content.innerHTML = `
+        content.classList.add("property");
+        content.innerHTML = `
 <!--<div class="icon">-->
         <span class=" fa-house">${location.reg}</span>
 <!--    </div>-->
@@ -133,7 +137,78 @@
 
     </div>
     `;
-            return content;
+        return content;
+    }
+
+    async function addOrUpdateMarker(location) {
+        const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
+
+        if (markers[location.imei]) {
+            var isHighlighted = markers[location.imei].content.classList.contains("highlight")
+            // Update existing marker position
+            markers[location.imei].position = {lat: location.lat, lng: location.lng};
+            markers[location.imei].content = buildContent(location);
+            if (isHighlighted) {
+                toggleHighlight(markers[location.imei], location);
+            }
+        } else {
+            // Create a new marker
+            const marker = new AdvancedMarkerElement({
+                position: {lat: location.lat, lng: location.lng},
+                map: map,
+                content: buildContent(location),
+                title: location.reg,
+            });
+
+            marker.addListener("click", () => {
+                toggleHighlight(marker, location);
+            });
+
+            markers[location.imei] = marker;
         }
-    </script>
+    }
+
+    function updateMarkers() {
+        $wire.call('refresh').then(async function () {
+            for (const location of $wire.gpses) {
+                await addOrUpdateMarker(location)
+            }
+        });
+    }
+
+    // Update markers every 10 seconds
+    setInterval(updateMarkers, 10000);
+
+    $wire.on('gps-selected', (event) => {
+
+        var gps = event.gps;
+        const paths = event.paths;
+        const marker = markers[gps.imei];
+
+        map.setZoom(17);
+        map.setCenter(marker.position);
+        map.panTo(marker.position);
+
+        console.log(paths);
+        const carPath = new google.maps.Polyline({
+            path: paths,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+        });
+
+        carPath.setMap(map);
+
+
+        // map.addListener("center_changed", () => {
+        //     // 3 seconds after the center of the map has changed, pan back to the
+        //     // marker.
+        //     window.setTimeout(() => {
+        //         map.panTo(marker.position);
+        //     }, 3000);
+        // });
+
+    });
+</script>
 @endscript

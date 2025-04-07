@@ -9,12 +9,41 @@ use Livewire\Component;
 
 class TrackingIndex extends Component {
     public $gpses;
+    public $selectedGps;
+
+    public function mount() {
+        $this->getLocations();
+    }
 
     public function render() {
-        $statuses = Status::all();
-        $this->gpses = Gps::with(['lastLocation','vehicle','engineDetail.fuelType'])->whereNotNull('connected_at')->get()->map(function ($gps) use ($statuses) {
 
+        return view('livewire.vehicle-management.tracking.tracking-index');
+    }
+
+    public function refresh() {
+        $this->getLocations();
+        $this->render();
+    }
+
+    public function select(Gps $gps) {
+        $this->selectedGps = $gps;
+        $path = $gps->locations()->where('created_at', '>=', $gps->lastLocation->created_at->subSeconds(30))
+            ->oldest()
+            ->get();
+        $this->dispatch('gps-selected',gps: $gps, paths: $path->map(fn ($item) => [
+            'lat' => (float)$item->latitude,
+            'lng' => (float)$item->longitude,
+        ]));
+    }
+
+    /**
+     * @return void
+     */
+    public function getLocations(): void {
+        $statuses = Status::all();
+        $this->gpses = Gps::with(['lastLocation', 'vehicle', 'engineDetail.fuelType'])->whereNotNull('connected_at')->get()->map(function ($gps) use ($statuses) {
             return [
+                'id' => $gps->id,
                 'lat' => (float)$gps->lastLocation->latitude ?? null,
                 'lng' => (float)$gps->lastLocation->longitude ?? null,
                 'connected_at' => $gps->connected_at ? $gps->connected_at->diffForHumans() : null,
@@ -27,6 +56,5 @@ class TrackingIndex extends Component {
                 'status' => $statuses->where('code', $gps->vehicle->status)->first()->name ?? null,
             ];
         });
-        return view('livewire.vehicle-management.tracking.tracking-index');
     }
 }
