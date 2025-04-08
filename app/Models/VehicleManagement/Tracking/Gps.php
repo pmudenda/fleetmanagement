@@ -12,7 +12,6 @@ class Gps extends Model
     protected $casts = [
 //        'status' => GpsStatus::class,
         'connected_at' => 'datetime',
-        'tracked_at' => 'datetime'
     ];
 
     public function locations(){

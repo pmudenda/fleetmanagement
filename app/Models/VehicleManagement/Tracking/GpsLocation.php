@@ -12,6 +12,9 @@ class GpsLocation extends Model
 
     public $incrementing = false;
     protected $primaryKey = 'created_at';
+    protected $casts = [
+        'tracked_at' => 'datetime',
+    ];
 
     protected $fillable = [
         'user_id', 'latitude', 'longitude', 'accuracy', 'altitude', 'heading', 'speed'
