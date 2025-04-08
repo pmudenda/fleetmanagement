@@ -11,7 +11,8 @@ class Gps extends Model
 {
     protected $casts = [
 //        'status' => GpsStatus::class,
-        'connected_at' => 'datetime'
+        'connected_at' => 'datetime',
+        'tracked_at' => 'datetime'
     ];
 
     public function locations(){
@@ -19,7 +20,7 @@ class Gps extends Model
     }
 
     public function lastLocation(){
-        return $this->hasOne(GpsLocation::class)->latestOfMany('created_at');
+        return $this->hasOne(GpsLocation::class)->latestOfMany('tracked_at');
     }
 
 //    public function type()

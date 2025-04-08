@@ -8,32 +8,89 @@
 
         <div class="row">
             <div class="col-lg-3">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control form-control-sm" placeholder="REG No / Imei"
+                           wire:model.live="search">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">
-                            <input type="text" class="form-control form-control-sm w-100" placeholder="REG No">
-                        </div>
-                        {{--                      <div class="card-toolbar justify-content-end">--}}
 
-                        {{--                      </div>--}}
                     </div>
 
                     <div class="card-body p-0">
                         <table class="table table-condensed table-bordered table-sm" style="font-size: 12px">
                             @foreach($gpses as $gps)
-                                <tr class="m-0 p-0 @if($gps['id'] == ($selectedGps->id ?? 0)) table-active @endif"
-                                    style="cursor: pointer;">
-                                    <td class="m-0 p-2" wire:click="select({{$gps['id']}})">
-                                        {{$gps['reg']}}
+                                <tr class="m-0 p-0 @if($gps['id'] == ($selectedGps->id ?? 0)) table-active @endif">
+                                    <td class="m-0 p-2" >
+                                        <a href="javascript:void(0)"  wire:click="select({{$gps['id']}})">{{$gps['reg']}}</a>
+                                    </td>
+                                    <td class="text-right">
+                                        @if($gps['speed'] > 40)
+                                            <span class="badge badge-light-danger badge-sm">{{$gps['speed']}}Km/h</span>
+                                        @endif
+                                            @if($gps['speed'] <= 0)
+                                                <span class="badge badge-light-warning badge-sm">stationary</span>
+                                            @endif
+                                        <span class="badge badge-light-{{$gps['is_connected'] ? 'success' : 'danger'}} badge-sm">{{$gps['connected_at'] ?? 'offline'}}</span>
                                     </td>
                                 </tr>
                             @endforeach
                         </table>
+
                     </div>
+
+                    <div wire:target="search" wire:loading.class="overlay">
+                        <i class="fas fa-2x fa-sync-alt fa-spin d-none" wire:target="search"
+                           wire:loading.class.remove="d-none"></i>
+                    </div>
+
+
                 </div>
             </div>
 
             <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-lg-4">
+
+                        <div class="info-box">
+                            <span class="info-box-icon bg-success"><i class="fa fa-car fa-2x"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Online Vehicles</span>
+                                <span class="info-box-number">{{number_format($connected,0)}} </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-danger"><i class="fa fa-car fa-2x"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Offline Vehicles</span>
+                                <span class="info-box-number">{{number_format($not_connected)}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info"><i class="fa fa-car fa-2x"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Vehicles With Devices</span>
+                                <span class="info-box-number">{{number_format($total)}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                    </div>
+                </div>
                 <div class="embed-responsive embed-responsive-16by9" wire:ignore>
                     <div id="map" class="embed-responsive-item"></div>
                 </div>
