@@ -295,7 +295,7 @@
 
                                     </div>
                                     <div class="card-footer">
-                                        @can(config('rights.tom_card_assignment'))
+{{--                                        @can(config('rights.tom_card_assignment'))--}}
                                             <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                                                 <button type="button"
                                                         id="submitTomCardBtn"
@@ -308,7 +308,7 @@
                                                     <i class="fas fa-eraser"></i> Clear Data
                                                 </button>
                                             </div>
-                                        @endcan
+{{--                                        @endcan--}}
                                     </div>
                                 </form>
                             </div>

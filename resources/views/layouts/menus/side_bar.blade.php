@@ -281,6 +281,7 @@
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview pl-2">
+
                                         @canany([config('rights.create_job_card')])
                                             <li class="nav-item">
                                                 <a href="{{URL::signedRoute('vehicle.workshop.checkin')}}"
@@ -323,6 +324,13 @@
                                                 </ul>
                                             </li>
                                         @endcan
+                                            <li class="nav-item">
+                                                <a href="{{route('job.card.delinking')}}"
+                                                   class="nav-link">
+                                                    <i class="fas fa-minus-circle nav-icon"></i>
+                                                    <p>Job Card De-Linking</p>
+                                                </a>
+                                            </li>
                                     </ul>
                                 </li>
                             @endcanany

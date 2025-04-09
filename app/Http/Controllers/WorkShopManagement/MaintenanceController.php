@@ -690,6 +690,191 @@ class MaintenanceController extends Controller
     }
 
 
+    public function deLinkJobCardForm()
+    {
+        return view('modules.workshopManagement.delinkJobCard');
+    }
+
+    public function deLinkedJobCard(Request $request)
+    {
+        $stPur = $request->query('st_pur');
+
+        $results = DB::select("
+        SELECT DISTINCT gh.PROC_REF,
+               cs.name AS status,
+               gh.DATE_CREATED,
+               gh.VALID_DATE_TO,
+               gh.VEH_REG_NO,
+               gh.req_no, 
+               gh.document_no AS job_card_no
+        FROM fleetmaster.gen_material_headers gh,
+             fleetmaster.gen_material_details gd,
+             fleetmaster.config_statuses cs
+        WHERE gh.req_no = gd.req_no
+          AND gh.status = cs.code
+          AND cs.module = 'MAT'
+          AND gh.st_pur = ?
+          AND gh.proc_ref LIKE 'C0%'
+          AND gh.is_fuel = 'N'
+        ORDER BY gh.date_created DESC
+    ", [$stPur]);
+        return view('modules.workshopManagement.delinkedJobCardDetails', ['results' => $results]);
+    }
+
+    public function delinkPRSearch(Request $request)
+    {
+        $request->validate([
+            'st_pur' => 'nullable|string|size:12',
+        ]);
+
+        $query = DB::table('fleetmaster.gen_material_headers as gh')
+            ->distinct()
+            ->select(
+                'gh.PROC_REF',
+                'gh.status as status_code',
+                'cs.name as status',
+                'gh.DATE_CREATED',
+                'gh.VALID_DATE_TO',
+                'gh.VEH_REG_NO',
+                'gh.req_no',
+                'gh.document_no as job_card_no',
+                'jc.DRIVER_IN',
+                'jc.DATE_IN',
+                'jc.DATE_OUT'
+            )
+            ->join('fleetmaster.gen_material_details as gd', 'gh.req_no', '=', 'gd.req_no')
+            ->join('FLEETMASTER.WM_JOB_CARD_HEADER as jc', 'gh.document_no', '=', 'jc.JOB_CARD_NO')
+            ->join('FLEETMASTER.config_statuses as cs', 'gh.status', '=', 'cs.code')
+            ->where('cs.module', 'MAT')
+            ->whereNotNull('gh.document_no')
+            ->where('gh.is_fuel', 'N');
+
+        if ($request->filled('st_pur')) {
+            $query->where('gh.st_pur', $request->input('st_pur'));
+        }else {
+            $query->where('gh.proc_ref', 'LIKE', 'C0%');
+        }
+
+        $result = $query->orderBy('gh.date_created', 'desc')->first();
+
+        // Log the raw result to debug
+        \Log::info('Query Result, this is the Result:', ['result' => $result ? (array)$result : 'No result']);
+
+        if ($result) {
+            return response()->json([
+                'success' => true,
+                'PROC_REF' => $result->proc_ref,
+                'status_code' => $result->status_code,
+                'status' => $result->status,
+                'DATE_CREATED' => $result->date_created,
+                'VALID_DATE_TO' => $result->valid_date_to,
+                'VEH_REG_NO' => $result->veh_reg_no,
+                'req_no' => $result->req_no,
+                'job_card_no' => $result->job_card_no,
+                'DRIVER_IN' => $result->driver_in,
+                'DATE_IN' => $result->date_in,
+                'DATE_OUT' => $result->date_out
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No requisition found with the provided filters.'
+            ]);
+        }
+    }
+
+    public function retrieveDelinkedPO(Request $request)
+    {
+        $request->validate([
+            'st_pur' => 'nullable|string|size:12',
+        ]);
+
+        $query = DB::table('fleetmaster.gen_material_headers as gh')
+            ->distinct()
+            ->select(
+                'gh.PROC_REF',
+                'gh.status as status_code',
+                'cs.name as status',
+                'gh.DATE_CREATED',
+                'gh.VALID_DATE_TO',
+                'gh.VEH_REG_NO',
+                'gh.req_no',
+                'gh.document_no as job_card_no',
+                'jc.DRIVER_IN',
+                'jc.DATE_IN',
+                'jc.DATE_OUT'
+            )
+            ->join('fleetmaster.gen_material_details as gd', 'gh.req_no', '=', 'gd.req_no')
+            ->join('FLEETMASTER.WM_JOB_CARD_HEADER as jc', 'gh.document_no', '=', 'jc.JOB_CARD_NO')
+            ->join('FLEETMASTER.config_statuses as cs', 'gh.status', '=', 'cs.code')
+            ->where('cs.module', 'MAT')
+            ->whereNotNull('gh.document_no')
+            ->where('gh.is_fuel', 'N');
+
+        if ($request->filled('st_pur')) {
+            $query->where('gh.st_pur', $request->input('st_pur'));
+        }else {
+            $query->where('gh.proc_ref', 'LIKE', 'C0%');
+        }
+
+        $result = $query->orderBy('gh.date_created', 'desc')->first();
+
+        // Log the raw result to debug
+        \Log::info('Query Result, this is the Result:', ['result' => $result ? (array)$result : 'No result']);
+
+        if ($result) {
+            return response()->json([
+                'success' => true,
+                'PROC_REF' => $result->proc_ref,
+                'status_code' => $result->status_code,
+                'status' => $result->status,
+                'DATE_CREATED' => $result->date_created,
+                'VALID_DATE_TO' => $result->valid_date_to,
+                'VEH_REG_NO' => $result->veh_reg_no,
+                'req_no' => $result->req_no,
+                'job_card_no' => $result->job_card_no,
+                'DRIVER_IN' => $result->driver_in,
+                'DATE_IN' => $result->date_in,
+                'DATE_OUT' => $result->date_out
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No requisition found with the provided filters.'
+            ]);
+        }
+    }
+
+    public function delinkJobCard(Request $request)
+    {
+        $request->validate([
+            'st_pur' => 'required|string|size:12',
+            'justification' => 'required|string|max:255',
+        ]);
+
+        $stPur = $request->input('st_pur');
+        $justification = $request->input('justification');
+
+        $affectedRows = DB::table('fleetmaster.gen_material_headers')
+            ->where('st_pur', $stPur)
+            ->update([
+                'document_no' => null,
+                'justification_rejection' => $justification
+            ]);
+
+        if ($affectedRows > 0) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Purchase Order successfully delinked from Job Card.'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No matching requisition found to delink.'
+            ], 404);
+        }
+    }
+
     public function getStoreAndPurchaseOffice(Request $request): JsonResponse
     {
         Log::debug($request->has("workshop_code"));
