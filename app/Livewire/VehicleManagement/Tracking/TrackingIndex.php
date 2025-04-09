@@ -34,7 +34,7 @@ class TrackingIndex extends Component {
 
     public function select(Gps $gps) {
         $this->selectedGps = $gps;
-        $path = $gps->locations()->where('tracked_at', '>=', $gps->lastLocation->tracked_at->subSeconds(30))
+        $path = $gps->locations()->where('tracked_at', '>=', $gps->lastLocation->tracked_at->SubHour())
             ->oldest()
             ->get();
         $this->dispatch('gps-selected',gps: $gps, paths: $path->map(fn ($item) => [
