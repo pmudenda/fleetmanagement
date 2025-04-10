@@ -73,6 +73,7 @@ class WorkshopController extends Controller
                     'GEN_MATERIAL_HEADERS.*',
                     'SEC_USERS.name as originator',
                     'CONFIG_STATUSES.name as status_name')
+                ->where('GEN_MATERIAL_HEADERS.created_at', '>=',now()->subQuarter()->startOfQuarter()->toDateString())
                 ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
                 ->get();
         } else {
@@ -96,6 +97,7 @@ class WorkshopController extends Controller
                     'GEN_MATERIAL_HEADERS.*',
                     'SEC_USERS.name as originator',
                     'CONFIG_STATUSES.name as status_name')
+                ->where('GEN_MATERIAL_HEADERS.created_at', '>=',now()->subQuarter()->startOfQuarter()->toDateString())
                 ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
                 ->get();
         }

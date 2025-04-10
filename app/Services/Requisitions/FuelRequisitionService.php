@@ -441,7 +441,7 @@ class FuelRequisitionService {
                     QueryComparisonOperator::EQUALS,
                     "Y"
                 )
-                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(1)->toDateString())
+                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(2)->toDateString())
                 ->select(
                     "GEN_MATERIAL_HEADERS.*",
                     "GEN_MATERIAL_DETAILS.quantity",
@@ -476,7 +476,7 @@ class FuelRequisitionService {
                 ->where("mat_head.IS_FUEL",
                     QueryComparisonOperator::EQUALS,
                     "Y")
-                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(1)->toDateString())
+                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(2)->toDateString())
                 ->select(
                     "mat_head.*",
                     "GEN_MATERIAL_DETAILS.quantity",
@@ -493,9 +493,9 @@ class FuelRequisitionService {
                         $query->orWhere("SEC_USERS.name", 'like', "%" . strtoupper($search) . "%");
                     });
                 })
-                ->when(!$search, function ($query) {
-                    $query->whereDate("valid_date_from", '>=', now()->months(2));
-                })
+//                ->when(!$search, function ($query) {
+//                    $query->whereDate("valid_date_from", '>=', now()->months(2));
+//                })
                 //                ->where('srn', '<=', 100)
 //                ->limit(100)
                 ->get();

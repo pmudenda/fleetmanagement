@@ -2,6 +2,7 @@
 
 namespace App\Models\VehicleManagement;
 
+use App\Models\Reference\Article;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -37,4 +38,8 @@ class EngineDetail extends Model
         'created_by',
         'created_name'
     ];
+
+    public function fuelType() {
+        return $this->belongsTo(Article::class, 'fuel_types','code_article');
+    }
 }

@@ -137,4 +137,5 @@ class JobCardLinkingController extends Controller
             ]);
         }
     }
+
 }

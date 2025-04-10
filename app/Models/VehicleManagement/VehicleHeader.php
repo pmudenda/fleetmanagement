@@ -38,4 +38,6 @@ class VehicleHeader extends Model
     public function statusInfo(){
         return $this->belongsTo(Status::class,'status','code');
     }
+
+
 }
