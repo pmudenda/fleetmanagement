@@ -703,6 +703,7 @@ class MaintenanceController extends Controller
         SELECT DISTINCT gh.PROC_REF,
                cs.name AS status,
                gh.DATE_CREATED,
+                gh.UPDATED_AT,
                gh.VALID_DATE_TO,
                gh.VEH_REG_NO,
                gh.req_no, 
@@ -818,9 +819,6 @@ class MaintenanceController extends Controller
 
         $result = $query->orderBy('gh.date_created', 'desc')->first();
 
-        // Log the raw result to debug
-        \Log::info('Query Result, this is the Result:', ['result' => $result ? (array)$result : 'No result']);
-
         if ($result) {
             return response()->json([
                 'success' => true,
@@ -873,7 +871,6 @@ class MaintenanceController extends Controller
             ], 404);
         }
     }
-
     public function getStoreAndPurchaseOffice(Request $request): JsonResponse
     {
         Log::debug($request->has("workshop_code"));

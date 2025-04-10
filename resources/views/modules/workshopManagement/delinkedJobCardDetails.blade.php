@@ -17,9 +17,9 @@
                     <h4>De-Linked Job Card Details</h4>
                 </div>
                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                    <button type="button" id="delinkRequisitionBtn" class="btn btn-success btn-sm mr-3 when_odo_valid"
-                            disabled>
-                        <i class="fas fa-thumbs-down"></i> De-Link Job Card
+                    <button type="button" id="refreshBackBtn" class="btn btn-success btn-sm mr-3 when_odo_valid"
+                            onclick="window.location.href='{{route('job.card.delinking')}}'">
+                        <i class="fas fa-backward"></i> Refresh back
                     </button>
                     <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3" disabled>
                         <i class="fas fa-undo"></i> Cancel
@@ -90,11 +90,11 @@
                                         <div class="col-12 col-sm-6 col-md-6">
                                             <div class="form-group row">
                                                 <label for="req_no" class="col-12 col-sm-4 col-md-4 col-form-label">
-                                                    Requisition Number:
+                                                    Processed Date:
                                                 </label>
                                                 <div class="col-12 col-sm-8 col-md-8">
                                                     <input type="text" class="form-control form-control-sm" id="req_no" name="req_no"
-                                                           value="{{ $result->req_no ?? '' }}" readonly>
+                                                           value="{{ $result->updated_at ? \Carbon\Carbon::parse($result->updated_at)->format('d F Y') : '' }}" readonly>
                                                 </div>
                                             </div>
                                         </div>

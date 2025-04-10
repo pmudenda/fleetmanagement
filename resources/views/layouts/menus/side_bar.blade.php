@@ -324,6 +324,7 @@
                                                 </ul>
                                             </li>
                                         @endcan
+                                        @can(config('rights.Delink_Job_Card'))
                                             <li class="nav-item">
                                                 <a href="{{route('job.card.delinking')}}"
                                                    class="nav-link">
@@ -331,6 +332,7 @@
                                                     <p>Job Card De-Linking</p>
                                                 </a>
                                             </li>
+                                        @endcan
                                     </ul>
                                 </li>
                             @endcanany

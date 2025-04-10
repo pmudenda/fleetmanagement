@@ -243,14 +243,14 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">De-Link Job Card</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="delinkJustification">Justification:</label>
-                            <textarea class="form-control" id="delinkJustification" rows="3"
-                                      placeholder="Enter reason for delinking"></textarea>
+                            <textarea class="form-control text-uppercase" id="delinkJustification" rows="3"
+                                      placeholder="Enter Justification for delinking"></textarea>
                             <span id="delinkSpanMessage" class="error"></span>
                         </div>
                     </div>
@@ -328,7 +328,7 @@
                         document.getElementById('st_pur').readOnly = true;
 
                         // Define status rules
-                        const activeStatuses = ['01', '04', '59'];
+                        const activeStatuses = ['01', '04', '59','60'];
                         const inactiveStatuses = ['03', '08', '34'];
 
                         if (data.job_card_no && activeStatuses.includes(data.status_code)) {
@@ -390,6 +390,14 @@
                 $('#delinkSpanMessage').text('Justification is required');
                 return;
             }
+
+            if (justification.length < 20) {
+                $('#delinkSpanMessage').text('Justification must be at least 20 characters long');
+                return;
+            }
+
+            // Clear any previous error message
+            $('#delinkSpanMessage').text('');
 
             // Assuming st_pur is available in the form (e.g., from a previous search)
             let stPur = $('#st_pur').val();
