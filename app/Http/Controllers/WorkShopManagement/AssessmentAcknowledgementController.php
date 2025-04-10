@@ -24,12 +24,11 @@ class AssessmentAcknowledgementController extends Controller
 
             $driver = PHCMSEmployee::where('con_st_code', '=', 'ACT')
                 ->where(function ($query) use ($staffNumber) {
-                    $query->where('alt_per_no', '=', $staffNumber)
-                        ->orWhere('con_per_no', '=', $staffNumber);
+                    $query->where('con_per_no', '=', $staffNumber);
                 })
                 ->first();
 
-            $driverStaffNo = $driver->con_per_no ?? $driver->alt_per_no;
+            $driverStaffNo = $driver->con_per_no ?? null;
 
             if (empty($driver)) {
                 return response()->json([
