@@ -250,7 +250,7 @@
                         <div class="form-group">
                             <label for="delinkJustification">Justification:</label>
                             <textarea class="form-control text-uppercase" id="delinkJustification" rows="3"
-                                      placeholder="Enter Justification for delinking"></textarea>
+                                      placeholder="Enter Justification for delinking Job Card with Minimum 20 Characters"></textarea>
                             <span id="delinkSpanMessage" class="error"></span>
                         </div>
                     </div>
