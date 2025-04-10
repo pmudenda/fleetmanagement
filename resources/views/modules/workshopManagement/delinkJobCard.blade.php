@@ -266,6 +266,16 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        // Helper function to format dates
+        function formatDate(dateString) {
+            if (!dateString) return ''; // Handle null or empty
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            }); // e.g., "10 April 2025"
+        }
         document.getElementById('requisitionSearchBtn').addEventListener('click', function () {
             // Get input values
             const stPur = document.getElementById('st_pur').value;
@@ -311,8 +321,8 @@
                         document.getElementById('req_no').value = data.req_no || '';
                         document.getElementById('job_card_no').value = data.job_card_no || '';
                         document.getElementById('driver_in').value = data.DRIVER_IN || '';
-                        document.getElementById('date_in').value = data.DATE_IN || '';
-                        document.getElementById('date_out').value = data.DATE_OUT || '';
+                        document.getElementById('date_in').value = formatDate(data.DATE_IN) || '';
+                        document.getElementById('date_out').value = formatDate(data.DATE_OUT) || '';
 
                         // Optional: Disable inputs Fields after successful search of details
                         document.getElementById('st_pur').readOnly = true;
@@ -327,9 +337,13 @@
                             document.getElementById('delinkRequisitionBtn').disabled = true;
                             Swal.fire({
                                 title: 'Inactive PO',
-                                text: `The PO is in Status "${data.status_code}" and cannot be processed. Contact Fleet-Master on 3306, 3315, 3350, 3309 for further assistance.`,
+                                text: `The PO is in Status "${data.status}" and cannot be processed. Contact Fleet-Master on 3306, 3315, 3350, 3309 for further assistance.`,
                                 icon: 'warning',
                                 confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
                             });
                         } else {
                             document.getElementById('delinkRequisitionBtn').disabled = true;
@@ -341,6 +355,10 @@
                             text: data.message || 'No requisition found with the provided filters.',
                             icon: 'info',
                             confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
                         });
                     }
                 })

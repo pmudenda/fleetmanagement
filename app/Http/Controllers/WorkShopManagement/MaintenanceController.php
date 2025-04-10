@@ -743,22 +743,21 @@ class MaintenanceController extends Controller
                 'jc.DATE_OUT'
             )
             ->join('fleetmaster.gen_material_details as gd', 'gh.req_no', '=', 'gd.req_no')
-            ->join('FLEETMASTER.WM_JOB_CARD_HEADER as jc', 'gh.document_no', '=', 'jc.JOB_CARD_NO')
-            ->join('FLEETMASTER.config_statuses as cs', 'gh.status', '=', 'cs.code')
-            ->where('cs.module', 'MAT')
-            ->whereNotNull('gh.document_no')
-            ->where('gh.is_fuel', 'N');
+            ->leftJoin('FLEETMASTER.WM_JOB_CARD_HEADER as jc', 'gh.document_no', '=', 'jc.JOB_CARD_NO')
+            ->join('FLEETMASTER.config_statuses as cs', function ($join) {
+                $join->on('gh.status', '=', 'cs.code')
+                    ->where('cs.module', 'MAT');
+            })
+            ->where('gh.is_fuel', 'N')
+            ->where('gh.proc_ref', 'LIKE', 'C0%');
 
         if ($request->filled('st_pur')) {
             $query->where('gh.st_pur', $request->input('st_pur'));
-        }else {
-            $query->where('gh.proc_ref', 'LIKE', 'C0%');
         }
 
         $result = $query->orderBy('gh.date_created', 'desc')->first();
 
-        // Log the raw result to debug
-        \Log::info('Query Result, this is the Result:', ['result' => $result ? (array)$result : 'No result']);
+        \Log::info('Query Result:', ['result' => $result ? (array)$result : 'No result']);
 
         if ($result) {
             return response()->json([
