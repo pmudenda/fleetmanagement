@@ -21,6 +21,10 @@
                             disabled>
                         <i class="fas fa-thumbs-down"></i> De-Link Job Card
                     </button>
+                    <button type="button" id="refreshBackBtn" class="btn btn-secondary btn-sm mr-3 when_odo_valid"
+                            onclick="location.reload();">
+                        <i class="fas fa-backward"></i> Refresh Page
+                    </button>
                     <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
                         <i class="fas fa-undo"></i> Cancel
                     </button>
@@ -328,7 +332,7 @@
                         document.getElementById('st_pur').readOnly = true;
 
                         // Define status rules
-                        const activeStatuses = ['01', '04', '59','60'];
+                        const activeStatuses = ['01','02', '04', '59','60'];
                         const inactiveStatuses = ['03', '08', '34'];
 
                         if (data.job_card_no && activeStatuses.includes(data.status_code)) {
