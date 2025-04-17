@@ -91,6 +91,16 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'],
         Route::get('job-card/show', [MaintenanceController::class, 'showJobCard'])
             ->name('job.card.show');
 
+        Route::get('job-card/delink', [MaintenanceController::class, 'deLinkJobCardForm'])
+            ->name('job.card.delinking');
+
+        Route::post('job-card/delinkPRSearch', [MaintenanceController::class, 'delinkPRSearch'])
+            ->name('job.card.delinkPRSearch');
+
+        Route::post('job-card/delinkJobCard', [MaintenanceController::class, 'delinkJobCard'])->name('requisitions.delink');
+        Route::get('job-card/delinkedJobCardDetails', [MaintenanceController::class, 'deLinkedJobCard'])->name('delinked.job.card.details');
+
+//        Route::post('/requisitions/search-details', [MaintenanceController::class, 'searchDetails'])->name('requisitions.search.details');
         // delete defect
         Route::post('/deleteRecord', [JobCardItemDeletionController::class, "deleteDefectRecord"])
             ->name('delete.defect.record');

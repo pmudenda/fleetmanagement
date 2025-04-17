@@ -35,4 +35,7 @@ return [
         'username' => env('RTSA_USERNAME'),
         'password' => env('RTSA_PASSWORD')
     ],
+    'maps' => [
+        'google_maps_api_key' => env('GOOGLE_MAPS_KEY'),
+    ]
 ];

@@ -363,7 +363,7 @@ class VehicleDetailsService
             if (!empty($jobCard) && !empty($jobCard->workshop_code)) {
                 $workshopName = WorkShop::where('workshop_code',
                     $jobCard->workshop_code)
-                    ->first()->workshop_name;
+                    ->first()->workshop_name ?? null;
             }
 
             $vehicleState = str_replace(self::REG,

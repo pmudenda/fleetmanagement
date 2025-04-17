@@ -134,7 +134,7 @@
         </div>
     </div>
 
-    <div class="modal" id="modal-followUp">
+    <div class="modal " id="modal-followUp" wire:ignore>
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -144,76 +144,10 @@
                     </h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form id="documentFollowUpForm"
-                      name="documentFollowUpForm"
-                      action="{{route('document.followup')}}">
+
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <div class="row mb-2">
-                            <div class="col-12">
-                                <div class="row">
-                                    <label for="documentType" class="col-4 form-label">Document Type:</label>
-                                    <div class="col-8">
-                                        <select class="form-select" id="documentType" name="documentType">
-                                            <option></option>
-                                            <option value="08">STORE REQUISITION</option>
-                                            <option value="09">STORE RESERVATION</option>
-                                            <option value="11">PURCHASE PROCESS</option>
-                                            <option value="12">PURCHASE REQUISITION</option>
-                                            <option value="13">TENDER</option>
-                                            <option value="14">PURCHASE ORDER</option>
-                                            <option value="15">GOODS RECEIPT</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-12">
-                                <div class="row">
-                                    <label for="documentNumber" class="col-4 form-label">Document No.</label>
-                                    <div class="col-8">
-                                        <input class="form-control uppercase" name="documentNumber"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <label class="form-label col-4">Period</label>
-                            <div class="col-8 row pr-0">
-                                <div class="col-6">
-                                    <label class="form-label">From.</label>
-                                    <div class="input-group">
-                                        <input class="form-control periodFrom"
-                                               type="date"
-                                               max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                               name="periodFrom"/>
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">
-                                                <i class="fas fa-calendar"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col-6 pr-0">
-                                    <label class="form-label">To.</label>
-                                    <div class="input-group">
-                                        <input class="form-control periodTo"
-                                               max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                               type="date" name="periodTo"/>
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">
-                                                <i class="fas fa-calendar"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
+                        <livewire:reports.audit.document-audit/>
                     </div>
 
                     <div class="modal-footer justify-content-end">
@@ -225,7 +159,6 @@
                             Get
                         </button>
                     </div>
-                </form>
             </div>
 
         </div>
