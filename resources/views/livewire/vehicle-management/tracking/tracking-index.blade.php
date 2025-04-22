@@ -126,24 +126,7 @@
         });
 
         for (const location of $wire.gpses) {
-            // const priceTag = document.createElement("div");
-            //
-            // priceTag.className = "vehicle-marker";
-            // priceTag.textContent = location.reg;
-            //
-            // const marker = new AdvancedMarkerElement({
-            //     position: {lat: location.lat, lng: location.lng},
-            //     map: map,
-            //     content: buildContent(location),
-            //     title: location.reg,
-            //
-            // });
-
             await addOrUpdateMarker(location)
-
-            // marker.addListener("click", () => {
-            //     toggleHighlight(marker, location);
-            // });
         }
     }
 
