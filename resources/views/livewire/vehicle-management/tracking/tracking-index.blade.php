@@ -112,6 +112,24 @@
     let markers = {};
     let details = [];
 
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
     window.Echo.channel('gps.location')
         .listen('CurrentLocationEvent', (e) => {
             var gps = e.location;
@@ -126,6 +144,13 @@
             console.log(details[gps.imei]);
 
             addOrUpdateMarker(details[gps.imei]);
+            if(details[gps.imei].reg != null){
+                if(gps.speed > 40){
+                    toastr.error(`${details[gps.imei].reg} - ${gps.speed}km/h`,'Speed Alert')
+                }
+            }
+
+
 
         });
 

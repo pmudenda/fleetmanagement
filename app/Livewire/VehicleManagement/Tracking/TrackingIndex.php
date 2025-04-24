@@ -18,11 +18,11 @@ class TrackingIndex extends Component {
     public $search;
 
     public function mount() {
-//        $this->getLocations();
+        $this->getLocations();
     }
 
     public function render() {
-        $this->getLocations();
+//        $this->getLocations();
         $not_connected = Gps::whereNull('connected_at')->count();
         $connected = Gps::whereNotNull('connected_at')->count();
         $total = Gps::count();
