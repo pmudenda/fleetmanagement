@@ -90,20 +90,20 @@ class TrackingIndex extends Component {
         ];
     }
 
-    #[On('echo:gps.location,CurrentLocationEvent')]
-    public function locationUpdate($location) {
-        $location = $location['location'];
-        $gps = $this->getLocation($location['imei']);
-        $details = array_merge($gps, $location);
-
-        $this->gpses = collect($this->gpses)->map(function ($item) use ($details) {
-            return $item['imei'] === $details['imei'] ?? null
-                ? array_merge($item, $details)
-                : $item;
-        });
-
-        if ($details) {
-            $this->dispatch('location-update', location: $details);
-        }
-    }
+//    #[On('echo:gps.location,CurrentLocationEvent')]
+//    public function locationUpdate($location) {
+//        $location = $location['location'];
+//        $gps = $this->getLocation($location['imei']);
+//        $details = array_merge($gps, $location);
+//
+//        $this->gpses = collect($this->gpses)->map(function ($item) use ($details) {
+//            return $item['imei'] === $details['imei'] ?? null
+//                ? array_merge($item, $details)
+//                : $item;
+//        });
+//
+////        if ($details) {
+////            $this->dispatch('location-update', location: $details);
+////        }
+//    }
 }

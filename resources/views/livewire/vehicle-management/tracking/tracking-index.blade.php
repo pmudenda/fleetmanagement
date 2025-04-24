@@ -112,27 +112,27 @@
     let markers = {};
     let details = [];
 
-    // window.Echo.channel('gps.location')
-    //     .listen('CurrentLocationEvent', (e) => {
-    //         var gps = e.location;
-    //
-    //         if (details[gps.imei] == null) {
-    //            $wire.getLocation(gps.imei).then(function (location) {
-    //                details[gps.imei] = location;
-    //             });
-    //         }
-    //         details[gps.imei] = {...details[gps.imei],...gps};
-    //
-    //         console.log(details[gps.imei]);
-    //
-    //         addOrUpdateMarker(details[gps.imei]);
-    //
-    //     });
+    window.Echo.channel('gps.location')
+        .listen('CurrentLocationEvent', (e) => {
+            var gps = e.location;
 
-    $wire.on('location-update', (event) => {
-        console.log(event.location);
-        addOrUpdateMarker(event.location);
-    });
+            if (details[gps.imei] == null) {
+               $wire.getLocation(gps.imei).then(function (location) {
+                   details[gps.imei] = location;
+                });
+            }
+            details[gps.imei] = {...details[gps.imei],...gps};
+
+            console.log(details[gps.imei]);
+
+            addOrUpdateMarker(details[gps.imei]);
+
+        });
+
+    // $wire.on('location-update', (event) => {
+    //     console.log(event.location);
+    //     addOrUpdateMarker(event.location);
+    // });
 
     async function initMap() {
         // The location of Uluru
