@@ -26,16 +26,20 @@
                         <table class="table table-condensed table-bordered table-sm" style="font-size: 12px">
                             @foreach($gpses as $gps)
                                 <tr class="m-0 p-0 @if($gps['id'] == ($selectedGps->id ?? 0)) table-active @endif">
-                                    <td class="m-0 p-2" >
-                                        <a href="javascript:void(0)"  wire:click="select({{$gps['id']}})">{{$gps['reg']}}</a>
+                                    <td class="m-0 p-2">
+                                        <a href="javascript:void(0)"
+                                           wire:click="select({{$gps['id']}})">{{$gps['reg']}}</a>
                                     </td>
                                     <td class="text-right">
-                                        @if($gps['speed'] > 40)
-                                            <span class="badge badge-light-danger badge-sm">{{$gps['speed']}}Km/h</span>
-                                        @endif
+                                        @if(isset($gps['speed']))
+                                            @if($gps['speed']  > 40)
+                                                <span class="badge badge-light-danger badge-sm">{{$gps['speed']}}
+                                                    Km/h</span>
+                                            @endif
                                             @if($gps['speed'] <= 0)
                                                 <span class="badge badge-light-warning badge-sm">stationary</span>
                                             @endif
+                                        @endif
                                         <span class="badge badge-light-{{$gps['is_connected'] ? 'success' : 'danger'}} badge-sm">{{$gps['connected_at'] ?? 'offline'}}</span>
                                     </td>
                                 </tr>
@@ -106,7 +110,29 @@
 
     let map;
     let markers = {};
+    let details = [];
 
+    // window.Echo.channel('gps.location')
+    //     .listen('CurrentLocationEvent', (e) => {
+    //         var gps = e.location;
+    //
+    //         if (details[gps.imei] == null) {
+    //            $wire.getLocation(gps.imei).then(function (location) {
+    //                details[gps.imei] = location;
+    //             });
+    //         }
+    //         details[gps.imei] = {...details[gps.imei],...gps};
+    //
+    //         console.log(details[gps.imei]);
+    //
+    //         addOrUpdateMarker(details[gps.imei]);
+    //
+    //     });
+
+    $wire.on('location-update', (event) => {
+        console.log(event.location);
+        addOrUpdateMarker(event.location);
+    });
 
     async function initMap() {
         // The location of Uluru
@@ -125,9 +151,9 @@
 
         });
 
-        for (const location of $wire.gpses) {
-            await addOrUpdateMarker(location)
-        }
+        // for (const location of $wire.gpses) {
+        //     await addOrUpdateMarker(location)
+        // }
     }
 
     initMap();
@@ -186,8 +212,14 @@
         if (markers[location.imei]) {
             var isHighlighted = markers[location.imei].content.classList.contains("highlight")
             // Update existing marker position
-            markers[location.imei].position = {lat: location.lat, lng: location.lng};
+            // markers[location.imei].position = {lat: location.lat, lng: location.lng};
             markers[location.imei].content = buildContent(location);
+
+            animatedMove(markers[location.imei], .5, markers[location.imei].position, {
+                lat: location.lat,
+                lng: location.lng
+            });
+
             if (isHighlighted) {
                 toggleHighlight(markers[location.imei], location);
             }
@@ -208,6 +240,31 @@
         }
     }
 
+    function animatedMove(marker, t, current, moveto) {
+        var lat = current.lat;
+        var lng = current.lng;
+
+        var deltalat = (moveto.lat - current.lat) / 100;
+        var deltalng = (moveto.lng - current.lng) / 100;
+
+        var delay = 10 * t;
+        for (var i = 0; i < 100; i++) {
+            (function (ind) {
+                // console.log(ind);
+                setTimeout(
+                    function () {
+                        var lat = marker.position.lat;
+                        var lng = marker.position.lng;
+                        lat += deltalat;
+                        lng += deltalng;
+                        latlng = new google.maps.LatLng(lat, lng);
+                        marker.position = {lat: lat, lng: lng};
+                    }, delay * ind
+                );
+            })(i)
+        }
+    }
+
     function updateMarkers() {
         $wire.call('refresh').then(async function () {
             for (const location of $wire.gpses) {
@@ -217,7 +274,7 @@
     }
 
     // Update markers every 10 seconds
-    setInterval(updateMarkers, 10000);
+    // setInterval(updateMarkers, 10000);
 
     $wire.on('gps-selected', (event) => {
 
