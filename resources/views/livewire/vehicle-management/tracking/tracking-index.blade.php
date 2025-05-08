@@ -148,9 +148,6 @@
                     })
                 }
             }
-
-
-
         });
 
     // $wire.on('location-update', (event) => {

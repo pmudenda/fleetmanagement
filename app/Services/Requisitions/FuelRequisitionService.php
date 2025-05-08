@@ -212,9 +212,9 @@ class FuelRequisitionService {
         $variance = $userProvidedOdometer - ($minDistance + $odometerOnLastIssue);
         Log::debug("Odometer Variance " . $variance);
 
-        $exempted = VehicleHeader::whereIn('BODY_TYPE_CODE', ['10','11','12','13','14', '15',
-            '21','23','24','25','26', '28',
-            '29','30','31','32','35','36','45'])->where('REGISTRATION_NUMBER', $registrationNumber)->exists();
+        $exempted = VehicleHeader::whereIn('BODY_TYPE_CODE', ['10', '11', '12', '13', '14', '15',
+            '21', '23', '24', '25', '26', '28',
+            '29', '30', '31', '32', '35', '36', '45'])->where('REGISTRATION_NUMBER', $registrationNumber)->exists();
         if ($exempted) {
             $variance = $userProvidedOdometer + ($odometerOnLastIssue + 1);
         }
@@ -411,8 +411,7 @@ class FuelRequisitionService {
         return empty($queryResult) ? [] : $queryResult->first();
     }
 
-    public function getMyRequisitions($staff_no, $search = false): Collection
-    {
+    public function getMyRequisitions($staff_no, $search = false): Collection {
         if ($staff_no) {
             return DB::table("GEN_MATERIAL_HEADERS")
                 ->leftJoin("GEN_MATERIAL_DETAILS",
@@ -453,7 +452,6 @@ class FuelRequisitionService {
                 ->get();
         } else {
             return DB::            table("GEN_MATERIAL_HEADERS as mat_head")
-//                ->addSelect()
                 ->leftJoin("GEN_MATERIAL_DETAILS",
                     "mat_head.req_no",
                     QueryComparisonOperator::EQUALS,
@@ -579,24 +577,24 @@ class FuelRequisitionService {
 
     private function getOdometerOnLastIssue(mixed $registrationNumber) {
         return DB::table('gen_material_headers')
-                ->where('veh_reg_no',
-                    QueryComparisonOperator::EQUALS,
-                    $registrationNumber)
-                ->where("is_fuel",
-                    QueryComparisonOperator::EQUALS,
-                    "Y")
-                ->whereIn('status', [
-                    StatusHelper::partiallyReleased(),
-                    StatusHelper::fullyReleased(),
-                    StatusHelper::partiallyReleasedExpired(),
-                    StatusHelper::partiallyReleasedCancelled(),
-                    StatusHelper::expired(),
-                    StatusHelper::cancelled(),
-                    StatusHelper::rejected()
-                ])
-                ->whereRaw("REQ_NO IN(select REQ_NO FROM gen_material_details WHERE QUANTITY_ISSUED > 0)")
-                ->select(DB::raw('MAX(odometer) as odometer'))
-                ->first()->odometer ?? 0;
+            ->where('veh_reg_no',
+                QueryComparisonOperator::EQUALS,
+                $registrationNumber)
+            ->where("is_fuel",
+                QueryComparisonOperator::EQUALS,
+                "Y")
+            ->whereIn('status', [
+                StatusHelper::partiallyReleased(),
+                StatusHelper::fullyReleased(),
+                StatusHelper::partiallyReleasedExpired(),
+                StatusHelper::partiallyReleasedCancelled(),
+                StatusHelper::expired(),
+                StatusHelper::cancelled(),
+                StatusHelper::rejected()
+            ])
+            ->whereRaw("REQ_NO IN(select REQ_NO FROM gen_material_details WHERE QUANTITY_ISSUED > 0)")
+            ->select(DB::raw('MAX(odometer) as odometer'))
+            ->first()->odometer ?? 0;
     }
 
     public function getVehicleFuelConsumptionData(mixed $vehicleReference): array {
