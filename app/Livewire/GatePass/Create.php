@@ -30,7 +30,7 @@ class Create extends Component {
         return [
             'type' => 'required',
             'reg_no' => ['required', new GatePassRule],
-            'expires_at' => 'required|date|after:today',
+            'expires_at' => 'required|date|after_or_equal:today',
             'purpose' => 'required',
             'departure_at' => [Rule::requiredIf($this->type == GatePassType::AUTHORITY_TO_TRAVEL)],
             'attachment' => [Rule::requiredIf($this->type == GatePassType::STAND_BY)],
