@@ -49,6 +49,7 @@ class Create extends Component {
             'user_id' => auth()->user()->id,
             ...$this->all()
         ]);
+        $gatePass->refresh();
 
         if ($this->attachment) {
             $gatePass->addMedia($this->attachment)->toMediaCollection('attachments');
