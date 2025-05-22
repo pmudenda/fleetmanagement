@@ -13,8 +13,12 @@ class GatePassPolicy
      */
     public function viewAny(User $user): bool
     {
-//        dd('hello');
-        return $user->canAny(['gatepass_create','gatepass_check']) || $this->viewAssigned($user);
+        return $user->canAny(['gatepass_create','gatepass_check']) || $this->viewAssigned($user) || $this->viewAll($user);
+    }
+
+    public function viewAll(User $user): bool
+    {
+        return $user->canAny(['gatepass_view_all']);
     }
 
 

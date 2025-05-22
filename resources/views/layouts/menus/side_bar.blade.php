@@ -182,6 +182,15 @@
                                     </li>
                                 @endcan
 
+                                @can('view-all', \App\Models\GatePass\GatePass::class)
+                                    <li class="nav-item pl-2">
+                                        <a href="{{ route('gate-pass.all') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>List All </p>
+                                        </a>
+                                    </li>
+                                @endcan
+
                         </ul>
                     </li>
                 @endcan
