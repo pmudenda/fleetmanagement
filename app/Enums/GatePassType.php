@@ -3,9 +3,9 @@
 namespace App\Enums;
 
 enum GatePassType: int {
-    case GENERAL = 0;
-    case STAND_BY = 1;
-    case AUTHORITY_TO_TRAVEL = 2;
+    case GENERAL = 1;
+    case STAND_BY = 2;
+    case AUTHORITY_TO_TRAVEL = 3;
 
     public function label(): string
     {

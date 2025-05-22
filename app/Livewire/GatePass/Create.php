@@ -9,12 +9,14 @@ use App\Models\DistanceChart;
 use App\Models\GatePass\GatePass;
 use App\Models\Town;
 use App\Models\VehicleManagement\VehicleHeader;
+use App\Rules\GatePassRule;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Create extends Component {
     use WithFileUploads;
+
     public $type;
     public $reg_no;
     public $expires_at;
@@ -27,7 +29,7 @@ class Create extends Component {
     protected function rules() {
         return [
             'type' => 'required',
-            'reg_no' => ['required', Rule::exists(VehicleHeader::class, 'registration_number')->where('status', StatusHelper::active())],
+            'reg_no' => ['required', new GatePassRule],
             'expires_at' => 'required|date|after:today',
             'purpose' => 'required',
             'departure_at' => [Rule::requiredIf($this->type == GatePassType::AUTHORITY_TO_TRAVEL)],
@@ -40,8 +42,19 @@ class Create extends Component {
     public function render() {
         $types = GatePassType::cases();
         $towns = Town::orderBy('town_name')->get();
-        $dtowns = DistanceChart::orderBy('town_to', 'asc')->where('town_from', $this->departure_town)->get();;
-        return view('livewire.gate-pass.create', compact('types', 'towns', 'dtowns'));
+        $dtowns = DistanceChart::orderBy('town_to', 'asc')->where('town_from', $this->departure_town)->get();
+
+        $minDate = now()->toDateString();
+        $maxDate = '';
+
+        if ($this->type == GatePassType::STAND_BY->value) {
+            $maxDate = now()->addDays(7)->toDateString();
+        } else if ($this->type == GatePassType::GENERAL->value) {
+            $maxDate = now()->endOfDay()->toDateString();
+            $this->expires_at = now()->endOfDay()->toDateString();
+        }
+
+        return view('livewire.gate-pass.create', compact('types', 'towns', 'dtowns', 'minDate', 'maxDate'));
     }
 
     public function save() {

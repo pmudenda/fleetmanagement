@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="{{asset('libs/session.timeout/session.timeout.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/asyncLoader.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/jquery-ui.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 {{--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />--}}
     <livewire:styles/>
 
@@ -206,6 +207,7 @@
 <script
         src="https://maps.googleapis.com/maps/api/js?key={{config('services.maps.google_maps_api_key')}}">
 </script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 @include('layouts.partials.dataTableScripts')
 <script type="text/javascript">

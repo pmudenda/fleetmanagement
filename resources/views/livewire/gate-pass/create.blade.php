@@ -44,15 +44,15 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="inputName">Expiry Date </label>
-                                        <input type="date" class="form-control" wire:model="expires_at" />
+                                        <input type="date" class="form-control" min="{{$minDate}}" max="{{$maxDate}}" wire:model="expires_at" />
                                     </div>
                                 </div>
 
                                 @if($type ==  \App\Enums\GatePassType::AUTHORITY_TO_TRAVEL->value)
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label for="inputName">Departure Date & Time</label>
-                                            <input class="form-control" wire:model="departure_at" type="datetime-local">
+                                            <label for="inputName">Departure Date</label>
+                                            <input class="form-control" wire:model="departure_at" min="{{$minDate}}" type="date">
                                         </div>
                                     </div>
 
@@ -84,7 +84,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="inputName">Purpose of Travel</label>
-                                        <textarea  class="form-control" wire:model="purpose" ></textarea>
+                                        <textarea  class="form-control text-uppercase" wire:model="purpose" ></textarea>
                                     </div>
                                 </div>
 
