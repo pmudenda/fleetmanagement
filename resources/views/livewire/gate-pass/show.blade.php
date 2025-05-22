@@ -184,37 +184,39 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12">
-                        <div class="card card-flush">
-                            <div class="card-header">
-                                <div class="card-title"><h3>Authorization</h3></div>
-                                <div class="card-tools p-3 ">
-                                    {{--                                    {!! $gatePass->status->badge() !!}--}}
+                    @if($gatePass->$status == \App\Enums\GatePassStatus::NEWm)
+                        <div class="col-lg-12">
+                            <div class="card card-flush">
+                                <div class="card-header">
+                                    <div class="card-title"><h3>Authorization</h3></div>
+                                    <div class="card-tools p-3 ">
+                                        {{--                                    {!! $gatePass->status->badge() !!}--}}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body p-0">
-                                <div class="list-group">
-                                    @foreach($authorisers as $authoriser)
-                                        <div class="list-group-item" aria-current="true">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">{{$authoriser->staff_no}} - {{$authoriser->name}}</h5>
-                                                @if($authoriser->id == $gatePass->authorised_by)
-                                                    <span class="badge badge-{{$is_rejected? 'danger' : 'warning' }}">{{$is_rejected? 'Rejected' : 'Authorised' }}
-                                                        on {{$gatePass->authorised_at->toFormattedDateString()}}</span>
+                                <div class="card-body p-0">
+                                    <div class="list-group">
+                                        @foreach($authorisers as $authoriser)
+                                            <div class="list-group-item" aria-current="true">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h5 class="mb-1">{{$authoriser->staff_no}} - {{$authoriser->name}}</h5>
+                                                    @if($authoriser->id == $gatePass->authorised_by)
+                                                        <span class="badge badge-{{$is_rejected? 'danger' : 'warning' }}">{{$is_rejected? 'Rejected' : 'Authorised' }}
+                                                            on {{$gatePass->authorised_at->toFormattedDateString()}}</span>
+                                                    @endif
+                                                </div>
+                                                <p class="mb-1">{{$authoriser->job_title}}</p>
+
+                                                @if($gatePass->authorised_reason && $authoriser->id == $gatePass->authorised_by)
+                                                    <span class="text-muted">REASON</span>
+                                                    <p class="text-muted mt-2">{{$gatePass->authorised_reason}}</p>
                                                 @endif
                                             </div>
-                                            <p class="mb-1">{{$authoriser->job_title}}</p>
-
-                                            @if($gatePass->authorised_reason && $authoriser->id == $gatePass->authorised_by)
-                                                <span class="text-muted">REASON</span>
-                                                <p class="text-muted mt-2">{{$gatePass->authorised_reason}}</p>
-                                            @endif
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
 
