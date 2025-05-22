@@ -11,8 +11,10 @@ use App\Models\Town;
 use App\Models\VehicleManagement\VehicleHeader;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Create extends Component {
+    use WithFileUploads;
     public $type;
     public $reg_no;
     public $expires_at;
