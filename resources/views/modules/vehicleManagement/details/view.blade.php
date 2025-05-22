@@ -1597,7 +1597,7 @@
                                             <div class="card-px text-center my-2">
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage"
+                                                         :style='{backgroundImage: "url(/storage/"
                                                          + images.rearView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Rear View
@@ -1611,7 +1611,7 @@
 
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage"
+                                                         :style='{backgroundImage: "url(/storage/"
                                                          + images.rightView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Right View
@@ -1626,7 +1626,7 @@
 
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage"
+                                                         :style='{backgroundImage: "url(/storage/"
                                                          + images.leftView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Left View
