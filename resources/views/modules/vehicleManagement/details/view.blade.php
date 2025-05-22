@@ -74,7 +74,7 @@
                                     <td style="vertical-align: baseline; width:15%;">
                                         <div v-if="images && images.frontView">
                                             <img style="height: 100px;" class="frontImagePreview"
-                                                 v-bind:src='"/storage" + images.frontView.path' alt=""/>
+                                                 v-bind:src='"/storage/" + images.frontView.path' alt=""/>
                                         </div>
                                     </td>
                                     <td class="pl-3" style="vertical-align: top;">
@@ -1584,7 +1584,7 @@
                                             <div class="card text-center my-2">
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage"
+                                                         :style='{backgroundImage: "url(/storage/"
                                                          + images.frontView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Front View
