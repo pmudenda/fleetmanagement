@@ -26,13 +26,13 @@ class Show extends Component {
         $user = $this->gatePass->user;
 
 
-        $approvers = EmployeeApprovers::where('business_unit_code', $user->bu_code)
-            ->where('cost_center_code', $user->cc_code)
-            ->where('role_id', 70)
-            ->get();
+//        $approvers = EmployeeApprovers::where('business_unit_code', $user->bu_code)
+//            ->where('cost_center_code', $user->cc_code)
+//            ->where('role_id', 70)
+//            ->get();
 
         $authorisers = User::permission(['gatepass_authorise_out_of_town', 'gatepass_authorise_local'])
-            ->whereIn('staff_no', $approvers->pluck('con_per_no')->toArray())
+            ->where('staff_no', $user->supervisor_code)
             ->get();
 
         $is_rejected = $this->gatePass->status == GatePassStatus::REJECTED && $this->gatePass->authorised_by;

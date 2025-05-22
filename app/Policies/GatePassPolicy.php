@@ -81,6 +81,6 @@ class GatePassPolicy
     public function authorise(User $user, GatePass $gatePass): bool
     {
         return $user->canAny(['gatepass_authorize_local','gatepass_authorise_out_of_town']) &&
-            $gatePass->status == GatePassStatus::NEW;
+            $gatePass->status == GatePassStatus::NEW & $gatePass->user->supervisor_code = $user->staff_no;
     }
 }

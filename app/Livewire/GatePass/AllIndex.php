@@ -11,7 +11,7 @@ class AllIndex extends Component
     use WithPagination;
     public function render()
     {
-        $gatePasses = GatePass::latest()->where('user_id', auth()->id())->paginate(10);
+        $gatePasses = GatePass::latest()->paginate(10);
         return view('livewire.gate-pass.all-index',compact('gatePasses'));
     }
 }
