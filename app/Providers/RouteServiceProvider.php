@@ -77,6 +77,9 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/reminders.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/gatepass.php'));
         });
     }
 

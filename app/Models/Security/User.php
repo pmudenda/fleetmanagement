@@ -112,6 +112,9 @@ class User extends Authenticatable
             ->whereNull('date_cancelled');
     }
 
+    public function approvers(): HasMany {
+        return $this->hasMany(EmployeeApprovers::class , 'bu_scode', 'business_unit_code')->where('cc_code','cost_center_code');
+    }
 
 
 }

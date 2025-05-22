@@ -39,5 +39,9 @@ class VehicleHeader extends Model
         return $this->belongsTo(Status::class,'status','code');
     }
 
+    public function engine() {
+        return $this->belongsTo(EngineDetail::class,'registration_number','reg_no');
+    }
+
 
 }

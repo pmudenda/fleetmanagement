@@ -72,8 +72,8 @@
 
                             @canany([
                                config('rights.view_odometer_logs'),
-                               config('rights.add_odometer_logs')
-                           ])
+                             config('rights.add_odometer_logs')
+                          ])
                                 <li class="nav-item pl-2">
                                     <a href="{{ URL::signedRoute('new.fleet.movement') }}"
                                        class="nav-link">
@@ -132,28 +132,59 @@
 
                             @endcanany
 
-                            <li class="nav-item d-none">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-circle"></i>
-                                    <p>
-                                        Gate Pass
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview pl-3">
-                                    <li class="nav-item">
-                                        <a href="" class="nav-link">
-                                            <i class="fas fa-plus nav-icon"></i>
-                                            <p>
-                                                New
-                                            </p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+
                         </ul>
                     </li>
                 @endcanany
+
+                @can('viewAny', \App\Models\GatePass\GatePass::class)
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-torii-gate" style="font-size: 20px;"></i>
+                            <p>
+                                Gate Pass
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('create', \App\Models\GatePass\GatePass::class)
+                                <li class="nav-item pl-2">
+                                    <a href="{{ route('gate-pass.create') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Request Gate Pass</p>
+                                    </a>
+                                </li>
+
+
+                                <li class="nav-item pl-2">
+                                    <a href="{{ route('gate-pass.index') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Gate Pass List</p>
+                                    </a>
+                                </li>
+                            @endcan
+
+                                @can('view-assigned', \App\Models\GatePass\GatePass::class)
+                                    <li class="nav-item pl-2">
+                                        <a href="{{ route('gate-pass.unauthorised') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Pending Authorisation</p>
+                                        </a>
+                                    </li>
+                                @endcan
+
+                                @can('view-unchecked', \App\Models\GatePass\GatePass::class)
+                                    <li class="nav-item pl-2">
+                                        <a href="{{ route('gate-pass.unchecked') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Pending Checking / Verifying</p>
+                                        </a>
+                                    </li>
+                                @endcan
+
+                        </ul>
+                    </li>
+                @endcan
 
                 @php
                     $requisitionsPermissions = [
