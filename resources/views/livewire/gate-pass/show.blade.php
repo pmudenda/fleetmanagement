@@ -184,7 +184,7 @@
                         </div>
                     </div>
 
-                    @if($gatePass->$status == \App\Enums\GatePassStatus::NEWm)
+                    @if($gatePass->status == \App\Enums\GatePassStatus::NEW)
                         <div class="col-lg-12">
                             <div class="card card-flush">
                                 <div class="card-header">
