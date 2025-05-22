@@ -12,7 +12,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title"><h3>Details</h3></div>
+                                <div class="card-title"><h3>Gate Pass Details</h3></div>
                                 <div class="card-tools p-3 ">
                                     {!! $gatePass->status->badge() !!}
                                 </div>
@@ -81,6 +81,13 @@
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
+                                            <label for="inputName">Title</label>
+                                            <input class="form-control-plaintext" value="{{$gatePass->authorisedBy->job_title ?? '--'}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
                                             <label for="inputName">Authorised At</label>
                                             <input class="form-control-plaintext" value="{{$gatePass->authorised_at? $gatePass->authorised_at->toFormattedDateString() : '--'}}"/>
                                         </div>
@@ -99,6 +106,13 @@
                                         <div class="form-group">
                                             <label for="inputName">Checked By</label>
                                             <input class="form-control-plaintext" value="{{$gatePass->checkedBy->name ?? '--'}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="inputName">Title</label>
+                                            <input class="form-control-plaintext" value="{{$gatePass->checkedBy->job_title ?? '--'}}">
                                         </div>
                                     </div>
 
