@@ -11,11 +11,11 @@
                     <div class="card">
 
                         <div class="card-header">
-                           <div class="card-title">
+{{--                           <div class="card-title">--}}
                                <span class="text-uppercase text-bold">Doc Number:</span><br/>
                                <span class="text-uppercase mx-auto">CO.14900.FORM.00530</span><br/>
                                <span class="text-uppercase ">Version: 4</span><br/>
-                           </div>
+{{--                           </div>--}}
 
                         </div>
 
