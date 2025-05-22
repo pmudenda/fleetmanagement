@@ -28,7 +28,7 @@ class Create extends Component {
             'reg_no' => ['required', Rule::exists(VehicleHeader::class, 'registration_number')->where('status', StatusHelper::active())],
             'expires_at' => 'required',
             'purpose' => 'required',
-            'departure_at' => 'required',
+            'departure_at' => [Rule::requiredIf($this->type == GatePassType::AUTHORITY_TO_TRAVEL)],
             'attachment' => [Rule::requiredIf($this->type == GatePassType::STAND_BY)],
             'departure_town' => [Rule::requiredIf($this->type == GatePassType::AUTHORITY_TO_TRAVEL)],
             'destination_town' => [Rule::requiredIf($this->type == GatePassType::AUTHORITY_TO_TRAVEL)],
