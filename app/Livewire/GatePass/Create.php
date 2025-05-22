@@ -50,11 +50,11 @@ class Create extends Component {
             ...$this->all()
         ]);
 
-        if($this->attachment) {
+        if ($this->attachment) {
             $gatePass->addMedia($this->attachment)->toMediaCollection('attachments');
         }
         $this->dispatch('message', 'Gate Pass created Successfully');
-         $this->redirectRoute('gate-pass.show', $gatePass);
+        $this->redirect(route('gate-pass.show', $gatePass));;
 
     }
 
