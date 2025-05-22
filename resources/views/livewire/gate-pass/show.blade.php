@@ -66,7 +66,53 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <label for="inputName">Purpose of Travel</label>
-                                            <textarea class="form-control-plaintext">{{$gatePass->purpose}}</textarea>
+                                            <p>{{$gatePass->purpose}}</p>
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="inputName">Authorised By</label>
+                                            <input class="form-control-plaintext" value="{{$gatePass->authorisedBy->name ?? '--'}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="inputName">Authorised At</label>
+                                            <input class="form-control-plaintext" value="{{$gatePass->authorised_at? $gatePass->authorised_at->toFormattedDateString() : '--'}}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="inputName">Reason</label>
+                                            <p>{{$gatePass->authorised_reason ?? '--'}}</p>
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="inputName">Checked By</label>
+                                            <input class="form-control-plaintext" value="{{$gatePass->checkedBy->name ?? '--'}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="inputName">Checked At</label>
+                                            <input class="form-control-plaintext" value="{{$gatePass->checked_at? $gatePass->checked_at->toFormattedDateString() : '--'}}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="inputName">Reason</label>
+                                            <p>{{$gatePass->checked_reason ?? '--'}}</p>
                                         </div>
                                     </div>
 
@@ -91,6 +137,35 @@
                                         Reject
                                     </x-button>
                                 @endcan
+
+                                @can('check', $gatePass)
+
+                                    <div class="form-group">
+                                        <label for="inputName">Reason</label>
+                                        <textarea class="form-control text-uppercase" wire:model="reason"></textarea>
+                                        @error('reason') <span class="text-danger">{{$message}}</span> @enderror
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" wire:model="confirmation">
+                                            <label class="form-check-label text-bold text-uppercase">I certify that I
+                                                have searched and checked the vehicle before leaving the yard</label>
+                                        </div>
+                                        @error('confirmation') <span class="text-danger">{{$message}}</span> @enderror
+
+                                    </div>
+
+                                    <x-button class="btn btn-light-success" wire:target="confirm" wire:click="confirm"
+                                              wire:confirm="Are you sure you want to approve">
+                                        Confirm
+                                    </x-button>
+
+                                    <x-button class="btn btn-light-danger" wire:target="reject_confirmation" wire:click="reject_confirmation"
+                                              wire:confirm="Are you sure you want to approve">
+                                        Reject
+                                    </x-button>
+                                @endcan
                             </div>
                         </div>
                     </div>
@@ -110,7 +185,8 @@
                                             <div class="d-flex w-100 justify-content-between">
                                                 <h5 class="mb-1">{{$authoriser->staff_no}} - {{$authoriser->name}}</h5>
                                                 @if($authoriser->id == $gatePass->authorised_by)
-                                                    <span class="badge badge-{{$is_rejected? 'danger' : 'success' }}">{{$is_rejected? 'Rejected' : 'Authorised' }} on {{$gatePass->authorised_at->toFormattedDateString()}}</span>
+                                                    <span class="badge badge-{{$is_rejected? 'danger' : 'success' }}">{{$is_rejected? 'Rejected' : 'Authorised' }}
+                                                        on {{$gatePass->authorised_at->toFormattedDateString()}}</span>
                                                 @endif
                                             </div>
                                             <p class="mb-1">{{$authoriser->job_title}}</p>

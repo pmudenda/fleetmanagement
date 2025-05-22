@@ -11,10 +11,11 @@ use Livewire\Component;
 
 class Show extends Component {
     public GatePass $gatePass;
-    public $reason;
+    public $reason, $confirmation = false;
 
     protected $rules = [
         'reason' => 'required|min:5|string|max:255',
+        'confirmation' => 'required|accepted'
     ];
 
 
@@ -40,7 +41,7 @@ class Show extends Component {
     }
 
     public function approve() {
-        $this->validate();
+        $this->validateOnly('reason');
         $this->gatePass->update([
             'authorised_at' => now(),
             'authorised_by' => auth()->user()->id,
@@ -52,7 +53,7 @@ class Show extends Component {
     }
 
     public function reject() {
-        $this->validate();
+        $this->validateOnly('reason');
 
         $this->gatePass->update([
             'authorised_at' => now(),
@@ -61,6 +62,31 @@ class Show extends Component {
             'authorised_reason' => $this->reason,
         ]);
         $this->dispatch('message', 'Gate Pass Rejected Successfully');
+
+    }
+
+    public function confirm() {
+        $this->validate();
+        $this->gatePass->update([
+            'checked_at' => now(),
+            'checked_by' => auth()->user()->id,
+            'status' => GatePassStatus::CHECKED,
+            'checked_reason' => $this->reason,
+        ]);
+        $this->dispatch('message', 'Gate Pass checked Successfully');
+
+    }
+
+    public function reject_confirmation() {
+        $this->validateOnly('reason');
+
+        $this->gatePass->update([
+            'checked_at' => now(),
+            'checked_by' => auth()->user()->id,
+            'status' => GatePassStatus::REJECTED,
+            'checked_reason' => $this->reason,
+        ]);
+        $this->dispatch('message', 'Gate Pass checked Successfully');
 
     }
 }

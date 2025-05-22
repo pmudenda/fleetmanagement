@@ -39,6 +39,7 @@ class GatePass extends Model implements HasMedia
         'status',
         'user_id',
         'authorised_reason',
+        'checked_reason',
     ];
 
     public function user(){

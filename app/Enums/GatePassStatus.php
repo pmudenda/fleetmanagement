@@ -6,7 +6,7 @@ enum GatePassStatus: string {
 
     case NEW ='01';
     case AUTHORIZED = '02';
-    case VERIFIED = '03';
+    case CHECKED = '03';
     case REJECTED = '04';
 
 
@@ -20,7 +20,7 @@ enum GatePassStatus: string {
         return match($this) {
             self::NEW => 'primary',       // Gray (default for new)
             self::AUTHORIZED => 'warning',  // Yellow
-            self::VERIFIED => 'success',    // Green
+            self::CHECKED => 'success',    // Green
             self::REJECTED => 'danger',    // Red
         };
     }
