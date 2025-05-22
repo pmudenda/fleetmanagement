@@ -891,7 +891,7 @@
                                                         <td class="pl-3">
                                                             <button data-zfm-view-file="certificate"
                                                                     type="button"
-                                                                    :data-document-url="'/storage'
+                                                                    :data-document-url="'/storage/'
                                                                     +documents.certificate?.path"
                                                                     class="btn btn-sm btn-success">
                                                                 <i class="fa fa-paperclip"></i>
@@ -904,7 +904,7 @@
                                                         <td class="pl-3">
                                                             <button data-zfm-view-file="insurance"
                                                                     type="button"
-                                                                    :data-document-url="'/storage'
+                                                                    :data-document-url="'/storage/'
                                                                     +documents.insurance?.path"
                                                                     class="btn btn-sm btn-success">
                                                                 <i class="fa fa-paperclip"></i>
@@ -2192,7 +2192,7 @@
                                             <td v-if="documents && documents.purchase_order">
                                                 <button data-zfm-view-file="insurance"
                                                         type="button"
-                                                        :data-document-url="'/storage'+documents.purchase_order?.path"
+                                                        :data-document-url="'/storage/'+documents.purchase_order?.path"
                                                         class="btn btn-sm btn-success">View File
                                                 </button>
                                             </td>
