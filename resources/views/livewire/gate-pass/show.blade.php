@@ -199,7 +199,7 @@
                                             <div class="d-flex w-100 justify-content-between">
                                                 <h5 class="mb-1">{{$authoriser->staff_no}} - {{$authoriser->name}}</h5>
                                                 @if($authoriser->id == $gatePass->authorised_by)
-                                                    <span class="badge badge-{{$is_rejected? 'danger' : 'success' }}">{{$is_rejected? 'Rejected' : 'Authorised' }}
+                                                    <span class="badge badge-{{$is_rejected? 'danger' : 'warning' }}">{{$is_rejected? 'Rejected' : 'Authorised' }}
                                                         on {{$gatePass->authorised_at->toFormattedDateString()}}</span>
                                                 @endif
                                             </div>
