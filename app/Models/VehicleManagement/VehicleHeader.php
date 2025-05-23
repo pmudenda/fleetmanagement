@@ -44,7 +44,7 @@ class VehicleHeader extends Model
     }
 
     public function state() {
-        return $this->belongsTo(Status::class,'status','code');
+        return $this->belongsTo(Status::class,'status','code')->where('MODULE','VEH');
     }
 
 
