@@ -26,7 +26,7 @@ class GatePassRule implements ValidationRule
         }
 
         if($vehicle->status != StatusHelper::active()){
-            $fail('This vehicle is currently not active.');
+            $fail("This vehicle is currently {$vehicle->state->name}");
             return;
 
         }

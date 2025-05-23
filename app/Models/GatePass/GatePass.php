@@ -8,6 +8,7 @@ use App\Models\Security\User;
 use App\Models\VehicleManagement\VehicleHeader;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -61,4 +62,9 @@ class GatePass extends Model implements HasMedia
     public function getRouteKeyName() {
         return 'reference_number';
     }
+
+    //    public static function search($query = '', $callback = null) {
+    //        return static::parentSearch($query, $callback)
+    //            ->query(fn ($builder) => $builder->join('sec_users', 'gate_passes.user_id', '=', 'sec_users.id'));
+    //    }
 }
