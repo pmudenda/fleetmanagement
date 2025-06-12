@@ -47,7 +47,7 @@ class UsersController extends Controller
 
     public function index(): Factory|View|Application
     {
-        $users = User::get()->paginate(10);
+        $users = User::paginate(10);
         return view('modules.userManagement.index')
             ->with(compact('users'));
     }
