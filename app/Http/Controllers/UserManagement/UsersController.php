@@ -22,6 +22,7 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,8 +30,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class UsersController extends Controller
-{
+class UsersController extends Controller {
 
     private readonly UserService $userService;
     private ProfileService $profileService;
@@ -38,30 +38,29 @@ class UsersController extends Controller
 
     public function __construct(UserService              $userService,
                                 ProfileService           $profileService,
-                                ProfileDelegationService $profileDelegation)
-    {
+                                ProfileDelegationService $profileDelegation) {
         $this->userService = $userService;
         $this->profileService = $profileService;
         $this->profileDelegation = $profileDelegation;
     }
 
-    public function index(): Factory|View|Application
-    {
-        $users = User::select('*')->paginate(10);
+    public function index(Request $request): Factory|View|Application {
+        $users = User::when($request->search, function (Builder $query) use ($request) {
+            $query->where('staff_no','like', '%' . $request->search . '%')
+                ->orWhere('name', 'like', '%' . $request->search . '%');
+        })->paginate(10);
         return view('modules.userManagement.index')
-            ->with(compact('users'));
+            ->with(compact('users','request'));
     }
 
-    public function getCurrentUserDetails(): JsonResponse
-    {
+    public function getCurrentUserDetails(): JsonResponse {
         return response()->json(array(
             'state' => 'success',
             'data' => Auth::user()
         ));
     }
 
-    public function get(Request $request): JsonResponse
-    {
+    public function get(Request $request): JsonResponse {
         $ageSize = $request->input('pageSize');
         $users = User::paginate($ageSize);
         return response()->json(
@@ -72,8 +71,7 @@ class UsersController extends Controller
         );
     }
 
-    public function create(): View
-    {
+    public function create(): View {
         $roles = Role::get();
         $businessUnits = (new StructureService)->getBusinessUnits();
         $costCenters = (new StructureService)->getCostCenters();
@@ -87,8 +85,7 @@ class UsersController extends Controller
             );
     }
 
-    public function store(UserOnboardingRequest $request): JsonResponse
-    {
+    public function store(UserOnboardingRequest $request): JsonResponse {
         try {
 
             $this->userService->createUser($request);
@@ -119,13 +116,12 @@ class UsersController extends Controller
 
     }
 
-    public function show(Request $request, $id): Factory|View|Application
-    {
+    public function show(Request $request, $id): Factory|View|Application {
         Log::debug("Showing Profile for $id");
         $this->verifyRequestSignature($request);
 
         $user = User::where('id', '=', $id)->first();
-        $is_admin = auth()->user()->roles()->where('is_superuser',1)->exists();
+        $is_admin = auth()->user()->roles()->where('is_superuser', 1)->exists();
         $user_is_admin = $user->roles()->where('is_superuser', 1)->exists();
         $can_change = !$user_is_admin || $is_admin;
 
@@ -137,12 +133,11 @@ class UsersController extends Controller
                 'user',
                 'userDelegating',
                 'passwordChangeOnly',
-                'roles','can_change'
+                'roles', 'can_change'
             ));
     }
 
-    public function profile(Request $request): View|Factory|Application
-    {
+    public function profile(Request $request): View|Factory|Application {
         $this->verifyRequestSignature($request);
 
         if (empty($request->get('key'))) {
@@ -151,11 +146,11 @@ class UsersController extends Controller
 
         $id = (int)$request->get('key');
         $user = User::where('id', '=', $id)->first();
-        $isnt_admin = auth()->user()->roles()->where('is_superuser','!=', 1)->doesntExist();
+        $isnt_admin = auth()->user()->roles()->where('is_superuser', '!=', 1)->doesntExist();
         $is_admin = $user->roles()->where('is_superuser', 1)->doesntExist();
         $can_change = !$isnt_admin && $is_admin;
         $roles = Role::when($isnt_admin, function ($query) {
-            $query->where('is_superuser','!=', 1);
+            $query->where('is_superuser', '!=', 1);
         });
         $passwordChangeOnly = false;
         $userDelegating = $this->profileDelegation->getDelegatedProfile($user->id);
@@ -164,12 +159,11 @@ class UsersController extends Controller
                 'passwordChangeOnly',
                 'userDelegating',
                 'roles',
-            'can_change'));
+                'can_change'));
 
     }
 
-    public function attach(Request $request): RedirectResponse
-    {
+    public function attach(Request $request): RedirectResponse {
         try {
             DB::beginTransaction();
             $this->profileService->assignProfile($request->id, $request->role_ids);
@@ -181,8 +175,7 @@ class UsersController extends Controller
         }
     }
 
-    public function detach(Request $request): RedirectResponse
-    {
+    public function detach(Request $request): RedirectResponse {
         DB::beginTransaction();
         $this->profileService->revokeProfile($request->id, $request->role_ids);
         DB::commit();
@@ -193,8 +186,7 @@ class UsersController extends Controller
             );
     }
 
-    public function update(UserProfileUpdate $request): JsonResponse
-    {
+    public function update(UserProfileUpdate $request): JsonResponse {
         try {
             $this->userService->updateUserDetails($request);
 
@@ -219,8 +211,7 @@ class UsersController extends Controller
         }
     }
 
-    public function employeeSearch(Request $request): JsonResponse
-    {
+    public function employeeSearch(Request $request): JsonResponse {
         try {
 
             $searchParam = strtoupper(trim($request->get('searchCriteria')));
@@ -255,8 +246,7 @@ class UsersController extends Controller
         }
     }
 
-    public function userSearch(Request $request): JsonResponse
-    {
+    public function userSearch(Request $request): JsonResponse {
         try {
             $searchParam = strtoupper(trim($request->searchCriteria));
 
@@ -283,8 +273,7 @@ class UsersController extends Controller
         }
     }
 
-    public function search(Request $request): JsonResponse
-    {
+    public function search(Request $request): JsonResponse {
         try {
             $searchParam = strtoupper(trim($request->searchCriteria));
 
@@ -311,8 +300,7 @@ class UsersController extends Controller
         }
     }
 
-    public function sync(UserSync $request): JsonResponse
-    {
+    public function sync(UserSync $request): JsonResponse {
         try {
             Log::debug('User Data Update: User Id ' . $request->userId);
             UserService::syncEmployeeFullDetails($request->userId);
@@ -335,8 +323,7 @@ class UsersController extends Controller
      * @param Request $request
      * @return void
      */
-    public function verifyRequestSignature(Request $request): void
-    {
+    public function verifyRequestSignature(Request $request): void {
         if (!$request->hasValidSignature()) {
             abort(401);
         }
