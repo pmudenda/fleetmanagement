@@ -450,7 +450,7 @@ class FuelRequisitionService {
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
                 ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
-                ->limit(20)
+                ->whereBetween(DB::raw('ROWNUM'), [1, 20])
                 ->get();
         } else {
             return DB::            table("GEN_MATERIAL_HEADERS as mat_head")
@@ -499,7 +499,7 @@ class FuelRequisitionService {
 //                })
                 //                ->where('srn', '<=', 100)
 //                ->limit(100)
-                ->limit(20)
+                ->whereBetween(DB::raw('ROWNUM'), [1, 20])
                 ->get();
         }
 
