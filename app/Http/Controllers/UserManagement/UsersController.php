@@ -46,8 +46,8 @@ class UsersController extends Controller {
 
     public function index(Request $request): Factory|View|Application {
         $users = User::when($request->search, function (Builder $query) use ($request) {
-            $query->where('staff_no','like', '%' . $request->search . '%')
-                ->orWhere('name', 'like', '%' . $request->search . '%');
+            $query->where('staff_no','like', '%' . strtoupper($request->search) . '%')
+                ->orWhere('name', 'like', '%' . strtoupper($request->search) . '%');
         })->paginate(10);
         return view('modules.userManagement.index')
             ->with(compact('users','request'));
