@@ -441,7 +441,7 @@ class FuelRequisitionService {
                     QueryComparisonOperator::EQUALS,
                     "Y"
                 )
-                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(2)->toDateString())
+                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(1)->toDateString())
                 ->select(
                     "GEN_MATERIAL_HEADERS.*",
                     "GEN_MATERIAL_DETAILS.quantity",
