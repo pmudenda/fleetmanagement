@@ -441,7 +441,7 @@ class FuelRequisitionService {
                     QueryComparisonOperator::EQUALS,
                     "Y"
                 )
-                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(1)->toDateString())
+//                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(1)->toDateString())
                 ->select(
                     "GEN_MATERIAL_HEADERS.*",
                     "GEN_MATERIAL_DETAILS.quantity",
@@ -450,6 +450,7 @@ class FuelRequisitionService {
                     "CONFIG_STATUSES.name as status_name",
                     "CONFIG_REQUISITION_TYPES.name as requisition_type")
                 ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
+                ->limit(20)
                 ->get();
         } else {
             return DB::            table("GEN_MATERIAL_HEADERS as mat_head")
@@ -476,7 +477,7 @@ class FuelRequisitionService {
                 ->where("mat_head.IS_FUEL",
                     QueryComparisonOperator::EQUALS,
                     "Y")
-                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(2)->toDateString())
+//                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(2)->toDateString())
                 ->select(
                     "mat_head.*",
                     "GEN_MATERIAL_DETAILS.quantity",
@@ -498,6 +499,7 @@ class FuelRequisitionService {
 //                })
                 //                ->where('srn', '<=', 100)
 //                ->limit(100)
+                ->limit(20)
                 ->get();
         }
 
