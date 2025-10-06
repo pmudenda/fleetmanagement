@@ -41,4 +41,8 @@ class Driver extends Model
         'permit_date_issued' => 'date:Y-m-d',
         'permit_date_expiry' => 'date:Y-m-d',
     ];
+
+    public function user(){
+        return $this->belongsTo(\App\Models\Security\User::class, 'staff_number','staff_no');
+    }
 }

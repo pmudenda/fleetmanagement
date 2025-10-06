@@ -47,11 +47,11 @@ class HomeController extends Controller
 
         $vehicleData = $this->vehicleDetailsService->getAllVehiclesByStatus(['01', '02', '04', '05', '09']);
 
-        $mechanics = Mechanic::count();
+        $mechanics = Mechanic::whereRelation('user','CON_ST_CODE','01')->count();
 
         $activeUsers = User::where('con_st_code', '=', StatusHelper::active())->count();
 
-        $activeDrivers = Driver::count();
+        $activeDrivers = Driver::whereRelation('user','CON_ST_CODE','01')->count();
 
         return view('dashboard.home')
             ->with(compact('approvalTasks',
