@@ -17,7 +17,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3 class="text-white">{{$vehicleData->count()}}</h3>
+                                <h3 class="text-white">{{number_format($vehicleData->count())}}</h3>
                                 <p>Total Fleet</p>
                             </div>
                             <div class="icon">
@@ -49,7 +49,7 @@
                         <div class="small-box bg-warning">
                             <div class="inner">
                                 <h3 class="text-white">
-                                    {{$activeUsers}}</h3>
+                                    {{number_format($activeUsers)}}</h3>
                                 <p class="text-white">Active Users</p>
                             </div>
                             <div class="icon">
@@ -62,7 +62,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3 class="text-white">{{$activeDrivers}}</h3>
+                                <h3 class="text-white">{{number_format($activeDrivers)}}</h3>
                                 <p>Registered Drivers</p>
                             </div>
                             <div class="icon">

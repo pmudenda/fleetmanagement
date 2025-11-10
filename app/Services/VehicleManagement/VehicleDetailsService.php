@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class VehicleDetailsService
@@ -169,10 +170,14 @@ class VehicleDetailsService
 
     public function getVehicleDocuments(mixed $reference)
     {
-        return File::where('reference_number', "=", $reference)
+        $files =  File::where('reference_number', "=", $reference)
             ->where('status', QueryComparisonOperator::EQUALS,
                 StatusHelper::active())
-            ->get();
+            ->get()->map(function ($file)  {
+                $file->path = Str::replaceStart('public/', '',  $file->path);
+                return $file;
+            });
+        return $files;
     }
 
     public function getBasicVehicleDetails(mixed $vehicleRegistration): object|null
@@ -363,7 +368,7 @@ class VehicleDetailsService
             if (!empty($jobCard) && !empty($jobCard->workshop_code)) {
                 $workshopName = WorkShop::where('workshop_code',
                     $jobCard->workshop_code)
-                    ->first()->workshop_name;
+                    ->first()->workshop_name ?? null;
             }
 
             $vehicleState = str_replace(self::REG,

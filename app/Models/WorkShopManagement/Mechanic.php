@@ -51,5 +51,9 @@ class Mechanic extends Model {
             ->wherePivotNull('deleted_at');
     }
 
+    public function user(){
+        return $this->belongsTo(\App\Models\Security\User::class, 'staff_no','staff_no');
+    }
+
 
 }

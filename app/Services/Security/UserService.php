@@ -83,7 +83,7 @@ class UserService
      */
     public function searchEmployee(string $searchParam)
     {
-        if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
+//        if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
 
             $dataset = PHCMSEmployee::select('*')
                 ->where(
@@ -97,19 +97,19 @@ class UserService
                 ->whereNull('alt_per_no')
                 ->first();
 
-        } else {
-            $dataset = PHCMSEmployee::select('*')
-                ->where('name', 'LIKE', "%{$searchParam}%")
-                ->where(TableColumns::PHCMS_STATUS,
-                    QueryComparisonOperator::EQUALS,
-                    'ACT')
-                ->whereNull('alt_per_no')
-                ->where(function ($query) {
-                    $query->where(TableColumns::PHCMS_STAFF_NUMBER, 'LIKE', "C7%")
-                        ->orWhere(TableColumns::PHCMS_STAFF_NUMBER, 'LIKE', "7%");
-                })
-                ->get();
-        }
+//        } else {
+//            $dataset = PHCMSEmployee::select('*')
+//                ->where('name', 'LIKE', "%{$searchParam}%")
+//                ->where(TableColumns::PHCMS_STATUS,
+//                    QueryComparisonOperator::EQUALS,
+//                    'ACT')
+//                ->whereNull('alt_per_no')
+//                ->where(function ($query) {
+//                    $query->where(TableColumns::PHCMS_STAFF_NUMBER, 'LIKE', "C7%")
+//                        ->orWhere(TableColumns::PHCMS_STAFF_NUMBER, 'LIKE', "7%");
+//                })
+//                ->get();
+//        }
 
         if (empty($dataset)) {
             throw new UserNotActiveException(

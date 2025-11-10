@@ -74,7 +74,7 @@
                                     <td style="vertical-align: baseline; width:15%;">
                                         <div v-if="images && images.frontView">
                                             <img style="height: 100px;" class="frontImagePreview"
-                                                 v-bind:src='"/storage" + images.frontView.path' alt=""/>
+                                                 v-bind:src='"/storage/" + images.frontView.path' alt=""/>
                                         </div>
                                     </td>
                                     <td class="pl-3" style="vertical-align: top;">
@@ -891,7 +891,7 @@
                                                         <td class="pl-3">
                                                             <button data-zfm-view-file="certificate"
                                                                     type="button"
-                                                                    :data-document-url="'/storage'
+                                                                    :data-document-url="'/storage/'
                                                                     +documents.certificate?.path"
                                                                     class="btn btn-sm btn-success">
                                                                 <i class="fa fa-paperclip"></i>
@@ -904,7 +904,7 @@
                                                         <td class="pl-3">
                                                             <button data-zfm-view-file="insurance"
                                                                     type="button"
-                                                                    :data-document-url="'/storage'
+                                                                    :data-document-url="'/storage/'
                                                                     +documents.insurance?.path"
                                                                     class="btn btn-sm btn-success">
                                                                 <i class="fa fa-paperclip"></i>
@@ -1584,7 +1584,7 @@
                                             <div class="card text-center my-2">
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage"
+                                                         :style='{backgroundImage: "url(/storage/"
                                                          + images.frontView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Front View
@@ -1597,7 +1597,7 @@
                                             <div class="card-px text-center my-2">
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage"
+                                                         :style='{backgroundImage: "url(/storage/"
                                                          + images.rearView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Rear View
@@ -1611,7 +1611,7 @@
 
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage"
+                                                         :style='{backgroundImage: "url(/storage/"
                                                          + images.rightView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Right View
@@ -1626,7 +1626,7 @@
 
                                                 <div class="form-group">
                                                     <div class="imagePreview"
-                                                         :style='{backgroundImage: "url(/storage"
+                                                         :style='{backgroundImage: "url(/storage/"
                                                          + images.leftView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
                                                             Left View
@@ -2192,7 +2192,7 @@
                                             <td v-if="documents && documents.purchase_order">
                                                 <button data-zfm-view-file="insurance"
                                                         type="button"
-                                                        :data-document-url="'/storage'+documents.purchase_order?.path"
+                                                        :data-document-url="'/storage/'+documents.purchase_order?.path"
                                                         class="btn btn-sm btn-success">View File
                                                 </button>
                                             </td>

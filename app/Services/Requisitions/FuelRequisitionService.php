@@ -212,9 +212,9 @@ class FuelRequisitionService {
         $variance = $userProvidedOdometer - ($minDistance + $odometerOnLastIssue);
         Log::debug("Odometer Variance " . $variance);
 
-        $exempted = VehicleHeader::whereIn('BODY_TYPE_CODE', ['10', '11', '12', '13', '14', '15',
-            '21', '23', '24', '25', '26', '28',
-            '29', '30', '31', '32', '35', '36', '45'])->where('REGISTRATION_NUMBER', $registrationNumber)->exists();
+        $exempted = VehicleHeader::whereIn('BODY_TYPE_CODE', ['10','11','12','13','14', '15',
+            '21','23','24','25','26', '28',
+            '29','30','31','32','35','36','45'])->where('REGISTRATION_NUMBER', $registrationNumber)->exists();
         if ($exempted) {
             $variance = $userProvidedOdometer + ($odometerOnLastIssue + 1);
         }
@@ -411,93 +411,70 @@ class FuelRequisitionService {
         return empty($queryResult) ? [] : $queryResult->first();
     }
 
-    public function getMyRequisitions($staff_no, $search = false): Collection {
-        if ($staff_no) {
-            return DB::table("GEN_MATERIAL_HEADERS")
-                ->leftJoin("GEN_MATERIAL_DETAILS",
-                    "GEN_MATERIAL_HEADERS.req_no",
+    public function getMyRequisitions($staff_no, $search = false): Collection
+    {
+        $genHeaders = MaterialHeader::where("requested_by", $staff_no)
+            ->where("is_fuel", "Y")
+            ->when($staff_no, function ($query) use ($staff_no) {
+                $query->where("requested_by", $staff_no);
+            })
+            ->when($search, function (Builder $query) use ($search) {
+                $query->where(function (Builder $query) use ($search) {
+                    $query->where('requested_by', $search);
+                    $query->orWhere('veh_reg_no', $search);
+                    $query->orWhere('st_pur', $search);
+                    $query->orWhere("SEC_USERS.name", 'like', "%" . strtoupper($search) . "%");
+                });
+            })
+            ->orderBy("created_at", "desc")
+            ->paginate(10);
+
+        return DB::table("GEN_MATERIAL_HEADERS as mat_head")
+            ->leftJoin("GEN_MATERIAL_DETAILS",
+                "mat_head.req_no",
+                QueryComparisonOperator::EQUALS,
+                "GEN_MATERIAL_DETAILS.req_no")
+            ->leftJoin("CONFIG_STATUSES",
+                "mat_head.status",
+                QueryComparisonOperator::EQUALS,
+                "CONFIG_STATUSES.code")
+            ->leftJoin("CONFIG_REQUISITION_TYPES",
+                "mat_head.requisition_type",
+                QueryComparisonOperator::EQUALS,
+                "CONFIG_REQUISITION_TYPES.code")
+            ->leftJoin("SEC_USERS",
+                "mat_head.requested_by",
+                QueryComparisonOperator::EQUALS,
+                "SEC_USERS.staff_no")
+            ->where("CONFIG_STATUSES.MODULE",
+                QueryComparisonOperator::EQUALS,
+                Modules::MATERIAL->value)
+            ->where("mat_head.IS_FUEL",
+                QueryComparisonOperator::EQUALS,
+                "Y")
+            ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(1)->toDateString())
+            ->when($staff_no, function ($query) use ($staff_no) {
+                $query->where("GEN_MATERIAL_HEADERS.requested_by",
                     QueryComparisonOperator::EQUALS,
-                    "GEN_MATERIAL_DETAILS.req_no")
-                ->leftJoin("CONFIG_STATUSES",
-                    "GEN_MATERIAL_HEADERS.status",
-                    QueryComparisonOperator::EQUALS,
-                    "CONFIG_STATUSES.code")
-                ->leftJoin("CONFIG_REQUISITION_TYPES",
-                    "GEN_MATERIAL_HEADERS.requisition_type",
-                    QueryComparisonOperator::EQUALS,
-                    "CONFIG_REQUISITION_TYPES.code")
-                ->leftJoin("SEC_USERS",
-                    "GEN_MATERIAL_HEADERS.requested_by",
-                    QueryComparisonOperator::EQUALS,
-                    "SEC_USERS.staff_no")
-                ->where("GEN_MATERIAL_HEADERS.requested_by",
-                    QueryComparisonOperator::EQUALS,
-                    $staff_no)
-                ->where("CONFIG_STATUSES.MODULE",
-                    QueryComparisonOperator::EQUALS,
-                    Modules::MATERIAL->value)
-                ->where("GEN_MATERIAL_HEADERS.IS_FUEL",
-                    QueryComparisonOperator::EQUALS,
-                    "Y"
-                )
-                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(2)->toDateString())
-                ->select(
-                    "GEN_MATERIAL_HEADERS.*",
-                    "GEN_MATERIAL_DETAILS.quantity",
-                    "GEN_MATERIAL_DETAILS.quantity_issued",
-                    "SEC_USERS.name as originator",
-                    "CONFIG_STATUSES.name as status_name",
-                    "CONFIG_REQUISITION_TYPES.name as requisition_type")
-                ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
-                ->get();
-        } else {
-            return DB::            table("GEN_MATERIAL_HEADERS as mat_head")
-                ->leftJoin("GEN_MATERIAL_DETAILS",
-                    "mat_head.req_no",
-                    QueryComparisonOperator::EQUALS,
-                    "GEN_MATERIAL_DETAILS.req_no")
-                ->leftJoin("CONFIG_STATUSES",
-                    "mat_head.status",
-                    QueryComparisonOperator::EQUALS,
-                    "CONFIG_STATUSES.code")
-                ->leftJoin("CONFIG_REQUISITION_TYPES",
-                    "mat_head.requisition_type",
-                    QueryComparisonOperator::EQUALS,
-                    "CONFIG_REQUISITION_TYPES.code")
-                ->leftJoin("SEC_USERS",
-                    "mat_head.requested_by",
-                    QueryComparisonOperator::EQUALS,
-                    "SEC_USERS.staff_no")
-                ->where("CONFIG_STATUSES.MODULE",
-                    QueryComparisonOperator::EQUALS,
-                    Modules::MATERIAL->value)
-                ->where("mat_head.IS_FUEL",
-                    QueryComparisonOperator::EQUALS,
-                    "Y")
-                ->whereDate('mat_head.CREATED_AT', '>=', now()->subMonths(1)->toDateString())
-                ->select(
-                    "mat_head.*",
-                    "GEN_MATERIAL_DETAILS.quantity",
-                    "GEN_MATERIAL_DETAILS.quantity_issued",
-                    "SEC_USERS.name as originator",
-                    "CONFIG_STATUSES.name as status_name",
-                    "CONFIG_REQUISITION_TYPES.name as requisition_type")
-                ->orderBy("mat_head.created_at", "desc")
-                ->when($search, function (Builder $query) use ($search) {
-                    $query->where(function (Builder $query) use ($search) {
-                        $query->where('mat_head.requested_by', $search);
-                        $query->orWhere('mat_head.veh_reg_no', $search);
-                        $query->orWhere('mat_head.st_pur', $search);
-                        $query->orWhere("SEC_USERS.name", 'like', "%" . strtoupper($search) . "%");
-                    });
-                })
-//                ->when(!$search, function ($query) {
-//                    $query->whereDate("valid_date_from", '>=', now()->months(2));
-//                })
-                //                ->where('srn', '<=', 100)
-//                ->limit(100)
-                ->get();
-        }
+                    $staff_no);
+            })
+            ->select(
+                "mat_head.*",
+                "GEN_MATERIAL_DETAILS.quantity",
+                "GEN_MATERIAL_DETAILS.quantity_issued",
+                "SEC_USERS.name as originator",
+                "CONFIG_STATUSES.name as status_name",
+                "CONFIG_REQUISITION_TYPES.name as requisition_type")
+            ->orderBy("mat_head.created_at", "desc")
+            ->when($search, function (Builder $query) use ($search) {
+                $query->where(function (Builder $query) use ($search) {
+                    $query->where('mat_head.requested_by', $search);
+                    $query->orWhere('mat_head.veh_reg_no', $search);
+                    $query->orWhere('mat_head.st_pur', $search);
+                    $query->orWhere("SEC_USERS.name", 'like', "%" . strtoupper($search) . "%");
+                });
+            })
+            ->get();
 
     }
 
@@ -577,24 +554,24 @@ class FuelRequisitionService {
 
     private function getOdometerOnLastIssue(mixed $registrationNumber) {
         return DB::table('gen_material_headers')
-            ->where('veh_reg_no',
-                QueryComparisonOperator::EQUALS,
-                $registrationNumber)
-            ->where("is_fuel",
-                QueryComparisonOperator::EQUALS,
-                "Y")
-            ->whereIn('status', [
-                StatusHelper::partiallyReleased(),
-                StatusHelper::fullyReleased(),
-                StatusHelper::partiallyReleasedExpired(),
-                StatusHelper::partiallyReleasedCancelled(),
-                StatusHelper::expired(),
-                StatusHelper::cancelled(),
-                StatusHelper::rejected()
-            ])
-            ->whereRaw("REQ_NO IN(select REQ_NO FROM gen_material_details WHERE QUANTITY_ISSUED > 0)")
-            ->select(DB::raw('MAX(odometer) as odometer'))
-            ->first()->odometer ?? 0;
+                ->where('veh_reg_no',
+                    QueryComparisonOperator::EQUALS,
+                    $registrationNumber)
+                ->where("is_fuel",
+                    QueryComparisonOperator::EQUALS,
+                    "Y")
+                ->whereIn('status', [
+                    StatusHelper::partiallyReleased(),
+                    StatusHelper::fullyReleased(),
+                    StatusHelper::partiallyReleasedExpired(),
+                    StatusHelper::partiallyReleasedCancelled(),
+                    StatusHelper::expired(),
+                    StatusHelper::cancelled(),
+                    StatusHelper::rejected()
+                ])
+                ->whereRaw("REQ_NO IN(select REQ_NO FROM gen_material_details WHERE QUANTITY_ISSUED > 0)")
+                ->select(DB::raw('MAX(odometer) as odometer'))
+                ->first()->odometer ?? 0;
     }
 
     public function getVehicleFuelConsumptionData(mixed $vehicleReference): array {

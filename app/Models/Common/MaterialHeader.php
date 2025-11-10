@@ -47,4 +47,8 @@ class MaterialHeader extends Model
         return $this->belongsTo(User::class, 'requested_by', 'staff_no')
             ->withDefault();
     }
+
+    public function details() {
+        return $this->hasMany(MaterialDetail::class, 'req_no', 'req_no');
+    }
 }
