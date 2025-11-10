@@ -72,6 +72,8 @@ class RoadtaxSyncCommand extends Command {
             if ($response->successful()) {
                 $data = $response->object()->body;
                 if ($response->object()->code == 200) {
+                    dd($data);
+
                     RoadTax::updateOrCreate([
                         'reg_no' => $vehicle->registration_number,
                     ],
