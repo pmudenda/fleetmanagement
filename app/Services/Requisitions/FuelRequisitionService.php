@@ -412,28 +412,14 @@ class FuelRequisitionService {
     }
 
     public function getMyRequisitions($staff_no, $search = false): \Illuminate\Contracts\Pagination\LengthAwarePaginator {
-        $genHeaders = MaterialHeader::where("requested_by", $staff_no)
-            ->where("is_fuel", "Y")
-            ->when($staff_no, function ($query) use ($staff_no) {
-                $query->where("requested_by", $staff_no);
-            })
-            ->when($search, function (Builder $query) use ($search) {
-                $query->where(function (Builder $query) use ($search) {
-                    $query->where('requested_by', $search);
-                    $query->orWhere('veh_reg_no', $search);
-                    $query->orWhere('st_pur', $search);
-                    $query->orWhere("SEC_USERS.name", 'like', "%" . strtoupper($search) . "%");
-                });
-            })
-            ->orderBy("created_at", "desc")
-            ->paginate(10);
-
-        return DB::table("FUEL_REQUESTIONS_LIST_VIEW")
-            ->when($staff_no, function ($query) use ($staff_no) {
-                $query->where("GEN_MATERIAL_HEADERS.requested_by",
-                    QueryComparisonOperator::EQUALS,
-                    $staff_no);
-            })->paginate(20);
+               return DB::table("FUEL_REQUESTIONS_LIST_VIEW")
+                   ->when($search, function (Builder $query) use ($search) {
+                       $query->where('requested_by', $search);
+                       $query->orWhere('veh_reg_no', $search);
+                       $query->orWhere('st_pur', $search);
+                       $query->orWhere('req_no', $search);
+                       $query->orWhere("SEC_USERNAME", 'like', "%" . strtoupper($search) . "%");
+                   })->paginate(20);
     }
 
     public function updateStatus(mixed $reference, string $status): void {
