@@ -728,35 +728,13 @@ class MaintenanceController extends Controller
             'st_pur' => 'nullable|string|size:12',
         ]);
 
-        $query = DB::table('fleetmaster.gen_material_headers as gh')
-            ->distinct()
-            ->select(
-                'gh.PROC_REF',
-                'gh.status as status_code',
-                'cs.name as status',
-                'gh.DATE_CREATED',
-                'gh.VALID_DATE_TO',
-                'gh.VEH_REG_NO',
-                'gh.req_no',
-                'gh.document_no as job_card_no',
-                'jc.DRIVER_IN',
-                'jc.DATE_IN',
-                'jc.DATE_OUT'
-            )
-            ->join('fleetmaster.gen_material_details as gd', 'gh.req_no', '=', 'gd.req_no')
-            ->leftJoin('FLEETMASTER.WM_JOB_CARD_HEADER as jc', 'gh.document_no', '=', 'jc.JOB_CARD_NO')
-            ->join('FLEETMASTER.config_statuses as cs', function ($join) {
-                $join->on('gh.status', '=', 'cs.code')
-                    ->where('cs.module', 'MAT');
-            })
-            ->where('gh.is_fuel', 'N')
-            ->where('gh.proc_ref', 'LIKE', 'C0%');
+        $query = DB::table('JOBCARD_DELINKING_VIEW');
 
         if ($request->filled('st_pur')) {
-            $query->where('gh.st_pur', $request->input('st_pur'));
+            $query->where('st_pur', $request->input('st_pur'));
         }
 
-        $result = $query->orderBy('gh.date_created', 'desc')->first();
+        $result = $query->orderBy('date_created', 'desc')->first();
 
         \Log::info('Query Result:', ['result' => $result ? (array)$result : 'No result']);
 

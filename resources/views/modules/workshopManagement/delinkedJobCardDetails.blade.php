@@ -93,8 +93,13 @@
                                                     Processed Date:
                                                 </label>
                                                 <div class="col-12 col-sm-8 col-md-8">
-                                                    <input type="text" class="form-control form-control-sm" id="req_no" name="req_no"
-                                                           value="{{ $result->updated_at ? \Carbon\Carbon::parse($result->updated_at)->format('d F Y') : '' }}" readonly>
+                                                    @if($result ?? null)
+                                                        <input type="text" class="form-control form-control-sm" id="req_no" name="req_no"
+                                                               value="{{ $result->updated_at ? \Carbon\Carbon::parse($result->updated_at)->format('d F Y') : '' }}" readonly>
+                                                        @else
+                                                        <input type="text" class="form-control form-control-sm" id="req_no" name="req_no"
+                                                               value="" readonly>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

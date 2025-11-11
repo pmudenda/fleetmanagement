@@ -63,8 +63,4 @@ class GatePass extends Model implements HasMedia
         return 'reference_number';
     }
 
-    //    public static function search($query = '', $callback = null) {
-    //        return static::parentSearch($query, $callback)
-    //            ->query(fn ($builder) => $builder->join('sec_users', 'gate_passes.user_id', '=', 'sec_users.id'));
-    //    }
 }
