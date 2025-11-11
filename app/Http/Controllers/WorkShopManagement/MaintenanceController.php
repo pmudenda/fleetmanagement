@@ -974,6 +974,26 @@ class MaintenanceController extends Controller
             ->where('cs.module', 'MAT')
             ->distinct()
             ->first();
+
+
+        if(!$requisition){
+            $requisition =   DB::table('fleetmaster.gen_material_headers as H')
+                ->leftJoin('fleetmaster.config_statuses as cs', function($join) {
+                    $join->on('H.STATUS', '=', 'cs.CODE')
+                        ->where('cs.module', '=', 'MAT');
+                })
+                ->leftJoin('store_requisitions_header as sh', function($join) {
+                    $join->on('h.st_pur', '=', 'sh.document_no')
+                        ->on('sh.status', '=', 'H.STATUS');
+                })
+                ->select('H.ST_PUR', 'cs.name', 'h.req_no','h.comments')
+                ->whereIn('h.status', ['01','03'])
+                ->where('h.req_no', 'LIKE', 'ZFMREF%')
+                ->where('h.req_no', $requisitionNumber)
+                ->whereNull('H.ST_PUR')
+                ->first();
+        }
+
         Log::info('Requisition Data:', (array) $requisition);
 
         if ($requisition) {
@@ -1001,6 +1021,13 @@ class MaintenanceController extends Controller
             // Update ZFMS table
             DB::table('fleetmaster.gen_material_headers')
                 ->where('st_pur', $requisitionId)
+                ->update([
+                    'STATUS' => '03',
+                    'JUSTIFICATION_REJECTION' => $justification
+                ]);
+
+            DB::table('fleetmaster.gen_material_headers')
+                ->where('req_no', $requisitionId)
                 ->update([
                     'STATUS' => '03',
                     'JUSTIFICATION_REJECTION' => $justification

@@ -59,7 +59,7 @@
                                                                id="st_pur"
                                                                name="st_pur"
                                                                value="{{ request('st_pur') }}"
-                                                               placeholder="e.g., C03LR1069976"
+                                                               placeholder="e.g., C03LR1069976, J01CR2923496"
                                                                autocapitalize="characters"
                                                                data-action="{{ route('job.card.delinkPRSearch') }}">
                                                         <div class="input-group-append">
@@ -76,7 +76,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <span class="hint">Enter Requisition Number (e.g., C03LR1069976).</span>
+                                                    <span class="hint">Enter Requisition Number (e.g., C03LR1069976, J01CR2923496).</span>
                                                     @error('st_pur')
                                                     <span class="error">{{ $message }}</span>
                                                     @enderror
@@ -340,8 +340,8 @@
                         } else if (!data.job_card_no || inactiveStatuses.includes(data.status_code)) {
                             document.getElementById('delinkRequisitionBtn').disabled = true;
                             Swal.fire({
-                                title: 'Inactive PO',
-                                text: `The PO is in Status "${data.status}" and cannot be processed. Contact Fleet-Master on 3306, 3315, 3350, 3309 for further assistance.`,
+                                title: 'Inactive PO / SR',
+                                text: `The PO / SR is in Status "${data.status}" and cannot be processed. Contact Fleet-Master on 3306, 3315, 3350, 3309 for further assistance.`,
                                 icon: 'warning',
                                 confirmButtonText: 'OK'
                             }).then((result) => {
