@@ -1250,6 +1250,16 @@
                                         </p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('report.index')}}"
+                                       class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                           Reports
+                                        </p>
+                                    </a>
+                                </li>
                             @endcanany
 
                             {{--                            @canany(config('rights.access_reports'),--}}

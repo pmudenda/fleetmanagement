@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\ReportsController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Jimmyjs\ReportGenerator\Facades\PdfReportFacade;
+use Jimmyjs\ReportGenerator\ReportMedia\PdfReport;
 
 /*
 |--------------------------------------------------------------------------
@@ -9,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' => 'reports'], function () {
+Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix' => 'reports'], function () {
 
     Route::get('fuel/cost', \App\Livewire\Reports\Fuel\FuelIndex::class)
         ->name('reports.fuel.requisitions');
@@ -33,4 +37,16 @@ Route::group(['middleware' => ['auth','is.active','change.password'], 'prefix' =
 
     Route::get('audit/document', \App\Livewire\Reports\Audit\DocumentAudit::class)
         ->name('reports.audit.document');
+
+    Route::get('/', \App\Livewire\Report\ReportIndex::class)->name('report.index');
+    Route::get('/{report}/show', \App\Livewire\Report\ReportView::class)->name('report.view');
+    Route::get('/{report}/stream', function (Request $request, $name) {
+        $report = (object)config('report')[$name];
+        $query = DB::query()->selectRaw($report->query);
+        $columns = $report->columns;
+        return PdfReportFacade::of($report->title, [], $query, $columns)
+            ->setOrientation('landscape')
+            ->limit(20)
+            ->stream();
+    })->name('report.stream');
 });

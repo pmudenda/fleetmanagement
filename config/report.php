@@ -1,0 +1,23 @@
+<?php
+return [
+    'report_1' => [
+        'title' => "Purchase Requisition Check",
+        'query' => "SELECT h.DATE_DOCUMENT AS PR_GEN_DATE,
+       h.DOCUMENT_NO,
+       GT.DESCRIPTION AS PR_STATUS,
+       h.AMOUNT_TOTAL AS PR_VALUE,
+       ou.DESCRIPTION AS department_name,
+       U.FIRST_NAME || ' ' || U.SURNAME AS ACTIONING_EMPLOYEE_NAME,
+       P.DESCRIPTION AS JOB_TITLE,
+       T.DESCRIPTION AS TASK_NAME,
+       H.SUBJECT AS PR_SUBJECT
+  FROM purchase_requisition_header h
+  JOIN ZFM_ORGANIZATIONAL_UNITS_VIEW ou ON h.CODE_UNIT = ou.CODE_UNIT
+  JOIN TASKS T ON h.DOCUMENT_NO = SUBSTR(T.code_identification, 5)
+  JOIN general_tables GT ON GT.TABLE_CODE = 'STA' AND H.STATUS = GT.ELEMENT_CODE
+  JOIN SPMS_USERS U ON T.CODE_POSITION = U.CODE_POSITION
+  JOIN POSITIONS P ON T.CODE_POSITION = P.CODE_POSITION
+WHERE T.STATUS <> 19
+ORDER BY h.DATE_DOCUMENT ASC"
+    ]
+];
