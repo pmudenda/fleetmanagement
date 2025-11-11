@@ -114,6 +114,9 @@
                             </table>
                         </div>
                     </div>
+                    <div class="card-footer">
+                        {{$requisitions->links()}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -127,8 +130,11 @@
     <script>
         (function (appInstance) {
             appInstance.initDatatable("#fuelRequisitionsTable", false, false, [
-                {'orderable': false, targets: 11},
-            ]);
+                {
+                    'orderable': false,
+                    targets: 11,
+                },
+            ],false);
         })(window.tmsApp || {});
     </script>
 @endpush

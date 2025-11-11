@@ -606,16 +606,19 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
      * @param hasExportOptions
      * @param searchable
      */
-    appInstance.initDatatable = function (selector, hasExportOptions, searchable, orderColumns = []) {
+    appInstance.initDatatable = function (selector, hasExportOptions, searchable, orderColumns = [],paging = true) {
         if (typeof searchable === 'undefined') {
             searchable = false
         }
+        console.log('it happened form here')
         $(selector).DataTable({
             /*"info": false,*/
+            "info": false,  // Uncommented and set to false to hide the info text
             dom: 'Qlfrtip',
             stateSave: true,
             colReorder: true,
             'order': [],
+            paging : paging,
             "pageLength": 1000,
             "responsive": true,
             "searching": searchable,
