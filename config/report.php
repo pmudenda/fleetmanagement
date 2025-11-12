@@ -1,29 +1,12 @@
 <?php
 return [
-    'report_1' => [
-        'title' => "Purchase Requisition Check",
-        'query' => "SELECT h.DATE_DOCUMENT AS PR_GEN_DATE,
-       h.DOCUMENT_NO,
-       GT.DESCRIPTION AS PR_STATUS,
-       h.AMOUNT_TOTAL AS PR_VALUE,
-       ou.DESCRIPTION AS department_name,
-       U.FIRST_NAME || ' ' || U.SURNAME AS ACTIONING_EMPLOYEE_NAME,
-       P.DESCRIPTION AS JOB_TITLE,
-       T.DESCRIPTION AS TASK_NAME,
-       H.SUBJECT AS PR_SUBJECT
-FROM purchase_requisition_header h
-JOIN ZFM_ORGANIZATIONAL_UNITS_VIEW ou ON h.CODE_UNIT = ou.CODE_UNIT
-JOIN TASKS T ON h.DOCUMENT_NO = SUBSTR(T.code_identification, 5)
-JOIN general_tables GT ON GT.TABLE_CODE = 'STA' AND H.STATUS = GT.ELEMENT_CODE
-JOIN (
-    SELECT CODE_POSITION, FIRST_NAME, SURNAME,
-           ROW_NUMBER() OVER (PARTITION BY CODE_POSITION ORDER BY USER_ID) as rn
-    FROM SPMS_USERS 
-    WHERE status = '00'
-) U ON T.CODE_POSITION = U.CODE_POSITION AND U.rn = 1
-JOIN POSITIONS P ON T.CODE_POSITION = P.CODE_POSITION
-WHERE T.STATUS <> 19
-AND h.COST_CENTRE = '14618'
-ORDER BY h.DATE_DOCUMENT ASC"
-    ]
+    'RPT_PURCHASE_ORDER_CHECK_VIEW' => [
+        'title' => "Purchase Order Check",
+        'query' => "RPT_PURCHASE_ORDER_CHECK_MVIEW"
+    ],
+
+    'RPT_PURCHASE_REQUEST_CHECK_VIEW' => [
+    'title' => "Purchase Requisition Check",
+    'query' => "RPT_PURCHASE_REQUEST_CHECK_VIEW"
+]
 ];
