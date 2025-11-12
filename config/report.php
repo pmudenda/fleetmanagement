@@ -25,4 +25,19 @@ return [
         'query' => "RPT_MONTHLY_SPARES_VIEW",
     ],
 
+    'RPT_CONTRACTED_SERVICES_VIEW' => [
+        'title' => "Contracted Services",
+        'query' => "RPT_CONTRACTED_SERVICES_VIEW",
+    ],
+
+    'RPT_HIGH_COST_SPARES_VIEW' => [
+        'title' => "High Cost Spares Against Period",
+        'query' => "RPT_HIGH_COST_SPARES_VIEW",
+    ],
+
+    'RPT_VEHICLE_ISSUED_FUEL_MORE_THAN_TANK_CAPACITY_VIEW' => [
+        'title' => "Vehicles Issued Fuel More Than Tank Capacity",
+        'query' => "RPT_VEHICLE_ISSUED_FUEL_MORE_THAN_TANK_CAPACITY_VIEW",
+    ],
+
 ];

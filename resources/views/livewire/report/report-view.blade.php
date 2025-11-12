@@ -23,24 +23,26 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    @foreach($columns as $column)
-                                        <th>{{ strtoupper(str_replace('_', ' ', $column)) }}</th>
-                                    @endforeach
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($results as $result)
-                                    <tr>
-                                        @foreach($columns as $column)
-                                            <td>{{ $result->$column ?? '' }}</td>
-                                        @endforeach
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                           <div class="table-responsive">
+                               <table class="table table-bordered">
+                                   <thead>
+                                   <tr>
+                                       @foreach($columns as $column)
+                                           <th>{{ strtoupper(str_replace('_', ' ', $column)) }}</th>
+                                       @endforeach
+                                   </tr>
+                                   </thead>
+                                   <tbody>
+                                   @foreach($results as $result)
+                                       <tr>
+                                           @foreach($columns as $column)
+                                               <td>{{ $result->$column ?? '' }}</td>
+                                           @endforeach
+                                       </tr>
+                                   @endforeach
+                                   </tbody>
+                               </table>
+                           </div>
                         </div>
                     </div>
                 </div>
