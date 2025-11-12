@@ -35,7 +35,7 @@ class ReportView extends Component {
     }
 
     public function export() {
-        $results = collect(DB::select($this->report->query));
+        $results = DB::table($this->report->query)->get();
         return (new GenericReportExport($this->columns, $results))->download("{$this->report->title}.xlsx");
 
     }
