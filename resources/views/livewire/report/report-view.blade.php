@@ -21,6 +21,17 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <!-- Display Errors -->
+                            @if(!empty($errors))
+                                @foreach($errors as $field => $error)
+                                    <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                        {{ $error }}
+                                    </div>
+                                @endforeach
+                            @endif
+
                             <div class="row">
                                 @foreach($report->filters as $filter)
                                     <div class="col-md-4">
@@ -32,13 +43,13 @@
                                                     <div class="col-md-6">
                                                         <input type="date"
                                                                wire:model="filters.{{ $filter['field'] }}_start"
-                                                               class="form-control"
+                                                               class="form-control {{ isset($errors[$filter['field']]) ? 'is-invalid' : '' }}"
                                                                placeholder="Start Date">
                                                     </div>
                                                     <div class="col-md-6">
                                                         <input type="date"
                                                                wire:model="filters.{{ $filter['field'] }}_end"
-                                                               class="form-control"
+                                                               class="form-control {{ isset($errors[$filter['field']]) ? 'is-invalid' : '' }}"
                                                                placeholder="End Date">
                                                     </div>
                                                 </div>
@@ -53,15 +64,9 @@
                                                 <select multiple
                                                         wire:model="filters.{{ $filter['field'] }}"
                                                         class="form-control">
-                                                    @if(isset($filter['options']))
-                                                        @foreach($filter['options'] as $option)
-                                                            <option value="{{ $option }}">{{ $option }}</option>
-                                                        @endforeach
-                                                    @elseif(isset($filterOptions[$filter['field']]))
-                                                        @foreach($filterOptions[$filter['field']] as $option)
-                                                            <option value="{{ $option }}">{{ $option }}</option>
-                                                        @endforeach
-                                                    @endif
+                                                    @foreach($filterOptions[$filter['field']] ?? [] as $option)
+                                                        <option value="{{ $option }}">{{ $option }}</option>
+                                                    @endforeach
                                                 </select>
 
                                             @elseif($filter['type'] === 'number_range')
@@ -69,13 +74,13 @@
                                                     <div class="col-md-6">
                                                         <input type="number"
                                                                wire:model="filters.{{ $filter['field'] }}_min"
-                                                               class="form-control"
+                                                               class="form-control {{ isset($errors[$filter['field']]) ? 'is-invalid' : '' }}"
                                                                placeholder="Min">
                                                     </div>
                                                     <div class="col-md-6">
                                                         <input type="number"
                                                                wire:model="filters.{{ $filter['field'] }}_max"
-                                                               class="form-control"
+                                                               class="form-control {{ isset($errors[$filter['field']]) ? 'is-invalid' : '' }}"
                                                                placeholder="Max">
                                                     </div>
                                                 </div>
@@ -84,16 +89,16 @@
                                                 <select wire:model="filters.{{ $filter['field'] }}"
                                                         class="form-control">
                                                     <option value="">Select...</option>
-                                                    @if(isset($filter['options']))
-                                                        @foreach($filter['options'] as $option)
-                                                            <option value="{{ $option }}">{{ $option }}</option>
-                                                        @endforeach
-                                                    @elseif(isset($filterOptions[$filter['field']]))
-                                                        @foreach($filterOptions[$filter['field']] as $option)
-                                                            <option value="{{ $option }}">{{ $option }}</option>
-                                                        @endforeach
-                                                    @endif
+                                                    @foreach($filterOptions[$filter['field']] ?? [] as $option)
+                                                        <option value="{{ $option }}">{{ $option }}</option>
+                                                    @endforeach
                                                 </select>
+                                            @endif
+
+                                            @if(isset($errors[$filter['field']]))
+                                                <div class="invalid-feedback d-block">
+                                                    {{ $errors[$filter['field']] }}
+                                                </div>
                                             @endif
                                         </div>
                                     </div>
@@ -104,7 +109,6 @@
                             <x-button wire:click="applyFilters" class="btn btn-primary" wire:target="applyFilters">
                                 <i class="fas fa-filter"></i> Apply Filters
                             </x-button>
-
                             <x-button wire:click="resetFilters" class="btn btn-default" wire:target="resetFilters">
                                 <i class="fas fa-redo"></i> Reset
                             </x-button>
@@ -121,7 +125,9 @@
                             </div>
                         </div>
                         <div class="card-tools mr-2">
-                            <x-button class="btn  btn-primary" wire:click="export">Export</x-button>
+                            <button wire:click="export" class="btn btn-primary" {{ !empty($errors) ? 'disabled' : '' }}>
+                                Export
+                            </button>
                         </div>
                     </div>
 
