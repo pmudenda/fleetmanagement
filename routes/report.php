@@ -40,13 +40,13 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
 
     Route::get('/', \App\Livewire\Report\ReportIndex::class)->name('report.index');
     Route::get('/{report}/show', \App\Livewire\Report\ReportView::class)->name('report.view');
-    Route::get('/{report}/stream', function (Request $request, $name) {
-        $report = (object)config('report')[$name];
-        $query = DB::query()->selectRaw($report->query);
-        $columns = $report->columns;
-        return PdfReportFacade::of($report->title, [], $query, $columns)
-            ->setOrientation('landscape')
-            ->limit(20)
-            ->stream();
-    })->name('report.stream');
+//    Route::get('/{report}/stream', function (Request $request, Report $report) {
+//        $report = (object)config('report')[$name];
+//        $query = DB::query()->selectRaw($report->query);
+//        $columns = $report->columns;
+//        return PdfReportFacade::of($report->title, [], $query, $columns)
+//            ->setOrientation('landscape')
+//            ->limit(20)
+//            ->stream();
+//    })->name('report.stream');
 });

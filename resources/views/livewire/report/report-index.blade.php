@@ -7,12 +7,12 @@
 
 <div class="container-fluid">
     <div class="row">
-        @foreach($reports as $id => $report)
+        @foreach($reports as  $report)
             <div class="col-12 col-sm-4">
                 <div class="info-box bg-light">
                     <div class="info-box-content">
-                        <span class="info-box-text text-center text-primary">{{$report['title']}}</span>
-                        <a href="{{route('report.view', $id)}}" class="text-center">View</a>
+                        <span class="info-box-text text-center text-primary">{{$report->name}}</span>
+                        <a href="{{route('report.view', $report)}}" class="text-center">View</a>
                     </div>
                 </div>
             </div>

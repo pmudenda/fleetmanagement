@@ -21,7 +21,7 @@ return [
     ],
 
     'RPT_MONTHLY_SPARES_VIEW' => [
-        'title' => "Monthly Spares Report",
+        'title' => "Monthly Spares",
         'query' => "RPT_MONTHLY_SPARES_VIEW",
     ],
 
@@ -38,6 +38,10 @@ return [
     'RPT_VEHICLE_ISSUED_FUEL_MORE_THAN_TANK_CAPACITY_VIEW' => [
         'title' => "Vehicles Issued Fuel More Than Tank Capacity",
         'query' => "RPT_VEHICLE_ISSUED_FUEL_MORE_THAN_TANK_CAPACITY_VIEW",
+    ],
+    'RPT_JOBCARD_WORKS_DURATION_VIEW' => [
+        'title' => "Job Card Works Duration",
+        'query' => "RPT_JOBCARD_WORKS_DURATION_VIEW",
     ],
 
 ];
