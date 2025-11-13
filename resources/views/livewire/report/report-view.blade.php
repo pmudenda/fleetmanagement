@@ -89,7 +89,7 @@
                                                 </div>
 
                                             @elseif($filter['type'] === 'select')
-                                                <div class="form-group" >
+                                                <div class="form-group" wire:ignore>
                                                     <select wire:model="filters.{{ $filter['field'] }}"
                                                             class="form-control select2"
                                                             id="select-{{ $filter['field'] }}"
