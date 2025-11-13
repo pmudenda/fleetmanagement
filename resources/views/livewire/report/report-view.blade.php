@@ -94,7 +94,7 @@
                                                             class="form-control select2"
                                                             id="select-{{ $filter['field'] }}"
                                                             style="width: 100%;">
-                                                        <option value="">Select...</option>
+                                                        <option value="">--all--</option>
                                                         @foreach($filterOptions[$filter['field']] ?? [] as $option)
                                                             <option value="{{ $option }}">{{ $option }}</option>
                                                         @endforeach
