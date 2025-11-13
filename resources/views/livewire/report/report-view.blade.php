@@ -25,7 +25,8 @@
                             @if(!empty($errors))
                                 @foreach($errors as $field => $error)
                                     <div class="alert alert-danger alert-dismissible">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
+                                        </button>
                                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
                                         {{ $error }}
                                     </div>
@@ -63,7 +64,9 @@
                                             @elseif($filter['type'] === 'multi_select')
                                                 <select multiple
                                                         wire:model="filters.{{ $filter['field'] }}"
-                                                        class="form-control">
+                                                        class="form-control select2"
+                                                        id="select-{{ $filter['field'] }}"
+                                                        style="width: 100%;">
                                                     @foreach($filterOptions[$filter['field']] ?? [] as $option)
                                                         <option value="{{ $option }}">{{ $option }}</option>
                                                     @endforeach
@@ -86,13 +89,17 @@
                                                 </div>
 
                                             @elseif($filter['type'] === 'select')
-                                                <select wire:model="filters.{{ $filter['field'] }}"
-                                                        class="form-control">
-                                                    <option value="">Select...</option>
-                                                    @foreach($filterOptions[$filter['field']] ?? [] as $option)
-                                                        <option value="{{ $option }}">{{ $option }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <div class="form-group" wire:ignore>
+                                                    <select wire:model="filters.{{ $filter['field'] }}"
+                                                            class="form-control select2"
+                                                            id="select-{{ $filter['field'] }}"
+                                                            style="width: 100%;">
+                                                        <option value="">Select...</option>
+                                                        @foreach($filterOptions[$filter['field']] ?? [] as $option)
+                                                            <option value="{{ $option }}">{{ $option }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             @endif
 
                                             @if(isset($errors[$filter['field']]))
@@ -166,3 +173,25 @@
         </div>
     </div>
 </section>
+
+@push('scripts')
+    <script type="text/javascript">
+        document.addEventListener('livewire:init', () => {
+            // $('.select2-reports').select2({
+            //     placeholder: "Select...",
+            //     allowClear: true
+            // });
+
+            // Update Livewire when Select2 changes
+            $('.select2').on('change', function (e) {
+                const fieldName = $(this).attr('wire:model');
+                const value = $(this).val();
+                @this.
+                set(fieldName, value);
+                @this.call('applyFilters');
+            });
+        });
+
+    </script>
+
+@endpush
