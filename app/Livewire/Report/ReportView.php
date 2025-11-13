@@ -106,6 +106,8 @@ class ReportView extends Component {
         }
         $this->errors = [];
         $this->resetPage();
+        $this->dispatch('clear-filters');
+        $this->redirect(route('report.view', $this->report));
     }
 
     public function updatedFilters($value, $key) {

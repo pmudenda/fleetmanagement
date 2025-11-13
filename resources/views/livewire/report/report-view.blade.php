@@ -89,7 +89,7 @@
                                                 </div>
 
                                             @elseif($filter['type'] === 'select')
-                                                <div class="form-group" wire:ignore>
+                                                <div class="form-group" >
                                                     <select wire:model="filters.{{ $filter['field'] }}"
                                                             class="form-control select2"
                                                             id="select-{{ $filter['field'] }}"
@@ -177,10 +177,6 @@
 @push('scripts')
     <script type="text/javascript">
         document.addEventListener('livewire:init', () => {
-            // $('.select2-reports').select2({
-            //     placeholder: "Select...",
-            //     allowClear: true
-            // });
 
             // Update Livewire when Select2 changes
             $('.select2').on('change', function (e) {
@@ -190,6 +186,17 @@
                 set(fieldName, value);
                 @this.call('applyFilters');
             });
+
+        });
+
+        document.addEventListener('livewire:update', () => {
+            console.log('Livewire updated');
+            setTimeout(() => {
+                $('.select2').select2({
+                    placeholder: "Select...",
+                    allowClear: true
+                });
+            }, 100);
         });
 
     </script>
