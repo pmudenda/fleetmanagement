@@ -94,7 +94,7 @@
                                                             class="form-control select2"
                                                             id="select-{{ $filter['field'] }}"
                                                             style="width: 100%;">
-                                                        <option value="">--all--</option>
+                                                        <option value="">--ALL--</option>
                                                         @foreach($filterOptions[$filter['field']] ?? [] as $option)
                                                             <option value="{{ $option }}">{{ $option }}</option>
                                                         @endforeach
@@ -132,9 +132,9 @@
                             </div>
                         </div>
                         <div class="card-tools mr-2">
-                            <button wire:click="export" class="btn btn-primary" {{ !empty($errors) ? 'disabled' : '' }}>
+                            <x-button wire:click="export" wire:target="export" class="btn btn-primary" >
                                 Export
-                            </button>
+                            </x-button>
                         </div>
                     </div>
 
