@@ -9,7 +9,7 @@ class ReportIndex extends Component
 {
     public function render()
     {
-        $reports = SystemReport::all();
+        $reports = SystemReport::all()->groupBy('category');
         return view('livewire.report.report-index',compact('reports'));
     }
 }

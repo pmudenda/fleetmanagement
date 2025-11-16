@@ -128,7 +128,7 @@
                     <div class="card-header">
                         <div class="card-title">
                             <div class="d-flex flex-column gap-2">
-                                <span class="h3 text-uppercase ">Total Records: {{$results->total()}}</span>
+                                <span class="h3 text-uppercase ">Total Records: {{number_format($results->total())}}</span>
                             </div>
                         </div>
                         <div class="card-tools mr-2">
