@@ -22,7 +22,8 @@ class RoadTax extends Model
         'modified_by',
         'deleted_at',
         'status',
-        'fitness_expiry'
+        'fitness_expiry',
+        'is_compliant'
     ];
 
     protected $casts = [

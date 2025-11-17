@@ -47,5 +47,8 @@ class VehicleHeader extends Model
         return $this->belongsTo(Status::class,'status','code')->where('MODULE','VEH');
     }
 
+    public function roadTax(){
+        return $this->hasOne(RoadTax::class,'reg_no','registration_number');
+    }
 
 }

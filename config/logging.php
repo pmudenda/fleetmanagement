@@ -71,6 +71,13 @@ return [
             'days' => 14,
         ],
 
+        'rtsa' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/rtsa.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
+        ],
+
         'jobcard' => [
             'driver' => 'daily',
             'path' => storage_path('logs/jobcard.log'),
