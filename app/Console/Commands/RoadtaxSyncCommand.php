@@ -11,36 +11,21 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class RoadtaxSyncCommand extends Command {
+class RoadtaxSyncCommand extends Command
+{
     protected $signature = 'roadtax:sync {reg?} {--batch-size=100} {--delay=100}';
     protected $description = 'This command triggers the sync for vehicles to check their road tax status';
 
-    public function handle() {
+    public function handle()
+    {
         $reg_no = $this->argument('reg');
         $batchSize = $this->option('batch-size');
         $delay = $this->option('delay');
 
-        $vehicles = VehicleHeader::whereNotIn('status', ['08', '10', '07'])
+        $vehicles = VehicleHeader::whereNotIn('status', ['08','10','07'])
             ->whereRelation('statusInfo', 'module', 'VEH')
-            ->whereNotIn('body_type_code', ['37',
-                '27',
-                '24',
-                '30',
-                '11',
-                '32',
-                '26',
-                '25',
-                '23',
-                '22',
-                '21',
-                '10',
-                '12',
-                '42'])
             ->when($reg_no, function ($query, $reg_no) {
                 $query->where('registration_number', $reg_no);
-            })
-            ->whereDoesntHave('roadTax',function ($query){
-                $query->whereDate('updated_at',now()->toDateString());
             })
             ->get();
 
@@ -112,8 +97,9 @@ class RoadtaxSyncCommand extends Command {
         return 0;
     }
 
-    private function getTokenWithRefresh(): ?string {
-        return Cache::remember('rtsa-token', 25 * 60, function () {
+    private function getTokenWithRefresh(): ?string
+    {
+        return Cache::remember('rtsa-token', 25 * 60, function() {
             Log::channel('rtsa')->info('Requesting new RTSA token');
 
             $response = Http::rtsa()
@@ -137,7 +123,8 @@ class RoadtaxSyncCommand extends Command {
         });
     }
 
-    private function check(VehicleHeader $vehicle, string &$token, int $delay): string {
+    private function check(VehicleHeader $vehicle, string &$token, int $delay): string
+    {
         $cleanReg = str_replace(' ', '', strtoupper($vehicle->registration_number));
 
         try {
@@ -162,12 +149,12 @@ class RoadtaxSyncCommand extends Command {
                 $responseData = $response->successful() ? $response->object() : null;
             }
 
+            // Check if we have a successful response with actual vehicle data
             if ($response->successful() && !$this->isVehicleNotFound($responseData)) {
                 $this->processVehicleData($vehicle, $response);
                 Log::channel('rtsa')->debug('Vehicle data synced successfully', [
                     'registration' => $cleanReg,
-                    'response_code' => $responseData->code ?? 'unknown',
-                    'response_message' => $responseData->registrationStatus ?? 'unknown'
+                    'response_code' => $responseData->code ?? 'unknown'
                 ]);
                 return 'success';
             }
@@ -177,9 +164,20 @@ class RoadtaxSyncCommand extends Command {
                 Log::channel('rtsa')->warning('Vehicle not found in RTSA system', [
                     'registration' => $cleanReg,
                     'attempted_variations' => !str_ends_with($cleanReg, 'ZM') ? [$cleanReg, $cleanReg . 'ZM'] : [$cleanReg],
-                    'error_message' => $responseData->errorMessage ?? 'Unknown error'
+                    'error_message' => $responseData->body->errorMessage ?? 'Unknown error'
                 ]);
                 return 'not_found';
+            }
+
+            // Handle other API errors (like the 400 with message)
+            if ($response->failed() || ($responseData->message ?? null) === 'Unable to get vehicle details by registration mark') {
+                Log::channel('rtsa')->warning('Vehicle API error', [
+                    'registration' => $cleanReg,
+                    'status' => $response->status(),
+                    'message' => $responseData->message ?? 'No message',
+                    'error_message' => $responseData->body->errorMessage ?? 'No error message'
+                ]);
+                return 'failure';
             }
 
             // Handle timeouts specifically
@@ -216,7 +214,8 @@ class RoadtaxSyncCommand extends Command {
         }
     }
 
-    private function makeVehicleRequest(string $registration, string &$token) {
+    private function makeVehicleRequest(string $registration, string &$token)
+    {
         $response = Http::rtsa()
             ->timeout(25) // Increased but reasonable timeout
             ->retry(1, 2000) // Retry once after 2 seconds for transient issues
@@ -247,30 +246,48 @@ class RoadtaxSyncCommand extends Command {
         return $response;
     }
 
-    private function    isVehicleNotFound($responseData): bool {
+    private function isVehicleNotFound($responseData): bool
+    {
         // Check if the response indicates vehicle not found
+        // Based on the actual API response structure:
+        // {
+        //     "message": "Unable to get vehicle details by registration mark",
+        //     "code": 400,
+        //     "body": {
+        //         "errorMessage": "Vehicle record was not found. Please contact the RTSA Call Centre to resolve this.",
+        //         "errorType": "E"
+        //     }
+        // }
         return $responseData &&
-            isset($responseData->errorType) &&
-            $responseData->errorType === 'E' &&
-            isset($responseData->errorMessage) &&
-            str_contains($responseData->errorMessage, 'Vehicle record was not found');
+            isset($responseData->body->errorType) &&
+            $responseData->body->errorType === 'E' &&
+            isset($responseData->body->errorMessage) &&
+            str_contains($responseData->body->errorMessage, 'Vehicle record was not found');
     }
 
-    private function isTimeoutError($response): bool {
+    private function isTimeoutError($response): bool
+    {
         return $response->status() === 408 || // Request Timeout
             $response->status() === 504 || // Gateway Timeout
             $response->status() === 499;   // Client Closed Request (often used for timeouts)
     }
 
-    private function processVehicleData(VehicleHeader $vehicle, $response) {
+    private function processVehicleData(VehicleHeader $vehicle, $response)
+    {
         $data = $response->object()->body;
+
+        // Check if this is actually vehicle data and not an error
+        if (isset($data->errorType) && $data->errorType === 'E') {
+            Log::channel('rtsa')->warning('Attempted to process vehicle data but got error', [
+                'registration' => $vehicle->registration_number,
+                'error_message' => $data->errorMessage
+            ]);
+            return;
+        }
 
         $compliantStatuses = [
             'Registered Permanent - Customs paid',
-            'Registered Permanent',
-            'Valid',
-            'Active'
-            // Add other statuses that indicate compliance
+            // Add other statuses that indicate compliance as you discover them
         ];
 
         $isCompliant = in_array($data->registrationStatus, $compliantStatuses);
@@ -284,7 +301,7 @@ class RoadtaxSyncCommand extends Command {
                 'fitness_expiry' => Carbon::parse($data->roadWorthinessExpiryDate)->toDateString(),
                 'cost' => 0,
                 'payment_date' => Carbon::parse($data->firstRegDate)->toDateString(),
-                'status' => $data->registrationStatus ?? 'Status not available',
+                'status' => $data->registrationStatus,
                 'is_compliant' => $isCompliant
             ]
         );
