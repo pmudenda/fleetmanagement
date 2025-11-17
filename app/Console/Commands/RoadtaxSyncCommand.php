@@ -104,7 +104,7 @@ class RoadtaxSyncCommand extends Command
             Log::channel('rtsa')->info('Requesting new RTSA token');
 
             $response = Http::rtsa()
-                ->timeout(15) // Shorter timeout for auth
+                ->timeout(30) // Shorter timeout for auth
                 ->retry(2, 100) // Retry twice with 100ms delay
                 ->post('auth/authenticate', [
                     'username' => config('services.rtsa.username'),
@@ -227,7 +227,7 @@ class RoadtaxSyncCommand extends Command
     private function makeVehicleRequest(string $registration, string &$token)
     {
         $response = Http::rtsa()
-            ->timeout(25) // Increased but reasonable timeout
+            ->timeout(30) // Increased but reasonable timeout
             ->retry(1, 2000) // Retry once after 2 seconds for transient issues
             ->withHeader('Authorization', $token)
             ->get('vehiclestatus', [
