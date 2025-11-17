@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class VehicleHeader extends Model
-{
+class VehicleHeader extends Model {
     use SoftDeletes;
 
     protected $table = 'VM_VEHICLE_HEADER';
@@ -35,20 +34,26 @@ class VehicleHeader extends Model
         'created_name',
     ];
 
-    public function statusInfo(){
-        return $this->belongsTo(Status::class,'status','code');
+    public function statusInfo() {
+        return $this->belongsTo(Status::class, 'status', 'code');
     }
 
     public function engine() {
-        return $this->belongsTo(EngineDetail::class,'registration_number','reg_no');
+        return $this->belongsTo(EngineDetail::class, 'registration_number', 'reg_no');
     }
 
     public function state() {
-        return $this->belongsTo(Status::class,'status','code')->where('MODULE','VEH');
+        return $this->belongsTo(Status::class, 'status', 'code')->where('MODULE', 'VEH');
     }
 
-    public function roadTax(){
-        return $this->hasOne(RoadTax::class,'reg_no','registration_number');
+    public function roadTax() {
+        return $this->hasOne(RoadTax::class, 'reg_no', 'registration_number');
+    }
+
+    public function scopeActive($query) {
+        return $query->whereNotIn('status', ['08', '10', '07'])
+            ->whereRelation('statusInfo', 'module', 'VEH')
+            ->whereNotIn('body_type_code', ['37', '27', '24', '30', '11', '32', '26', '25', '23', '22', '21', '10', '12', '42']);
     }
 
 }

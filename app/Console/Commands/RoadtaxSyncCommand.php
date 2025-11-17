@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class RoadtaxSyncCommand extends Command
 {
-    protected $signature = 'roadtax:sync {reg?} {--batch-size=100} {--delay=100}';
+    protected $signature = 'rtsa:sync {reg?} {--batch-size=100} {--delay=100}';
     protected $description = 'This command triggers the sync for vehicles to check their road tax status';
 
     public function handle()
@@ -22,9 +22,7 @@ class RoadtaxSyncCommand extends Command
         $batchSize = $this->option('batch-size');
         $delay = $this->option('delay');
 
-        $vehicles = VehicleHeader::whereNotIn('status', ['08','10','07'])
-            ->whereRelation('statusInfo', 'module', 'VEH')
-            ->whereNotIn('body_type_code',['37','27','24','30','11','32','26','25','23','22','21','10','12','42'])
+        $vehicles = VehicleHeader::active()
             ->when($reg_no, function ($query, $reg_no) {
                 $query->where('registration_number', $reg_no);
             })

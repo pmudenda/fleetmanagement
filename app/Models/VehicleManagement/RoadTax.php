@@ -2,6 +2,7 @@
 
 namespace App\Models\VehicleManagement;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,4 +33,19 @@ class RoadTax extends Model
         'payment_date' => 'date',
         'fitness_expiry' => 'date',
     ];
+
+    public function scopeCompliant(Builder $query): void
+    {
+        $query->where('is_compliant',1);
+    }
+
+    public function scopeNonCompliant(Builder $query): void
+    {
+        $query->where('is_compliant',0);
+    }
+
+    public function vehicle()
+    {
+        return $this->belongsTo(VehicleHeader::class, 'reg_no', 'registration_number');
+    }
 }
