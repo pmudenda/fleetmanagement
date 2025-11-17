@@ -133,8 +133,8 @@ class RoadtaxSyncCommand extends Command
             $response = $this->makeVehicleRequest($cleanReg, $token);
             $responseData = $response->successful() ? $response->object() : null;
 
-            // If vehicle not found and doesn't have ZM, try with ZM suffix
-            if ($this->isVehicleNotFound($responseData) && !str_ends_with($cleanReg, 'ZM')) {
+            // If vehicle not found (code 400) and doesn't have ZM, try with ZM suffix
+            if ($responseData && $this->isVehicleNotFound($responseData) && !str_ends_with($cleanReg, 'ZM')) {
                 $zmReg = $cleanReg . 'ZM';
                 Log::channel('rtsa')->info('Vehicle not found, retrying with ZM suffix', [
                     'original_reg' => $cleanReg,
@@ -150,18 +150,18 @@ class RoadtaxSyncCommand extends Command
                 $responseData = $response->successful() ? $response->object() : null;
             }
 
-            // Check if we have a successful response with actual vehicle data
-            if ($response->successful() && !$this->isVehicleNotFound($responseData)) {
+            // Check if we have a successful response with actual vehicle data (code 200)
+            if ($response->successful() && $responseData && $responseData->code === 200) {
                 $this->processVehicleData($vehicle, $response);
                 Log::channel('rtsa')->debug('Vehicle data synced successfully', [
                     'registration' => $cleanReg,
-                    'response_code' => $responseData->code ?? 'unknown'
+                    'response_code' => $responseData->code
                 ]);
                 return 'success';
             }
 
-            // Log not found vehicles
-            if ($this->isVehicleNotFound($responseData)) {
+            // Log not found vehicles (code 400)
+            if ($responseData && $this->isVehicleNotFound($responseData)) {
                 Log::channel('rtsa')->warning('Vehicle not found in RTSA system', [
                     'registration' => $cleanReg,
                     'attempted_variations' => !str_ends_with($cleanReg, 'ZM') ? [$cleanReg, $cleanReg . 'ZM'] : [$cleanReg],
@@ -170,27 +170,36 @@ class RoadtaxSyncCommand extends Command
                 return 'not_found';
             }
 
-            // Handle other API errors (like the 400 with message)
-            if ($response->failed() || ($responseData->message ?? null) === 'Unable to get vehicle details by registration mark') {
-                Log::channel('rtsa')->warning('Vehicle API error', [
+            // Handle other API errors (unexpected codes)
+            if ($response->successful() && $responseData && $responseData->code !== 200) {
+                Log::channel('rtsa')->warning('Vehicle API returned unexpected code', [
                     'registration' => $cleanReg,
-                    'status' => $response->status(),
-                    'message' => $responseData->message ?? 'No message',
-                    'error_message' => $responseData->body->errorMessage ?? 'No error message'
+                    'api_code' => $responseData->code,
+                    'message' => $responseData->message ?? 'No message'
                 ]);
                 return 'failure';
             }
 
-            // Handle timeouts specifically
-            if ($response->failed() && $this->isTimeoutError($response)) {
-                Log::channel('rtsa')->error('Vehicle request timeout', [
+            // Handle HTTP failures
+            if ($response->failed()) {
+                // Handle timeouts specifically
+                if ($this->isTimeoutError($response)) {
+                    Log::channel('rtsa')->error('Vehicle request timeout', [
+                        'registration' => $cleanReg,
+                        'status' => $response->status()
+                    ]);
+                    return 'timeout';
+                }
+
+                Log::channel('rtsa')->warning('Vehicle HTTP request failed', [
                     'registration' => $cleanReg,
-                    'status' => $response->status()
+                    'status' => $response->status(),
+                    'response' => $response->body()
                 ]);
-                return 'timeout';
+                return 'failure';
             }
 
-            Log::channel('rtsa')->warning('Vehicle sync failed', [
+            Log::channel('rtsa')->warning('Vehicle sync failed for unknown reason', [
                 'registration' => $cleanReg,
                 'status' => $response->status(),
                 'response' => $response->body()
@@ -253,15 +262,15 @@ class RoadtaxSyncCommand extends Command
         // Based on the actual API response structure:
         // {
         //     "message": "Unable to get vehicle details by registration mark",
-        //     "code": 400,
+        //     "code": 400,  // <-- This is the key indicator!
         //     "body": {
-        //         "errorMessage": "Vehicle record was not found. Please contact the RTSA Call Centre to resolve this.",
+        //         "errorMessage": "Vehicle record was not found...",
         //         "errorType": "E"
         //     }
         // }
         return $responseData &&
-            isset($responseData->body->errorType) &&
-            $responseData->body->errorType === 'E' &&
+            isset($responseData->code) &&
+            $responseData->code === 400 &&
             isset($responseData->body->errorMessage) &&
             str_contains($responseData->body->errorMessage, 'Vehicle record was not found');
     }
@@ -277,14 +286,8 @@ class RoadtaxSyncCommand extends Command
     {
         $data = $response->object()->body;
 
-        // Check if this is actually vehicle data and not an error
-        if (isset($data->errorType) && $data->errorType === 'E') {
-            Log::channel('rtsa')->warning('Attempted to process vehicle data but got error', [
-                'registration' => $vehicle->registration_number,
-                'error_message' => $data->errorMessage
-            ]);
-            return;
-        }
+        // For successful responses (code 200), the body contains the vehicle data directly
+        // No need to check for errorType since we already verified code === 200
 
         $compliantStatuses = [
             'Registered Permanent - Customs paid',
