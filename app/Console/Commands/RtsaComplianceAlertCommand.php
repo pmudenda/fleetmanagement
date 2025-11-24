@@ -40,14 +40,15 @@ class RtsaComplianceAlertCommand extends Command
         $complianceReport = $this->generateComplianceReport();
 
         $users->each(function($user) use ($complianceReport) {
-            new RtsaAlertNotification($complianceReport);
+            $user->notify(new RtsaAlertNotification($complianceReport));
         });
-        dd($complianceReport);
     }
 
-    private function generateComplianceReport()
+    function generateComplianceReport()
     {
-        $totalVehicles = VehicleHeader::count();
+        $totalVehicles = VehicleHeader::active()->count();
+        $unsyncedCount = VehicleHeader::active()->doesntHave('roadTax')->count();
+        $syncedCount = RoadTax::count();
         $nonCompliant = RoadTax::nonCompliant()->with('vehicle')->get();
         $compliantCount = RoadTax::compliant()->count();
         $nonCompliantCount = $nonCompliant->count();
@@ -79,6 +80,8 @@ class RtsaComplianceAlertCommand extends Command
             'expiredFitnessCount' => $expiredFitnessCount,
             'expiredTaxCount' => $expiredTaxCount,
             'suspendedCount' => $suspendedCount,
+            'unsyncedCount' => $unsyncedCount,
+            'syncedCount' => $syncedCount,
+            'nonCompliant' => $nonCompliant
         ];
-    }
-}
+    }}

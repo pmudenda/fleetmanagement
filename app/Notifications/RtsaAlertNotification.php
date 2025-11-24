@@ -2,10 +2,12 @@
 
 namespace App\Notifications;
 
+use App\Exports\NonCompliantVehicleExport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RtsaAlertNotification extends Notification {
     use Queueable;
@@ -33,7 +35,11 @@ class RtsaAlertNotification extends Notification {
      */
     public function toMail(object $notifiable): MailMessage {
         $complainceReport = $this->complainceReport;
-        return (new MailMessage)->markdown('notifications.email.rtsa_alert', $complainceReport);
+        $vehicles = $complainceReport['nonCompliant'];
+        $date = date('Y-m-d');
+        return (new MailMessage)
+            ->attachData(Excel::raw(new NonCompliantVehicleExport($vehicles), \Maatwebsite\Excel\Excel::XLSX),"non-compliant-vehicles-{{$date}}.xlsx")
+            ->markdown('notifications.email.rtsa_alert', $complainceReport);
     }
 
     /**

@@ -93,7 +93,8 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
             'expiredTaxCount' => $expiredTaxCount,
             'suspendedCount' => $suspendedCount,
             'unsyncedCount' => $unsyncedCount,
-            'syncedCount' => $syncedCount
+            'syncedCount' => $syncedCount,
+            'nonCompliant' => $nonCompliant
         ];
     }
 

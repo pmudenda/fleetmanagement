@@ -1201,6 +1201,15 @@
                         <ul class="nav nav-treeview pl-3">
                             @canany(config('rights.access_reports'),
                                                     config('rights.access_fuel_reports'))
+                                <li class="nav-item">
+                                    <a href="{{route('report.index')}}"
+                                       class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            ZFMS Reports
+                                        </p>
+                                    </a>
+                                </li>
                                 {{--                                <li class="nav-item">--}}
                                 {{--                                    <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"--}}
                                 {{--                                       class="nav-link">--}}
@@ -1211,55 +1220,55 @@
                                 {{--                                    </a>--}}
                                 {{--                                </li>--}}
 
-                                <li class="nav-item">
-                                    <a href="{{route('reports.fuel.status')}}"
-                                       class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>
-                                            Fuel By Status
-                                        </p>
-                                    </a>
-                                </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a href="{{route('reports.fuel.status')}}"--}}
+{{--                                       class="nav-link">--}}
+{{--                                        <i class="far fa-circle nav-icon"></i>--}}
+{{--                                        <p>--}}
+{{--                                            Fuel By Status--}}
+{{--                                        </p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
 
-                                <li class="nav-item">
-                                    <a href="{{route('reports.fuel')}}"
-                                       class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>
-                                            Fuel Period Report
-                                        </p>
-                                    </a>
-                                </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a href="{{route('reports.fuel')}}"--}}
+{{--                                       class="nav-link">--}}
+{{--                                        <i class="far fa-circle nav-icon"></i>--}}
+{{--                                        <p>--}}
+{{--                                            Fuel Period Report--}}
+{{--                                        </p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
 
-                                <li class="nav-item">
-                                    <a href="{{route('reports.spares')}}"
-                                       class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>
-                                            Consolidated Spares Report
-                                        </p>
-                                    </a>
-                                </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a href="{{route('reports.spares')}}"--}}
+{{--                                       class="nav-link">--}}
+{{--                                        <i class="far fa-circle nav-icon"></i>--}}
+{{--                                        <p>--}}
+{{--                                            Consolidated Spares Report--}}
+{{--                                        </p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
 
-                                <li class="nav-item">
-                                    <a href="{{route('reports.audit.document')}}"
-                                       class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>
-                                            Document Tracking
-                                        </p>
-                                    </a>
-                                </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a href="{{route('reports.audit.document')}}"--}}
+{{--                                       class="nav-link">--}}
+{{--                                        <i class="far fa-circle nav-icon"></i>--}}
+{{--                                        <p>--}}
+{{--                                            Document Tracking--}}
+{{--                                        </p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
 
-                                <li class="nav-item">
-                                    <a href="{{route('report.index')}}"
-                                       class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>
-                                           Reports
-                                        </p>
-                                    </a>
-                                </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a href="{{route('report.index')}}"--}}
+{{--                                       class="nav-link">--}}
+{{--                                        <i class="far fa-circle nav-icon"></i>--}}
+{{--                                        <p>--}}
+{{--                                           Reports--}}
+{{--                                        </p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
                             @endcanany
 
                             {{--                            @canany(config('rights.access_reports'),--}}
