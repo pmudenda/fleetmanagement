@@ -9,8 +9,11 @@ use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class TrackingIndex extends Component {
+    use WithPagination;
+
     public $gpses;
     public $selectedGps;
 
@@ -26,7 +29,8 @@ class TrackingIndex extends Component {
         $not_connected = Gps::whereNull('connected_at')->count();
         $connected = Gps::whereNotNull('connected_at')->count();
         $total = Gps::count();
-        return view('livewire.vehicle-management.tracking.tracking-index', compact('not_connected', 'total', 'connected'));
+        $vehicles = Gps::with('vehicle.roadTax')->orderBy('connected_at', 'asc')->simplePaginate(20);
+        return view('livewire.vehicle-management.tracking.tracking-index', compact('not_connected', 'total', 'connected', 'vehicles'));
     }
 
     public function refresh() {
@@ -61,12 +65,12 @@ class TrackingIndex extends Component {
     }
 
     public function getLocation($imei): array {
-        $gps = Cache::rememberForever("gps-{$imei}", function () use ($imei) {
-            return Gps::with(['vehicle', 'engineDetail.fuelType'])
-                ->where('imei', $imei)
+        $gps = Cache::remember("gps-{$imei}",3600, function () use ($imei) {
+        return Gps::with(['vehicle.roadTax', 'engineDetail.fuelType'])
+            ->where('imei', $imei)
 //            ->whereNotNull('connected_at')
-                ->orderBy('connected_at', 'DESC')
-                ->first();
+            ->orderBy('connected_at', 'DESC')
+            ->first();
         });
 
         if (is_null($gps)) {
@@ -79,14 +83,18 @@ class TrackingIndex extends Component {
         $statuses = Status::all();
         return [
             'id' => $gps->id,
-            'connected_at' => $gps->connected_at ? $gps->connected_at->diffForHumans(null, true, true) : null,
+            'connected_at' => $gps->connected_at ? $gps->connected_at->diffForHumans(null, true, true) : '--',
             'is_connected' => $gps->connected_at != null,
             'imei' => $gps->imei,
             'reg' => $gps->reg_number,
             'brand' => "{$gps->vehicle->brand_name} {$gps->vehicle->model_name}",
-            'business_unit' => $gps->vehicle->business_unit_name ?? null,
-            'fuel_type' => $gps->engineDetail->fuelType->description ?? null,
-            'status' => $statuses->where('code', $gps->vehicle->status)->first()->name ?? null,
+            'business_unit' => $gps->vehicle->business_unit_name ?? '--',
+            'fuel_type' => $gps->engineDetail->fuelType->description ?? '--',
+            'status' => $statuses->where('code', $gps->vehicle->status)->first()->name ?? '--',
+            'fitness' => isset($gps->vehicle->roadTax->fitness_expiry) ? $gps->vehicle->roadTax->fitness_expiry->toFormattedDateString() : '--',
+            'road_tax' => isset($gps->vehicle->roadTax->valid_to) ? $gps->vehicle->roadTax->valid_to->toFormattedDateString() : '--',
+            'rtsa_status' => $gps->vehicle->roadTax->status ?? '--',
+            'is_compliant' => $gps->vehicle->roadTax->is_compliant ?? false
         ];
     }
 

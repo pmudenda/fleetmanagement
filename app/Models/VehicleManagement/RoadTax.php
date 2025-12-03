@@ -32,6 +32,7 @@ class RoadTax extends Model
         'valid_to' => 'date',
         'payment_date' => 'date',
         'fitness_expiry' => 'date',
+        'is_compliant' => 'boolean'
     ];
 
     public function scopeCompliant(Builder $query): void

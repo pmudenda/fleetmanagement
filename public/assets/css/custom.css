@@ -58,7 +58,7 @@
 
 /* HTML marker styles */
 .vehicle-marker {
-    background-color: orange;
+    background-color: green;
     border-radius: 8px;
     color: #FFFFFF;
     font-size: 12px;
@@ -76,7 +76,7 @@
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-top: 8px solid orange;
+    border-top: 8px solid green;
 }
 
 /*
@@ -86,7 +86,7 @@
     align-items: center;
     background-color: #FFFFFF;
     border-radius: 50%;
-    border-color: orange !important;
+    border-color: green !important;
     /*display: flex;*/
     font-size: 14px;
     gap: 15px;
@@ -101,7 +101,7 @@
 .property::after {
     border-left: 9px solid transparent;
     border-right: 9px solid transparent;
-    border-top: 9px solid orange;
+    border-top: 9px solid green;
     content: "";
     height: 0;
     left: 50%;
@@ -169,7 +169,7 @@
 }
 
 .property.highlight::after {
-    border-top: 9px solid orange;
+    border-top: 9px solid green;
 }
 
 .property.highlight .details {
@@ -255,4 +255,31 @@
 
 .address strong{
     color: orange;
+}
+
+/* Add these to your custom.css file */
+
+/* Speed-based colors for markers */
+.property.speed-moving:not(.highlight) {
+    background-color: #4CAF50 !important; /* Green for moving */
+}
+
+.property.speed-moving:not(.highlight)::after {
+    border-top-color: #4CAF50 !important;
+}
+
+.property.speed-idle:not(.highlight) {
+    background-color: #FFC107 !important; /* Yellow for idle */
+}
+
+.property.speed-idle:not(.highlight)::after {
+    border-top-color: #FFC107 !important;
+}
+
+.property.speed-fast:not(.highlight) {
+    background-color: #F44336 !important; /* Red for fast */
+}
+
+.property.speed-fast:not(.highlight)::after {
+    border-top-color: #F44336 !important;
 }

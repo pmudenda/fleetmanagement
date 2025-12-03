@@ -18,17 +18,17 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-header">
+{{--                    <div class="card-header">--}}
 
-                    </div>
+{{--                    </div>--}}
 
                     <div class="card-body p-0">
-                        <table class="table table-condensed table-bordered table-sm" style="font-size: 12px">
-                            @foreach($gpses as $gps)
+                        <table class="table table-condensed table-borderless table-sm" style="font-size: 12px">
+                            @foreach($vehicles as $gps)
                                 <tr class="m-0 p-0 @if($gps['id'] == ($selectedGps->id ?? 0)) table-active @endif">
                                     <td class="m-0 p-2">
                                         <a href="javascript:void(0)"
-                                           wire:click="select({{$gps['id']}})">{{$gps['reg']}}</a>
+                                           wire:click="select({{$gps['id']}})">{{$gps['reg_number']}}</a>
                                     </td>
                                     <td class="text-right">
                                         @if(isset($gps['speed']))
@@ -37,10 +37,10 @@
                                                     Km/h</span>
                                             @endif
                                             @if($gps['speed'] <= 0)
-                                                <span class="badge badge-light-warning badge-sm">stationary</span>
+                                                <span class="badge badge-light-warning badge-sm">idle</span>
                                             @endif
                                         @endif
-                                        <span class="badge badge-light-{{$gps['is_connected'] ? 'success' : 'danger'}} badge-sm">{{$gps['connected_at'] ?? 'offline'}}</span>
+                                        <span class="badge badge-light-{{isset($gps['connected_at'])  ? 'success' : 'danger'}} badge-sm">@if($gps['connected_at']) {{$gps['connected_at']->diffForHumans(null,true,true)}} @else offline @endif</span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -48,12 +48,14 @@
 
                     </div>
 
+                    <div class="card-footer">
+                        {{$vehicles->links()}}
+                    </div>
+
                     <div wire:target="search" wire:loading.class="overlay">
                         <i class="fas fa-2x fa-sync-alt fa-spin d-none" wire:target="search"
                            wire:loading.class.remove="d-none"></i>
                     </div>
-
-
                 </div>
             </div>
 
@@ -136,6 +138,7 @@
                         "progressBar": false,
                         "positionClass": "toast-top-right",
                         "preventDuplicates": true,
+                        preventOpenDuplicates: true,
                         "onclick": null,
                         "showDuration": "300000",
                         "hideDuration": "1000",
@@ -182,47 +185,70 @@
     // document.addEventListener('DOMContentLoaded', initMap);
 
     function toggleHighlight(markerView, location) {
+        // Get current speed class
+        const speedClass = getSpeedClass(location.speed || 0);
+
         if (markerView.content.classList.contains("highlight")) {
             markerView.content.classList.remove("highlight");
+
+            // Re-add speed class when unhighlighting
+            markerView.content.classList.add(speedClass);
+
             markerView.zIndex = null;
         } else {
+            // When highlighting, remove speed color (it will use the highlight styling)
+            markerView.content.classList.remove('speed-idle', 'speed-moving', 'speed-fast');
             markerView.content.classList.add("highlight");
             markerView.zIndex = 1;
+        }
+    }
+
+    function getSpeedClass(speed) {
+        if (speed > 40) {
+            return 'speed-fast'; // Red for high speed
+        } else if (speed > 0) {
+            return 'speed-moving'; // Green for moving
+        } else {
+            return 'speed-idle'; // Yellow for idle
         }
     }
 
     function buildContent(location) {
         const content = document.createElement("div");
 
+        // Get speed class
+        let speedClass = getSpeedClass(location.speed || 0);
+        speedClass = location.is_compliant ? 'speed-fast' : speedClass;
+
         content.classList.add("property");
+        content.classList.add(speedClass); // Add speed-based class
+
         content.innerHTML = `
-<!--<div class="icon">-->
-        <span class=" fa-house">${location.reg}</span>
-<!--    </div>-->
-
-    <div class="details">
-        <div class="address"><strong>IMEI: </strong>${location.imei}</div>
-        <div class="address"><strong>Type: </strong>${location.brand}</div>
-        <div class="address"><strong>Fuel: </strong>${location.fuel_type}</div>
-        <div class="address"><strong>Unit: </strong>${location.business_unit}</div>
-        <div class="address"><strong>Status: </strong>${location.status}</div>
-        <hr/>
-        <div class="features">
-        <div>
-            <i aria-hidden="true" class="fa fa-tachometer-alt fa-lg bed" title="bedroom"></i>
-            <span>${location.speed} Km/h</span>
+        <span class="fa-house">${location.reg ?? '<div class="d-flex align-items-center"><strong>Please wait...</strong><div class="spinner-border spinner-border-sm ms-auto" role="status" aria-hidden="true"></div></div>'}</span>        <div class="details">
+            <div class="address"><strong>IMEI: </strong>${location.imei}</div>
+            <div class="address"><strong>Type: </strong>${location.brand}</div>
+            <div class="address"><strong>Fuel: </strong>${location.fuel_type}</div>
+            <div class="address"><strong>Unit: </strong>${location.business_unit}</div>
+            <div class="address"><strong>Status: </strong>${location.status}</div>
+            <div class="address"><strong>Road Tax: </strong>${location.road_tax}</div>
+            <div class="address"><strong>Fitness: </strong>${location.fitness}</div>
+            <div class="address"><strong>Compliant: </strong>${location.rtsa_status}</div>
+            <hr/>
+            <div class="features">
+                <div>
+                    <i aria-hidden="true" class="fa fa-tachometer-alt fa-lg" title="Speed"></i>
+                    <span>${location.speed || 0} Km/h</span>
+                </div>
+                <div>
+                    <i aria-hidden="true" class="fa fa-clock fa-lg" title="Last Update"></i>
+                    <span>${location.connected_at}</span>
+                </div>
+                <div>
+                    <i aria-hidden="true" class="fa fa-map-marked fa-lg" title="Location"></i>
+                    <span>${location.lat},${location.lng}</span>
+                </div>
+            </div>
         </div>
-        <div>
-            <i aria-hidden="true" class="fa fa-clock fa-lg bed" title="bathroom"></i>
-            <span>${location.connected_at}</span>
-        </div>
-        <div>
-            <i aria-hidden="true" class="fa fa-map-marked fa-lg bed" title="size"></i>
-            <span>${location.lat},${location.lng}</span>
-        </div>
-        </div>
-
-    </div>
     `;
         return content;
     }
@@ -231,19 +257,31 @@
         const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
 
         if (markers[location.imei]) {
-            var isHighlighted = markers[location.imei].content.classList.contains("highlight")
-            // Update existing marker position
-            // markers[location.imei].position = {lat: location.lat, lng: location.lng};
+            var isHighlighted = markers[location.imei].content.classList.contains("highlight");
+
+            // Get current speed class
+            const speedClass = getSpeedClass(location.speed || 0);
+
+            // Remove existing speed classes
+            markers[location.imei].content.classList.remove('speed-idle', 'speed-moving', 'speed-fast');
+
+            // Add new speed class
+            markers[location.imei].content.classList.add(speedClass);
+
+            // Update marker content with new speed info
             markers[location.imei].content = buildContent(location);
 
+            // If it was highlighted, re-apply highlight
+            if (isHighlighted) {
+                markers[location.imei].content.classList.add("highlight");
+            }
+
+            // Animate movement
             animatedMove(markers[location.imei], .5, markers[location.imei].position, {
                 lat: location.lat,
                 lng: location.lng
             });
 
-            if (isHighlighted) {
-                toggleHighlight(markers[location.imei], location);
-            }
         } else {
             // Create a new marker
             const marker = new AdvancedMarkerElement({
