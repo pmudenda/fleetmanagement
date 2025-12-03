@@ -218,7 +218,7 @@
 
         // Get speed class
         let speedClass = getSpeedClass(location.speed || 0);
-        speedClass = location.is_compliant ? 'speed-fast' : speedClass;
+        speedClass = location.is_compliant ? speedClass : 'speed-fast';
 
         content.classList.add("property");
         content.classList.add(speedClass); // Add speed-based class
