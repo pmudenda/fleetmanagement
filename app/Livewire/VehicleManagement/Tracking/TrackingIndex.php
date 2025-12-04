@@ -53,7 +53,7 @@ class TrackingIndex extends Component {
      * @return void
      */
     public function getLocations(): void {
-        $this->gpses = Cache::driver('file')->get('gpses',[]);
+        $this->gpses = Cache::get('gpses',[]);
     }
 
     public function getLocation($imei): array {
@@ -88,10 +88,10 @@ class TrackingIndex extends Component {
             'rtsa_status' => $gps->vehicle->roadTax->status ?? '--',
             'is_compliant' => $gps->vehicle->roadTax->is_compliant ?? false
         ];
-        $existingData = Cache::driver('file')->get('gpses',[]) ;
+        $existingData = Cache::get('gpses',[]) ;
         $existingData[$gps->imei] = $data;
 //        dd($existingData);
-        Cache::driver('file')->put('gpses', $existingData, now()->addHours(2));
+        Cache::put('gpses', $existingData, now()->addHours(2));
 
         return $data;
     }
