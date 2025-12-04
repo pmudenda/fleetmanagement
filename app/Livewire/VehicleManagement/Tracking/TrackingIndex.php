@@ -14,7 +14,7 @@ use Livewire\WithPagination;
 class TrackingIndex extends Component {
     use WithPagination;
 
-    public $gpses;
+    public $gpses = [];
     public $selectedGps;
 
     #[Validate('string')]
@@ -53,15 +53,7 @@ class TrackingIndex extends Component {
      * @return void
      */
     public function getLocations(): void {
-        $this->gpses = Gps::with(['lastLocation', 'vehicle', 'engineDetail.fuelType'])
-            ->has('lastLocation')
-            ->when($this->search, function ($query, $search) {
-                $query->where('reg_number', 'like', '%' . $search . '%');
-            })
-//                ->orderBy('connected_at', 'DESC')
-            ->get()->map(function ($gps) {
-                return $this->getGpsDetails($gps);
-            });
+        $this->gpses = Cache::driver('file')->get('gpses',[]);
     }
 
     public function getLocation($imei): array {
@@ -81,7 +73,7 @@ class TrackingIndex extends Component {
 
     private function getGpsDetails($gps): array {
         $statuses = Status::all();
-        return [
+        $data =  [
             'id' => $gps->id,
             'connected_at' => $gps->connected_at ? $gps->connected_at->diffForHumans(null, true, true) : '--',
             'is_connected' => $gps->connected_at != null,
@@ -96,6 +88,12 @@ class TrackingIndex extends Component {
             'rtsa_status' => $gps->vehicle->roadTax->status ?? '--',
             'is_compliant' => $gps->vehicle->roadTax->is_compliant ?? false
         ];
+        $existingData = Cache::driver('file')->get('gpses',[]) ;
+        $existingData[$gps->imei] = $data;
+//        dd($existingData);
+        Cache::driver('file')->put('gpses', $existingData, now()->addHours(2));
+
+        return $data;
     }
 
 //    #[On('echo:gps.location,CurrentLocationEvent')]

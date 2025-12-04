@@ -18,9 +18,9 @@
                     </div>
                 </div>
                 <div class="card">
-{{--                    <div class="card-header">--}}
+                    {{--                    <div class="card-header">--}}
 
-{{--                    </div>--}}
+                    {{--                    </div>--}}
 
                     <div class="card-body p-0">
                         <table class="table table-condensed table-borderless table-sm" style="font-size: 12px">
@@ -40,7 +40,11 @@
                                                 <span class="badge badge-light-warning badge-sm">idle</span>
                                             @endif
                                         @endif
-                                        <span class="badge badge-light-{{isset($gps['connected_at'])  ? 'success' : 'danger'}} badge-sm">@if($gps['connected_at']) {{$gps['connected_at']->diffForHumans(null,true,true)}} @else offline @endif</span>
+                                        <span class="badge badge-light-{{isset($gps['connected_at'])  ? 'success' : 'danger'}} badge-sm">@if($gps['connected_at'])
+                                                {{$gps['connected_at']->diffForHumans(null,true,true)}}
+                                            @else
+                                                offline
+                                            @endif</span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -120,18 +124,18 @@
             var gps = e.location;
 
             if (details[gps.imei] == null) {
-               $wire.getLocation(gps.imei).then(function (location) {
-                   details[gps.imei] = location;
+                $wire.getLocation(gps.imei).then(function (location) {
+                    details[gps.imei] = location;
                 });
             }
-            details[gps.imei] = {...details[gps.imei],...gps};
+            details[gps.imei] = {...details[gps.imei], ...gps};
 
-            console.log(details[gps.imei]);
+            // console.log(details[gps.imei]);
 
             addOrUpdateMarker(details[gps.imei]);
-            if(details[gps.imei].reg != null){
-                if(gps.speed > 40){
-                    toastr.error(`${details[gps.imei].reg} - ${gps.speed}km/h`,'Speed Alert',{
+            if (details[gps.imei].reg != null) {
+                if (gps.speed > 40) {
+                    toastr.error(`${details[gps.imei].reg} - ${gps.speed}km/h`, 'Speed Alert', {
                         "closeButton": true,
                         "debug": false,
                         "newestOnTop": true,
@@ -174,10 +178,11 @@
             mapTypeId: 'hybrid'
 
         });
-
-        // for (const location of $wire.gpses) {
-        //     await addOrUpdateMarker(location)
-        // }
+console.log('GPSES',$wire.gpses);
+        for (const location of $wire.gpses) {
+            console.log("cached data",location);
+            await addOrUpdateMarker(location)
+        }
     }
 
     initMap();
@@ -186,18 +191,23 @@
 
     function toggleHighlight(markerView, location) {
         // Get current speed class
-        const speedClass = getSpeedClass(location.speed || 0);
+        // let speedClass = getSpeedClass(location.speed || 0);
+        let speedClass = getSpeedClass(location.speed || 0);
+        speedClass = location.is_compliant ? speedClass : 'speed-fast';
+        // console.log(location.is_compliant);
 
         if (markerView.content.classList.contains("highlight")) {
             markerView.content.classList.remove("highlight");
 
             // Re-add speed class when unhighlighting
-            markerView.content.classList.add(speedClass);
+            // markerView.content.classList.add(speedClass);
 
             markerView.zIndex = null;
         } else {
             // When highlighting, remove speed color (it will use the highlight styling)
-            markerView.content.classList.remove('speed-idle', 'speed-moving', 'speed-fast');
+            // markerView.content.classList.remove('speed-idle', 'speed-moving', 'speed-fast');
+            // markerView.content.classList.add(speedClass);
+
             markerView.content.classList.add("highlight");
             markerView.zIndex = 1;
         }
@@ -260,7 +270,9 @@
             var isHighlighted = markers[location.imei].content.classList.contains("highlight");
 
             // Get current speed class
-            const speedClass = getSpeedClass(location.speed || 0);
+            let speedClass = getSpeedClass(location.speed || 0);
+            speedClass = location.is_compliant ? speedClass : 'speed-fast';
+
 
             // Remove existing speed classes
             markers[location.imei].content.classList.remove('speed-idle', 'speed-moving', 'speed-fast');
@@ -345,7 +357,7 @@
         map.setCenter(marker.position);
         map.panTo(marker.position);
 
-        console.log(paths);
+        // console.log(paths);
         const carPath = new google.maps.Polyline({
             path: paths,
             geodesic: true,
