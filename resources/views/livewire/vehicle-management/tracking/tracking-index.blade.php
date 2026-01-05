@@ -142,7 +142,7 @@
                         "progressBar": false,
                         "positionClass": "toast-top-right",
                         "preventDuplicates": true,
-                        preventOpenDuplicates: true,
+                        "preventOpenDuplicates": true,
                         "onclick": null,
                         "showDuration": "300000",
                         "hideDuration": "1000",
@@ -200,12 +200,12 @@ console.log('GPSES',$wire.gpses);
             markerView.content.classList.remove("highlight");
 
             // Re-add speed class when unhighlighting
-            // markerView.content.classList.add(speedClass);
+            markerView.content.classList.add(speedClass);
 
             markerView.zIndex = null;
         } else {
             // When highlighting, remove speed color (it will use the highlight styling)
-            // markerView.content.classList.remove('speed-idle', 'speed-moving', 'speed-fast');
+            markerView.content.classList.remove('speed-idle', 'speed-moving', 'speed-fast');
             // markerView.content.classList.add(speedClass);
 
             markerView.content.classList.add("highlight");
