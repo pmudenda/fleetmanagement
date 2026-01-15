@@ -53,49 +53,50 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
 //    })->name('report.stream');
 
     Route::get('/rtsa/compliance',function(){
-        return (new \App\Notifications\RtsaAlertNotification(generateComplianceReport()))->toMail(auth()->user());
+//        return (new \App\Notifications\RtsaAlertNotification(generateRTSAComplianceReport()))->toMail(auth()->user());
+
     })->name('rtsa.compliance');
 
-     function generateComplianceReport()
-    {
-        $totalVehicles = VehicleHeader::active()->count();
-        $unsyncedCount = VehicleHeader::active()->doesntHave('roadTax')->count();
-        $syncedCount = RoadTax::count();
-        $nonCompliant = RoadTax::nonCompliant()->with('vehicle')->get();
-        $compliantCount = RoadTax::compliant()->count();
-        $nonCompliantCount = $nonCompliant->count();
-
-        // Status breakdown
-        $statusBreakdown = $nonCompliant->groupBy('status')->map->count()->sortDesc();
-
-        // Critical vehicles (expired or suspended)
-        $criticalVehicles = RoadTax::where('is_compliant', false)
-            ->where(function($query) {
-                $query->where('valid_to', '<', now())
-                    ->orWhere('fitness_expiry', '<', now())
-                    ->orWhere('status', 'like', '%Suspended%');
-            })
-            ->orderBy('valid_to')
-            ->limit(10)
-            ->get();
-
-        $expiredFitnessCount = RoadTax::where('fitness_expiry', '<', now())->count();
-        $expiredTaxCount = RoadTax::where('valid_to', '<', now())->count();
-        $suspendedCount = RoadTax::where('status', 'like', '%Suspended%')->count();
-
-        return [
-            'totalVehicles' => $totalVehicles,
-            'compliantCount' => $compliantCount,
-            'nonCompliantCount' => $nonCompliantCount,
-            'statusBreakdown' => $statusBreakdown,
-            'criticalVehicles' => $criticalVehicles,
-            'expiredFitnessCount' => $expiredFitnessCount,
-            'expiredTaxCount' => $expiredTaxCount,
-            'suspendedCount' => $suspendedCount,
-            'unsyncedCount' => $unsyncedCount,
-            'syncedCount' => $syncedCount,
-            'nonCompliant' => $nonCompliant
-        ];
-    }
+//     function generateRTSAComplianceReport()
+//    {
+//        $totalVehicles = VehicleHeader::active()->count();
+//        $unsyncedCount = VehicleHeader::active()->doesntHave('roadTax')->count();
+//        $syncedCount = RoadTax::count();
+//        $nonCompliant = RoadTax::nonCompliant()->with('vehicle')->get();
+//        $compliantCount = RoadTax::compliant()->count();
+//        $nonCompliantCount = $nonCompliant->count();
+//
+//        // Status breakdown
+//        $statusBreakdown = $nonCompliant->groupBy('status')->map->count()->sortDesc();
+//
+//        // Critical vehicles (expired or suspended)
+//        $criticalVehicles = RoadTax::where('is_compliant', false)
+//            ->where(function($query) {
+//                $query->where('valid_to', '<', now())
+//                    ->orWhere('fitness_expiry', '<', now())
+//                    ->orWhere('status', 'like', '%Suspended%');
+//            })
+//            ->orderBy('valid_to')
+//            ->limit(10)
+//            ->get();
+//
+//        $expiredFitnessCount = RoadTax::where('fitness_expiry', '<', now())->count();
+//        $expiredTaxCount = RoadTax::where('valid_to', '<', now())->count();
+//        $suspendedCount = RoadTax::where('status', 'like', '%Suspended%')->count();
+//
+//        return [
+//            'totalVehicles' => $totalVehicles,
+//            'compliantCount' => $compliantCount,
+//            'nonCompliantCount' => $nonCompliantCount,
+//            'statusBreakdown' => $statusBreakdown,
+//            'criticalVehicles' => $criticalVehicles,
+//            'expiredFitnessCount' => $expiredFitnessCount,
+//            'expiredTaxCount' => $expiredTaxCount,
+//            'suspendedCount' => $suspendedCount,
+//            'unsyncedCount' => $unsyncedCount,
+//            'syncedCount' => $syncedCount,
+//            'nonCompliant' => $nonCompliant
+//        ];
+//    }
 
 });
