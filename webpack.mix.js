@@ -1,3 +1,3 @@
 let mix = require('laravel-mix');
 
-mix.js('resources/js/app.js', 'assets/js');
+mix.js('resources/js/echo.js', 'assets/js');

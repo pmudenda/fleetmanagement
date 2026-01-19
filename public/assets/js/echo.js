@@ -23646,15 +23646,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 /* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 /* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(pusher_js__WEBPACK_IMPORTED_MODULE_1__);
+var _process$env$MIX_REVE;
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 
 window.Pusher = (pusher_js__WEBPACK_IMPORTED_MODULE_1___default());
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  broadcaster: 'pusher',
-  key: "ac209e5e6aa654ff7152",
-  cluster: "eu",
-  forceTLS: true
+  broadcaster: 'reverb',
+  key: "pvh9bbosndvrmimrlypc",
+  wsHost: "localhost",
+  wsPort: "9000",
+  wssPort: "9000",
+  forceTLS: ((_process$env$MIX_REVE = "http") !== null && _process$env$MIX_REVE !== void 0 ? _process$env$MIX_REVE : 'https') === 'https',
+  enabledTransports: ['ws', 'wss']
 });
 })();
 

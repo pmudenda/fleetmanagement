@@ -17,7 +17,8 @@ class GpsLocation extends Model
     ];
 
     protected $fillable = [
-        'user_id', 'latitude', 'longitude', 'accuracy', 'altitude', 'heading', 'speed'
+        'user_id', 'latitude', 'longitude', 'accuracy', 'altitude', 'heading', 'speed',
+        'imei','distance','odometer','angle','fuel','tracked_at'
     ];
 
     public function user()

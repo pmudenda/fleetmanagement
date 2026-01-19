@@ -9,9 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gps extends Model
 {
+
+    protected $primaryKey = 'imei';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $casts = [
 //        'status' => GpsStatus::class,
         'connected_at' => 'datetime',
+        'last_seen_at' => 'datetime',
     ];
 
     public function locations(){
@@ -21,11 +27,6 @@ class Gps extends Model
     public function lastLocation(){
         return $this->hasOne(GpsLocation::class)->latestOfMany('tracked_at');
     }
-
-//    public function type()
-//    {
-//        return $this->belongsTo(Type::class);
-//    }
 
     public function vehicle() {
         return $this->belongsTo(VehicleHeader::class,'reg_number','registration_number');
