@@ -23655,8 +23655,8 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'reverb',
   key: "pvh9bbosndvrmimrlypc",
   wsHost: "fm-dev.zesco.co.zm",
-  wsPort: "8080",
-  wssPort: "8080",
+  wsPort: "9000",
+  wssPort: "9000",
   forceTLS: ((_process$env$MIX_REVE = "http") !== null && _process$env$MIX_REVE !== void 0 ? _process$env$MIX_REVE : 'https') === 'https',
   enabledTransports: ['ws', 'wss']
 });
