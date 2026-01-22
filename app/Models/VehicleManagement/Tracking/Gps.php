@@ -6,9 +6,12 @@ use App\Enums\GpsStatus;
 use App\Models\VehicleManagement\EngineDetail;
 use App\Models\VehicleManagement\VehicleHeader;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Gps extends Model
 {
+
+    use SoftDeletes;
 
     protected $primaryKey = 'imei';
     public $incrementing = false;
@@ -18,6 +21,10 @@ class Gps extends Model
 //        'status' => GpsStatus::class,
         'connected_at' => 'datetime',
         'last_seen_at' => 'datetime',
+    ];
+
+    protected $fillable = [
+        'imei','reg_number','connected_at','last_seen_at','mobile_number','status','type_id'
     ];
 
     public function locations(){

@@ -25,7 +25,7 @@ class GpsServerCommandol extends Command {
      *
      * @var string
      */
-    protected $signature = 'gps:start';
+    protected $signature = 'gps:start-old';
 
     /**
      * The console command description.
@@ -68,11 +68,11 @@ class GpsServerCommandol extends Command {
                             $object = $object->getGpsElement();
 
                             $location = [
-                                'latitude' => $object->getLatitude(),
-                                'longitude' => $object->getLongitude(),
-                                'altitude' => $object->getAltitude(),
-                                'speed' => $object->getSpeed(),
-                                'angle' => $object->getAngle(),
+                                'latitude' => (float)$object->getLatitude(),
+                                'longitude' => (float)$object->getLongitude(),
+                                'altitude' => (float)$object->getAltitude(),
+                                'speed' => (float)$object->getSpeed(),
+                                'angle' => (float)$object->getAngle(),
                                 'tracked_at' => $timestamp,
                                 'imei' => $gps->imei
                             ];

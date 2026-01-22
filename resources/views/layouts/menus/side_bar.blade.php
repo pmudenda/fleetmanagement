@@ -140,6 +140,31 @@
                 @can('viewAny', \App\Models\GatePass\GatePass::class)
                     <li class="nav-item">
                         <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-map-marker-alt" style="font-size: 20px;"></i>
+                            <p>
+                                Vehicle Tracking
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('create', \App\Models\GatePass\GatePass::class)
+
+                                <li class="nav-item pl-2">
+                                    <a href="{{ route('vehicle.tracking.index') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Live Tracking</p>
+                                    </a>
+                                </li>
+                            @endcan
+
+
+                        </ul>
+                    </li>
+                @endcan
+
+                @can('viewAny', \App\Models\GatePass\GatePass::class)
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-torii-gate" style="font-size: 20px;"></i>
                             <p>
                                 Gate Pass

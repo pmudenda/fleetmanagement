@@ -1,116 +1,63 @@
-<section class="content">
-    <x-error-view/>
-    <x-content-header :pageTitle="'Tracking'"
-                      :activeCrumb="'Tracking'"
-                      :link="'home'"
-                      :linkText="'Home'"/>
-    <div class="container-fluid">
+<div class="position-relative" style="width: 100vw; height: 100vh; overflow: hidden;" wire:ignore>
 
-        <div class="row">
-            <div class="col-lg-3">
-                <livewire:vehicle-management.tracking.gps-device-list/>
+    <!-- MAP (100% of wrapper) -->
+    <div id="map" style="position:absolute; inset:0;"></div>
 
-            </div>
-
-            <div class="col-lg-9">
-{{--                <div class="row">--}}
-{{--                    <div class="col-lg-4">--}}
-
-{{--                        <div class="info-box">--}}
-{{--                            <span class="info-box-icon bg-success"><i class="fa fa-car fa-2x"></i></span>--}}
-{{--                            <div class="info-box-content">--}}
-{{--                                <span class="info-box-text">Online Vehicles</span>--}}
-{{--                                <span class="info-box-number">{{number_format($connected,0)}} </span>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
-{{--                    </div>--}}
-
-{{--                    <div class="col-lg-4">--}}
-{{--                        <div class="info-box">--}}
-{{--                            <span class="info-box-icon bg-danger"><i class="fa fa-car fa-2x"></i></span>--}}
-
-{{--                            <div class="info-box-content">--}}
-{{--                                <span class="info-box-text">Offline Vehicles</span>--}}
-{{--                                <span class="info-box-number">{{number_format($not_connected)}}</span>--}}
-{{--                            </div>--}}
-{{--                            <!-- /.info-box-content -->--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-
-{{--                    <div class="col-lg-4">--}}
-{{--                        <div class="info-box">--}}
-{{--                            <span class="info-box-icon bg-info"><i class="fa fa-car fa-2x"></i></span>--}}
-
-{{--                            <div class="info-box-content">--}}
-{{--                                <span class="info-box-text">Total Vehicles With Devices</span>--}}
-{{--                                <span class="info-box-number">{{number_format($total)}}</span>--}}
-{{--                            </div>--}}
-{{--                            <!-- /.info-box-content -->--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-                <div class="embed-responsive embed-responsive-16by9" wire:ignore>
-                    <div id="map" class="embed-responsive-item"></div>
-                </div>
-            </div>
-        </div>
+    <!-- DEVICES TABLE OVERLAY (inside map) -->
+    <div
+            class="position-absolute top-0 start-0 ml-2 mt-20 bg-white bg-opacity-90 rounded-3 shadow-sm p-2"
+            style="z-index:1050; max-width:320px;"
+    >
+        <livewire:vehicle-management.tracking.gps-device-list/>
     </div>
 
-
-</section>
-
+    <div id="gps-details-canvas" class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1"
+         aria-labelledby="gps-details-canvas" wire:ignore>
+        <livewire:vehicle-management.tracking.gps-device-details/>
+    </div>
+</div>
 @script
 <script type="text/javascript">
-
-    let map;
     let markers = {};
     let details = [];
 
+    initMap();
+    const canvas = new bootstrap.Offcanvas('#gps-details-canvas')
 
-    window.Echo.channel('gps.location')
-        .listen('Tracking\\CurrentLocationEvent', (e) => {
-            console.log(e);
-            var gps = e.location;
+    Echo.channel('gps')
+        .listen('.CurrentLocation', async e => {
+            await addOrUpdateMarker(e.location)
+            console.log('dispatching location changed','location-changed.' + e.location.imei)
+            $wire.dispatch('location-changed', {
+                gps: e.location.imei,
+                location: e.location
+            });
 
-            if (details[gps.imei] == null) {
-                $wire.getLocation(gps.imei).then(function (location) {
-                    details[gps.imei] = location;
-                });
-            }
-            details[gps.imei] = {...details[gps.imei], ...gps};
+        })
 
-            // console.log(details[gps.imei]);
+    $wire.on('device-selected', async (event) => {
+        console.log('device-selected', event);
+        const gps = event.gps;
+        const location = event.location;
+        canvas.show();
+        marker = markers[gps];
+        if(marker){
+            const map = await MapSingleton.getMap();
+            map.panTo(marker.position);
+        }
 
-            addOrUpdateMarker(details[gps.imei]);
-            if (details[gps.imei].reg != null) {
-                if (gps.speed > 40) {
-                    toastr.error(`${details[gps.imei].reg} - ${gps.speed}km/h`, 'Speed Alert', {
-                        "closeButton": true,
-                        "debug": false,
-                        "newestOnTop": true,
-                        "progressBar": false,
-                        "positionClass": "toast-top-right",
-                        "preventDuplicates": true,
-                        "preventOpenDuplicates": true,
-                        "onclick": null,
-                        "showDuration": "300000",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    })
-                }
-            }
-        });
+    });
 
-    // $wire.on('location-update', (event) => {
-    //     console.log(event.location);
-    //     addOrUpdateMarker(event.location);
+    // $wire.on('location-changed', async (e) => {
+    //     await addOrUpdateMarker(e.location)
     // });
+
+    $wire.on('location-centered', async (e) => {
+        console.log('location-centered', e.gps);
+        marker = markers[e.gps];
+        const map = await MapSingleton.getMap();
+        map.panTo(marker.position);
+    })
 
     async function initMap() {
         // The location of Uluru
@@ -120,24 +67,64 @@
         const {Map} = await google.maps.importLibrary("maps");
         const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
 
+        // Zambia bounding box
+        const ZAMBIA_BOUNDS = {
+            north: -8.2720,
+            south: -18.0792,
+            east: 33.7124,
+            west: 21.9800,
+        };
+
+// A good visual center (roughly central Zambia)
+        const ZAMBIA_CENTER = {
+            lat: -13.175,
+            lng: 27.846,
+        };
+
         // The map, centered at Uluru
-        map = new Map(document.getElementById("map"), {
-            zoom: 12,
-            center: position,
+        MapSingleton.init("map", {
+            zoom: 8,
+            center: ZAMBIA_CENTER,
             mapId: "ALL_DEVICE_MAP",
-            mapTypeId: 'hybrid'
+            mapTypeId: 'hybrid',
+            // restriction: {
+            //     latLngBounds: ZAMBIA_BOUNDS,
+            //     strictBounds: false,
+            // },
+
+            // Optional UX controls
+            streetViewControl: false,
+            fullscreenControl: true,
 
         });
-        console.log('GPSES', $wire.gpses);
-        for (const location of $wire.gpses) {
-            console.log("cached data", location);
-            await addOrUpdateMarker(location)
-        }
     }
 
-    initMap();
 
-    // document.addEventListener('DOMContentLoaded', initMap);
+    window.MapSingleton = (() => {
+        let map = null;
+        let resolveMap;
+        let mapReady = new Promise((resolve) => {
+            resolveMap = resolve;
+        });
+
+        return {
+            init(mapElementId, options) {
+                if (map) return mapReady;
+
+                map = new google.maps.Map(
+                    document.getElementById(mapElementId),
+                    options
+                );
+
+                resolveMap(map);
+                return mapReady;
+            },
+
+            async getMap() {
+                return mapReady;
+            }
+        };
+    })();
 
     function toggleHighlight(markerView, location) {
         // Get current speed class
@@ -205,7 +192,7 @@
                 </div>
                 <div>
                     <i aria-hidden="true" class="fa fa-map-marked fa-lg" title="Location"></i>
-                    <span>${location.lat},${location.lng}</span>
+                    <span>${location.latitude},${location.longitude}</span>
                 </div>
             </div>
         </div>
@@ -216,49 +203,119 @@
     async function addOrUpdateMarker(location) {
         const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
 
+        const nextPos = {lat: location.latitude, lng: location.longitude};
+        const heading = Number(location.angle ?? 0); // degrees
+
         if (markers[location.imei]) {
-            var isHighlighted = markers[location.imei].content.classList.contains("highlight");
+            const marker = markers[location.imei];
 
-            // Get current speed class
-            let speedClass = getSpeedClass(location.speed || 0);
-            speedClass = location.is_compliant ? speedClass : 'speed-fast';
+            // Move smoothly
+            animatedMove(marker, 0.5, marker.position, nextPos);
 
-
-            // Remove existing speed classes
-            markers[location.imei].content.classList.remove('speed-idle', 'speed-moving', 'speed-fast');
-
-            // Add new speed class
-            markers[location.imei].content.classList.add(speedClass);
-
-            // Update marker content with new speed info
-            markers[location.imei].content = buildContent(location);
-
-            // If it was highlighted, re-apply highlight
-            if (isHighlighted) {
-                markers[location.imei].content.classList.add("highlight");
+            // Update heading (rotate the car DOM node)
+            if (marker.__carEl) {
+                marker.__carEl.style.transform = `rotate(${heading}deg)`;
+                marker.__carEl.style.transformOrigin = "50% 50%";
             }
 
-            // Animate movement
-            animatedMove(markers[location.imei], .5, markers[location.imei].position, {
-                lat: location.lat,
-                lng: location.lng
-            });
+            // Update plate if needed
+            if (marker.__plateEl) {
+                marker.__plateEl.textContent = location.reg_number ?? "BAD 8909";
+            }
 
-        } else {
-            // Create a new marker
-            const marker = new AdvancedMarkerElement({
-                position: {lat: location.lat, lng: location.lng},
-                map: map,
-                content: buildContent(location),
-                title: location.reg,
-            });
-
-            marker.addListener("click", () => {
-                toggleHighlight(marker, location);
-            });
-
-            markers[location.imei] = marker;
+            return;
         }
+
+        // Create marker
+        const map = await MapSingleton.getMap();
+
+        const el = document.createElement("div");
+        el.style.transform = "translate(-50%, -100%)";
+        el.style.textAlign = "center";
+
+        const car = document.createElement("div");
+        car.textContent = "🚗";
+        car.style.fontSize = "50px";
+        car.style.transform = `rotate(${heading}deg)`;
+        car.style.transformOrigin = "50% 50%";
+
+        const plate = document.createElement("div");
+        plate.textContent = location.reg_number ?? "BAD 8909";
+        plate.style.fontSize = "14px";
+        plate.style.fontWeight = "600";
+        plate.style.background = "#fff";
+        plate.style.padding = "2px 6px";
+        plate.style.borderRadius = "6px";
+
+        el.appendChild(car);
+        el.appendChild(plate);
+
+        const marker = new AdvancedMarkerElement({
+            position: nextPos,
+            map,
+            content: el,
+            title: location.reg_number ?? "",
+        });
+
+        // Save DOM references for later updates
+        marker.__carEl = car;
+        marker.__plateEl = plate;
+
+        marker.addListener("click", () => {
+            $wire.dispatch('device-selected', {
+                gps: location.imei,
+                location: location,
+            })
+        });
+
+        markers[location.imei] = marker;
+    }
+
+
+    function createVehicleMarkerContent({plate = "", heading = 0} = {}) {
+        const root = document.createElement("div");
+        root.style.transform = "translate(-50%, -100%)";
+        root.style.display = "flex";
+        root.style.flexDirection = "column";
+        root.style.alignItems = "center";
+        root.style.gap = "4px";
+
+        // Vehicle icon (simple "car" shape using SVG)
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, "svg");
+        svg.setAttribute("width", "28");
+        svg.setAttribute("height", "28");
+        svg.setAttribute("viewBox", "0 0 24 24");
+        svg.style.transformOrigin = "50% 50%";
+        svg.style.transform = `rotate(${heading}deg)`;
+
+        // Simple top-down car-ish shape
+        const path = document.createElementNS(svgNS, "path");
+        path.setAttribute(
+            "d",
+            "M7 4h10l2 5v8l-2 1h-1l-1-2H9l-1 2H7l-2-1V9l2-5zm2 2-1 3h8l-1-3H9zm-1 5v5h2v-2h4v2h2v-5H8z"
+        );
+        path.setAttribute("fill", "#111");
+        path.setAttribute("stroke", "#fff");
+        path.setAttribute("stroke-width", "0.6");
+        svg.appendChild(path);
+
+        // Number plate label
+        const label = document.createElement("div");
+        label.textContent = plate;
+        label.style.padding = "2px 6px";
+        label.style.borderRadius = "10px";
+        label.style.background = "#fff";
+        label.style.border = "1px solid rgba(0,0,0,.25)";
+        label.style.boxShadow = "0 1px 3px rgba(0,0,0,.25)";
+        label.style.fontSize = "12px";
+        label.style.fontWeight = "700";
+        label.style.whiteSpace = "nowrap";
+
+        root.appendChild(svg);
+        root.appendChild(label);
+
+        return {root, svg, label};
     }
 
     function animatedMove(marker, t, current, moveto) {
@@ -293,40 +350,5 @@
             }
         });
     }
-
-    // Update markers every 10 seconds
-    // setInterval(updateMarkers, 10000);
-
-    $wire.on('gps-selected', (event) => {
-
-        var gps = event.gps;
-        const paths = event.paths;
-        const marker = markers[gps.imei];
-
-        map.setZoom(17);
-        map.setCenter(marker.position);
-        map.panTo(marker.position);
-
-        // console.log(paths);
-        const carPath = new google.maps.Polyline({
-            path: paths,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2,
-        });
-
-        carPath.setMap(map);
-
-
-        // map.addListener("center_changed", () => {
-        //     // 3 seconds after the center of the map has changed, pan back to the
-        //     // marker.
-        //     window.setTimeout(() => {
-        //         map.panTo(marker.position);
-        //     }, 3000);
-        // });
-
-    });
 </script>
 @endscript

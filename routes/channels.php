@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\VehicleManagement\Tracking\Gps;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -17,7 +18,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('gps.location.{gps}', function ($user) {
+Broadcast::channel('gps.{gps}', function ($user) {
 //    dd("Testing");
     return true;
 });

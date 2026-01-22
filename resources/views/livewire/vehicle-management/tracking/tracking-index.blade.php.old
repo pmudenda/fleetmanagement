@@ -1,0 +1,29 @@
+<section class="content">
+    <x-error-view/>
+    <x-content-header :pageTitle="'Tracking'"
+                      :activeCrumb="'Tracking'"
+                      :link="'home'"
+                      :linkText="'Home'"/>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-3">
+                <livewire:vehicle-management.tracking.gps-device-list/>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="embed-responsive embed-responsive-16by9" wire:ignore>
+                    <div id="map" class="embed-responsive-item"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @teleport('body')
+    <script type="text/javascript">
+        initMap();
+    </script>
+    @endteleport
+</section>
+
+

@@ -9,6 +9,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class CurrentLocationEvent implements ShouldBroadcast
 {
@@ -22,10 +23,6 @@ class CurrentLocationEvent implements ShouldBroadcast
     public function __construct( $location)
     {
         $this->location = $location;
-//        $exists = FaultLocation::where('user_id',$location->user_id)
-//            ->where('state',FaultStatus::Accepted)
-//            ->exists();
-//        $this->color = $exists? '#008000' : '#FFFF00';
     }
 
 
@@ -36,13 +33,14 @@ class CurrentLocationEvent implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
+        Log::info("BROADCASTING ON gps.{$this->location['imei']}");
         return [
-            new Channel("gps.location"),
+            new Channel("gps"),
         ];
     }
 
-//    public function broadcastAs(): string
-//    {
-//        return "gps.location";
-//    }
+    public function broadcastAs(): string
+    {
+        return "CurrentLocation";
+    }
 }

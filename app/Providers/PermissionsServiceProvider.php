@@ -28,13 +28,13 @@ class PermissionsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        try {
-            app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-            Cache::flush('spatie.permission.cache');
-            Cache::flush('spatie.role.cache');
-        } catch (\Exception $e) {
-            //
-        }
+//        try {
+//            app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+//            Cache::flush('spatie.permission.cache');
+//            Cache::flush('spatie.role.cache');
+//        } catch (\Exception $e) {
+//            //
+//        }
     }
 
 }

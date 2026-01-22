@@ -66,7 +66,7 @@ class GpsServerCommand extends Command
 
         $this->gpsLog('info', null, 'SERVER INIT: SETTING ALL DEVICES TO OFFLINE');
 
-        Gps::query()->update(['connected_at' => null]);
+//        Gps::query()->update(['connected_at' => null]);
 
         $port = config('gps.port');
         $this->gpsLog('info', null, 'SERVER STARTING', ['port' => $port]);
@@ -112,14 +112,16 @@ class GpsServerCommand extends Command
                             ->first();
 
                         if ($gps) {
-                            $gps->connected_at = now();
-                            $gps->save();
+
+                            Gps::find($imei)->update([
+                                'connected_at' => now(),
+                                'last_seen_at' => now(),
+                            ]);
 
                             GpsConnected::dispatch($gps);
 
                             $self->gpsLog('info', $imei, 'REGISTRATION: ACCEPTED', [
-                                'gps_id' => $gps->id ?? null,
-                                'vehicle_id' => $gps->vehicle_id ?? null,
+                                'gps_id' => $gps->imei ?? null,
                                 'reg_number' => $gps->vehicle->reg_number ?? null,
                             ]);
 
@@ -148,6 +150,7 @@ class GpsServerCommand extends Command
 
                     $payload = $data;
                     $packet = $parser->decodeData($payload);
+//                    dd($packet);
 
                     $objects = $packet->getAvlDataCollection()->getAvlData();
                     $self->gpsLog('debug', $gps->imei, 'AVL PACKET RECEIVED', [
@@ -161,6 +164,29 @@ class GpsServerCommand extends Command
                         $timestamp = Carbon::createFromTimestamp($avl->getTimestamp() / 1000);
                         $gpsElement = $avl->getGpsElement();
 
+                        $props = $avl->getIoElement()->getProperties();
+
+                        // Convert to plain [id => number|string]
+                        $io = [];
+                        foreach ($props as $id => $prop) {
+                            $id = $prop->getId();
+
+                            // Most values are numeric; start with unsigned
+                            $io[$id] = $prop->getValue()->toUnsigned();
+//                            dd(get_class_methods($prop->getValue()));
+//                            $bytes = $prop->getValue()->getBinaryValue(); // raw bytes string
+//                            $io[(int)$id] = teltonika_decode_io($bytes);
+                        }
+
+                        // Example: odometer is in your dump as ID 16 (bytes "\x00\x04T\x1A")
+                        $odometerMeters = $io[16] ?? null;   // 283674 in your sample (meters)
+
+                        // Fuel: depends on your configuration/sensors; choose IDs you use
+                        $fuel = $io[270] ?? $io[327] ?? null;
+
+//                        dd($io);
+
+
                         $location = [
                             'latitude' => $gpsElement->getLatitude(),
                             'longitude' => $gpsElement->getLongitude(),
@@ -169,6 +195,7 @@ class GpsServerCommand extends Command
                             'angle' => $gpsElement->getAngle(),
                             'tracked_at' => $timestamp,
                             'imei' => $gps->imei,
+                            'reg_number' => $gps->reg_number ?? '--',
                         ];
 
                         $self->gpsLog('info', $gps->imei, 'GPS LOCATION RECEIVED', [
@@ -285,37 +312,13 @@ class GpsServerCommand extends Command
                             'key' => $redisKey,
                         ]);
 
-                        // --- BROADCAST / DISPATCH CONTROL
-                        $intervalSec = (int) config('services.pusher.gps.interval');
-
-                        if (is_null($lastProcessedTime)) {
-                            $self->gpsLog('debug', $gps->imei, 'BROADCAST FIRST LOCATION - DISPATCHING', [
-                                'interval_sec' => $intervalSec,
-                            ]);
-
-                            CurrentLocationEvent::dispatch($location);
-                            $lastProcessedTime = $timestamp;
-
-                            $self->gpsLog('info', $gps->imei, 'BROADCAST DISPATCHED CURRENT LOCATION');
-                        } else {
-                            $diffSec = $lastProcessedTime->diffInSeconds($timestamp);
-
-                            $self->gpsLog('debug', $gps->imei, 'BROADCAST CHECK', [
-                                'interval_sec' => $intervalSec,
-                                'diff_seconds' => $diffSec,
-                                'last_processed' => $lastProcessedTime->toISOString(),
-                                'current' => $timestamp->toISOString(),
-                            ]);
-
-                            if ($diffSec >= $intervalSec) {
-                                CurrentLocationEvent::dispatch($location);
-                                $lastProcessedTime = $timestamp;
-
-                                $self->gpsLog('info', $gps->imei, 'BROADCAST DISPATCHED CURRENT LOCATION');
-                            }
-                        }
+                        CurrentLocationEvent::dispatch($location);
+                        $self->gpsLog('info', $gps->imei, 'BROADCAST DISPATCHED CURRENT LOCATION');
                     }
 
+                    Gps::find($imei)->update([
+                        'last_seen_at' => $timestamp->toISOString(),
+                    ]);
                     // TELTONIKA ACK
                     $connection->write(pack('N', count($objects)));
 

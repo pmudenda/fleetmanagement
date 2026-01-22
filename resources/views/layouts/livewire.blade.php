@@ -225,6 +225,7 @@
 <script src="{{asset('assets/js/system/app.js')}}"></script>
 <script src="{{asset('assets/js/echo.js')}}"></script>
 
+
 @stack('scripts')
 </body>
 </html>
