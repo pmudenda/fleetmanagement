@@ -53,7 +53,7 @@
 
 
                     <div class="d-flex justify-content-between small py-1">
-                        <span class="text-muted"><i class="fas fa-sim-card me-1"></i>Device Mobile N#</span>
+                        <span class="text-muted"><i class="fas fa-sim-card me-1"></i>Device Mobile #</span>
                         <span class="fw-semibold">{{$gps->mobile_number}}</span>
                     </div>
                 </div>
@@ -65,6 +65,8 @@
                 <i class="fas fa-map-marker-alt me-1"></i>Location
             </div>
             @if($location)
+
+
 
                 <div class="row g-2">
                     <div class="col-6">

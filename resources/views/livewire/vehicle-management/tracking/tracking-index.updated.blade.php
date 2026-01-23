@@ -27,7 +27,7 @@
     Echo.channel('gps')
         .listen('.CurrentLocation', async e => {
             await addOrUpdateMarker(e.location)
-            // console.log('dispatching location changed', e.location)
+            console.log('dispatching location changed','location-changed.' + e.location.imei)
             $wire.dispatch('location-changed', {
                 gps: e.location.imei,
                 location: e.location
@@ -97,7 +97,12 @@
             fullscreenControl: true,
 
         });
-    }
+    
+        const map = await MapSingleton.getMap();
+        map.addListener("zoom_changed", () => {
+            Object.values(markers).forEach(m => applyZoomStyleToMarker(m, map));
+        });
+}
 
 
     window.MapSingleton = (() => {
@@ -221,6 +226,33 @@ M14.568,40.882l2.218-3.336h13.771l2.219,3.336H14.568z
 M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805
 `.trim();
 
+    function applyZoomStyleToMarker(marker, map) {
+        const z = map.getZoom();
+
+        // Tune these for your ops workflow
+        const showPlate = z >= 10;   // hide plates when zoomed out
+        const useDotOnly = z <= 6;   // very zoomed out -> dot only
+
+        // Scale the whole marker content (pixel-sized markers otherwise dominate at low zoom)
+        // z=6 => ~0.45, z=12 => ~0.85, z>=16 => 1.0
+        const scale = Math.max(0.45, Math.min(1, 0.45 + (z - 6) * 0.1));
+
+        if (marker.__rootEl) {
+            marker.__rootEl.style.transform = `translate(-50%, -85%) scale(${scale})`;
+            marker.__rootEl.style.transformOrigin = "50% 100%";
+        }
+
+        if (marker.__plateEl) {
+            marker.__plateEl.style.display = showPlate ? "inline-block" : "none";
+        }
+
+        if (marker.__dotEl && marker.__svgWrapEl) {
+            marker.__dotEl.style.display = useDotOnly ? "block" : "none";
+            marker.__svgWrapEl.style.display = useDotOnly ? "none" : "block";
+        }
+    }
+
+
 
     async function addOrUpdateMarker(location) {
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
@@ -250,10 +282,19 @@ M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805
             // Update plate if needed
             if (marker.__plateEl) {
                 marker.__plateEl.textContent = location.reg_number ?? "BAD 8909";
-                // Option A: keep plate neutral (recommended)
-                marker.__plateEl.style.color = fill;
-                // Option B: tint plate by severity (if you insist)
-                marker.__plateEl.style.color = fill;
+                marker.__plateEl.style.color = "#111";
+            }
+
+            // Update dot color if present
+            if (marker.__dotEl) {
+                marker.__dotEl.style.background = fill;
+            }
+
+            // Zoom-aware appearance
+            if (marker.__map) {
+                applyZoomStyleToMarker(marker, marker.__map);
+            }
+
             }
 
             return;
@@ -262,29 +303,38 @@ M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805
         // Create marker
         const map = await MapSingleton.getMap();
 
+        // Root element (scaled/anchored via applyZoomStyleToMarker)
         const el = document.createElement("div");
         el.style.position = "relative";
         el.style.textAlign = "center";
-        // el.style.pointerEvents = "none";
-
-        // Anchor tweak: put GPS point near rear axle.
-        // Adjust -85% to taste: -75% (more centered), -95% (more rear-biased)
         el.style.transform = "translate(-50%, -85%)";
+        el.style.transformOrigin = "50% 100%";
+        el.style.pointerEvents = "auto";
+
+        // DOT (used at very low zoom levels)
+        const dot = document.createElement("div");
+        dot.style.width = "10px";
+        dot.style.height = "10px";
+        dot.style.borderRadius = "999px";
+        dot.style.margin = "0 auto";
+        dot.style.border = "2px solid #fff";
+        dot.style.boxShadow = "0 1px 4px rgba(0,0,0,.35)";
+        dot.style.background = fill;
+        dot.style.display = "none";
 
         // --- SVG overhead car ---
         const svgWrap = document.createElement("div");
-        svgWrap.style.width = "56px";
-        svgWrap.style.height = "96px";
+        svgWrap.style.width = "28px";
+        svgWrap.style.height = "48px";
         svgWrap.style.margin = "0 auto";
-        // svgWrap.style.pointerEvents = "none";
-
+        svgWrap.style.pointerEvents = "none"; // avoid SVG hijacking clicks
 
         svgWrap.innerHTML = `
-        <svg width="56" height="96" viewBox="0 0 48 48"
-             style="display:block; transform: rotate(${heading}deg); transform-origin: 50% 50%;">
-            <path d="${OVERHEAD_CAR_PATH}" fill="${fill}" stroke="#000" stroke-width="1"></path>
-        </svg>
-    `;
+            <svg width="28" height="48" viewBox="0 0 48 48"
+                 style="display:block; transform: rotate(${heading}deg); transform-origin: 50% 50%;">
+                <path d="${OVERHEAD_CAR_PATH}" fill="${fill}" stroke="#000" stroke-width="1"></path>
+            </svg>
+        `;
 
         const svg = svgWrap.querySelector("svg");
         const carPath = svgWrap.querySelector("path");
@@ -299,8 +349,10 @@ M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805
         plate.style.borderRadius = "6px";
         plate.style.marginTop = "2px";
         plate.style.color = "#111";
+        plate.style.display = "inline-block";
 
         // Build content
+        el.appendChild(dot);
         el.appendChild(svgWrap);
         el.appendChild(plate);
 
@@ -312,9 +364,16 @@ M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805
         });
 
         // Save DOM refs for later updates
+        marker.__map = map;
+        marker.__rootEl = el;
+        marker.__dotEl = dot;
+        marker.__svgWrapEl = svgWrap;
         marker.__svgEl = svg;
         marker.__carPathEl = carPath;
         marker.__plateEl = plate;
+
+        // Apply zoom-aware appearance immediately
+        applyZoomStyleToMarker(marker, map);
 
         // IMPORTANT:
         // You set pointerEvents none on el, which can prevent clicking.

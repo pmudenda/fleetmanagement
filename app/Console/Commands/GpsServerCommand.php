@@ -6,6 +6,7 @@ use App\Enums\GpsStatus;
 use App\Events\Tracking\CurrentLocationEvent;
 use App\Events\Tracking\GpsConnected;
 use App\Events\Tracking\GpsDisconnected;
+use App\Helpers\StatusHelper;
 use App\Models\VehicleManagement\Tracking\Gps;
 use App\Models\VehicleManagement\Tracking\GpsLocation;
 use Illuminate\Console\Command;
@@ -35,21 +36,9 @@ class GpsServerCommand extends Command
     protected $description = 'GPS TCP listener for Teltonika devices';
 
     /**
-     * IMEI-PREFIXED LOGGING HELPER.
+     * Build secondary icon indicators (Font Awesome class names + titles).
+     * Keep these compact; the UI can choose to render them as icons with tooltips.
      */
-    private function gpsLog(string $level, ?string $imei, string $message, array $context = []): void
-    {
-        $prefix = $imei ? "[IMEI:{$imei}] " : '[IMEI:N/A] ';
-        $context = array_merge(['imei' => $imei], $context);
-
-        // NORMALIZE LEVEL TO A VALID LOGGER METHOD.
-        $level = strtolower($level);
-        if (!method_exists(Log::class, $level)) {
-            $level = 'info';
-        }
-
-        Log::$level($prefix . $message, $context);
-    }
 
     /**
      * Execute the console command.
@@ -293,6 +282,9 @@ class GpsServerCommand extends Command
                             ]);
                         }
 
+                        // --- SIGNALS (single source of truth)
+                        $self->computeSignals($location, $gps);
+
                         // --- DB INSERT
                         $dbStart = microtime(true);
                         GpsLocation::create($location);
@@ -379,4 +371,201 @@ class GpsServerCommand extends Command
             ]);
         });
     }
+
+    /**
+     * IMEI-PREFIXED LOGGING HELPER.
+     */
+    private function gpsLog(string $level, ?string $imei, string $message, array $context = []): void
+    {
+        $prefix = $imei ? "[IMEI:{$imei}] " : '[IMEI:N/A] ';
+        $context = array_merge(['imei' => $imei], $context);
+
+        // NORMALIZE LEVEL TO A VALID LOGGER METHOD.
+        $level = strtolower($level);
+        if (!method_exists(Log::class, $level)) {
+            $level = 'info';
+        }
+
+        Log::$level($prefix . $message, $context);
+    }
+
+    private function buildSignalIcons(
+        array $flags,
+        float $speed,
+        float $speedLimit
+    ): array {
+        $icons = [];
+
+        if (!empty($flags['rtsa_infraction'])) {
+            $icons[] = [
+                'key'   => 'rtsa_infraction',
+                'icon'  => 'fas fa-file-alt',
+                'title' => 'RTSA non-compliant',
+                'class' => 'text-danger',
+            ];
+        }
+
+        if (!empty($flags['overspeed'])) {
+            $icons[] = [
+                'key'   => 'overspeed',
+                'icon'  => 'fas fa-tachometer-alt',
+                'title' => sprintf('Over-speed (%.0f / %.0f km/h)', $speed, $speedLimit),
+                'class' => 'text-danger',
+            ];
+        }
+
+        if (!empty($flags['maintenance_moving'])) {
+            $icons[] = [
+                'key'   => 'maintenance_moving',
+                'icon'  => 'fas fa-tools',
+                'title' => 'Moving in maintenance',
+                'class' => 'text-warning',
+            ];
+        }
+
+        // --- Reserved / future flags ---
+
+        if (!empty($flags['stale'])) {
+            $icons[] = [
+                'key'   => 'stale',
+                'icon'  => 'fas fa-clock',
+                'title' => 'Stale location',
+                'class' => 'text-muted',
+            ];
+        }
+
+        if (!empty($flags['offline'])) {
+            $icons[] = [
+                'key'   => 'offline',
+                'icon'  => 'fas fa-plug',
+                'title' => 'Device offline',
+                'class' => 'text-danger', // change to 'text-warning' if you want it louder
+            ];
+        }
+
+        return $icons;
+    }
+
+
+    /**
+     * Compute signal state for the current location payload.
+     *
+     * DESIGN: "worst-state-wins" for primary severity + primary text, while also attaching
+     * secondary flags/icons so the UI can show multiple active conditions without needing
+     * to recompute anything.
+     */
+    private function computeSignals(array &$location, ?Gps $gps): void
+    {
+        // Default (unknown)
+        $signals = [
+            'severity' => 'green',
+            'primary' => 'okay',
+            'flags' => [
+                'rtsa_infraction' => false,
+                'overspeed' => false,
+                'maintenance_moving' => false,
+                'moving' => false,
+                // Reserved for later:
+                'offline' => false,
+                'stale' => false,
+            ],
+            'icons' => [],
+        ];
+
+        if (!$gps) {
+            $location['signals'] = $signals;
+            return;
+        }
+
+        $speed = (float) data_get($location, 'speed', 0);
+        $isMoving = $speed > config('gps.speed_limit.min', 5);
+
+        $signals['flags']['moving'] = $isMoving;
+
+        // Overspeed threshold (allow per-vehicle override; fallback to 100 km/h)
+        $speedLimit = (float)config('gps.speed_limit.max', 100);
+        $overspeed = $speed > $speedLimit;
+        $signals['flags']['overspeed'] = $overspeed;
+
+        // Maintenance/workshop status (tolerant to different status encodings)
+        $vehicleStatus = data_get($gps, 'vehicle.status');
+        $inMaintenance = $this->isInMaintenanceStatus($vehicleStatus);
+        $maintenanceMoving = $inMaintenance && $isMoving;
+        $signals['flags']['maintenance_moving'] = $maintenanceMoving;
+
+        // Compliance (RTSA / road tax)
+        $isCompliant = $this->resolveRoadTaxCompliance($gps);
+        $rtsaInfraction = ($isCompliant === false);
+        $signals['flags']['rtsa_infraction'] = $rtsaInfraction;
+
+        // --- Primary signal selection (worst-state-wins)
+        if ($rtsaInfraction) {
+            $signals['severity'] = 'red';
+            $signals['primary'] = 'RTSA non-compliant';
+        } elseif ($overspeed) {
+            $signals['severity'] = 'red';
+            $signals['primary'] = sprintf('Speeding %.0f km/h', $speed);
+        } elseif ($maintenanceMoving) {
+            $signals['severity'] = 'amber';
+            $signals['primary'] = 'Moving in maintenance';
+        } elseif (!$isMoving) {
+            $signals['severity'] = 'gray';
+            $signals['primary'] = 'Idle';
+        } else {
+            $signals['severity'] = 'green';
+            $signals['primary'] = 'Moving';
+        }
+
+        // --- Secondary indicators (icons)
+        $signals['icons'] = $this->buildSignalIcons($signals['flags'], $speed, $speedLimit);
+
+        $location['signals'] = $signals;
+    }
+
+    /**
+     * Resolve road tax / RTSA compliance.
+     *
+     * This is intentionally tolerant: it supports either a "roadTax" relation on GPS
+     * or a "roadTax" relation on vehicle. If nothing is available, returns null.
+     */
+    private function resolveRoadTaxCompliance(Gps $gps): ?bool
+    {
+        try {
+            if (method_exists($gps, 'roadTax')) {
+                $roadTax = $gps->vehicle->roadTax; // may lazy-load
+                if ($roadTax) {
+                    return (bool) (data_get($roadTax, 'is_compliant') ?? false);
+                }
+            }
+        } catch (\Throwable $e) {
+            // Ignore relation resolution issues; treat as unknown.
+        }
+
+        try {
+            $vehicle = $gps->vehicle;
+            if ($vehicle && method_exists($vehicle, 'roadTax')) {
+                $roadTax = $vehicle->roadTax; // may lazy-load
+                if ($roadTax) {
+                    return (bool) (data_get($roadTax, 'is_compliant') ?? false);
+                }
+            }
+        } catch (\Throwable $e) {
+            // Ignore relation resolution issues; treat as unknown.
+        }
+
+        return null;
+    }
+
+    /**
+     * Normalize "maintenance/workshop" status checks without coupling to a specific enum implementation.
+     */
+    private function isInMaintenanceStatus($status): bool
+    {
+        if ($status === null) {
+            return false;
+        }
+        return $status == '05';
+    }
+
+
 }

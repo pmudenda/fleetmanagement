@@ -7,8 +7,7 @@ use App\Models\VehicleManagement\Tracking\Gps;
 use Illuminate\Support\Facades\Redis;
 use Livewire\Component;
 
-class GpsDeviceListItem extends Component
-{
+class GpsDeviceListItem extends Component {
     public Gps $gps;
     public array $location = [];
 
@@ -16,48 +15,39 @@ class GpsDeviceListItem extends Component
     public string $severity = 'gray';     // red | amber | green | gray
     public string $signalText = 'Unknown';
 
-    public function mount(Gps $gps): void
-    {
+    public function mount(Gps $gps): void {
         $this->gps = $gps;
 
         $raw = Redis::client()->get("last-location-{$gps->imei}");
         $this->location = $raw ? json_decode($raw, true) : [];
 
         if ($this->location) {
-            $this->computeSignals();
-            $this->dispatch("location-changed.{$this->gps->imei}", location: $this->location);
+            $this->dispatch("location-changed", location: $this->location);
         }
     }
 
-//    public function getListeners(): array
-//    {
-//        return [
-//            "echo:gps.{$this->gps->imei},.CurrentLocation" => 'locationReceived',
-//        ];
-//    }
-
-    public function render()
-    {
-        return view('livewire.vehicle-management.tracking.gps-device-list-item');
+    public function render() {
+      $icons = [];
+      if($this->location) {
+          $icons = $this->location['signals']['icons'];
+      }
+        return view('livewire.vehicle-management.tracking.gps-device-list-item',compact('icons'));
     }
 
-    public function locationReceived($event): void
-    {
+    public function locationReceived($event): void {
         $this->location = $event['location'] ?? [];
-        $this->computeSignals();
-
+        $icons = $this->location['signals']['icons'] ?? [];
         $this->dispatch('location-changed.{$this->gps->imei}', location: $this->location);
     }
 
-    private function computeSignals(): void
-    {
+    private function computeSignals(): void {
         if (!$this->gps) {
             $this->severity = 'gray';
             $this->signalText = 'Unknown';
             return;
         }
 
-        $speed = (float) data_get($this->location, 'speed', 0);
+        $speed = (float)data_get($this->location, 'speed', 0);
 
         // You currently have roadTax relation on GPS (Gps::with('vehicle.roadTax') in list)
         // If it is actually on vehicle, swap to optional($this->gps->vehicle->roadTax).
@@ -98,8 +88,7 @@ class GpsDeviceListItem extends Component
         ];
     }
 
-    public function gpsSelected(): void
-    {
+    public function gpsSelected(): void {
         $this->dispatch('device-selected', location: $this->location, gps: $this->gps->imei);
     }
 }
