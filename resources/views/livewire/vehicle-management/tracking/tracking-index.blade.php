@@ -20,6 +20,8 @@
 <script type="text/javascript">
     let markers = {};
     let details = [];
+    let minZoom = 4;
+    const activeMap = await MapSingleton.getMap();
 
     initMap();
     const canvas = new bootstrap.Offcanvas('#gps-details-canvas')
@@ -41,15 +43,23 @@
         const location = event.location;
         canvas.show();
         marker = markers[gps];
-        if(marker){
+        if (marker) {
             const map = await MapSingleton.getMap();
             map.panTo(marker.position);
         }
-
     });
 
     // $wire.on('location-changed', async (e) => {
     //     await addOrUpdateMarker(e.location)
+    // });
+
+
+    // activeMap.addListener('zoom_changed', () => {
+    //     let zoom = activeMap.getZoom();
+    //     for (let i = 0; i < markers.length; i++) {
+    //         const {position, minZoom} = markerOptions[i];
+    //         markers[i].position = zoom > minZoom ? position : null;
+    //     }
     // });
 
     $wire.on('location-centered', async (e) => {
@@ -116,6 +126,7 @@
                     options
                 );
 
+
                 resolveMap(map);
                 return mapReady;
             },
@@ -126,86 +137,17 @@
         };
     })();
 
-    function toggleHighlight(markerView, location) {
-        // Get current speed class
-        // let speedClass = getSpeedClass(location.speed || 0);
-        let speedClass = getSpeedClass(location.speed || 0);
-        speedClass = location.is_compliant ? speedClass : 'speed-fast';
-        // console.log(location.is_compliant);
-
-        if (markerView.content.classList.contains("highlight")) {
-            markerView.content.classList.remove("highlight");
-
-            // Re-add speed class when unhighlighting
-            markerView.content.classList.add(speedClass);
-
-            markerView.zIndex = null;
-        } else {
-            // When highlighting, remove speed color (it will use the highlight styling)
-            markerView.content.classList.remove('speed-idle', 'speed-moving', 'speed-fast');
-            // markerView.content.classList.add(speedClass);
-
-            markerView.content.classList.add("highlight");
-            markerView.zIndex = 1;
-        }
-    }
-
-    function getSpeedClass(speed) {
-        if (speed > 40) {
-            return 'speed-fast'; // Red for high speed
-        } else if (speed > 0) {
-            return 'speed-moving'; // Green for moving
-        } else {
-            return 'speed-idle'; // Yellow for idle
-        }
-    }
-
-    function buildContent(location) {
-        const content = document.createElement("div");
-
-        // Get speed class
-        let speedClass = getSpeedClass(location.speed || 0);
-        speedClass = location.is_compliant ? speedClass : 'speed-fast';
-
-        content.classList.add("property");
-        content.classList.add(speedClass); // Add speed-based class
-
-        content.innerHTML = `
-        <span class="fa-house">${location.reg ?? '<div class="d-flex align-items-center"><strong>Please wait...</strong><div class="spinner-border spinner-border-sm ms-auto" role="status" aria-hidden="true"></div></div>'}</span>        <div class="details">
-            <div class="address"><strong>IMEI: </strong>${location.imei}</div>
-            <div class="address"><strong>Type: </strong>${location.brand}</div>
-            <div class="address"><strong>Fuel: </strong>${location.fuel_type}</div>
-            <div class="address"><strong>Unit: </strong>${location.business_unit}</div>
-            <div class="address"><strong>Status: </strong>${location.status}</div>
-            <div class="address"><strong>Road Tax: </strong>${location.road_tax}</div>
-            <div class="address"><strong>Fitness: </strong>${location.fitness}</div>
-            <div class="address"><strong>Compliant: </strong>${location.rtsa_status}</div>
-            <hr/>
-            <div class="features">
-                <div>
-                    <i aria-hidden="true" class="fa fa-tachometer-alt fa-lg" title="Speed"></i>
-                    <span>${location.speed || 0} Km/h</span>
-                </div>
-                <div>
-                    <i aria-hidden="true" class="fa fa-clock fa-lg" title="Last Update"></i>
-                    <span>${location.connected_at}</span>
-                </div>
-                <div>
-                    <i aria-hidden="true" class="fa fa-map-marked fa-lg" title="Location"></i>
-                    <span>${location.latitude},${location.longitude}</span>
-                </div>
-            </div>
-        </div>
-    `;
-        return content;
-    }
 
     function severityToHex(severity) {
         switch (severity) {
-            case "red":   return "#dc3545";
-            case "amber": return "#ffc107";
-            case "green": return "#28a745";
-            default:      return "#6c757d";
+            case "red":
+                return "#dc3545";
+            case "amber":
+                return "#ffc107";
+            case "green":
+                return "#28a745";
+            default:
+                return "#6c757d";
         }
     }
 
@@ -223,9 +165,9 @@ M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805
 
 
     async function addOrUpdateMarker(location) {
-        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+        const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
 
-        const nextPos = { lat: location.latitude, lng: location.longitude };
+        const nextPos = {lat: location.latitude, lng: location.longitude};
         const heading = Number(location.angle ?? 0); // degrees
         const severity = location.signals?.severity ?? "gray";
         const fill = severityToHex(severity);
@@ -334,10 +276,14 @@ M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805
 
     function getSeverityClass(severity) {
         switch (severity) {
-            case "red":   return "text-danger";
-            case "amber": return "text-warning";
-            case "green": return "text-success";
-            default:      return "text-muted";
+            case "red":
+                return "text-danger";
+            case "amber":
+                return "text-warning";
+            case "green":
+                return "text-success";
+            default:
+                return "text-muted";
         }
     }
 

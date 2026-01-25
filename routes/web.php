@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth','is.active','change.password']], function 
         ->name('document.audit.trail');
 });
 
+require __DIR__ . '/gps.php';
+
 
 
 

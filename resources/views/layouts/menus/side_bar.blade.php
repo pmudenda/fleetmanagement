@@ -137,30 +137,39 @@
                     </li>
                 @endcanany
 
-                @can('viewAny', \App\Models\GatePass\GatePass::class)
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-map-marker-alt" style="font-size: 20px;"></i>
-                            <p>
-                                Vehicle Tracking
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            @can('create', \App\Models\GatePass\GatePass::class)
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-map-marker-alt" style="font-size: 20px;"></i>
+                        <p>
+                            Vehicle Tracking
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item pl-2">
+                            <a href="{{ route('gps.dashboard') }}" class="nav-link">
+                                <i class="fas fa-chart-line nav-icon"></i>
+                                <p>GPS Dashboard</p>
+                            </a>
+                        </li>
 
-                                <li class="nav-item pl-2">
-                                    <a href="{{ route('vehicle.tracking.index') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Live Tracking</p>
-                                    </a>
-                                </li>
-                            @endcan
+                        <li class="nav-item pl-2">
+                            <a href="{{ route('vehicle.tracking.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Live Tracking</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item pl-2">
+                            <a href="{{URL::signedRoute('gps.index') }}" class="nav-link">
+                                <i class="fas fa-satellite-dish nav-icon"></i>
+                                <p>Device On Boarding</p>
+                            </a>
+                        </li>
 
 
-                        </ul>
-                    </li>
-                @endcan
+                    </ul>
+                </li>
 
                 @can('viewAny', \App\Models\GatePass\GatePass::class)
                     <li class="nav-item">
@@ -189,32 +198,32 @@
                                 </li>
                             @endcan
 
-                                @can('view-assigned', \App\Models\GatePass\GatePass::class)
-                                    <li class="nav-item pl-2">
-                                        <a href="{{ route('gate-pass.unauthorised') }}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Pending Authorisation</p>
-                                        </a>
-                                    </li>
-                                @endcan
+                            @can('view-assigned', \App\Models\GatePass\GatePass::class)
+                                <li class="nav-item pl-2">
+                                    <a href="{{ route('gate-pass.unauthorised') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Pending Authorisation</p>
+                                    </a>
+                                </li>
+                            @endcan
 
-                                @can('view-unchecked', \App\Models\GatePass\GatePass::class)
-                                    <li class="nav-item pl-2">
-                                        <a href="{{ route('gate-pass.unchecked') }}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Pending Checking / Verifying</p>
-                                        </a>
-                                    </li>
-                                @endcan
+                            @can('view-unchecked', \App\Models\GatePass\GatePass::class)
+                                <li class="nav-item pl-2">
+                                    <a href="{{ route('gate-pass.unchecked') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Pending Checking / Verifying</p>
+                                    </a>
+                                </li>
+                            @endcan
 
-                                @can('view-all', \App\Models\GatePass\GatePass::class)
-                                    <li class="nav-item pl-2">
-                                        <a href="{{ route('gate-pass.all') }}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>List All </p>
-                                        </a>
-                                    </li>
-                                @endcan
+                            @can('view-all', \App\Models\GatePass\GatePass::class)
+                                <li class="nav-item pl-2">
+                                    <a href="{{ route('gate-pass.all') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>List All </p>
+                                    </a>
+                                </li>
+                            @endcan
 
                         </ul>
                     </li>
@@ -1245,55 +1254,55 @@
                                 {{--                                    </a>--}}
                                 {{--                                </li>--}}
 
-{{--                                <li class="nav-item">--}}
-{{--                                    <a href="{{route('reports.fuel.status')}}"--}}
-{{--                                       class="nav-link">--}}
-{{--                                        <i class="far fa-circle nav-icon"></i>--}}
-{{--                                        <p>--}}
-{{--                                            Fuel By Status--}}
-{{--                                        </p>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
+                                {{--                                <li class="nav-item">--}}
+                                {{--                                    <a href="{{route('reports.fuel.status')}}"--}}
+                                {{--                                       class="nav-link">--}}
+                                {{--                                        <i class="far fa-circle nav-icon"></i>--}}
+                                {{--                                        <p>--}}
+                                {{--                                            Fuel By Status--}}
+                                {{--                                        </p>--}}
+                                {{--                                    </a>--}}
+                                {{--                                </li>--}}
 
-{{--                                <li class="nav-item">--}}
-{{--                                    <a href="{{route('reports.fuel')}}"--}}
-{{--                                       class="nav-link">--}}
-{{--                                        <i class="far fa-circle nav-icon"></i>--}}
-{{--                                        <p>--}}
-{{--                                            Fuel Period Report--}}
-{{--                                        </p>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
+                                {{--                                <li class="nav-item">--}}
+                                {{--                                    <a href="{{route('reports.fuel')}}"--}}
+                                {{--                                       class="nav-link">--}}
+                                {{--                                        <i class="far fa-circle nav-icon"></i>--}}
+                                {{--                                        <p>--}}
+                                {{--                                            Fuel Period Report--}}
+                                {{--                                        </p>--}}
+                                {{--                                    </a>--}}
+                                {{--                                </li>--}}
 
-{{--                                <li class="nav-item">--}}
-{{--                                    <a href="{{route('reports.spares')}}"--}}
-{{--                                       class="nav-link">--}}
-{{--                                        <i class="far fa-circle nav-icon"></i>--}}
-{{--                                        <p>--}}
-{{--                                            Consolidated Spares Report--}}
-{{--                                        </p>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
+                                {{--                                <li class="nav-item">--}}
+                                {{--                                    <a href="{{route('reports.spares')}}"--}}
+                                {{--                                       class="nav-link">--}}
+                                {{--                                        <i class="far fa-circle nav-icon"></i>--}}
+                                {{--                                        <p>--}}
+                                {{--                                            Consolidated Spares Report--}}
+                                {{--                                        </p>--}}
+                                {{--                                    </a>--}}
+                                {{--                                </li>--}}
 
-{{--                                <li class="nav-item">--}}
-{{--                                    <a href="{{route('reports.audit.document')}}"--}}
-{{--                                       class="nav-link">--}}
-{{--                                        <i class="far fa-circle nav-icon"></i>--}}
-{{--                                        <p>--}}
-{{--                                            Document Tracking--}}
-{{--                                        </p>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
+                                {{--                                <li class="nav-item">--}}
+                                {{--                                    <a href="{{route('reports.audit.document')}}"--}}
+                                {{--                                       class="nav-link">--}}
+                                {{--                                        <i class="far fa-circle nav-icon"></i>--}}
+                                {{--                                        <p>--}}
+                                {{--                                            Document Tracking--}}
+                                {{--                                        </p>--}}
+                                {{--                                    </a>--}}
+                                {{--                                </li>--}}
 
-{{--                                <li class="nav-item">--}}
-{{--                                    <a href="{{route('report.index')}}"--}}
-{{--                                       class="nav-link">--}}
-{{--                                        <i class="far fa-circle nav-icon"></i>--}}
-{{--                                        <p>--}}
-{{--                                           Reports--}}
-{{--                                        </p>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
+                                {{--                                <li class="nav-item">--}}
+                                {{--                                    <a href="{{route('report.index')}}"--}}
+                                {{--                                       class="nav-link">--}}
+                                {{--                                        <i class="far fa-circle nav-icon"></i>--}}
+                                {{--                                        <p>--}}
+                                {{--                                           Reports--}}
+                                {{--                                        </p>--}}
+                                {{--                                    </a>--}}
+                                {{--                                </li>--}}
                             @endcanany
 
                             {{--                            @canany(config('rights.access_reports'),--}}

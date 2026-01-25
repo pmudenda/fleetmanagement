@@ -1,217 +1,318 @@
-@php use App\Models\Common\MaterialHeader;use Carbon\Carbon; @endphp
+@php
+    use App\Models\Common\MaterialHeader;
+    use Carbon\Carbon;
+@endphp
+
 @extends('layouts.app')
 
 @push('styles')
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+    <style>
+        /* ---------- Dashboard Modern UI ---------- */
+        .dash-kpi {
+            border: 0;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 10px 25px rgba(0,0,0,.06);
+            transition: transform .15s ease, box-shadow .15s ease;
+            position: relative;
+            min-height: 120px;
+        }
+        .dash-kpi:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(0,0,0,.10);
+        }
+        .dash-kpi .kpi-body{
+            padding: 18px 18px 16px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+        .kpi-meta{
+            display:flex;
+            flex-direction:column;
+            gap:6px;
+        }
+        .kpi-title{
+            font-size: 13px;
+            color: #6b7280;
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: .2px;
+            text-transform: uppercase;
+        }
+        .kpi-value{
+            font-size: 30px;
+            line-height: 1;
+            font-weight: 900;
+            margin: 0;
+            color: #111827;
+        }
+        .kpi-sub{
+            font-size: 12px;
+            color: #6b7280;
+            margin:0;
+            display:flex;
+            align-items:center;
+            gap:8px;
+            flex-wrap: wrap;
+        }
+        .kpi-chip{
+            font-size: 11px;
+            font-weight: 900;
+            padding: 3px 9px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .chip-up{ background: rgba(16,185,129,.12); color: #047857; }
+        .chip-down{ background: rgba(239,68,68,.12); color: #b91c1c; }
+        .chip-neutral{ background: rgba(59,130,246,.12); color: #1d4ed8; }
+
+        .kpi-icon{
+            width: 46px; height: 46px;
+            border-radius: 14px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex: 0 0 auto;
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,.12);
+        }
+        .kpi-icon i{ font-size: 18px; }
+
+        .kpi-footer{
+            padding: 10px 18px;
+            border-top: 1px solid rgba(17,24,39,.06);
+            display:flex;
+            justify-content: space-between;
+            align-items:center;
+            font-size: 12px;
+            color: #6b7280;
+            background: rgba(249,250,251,.6);
+        }
+        .kpi-link{
+            font-weight: 900;
+            text-decoration: none;
+        }
+
+        /* Color presets */
+        .bg-grad-green{ background: linear-gradient(135deg,#10b981,#059669); }
+        .bg-grad-blue{ background: linear-gradient(135deg,#3b82f6,#2563eb); }
+        .bg-grad-amber{ background: linear-gradient(135deg,#f59e0b,#d97706); }
+        .bg-grad-red{ background: linear-gradient(135deg,#ef4444,#dc2626); }
+
+        /* Cards */
+        .dash-card{
+            border: 0;
+            border-radius: 14px;
+            overflow: hidden;
+            background:#fff;
+            box-shadow: 0 10px 25px rgba(0,0,0,.06);
+        }
+        .dash-card .card-header{
+            background: transparent;
+            border-bottom: 1px solid rgba(17,24,39,.06);
+            padding: 14px 16px;
+        }
+        .dash-card .card-title h3,
+        .dash-card .card-title h4{
+            margin: 0;
+            font-weight: 900;
+            color:#111827;
+        }
+        .dash-card .card-body{
+            padding: 14px 16px 16px 16px;
+        }
+
+        .chart-holder{
+            border-radius: 14px;
+            background: #fff;
+            border: 1px solid rgba(17,24,39,.08);
+            padding: 10px;
+        }
+
+        /* Filter UI */
+        .filter-row{
+            display:flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: end;
+        }
+        .filter-item{
+            min-width: 180px;
+        }
+        .filter-label{
+            font-size: 12px;
+            color:#6b7280;
+            font-weight: 800;
+            margin-bottom: 6px;
+            display:block;
+        }
+        .filter-meta{
+            font-size: 12px;
+            color:#6b7280;
+            display:flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items:center;
+        }
+
+        /* Table enhancement */
+        #listTable thead th { font-weight: 900; color: #111827; }
+        #listTable tbody td { vertical-align: middle; }
+
+        /* Small stat badge area inside headers */
+        .header-badges{
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+            align-items:center;
+        }
+        .mini-stat{
+            font-size: 12px;
+            color:#6b7280;
+            font-weight: 700;
+            background: rgba(249,250,251,.9);
+            border: 1px solid rgba(17,24,39,.08);
+            padding: 6px 10px;
+            border-radius: 999px;
+            display:inline-flex;
+            gap:6px;
+            align-items:center;
+        }
+        .mini-stat b { color:#111827; font-weight: 900; }
+    </style>
 @endpush
 
 @section('content')
     <x-content-header :pageTitle="'Dashboard'"/>
+
     <section class="content">
         <div class="container-fluid">
+
+            {{-- KPI CARDS --}}
             @can(config('rights.view_dashboard'))
-                <div class="row">
-                    <div class="col-lg-3 col-6">
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h3 class="text-white">{{number_format($vehicleData->count())}}</h3>
-                                <p>Total Fleet</p>
+                <div class="row g-3 mb-3">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="dash-kpi">
+                            <div class="kpi-body">
+                                <div class="kpi-meta">
+                                    <p class="kpi-title">Total Fleet</p>
+                                    <p class="kpi-value">{{ number_format($vehicleData->count()) }}</p>
+                                    <p class="kpi-sub">
+                                        <span class="kpi-chip chip-neutral">
+                                            <i class="fas fa-chart-line"></i> Overview
+                                        </span>
+                                        <span>All registered vehicles</span>
+                                    </p>
+                                </div>
+                                <div class="kpi-icon bg-grad-green">
+                                    <i class="fas fa-truck"></i>
+                                </div>
                             </div>
-                            <div class="icon">
-                                <i class="fas fa-truck"></i>
+                            <div class="kpi-footer">
+                                <span>Updated: {{ now()->format('d M Y, H:i') }}</span>
+                                <a href="#" class="kpi-link" style="color:#059669;">More info <i class="fas fa-arrow-right"></i></a>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-6">
-
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <h3 class="text-white">
-                                    {{$mechanics}}
-                                    <sup style="font-size: 20px"></sup></h3>
-                                <p>Mechanics</p>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="dash-kpi">
+                            <div class="kpi-body">
+                                <div class="kpi-meta">
+                                    <p class="kpi-title">Mechanics</p>
+                                    <p class="kpi-value">{{ number_format($mechanics) }}</p>
+                                    <p class="kpi-sub">
+                                        <span class="kpi-chip chip-up">
+                                            <i class="fas fa-arrow-up"></i> Active
+                                        </span>
+                                        <span>Workforce ready</span>
+                                    </p>
+                                </div>
+                                <div class="kpi-icon bg-grad-blue">
+                                    <i class="fas fa-wrench"></i>
+                                </div>
                             </div>
-                            <div class="icon">
-                                <i class="fas fa-wrench"></i>
+                            <div class="kpi-footer">
+                                <span>Maintenance capacity</span>
+                                <a href="#" class="kpi-link" style="color:#2563eb;">More info <i class="fas fa-arrow-right"></i></a>
                             </div>
-                            <a href="#" class="small-box-footer">
-                                More info
-                                <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-6">
-                        <div class="small-box bg-warning">
-                            <div class="inner">
-                                <h3 class="text-white">
-                                    {{number_format($activeUsers)}}</h3>
-                                <p class="text-white">Active Users</p>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="dash-kpi">
+                            <div class="kpi-body">
+                                <div class="kpi-meta">
+                                    <p class="kpi-title">Active Users</p>
+                                    <p class="kpi-value">{{ number_format($activeUsers) }}</p>
+                                    <p class="kpi-sub">
+                                        <span class="kpi-chip chip-neutral">
+                                            <i class="fas fa-user-check"></i> Live
+                                        </span>
+                                        <span>Currently enabled</span>
+                                    </p>
+                                </div>
+                                <div class="kpi-icon bg-grad-amber">
+                                    <i class="fas fa-users"></i>
+                                </div>
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-person-add"></i>
+                            <div class="kpi-footer">
+                                <span>System usage</span>
+                                <a href="#" class="kpi-link" style="color:#d97706;">More info <i class="fas fa-arrow-right"></i></a>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-6">
-                        <div class="small-box bg-danger">
-                            <div class="inner">
-                                <h3 class="text-white">{{number_format($activeDrivers)}}</h3>
-                                <p>Registered Drivers</p>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="dash-kpi">
+                            <div class="kpi-body">
+                                <div class="kpi-meta">
+                                    <p class="kpi-title">Registered Drivers</p>
+                                    <p class="kpi-value">{{ number_format($activeDrivers) }}</p>
+                                    <p class="kpi-sub">
+                                        <span class="kpi-chip chip-neutral">
+                                            <i class="fas fa-id-card"></i> Total
+                                        </span>
+                                        <span>Available drivers</span>
+                                    </p>
+                                </div>
+                                <div class="kpi-icon bg-grad-red">
+                                    <i class="fas fa-id-badge"></i>
+                                </div>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-drivers-license"></i>
+                            <div class="kpi-footer">
+                                <span>Driver pool</span>
+                                <a href="#" class="kpi-link" style="color:#dc2626;">More info <i class="fas fa-arrow-right"></i></a>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-
                 </div>
             @endcan
 
-            <div class="row mb-3 d-none">
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="fs-17 font-weight-600 mb-0">Vehicles</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-column">
-                                <div>
-                                    <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">On Requisition<span class="float-right"><strong>27</strong></span></a>
-                                </div>
-                                <div>
-                                    <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">On Maintenance <span class="float-right"><strong>13</strong></span></a>
-                                </div>
-                                <div>
-                                    <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">Available <span class="float-right"><strong>2</strong></span></a>
-                                </div>
-                                <div>
-                                    &nbsp;
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="fs-17 font-weight-600 mb-0">Todays Requisition</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-column">
-                                <div>
-                                    <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">Vehicle Requisition
-                                        <span class="float-right"><strong>0</strong></span>
-                                    </a>
-                                </div>
-                                <div>
-                                    <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">Maintenance Requisition<span
-                                                class="float-right"><strong>0</strong></span></a>
-                                </div>
-                                <div>
-                                    <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">Fuel Requisition
-                                        <span class="float-right">
-                                            <strong>
-                                                {{MaterialHeader::whereDate('date_created','=' ,Carbon::now())
-                                                ->count()}}
-                                            </strong>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="fs-17 font-weight-600 mb-0">Reminder </h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-column">
-                                <div>
-                                    <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">
-                                        License Soon Expire <span class="float-right"><strong>0</strong></span>
-                                    </a>
-                                </div>
-                                <div>
-                                    <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">License Expired <span class="float-right"><strong>0</strong></span></a>
-                                </div>
-                                <div>
-                                    &nbsp;
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="fs-17 font-weight-600 mb-0"> Others Activities</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-column">
-                                <div>
-                                    <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#">Stock In <span class="float-right"><strong>115</strong></span></a>
-                                </div>
-                                <div>
-                                    <i class="fas fa fa-caret-right text-success"></i>
-                                    <a href="#"> Stock Out <span class="float-right"><strong>772040</strong></span></a>
-                                </div>
-                                <div>
-                                    &nbsp;
-                                </div>
-                                <div>
-                                    &nbsp;
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Main row -->
+            {{-- MY TASKS CARD --}}
             <div class="row">
-                <!-- Left col -->
                 <div class="col-md-12 pl-0">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card dash-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
                             <div class="card-title">
                                 <h3>My Tasks</h3>
+                                <div style="font-size:12px;color:#6b7280;margin-top:4px;">
+                                    Quick actions pending your approval
+                                </div>
                             </div>
                         </div>
+
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table aria-label="tasks table"
@@ -231,96 +332,164 @@
                                     @foreach($approvalTasks as $rec)
                                         <tr>
                                             <td>
-                                                <a href="{{URL::signedRoute($rec->url, ['ref'=>  $rec->reference])}}">
-                                                    {{$rec->reference}}
+                                                <a href="{{ URL::signedRoute($rec->url, ['ref'=>  $rec->reference]) }}">
+                                                    {{ $rec->reference }}
                                                 </a>
                                             </td>
+                                            <td>{{ $rec->subject ?? '--' }}</td>
+                                            <td>{{ $rec->description }}</td>
+                                            <td>{{ $rec->originator }}</td>
+                                            <td>{{ Carbon::parse($rec->date_acted)->format('d/m/Y') }}</td>
                                             <td>
-                                                {{$rec->subject ?? '--'}}
-                                            </td>
-                                            <td>
-                                                {{$rec->description}}
-                                            </td>
-
-                                            <td>
-                                                {{$rec->originator}}
-                                            </td>
-                                            <td>
-                                                {{Carbon::parse($rec->date_acted)->format('d/m/Y')}}
-                                            </td>
-                                            <td>
-                                                <a href="{{URL::signedRoute($rec->url,['ref'=> $rec->reference])}}"
+                                                <a href="{{ URL::signedRoute($rec->url,['ref'=> $rec->reference]) }}"
                                                    class="btn btn-sm btn-success">
                                                     Details
                                                 </a>
                                             </td>
-
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
 
+            {{-- VEHICLE DASHBOARD --}}
             @can(config('rights.view_vehicle_dashboard'))
-                <div class="row">
-                    <!-- Left col -->
-                    <div class="col-md-12 pl-0">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <h4>Vehicle Data Report</h4>
-                                </div>
-                                <div class="card-toolbar justify-content-end">
+                <div class="row mt-3">
 
-                                    <button type="button"
-                                            class="btn btn-sm btn-primary me-3"
-                                            data-menu-trigger="click"
-                                            data-menu-placement="bottom-end">
-                                <span class="svg-icon svg-icon-2">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                                d="M19.0759 3H4.72777C3.95892 3
-                                            3.47768 3.83148 3.86067 4.49814L8.56967
-                                            12.6949C9.17923 13.7559 9.5 14.9582 9.5
-                                            16.1819V19.5072C9.5 20.2189 10.2223
-                                            20.7028 10.8805 20.432L13.8805 19.1977C14.2553
-                                            19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5
-                                            12.8089 14.8171 11.8056 15.408 10.964L19.8943
-                                            4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
-                                                fill="currentColor"></path>
-                                    </svg>
-                                </span>
-                                        Filter
-                                    </button>
+                    {{-- FILTER CARD (separate card) --}}
+                    <div class="col-12">
+                        <div class="card dash-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="card-title">
+                                    <h4>Quick Filters</h4>
+                                    <div style="font-size:12px;color:#6b7280;margin-top:4px;">
+                                        Filter charts client-side (status + search) without affecting backend data
+                                    </div>
+                                </div>
+
+                                <div class="header-badges">
+                                    <span class="mini-stat">
+                                        Showing <b id="flt_showing">0</b> / <b id="flt_total">0</b>
+                                    </span>
+                                    <span class="mini-stat">
+                                        Change <b id="flt_delta">0%</b>
+                                        <span id="flt_delta_icon" class="kpi-chip chip-neutral" style="padding:2px 8px;">
+                                            <i class="fas fa-minus"></i>
+                                        </span>
+                                    </span>
                                 </div>
                             </div>
-                            <div class="card-body p-2">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div id="main" style="height:400px;"></div>
+
+                            <div class="card-body">
+                                <div class="filter-row">
+                                    <div class="filter-item">
+                                        <label class="filter-label" for="statusFilter">Status</label>
+                                        <select id="statusFilter" class="form-control form-control-sm">
+                                            <option value="">All Statuses</option>
+                                        </select>
                                     </div>
-                                    <div class="col-6">
-                                        <div id="pie" style="height:400px;"></div>
+
+                                    <div class="filter-item" style="flex:1; min-width: 240px;">
+                                        <label class="filter-label" for="searchFilter">Search</label>
+                                        <input id="searchFilter"
+                                               type="text"
+                                               class="form-control form-control-sm"
+                                               placeholder="Search reg number, model, status, driver...">
+                                    </div>
+
+                                    <div class="filter-item" style="min-width: 200px;">
+                                        <button id="btnApply" class="btn btn-sm btn-primary w-100">
+                                            <i class="fas fa-filter mr-1"></i> Apply
+                                        </button>
+                                    </div>
+
+                                    <div class="filter-item" style="min-width: 200px;">
+                                        <button id="btnReset" class="btn btn-sm btn-outline-secondary w-100">
+                                            <i class="fas fa-undo mr-1"></i> Reset
+                                        </button>
                                     </div>
                                 </div>
-                                {{--<div class="row">
-                                    <div class="col-6">
-                                        <div id="pie2" style="height:400px;"></div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div id="bar_chart" style="height:400px;"></div>
-                                    </div>
-                                </div>--}}
+
+                                <div class="mt-3 filter-meta">
+                                    <span class="mini-stat">
+                                        Top Status: <b id="flt_top_status">--</b>
+                                    </span>
+                                    <span class="mini-stat">
+                                        Top Count: <b id="flt_top_count">--</b>
+                                    </span>
+                                    <span class="mini-stat">
+                                        Query: <b id="flt_query">--</b>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    {{-- BAR CARD --}}
+                    <div class="col-12 col-lg-7">
+                        <div class="card dash-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="card-title">
+                                    <h4>Vehicles by Status</h4>
+                                    <div style="font-size:12px;color:#6b7280;margin-top:4px;">
+                                        Counts grouped by current filtered dataset
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-holder">
+                                    <div id="main" style="height: 360px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- PIE CARD --}}
+                    <div class="col-12 col-lg-5">
+                        <div class="card dash-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="card-title">
+                                    <h4>Status Share</h4>
+                                    <div style="font-size:12px;color:#6b7280;margin-top:4px;">
+                                        Percentage breakdown for decision overview
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-holder">
+                                    <div id="pie" style="height: 360px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- TREND CARD --}}
+                    <div class="col-12">
+                        <div class="card dash-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="card-title">
+                                    <h4>Trend Overview</h4>
+                                    <div style="font-size:12px;color:#6b7280;margin-top:4px;">
+                                        Simple trend-like view using status counts (filtered)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-holder">
+                                    <div id="trend" style="height: 300px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             @endcan
+
         </div>
     </section>
 @endsection
@@ -328,258 +497,314 @@
 @push('scripts')
     <script>
         window.vehicleData = {!! json_encode($vehicleData) !!};
-        (function (appInstance) {
-            // appInstance.initDatatable("#listTable", false, true);
+
+        (function () {
+            // DataTable
             $('#listTable').DataTable({
-                pageLength: 10 // Number of rows per page
+                pageLength: 10,
+                responsive: true,
+                order: [[4,'desc']]
             });
-            function genData() {
-                let legendData = [];
-                let valueObject = {};
-                for (const vehicle of window['vehicleData']) {
-                    if (legendData.indexOf(vehicle['status_name']) === -1) {
-                        legendData.push(vehicle['status_name']);
-                    }
-                    if (valueObject.hasOwnProperty(vehicle['status_name'])) {
-                        valueObject[vehicle['status_name']] += 1;
+
+            const allVehicles = Array.isArray(window.vehicleData) ? window.vehicleData : [];
+            const baselineTotal = allVehicles.length;
+
+            // If ECharts isn't loaded, stop safely
+            if (typeof echarts === 'undefined') {
+                console.warn('ECharts not loaded. Please include ECharts library.');
+                return;
+            }
+
+            // ---------- Helpers ----------
+            function norm(v) {
+                return (v ?? '').toString().toLowerCase().trim();
+            }
+
+            function getStatusName(v) {
+                return v.status_name || v.status || 'Unknown';
+            }
+
+            function buildStatusAgg(vehicles) {
+                const valueObject = {};
+                for (const v of vehicles) {
+                    const key = getStatusName(v) || 'Unknown';
+                    valueObject[key] = (valueObject[key] || 0) + 1;
+                }
+
+                const seriesData = Object.keys(valueObject).map(k => ({ name: k, value: valueObject[k] }));
+                seriesData.sort((a,b)=> b.value - a.value);
+
+                const total = seriesData.reduce((a,b)=> a + b.value, 0);
+                const top = seriesData[0] || { name: '--', value: 0 };
+
+                return { seriesData, total, top };
+            }
+
+            function uniqueStatuses(vehicles) {
+                const set = new Set();
+                for (const v of vehicles) set.add(getStatusName(v) || 'Unknown');
+                return Array.from(set).filter(Boolean).sort((a,b)=> a.localeCompare(b));
+            }
+
+            function matchesSearch(v, q) {
+                if (!q) return true;
+
+                // Try common fields (won't break if they don't exist)
+                const hay = [
+                    v.reg_number, v.registration, v.plate, v.number_plate,
+                    v.model, v.make, v.type,
+                    v.driver_name, v.driver,
+                    v.imei,
+                    getStatusName(v)
+                ].map(norm).join(' | ');
+
+                return hay.includes(q);
+            }
+
+            function applyFilter() {
+                const status = document.getElementById('statusFilter')?.value || '';
+                const q = norm(document.getElementById('searchFilter')?.value || '');
+
+                let filtered = allVehicles.slice();
+
+                if (status) {
+                    filtered = filtered.filter(v => (getStatusName(v) || 'Unknown') === status);
+                }
+                if (q) {
+                    filtered = filtered.filter(v => matchesSearch(v, q));
+                }
+
+                return { filtered, status, q };
+            }
+
+            function formatDeltaPct(current, base) {
+                if (!base) return 0;
+                return ((current - base) / base) * 100;
+            }
+
+            function updateDeltaUI(currentTotal) {
+                const showingEl = document.getElementById('flt_showing');
+                const totalEl = document.getElementById('flt_total');
+                const deltaEl = document.getElementById('flt_delta');
+                const deltaIconEl = document.getElementById('flt_delta_icon');
+
+                if (showingEl) showingEl.textContent = currentTotal.toString();
+                if (totalEl) totalEl.textContent = baselineTotal.toString();
+
+                const pct = formatDeltaPct(currentTotal, baselineTotal);
+                const pctRounded = Math.round(pct * 10) / 10; // 1 decimal
+                if (deltaEl) deltaEl.textContent = `${pctRounded}%`;
+
+                if (deltaIconEl) {
+                    deltaIconEl.classList.remove('chip-up','chip-down','chip-neutral');
+                    if (pctRounded > 0) {
+                        deltaIconEl.classList.add('kpi-chip','chip-up');
+                        deltaIconEl.innerHTML = '<i class="fas fa-arrow-up"></i>';
+                    } else if (pctRounded < 0) {
+                        deltaIconEl.classList.add('kpi-chip','chip-down');
+                        deltaIconEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
                     } else {
-                        valueObject[vehicle['status_name']] = 1;
+                        deltaIconEl.classList.add('kpi-chip','chip-neutral');
+                        deltaIconEl.innerHTML = '<i class="fas fa-minus"></i>';
                     }
-                }
-
-                let seriesData = [];
-                for (const key in valueObject) {
-                    seriesData.push({value: valueObject[key], name: key});
-                }
-                return {
-                    legendData,
-                    seriesData
                 }
             }
 
-            const data = genData();
+            function updateMetaUI(topStatus, topCount, status, q) {
+                const topStatusEl = document.getElementById('flt_top_status');
+                const topCountEl = document.getElementById('flt_top_count');
+                const queryEl = document.getElementById('flt_query');
 
-            function createVehicleChartByStatus() {
-                let myChart = echarts.init(document.getElementById('main'));
+                if (topStatusEl) topStatusEl.textContent = topStatus || '--';
+                if (topCountEl) topCountEl.textContent = (topCount ?? '--').toString();
 
-                let option = {
-                    title: {
-                        text: 'Vehicle By Status',
-                        left: 'center'
-                    },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'shadow',
-                            label: {
-                                show: true,
-                            },
-                            formatter(params) {
-                                return params[0].data.name;
+                const statusTxt = status ? `status=${status}` : 'status=All';
+                const qTxt = q ? `search="${q}"` : 'search=--';
+                if (queryEl) queryEl.textContent = `${statusTxt}, ${qTxt}`;
+            }
+
+            // ---------- Init Filter Dropdown ----------
+            const statusSelect = document.getElementById('statusFilter');
+            if (statusSelect) {
+                const statuses = uniqueStatuses(allVehicles);
+                statuses.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s;
+                    opt.textContent = s;
+                    statusSelect.appendChild(opt);
+                });
+            }
+
+            // ---------- Chart Instances ----------
+            const barDom = document.getElementById('main');
+            const pieDom = document.getElementById('pie');
+            const trendDom = document.getElementById('trend');
+
+            const barChart = barDom ? echarts.init(barDom) : null;
+            const pieChart = pieDom ? echarts.init(pieDom) : null;
+            const trendChart = trendDom ? echarts.init(trendDom) : null;
+
+            function setCharts(vehicles) {
+                const agg = buildStatusAgg(vehicles);
+
+                // update filter header stats
+                updateDeltaUI(agg.total);
+                updateMetaUI(agg.top.name, agg.top.value, document.getElementById('statusFilter')?.value || '', norm(document.getElementById('searchFilter')?.value || ''));
+
+                // BAR
+                if (barChart) {
+                    barChart.setOption({
+                        title: {
+                            text: 'Vehicles by Status',
+                            left: 'left',
+                            textStyle: { fontSize: 14, fontWeight: 900 }
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: { type: 'shadow' },
+                            formatter: (params) => {
+                                const p = params[0];
+                                return `${p.name}<br/>Vehicles: <b>${p.value}</b>`;
                             }
                         },
-                        formatter(params) {
-                            const value = params[0].data.value;
-                            return 'Status: ' + params[0].data.name
-                                + '<br/>No. Of Vehicles: ' + value;
-                        }
-                    },
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            mark: {show: true},
-                            dataView: {show: true, readOnly: false},
-                            magicType: {show: true, type: ['line', 'bar', 'stack']},
-                            restore: {show: true},
-                            saveAsImage: {show: true},
+                        grid: { left: 40, right: 20, top: 60, bottom: 70 },
+                        xAxis: {
+                            type: 'category',
+                            data: agg.seriesData.map(x => x.name),
+                            axisLabel: { rotate: 30, interval: 0, overflow: 'truncate', width: 110 }
                         },
-                    },
-                    legend: {
-                        data: ['sales']
-                    },
-                    xAxis: {
-                        data: data.legendData,
-                        axisLabel: {
-                            rotate: 45,
-                            width: 50,
-                            ellipsis: '...',
-                            overflow: 'truncate'
-                        }
-                    },
-                    yAxis: {},
-                    series: [
-                        {
-                            name: 'Vehicle By Status',
+                        yAxis: { type: 'value', splitLine: { lineStyle: { type: 'dashed' } } },
+                        series: [{
+                            name: 'Vehicles',
                             type: 'bar',
-                            colorBy: 'data',
-                            data: data.seriesData
-                        }
-                    ]
-                };
-
-                myChart.setOption(option);
-            }
-
-            function createVehicleByStatusPie() {
-                let pieChartDom = document.getElementById('pie');
-                let myPieChart2 = echarts.init(pieChartDom);
-
-                myPieChart2.setOption({
-                    title: {
-                        text: 'Vehicle By Status',
-                        left: 'center'
-                    },
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: '{a} <br/>{b} : {c} ({d}%)'
-                    },
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            mark: {show: true},
-                            dataView: {show: true, readOnly: false},
-                            magicType: {show: true, type: ['line', 'bar', 'stack']},
-                            restore: {show: true},
-                            saveAsImage: {show: true},
-                        },
-                    },
-                    legend: {
-                        type: 'scroll',
-                        orient: 'vertical',
-                        right: 10,
-                        top: 20,
-                        bottom: 20,
-                        data: data.legendData
-                    },
-                    series: [
-                        {
-                            name: 'Vehicle By Status',
-                            type: 'pie',
-                            radius: '55%',
-                            center: ['40%', '50%'],
-                            data: data.seriesData,
-                            emphasis: {
-                                itemStyle: {
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 0,
-                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                }
+                            barWidth: 26,
+                            data: agg.seriesData.map(x => x.value),
+                            itemStyle: {
+                                borderRadius: [8,8,0,0],
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                    { offset: 0, color: '#3b82f6' },
+                                    { offset: 1, color: '#22c55e' }
+                                ])
                             }
-                        }
-                    ]
-                });
-            }
-
-            createVehicleChartByStatus();
-
-            createVehicleByStatusPie();
-        })(window.tmsApp || {});
-
-        /*
-        let chartDom = document.getElementById('pie2');
-        let myPieChart = echarts.init(chartDom);
-        let pieOption = {
-            legend: {},
-            tooltip: {
-                trigger: 'axis',
-                showContent: false
-            },
-            dataset: {
-                source: [
-                    ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
-                    ['Milk Tea', 56.5, 82.1, 88.7, 70.1, 53.4, 85.1],
-                    ['Matcha Latte', 51.1, 51.4, 55.1, 53.3, 73.8, 68.7],
-                    ['Cheese Cocoa', 40.1, 62.2, 69.5, 36.4, 45.2, 32.5],
-                    ['Walnut Brownie', 25.2, 37.1, 41.2, 18, 33.9, 49.1]
-                ]
-            },
-            xAxis: {type: 'category'},
-            yAxis: {gridIndex: 0},
-            grid: {top: '55%'},
-            series: [
-                {
-                    type: 'line',
-                    smooth: true,
-                    seriesLayoutBy: 'row',
-                    emphasis: {focus: 'series'}
-                },
-                {
-                    type: 'line',
-                    smooth: true,
-                    seriesLayoutBy: 'row',
-                    emphasis: {focus: 'series'}
-                },
-                {
-                    type: 'line',
-                    smooth: true,
-                    seriesLayoutBy: 'row',
-                    emphasis: {focus: 'series'}
-                },
-                {
-                    type: 'line',
-                    smooth: true,
-                    seriesLayoutBy: 'row',
-                    emphasis: {focus: 'series'}
-                },
-                {
-                    type: 'pie',
-                    id: 'pie',
-                    radius: '30%',
-                    center: ['50%', '25%'],
-                    emphasis: {
-                        focus: 'self'
-                    },
-                    label: {
-                        formatter: '{b}: {@2012} ({d}%)'
-                    },
-                    encode: {
-                        itemName: 'product',
-                        value: '2012',
-                        tooltip: '2012'
-                    }
+                        }]
+                    }, true);
                 }
-            ]
-        };
-        myPieChart.on('updateAxisPointer', function (event) {
-            const xAxisInfo = event.axesInfo[0];
-            if (xAxisInfo) {
-                const dimension = xAxisInfo.value + 1;
-                myChart.setOption({
-                    series: {
-                        id: 'pie',
-                        label: {
-                            formatter: '{b}: {@[' + dimension + ']} ({d}%)'
+
+                // PIE (donut + total center)
+                if (pieChart) {
+                    pieChart.setOption({
+                        title: {
+                            text: 'Status Share',
+                            left: 'left',
+                            textStyle: { fontSize: 14, fontWeight: 900 }
                         },
-                        encode: {
-                            value: dimension,
-                            tooltip: dimension
-                        }
-                    }
+                        tooltip: { trigger: 'item', formatter: '{b}<br/>Vehicles: <b>{c}</b> ({d}%)' },
+                        legend: { type: 'scroll', orient: 'vertical', right: 10, top: 55, bottom: 10 },
+                        series: [{
+                            name: 'Status',
+                            type: 'pie',
+                            radius: ['52%', '72%'],
+                            center: ['40%', '55%'],
+                            label: { show: false },
+                            labelLine: { show: false },
+                            data: agg.seriesData,
+                            emphasis: {
+                                scale: true,
+                                scaleSize: 8,
+                                itemStyle: { shadowBlur: 12, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.25)' }
+                            }
+                        }],
+                        graphic: [{
+                            type: 'text',
+                            left: '40%',
+                            top: '50%',
+                            style: {
+                                text: `${agg.total}\nTotal`,
+                                textAlign: 'center',
+                                fill: '#111827',
+                                fontSize: 14,
+                                fontWeight: 900
+                            }
+                        }]
+                    }, true);
+                }
+
+                // TREND (line based on sorted counts)
+                if (trendChart) {
+                    const labels = agg.seriesData.map(x => x.name);
+                    const values = agg.seriesData.map(x => x.value);
+
+                    trendChart.setOption({
+                        title: {
+                            text: 'Trend Overview (Top Status Counts)',
+                            left: 'left',
+                            textStyle: { fontSize: 14, fontWeight: 900 }
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            formatter: (params) => `${params[0].axisValue}<br/>Vehicles: <b>${params[0].data}</b>`
+                        },
+                        grid: { left: 40, right: 20, top: 60, bottom: 60 },
+                        xAxis: { type: 'category', data: labels, axisLabel: { rotate: 20, interval: 0, overflow: 'truncate', width: 120 } },
+                        yAxis: { type: 'value', splitLine: { lineStyle: { type: 'dashed' } } },
+                        series: [{
+                            type: 'line',
+                            smooth: true,
+                            symbol: 'circle',
+                            symbolSize: 8,
+                            data: values,
+                            areaStyle: { opacity: 0.15 },
+                            lineStyle: { width: 3 }
+                        }]
+                    }, true);
+                }
+            }
+
+            // Initial render (all vehicles)
+            document.getElementById('flt_total') && (document.getElementById('flt_total').textContent = baselineTotal.toString());
+            setCharts(allVehicles);
+
+            // ---------- Events ----------
+            const btnApply = document.getElementById('btnApply');
+            const btnReset = document.getElementById('btnReset');
+
+            function doApply() {
+                const { filtered } = applyFilter();
+                setCharts(filtered);
+            }
+
+            if (btnApply) btnApply.addEventListener('click', doApply);
+
+            // Live typing (small debounce)
+            let t = null;
+            const searchInput = document.getElementById('searchFilter');
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    clearTimeout(t);
+                    t = setTimeout(doApply, 250);
                 });
             }
-        });
-        myPieChart &&
-        myPieChart.setOption(pieOption);*/
 
-        /*
-        let bar_chartDom = document.querySelector("#bar_chart");
-        let bar_chart = echarts.init(bar_chartDom);
-        let barCharOption = {
-            legend: {},
-            tooltip: {},
-            dataset: {
-                dimensions: ['product', '2015', '2016', '2017'],
-                source: [
-                    {product: 'Matcha Latte', 2015: 43.3, 2016: 85.8, 2017: 93.7},
-                    {product: 'Milk Tea', 2015: 83.1, 2016: 73.4, 2017: 55.1},
-                    {product: 'Cheese Cocoa', 2015: 86.4, 2016: 65.2, 2017: 82.5},
-                    {product: 'Walnut Brownie', 2015: 72.4, 2016: 53.9, 2017: 39.1}
-                ]
-            },
-            xAxis: {type: 'category'},
-            yAxis: {},
-            series: [{type: 'bar'}, {type: 'bar'}, {type: 'bar'}]
-        };
-        bar_chart.setOption(barCharOption)*/
+            // Change status triggers apply
+            if (statusSelect) {
+                statusSelect.addEventListener('change', doApply);
+            }
+
+            if (btnReset) {
+                btnReset.addEventListener('click', () => {
+                    if (statusSelect) statusSelect.value = '';
+                    if (searchInput) searchInput.value = '';
+                    setCharts(allVehicles);
+                });
+            }
+
+            // Resize
+            window.addEventListener('resize', () => {
+                if (barChart) barChart.resize();
+                if (pieChart) pieChart.resize();
+                if (trendChart) trendChart.resize();
+            });
+
+        })();
     </script>
 @endpush
