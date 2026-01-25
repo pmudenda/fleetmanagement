@@ -21,7 +21,7 @@
     let markers = {};
     let details = [];
     let minZoom = 4;
-    const activeMap = await MapSingleton.getMap();
+    // const activeMap = await MapSingleton.getMap();
 
     initMap();
     const canvas = new bootstrap.Offcanvas('#gps-details-canvas')
