@@ -17,5 +17,9 @@
         @endforeach
     </div>
 
-{{--    <span class="status-dot {{ $severity }}"></span>--}}
+    @if($isConnected)
+        <span class="status-dot green"></span>
+    @else
+        <span class="status-dot gray"></span>
+    @endif
 </li>

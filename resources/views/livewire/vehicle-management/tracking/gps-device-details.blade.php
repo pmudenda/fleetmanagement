@@ -121,18 +121,22 @@
                         </div>
 
                         <div class="mt-2 d-flex flex-wrap gap-2">
-                            <button class="btn btn-outline-primary btn-sm" type="button" wire:click="$dispatch('location-centered',{gps: '{{$gps->imei}}'})">
-                                <i class="fas fa-crosshairs me-1"></i>Center
-                            </button>
-                            <button class="btn btn-outline-primary btn-sm" type="button">
-                                <i class="fas fa-history me-1"></i>Playback
-                            </button>
-                            <button class="btn btn-outline-primary btn-sm" type="button">
-                                <i class="fas fa-road me-1"></i>Trips
-                            </button>
-                            <button class="btn btn-outline-danger btn-sm" type="button">
-                                <i class="fas fa-bell me-1"></i>Alert
-                            </button>
+
+                            <a class="btn btn-app bg-primary" wire:click="$dispatch('location-centered',{gps: '{{$gps->imei}}'})">
+                                <i class="fas fa-crosshairs"></i> Center
+                            </a>
+                            <a class="btn btn-app bg-warning">
+                                <i class="fas fa-play"></i> Playback
+                            </a>
+                            <a class="btn btn-app bg-danger">
+                                <i class="fas fa-bell"></i> Alerts
+                            </a>
+{{--                            <button class="btn btn-outline-primary btn-sm" type="button">--}}
+{{--                                <i class="fas fa-road me-1"></i>Trips--}}
+{{--                            </button>--}}
+{{--                            <button class="btn btn-outline-danger btn-sm" type="button">--}}
+{{--                                <i class="fas fa-bell me-1"></i>Alert--}}
+{{--                            </button>--}}
                         </div>
                     </div>
                 </div>
