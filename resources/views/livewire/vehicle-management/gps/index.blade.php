@@ -53,7 +53,7 @@
                     <th>Connected At</th>
                     <th>Last Seen</th>
                     <th>Status</th>
-                    <th>Type ID</th>
+{{--                    <th>Type ID</th>--}}
                     <th>Action</th>
                     <th style="width: 140px"></th>
                 </tr>
@@ -69,10 +69,15 @@
                         <td>{{ $d->mobile_number ?? '--' }}</td>
                         <td>{{ $d->connected_at?->toDateTimeString() ?? '--' }}</td>
                         <td>{{ $d->last_seen_at?->toDateTimeString() ?? '--' }}</td>
-                        <td>{{ $d->status ?? '--' }}</td>
+                        <td>
+                            @if((int) $d->status === 1)
+                                <span class="badge bg-success">Active</span>
+                            @else
+                                <span class="badge bg-secondary">Inactive</span>
+                            @endif
+                        </td>
 
-
-                        <td>{{ $d->type_id ?? '--' }}</td>
+{{--                        <td>{{ $d->type_id ?? '--' }}</td>--}}
                         <td class="text-end">
 
                             {{-- Edit --}}
