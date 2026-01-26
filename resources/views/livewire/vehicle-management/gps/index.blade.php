@@ -69,11 +69,9 @@
                         <td>{{ $d->mobile_number ?? '--' }}</td>
                         <td>{{ $d->connected_at?->toDateTimeString() ?? '--' }}</td>
                         <td>{{ $d->last_seen_at?->toDateTimeString() ?? '--' }}</td>
-                        <td>
-                                <span class="badge bg-{{ $d->status === 'active' ? 'success' : 'secondary' }}">
-                                    {{ $d->status }}
-                                </span>
-                        </td>
+                        <td>{{ $d->status ?? '--' }}</td>
+
+
                         <td>{{ $d->type_id ?? '--' }}</td>
                         <td class="text-end">
 
