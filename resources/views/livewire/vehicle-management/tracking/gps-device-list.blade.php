@@ -12,7 +12,7 @@
             @foreach($devices as $device)
                 <livewire:vehicle-management.tracking.gps-device-list-item
                         :gps="$device"
-                        :key="$device->id ?? $device->imei"
+                        :key="$device->imei"
                 />
             @endforeach
         </ul>

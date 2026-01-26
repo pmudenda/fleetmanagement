@@ -5,6 +5,7 @@ namespace App\Livewire\VehicleManagement\Tracking;
 use App\Helpers\VehicleStatus;
 use App\Models\VehicleManagement\Tracking\Gps;
 use Illuminate\Support\Facades\Redis;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class GpsDeviceListItem extends Component {
@@ -21,24 +22,38 @@ class GpsDeviceListItem extends Component {
         $raw = Redis::client()->get("last-location-{$gps->imei}");
         $this->location = $raw ? json_decode($raw, true) : [];
 
-        if ($this->location) {
-            $this->dispatch("location-changed", location: $this->location);
-        }
+//        if ($this->location) {
+//            $this->dispatch("location-changed", location: $this->location);
+//        }
     }
 
     public function render() {
       $icons = [];
+      $isConnected = false;
       if($this->location) {
           $icons = $this->location['signals']['icons'];
+
+          if($this->gps->last_seen_at) {
+              $isConnected = $this->gps->last_seen_at->diffInminutes(now()) <= 1000;
+//              dd([
+//                  'isConnected' => $isConnected,
+//                  'Last Seen' => $this->gps->last_seen_at->toDateTimeString(),
+//                  "Time Right now" => now()->toDateTimeString()
+//
+//              ]);
+//              dd($this->gps->last_seen_at->diffInminutes(now()));
+          }
       }
-        return view('livewire.vehicle-management.tracking.gps-device-list-item',compact('icons'));
+        return view('livewire.vehicle-management.tracking.gps-device-list-item',compact('icons','isConnected'));
     }
 
-    public function locationReceived($event): void {
-        $this->location = $event['location'] ?? [];
-        $icons = $this->location['signals']['icons'] ?? [];
-        $this->dispatch('location-changed.{$this->gps->imei}', location: $this->location);
-    }
+//    #[On('location-changed')]
+//    public function locationReceived($event): void {
+//        $this->location = $event['location'] ?? [];
+//        dd($this->location );
+//        $icons = $this->location['signals']['icons'] ?? [];
+//        $this->dispatch('location-changed.{$this->gps->imei}', location: $this->location);
+//    }
 
     private function computeSignals(): void {
         if (!$this->gps) {

@@ -104,7 +104,7 @@ class GpsServerCommand extends Command
 
                             Gps::find($imei)->update([
                                 'connected_at' => now(),
-                                'last_seen_at' => now(),
+//                                'last_seen_at' => now(),
                             ]);
 
                             GpsConnected::dispatch($gps);

@@ -11,7 +11,7 @@
         <livewire:vehicle-management.tracking.gps-device-list/>
     </div>
 
-    <div id="gps-details-canvas" class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1"
+    <div id="gps-details-canvas" class="offcanvas offcanvas-end" data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1"
          aria-labelledby="gps-details-canvas" wire:ignore>
         <livewire:vehicle-management.tracking.gps-device-details/>
     </div>
@@ -66,7 +66,8 @@
         console.log('location-centered', e.gps);
         marker = markers[e.gps];
         const map = await MapSingleton.getMap();
-        map.panTo(marker.position);
+        smoothPanTo(map, marker.position, 1000);
+
     })
 
     async function initMap() {
@@ -107,6 +108,10 @@
             fullscreenControl: true,
 
         });
+        const devices = @json($lastloactions);
+        for (l of devices) {
+            addOrUpdateMarker(l);
+        }
     }
 
 
@@ -125,7 +130,6 @@
                     document.getElementById(mapElementId),
                     options
                 );
-
 
                 resolveMap(map);
                 return mapReady;
@@ -365,5 +369,31 @@ M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805
             }
         });
     }
+
+    function easeInOut(t) {
+        return t < 0.5
+            ? 2 * t * t
+            : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    }
+
+    function smoothPanTo(map, target, duration = 1000) {
+        const start = map.getCenter();
+        const startTime = performance.now();
+
+        function animate(time) {
+            const t = Math.min((time - startTime) / duration, 1);
+            const p = easeInOut(t);
+
+            const lat = start.lat() + (target.lat - start.lat()) * p;
+            const lng = start.lng() + (target.lng - start.lng()) * p;
+
+            map.setCenter({ lat, lng });
+
+            if (t < 1) requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+    }
+
 </script>
 @endscript

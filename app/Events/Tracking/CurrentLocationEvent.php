@@ -33,7 +33,6 @@ class CurrentLocationEvent implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        Log::info("BROADCASTING ON gps.{$this->location['imei']}");
         return [
             new Channel("gps"),
         ];
