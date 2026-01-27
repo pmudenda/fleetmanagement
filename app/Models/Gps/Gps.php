@@ -14,6 +14,7 @@ class Gps extends Model
     protected $primaryKey = 'IMEI';
 
     public $incrementing = false;
+    protected $appends = ['status_label'];
 
     protected $keyType = 'string';
 
@@ -38,4 +39,13 @@ class Gps extends Model
         'last_seen_at' => 'datetime',
         'type_id'      => 'integer',
     ];
+
+    public function getStatusLabelAttribute(): string
+    {
+        return match ((int) $this->status) {
+            1       => 'Active',
+            0       => 'Inactive',
+            default => 'Unknown',
+        };
+    }
 }

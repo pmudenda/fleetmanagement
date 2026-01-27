@@ -28,6 +28,8 @@ class Index extends Component
         session()->flash('message', 'GPS device deleted.');
     }
 
+
+
     public function render()
     {
         $query = Gps::query()

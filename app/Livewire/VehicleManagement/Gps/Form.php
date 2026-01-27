@@ -41,7 +41,7 @@ class Form extends Component
     public ?string $mobile_number = null;
     public $connected_at = null;
     public $last_seen_at = null;
-    public string $status = 'active';
+    public string $status = '1';
 
 
     public int $type_id = 1;
@@ -106,7 +106,7 @@ class Form extends Component
 
             'serial' => [
                 'nullable',
-                'digits:10',
+                'digits_between:9,10',
                 Rule::unique($gpsTable, 'serial')->ignore($ignoreId),
             ],
 
@@ -137,7 +137,7 @@ class Form extends Component
 
             'connected_at' => ['nullable', 'date'],
             'last_seen_at' => ['nullable', 'date'],
-            'status'       => ['required', Rule::in(['inactive','active','offline','online'])],
+//            'status'       => ['required', Rule::in(['inactive','active','offline','online'])],
         ];
     }
 
@@ -149,8 +149,7 @@ class Form extends Component
 
             'imei.digits' => 'IMEI must be exactly 15 digits.',
             'imei.unique' => 'This IMEI already exists.',
-
-            'serial.digits' => 'Serial must be exactly 10 digits.',
+            'serial.digits_between' => 'Serial must be 9 or 10 digits.',
             'serial.unique' => 'This serial already exists.',
 
             'reg_number.required' => 'Please select a registration number from the dropdown.',
@@ -247,7 +246,7 @@ class Form extends Component
             'serial'        => $data['serial'],
             'reg_number'    => $data['reg_number'],
             'mobile_number' => $data['mobile_number'],
-            'status'        => $data['status'],
+            'status'        => 1,
             'type_id'       => 1,
 
             'connected_at'  => $this->connected_at
