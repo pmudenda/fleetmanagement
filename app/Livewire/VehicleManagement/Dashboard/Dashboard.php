@@ -6,74 +6,87 @@ use App\Models\Gps\Gps;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
-use App\Support\Telemetry;
-use App\Models\Analytics\DashboardInsight;
-use App\Models\Analytics\GpsUptimeDaily;
 use Livewire\WithPagination;
 
 class Dashboard extends Component
 {
     use WithPagination;
 
-    #[Url]
-    public int $onlineWindowMinutes = 15;
+    #[Url] public int $onlineWindowMinutes = 15;
+    #[Url] public int $alertOfflineMinutes = 30;
 
-    // Alerts threshold (minutes offline to flag)
-    #[Url]
-    public int $alertOfflineMinutes = 30;
+    #[Url] public string $dateFrom = '';
+    #[Url] public string $dateTo = '';
 
-    #[Url]
-    public string $dateFrom = '';
+    #[Url] public string $filterConnectivity = 'all'; // all|online|offline|never  (BASED ON connected_at)
+    #[Url] public string $filterStatus = 'all';       // all|active|inactive      (active == status 1)
+    #[Url] public string $filterType = 'all';
 
-    #[Url]
-    public string $dateTo = '';
-
-    #[Url]
-    public string $filterConnectivity = 'all'; // all|online|offline|never
-
-    #[Url]
-    public string $filterStatus = 'all';       // all|active|inactive
-
-    #[Url]
-    public string $filterType = 'all';         // TELTONIKA etc.
-
-    #[Url]
-    public string $search = '';
-
-    #[Url]
-    public int $perPage = 10;
+    #[Url] public string $search = '';
+    #[Url] public int $perPage = 10;
 
     public function mount(): void
     {
-        if ($this->dateTo === '') {
-            $this->dateTo = now()->format('Y-m-d');
-        }
-        if ($this->dateFrom === '') {
-            $this->dateFrom = now()->subDays(14)->format('Y-m-d');
-        }
+        if ($this->dateTo === '') $this->dateTo = now()->format('Y-m-d');
+        if ($this->dateFrom === '') $this->dateFrom = now()->subDays(14)->format('Y-m-d');
     }
 
-    public function updatingSearch(): void { $this->resetPage(); }
-    public function updatingFilterConnectivity(): void {
+    // ----------------------------
+    // ✅ Event listeners (optional)
+    // ----------------------------
+    #[On('echo:gps,TelemetryReceived')]
+    public function onTelemetryReceived(): void
+    {
+        $this->softRefresh();
+    }
+
+    #[On('gps-updated')]
+    public function onGpsUpdated(): void
+    {
+        $this->softRefresh();
+    }
+
+    #[On('set-dashboard-filters')]
+    public function setDashboardFilters(array $payload = []): void
+    {
+        if (isset($payload['filterConnectivity'])) $this->filterConnectivity = $payload['filterConnectivity'];
+        if (isset($payload['filterStatus'])) $this->filterStatus = $payload['filterStatus'];
+        if (isset($payload['filterType'])) $this->filterType = $payload['filterType'];
+
         $this->resetPage();
-
-
+        $this->dispatch('charts-refresh');
     }
+
+    private function softRefresh(): void
+    {
+        Cache::forget('gps:types');
+        $this->dispatch('charts-refresh');
+    }
+
+    // ----------------------------
+    // Reset page on filter changes
+    // ----------------------------
+    public function updatingSearch(): void { $this->resetPage(); }
+    public function updatingFilterConnectivity(): void { $this->resetPage(); }
     public function updatingFilterStatus(): void { $this->resetPage(); }
     public function updatingFilterType(): void { $this->resetPage(); }
     public function updatingDateFrom(): void { $this->resetPage(); }
     public function updatingDateTo(): void { $this->resetPage(); }
     public function updatingPerPage(): void { $this->resetPage(); }
     public function updatingAlertOfflineMinutes(): void { $this->resetPage(); }
+    public function updatingOnlineWindowMinutes(): void { $this->resetPage(); }
 
     public function refreshNow(): void
     {
-        // triggers frontend redraw and also gives user feedback
-        $this->dispatch('charts-refresh');
+        $this->softRefresh();
     }
 
+    // ----------------------------
+    // Helpers
+    // ----------------------------
     private function cutoff(): Carbon
     {
         return now()->subMinutes($this->onlineWindowMinutes);
@@ -94,56 +107,130 @@ class Dashboard extends Component
         return Carbon::parse($this->dateTo)->endOfDay();
     }
 
+    private function baseQuery()
+    {
+        $cutoff = $this->cutoff();
+        $from = $this->rangeFrom();
+        $to = $this->rangeTo();
+
+        $q = Gps::query();
+
+        // Search
+        if (trim($this->search) !== '') {
+            $s = trim($this->search);
+            $q->where(function ($w) use ($s) {
+                $w->where('imei', 'like', "%{$s}%")
+                        ->orWhere('serial', 'like', "%{$s}%")
+                        ->orWhere('reg_number', 'like', "%{$s}%")
+                        ->orWhere('model', 'like', "%{$s}%")
+                        ->orWhere('mobile_number', 'like', "%{$s}%")
+                        ->orWhere('type', 'like', "%{$s}%");
+            });
+        }
+
+        // Status filter (active == 1)
+        if ($this->filterStatus !== 'all') {
+            if ($this->filterStatus === 'active') {
+                $q->where('status', 1);
+            } else {
+                $q->where(function ($w) {
+                    $w->whereNull('status')->orWhere('status', '!=', 1);
+                });
+            }
+        }
+
+        // Type filter
+        if ($this->filterType !== 'all') {
+            $q->where('type', $this->filterType);
+        }
+
+        // Connectivity filter (BASED ON connected_at)
+        if ($this->filterConnectivity !== 'all') {
+            if ($this->filterConnectivity === 'online') {
+                $q->whereNotNull('connected_at')->where('connected_at', '>=', $cutoff);
+            } elseif ($this->filterConnectivity === 'offline') {
+                $q->whereNotNull('connected_at')->where('connected_at', '<', $cutoff);
+            } elseif ($this->filterConnectivity === 'never') {
+                $q->whereNull('connected_at');
+            }
+        }
+
+        // In selected period (connected_at) OR never
+        $q->where(function ($qq) use ($from, $to) {
+            $qq->whereNull('connected_at')->orWhereBetween('connected_at', [$from, $to]);
+        });
+
+        // Order by connected_at (Oracle-safe)
+        $q->orderByRaw("NVL(connected_at, TO_DATE('1900-01-01','YYYY-MM-DD')) DESC");
+
+        return $q;
+    }
+
+    // ----------------------------
+    // KPIs (BASED ON connected_at)
+    // ----------------------------
     public function getKpisProperty(): array
     {
         $cutoff = $this->cutoff();
+        $from = $this->rangeFrom();
+        $to = $this->rangeTo();
 
-        $total = Gps::query()->count();
+        $total = (int) Gps::query()->count();
 
-        $online = Gps::query()
-            ->whereNotNull('last_seen_at')
-            ->where('last_seen_at', '>=', $cutoff)
-            ->count();
+        $active = (int) Gps::query()->where('status', 1)->count();
+        $inactive = (int) Gps::query()->where(function ($q) {
+            $q->whereNull('status')->orWhere('status', '!=', 1);
+        })->count();
 
-        $offline = Gps::query()
-            ->whereNotNull('last_seen_at')
-            ->where('last_seen_at', '<', $cutoff)
-            ->count();
+        // ✅ Online = Active AND connected_at within window
+        $online = (int) Gps::query()
+                ->where('status', 1)
+                ->whereNotNull('connected_at')
+                ->where('connected_at', '>=', $cutoff)
+                ->count();
 
-        $neverSeen = Gps::query()->whereNull('last_seen_at')->count();
+        // ✅ Offline = Active AND connected_at older than window
+        $offline = (int) Gps::query()
+                ->where('status', 1)
+                ->whereNotNull('connected_at')
+                ->where('connected_at', '<', $cutoff)
+                ->count();
 
-        $active = Gps::query()->where('status', 'active')->count();
-        $inactive = Gps::query()
-            ->where(function ($q) {
-                $q->whereNull('status')->orWhere('status', '!=', 'active');
-            })
-            ->count();
+        // ✅ Never connected = Active AND connected_at is null
+        $neverSeen = (int) Gps::query()
+                ->where('status', 1)
+                ->whereNull('connected_at')
+                ->count();
 
-        $rangeSeen = Gps::query()
-            ->whereNotNull('last_seen_at')
-            ->whereBetween('last_seen_at', [$this->rangeFrom(), $this->rangeTo()])
-            ->count();
+        $rangeSeen = (int) Gps::query()
+                ->where('status', 1)
+                ->whereNotNull('connected_at')
+                ->whereBetween('connected_at', [$from, $to])
+                ->count();
 
         return compact('total', 'online', 'offline', 'neverSeen', 'active', 'inactive', 'rangeSeen');
     }
 
+    // ----------------------------
+    // Trend (connected_at)
+    // ----------------------------
     public function getTrendProperty(): array
     {
         $from = $this->rangeFrom();
         $to = $this->rangeTo();
 
         $rows = Gps::query()
-            ->selectRaw("TRUNC(last_seen_at) as day, COUNT(*) as cnt")
-            ->whereNotNull('last_seen_at')
-            ->whereBetween('last_seen_at', [$from, $to])
-            ->groupByRaw("TRUNC(last_seen_at)")
-            ->orderByRaw("TRUNC(last_seen_at)")
-            ->get();
+                ->selectRaw("TRUNC(connected_at) as day, COUNT(*) as cnt")
+                ->whereNotNull('connected_at')
+                ->whereBetween('connected_at', [$from, $to])
+                ->groupByRaw("TRUNC(connected_at)")
+                ->orderByRaw("TRUNC(connected_at)")
+                ->get();
 
         $map = [];
         foreach ($rows as $r) {
             $key = Carbon::parse($r->day)->format('Y-m-d');
-            $map[$key] = (int)$r->cnt;
+            $map[$key] = (int) $r->cnt;
         }
 
         $days = $from->diffInDays($to);
@@ -160,8 +247,8 @@ class Dashboard extends Component
     {
         $k = $this->kpis;
         return [
-            'labels' => ['Online', 'Offline', 'Never Seen'],
-            'values' => [(int)$k['online'], (int)$k['offline'], (int)$k['neverSeen']],
+                'labels' => ['Online', 'Offline', 'Never Connected'],
+                'values' => [(int)$k['online'], (int)$k['offline'], (int)$k['neverSeen']],
         ];
     }
 
@@ -169,315 +256,104 @@ class Dashboard extends Component
     {
         return Cache::remember('gps:types', 300, function () {
             return Gps::query()
-                ->selectRaw("NVL(type, 'UNKNOWN') as type")
-                ->distinct()
-                ->orderByRaw("NVL(type, 'UNKNOWN')")
-                ->pluck('type')
-                ->toArray();
+                    ->selectRaw("NVL(type, 'UNKNOWN') as type")
+                    ->distinct()
+                    ->orderByRaw("NVL(type, 'UNKNOWN')")
+                    ->pluck('type')
+                    ->toArray();
         });
     }
 
     public function getDevicesProperty()
     {
-        $cutoff = $this->cutoff();
-        $from = $this->rangeFrom();
-        $to = $this->rangeTo();
-
-        $q = Gps::query()
-            ->when($this->search !== '', function ($qq) {
-                $s = trim($this->search);
-                $qq->where(function ($w) use ($s) {
-                    $w->where('imei', 'like', "%{$s}%")
-                        ->orWhere('serial', 'like', "%{$s}%")
-                        ->orWhere('reg_number', 'like', "%{$s}%")
-                        ->orWhere('model', 'like', "%{$s}%")
-                        ->orWhere('mobile_number', 'like', "%{$s}%")
-                        ->orWhere('type', 'like', "%{$s}%");
-                });
-            })
-            ->when($this->filterStatus !== 'all', function ($qq) {
-                if ($this->filterStatus === 'active') {
-                    $qq->where('status', 'active');
-                } else {
-                    $qq->where(function ($w) {
-                        $w->whereNull('status')->orWhere('status', '!=', 'active');
-                    });
-                }
-            })
-            ->when($this->filterType !== 'all', fn($qq) => $qq->where('type', $this->filterType))
-            ->when($this->filterConnectivity !== 'all', function ($qq) use ($cutoff) {
-                if ($this->filterConnectivity === 'online') {
-                    $qq->whereNotNull('last_seen_at')->where('last_seen_at', '>=', $cutoff);
-                } elseif ($this->filterConnectivity === 'offline') {
-                    $qq->whereNotNull('last_seen_at')->where('last_seen_at', '<', $cutoff);
-                } elseif ($this->filterConnectivity === 'never') {
-                    $qq->whereNull('last_seen_at');
-                }
-            })
-            // activity in selected period OR never
-            ->where(function ($qq) use ($from, $to) {
-                $qq->whereNull('last_seen_at')
-                    ->orWhereBetween('last_seen_at', [$from, $to]);
-            })
-            ->orderByRaw("NVL(last_seen_at, TO_DATE('1900-01-01','YYYY-MM-DD')) DESC");
-
-        return $q->paginate($this->perPage);
-    }
-
-    /**
-     *  Alerts list: devices that are offline beyond alertOfflineMinutes but still marked active,
-     * plus never-seen devices.
-     */
-    public function getAlertsProperty(): array
-    {
-        $alertCutoff = $this->alertCutoff();
-        $cutoff = $this->cutoff();
-
-        $offlineLong = Gps::query()
-            ->whereNotNull('last_seen_at')
-            ->where('last_seen_at', '<', $alertCutoff)
-            ->where('status', 'active')
-            ->orderBy('last_seen_at', 'asc')
-            ->take(10)
-            ->get(['imei', 'model', 'type', 'reg_number', 'mobile_number', 'last_seen_at', 'status']);
-
-        $never = Gps::query()
-            ->whereNull('last_seen_at')
-            ->orderByRaw("NVL(created_at, TO_DATE('1900-01-01','YYYY-MM-DD')) DESC")
-            ->take(10)
-            ->get(['imei', 'model', 'type', 'reg_number', 'mobile_number', 'created_at', 'status']);
-
-        return [
-            'cutoffOnline' => $cutoff,
-            'cutoffAlert' => $alertCutoff,
-            'offlineLong' => $offlineLong,
-            'neverSeen' => $never,
-        ];
-    }
-
-    /**
-     *  Uptime approximation:
-     * - We don’t have full ping history in this table.
-     * - So we approximate uptime score using "was seen during selected period" and "currently online".
-     * This is still very useful for ranking trouble devices.
-     */
-    public function getUptimeProperty(): array
-    {
-        $from = $this->rangeFrom();
-        $to = $this->rangeTo();
-        $cutoff = $this->cutoff();
-
-        // Score:
-        // 100 = seen in period AND online now
-        // 70  = seen in period but offline now
-        // 30  = never seen in period (or never)
-
-        $rows = Gps::query()
-            ->select(['imei', 'model', 'type', 'reg_number', 'mobile_number', 'last_seen_at', 'status'])
-            ->where(function ($q) use ($from, $to) {
-                $q->whereNull('last_seen_at')->orWhereBetween('last_seen_at', [$from, $to]);
-            })
-            ->orderByRaw("NVL(last_seen_at, TO_DATE('1900-01-01','YYYY-MM-DD')) ASC")
-            ->take(10)
-            ->get();
-
-        $out = [];
-        foreach ($rows as $d) {
-            $seenInRange = $d->last_seen_at && $d->last_seen_at->between($from, $to);
-            $isOnline = $d->last_seen_at && $d->last_seen_at >= $cutoff;
-
-            $score = 30;
-            if ($seenInRange && $isOnline) $score = 100;
-            elseif ($seenInRange) $score = 70;
-
-            $out[] = [
-                'imei' => $d->imei,
-                'model' => $d->model,
-                'reg' => $d->reg_number,
-                'type' => $d->type,
-                'mobile' => $d->mobile_number,
-                'status' => $d->status,
-                'last_seen_at' => $d->last_seen_at,
-                'score' => $score,
-            ];
-        }
-
-        return $out;
-    }
-
-    /**
-     *  Root-cause grouping (simple, fast, actionable)
-     */
-    public function getRootCausesProperty(): array
-    {
-        $cutoff = $this->cutoff();
-        $alertCutoff = $this->alertCutoff();
-
-        $never = (int)Gps::query()->whereNull('last_seen_at')->count();
-
-        $activeButOffline = (int)Gps::query()
-            ->where('status', 'active')
-            ->whereNotNull('last_seen_at')
-            ->where('last_seen_at', '<', $cutoff)
-            ->count();
-
-        $longOffline = (int)Gps::query()
-            ->whereNotNull('last_seen_at')
-            ->where('last_seen_at', '<', $alertCutoff)
-            ->count();
-
-        $recentOutageCluster = (int)Gps::query()
-            ->whereNotNull('last_seen_at')
-            ->whereBetween('last_seen_at', [now()->subMinutes(90), now()->subMinutes(30)])
-            ->count();
-
-        return [
-            [
-                'title' => 'Never reported',
-                'count' => $never,
-                'hint' => 'Likely onboarding issue: SIM/APN, power wiring, device not installed, wrong server/port.',
-            ],
-            [
-                'title' => 'Active but offline',
-                'count' => $activeButOffline,
-                'hint' => 'Operational risk: device should be online but is offline. Check vehicle power + SIM network.',
-            ],
-            [
-                'title' => "Offline > {$this->alertOfflineMinutes} mins",
-                'count' => $longOffline,
-                'hint' => 'Potential prolonged outage: network issue, server unreachable, device power loss.',
-            ],
-            [
-                'title' => 'Possible outage window (last 90→30 mins)',
-                'count' => $recentOutageCluster,
-                'hint' => 'If many devices dropped within same window, check APN/network or tracking server downtime.',
-            ],
-        ];
+        return $this->baseQuery()
+                ->select(['imei','model','type','reg_number','mobile_number','status','connected_at','last_seen_at'])
+                ->paginate($this->perPage);
     }
 
     public function getAiInsightProperty(): string
     {
-        $key = "gps:ai:{$this->onlineWindowMinutes}:{$this->dateFrom}:{$this->dateTo}:{$this->alertOfflineMinutes}";
+        $k = $this->kpis;
+        $total = (int)($k['total'] ?? 0);
+        $online = (int)($k['online'] ?? 0);
+        $active = (int)($k['active'] ?? 0);
+        $never = (int)($k['neverSeen'] ?? 0);
 
-        return Cache::remember($key, 60, function () {
-            $k = $this->kpis;
-            $trend = $this->trend;
+        $onlineRate = $total ? round(($online / $total) * 100) : 0;
+        $activeRate = $total ? round(($active / $total) * 100) : 0;
 
-            $avg = count($trend) ? (int)round(collect($trend)->avg('count')) : 0;
-            $latest = count($trend) ? $trend[count($trend) - 1]['count'] : 0;
+        $msg = [];
+        $msg[] = "Connectivity health: {$onlineRate}% online based on connected_at within {$this->onlineWindowMinutes} minutes.";
+        $msg[] = "Active coverage: {$activeRate}% devices are marked Active (status=1).";
+        if ($never > 0) $msg[] = "{$never} active devices have never connected (check SIM/APN/power/install).";
 
-            $onlineRate = $k['total'] ? round(($k['online'] / $k['total']) * 100) : 0;
+        return implode(' ', $msg);
+    }
 
-            $msg = [];
-            $msg[] = "Fleet health: {$onlineRate}% online ({$k['online']} / {$k['total']}).";
-            $msg[] = "Seen in selected period: {$k['rangeSeen']}.";
+    public function getPerformanceProperty(): array
+    {
+        // Used for the new interactive charts under AI insight
+        $k = $this->kpis;
 
-            if ($avg > 0) {
-                $delta = $latest - $avg;
-                if ($delta >= 10) $msg[] = "Reporting is above normal today (+{$delta} vs avg).";
-                if ($delta <= -10) $msg[] = "Reporting is below normal today ({$delta} vs avg). Investigate network/server.";
-            }
+        $total = (int)($k['total'] ?? 0);
+        $online = (int)($k['online'] ?? 0);
+        $offline = (int)($k['offline'] ?? 0);
+        $never = (int)($k['neverSeen'] ?? 0);
+        $active = (int)($k['active'] ?? 0);
+        $inactive = (int)($k['inactive'] ?? 0);
 
-            if ($k['neverSeen'] > 0) {
-                $msg[] = "{$k['neverSeen']} devices have never reported (onboarding/SIM/APN/power).";
-            }
+        // We decide performance based on online vs total (or you can make it online vs active)
+        $perf = $total ? (int) round(($online / $total) * 100) : 0;
 
-            if ($k['offline'] > $k['online']) {
-                $msg[] = "Offline exceeds online—prioritize troubleshooting offline units.";
-            }
-
-            return implode(' ', $msg);
-        });
+        return compact('total','online','offline','never','active','inactive','perf');
     }
 
     public function getChartPayloadProperty(): array
     {
         return [
-            'pie' => $this->pie,
-            'trend' => [
-                'labels' => array_map(fn($x) => $x['day'], $this->trend),
-                'values' => array_map(fn($x) => $x['count'], $this->trend),
-            ],
+                'pie' => $this->pie,
+                'trend' => [
+                        'labels' => array_map(fn($x) => $x['day'], $this->trend),
+                        'values' => array_map(fn($x) => $x['count'], $this->trend),
+                ],
+                'performance' => $this->performance,
         ];
     }
 
-
-
-    /**
-     *  Export CSV (works everywhere, no extra packages)
-     * Exports current filtered table view.
-     */
     public function exportCsv()
     {
-        $cutoff = $this->cutoff();
-        $from = $this->rangeFrom();
-        $to = $this->rangeTo();
-
-        // Use the same filtering logic as devices, but no pagination
-        $q = Gps::query()
-            ->when($this->search !== '', function ($qq) {
-                $s = trim($this->search);
-                $qq->where(function ($w) use ($s) {
-                    $w->where('imei', 'like', "%{$s}%")
-                        ->orWhere('serial', 'like', "%{$s}%")
-                        ->orWhere('reg_number', 'like', "%{$s}%")
-                        ->orWhere('model', 'like', "%{$s}%")
-                        ->orWhere('mobile_number', 'like', "%{$s}%")
-                        ->orWhere('type', 'like', "%{$s}%");
-                });
-            })
-            ->when($this->filterStatus !== 'all', function ($qq) {
-                if ($this->filterStatus === 'active') {
-                    $qq->where('status', 'active');
-                } else {
-                    $qq->where(function ($w) {
-                        $w->whereNull('status')->orWhere('status', '!=', 'active');
-                    });
-                }
-            })
-            ->when($this->filterType !== 'all', fn($qq) => $qq->where('type', $this->filterType))
-            ->when($this->filterConnectivity !== 'all', function ($qq) use ($cutoff) {
-                if ($this->filterConnectivity === 'online') {
-                    $qq->whereNotNull('last_seen_at')->where('last_seen_at', '>=', $cutoff);
-                } elseif ($this->filterConnectivity === 'offline') {
-                    $qq->whereNotNull('last_seen_at')->where('last_seen_at', '<', $cutoff);
-                } elseif ($this->filterConnectivity === 'never') {
-                    $qq->whereNull('last_seen_at');
-                }
-            })
-            ->where(function ($qq) use ($from, $to) {
-                $qq->whereNull('last_seen_at')->orWhereBetween('last_seen_at', [$from, $to]);
-            })
-            ->orderByRaw("NVL(last_seen_at, TO_DATE('1900-01-01','YYYY-MM-DD')) DESC");
-
-        $rows = $q->get([
-            'imei','model','type','reg_number','mobile_number','status','connected_at','last_seen_at','type_id'
-        ]);
+        $rows = $this->baseQuery()
+                ->select(['imei','model','type','reg_number','mobile_number','status','connected_at','last_seen_at','type_id'])
+                ->get();
 
         $filename = "gps_dashboard_export_" . now()->format('Ymd_His') . ".csv";
 
         $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ];
 
         $callback = function () use ($rows) {
             $out = fopen('php://output', 'w');
+
             fputcsv($out, ['IMEI','MODEL','TYPE','REG_NUMBER','MOBILE','STATUS','CONNECTED_AT','LAST_SEEN_AT','TYPE_ID']);
 
             foreach ($rows as $r) {
+                $statusLabel = ((int)($r->status ?? 0) === 1) ? 'Active' : 'Inactive';
+
                 fputcsv($out, [
-                    $r->imei,
-                    $r->model,
-                    $r->type,
-                    $r->reg_number,
-                    $r->mobile_number,
-                    $r->status,
-                    optional($r->connected_at)->toDateTimeString(),
-                    optional($r->last_seen_at)->toDateTimeString(),
-                    $r->type_id,
+                        $r->imei,
+                        $r->model,
+                        $r->type,
+                        $r->reg_number,
+                        $r->mobile_number,
+                        $statusLabel,
+                        optional($r->connected_at)->toDateTimeString(),
+                        optional($r->last_seen_at)->toDateTimeString(),
+                        $r->type_id,
                 ]);
             }
+
             fclose($out);
         };
 
@@ -487,17 +363,12 @@ class Dashboard extends Component
     public function render()
     {
         return view('livewire.vehicle-management.dashboard.dashboard', [
-            'kpis' => $this->kpis,
-            'types' => $this->types,
-            'devices' => $this->devices,
-            'cutoff' => $this->cutoff(),
-            'chartPayload' => $this->chartPayload,
-
-            // new
-            'alerts' => $this->alerts,
-            'uptime' => $this->uptime,
-            'rootCauses' => $this->rootCauses,
-            'alertCutoff' => $this->alertCutoff(),
+                'kpis' => $this->kpis,
+                'types' => $this->types,
+                'devices' => $this->devices,
+                'cutoff' => $this->cutoff(),
+                'chartPayload' => $this->chartPayload,
+                'alertCutoff' => $this->alertCutoff(),
         ]);
     }
 }
