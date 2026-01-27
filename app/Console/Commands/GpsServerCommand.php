@@ -495,7 +495,7 @@ class GpsServerCommand extends Command
 
         // Compliance (RTSA / road tax)
         $isCompliant = $this->resolveRoadTaxCompliance($gps);
-        $rtsaInfraction = ($isCompliant === false);
+        $rtsaInfraction = $isCompliant;
         $signals['flags']['rtsa_infraction'] = $rtsaInfraction;
 
         // --- Primary signal selection (worst-state-wins)
@@ -531,24 +531,8 @@ class GpsServerCommand extends Command
     private function resolveRoadTaxCompliance(Gps $gps): ?bool
     {
         try {
-            if (method_exists($gps, 'roadTax')) {
-                $roadTax = $gps->vehicle->roadTax; // may lazy-load
-                if ($roadTax) {
-                    return (bool) (data_get($roadTax, 'is_compliant') ?? false);
-                }
-            }
-        } catch (\Throwable $e) {
-            // Ignore relation resolution issues; treat as unknown.
-        }
-
-        try {
-            $vehicle = $gps->vehicle;
-            if ($vehicle && method_exists($vehicle, 'roadTax')) {
-                $roadTax = $vehicle->roadTax; // may lazy-load
-                if ($roadTax) {
-                    return (bool) (data_get($roadTax, 'is_compliant') ?? false);
-                }
-            }
+            $roadTax = $gps->vehicle->roadTax;
+            return $roadTax->is_compliant ?? false;
         } catch (\Throwable $e) {
             // Ignore relation resolution issues; treat as unknown.
         }
