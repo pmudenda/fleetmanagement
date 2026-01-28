@@ -28,6 +28,7 @@ class Gps extends Model
         'serial',
         'reg_number',
         'mobile_number',
+        'odometer',
         'connected_at',
         'last_seen_at',
         'status',
@@ -38,6 +39,7 @@ class Gps extends Model
         'connected_at' => 'datetime',
         'last_seen_at' => 'datetime',
         'type_id'      => 'integer',
+        'odometer' => 'integer',
     ];
 
     public function getStatusLabelAttribute(): string

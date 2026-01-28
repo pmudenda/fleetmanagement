@@ -22,9 +22,10 @@ class HomeController extends Controller
     private WorkflowService $workflowService;
     private VehicleDetailsService $vehicleDetailsService;
 
-    public function __construct(WorkflowService       $workflowService,
-                                VehicleDetailsService $vehicleDetailsService)
-    {
+    public function __construct(
+        WorkflowService $workflowService,
+        VehicleDetailsService $vehicleDetailsService
+    ) {
         $this->workflowService = $workflowService;
         $this->vehicleDetailsService = $vehicleDetailsService;
     }
@@ -33,11 +34,13 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         Log::debug("Logging Off The System" . $user->staff_no);
+
         session()->pull('simulating', false);
         session()->forget('simulating');
+
         Auth::logout();
-        return redirect('/login')
-            ->with(['msg_body' => 'Signing out!']);
+
+        return redirect('/login')->with(['msg_body' => 'Signing out!']);
     }
 
     public function dashboard(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
@@ -45,17 +48,20 @@ class HomeController extends Controller
         $user = auth()->user();
         $approvalTasks = $this->workflowService->getMyApprovalTasks($user);
 
+        // statuses you fetch
         $vehicleData = $this->vehicleDetailsService->getAllVehiclesByStatus(['01', '02', '04', '05', '09']);
 
-        $mechanics = Mechanic::whereRelation('user','CON_ST_CODE','01')->count();
+        $mechanics = Mechanic::whereRelation('user', 'CON_ST_CODE', '01')->count();
+        $activeUsers = User::where('con_st_code', StatusHelper::active())->count();
+        $activeDrivers = Driver::whereRelation('user', 'CON_ST_CODE', '01')->count();
 
-        $activeUsers = User::where('con_st_code', '=', StatusHelper::active())->count();
-
-        $activeDrivers = Driver::whereRelation('user','CON_ST_CODE','01')->count();
-
-        return view('dashboard.home')
-            ->with(compact('approvalTasks',
-                'vehicleData', 'mechanics', 'activeUsers', 'activeDrivers'));
+        return view('dashboard.home')->with(compact(
+            'approvalTasks',
+            'vehicleData',
+            'mechanics',
+            'activeUsers',
+            'activeDrivers'
+        ));
     }
 
     public function gatePass(Request $request): View|RedirectResponse
@@ -65,8 +71,7 @@ class HomeController extends Controller
         }
 
         $vehicle = $this->vehicleDetailsService->getVehicleByReg($request->get('ref'));
-        return view('dashboard.pass')
-            ->with(compact('vehicle'));
 
+        return view('dashboard.pass')->with(compact('vehicle'));
     }
 }

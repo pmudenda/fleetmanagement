@@ -12,7 +12,6 @@ class Form extends Component
 {
     public ?Gps $device = null;
 
-
     public array $deviceTypeOptions = [
         'Teltonika',
         'Concox',
@@ -25,16 +24,13 @@ class Form extends Component
         'Other',
     ];
 
-
     public bool $regIsValid = false;
     public bool $regNotFound = false;
-
 
     public ?string $model = null;
     public ?string $type = null;
     public string $imei = '';
     public ?string $serial = null;
-
 
     public ?string $reg_number = null;
 
@@ -43,9 +39,10 @@ class Form extends Component
     public $last_seen_at = null;
     public string $status = '1';
 
-
     public int $type_id = 1;
 
+
+    public ?int $odometer = null;
 
     public string $regSearch = '';
     public array $regSuggestions = [];
@@ -68,9 +65,11 @@ class Form extends Component
             $this->last_seen_at  = $this->device->last_seen_at?->format('Y-m-d\TH:i');
             $this->status        = $this->device->status;
 
+
+            $this->odometer      = $this->device->odometer !== null ? (int) $this->device->odometer : null;
+
             $this->regSearch = (string) $this->reg_number;
             $this->regIsValid = !empty($this->reg_number);
-
 
             if ($this->type && !in_array($this->type, $this->deviceTypeOptions, true)) {
                 $this->deviceTypeOptions[] = $this->type;
@@ -89,13 +88,11 @@ class Form extends Component
         return [
             'model' => ['nullable', 'string', Rule::in(['FMB120', 'FMB920'])],
 
-
             'type' => [
                 'required',
                 'string',
                 Rule::in($this->deviceTypeOptions),
             ],
-
 
             'imei' => [
                 'required',
@@ -103,13 +100,11 @@ class Form extends Component
                 Rule::unique($gpsTable, 'imei')->ignore($ignoreId),
             ],
 
-
             'serial' => [
                 'nullable',
                 'digits_between:9,10',
                 Rule::unique($gpsTable, 'serial')->ignore($ignoreId),
             ],
-
 
             'reg_number' => [
                 'required',
@@ -135,9 +130,12 @@ class Form extends Component
                 }
             ],
 
+
+            'odometer' => ['required', 'integer', 'min:0'],
+
             'connected_at' => ['nullable', 'date'],
             'last_seen_at' => ['nullable', 'date'],
-//            'status'       => ['required', Rule::in(['inactive','active','offline','online'])],
+            // 'status' => ['required', Rule::in(['inactive','active','offline','online'])],
         ];
     }
 
@@ -155,9 +153,13 @@ class Form extends Component
             'reg_number.required' => 'Please select a registration number from the dropdown.',
             'reg_number.exists' => 'Selected registration number is invalid or not active (status 01).',
             'reg_number.unique' => 'This registration number is already linked to another GPS device.',
+
+
+            'odometer.required' => 'Odometer is required.',
+            'odometer.integer'  => 'Odometer must be a number.',
+            'odometer.min'      => 'Odometer cannot be negative.',
         ];
     }
-
 
     public function updatedRegSearch($value): void
     {
@@ -166,7 +168,6 @@ class Form extends Component
         $this->regIsValid = false;
         $this->regNotFound = false;
 
-        // typing means not selected yet
         $this->reg_number = null;
 
         if (strlen($value) < 2) {
@@ -205,10 +206,9 @@ class Form extends Component
         $this->regNotFound = false;
     }
 
-
     public function updatedImei($value): void
     {
-        if ($this->device) return; // readonly on edit
+        if ($this->device) return;
         $this->imei = preg_replace('/\D+/', '', (string) $value);
     }
 
@@ -218,15 +218,19 @@ class Form extends Component
     }
 
 
+    public function updatedOdometer($value): void
+    {
+        $digits = preg_replace('/\D+/', '', (string) $value);
+        $this->odometer = ($digits === '') ? null : (int) $digits;
+    }
+
     public function save()
     {
-        // Must select REG from dropdown
         if (!$this->regIsValid || empty($this->reg_number)) {
             $this->addError('reg_number', 'Please select a registration number from the dropdown.');
             return;
         }
 
-        // 🔒 DB check BEFORE validate/save (extra safety)
         $regAlreadyAssigned = Gps::query()
             ->where('reg_number', $this->reg_number)
             ->when($this->device, fn ($q) => $q->where('id', '!=', $this->device->id))
@@ -246,6 +250,10 @@ class Form extends Component
             'serial'        => $data['serial'],
             'reg_number'    => $data['reg_number'],
             'mobile_number' => $data['mobile_number'],
+
+
+            'odometer'      => (int) $data['odometer'],
+
             'status'        => 1,
             'type_id'       => 1,
 
@@ -259,7 +267,6 @@ class Form extends Component
         ];
 
         if ($this->device) {
-            // prevent IMEI change
             if ($payload['imei'] !== $this->device->imei) {
                 $this->addError('imei', 'IMEI cannot be changed.');
                 return;

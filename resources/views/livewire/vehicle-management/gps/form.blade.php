@@ -84,39 +84,46 @@
             </div>
 
             {{-- REG Number (search + dropdown) --}}
+            {{-- REG Number (search + dropdown) --}}
             <div class="col-md-6 position-relative">
                 <label class="form-label">REG Number</label>
 
                 <div class="input-group">
-                    <span class="input-group-text bg-light">
-                        <i class="fas fa-search"></i>
-                    </span>
+        <span class="input-group-text bg-light">
+            <i class="fas fa-search"></i>
+        </span>
 
                     <input
                             type="text"
                             class="form-control
-                            @if($regNotFound) is-invalid
-                            @elseif($regIsValid && $regSearch) is-valid
-                            @endif"
+                @if($regNotFound) is-invalid
+                @elseif($regIsValid && $regSearch) is-valid
+                @endif"
                             wire:model.live.debounce.300ms="regSearch"
                             placeholder="Type registration number..."
                             autocomplete="off"
+
+                            {{-- ✅ READONLY on edit --}}
+                            {{ $isEdit ? 'readonly' : '' }}
                     >
                 </div>
 
+                {{-- keep actual value --}}
                 <input type="hidden" wire:model.defer="reg_number">
 
                 @error('reg_number')
                 <small class="text-danger">{{ $message }}</small>
                 @enderror
 
-                @if($regNotFound && strlen($regSearch) >= 2)
-                    <div class="invalid-feedback d-block mt-1">
-                        Registration number not found (status must be 01).
-                    </div>
+                {{-- Show hint when editing --}}
+                @if($isEdit)
+                    <small class="text-muted d-block mt-1">
+                        Registration number cannot be changed after onboarding.
+                    </small>
                 @endif
 
-                @if($showRegDropdown && !empty($regSuggestions))
+                {{-- Dropdown only for CREATE --}}
+                @if(!$isEdit && $showRegDropdown && !empty($regSuggestions))
                     <div class="list-group position-absolute w-100 shadow-sm mt-1"
                          style="z-index: 2000; max-height: 240px; overflow:auto; border-radius: .5rem;">
                         @foreach($regSuggestions as $reg)
@@ -133,6 +140,7 @@
                 @endif
             </div>
 
+
             {{-- Mobile Number --}}
             <div class="col-md-6">
                 <label class="form-label">Mobile Number</label>
@@ -148,6 +156,25 @@
                 @error('mobile_number') <small class="text-danger">{{ $message }}</small> @enderror
                 <small class="text-muted d-block mt-1">Allowed digits length: 9 to 13.</small>
             </div>
+
+            {{-- Odometer --}}
+            <div class="col-md-6">
+                <label class="form-label">Odometer <span class="text-danger">*</span></label>
+                <input
+                        type="text"
+                        class="form-control"
+                        wire:model.defer="odometer"
+                        placeholder="e.g. 1250000000"
+                        inputmode="numeric"
+                        pattern="[0-10]*"
+                        autocomplete="off"
+                        oninput="this.value=this.value.replace(/\D/g,'')"
+                        required
+                >
+                @error('odometer') <small class="text-danger">{{ $message }}</small> @enderror
+                <small class="text-muted d-block mt-1">Numbers only (km).</small>
+            </div>
+
 
             {{-- Actions --}}
             <div class="col-12">

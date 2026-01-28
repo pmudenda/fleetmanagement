@@ -56,4 +56,6 @@ class VehicleHeader extends Model {
             ->whereNotIn('body_type_code', ['37', '27', '24', '30', '11', '32', '26', '25', '23', '22', '21', '10', '12', '42']);
     }
 
+
+
 }
