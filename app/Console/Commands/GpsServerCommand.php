@@ -263,7 +263,9 @@ class GpsServerCommand extends Command
                             $location['odometer'] = $prevOdo + $distanceKm;
 
                             $fuelConsumption = (float) ($gps->vehicle->engine->fuel_consumption ?? 0);
-                            $location['fuel'] = $fuelConsumption > 0 ? ($distanceKm / $fuelConsumption) : 0;
+                            $prevFuel = (float) ($lastLocation['fuel'] ?? 0);
+
+                            $location['fuel'] = $prevFuel + ($fuelConsumption > 0 ? ($distanceKm / $fuelConsumption) : 0);
 
                             $self->gpsLog('info', $gps->imei, 'DISTANCE CALC RESULT', [
                                 'distance_km' => $distanceKm,

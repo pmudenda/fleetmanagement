@@ -125,7 +125,7 @@
                             <a class="btn btn-app bg-primary" wire:click="$dispatch('location-centered',{gps: '{{$gps->imei}}'})">
                                 <i class="fas fa-crosshairs"></i> Center
                             </a>
-                            <a class="btn btn-app bg-warning">
+                            <a href="{{route('vehicle.tracking.history',$gps)}}" class="btn btn-app bg-warning">
                                 <i class="fas fa-play"></i> Playback
                             </a>
                             <a class="btn btn-app bg-danger">

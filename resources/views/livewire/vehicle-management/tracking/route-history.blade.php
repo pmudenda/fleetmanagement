@@ -1,99 +1,112 @@
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="d-flex align-items-center justify-content-between">
-                <h1 class="m-0">Route History — {{ $gps->imei }} @if($gps->vehicle?->reg_number)
-                        ({{ $gps->vehicle->reg_number }})
-                    @endif</h1>
+<section class="content">
+    <x-error-view/>
+    <x-content-header :pageTitle="'Route History'"
+                      :activeCrumb="'Tracking'"
+                      :link="'report.index'"
+                      :linkText="'Tracking'"/>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title d-flex flex-column">
+                    <strong>{{ $vehicle->registration_number ?? '—' }}</strong>
 
-                <div class="d-flex gap-2">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ url()->previous() }}">Back</a>
-                    <button class="btn btn-outline-danger btn-sm" type="button" onclick="RoutePlayback?.clear()">Clear
-                    </button>
+                    <div class="text-muted small mb-2">
+                        {{ $vehicle->brand_name }} • {{ $vehicle->model_name }}
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+            <div class="card-body">
 
-    <section class="content">
-        <div class="container-fluid">
-
-            <div class="card">
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-lg-9" wire:ignore>
-                            <div id="map" style="height: 70vh; border-radius: 8px; overflow: hidden;"></div>
-                        </div>
-
-                        <div class="col-lg-3">
-
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label">From</label>
-                                    <input type="datetime-local" class="form-control" wire:model.defer="from">
-                                    @error('from') <small class="text-danger">{{ $message }}</small> @enderror
-                                </div>
-
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label">To</label>
-                                    <input type="datetime-local" class="form-control" wire:model.defer="to">
-                                    @error('to') <small class="text-danger">{{ $message }}</small> @enderror
-                                </div>
-
-                                <div class="col-md-12 mb-3">
-                                    <x-button class="btn btn-primary w-100"
-                                              wire:click="loadRoute"
-                                              wire:target="loadRoute">
-                                        Load Route
-                                    </x-button>
-                                </div>
-                            </div>
-
-                            <div class="d-flex gap-2 mb-2">
-                                <button class="btn btn-success w-100" type="button" wire:click="$js.play">
-                                    Play
-                                </button>
-                                <button class="btn btn-warning w-100" type="button" onclick="RoutePlayback?.pause()">
-                                    Pause
-                                </button>
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label">Speed</label>
-                                <select class="form-select" onchange="RoutePlayback?.setSpeed(parseFloat(this.value))">
-                                    <option value="1">1x</option>
-                                    <option value="2">2x</option>
-                                    <option value="5" selected>5x</option>
-                                    <option value="10">10x</option>
-                                    <option value="20">20x</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label">Progress</label>
-                                <input id="playbackSlider" type="range" class="form-range" min="0" max="0" value="0"
-                                       oninput="RoutePlayback?.seek(parseInt(this.value,10))">
-                                <small class="text-muted d-block" id="playbackMeta">—</small>
-                            </div>
-
-                            <div class="small text-muted">
-                                <div><strong>Points:</strong> <span id="pointsCount">0</span></div>
-                                <div><strong>Status:</strong> <span id="playbackStatus">Idle</span></div>
-                            </div>
-
-                            <div class="alert alert-info mt-3 mb-0 small">
-                                Playback uses <strong>TRACKED_AT</strong> (device timestamp).
-                            </div>
-                        </div>
+                <div class="row">
+                    <div class="col-lg-9" wire:ignore>
+                        <div id="map" style="height: 70vh; border-radius: 8px; overflow: hidden;"></div>
                     </div>
 
-                </div>
-            </div>
+                    <div class="col-lg-3">
 
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">From</label>
+                                <input type="datetime-local" class="form-control" wire:model.defer="from">
+                                @error('from') <small class="text-danger">{{ $message }}</small> @enderror
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">To</label>
+                                <input type="datetime-local" class="form-control" wire:model.defer="to">
+                                @error('to') <small class="text-danger">{{ $message }}</small> @enderror
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <x-button class="btn btn-primary w-100"
+                                          wire:click="loadRoute"
+                                          wire:target="loadRoute">
+                                    Load Route
+                                </x-button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 mb-2">
+                            <button class="btn btn-success w-100" type="button" wire:click="$js.play">
+                                Play
+                            </button>
+                            <button class="btn btn-warning w-100" type="button" onclick="RoutePlayback?.pause()">
+                                Pause
+                            </button>
+                        </div>
+
+                        {{--                        <div class="mb-2">--}}
+                        {{--                            <label class="form-label">Speed</label>--}}
+                        {{--                            <select class="form-select" onchange="RoutePlayback?.setSpeed(parseFloat(this.value))">--}}
+                        {{--                                <option value="1">1x</option>--}}
+                        {{--                                <option value="2">2x</option>--}}
+                        {{--                                <option value="5" selected>5x</option>--}}
+                        {{--                                <option value="10">10x</option>--}}
+                        {{--                                <option value="20">20x</option>--}}
+                        {{--                            </select>--}}
+                        {{--                        </div>--}}
+
+                        {{--                        <div class="mb-2">--}}
+                        {{--                            <label class="form-label">Progress</label>--}}
+                        {{--                            <input id="playbackSlider" type="range" class="form-range" min="0" max="0" value="0"--}}
+                        {{--                                   oninput="RoutePlayback?.seek(parseInt(this.value,10))">--}}
+                        {{--                            <small class="text-muted d-block" id="playbackMeta">—</small>--}}
+                        {{--                        </div>--}}
+                        <hr class="my-3"/>
+                        <div class="row text-uppercase">
+                            <div class="col-lg-6 mb-2">
+                                <div class="text-muted">Speed</div>
+                                <strong>{{ $currentPoint['speed'] ?? '--' }} km/h</strong>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <div class="text-muted">Heading</div>
+                                <strong>{{ $currentPoint['angle'] ?? '--' }}°</strong>
+                            </div>
+
+                            <div class="col-lg-6 mb-2">
+                                <div class="text-muted">Odometer</div>
+                                <strong>{{ $currentPoint['odometer'] ?? '--' }}m</strong>
+                            </div>
+
+                            <div class="col-lg-6 mb-2">
+                                <div class="text-muted">Fuel</div>
+                                <strong>{{ $currentPoint['fuel'] ?? '--' }}L</strong>
+                            </div>
+
+                            <div class="col-lg-12 mb-2">
+                                <div class="text-muted">Date & Time</div>
+                                <strong>{{ $currentPoint['trackedAt'] ?? '--' }}</strong>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </section>
-</div>
+
+    </div>
+</section>
 
 @script
 <script>
@@ -145,7 +158,6 @@
             removeMarker(marker);
 
             points = e.points;
-            console.log("Number of points: " + points.length);
             const path = points.map(p => ({lat: p.lat, lng: p.lng}));
 
             overviewLine = new google.maps.Polyline({
@@ -156,6 +168,8 @@
                 geodesic: true,
                 map,
             });
+
+
             playedLine = new google.maps.Polyline({
                 path: [path[0]], // grows as playback progresses
                 strokeColor: '#1e88e5',
@@ -168,6 +182,8 @@
 
             overviewLine.setMap(map);
             playedLine.setMap(map);
+            fitPolyline(map, overviewLine)
+
 
             let start = points[0];
             marker = new AdvancedMarkerElement({
@@ -191,6 +207,7 @@
                 }
 
                 const p = points[index];
+                $wire.set('currentPoint', p);
 
                 animatedMove(
                     marker,
@@ -219,6 +236,22 @@
             index = 0;
         });
 
+    }
+
+    function fitPolyline(map, polyline, padding = 60) {
+        const path = polyline.getPath();
+        if (!path || path.getLength() === 0) return;
+
+        const bounds = new google.maps.LatLngBounds();
+        for (let i = 0; i < path.getLength(); i++) {
+            bounds.extend(path.getAt(i));
+        }
+
+        map.fitBounds(bounds, padding); // pans + zooms
+        google.maps.event.addListenerOnce(map, "bounds_changed", () => {
+            const maxZoom = 17;
+            if (map.getZoom() > maxZoom) map.setZoom(maxZoom);
+        });
     }
 
     function updatePlayedLine(idx) {

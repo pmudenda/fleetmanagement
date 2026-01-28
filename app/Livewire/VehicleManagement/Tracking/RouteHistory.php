@@ -3,6 +3,7 @@
 namespace App\Livewire\VehicleManagement\Tracking;
 
 use App\Models\VehicleManagement\Tracking\Gps;
+use App\Models\VehicleManagement\VehicleHeader;
 use Carbon\Carbon;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -19,12 +20,15 @@ class RouteHistory extends Component
 
     public array $points = [];
     public bool $loaded = false;
+    public VehicleHeader $vehicle;
+    public $currentPoint;
 
     /**
      * Route param is IMEI string (not route-model binding).
      */
     public function mount(Gps $gps): void
     {
+        $this->vehicle = $gps->vehicle;
         $now = Carbon::now()->subDay();
         $this->from ??= $now->copy()->startOfDay()->format('Y-m-d\TH:i');
         $this->to   ??= $now->format('Y-m-d\TH:i');
@@ -55,17 +59,17 @@ class RouteHistory extends Component
             $lng = $r->longitude;
 
             return [
-                'lat'       => (float) $lat,
-                'lng'       => (float) $lng,
-                'trackedAt' => (string) ($r->tracked_at ?? $r->TRACKED_AT ?? ''),
-                'speed'     => isset($r->speed) ? (float) $r->speed : (isset($r->SPEED) ? (float) $r->SPEED : null),
-                'angle'     => is_null($r->angle ?? ($r->ANGLE ?? null)) ? null : (float) ($r->angle ?? $r->ANGLE),
-                'igni   tion'  => isset($r->ignition) ? (int) $r->ignition : (isset($r->IGNITION) ? (int) $r->IGNITION : null),
-                'odometer'  => isset($r->odometer) ? (float) $r->odometer : (isset($r->ODOMETER) ? (float) $r->ODOMETER : null),
-                'fuel'      => isset($r->fuel) ? (float) $r->fuel : (isset($r->FUEL) ? (float) $r->FUEL : null),
-                // Optional for label:
-                'reg_number' => $this->gps->vehicle->reg_number ?? $this->gps->vehicle->registration ?? null,
+                'lat'        => (float) $lat,
+                'lng'        => (float) $lng,
+                'trackedAt'  => (string) $r->tracked_at->toDayDateTimeString(),
+                'speed'      => (float) $r->speed,
+                'angle'      => (float) $r->angle,
+                'ignition'   => (int) $r->ignition,
+                'odometer'   => (float) $r->odometer,
+                'fuel'       => (float) $r->fuel,
+                'reg_number' => $this->gps->vehicle->reg_number,
             ];
+
         })->values()->all();
 
         $this->loaded = true;
