@@ -28,11 +28,11 @@ class Gps extends Model
     ];
 
     public function locations(){
-        return $this->hasMany(GpsLocation::class);
+        return $this->hasMany(GpsLocation::class,'imei','imei');
     }
 
     public function lastLocation(){
-        return $this->hasOne(GpsLocation::class)->latestOfMany('tracked_at');
+        return $this->hasOne(GpsLocation::class,'imei','imei')->latestOfMany('tracked_at');
     }
 
     public function vehicle() {
@@ -43,8 +43,10 @@ class Gps extends Model
         return $this->belongsTo(EngineDetail::class,'reg_number','reg_no');
     }
 
-
-
+    public function getRouteKeyName(): string
+    {
+        return 'imei';
+    }
 
 
 }
