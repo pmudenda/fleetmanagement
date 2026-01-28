@@ -249,7 +249,7 @@ class GpsServerCommand extends Command
                             $distanceKm = (float) ($distance['km'] ?? 0);
 
                             // ANOMALY GUARD: PREVENT POLLUTING ODOMETER/FUEL WITH JUMPS.
-                            if ($distanceKm < 0 || $distanceKm > 2) {
+                            if (!is_finite($distanceKm)) {
                                 $self->gpsLog('warning', $gps->imei, 'ANOMALY: UNREALISTIC DISTANCE - SKIPPING ODOMETER UPDATE', [
                                     'distance_km' => $distanceKm,
                                     'tracked_at' => $timestamp->toISOString(),
@@ -266,6 +266,13 @@ class GpsServerCommand extends Command
                             $prevFuel = (float) ($lastLocation['fuel'] ?? 0);
 
                             $location['fuel'] = $prevFuel + ($fuelConsumption > 0 ? ($distanceKm / $fuelConsumption) : 0);
+
+                            foreach (['distance', 'odometer', 'fuel'] as $field) {
+                                if (!is_finite($location[$field] ?? 0)) {
+                                    $location[$field] = 0;
+                                }
+                            }
+
 
                             $self->gpsLog('info', $gps->imei, 'DISTANCE CALC RESULT', [
                                 'distance_km' => $distanceKm,
