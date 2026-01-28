@@ -388,7 +388,7 @@ class GpsServerCommand extends Command
             $level = 'info';
         }
 
-        Log::$level($prefix . $message, $context);
+        Log::channel('gps')->$level($prefix . $message, $context);
     }
 
     private function buildSignalIcons(
