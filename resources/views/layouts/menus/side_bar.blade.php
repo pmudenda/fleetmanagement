@@ -113,12 +113,12 @@
                                 </li>
                             @endcan
 
-                            <li class="nav-item pl-2">
-                                <a href="{{ URL::signedRoute('vehicle.tracking.index') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Tracking</p>
-                                </a>
-                            </li>
+{{--                            <li class="nav-item pl-2">--}}
+{{--                                <a href="{{ URL::signedRoute('vehicle.tracking.index') }}" class="nav-link">--}}
+{{--                                    <i class="far fa-circle nav-icon"></i>--}}
+{{--                                    <p>Tracking</p>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
 
                             @can(config('rights.town_add'))
 
@@ -155,7 +155,7 @@
 
                         <li class="nav-item pl-2">
                             <a href="{{ route('vehicle.tracking.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="fas fa-location-arrow nav-icon"></i>
                                 <p>Live Tracking</p>
                             </a>
                         </li>

@@ -1,0 +1,371 @@
+<section class="content">
+    <x-error-view/>
+    <x-content-header :pageTitle="'Route History'"
+                      :activeCrumb="'Tracking'"
+                      :link="'report.index'"
+                      :linkText="'Tracking'"/>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title d-flex flex-column">
+                    <strong>{{ $vehicle->registration_number ?? '—' }}</strong>
+
+                    <div class="text-muted small mb-2">
+                        {{ $vehicle->brand_name }} • {{ $vehicle->model_name }}
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-9" wire:ignore>
+                        <div id="map" style="height: 70vh; border-radius: 8px; overflow: hidden;"></div>
+                    </div>
+
+                    <div class="col-lg-3">
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">From</label>
+                                <input type="datetime-local" class="form-control" wire:model.defer="from">
+                                @error('from') <small class="text-danger">{{ $message }}</small> @enderror
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">To</label>
+                                <input type="datetime-local" class="form-control" wire:model.defer="to">
+                                @error('to') <small class="text-danger">{{ $message }}</small> @enderror
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <x-button class="btn btn-primary w-100"
+                                          wire:click="loadRoute"
+                                          wire:target="loadRoute">
+                                    Load Route
+                                </x-button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 mb-2">
+                            <button class="btn btn-success w-100" type="button" wire:click="$js.play">
+                                Play
+                            </button>
+                            <button class="btn btn-warning w-100" type="button" onclick="RoutePlayback?.pause()">
+                                Pause
+                            </button>
+                        </div>
+
+                        {{--                        <div class="mb-2">--}}
+                        {{--                            <label class="form-label">Speed</label>--}}
+                        {{--                            <select class="form-select" onchange="RoutePlayback?.setSpeed(parseFloat(this.value))">--}}
+                        {{--                                <option value="1">1x</option>--}}
+                        {{--                                <option value="2">2x</option>--}}
+                        {{--                                <option value="5" selected>5x</option>--}}
+                        {{--                                <option value="10">10x</option>--}}
+                        {{--                                <option value="20">20x</option>--}}
+                        {{--                            </select>--}}
+                        {{--                        </div>--}}
+
+                        {{--                        <div class="mb-2">--}}
+                        {{--                            <label class="form-label">Progress</label>--}}
+                        {{--                            <input id="playbackSlider" type="range" class="form-range" min="0" max="0" value="0"--}}
+                        {{--                                   oninput="RoutePlayback?.seek(parseInt(this.value,10))">--}}
+                        {{--                            <small class="text-muted d-block" id="playbackMeta">—</small>--}}
+                        {{--                        </div>--}}
+                        <hr class="my-3"/>
+                        <div class="row text-uppercase">
+                            <div class="col-lg-6 mb-2">
+                                <div class="text-muted">Speed</div>
+                                <strong>{{ $currentPoint['speed'] ?? '--' }} km/h</strong>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <div class="text-muted">Heading</div>
+                                <strong>{{ $currentPoint['angle'] ?? '--' }}°</strong>
+                            </div>
+
+                            <div class="col-lg-6 mb-2">
+                                <div class="text-muted">Odometer</div>
+                                <strong>{{ $currentPoint['odometer'] ?? '--' }}m</strong>
+                            </div>
+
+                            <div class="col-lg-6 mb-2">
+                                <div class="text-muted">Fuel</div>
+                                <strong>{{ $currentPoint['fuel'] ?? '--' }}L</strong>
+                            </div>
+
+                            <div class="col-lg-12 mb-2">
+                                <div class="text-muted">Date & Time</div>
+                                <strong>{{ $currentPoint['trackedAt'] ?? '--' }}</strong>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@script
+<script>
+    let points;
+    let marker;
+    let overviewLine;
+    let playedLine;
+    initMap();
+
+    async function initMap() {
+        // Request needed libraries.
+        //@ts-ignore
+        await google.maps.importLibrary("maps");
+        await google.maps.importLibrary("marker");
+
+        // Zambia bounding box (optional; left commented out)
+        const ZAMBIA_BOUNDS = {
+            north: -8.2720,
+            south: -18.0792,
+            east: 33.7124,
+            west: 21.9800,
+        };
+
+        // A good visual center (roughly central Zambia)
+        const ZAMBIA_CENTER = {lat: -13.175, lng: 27.846};
+
+        MapSingleton.init("map", {
+            zoom: 8,
+            center: ZAMBIA_CENTER,
+            mapId: "ALL_DEVICE_MAP",
+            mapTypeId: 'hybrid',
+            // restriction: {
+            //     latLngBounds: ZAMBIA_BOUNDS,
+            //     strictBounds: false,
+            // },
+
+            streetViewControl: false,
+            fullscreenControl: true,
+        });
+        const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
+
+        const map = await MapSingleton.getMap();
+        let polyline;
+
+        $wire.on('route-loaded', function (e) {
+            if (polyline) {
+                polyline.setMap(null);
+            }
+            removeMarker(marker);
+
+            points = e.points;
+            const path = points.map(p => ({lat: p.lat, lng: p.lng}));
+
+            overviewLine = new google.maps.Polyline({
+                path,
+                strokeColor: '#1e88e5',
+                strokeOpacity: 0.45,
+                strokeWeight: 4,
+                geodesic: true,
+                map,
+            });
+
+
+            playedLine = new google.maps.Polyline({
+                path: [path[0]], // grows as playback progresses
+                strokeColor: '#1e88e5',
+                strokeOpacity: 0.9,
+                strokeWeight: 6,
+                geodesic: true,
+                map,
+            });
+
+
+            overviewLine.setMap(map);
+            playedLine.setMap(map);
+            fitPolyline(map, overviewLine)
+
+
+            let start = points[0];
+            marker = new AdvancedMarkerElement({
+                position: start,
+                map
+            });
+        })
+
+        let playbackInterval = null;
+        let index = 0;
+
+        $js('play', () => {
+            // prevent multiple intervals
+            if (playbackInterval) return;
+
+            playbackInterval = setInterval(() => {
+                if (index >= points.length) {
+                    clearInterval(playbackInterval);
+                    playbackInterval = null;
+                    return;
+                }
+
+                const p = points[index];
+                $wire.set('currentPoint', p);
+
+                animatedMove(
+                    marker,
+                    0.5,
+                    marker.position,
+                    {lat: p.lat, lng: p.lng}
+                );
+                updatePlayedLine(index);
+                index++;
+            }, 500);
+        });
+
+        $js('pause', () => {
+            if (playbackInterval) {
+                clearInterval(playbackInterval);
+                playbackInterval = null;
+            }
+        });
+
+        $js('reset', () => {
+            if (playbackInterval) {
+                clearInterval(playbackInterval);
+                playbackInterval = null;
+            }
+
+            index = 0;
+        });
+
+    }
+
+    function fitPolyline(map, polyline, padding = 60) {
+        const path = polyline.getPath();
+        if (!path || path.getLength() === 0) return;
+
+        const bounds = new google.maps.LatLngBounds();
+        for (let i = 0; i < path.getLength(); i++) {
+            bounds.extend(path.getAt(i));
+        }
+
+        map.fitBounds(bounds, padding); // pans + zooms
+        google.maps.event.addListenerOnce(map, "bounds_changed", () => {
+            const maxZoom = 17;
+            if (map.getZoom() > maxZoom) map.setZoom(maxZoom);
+        });
+    }
+
+    function updatePlayedLine(idx) {
+        const playedPath = overviewLine.getPath().getArray().slice(0, idx + 1);
+        playedLine.setPath(playedPath);
+    }
+
+    function removeMarker(marker) {
+        if (!marker) return;
+        marker.map = null;
+        marker = null;
+    }
+
+    window.MapSingleton = (() => {
+        let map = null;
+        let resolveMap;
+        let mapReady = new Promise((resolve) => {
+            resolveMap = resolve;
+        });
+
+        return {
+            init(mapElementId, options) {
+                if (map) return mapReady;
+
+                map = new google.maps.Map(
+                    document.getElementById(mapElementId),
+                    options
+                );
+
+                resolveMap(map);
+                return mapReady;
+            },
+
+            async getMap() {
+                return mapReady;
+            }
+        };
+    })();
+
+    function animatedMove(marker, t, current, moveto) {
+        var deltalat = (moveto.lat - current.lat) / 100;
+        var deltalng = (moveto.lng - current.lng) / 100;
+
+        var delay = 10 * t;
+        for (var i = 0; i < 100; i++) {
+            (function (ind) {
+                setTimeout(function () {
+                    var lat = marker.position.lat;
+                    var lng = marker.position.lng;
+                    lat += deltalat;
+                    lng += deltalng;
+                    marker.position = {lat: lat, lng: lng};
+                }, delay * ind);
+            })(i);
+        }
+    }
+
+
+    async function addOrUpdateMarker(location) {
+        const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
+
+        const nextPos = {lat: location.latitude, lng: location.longitude};
+        const heading = Number(location.angle ?? 0);
+        const severity = location.signals?.severity ?? "gray";
+        const fill = severityToHex(severity);
+        const abnormal = isAbnormalSeverity(severity);
+        const isSelected = (location.imei === selectedImei);
+
+        if (markers[location.imei]) {
+            const marker = markers[location.imei];
+
+            // Keep latest location cached for tier re-rendering
+            marker.__lastLocation = location;
+
+            // Move smoothly
+            animatedMove(marker, 0.5, marker.position, nextPos);
+
+            // Ensure correct mode + update visuals
+            await ensureMode(marker, location, heading, fill, abnormal, isSelected);
+            return;
+        }
+
+        const map = await MapSingleton.getMap();
+
+        // Create marker with initial content based on current zoom
+        const marker = new AdvancedMarkerElement({
+            position: nextPos,
+            map,
+            content: document.createElement("div"),
+            title: location.reg_number ?? "",
+        });
+
+        marker.__lastLocation = location;
+        marker.__mode = null;
+        marker.__rootEl = null;
+        marker.__plateEl = null;
+        marker.__svgEl = null;
+        marker.__carPathEl = null;
+        marker.__isAbnormal = abnormal;
+
+        // Click → select vehicle
+        marker.addListener("click", () => {
+            $wire.dispatch("device-selected", {
+                gps: location.imei,
+                location: location,
+            });
+        });
+
+        markers[location.imei] = marker;
+
+        // Build initial template (based on current zoom)
+        await ensureMode(marker, location, heading, fill, abnormal, isSelected);
+    }
+
+
+</script>
+@endscript
