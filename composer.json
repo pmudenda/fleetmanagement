@@ -10,6 +10,7 @@
         "bensampo/laravel-enum": "^6.6",
         "codedge/laravel-fpdf": "^1.12",
         "doctrine/dbal": "^3.0",
+        "flowframe/laravel-trend": "^0.4.0",
         "guzzlehttp/guzzle": "^7.2",
         "hisorange/browser-detect": "^4.3",
         "kmlaravel/laravel-geographical-calculator": "^1.1",
