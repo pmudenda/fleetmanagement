@@ -7,6 +7,20 @@ define('LARAVEL_START', microtime(true));
 
 /*
 |--------------------------------------------------------------------------
+| Load OCI Constants for Oracle Extension
+|--------------------------------------------------------------------------
+|
+| Define missing OCI constants for Oracle extension compatibility.
+| This fixes the "Undefined constant OCI_DEFAULT" error.
+|
+*/
+
+if (file_exists(__DIR__.'/../bootstrap/oci_constants.php')) {
+    require __DIR__.'/../bootstrap/oci_constants.php';
+}
+
+/*
+|--------------------------------------------------------------------------
 | Check If The Application Is Under Maintenance
 |--------------------------------------------------------------------------
 |

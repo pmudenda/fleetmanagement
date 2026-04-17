@@ -587,7 +587,7 @@
                                                             'step' => 2,
                                                             'reference' => $vehicle->header_id,
                                                             'edit'=> true])}}">
-                                                        Over View
+                                                        Overview
                                                     </a>
                                                 </li>
                                             @endif

@@ -190,7 +190,7 @@
 
         /* KPI base color */
         .kpi-primary {
-            background: linear-gradient(135deg, #2238c5, #2238c5); /* blue */
+            background: linear-gradient(135deg, #af701e, #af701e); /* Modern blue */
             color: #ffffff;
         }
 
@@ -224,7 +224,7 @@
 
         /* SUCCESS / ACTIVE KPI */
         .kpi-success {
-            background: linear-gradient(135deg, #16a34a, #15803d);
+            background: linear-gradient(135deg, #10b981, #059669); /* Modern emerald green */
             color: #ffffff;
         }
 
@@ -258,7 +258,7 @@
 
         /* INFO / ACTIVE USERS KPI */
         .kpi-info {
-            background: linear-gradient(135deg, #0891b2, #155e75);
+            background: linear-gradient(135deg, #06b6d4, #0891b2); /* Modern cyan */
             color: #ffffff;
         }
 
@@ -292,7 +292,7 @@
 
         /* DRIVER / CAPACITY KPI */
         .kpi-purple {
-            background: linear-gradient(135deg, #7c3aed, #4c1d95);
+            background: linear-gradient(135deg, #af701e, #2a8611); /* Modern violet */
             color: #ffffff;
         }
 

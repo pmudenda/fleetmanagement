@@ -3,6 +3,125 @@ window.VehicleModels = [];
 window.organizationUnits = [];
 window.businessUnits = [];
 
+// Comprehensive Error Handling and Debugging
+(function() {
+    'use strict';
+    
+    // Override jQuery AJAX to catch all errors
+    $(document).ajaxSend(function(event, xhr, settings) {
+        console.log('AJAX Request:', settings.method?.toUpperCase() || 'GET', settings.url, settings.data);
+    });
+    
+    $(document).ajaxSuccess(function(event, xhr, settings) {
+        console.log('AJAX Success:', settings.url, xhr.status);
+    });
+    
+    $(document).ajaxError(function(event, xhr, settings, error) {
+        const errorInfo = {
+            url: settings.url,
+            method: settings.method || 'GET',
+            data: settings.data,
+            status: xhr.status,
+            error: error,
+            responseText: xhr.responseText?.substring(0, 200)
+        };
+        
+        console.error('AJAX Error:', errorInfo);
+        
+        // Show user-friendly error message
+        const errorMessage = `Connection error for ${settings.url}: ${error} (${xhr.status})`;
+        if (typeof toastr !== 'undefined') {
+            toastr.error(errorMessage, 'Connection Error');
+        } else {
+            alert(errorMessage);
+        }
+    });
+    
+    // Add window error handling
+    window.addEventListener('error', function(event) {
+        console.error('JavaScript Error:', event.error);
+    });
+    
+    window.addEventListener('unhandledrejection', function(event) {
+        console.error('Unhandled Promise Rejection:', event.reason);
+    });
+    
+    // Add connection test function
+    window.testDashboardConnection = function() {
+        console.log('Testing dashboard connection...');
+        
+        const testEndpoints = [
+            { url: '/vehicle-management/analytics/kpi', data: { days: 30 } },
+            { url: '/vehicle-management/vehicle/models', data: {} }
+        ];
+        
+        testEndpoints.forEach(async function(endpoint) {
+            try {
+                const response = await fetch(endpoint.url + '?' + new URLSearchParams(endpoint.data));
+                if (response.ok) {
+                    console.log(`Connection OK: ${endpoint.url}`);
+                } else {
+                    console.error(`Connection FAILED: ${endpoint.url} (${response.status})`);
+                }
+            } catch (error) {
+                console.error(`Connection ERROR: ${endpoint.url} - ${error.message}`);
+            }
+        });
+    };
+    
+    console.log('Dashboard error handling initialized');
+    
+    // Add global image error handling for missing vehicle photos
+    window.addEventListener('error', function(e) {
+        if (e.target && e.target.tagName === 'IMG') {
+            const img = e.target;
+            const src = img.src;
+            
+            // Check if it's a vehicle registration image
+            if (src.includes('vehicleRegistration') || src.includes('FRONT_jpg') || src.includes('REAR_jpg') || src.includes('SIDE_jpg')) {
+                console.warn('Vehicle image not found:', src);
+                
+                // Set a fallback image or hide the broken image
+                img.style.display = 'none';
+                
+                // Optionally add a placeholder
+                const placeholder = document.createElement('div');
+                placeholder.className = 'vehicle-image-placeholder';
+                placeholder.innerHTML = '<i class="fas fa-car text-muted"></i><div class="text-muted small">No image available</div>';
+                placeholder.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100px; background: #f8f9fa; border: 1px dashed #dee2e6; border-radius: 4px;';
+                
+                if (img.parentNode) {
+                    img.parentNode.appendChild(placeholder);
+                }
+                
+                // Prevent the error from showing in console
+                e.preventDefault();
+            }
+        }
+    }, true);
+    
+    // Add image load error handler specifically for vehicle images
+    document.addEventListener('DOMContentLoaded', function() {
+        const vehicleImages = document.querySelectorAll('img[src*="vehicleRegistration"]');
+        vehicleImages.forEach(function(img) {
+            img.onerror = function() {
+                console.warn('Vehicle image load failed:', this.src);
+                this.style.display = 'none';
+                
+                // Add placeholder
+                const placeholder = document.createElement('div');
+                placeholder.className = 'vehicle-image-placeholder';
+                placeholder.innerHTML = '<i class="fas fa-car text-muted"></i><div class="text-muted small">No image available</div>';
+                placeholder.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100px; background: #f8f9fa; border: 1px dashed #dee2e6; border-radius: 4px;';
+                
+                if (this.parentNode) {
+                    this.parentNode.appendChild(placeholder);
+                }
+            };
+        });
+    });
+})();
+
 function setSelectedAccessories() {
     $.each(window.selectedAccessories, function (index, element) {
         $("input[name=" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true).attr('readonly', true);
@@ -11,9 +130,9 @@ function setSelectedAccessories() {
 }
 
 function displayVehicleDetails(asyncResponse, requestReference) {
-    console.log('will you run')
     if (!asyncResponse.success) {
-        toastr.error(asyncResponse['message'])
+        toastr.error(asyncResponse['message']);
+        return;
     }
 
     if (!asyncResponse.hasOwnProperty('payload')) {
@@ -316,46 +435,46 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
 
     function displayFuelCostGraph() {
-        console.log('will this load')
-        let fuelCost = asyncResponse['payload']['cost_by_year'];
+        let fuelCost = asyncResponse['payload']['cost_by_year'] || [];
+        let sparesCost = asyncResponse['payload']['spares_cost_by_year'] || [];
 
-        let totalCost = parseFloat('0');
-        let fuelDataset = [];
-        for (const fCost of fuelCost) {
-            totalCost += parseFloat(fCost.cost);
-            fuelDataset.push([fCost.year, fCost.cost]);
-        }
+        // Calculate totals
+        let totalFuelCost = fuelCost.reduce((sum, item) => sum + parseFloat(item.cost || 0), 0);
+        let totalSparesCost = sparesCost.reduce((sum, item) => sum + parseFloat(item.cost || 0), 0);
+        let totalCost = totalFuelCost + totalSparesCost;
 
-        let sparesCost = asyncResponse['payload']['spares_cost_by_year'];
+        // Update total costs display
+        $("#totalOwnershipCosts").text(accounting.formatMoney(totalCost, 'ZMW '));
 
-        let sparesTotalCost = parseFloat('0');
-        let sparesDataset = [];
-        for (const spareCost of sparesCost) {
-            sparesTotalCost += parseFloat(spareCost.cost);
-            sparesDataset.push([spareCost.year, spareCost.cost]);
-        }
-
-        $("#totalOwnershipCosts").text(accounting.formatMoney((sparesTotalCost + totalCost), 'ZMW '));
-        let myChart = echarts.init(document.getElementById('main'))
+        // Initialize main chart
+        let myChart = echarts.init(document.getElementById('main'));
+        
+        // Prepare monthly trend data
+        const monthlyData = prepareMonthlyTrendData(fuelCost, sparesCost);
+        
+        // Enhanced main view option
         const option = {
-            xAxis: {
-                data: ['Fuel', 'Maintenance']
+            title: {
+                text: 'Vehicle Cost Analysis',
+                subtext: 'Click to view monthly trends',
+                left: 'center'
             },
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
-                    type: 'shadow',
-                    label: {
-                        show: true,
-                    },
-                    formatter(params) {
-                        return params[0].data.name;
-                    }
+                    type: 'shadow'
                 },
-                formatter(params) {
-                    const value = params[0].data.value;
-                    return accounting.formatMoney(value, 'ZMW ')
+                formatter: function(params) {
+                    let result = params[0].name + '<br/>';
+                    params.forEach(param => {
+                        result += param.marker + param.seriesName + ': ' + accounting.formatMoney(param.value, 'ZMW ') + '<br/>';
+                    });
+                    return result;
                 }
+            },
+            legend: {
+                data: ['Fuel', 'Maintenance'],
+                top: 30
             },
             toolbox: {
                 show: true,
@@ -366,106 +485,1303 @@ function displayVehicleDetails(asyncResponse, requestReference) {
                     restore: {show: true},
                     saveAsImage: {show: true},
                 },
+                right: 20
             },
-            yAxis: {},
-            dataGroupId: '',
-            animationDurationUpdate: 500,
-            series: {
-                type: 'bar',
-                id: 'sales',
-                colorBy: 'data',
-                data: [
-                    {
-                        value: totalCost,
-                        groupId: 'fuel'
-                    },
-                    {
-                        value: sparesTotalCost,
-                        groupId: 'spares'
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [{
+                type: 'category',
+                data: ['Total Costs'],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }],
+            yAxis: [{
+                type: 'value',
+                name: 'Cost (ZMW)',
+                axisLabel: {
+                    formatter: function(value) {
+                        return accounting.formatMoney(value, 'ZMW ');
                     }
-                ],
-                universalTransition: {
-                    enabled: true,
-                    divideShape: 'clone'
                 }
-            }
+            }],
+            series: [
+                {
+                    name: 'Fuel',
+                    type: 'bar',
+                    data: [totalFuelCost],
+                    itemStyle: {
+                        color: '#91cc75'
+                    }
+                },
+                {
+                    name: 'Maintenance',
+                    type: 'bar',
+                    data: [totalSparesCost],
+                    itemStyle: {
+                        color: '#fac858'
+                    }
+                }
+            ]
         };
+
         myChart.setOption(option);
-        const drillDownData = [
-            {
-                dataGroupId: 'fuel',
-                data: fuelDataset
-            },
-            {
-                dataGroupId: 'spares',
-                data: sparesDataset
-            }
-        ];
+
+        // Create pie chart for cost distribution
+        createCostDistributionPie(totalFuelCost, totalSparesCost);
+
+        // Add click event for drill-down to monthly trends
         myChart.on('click', function (event) {
-            if (event.data) {
-                let subData = drillDownData.find(function (data) {
-                    return data.dataGroupId === event.data.groupId;
-                });
-                if (!subData) {
-                    return;
+            showMonthlyTrends(myChart, monthlyData, option);
+        });
+
+        // Create performance scorecards
+        createPerformanceScorecards(fuelCost, sparesCost, totalCost);
+    }
+
+    function prepareMonthlyTrendData(fuelCost, sparesCost) {
+        const allMonths = new Set();
+        
+        // Collect all unique months
+        fuelCost.forEach(item => {
+            if (item.period) allMonths.add(item.period);
+        });
+        sparesCost.forEach(item => {
+            if (item.period) allMonths.add(item.period);
+        });
+
+        const sortedMonths = Array.from(allMonths).sort();
+        
+        const fuelData = [];
+        const sparesData = [];
+        
+        sortedMonths.forEach(month => {
+            const fuelItem = fuelCost.find(item => item.period === month);
+            const sparesItem = sparesCost.find(item => item.period === month);
+            
+            fuelData.push(fuelItem ? parseFloat(fuelItem.cost) : 0);
+            sparesData.push(sparesItem ? parseFloat(sparesItem.cost) : 0);
+        });
+
+        return {
+            months: sortedMonths,
+            fuelData: fuelData,
+            sparesData: sparesData
+        };
+    }
+
+    function showMonthlyTrends(chart, monthlyData, originalOption) {
+        const trendOption = {
+            title: {
+                text: 'Monthly Cost Trends',
+                subtext: 'Vehicle Performance Over Time',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis',
+                formatter: function(params) {
+                    let result = params[0].name + '<br/>';
+                    params.forEach(param => {
+                        result += param.marker + param.seriesName + ': ' + accounting.formatMoney(param.value, 'ZMW ') + '<br/>';
+                    });
+                    const total = params.reduce((sum, param) => sum + param.value, 0);
+                    result += '<hr/>Total: ' + accounting.formatMoney(total, 'ZMW ');
+                    return result;
                 }
-                myChart.setOption({
-                    xAxis: {
-                        data: subData.data.map(function (item) {
-                            return item[0];
-                        })
+            },
+            legend: {
+                data: ['Fuel', 'Maintenance', 'Total'],
+                top: 30
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar', 'stack']},
+                    restore: {show: true},
+                    saveAsImage: {show: true},
+                },
+                right: 20
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: monthlyData.months,
+                axisLabel: {
+                    rotate: 45
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: 'Cost (ZMW)',
+                axisLabel: {
+                    formatter: function(value) {
+                        return accounting.formatMoney(value, 'ZMW ');
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'Fuel',
+                    type: 'line',
+                    data: monthlyData.fuelData,
+                    smooth: true,
+                    itemStyle: {
+                        color: '#91cc75'
                     },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'shadow',
-                            label: {
-                                show: true,
-                            },
-                            formatter(params) {
-                                console.log('child shadow', params);
-                                return params[0].data.name;
-                            }
-                        },
-                        formatter(params) {
-                            const value = params[0].data;
-                            return accounting.formatMoney(value, 'ZMW ')
+                    areaStyle: {
+                        opacity: 0.3
+                    }
+                },
+                {
+                    name: 'Maintenance',
+                    type: 'line',
+                    data: monthlyData.sparesData,
+                    smooth: true,
+                    itemStyle: {
+                        color: '#fac858'
+                    },
+                    areaStyle: {
+                        opacity: 0.3
+                    }
+                },
+                {
+                    name: 'Total',
+                    type: 'line',
+                    data: monthlyData.fuelData.map((fuel, index) => fuel + monthlyData.sparesData[index]),
+                    smooth: true,
+                    itemStyle: {
+                        color: '#ee6666'
+                    },
+                    lineStyle: {
+                        width: 3,
+                        type: 'dashed'
+                    }
+                }
+            ]
+        };
+
+        chart.setOption(trendOption);
+
+        // Add back button
+        chart.setOption({
+            graphic: [
+                {
+                    type: 'text',
+                    left: 10,
+                    top: 20,
+                    style: {
+                        text: 'Back to Summary',
+                        fontSize: 14,
+                        fill: '#1890ff'
+                    },
+                    onclick: function () {
+                        chart.setOption(originalOption);
+                    }
+                }
+            ]
+        });
+    }
+
+    function createCostDistributionPie(fuelCost, sparesCost) {
+        const pieChart = echarts.init(document.getElementById('pie'));
+        
+        const pieOption = {
+            title: {
+                text: 'Cost Distribution',
+                subtext: 'Fuel vs Maintenance',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['Fuel', 'Maintenance']
+            },
+            series: [
+                {
+                    name: 'Cost Breakdown',
+                    type: 'pie',
+                    radius: '50%',
+                    data: [
+                        {value: fuelCost, name: 'Fuel', itemStyle: {color: '#91cc75'}},
+                        {value: sparesCost, name: 'Maintenance', itemStyle: {color: '#fac858'}}
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
                         }
                     },
-                    series: {
-                        type: 'bar',
-                        id: 'sales',
-                        dataGroupId: subData.dataGroupId,
-                        data: subData.data.map(function (item) {
-                            return item[1];
-                        }),
-                        universalTransition: {
-                            enabled: true,
-                            divideShape: 'clone'
-                        }
-                    },
-                    graphic: [
-                        {
-                            type: 'text',
-                            left: 50,
-                            top: 20,
-                            style: {
-                                text: 'Back',
-                                fontSize: 18
-                            },
-                            onclick: function () {
-                                myChart.setOption(option);
-                            }
-                        }
-                    ]
+                    label: {
+                        formatter: '{b}: ' + accounting.formatMoney('{c}', 'ZMW ') + ' ({d}%)'
+                    }
+                }
+            ]
+        };
+
+        pieChart.setOption(pieOption);
+    }
+
+    function createPerformanceScorecards(fuelCost, sparesCost, totalCost) {
+        // Calculate performance metrics
+        const avgMonthlyFuel = fuelCost.length > 0 ? totalCost / fuelCost.length : 0;
+        const avgMonthlyMaintenance = sparesCost.length > 0 ? totalCost / sparesCost.length : 0;
+        const highestFuelMonth = fuelCost.reduce((max, item) => 
+            parseFloat(item.cost) > (max?.cost || 0) ? item : max, null);
+        const highestMaintenanceMonth = sparesCost.reduce((max, item) => 
+            parseFloat(item.cost) > (max?.cost || 0) ? item : max, null);
+
+        // Create scorecards HTML
+        const scorecardsHtml = `
+            <div class="col-4">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h6>Performance Metrics</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="text-center">
+                                    <h4 class="text-primary">${accounting.formatMoney(avgMonthlyFuel, 'ZMW ')}</h4>
+                                    <small>Avg Monthly Fuel</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center">
+                                    <h4 class="text-warning">${accounting.formatMoney(avgMonthlyMaintenance, 'ZMW ')}</h4>
+                                    <small>Avg Monthly Maintenance</small>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-12">
+                                <small class="text-muted">Peak Fuel Month:</small><br>
+                                <strong>${highestFuelMonth ? highestFuelMonth.period + ': ' + accounting.formatMoney(highestFuelMonth.cost, 'ZMW ') : 'N/A'}</strong>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <small class="text-muted">Peak Maintenance Month:</small><br>
+                                <strong>${highestMaintenanceMonth ? highestMaintenanceMonth.period + ': ' + accounting.formatMoney(highestMaintenanceMonth.cost, 'ZMW ') : 'N/A'}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Replace the empty third column with scorecards
+        $('.row .col-4').eq(2).html(scorecardsHtml);
+    }
+
+    loadExecutiveDashboard();
+    }
+
+    // Executive Dashboard Loading Functions
+    function loadExecutiveDashboard() {
+        loadExecutiveKpi();
+        loadMonthlyTrends();
+        loadCostDistribution();
+        loadTopVehiclesByMetric('total_cost');
+        loadCostByOrgUnit();
+        loadFleetExceptions();
+        loadVehicleDetailsTable();
+        
+        // Set up event listeners for tabs and filters
+        setupDashboardEventListeners();
+    }
+
+    function loadExecutiveKpi() {
+        $.ajax({
+            url: '/vehicle-management/analytics/kpi',
+            method: 'GET',
+            data: { days: 30 },
+            dataType: 'json',
+            beforeSend: function() {
+                // Show loading state
+                $('#activeVehiclesCount').text('Loading...');
+                $('#totalFuelCost').text('Loading...');
+                $('#totalMaintenanceCost').text('Loading...');
+                $('#avgCostPerVehicle').text('Loading...');
+                $('#totalOperatingCost').text('Loading...');
+                $('#highestCostVehicle').text('Loading...');
+                $('#highestCostAmount').text('Loading...');
+                $('#maintenanceEvents').text('Loading...');
+                $('#fuelEvents').text('Loading...');
+            },
+            success: function(response) {
+                console.log('KPI Response:', response);
+                if (response.success && response.data) {
+                    updateExecutiveKpiCards(response.data);
+                } else {
+                    console.error('KPI API returned error:', response.message);
+                    showConnectionError('KPI data unavailable');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('KPI AJAX Error:', {
+                    status: status,
+                    error: error,
+                    responseText: xhr.responseText,
+                    statusCode: xhr.status
                 });
+                showConnectionError('Failed to load KPI data');
             }
         });
     }
 
-    displayFuelCostGraph();
+    function updateExecutiveKpiCards(kpiData) {
+        // Update KPI values with proper formatting
+        $('#activeVehiclesCount').text(kpiData.active_vehicles || 0);
+        $('#totalFuelCost').text(accounting.formatMoney(kpiData.total_fuel_cost || 0, 'ZMW '));
+        $('#totalMaintenanceCost').text(accounting.formatMoney(kpiData.total_maintenance_cost || 0, 'ZMW '));
+        $('#avgCostPerVehicle').text(accounting.formatMoney(kpiData.avg_cost_per_vehicle || 0, 'ZMW '));
+        
+        $('#totalOperatingCost').text(accounting.formatMoney(kpiData.total_operating_cost || 0, 'ZMW '));
+        $('#highestCostVehicle').text(kpiData.highest_cost_vehicle || 'N/A');
+        $('#highestCostAmount').text(accounting.formatMoney(kpiData.highest_cost || 0, 'ZMW '));
+        $('#maintenanceEvents').text(kpiData.vehicles_with_maintenance || 0);
+        $('#fuelEvents').text(kpiData.vehicles_with_fuel || 0);
+        
+        // Update trend indicators with proper color coding
+        const trendPercentage = kpiData.cost_trend_percentage || 0;
+        const trendClass = trendPercentage > 0 ? 'text-danger' : trendPercentage < 0 ? 'text-success' : 'text-secondary';
+        const trendSymbol = trendPercentage > 0 ? '+' : '';
+        
+        $('#fuelCostTrend').html(`<span class="${trendClass}">${trendSymbol}${trendPercentage}%</span> vs previous period`);
+        $('#maintenanceCostTrend').html(`<span class="${trendClass}">${trendSymbol}${trendPercentage}%</span> vs previous period`);
+        
+        // Update vehicle counts
+        $('#avgCostVehiclesCount').text(`${kpiData.active_vehicles || 0} vehicles`);
+        $('#maintenanceVehiclesCount').text(`${kpiData.vehicles_with_maintenance || 0} vehicles`);
+        $('#fuelVehiclesCount').text(`${kpiData.vehicles_with_fuel || 0} vehicles`);
+    }
 
-}
+    function loadMonthlyTrends() {
+        $.ajax({
+            url: '/vehicle-management/analytics/trends',
+            method: 'GET',
+            data: { months: 12 },
+            dataType: 'json',
+            beforeSend: function() {
+                $('#monthlyTrendsChart').html('<div class="text-center p-4"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div><div class="mt-2">Loading trends...</div></div>');
+            },
+            success: function(response) {
+                console.log('Trends Response:', response);
+                if (response.success && response.data) {
+                    renderMonthlyTrendsChart(response.data);
+                } else {
+                    console.error('Trends API returned error:', response.message);
+                    $('#monthlyTrendsChart').html('<div class="text-center text-danger p-4">Error loading trends: ' + response.message + '</div>');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Trends AJAX Error:', {
+                    status: status,
+                    error: error,
+                    responseText: xhr.responseText,
+                    statusCode: xhr.status
+                });
+                $('#monthlyTrendsChart').html('<div class="text-center text-danger p-4">Failed to load trends data</div>');
+            }
+        });
+    }
+
+    function renderMonthlyTrendsChart(trendData) {
+        const chartDom = document.getElementById('monthlyTrendsChart');
+        const myChart = echarts.init(chartDom);
+        
+        const periods = trendData.map(d => d.period);
+        const fuelCosts = trendData.map(d => parseFloat(d.fuel_cost || 0));
+        const maintenanceCosts = trendData.map(d => parseFloat(d.maintenance_cost || 0));
+        const totalCosts = trendData.map(d => parseFloat(d.total_operating_cost || 0));
+        
+        const option = {
+            title: {
+                text: 'Monthly Cost Trends',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross'
+                },
+                formatter: function(params) {
+                    let result = params[0].name + '<br/>';
+                    params.forEach(param => {
+                        result += param.marker + param.seriesName + ': ' + accounting.formatMoney(param.value, 'ZMW ') + '<br/>';
+                    });
+                    return result;
+                }
+            },
+            legend: {
+                data: ['Fuel Cost', 'Maintenance Cost', 'Total Cost'],
+                top: 30
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: periods
+            },
+            yAxis: {
+                type: 'value',
+                name: 'Cost (ZMW)',
+                axisLabel: {
+                    formatter: function(value) {
+                        return accounting.formatMoney(value, 'ZMW ');
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'Fuel Cost',
+                    type: 'line',
+                    data: fuelCosts,
+                    itemStyle: { color: '#91cc75' }
+                },
+                {
+                    name: 'Maintenance Cost',
+                    type: 'line',
+                    data: maintenanceCosts,
+                    itemStyle: { color: '#fac858' }
+                },
+                {
+                    name: 'Total Cost',
+                    type: 'line',
+                    data: totalCosts,
+                    itemStyle: { color: '#ee6666' }
+                }
+            ]
+        };
+        
+        myChart.setOption(option);
+    }
+
+    function loadCostDistribution() {
+        $.ajax({
+            url: '/vehicle-management/analytics/cost-distribution',
+            method: 'GET',
+            data: { days: 30 },
+            success: function(response) {
+                if (response.success && response.data) {
+                    renderCostDistributionChart(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle authentication redirects gracefully
+                if (xhr.status === 302 || xhr.status === 401) {
+                    console.warn('Cost distribution requires authentication - skipping chart');
+                    return;
+                }
+                
+                // Handle 500 errors that might be authentication issues
+                if (xhr.status === 500) {
+                    const responseText = xhr.responseText || '';
+                    if (responseText.includes('login') || responseText.includes('redirect')) {
+                        console.warn('Cost distribution requires authentication - skipping chart');
+                        return;
+                    }
+                }
+                
+                console.error('Failed to load cost distribution:', {xhr, status, error});
+            }
+        });
+    }
+
+    function renderCostDistributionChart(distributionData) {
+        const chartDom = document.getElementById('costDistributionChart');
+        const myChart = echarts.init(chartDom);
+        
+        const totalFuelCost = distributionData.reduce((sum, d) => sum + parseFloat(d.fuel_cost || 0), 0);
+        const totalMaintenanceCost = distributionData.reduce((sum, d) => sum + parseFloat(d.maintenance_cost || 0), 0);
+        
+        const option = {
+            title: {
+                text: 'Cost Distribution',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['Fuel', 'Maintenance']
+            },
+            series: [
+                {
+                    name: 'Cost Breakdown',
+                    type: 'pie',
+                    radius: '50%',
+                    data: [
+                        { value: totalFuelCost, name: 'Fuel', itemStyle: { color: '#91cc75' } },
+                        { value: totalMaintenanceCost, name: 'Maintenance', itemStyle: { color: '#fac858' } }
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    },
+                    label: {
+                        formatter: '{b}: ' + accounting.formatMoney('{c}', 'ZMW ') + ' ({d}%)'
+                    }
+                }
+            ]
+        };
+        
+        myChart.setOption(option);
+    }
+
+    function loadTopVehiclesByMetric(metric = 'total_cost') {
+        $.ajax({
+            url: '/vehicle-management/analytics/top-vehicles-metric',
+            method: 'GET',
+            data: { metric: metric, limit: 10, days: 30 },
+            dataType: 'json',
+            beforeSend: function() {
+                const chartId = metric === 'total_cost' ? 'topVehiclesTotalCostChart' :
+                              metric === 'fuel_cost' ? 'topVehiclesFuelCostChart' :
+                              metric === 'maintenance_cost' ? 'topVehiclesMaintenanceCostChart' :
+                              'topVehiclesMaintenanceEventsChart';
+                $('#' + chartId).html('<div class="text-center p-4"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div><div class="mt-2">Loading vehicles...</div></div>');
+            },
+            success: function(response) {
+                console.log('Top Vehicles Response:', response);
+                if (response.success && response.data) {
+                    renderTopVehiclesChart(response.data, metric);
+                    updateTopVehiclesList(response.data, metric);
+                } else {
+                    console.error('Top Vehicles API returned error:', response.message);
+                    const chartId = metric === 'total_cost' ? 'topVehiclesTotalCostChart' :
+                                  metric === 'fuel_cost' ? 'topVehiclesFuelCostChart' :
+                                  metric === 'maintenance_cost' ? 'topVehiclesMaintenanceCostChart' :
+                                  'topVehiclesMaintenanceEventsChart';
+                    $('#' + chartId).html('<div class="text-center text-danger p-4">Error loading vehicles: ' + response.message + '</div>');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Top Vehicles AJAX Error:', {
+                    status: status,
+                    error: error,
+                    responseText: xhr.responseText,
+                    statusCode: xhr.status
+                });
+                const chartId = metric === 'total_cost' ? 'topVehiclesTotalCostChart' :
+                              metric === 'fuel_cost' ? 'topVehiclesFuelCostChart' :
+                              metric === 'maintenance_cost' ? 'topVehiclesMaintenanceCostChart' :
+                              'topVehiclesMaintenanceEventsChart';
+                $('#' + chartId).html('<div class="text-center text-danger p-4">Failed to load vehicles data</div>');
+            }
+        });
+    }
+
+    function renderTopVehiclesChart(vehicleData, metric) {
+        const chartId = metric === 'total_cost' ? 'topVehiclesTotalCostChart' :
+                      metric === 'fuel_cost' ? 'topVehiclesFuelCostChart' :
+                      metric === 'maintenance_cost' ? 'topVehiclesMaintenanceCostChart' :
+                      'topVehiclesMaintenanceEventsChart';
+        
+        const chartDom = document.getElementById(chartId);
+        if (!chartDom) return;
+        
+        const myChart = echarts.init(chartDom);
+        
+        const vehicles = vehicleData.map(d => d.reg_no);
+        const costs = metric === 'maintenance_events' ? 
+                      vehicleData.map(d => parseInt(d.maintenance_events || 0)) :
+                      vehicleData.map(d => parseFloat(d[metric] || 0));
+        
+        const option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                },
+                formatter: function(params) {
+                    const data = params[0];
+                    const value = metric === 'maintenance_events' ? data.value : accounting.formatMoney(data.value, 'ZMW ');
+                    return data.name + '<br/>' + (metric.replace('_', ' ').charAt(0).toUpperCase() + metric.replace('_', ' ').slice(1)) + ': ' + value;
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value'
+            },
+            yAxis: {
+                type: 'category',
+                data: vehicles
+            },
+            series: [
+                {
+                    name: metric.replace('_', ' ').charAt(0).toUpperCase() + metric.replace('_', ' ').slice(1),
+                    type: 'bar',
+                    data: costs,
+                    itemStyle: { color: '#5470c6' }
+                }
+            ]
+        };
+        
+        myChart.setOption(option);
+    }
+
+    function updateTopVehiclesList(vehicleData, metric) {
+        const listId = metric === 'total_cost' ? 'topVehiclesTotalCostList' :
+                      metric === 'fuel_cost' ? 'topVehiclesFuelCostList' :
+                      metric === 'maintenance_cost' ? 'topVehiclesMaintenanceCostList' :
+                      'topVehiclesMaintenanceEventsList';
+        
+        const listElement = document.getElementById(listId);
+        if (!listElement) return;
+        
+        let listHtml = '';
+        vehicleData.forEach((vehicle, index) => {
+            const value = metric === 'maintenance_events' ? 
+                        vehicle.maintenance_events || 0 :
+                        accounting.formatMoney(vehicle[metric] || 0, 'ZMW ');
+            const vehicleInfo = `${vehicle.brand_name || 'N/A'} ${vehicle.model_name || 'N/A'}`;
+            
+            listHtml += `
+                <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${vehicle.reg_no}</h6>
+                        <small>#${index + 1}</small>
+                    </div>
+                    <p class="mb-1">${vehicleInfo}</p>
+                    <small class="text-muted">${value}</small>
+                </div>
+            `;
+        });
+        
+        listElement.innerHTML = listHtml;
+    }
+
+    function loadCostByOrgUnit() {
+        $.ajax({
+            url: '/vehicle-management/analytics/cost-distribution',
+            method: 'GET',
+            data: { days: 30 },
+            success: function(response) {
+                if (response.success && response.data) {
+                    renderCostByOrgUnitChart(response.data);
+                    updateCostByOrgUnitList(response.data);
+                }
+            },
+            error: function() {
+                console.error('Failed to load cost by org unit');
+            }
+        });
+    }
+
+    function renderCostByOrgUnitChart(orgData) {
+        const chartDom = document.getElementById('costByOrgUnitChart');
+        const myChart = echarts.init(chartDom);
+        
+        const orgUnits = orgData.map(d => d.org_unit || 'Unknown');
+        const totalCosts = orgData.map(d => parseFloat(d.total_cost || 0));
+        
+        const option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                },
+                formatter: function(params) {
+                    const data = params[0];
+                    return data.name + '<br/>Total Cost: ' + accounting.formatMoney(data.value, 'ZMW ');
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value'
+            },
+            yAxis: {
+                type: 'category',
+                data: orgUnits
+            },
+            series: [
+                {
+                    name: 'Total Cost',
+                    type: 'bar',
+                    data: totalCosts,
+                    itemStyle: { color: '#91cc75' }
+                }
+            ]
+        };
+        
+        myChart.setOption(option);
+    }
+
+    function updateCostByOrgUnitList(orgData) {
+        const listElement = document.getElementById('costByOrgUnitList');
+        let listHtml = '';
+        
+        orgData.forEach((org, index) => {
+            listHtml += `
+                <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${org.org_unit || 'Unknown'}</h6>
+                        <small>#${index + 1}</small>
+                    </div>
+                    <small class="text-muted">
+                        Fuel: ${accounting.formatMoney(org.fuel_cost || 0, 'ZMW ')} | 
+                        Maintenance: ${accounting.formatMoney(org.maintenance_cost || 0, 'ZMW ')}
+                    </small>
+                    <div class="mt-1">
+                        <strong>Total: ${accounting.formatMoney(org.total_cost || 0, 'ZMW ')}</strong>
+                    </div>
+                </div>
+            `;
+        });
+        
+        listElement.innerHTML = listHtml;
+    }
+
+    function loadFleetExceptions() {
+        $.ajax({
+            url: '/vehicle-management/analytics/exceptions',
+            method: 'GET',
+            data: { days: 30 },
+            success: function(response) {
+                if (response.success && response.data) {
+                    updateFleetExceptions(response.data);
+                }
+            },
+            error: function() {
+                console.error('Failed to load fleet exceptions');
+            }
+        });
+    }
+
+    function updateFleetExceptions(exceptionData) {
+        // Update no maintenance alerts
+        const noMaintenanceElement = document.getElementById('noMaintenanceAlerts');
+        let noMaintenanceHtml = '';
+        
+        if (exceptionData.no_maintenance && exceptionData.no_maintenance.length > 0) {
+            exceptionData.no_maintenance.forEach(vehicle => {
+                noMaintenanceHtml += `
+                    <div class="alert alert-warning alert-sm">
+                        <strong>${vehicle.REGISTRATION_NUMBER}</strong> - ${vehicle.brand_name || 'N/A'} ${vehicle.model_name || 'N/A'}
+                        <br><small class="text-muted">No maintenance in last 6 months</small>
+                    </div>
+                `;
+            });
+        } else {
+            noMaintenanceHtml = '<div class="text-center text-muted">No vehicles requiring maintenance attention</div>';
+        }
+        
+        noMaintenanceElement.innerHTML = noMaintenanceHtml;
+        
+        // Update high maintenance alerts
+        const highMaintenanceElement = document.getElementById('highMaintenanceAlerts');
+        let highMaintenanceHtml = '';
+        
+        if (exceptionData.high_maintenance && exceptionData.high_maintenance.length > 0) {
+            exceptionData.high_maintenance.forEach(vehicle => {
+                highMaintenanceHtml += `
+                    <div class="alert alert-danger alert-sm">
+                        <strong>${vehicle.reg_no}</strong> - ${vehicle.brand_name || 'N/A'} ${vehicle.model_name || 'N/A'}
+                        <br><small class="text-muted">
+                            Cost: ${accounting.formatMoney(vehicle.maintenance_cost || 0, 'ZMW ')} | 
+                            Events: ${vehicle.maintenance_events || 0}
+                        </small>
+                    </div>
+                `;
+            });
+        } else {
+            highMaintenanceHtml = '<div class="text-center text-muted">No vehicles with unusually high maintenance costs</div>';
+        }
+        
+        highMaintenanceElement.innerHTML = highMaintenanceHtml;
+    }
+
+    function loadVehicleDetailsTable() {
+        // This would load unified monthly summary data for the detailed table
+        // Implementation depends on the specific requirements for the table data
+        const tableBody = document.getElementById('vehicleDetailsBody');
+        tableBody.innerHTML = '<tr><td colspan="10" class="text-center text-muted">Detailed vehicle data will be loaded here</td></tr>';
+    }
+
+    function setupDashboardEventListeners() {
+        // Tab change listeners
+        $('#topVehiclesTabs a').on('shown.bs.tab', function (e) {
+            const target = $(e.target).attr('href').replace('#', '');
+            const metric = target === 'total-cost' ? 'total_cost' :
+                          target === 'fuel-cost' ? 'fuel_cost' :
+                          target === 'maintenance-cost' ? 'maintenance_cost' :
+                          'maintenance_events';
+            loadTopVehiclesByMetric(metric);
+        });
+        
+        // Filter listeners
+        $('#dashboardPeriodFilter, #dashboardMetricFilter, #dashboardSearchFilter').on('change', function() {
+            loadVehicleDetailsTable();
+        });
+    }
+
+    function exportDashboardData() {
+        // Export functionality for dashboard data
+        toastr.info('Export functionality will be implemented');
+    }
+
+    function refreshDashboardData() {
+        loadExecutiveDashboard();
+        toastr.success('Dashboard data refreshed');
+    }
+
+    function showConnectionError(message) {
+        // Update all dashboard elements with error state
+        $('#activeVehiclesCount').text('Error');
+        $('#totalFuelCost').text('Error');
+        $('#totalMaintenanceCost').text('Error');
+        $('#avgCostPerVehicle').text('Error');
+        $('#totalOperatingCost').text('Error');
+        $('#highestCostVehicle').text('Error');
+        $('#highestCostAmount').text('Error');
+        $('#maintenanceEvents').text('Error');
+        $('#fuelEvents').text('Error');
+        
+        // Show error message in charts
+        $('#monthlyTrendsChart').html('<div class="text-center text-danger p-4">Connection Error: ' + message + '</div>');
+        $('#costDistributionChart').html('<div class="text-center text-danger p-4">Connection Error: ' + message + '</div>');
+        $('#topVehiclesTotalCostChart').html('<div class="text-center text-danger p-4">Connection Error: ' + message + '</div>');
+        $('#costByOrgUnitChart').html('<div class="text-center text-danger p-4">Connection Error: ' + message + '</div>');
+        
+        // Show error in alerts
+        $('#noMaintenanceAlerts').html('<div class="text-center text-danger">Connection Error: ' + message + '</div>');
+        $('#highMaintenanceAlerts').html('<div class="text-center text-danger">Connection Error: ' + message + '</div>');
+        
+        // Show toast notification
+        if (typeof toastr !== 'undefined') {
+            toastr.error('Connection Error: ' + message, 'Dashboard Error');
+        } else {
+            console.error('Connection Error:', message);
+        }
+    }
+
+    function testConnection() {
+        // Test basic connectivity
+        $.ajax({
+            url: '/vehicle-management/analytics/kpi',
+            method: 'GET',
+            data: { days: 30 },
+            timeout: 5000,
+            success: function(response) {
+                console.log('Connection test successful:', response);
+                if (response.success) {
+                    toastr.success('Dashboard connection restored');
+                    loadExecutiveDashboard();
+                } else {
+                    showConnectionError('API returned error: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Connection test failed:', {status, error, xhr});
+                showConnectionError('Cannot connect to dashboard API');
+            }
+        });
+    }
+
+    // Comprehensive Maintenance Tracking Functions
+    function loadMaintenanceDetails() {
+        // Try multiple sources for registration number
+        let registrationNumber = window.vehicle?.registration_number || 
+                               window.vehicleHeader?.registration_number ||
+                               $('#registrationNumber').text() ||
+                               $('[data-name="registrationNumber"]').text();
+        
+        // Clean up the registration number
+        registrationNumber = registrationNumber?.toString().trim();
+        
+        const period = $('#maintenancePeriod').val();
+        
+        if (!registrationNumber || registrationNumber === '' || registrationNumber === 'N/A') {
+            console.warn('Vehicle registration number not available for maintenance details');
+            // Don't show error to user, just log it and continue
+            return;
+        }
+
+        $.ajax({
+            url: '/vehicle-management/maintenance-details',
+            method: 'GET',
+            data: {
+                registration_number: registrationNumber,
+                months: period
+            },
+            beforeSend: function() {
+                $('#maintenanceDetailsBody').html(`
+                    <tr>
+                        <td colspan="10" class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="mt-2">Loading maintenance details...</div>
+                        </td>
+                    </tr>
+                `);
+            },
+            success: function(response) {
+                if (response.success && response.data) {
+                    displayMaintenanceDetails(response.data);
+                    updateMaintenanceStatistics(response.data);
+                    toastr.success('Maintenance details loaded successfully');
+                } else {
+                    $('#maintenanceDetailsBody').html(`
+                        <tr>
+                            <td colspan="10" class="text-center text-danger">
+                                No maintenance data found for the selected period
+                            </td>
+                        </tr>
+                    `);
+                    toastr.warning('No maintenance data found');
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle authentication redirects gracefully
+                if (xhr.status === 302 || xhr.status === 401) {
+                    console.warn('Maintenance details requires authentication - skipping load');
+                    $('#maintenanceDetailsBody').html(`
+                        <tr>
+                            <td colspan="10" class="text-center text-warning">
+                                <i class="fas fa-lock me-2"></i>
+                                Please login to view maintenance details
+                            </td>
+                        </tr>
+                    `);
+                    return;
+                }
+                
+                // Handle 500 errors that might be authentication issues
+                if (xhr.status === 500) {
+                    const responseText = xhr.responseText || '';
+                    if (responseText.includes('login') || responseText.includes('redirect')) {
+                        console.warn('Maintenance details requires authentication - skipping load');
+                        $('#maintenanceDetailsBody').html(`
+                            <tr>
+                                <td colspan="10" class="text-center text-warning">
+                                    <i class="fas fa-lock me-2"></i>
+                                    Please login to view maintenance details
+                                </td>
+                            </tr>
+                        `);
+                        return;
+                    }
+                }
+                
+                $('#maintenanceDetailsBody').html(`
+                    <tr>
+                        <td colspan="10" class="text-center text-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Error loading maintenance details: ${error}
+                        </td>
+                    </tr>
+                `);
+                console.error('Failed to load maintenance details:', {xhr, status, error});
+            }
+        });
+    }
+
+    function displayMaintenanceDetails(maintenanceData) {
+        let tableHtml = '';
+        
+        if (maintenanceData.length === 0) {
+            tableHtml = `
+                <tr>
+                    <td colspan="10" class="text-center text-muted">
+                        No maintenance records found for the selected period
+                    </td>
+                </tr>
+            `;
+        } else {
+            maintenanceData.forEach(function(record) {
+                const formattedDate = record.document_date ? new Date(record.document_date).toLocaleDateString() : 'N/A';
+                const formattedCost = record.value_amount ? accounting.formatMoney(record.value_amount, 'ZMW ') : 'ZMW 0.00';
+                
+                tableHtml += `
+                    <tr>
+                        <td>${formattedDate}</td>
+                        <td>${record.job_card_no || 'N/A'}</td>
+                        <td>${record.requi_number || 'N/A'}</td>
+                        <td>${record.issue_no || 'N/A'}</td>
+                        <td>${record.article_code || 'N/A'}</td>
+                        <td>${record.article_description || 'N/A'}</td>
+                        <td>${record.vehicle_assignment || 'N/A'}</td>
+                        <td>${record.ORGANIZATIONALUNIT || 'N/A'}</td>
+                        <td class="text-right font-weight-bold">${formattedCost}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info" onclick="viewMaintenanceDetail('${record.job_card_no}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        
+        $('#maintenanceDetailsBody').html(tableHtml);
+    }
+
+    function updateMaintenanceStatistics(maintenanceData) {
+        if (maintenanceData.length === 0) {
+            $('#totalMaintenanceCostDetail').text('ZMW 0.00');
+            $('#maintenanceEventCount').text('0');
+            $('#avgMaintenanceCost').text('ZMW 0.00');
+            $('#lastMaintenanceDate').text('N/A');
+            return;
+        }
+
+        // Calculate statistics
+        const totalCost = maintenanceData.reduce((sum, record) => sum + parseFloat(record.value_amount || 0), 0);
+        const eventCount = maintenanceData.length;
+        const avgCost = eventCount > 0 ? totalCost / eventCount : 0;
+        
+        // Find the most recent maintenance date
+        const sortedByDate = maintenanceData.sort((a, b) => new Date(b.document_date) - new Date(a.document_date));
+        const lastMaintenance = sortedByDate[0]?.document_date;
+        const formattedLastDate = lastMaintenance ? new Date(lastMaintenance).toLocaleDateString() : 'N/A';
+
+        // Update the statistics cards
+        $('#totalMaintenanceCostDetail').text(accounting.formatMoney(totalCost, 'ZMW '));
+        $('#maintenanceEventCount').text(eventCount);
+        $('#avgMaintenanceCost').text(accounting.formatMoney(avgCost, 'ZMW '));
+        $('#lastMaintenanceDate').text(formattedLastDate);
+    }
+
+    function viewMaintenanceDetail(jobCardNo) {
+        // Placeholder function for viewing detailed maintenance information
+        toastr.info(`Viewing details for Job Card: ${jobCardNo}`);
+        // You can implement a modal or redirect to a detailed view here
+    }
+
+    function exportMaintenanceData() {
+        // Try multiple sources for registration number
+        let registrationNumber = window.vehicle?.registration_number || 
+                               window.vehicleHeader?.registration_number ||
+                               $('#registrationNumber').text() ||
+                               $('[data-name="registrationNumber"]').text();
+        
+        // Clean up the registration number
+        registrationNumber = registrationNumber?.toString().trim();
+        
+        const period = $('#maintenancePeriod').val();
+        
+        if (!registrationNumber || registrationNumber === '' || registrationNumber === 'N/A') {
+            console.warn('Vehicle registration number not available for maintenance export');
+            // Don't show error to user, just log it and continue
+            return;
+        }
+
+        // Create a CSV export of the maintenance data
+        $.ajax({
+            url: '/vehicle-management/maintenance-details',
+            method: 'GET',
+            data: {
+                registration_number: registrationNumber,
+                months: period
+            },
+            success: function(response) {
+                if (response.success && response.data) {
+                    exportToCSV(response.data, `maintenance_${registrationNumber}_${period}months.csv`);
+                    toastr.success('Maintenance data exported successfully');
+                } else {
+                    toastr.warning('No data to export');
+                }
+            },
+            error: function() {
+                toastr.error('Failed to export maintenance data');
+            }
+        });
+    }
+
+    function exportToCSV(data, filename) {
+        if (data.length === 0) return;
+
+        // Define CSV headers
+        const headers = [
+            'Document Date', 'Job Card No', 'Requisition No', 'Issue No',
+            'Article Code', 'Description', 'Vehicle Assignment', 'Org Unit', 'Cost (ZMW)'
+        ];
+
+        // Convert data to CSV format
+        const csvContent = [
+            headers.join(','),
+            ...data.map(record => [
+                record.document_date || '',
+                record.job_card_no || '',
+                record.requi_number || '',
+                record.issue_no || '',
+                record.article_code || '',
+                record.article_description || '',
+                record.vehicle_assignment || '',
+                record.ORGANIZATIONALUNIT || '',
+                record.value_amount || 0
+            ].join(','))
+        ].join('\n');
+
+        // Create and download the CSV file
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function loadFleetSummary() {
+        $.ajax({
+            url: '/vehicle-management/analytics/fleet-summary',
+            method: 'GET',
+            success: function(response) {
+                if (response.success && response.data) {
+                    updateFleetSummaryCards(response.data);
+                }
+            },
+            error: function(xhr) {
+                console.error('Error loading fleet summary:', xhr);
+            }
+        });
+    }
+
+    function updateFleetSummaryCards(data) {
+        const fuelSummary = data.fuel_summary || {};
+        const maintenanceSummary = data.maintenance_summary || {};
+
+        $('#activeVehiclesCount').text(fuelSummary.active_vehicles || '0');
+        $('#totalFuelCost').text(accounting.formatMoney(fuelSummary.total_fuel_cost || 0, 'ZMW '));
+        $('#totalMaintenanceCost').text(accounting.formatMoney(maintenanceSummary.total_maintenance_cost || 0, 'ZMW '));
+        
+        const totalCost = (parseFloat(fuelSummary.total_fuel_cost || 0) + parseFloat(maintenanceSummary.total_maintenance_cost || 0));
+        const avgCost = fuelSummary.active_vehicles > 0 ? totalCost / fuelSummary.active_vehicles : 0;
+        $('#avgCostPerVehicle').text(accounting.formatMoney(avgCost, 'ZMW '));
+    }
+
+    function loadTopVehiclesAnalytics() {
+        const metric = $('#topVehiclesMetric').val();
+        
+        $.ajax({
+            url: '/vehicle-management/analytics/top-vehicles',
+            method: 'GET',
+            data: {
+                metric: metric,
+                limit: 10
+            },
+            success: function(response) {
+                if (response.success && response.data) {
+                    displayTopVehiclesChart(response.data, response.metric);
+                }
+            },
+            error: function(xhr) {
+                console.error('Error loading top vehicles analytics:', xhr);
+            }
+        });
+    }
+
+    function displayTopVehiclesChart(data, metric) {
+        const chart = echarts.init(document.getElementById('topVehiclesChart'));
+        
+        const vehicles = data.map(item => item.reg_no);
+        const costs = data.map(item => parseFloat(item.total_cost || item.total_fuel_cost || item.total_maintenance_cost || 0));
+        
+        const option = {
+            title: {
+                text: `Top 10 Vehicles by ${metric.replace('_', ' ').toUpperCase()}`,
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                },
+                formatter: function(params) {
+                    const data = params[0];
+                    return `Vehicle: ${data.name}<br/>Cost: ${accounting.formatMoney(data.value, 'ZMW ')}`;
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: vehicles,
+                axisLabel: {
+                    rotate: 45,
+                    fontSize: 10
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: 'Cost (ZMW)',
+                axisLabel: {
+                    formatter: function(value) {
+                        return accounting.formatMoney(value, 'ZMW ');
+                    }
+                }
+            },
+            series: [{
+                name: 'Cost',
+                type: 'bar',
+                data: costs,
+                itemStyle: {
+                    color: function(params) {
+                        const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'];
+                        return colors[params.dataIndex % colors.length];
+                    }
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: function(params) {
+                        return accounting.formatMoney(params.value, 'ZMW ');
+                    }
+                }
+            }]
+        };
+
+        chart.setOption(option);
+    }
+
+    // Handle metric change for top vehicles
+    $(document).on('change', '#topVehiclesMetric', function() {
+        loadTopVehiclesAnalytics();
+    });
 
 function formatBookValueAsMoney(el) {
     setTimeout(function () {
@@ -486,7 +1802,8 @@ window.getRegistrationDetails = function (requestReference) {
         //console.log('Returning')
         return;
     }
-    console.log(document.querySelector('[name="vehicle_details"]').value);
+    const vehicleDetailsElement = document.querySelector('[name="vehicle_details"]');
+    console.log(vehicleDetailsElement ? vehicleDetailsElement.value : 'Vehicle details element not found');
     $.ajax({
         type: "GET",
         url: document.querySelector('[name="vehicle_details"]').value,
@@ -497,7 +1814,7 @@ window.getRegistrationDetails = function (requestReference) {
             displayVehicleDetails(asyncResponse, requestReference);
         },
         error: function (xhr, settings, errorThrown) {
-            console.log(errorThrown);
+            console.log(errorThrown || 'Unknown error occurred');
             toastr.error('Vehicle details could not be retrieved due to connection error', 'Vehicle Details')
         }
     })
@@ -1173,7 +2490,7 @@ let app = new Vue({
         },
 
         registrationTypeChanged(selectedType) {
-            console.log(selectedType)
+            console.log(selectedType || 'No type selected')
         },
 
         switchTabs() {
@@ -1218,7 +2535,7 @@ function userUnitChanged() {
     setTimeout(function () {
         const user_unit = $('#user_unit').val();
 
-        let user_units = window.organizationUnits.filter(function (userUnit) {
+        let user_units = (window.organizationUnits || []).filter(function (userUnit) {
             return userUnit['code_unit'].trim() === user_unit.trim();
         });
 
@@ -1226,8 +2543,8 @@ function userUnitChanged() {
         let business_unit_code = user_units[0]?.bu_code;
 
 
-        let filteredCostCenters = window.costCenters.filter(function (cost_center) {
-            return cost_center['code_cost_center'].trim() === cost_center_code?.trim();
+        let filteredCostCenters = (window.costCenters || []).filter(function (cost_center) {
+            return cost_center['code_cost_center']?.trim() === cost_center_code?.trim();
         });
 
 
@@ -1237,7 +2554,7 @@ function userUnitChanged() {
             $('[name="costCenter"]').val(costCenterDescription);
         }
 
-        let filteredBusinessUnits = window.businessUnits.filter(function (bu) {
+        let filteredBusinessUnits = (window.businessUnits || []).filter(function (bu) {
             return bu?.code_bu?.trim() === business_unit_code?.trim();
         });
 
@@ -1278,7 +2595,7 @@ function checkOnboardingHeaderStatus() {
         //Vue.set(app['vehicleHeader'], 'user_unit_code', user_unit);
         document.querySelector('[name="user_unit"]').value = user_unit;
 
-        let filteredUserUnits = window.organizationUnits.filter(function (userUnit) {
+        let filteredUserUnits = (window.organizationUnits || []).filter(function (userUnit) {
             return userUnit['code_unit']?.trim() === user_unit?.trim();
         });
 
@@ -1294,7 +2611,7 @@ function checkOnboardingHeaderStatus() {
             return;
         }
 
-        let filteredCostCenters = window.costCenters.filter(function (cost_center) {
+        let filteredCostCenters = (window.costCenters || []).filter(function (cost_center) {
             return cost_center['code_cost_center']?.trim() === cost_center_code?.trim();
         });
 
@@ -1305,7 +2622,7 @@ function checkOnboardingHeaderStatus() {
             $('[name="costCenter"]').val(costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description']);
         }
 
-        let filteredBusinessUnits = window.businessUnits.filter(function (bu) {
+        let filteredBusinessUnits = (window.businessUnits || []).filter(function (bu) {
             return bu.code_bu?.trim() === business_unit_code?.trim();
         });
 
@@ -1371,7 +2688,7 @@ function checkOnboardingHeaderStatus() {
                 }, 500);
             }, 'success');
         }, function (xhr, settings, errorThrown) {
-            console.log(errorThrown)
+            console.log(errorThrown || 'Unknown error occurred')
             setTimeout(function () {
                 tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
             }, 300)
@@ -1442,7 +2759,7 @@ function checkOnboardingHeaderStatus() {
                 }, 500);
             }, 'success');
         }, function (xhr, settings, errorThrown) {
-            console.log(errorThrown)
+            console.log(errorThrown || 'Unknown error occurred')
             setTimeout(function () {
                 tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
             }, 300)
@@ -1486,7 +2803,7 @@ function checkOnboardingHeaderStatus() {
                 }, 500);
             }, 'success');
         }, function (xhr, settings, errorThrown) {
-            console.log(errorThrown)
+            console.log(errorThrown || 'Unknown error occurred')
             setTimeout(function () {
                 tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
             }, 300)
@@ -1529,7 +2846,7 @@ function checkOnboardingHeaderStatus() {
                 }, 500);
             }, 'success');
         }, function (xhr, settings, errorThrown) {
-            console.log(errorThrown)
+            console.log(errorThrown || 'Unknown error occurred')
             setTimeout(function () {
                 tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
             }, 300)
@@ -1569,7 +2886,7 @@ function checkOnboardingHeaderStatus() {
                     }, 500);
                 }, 'success');
             }, function (xhr, settings, errorThrown) {
-                console.log(errorThrown)
+                console.log(errorThrown || 'Unknown error occurred')
                 setTimeout(function () {
                     tmsApp.showErrorMessages(xhr, 'On-Boarding Completion');
                 }, 300)
@@ -1611,7 +2928,7 @@ function checkOnboardingHeaderStatus() {
                 }, 500);
             }, 'success');
         }, function (xhr, settings, errorThrown) {
-            console.log(errorThrown)
+            console.log(errorThrown || 'Unknown error occurred')
             setTimeout(function () {
                 tmsApp.showErrorMessages(xhr, 'On-Boarding Completion');
             }, 300)
@@ -1730,7 +3047,14 @@ function checkOnboardingHeaderStatus() {
     }
 
     function getVehicleBrands() {
-        fetch($('#brands-api').val())
+        const brandsApiUrl = $('#brands-api').val() || '/v1/en/vehicle/brands';
+        
+        if (!brandsApiUrl) {
+            console.warn('Brands API URL not found, skipping brands load');
+            return;
+        }
+        
+        fetch(brandsApiUrl)
             .then(response => response.json())
             .then(response => {
                 let selectElem = $('select[name="brand"]');
@@ -1747,8 +3071,8 @@ function checkOnboardingHeaderStatus() {
                 tmsApp.populateDropDownList(selectElem, vehicleBrands, "id", ["name"], "");
 
                 let brand_id = selectElem.attr('data-value');
-                console.log(brand_id);
                 if (brand_id) {
+                    console.log('Brand ID:', brand_id);
                     selectElem.val(brand_id);
                     selectElem.trigger('change');
                 }
@@ -1834,16 +3158,35 @@ function checkOnboardingHeaderStatus() {
         if (!url) return;
 
         fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                // Handle authentication redirects
+                if (response.status === 302 || response.status === 401) {
+                    console.warn('Cost centers requires authentication - skipping load');
+                    window.costCenters = [];
+                    return null;
+                }
+                
+                // Handle 500 errors that might be authentication issues
+                if (response.status === 500) {
+                    console.warn('Cost centers endpoint error - skipping load');
+                    window.costCenters = [];
+                    return null;
+                }
+                
+                return response.json();
+            })
             .then(function (response) {
+                if (!response) return;
+                
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    console.warn('Cost centers connection error');
+                    window.costCenters = [];
                     return;
                 }
 
-                window.costCenters = response['payload'];
+                window.costCenters = response['payload'] || [];
                 //app.costCenters = response['payload'];
             })
             .catch(function (error) {

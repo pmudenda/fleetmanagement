@@ -28,6 +28,24 @@ class Dashboard extends Component
     #[Url] public string $search = '';
     #[Url] public int $perPage = 10;
 
+    // Fuel Management Filters
+    #[Url] public string $fuelSearch = '';
+    #[Url] public string $fuelRegNo = '';
+    #[Url] public string $fuelType = '';
+    #[Url] public string $fuelStatus = '';
+    #[Url] public string $fuelDateFrom = '';
+    #[Url] public string $fuelDateTo = '';
+    #[Url] public int $fuelPerPage = 10;
+
+    // Maintenance Filters
+    #[Url] public string $maintenanceSearch = '';
+    #[Url] public string $maintenanceRegNo = '';
+    #[Url] public string $maintenanceType = '';
+    #[Url] public string $maintenanceStatus = '';
+    #[Url] public string $maintenanceDateFrom = '';
+    #[Url] public string $maintenanceDateTo = '';
+    #[Url] public int $maintenancePerPage = 10;
+
     // Modal
     public bool $showSummaryModal = false;
 
@@ -37,7 +55,15 @@ class Dashboard extends Component
             $this->dateTo = now()->format('Y-m-d');
         }
         if ($this->dateFrom === '') {
-            $this->dateFrom = now()->subDays(14)->format('Y-m-d');
+            $this->dateFrom = now()->subDays(90)->format('Y-m-d'); // Extended to 90 days for better fuel data visibility
+        }
+        
+        // Initialize fuel date ranges with broader defaults
+        if ($this->fuelDateFrom === '') {
+            $this->fuelDateFrom = now()->subYear()->format('Y-m-d'); // Show last year of fuel data
+        }
+        if ($this->fuelDateTo === '') {
+            $this->fuelDateTo = now()->format('Y-m-d');
         }
     }
 
@@ -48,6 +74,22 @@ class Dashboard extends Component
     public function updatingFilterConnectivity(): void { $this->resetPage(); }
     public function updatingFilterStatus(): void { $this->resetPage(); }
     public function updatingFilterType(): void { $this->resetPage(); }
+
+    // Fuel filter updates
+    public function updatingFuelSearch(): void { $this->resetPage(); }
+    public function updatingFuelRegNo(): void { $this->resetPage(); }
+    public function updatingFuelType(): void { $this->resetPage(); }
+    public function updatingFuelStatus(): void { $this->resetPage(); }
+    public function updatingFuelDateFrom(): void { $this->resetPage(); }
+    public function updatingFuelDateTo(): void { $this->resetPage(); }
+
+    // Maintenance filter updates
+    public function updatingMaintenanceSearch(): void { $this->resetPage(); }
+    public function updatingMaintenanceRegNo(): void { $this->resetPage(); }
+    public function updatingMaintenanceType(): void { $this->resetPage(); }
+    public function updatingMaintenanceStatus(): void { $this->resetPage(); }
+    public function updatingMaintenanceDateFrom(): void { $this->resetPage(); }
+    public function updatingMaintenanceDateTo(): void { $this->resetPage(); }
     public function updatingDateFrom(): void { $this->resetPage(); }
     public function updatingDateTo(): void { $this->resetPage(); }
     public function updatingPerPage(): void { $this->resetPage(); }
@@ -57,6 +99,28 @@ class Dashboard extends Component
     public function refreshNow(): void
     {
         $this->dispatch('charts-refresh');
+    }
+
+    public function resetFuelFilters(): void
+    {
+        $this->fuelSearch = '';
+        $this->fuelRegNo = '';
+        $this->fuelType = '';
+        $this->fuelStatus = '';
+        $this->fuelDateFrom = '';
+        $this->fuelDateTo = '';
+        $this->resetPage();
+    }
+
+    public function resetMaintenanceFilters(): void
+    {
+        $this->maintenanceSearch = '';
+        $this->maintenanceRegNo = '';
+        $this->maintenanceType = '';
+        $this->maintenanceStatus = '';
+        $this->maintenanceDateFrom = '';
+        $this->maintenanceDateTo = '';
+        $this->resetPage();
     }
 
     public function openSummaryModal(): void
@@ -198,10 +262,80 @@ class Dashboard extends Component
         $series = [];
         for ($i = 0; $i <= $days; $i++) {
             $d = $from->copy()->addDays($i)->format('Y-m-d');
-            $series[] = ['day' => $d, 'count' => $map[$d] ?? 0];
+            $series[] = ['day' => $d, 'connections' => $map[$d] ?? 0];
+        }
+
+        // Add fuel and maintenance trends
+        $fuelTrend = $this->getFuelTrendData();
+        $maintenanceTrend = $this->getMaintenanceTrendData();
+
+        foreach ($series as &$day) {
+            $day['fuel_cost'] = $fuelTrend[$day['day']] ?? 0;
+            $day['maintenance_cost'] = $maintenanceTrend[$day['day']] ?? 0;
         }
 
         return $series;
+    }
+
+    // -----------------------------
+    // Fuel Trend Data (per day)
+    // -----------------------------
+    private function getFuelTrendData(): array
+    {
+        $from = $this->rangeFrom();
+        $to = $this->rangeTo();
+
+        $fuelQuery = "
+            SELECT 
+                TRUNC(voucher_date) as day,
+                SUM(amount) as daily_cost
+            FROM fleetmaster.fuel_management
+            WHERE voucher_date BETWEEN ? AND ?
+            GROUP BY TRUNC(voucher_date)
+            ORDER BY TRUNC(voucher_date)
+        ";
+
+        $results = \DB::select($fuelQuery, [$from->format('Y-m-d'), $to->format('Y-m-d')]);
+        
+        $trend = [];
+        foreach ($results as $r) {
+            $key = Carbon::parse($r->day)->format('Y-m-d');
+            $trend[$key] = (float) $r->daily_cost;
+        }
+
+        return $trend;
+    }
+
+    // -----------------------------
+    // Maintenance Trend Data (per day)
+    // -----------------------------
+    private function getMaintenanceTrendData(): array
+    {
+        $from = $this->rangeFrom();
+        $to = $this->rangeTo();
+
+        $maintenanceQuery = "
+            SELECT 
+                TRUNC(h.DATE_CREATED) as day,
+                SUM(d.QUANTITY * d.PRICE) as daily_cost
+            FROM fleetmaster.gen_material_details d
+                INNER JOIN fleetmaster.gen_material_headers h ON h.REQ_NO = d.REQ_NO
+            WHERE h.status IN ('26', '32', '42', '46')
+                AND h.IS_FUEL = 'N'
+                AND h.DATE_CREATED BETWEEN ? AND ?
+            GROUP BY TRUNC(h.DATE_CREATED)
+            ORDER BY TRUNC(h.DATE_CREATED)
+        ";
+
+        $results = \DB::select($maintenanceQuery, [$from->format('Y-m-d'), $to->format('Y-m-d')]);
+        
+        $trend = [];
+        foreach ($results as $r) {
+            $key = Carbon::parse($r->day)->format('Y-m-d');
+            $trend[$key] = (float) $r->daily_cost;
+        }
+
+        return $trend;
     }
 
     public function getPieProperty(): array
@@ -334,6 +468,48 @@ class Dashboard extends Component
             'tagBg' => 'dark',
             'actionFilter' => ['filterStatus' => 'active'],
         ];
+
+        // Add fuel and maintenance insights
+        $fk = $this->fuelKpis;
+        $mk = $this->maintenanceKpis;
+        $problemVehicles = $this->topProblemVehicles;
+
+        // Fuel management insights
+        if (($fk['overIssuedRate'] ?? 0) > 10) {
+            $bullets[] = [
+                'title' => "Fuel over-issuing: {$fk['overIssuedRate']}%",
+                'text'  => 'High over-issuing indicates potential fuel theft or tank capacity issues. Review authorization processes.',
+                'tag'   => 'ALERT',
+                'tagBg' => 'warning',
+                'actionFilter' => [],
+            ];
+        }
+
+        // Maintenance insights
+        if (($mk['maintenanceFrequency'] ?? 0) > 2) {
+            $bullets[] = [
+                'title' => "High maintenance frequency: {$mk['maintenanceFrequency']} jobs/vehicle",
+                'text'  => 'Vehicles requiring frequent maintenance may need replacement or preventive maintenance schedules.',
+                'tag'   => 'REVIEW',
+                'tagBg' => 'warning',
+                'actionFilter' => [],
+            ];
+        }
+
+        // Most expensive vehicle insight
+        if (!empty($problemVehicles['most_expensive'])) {
+            $mostExpensive = $problemVehicles['most_expensive'][0] ?? null;
+            if ($mostExpensive) {
+                $totalCost = ($mostExpensive['fuel_cost'] ?? 0) + ($mostExpensive['maintenance_cost'] ?? 0);
+                $bullets[] = [
+                    'title' => "Most expensive: {$mostExpensive['reg_no']} (" . number_format($totalCost, 2) . ")",
+                    'text'  => 'This vehicle has the highest combined fuel and maintenance costs. Consider cost-benefit analysis.',
+                    'tag'   => 'COST',
+                    'tagBg' => 'danger',
+                    'actionFilter' => [],
+                ];
+            }
+        }
 
         return compact('onlineRate','offlineRate','neverRate','activeRate','health','bullets');
     }
@@ -500,11 +676,15 @@ class Dashboard extends Component
         $total = max(1, (int)($k['total'] ?? 1));
         $perf = (int) round(((int)$k['online'] / $total) * 100);
 
+        $trendData = $this->trend;
+
         return [
             'pie' => $this->pie,
             'trend' => [
-                'labels' => array_map(fn($x) => $x['day'], $this->trend),
-                'values' => array_map(fn($x) => $x['count'], $this->trend),
+                'labels' => array_map(fn($x) => $x['day'], $trendData),
+                'connections' => array_map(fn($x) => $x['connections'], $trendData),
+                'fuel_costs' => array_map(fn($x) => $x['fuel_cost'], $trendData),
+                'maintenance_costs' => array_map(fn($x) => $x['maintenance_cost'], $trendData),
             ],
             'performance' => [
                 'online' => (int)$k['online'],
@@ -514,6 +694,513 @@ class Dashboard extends Component
                 'inactive' => (int)$k['inactive'],
                 'perf' => $perf,
             ],
+        ];
+    }
+
+    // -----------------------------
+    // Fuel Management Data (Oracle safe)
+    // -----------------------------
+    public function getFuelDataProperty(): array
+    {
+        // Use custom date range if set, otherwise use main dashboard range
+        $fuelDateFrom = $this->fuelDateFrom ?: $this->rangeFrom()->format('Y-m-d');
+        $fuelDateTo = $this->fuelDateTo ?: $this->rangeTo()->format('Y-m-d');
+
+        // Use the improved LEFT JOIN approach starting from GPS table
+        // This query returns ALL vehicles with their LATEST fuel transaction
+        $fuelQuery = "
+            SELECT
+                gps.reg_number AS reg_no,
+                TRIM(NVL(vd.engine_brand, '') || ' ' || NVL(vh.model_name, '')) AS Type_Brand,
+                NVL(vd.engine_capacity, 0) AS ENGINE_CAPACITY,
+                NVL(vd.fuel_consumption, 0) AS KILOMETER_CONSUMPTION_PER_LITER,
+                NVL(vd.tank_capacity, 0) AS main_tank,
+                NVL(vd.sub_tank_capacity, 0) AS sub_tank,
+                (NVL(vd.tank_capacity, 0) + NVL(vd.sub_tank_capacity, 0)) AS total_tank_capacity,
+                NVL(a.description, 'Unknown') AS FUEL_TYPE,
+                f.document_no AS issue_document,
+                f.voucher_date AS issue_date,
+                NVL(f.qty, 0) AS qty_issued,
+                NVL(f.price, 0) AS price_per_litre,
+                NVL(f.ttl, 0) AS qty_issued_value,
+                CASE
+                    WHEN f.fueling_type = 10 THEN 'Normal'
+                    WHEN f.fueling_type = 20 THEN 'Out-of-Town'
+                    WHEN f.fueling_type = 30 THEN 'Override'
+                    WHEN f.fueling_type IS NULL THEN '--'
+                    ELSE 'Unknown'
+                END AS FUELING_TYPE_NAME,
+                CASE
+                    WHEN NVL(f.qty, 0) > (NVL(vd.tank_capacity, 0) + NVL(vd.sub_tank_capacity, 0))
+                        THEN 'Y'
+                    ELSE 'N'
+                END AS Over_Issued,
+                NVL(ou.description, '--') AS fuel_req_unit,
+                gps.status AS vehicle_status,
+                gps.mobile_number
+            FROM fleetmaster.gps gps
+            LEFT JOIN fleetmaster.vm_vehicle_header vh
+                ON vh.registration_number = gps.reg_number
+            LEFT JOIN fleetmaster.vm_engine_details vd
+                ON vd.reg_no = gps.reg_number
+            LEFT JOIN ZFM_ARTICLES_VIEW a
+                ON vd.fuel_types = a.code_article
+            LEFT JOIN (
+                SELECT 
+                    fm.reg_no,
+                    fm.document_no,
+                    fm.voucher_date,
+                    fm.quantity AS qty,
+                    fm.price,
+                    fm.amount AS ttl,
+                    fm.fueling_type,
+                    fm.user_unit,
+                    ROW_NUMBER() OVER (PARTITION BY fm.reg_no ORDER BY fm.voucher_date DESC) as rn
+                FROM fleetmaster.fuel_management fm
+                WHERE fm.voucher_date BETWEEN TO_DATE(?, 'YYYY-MM-DD') AND TO_DATE(?, 'YYYY-MM-DD')
+            ) f
+                ON f.reg_no = gps.reg_number AND f.rn = 1
+            LEFT JOIN zfm_organizational_units_view ou
+                ON f.user_unit = ou.code_unit
+            WHERE gps.reg_number IS NOT NULL
+        ";
+
+        // Add dynamic filters with proper date filtering
+        $bindings = [$fuelDateFrom, $fuelDateTo];
+        
+        if (!empty($this->fuelRegNo)) {
+            $fuelQuery .= " AND UPPER(gps.reg_number) LIKE UPPER(?)";
+            $bindings[] = '%' . $this->fuelRegNo . '%';
+        }
+        
+        if (!empty($this->fuelType)) {
+            $fuelQuery .= " AND UPPER(a.description) LIKE UPPER(?)";
+            $bindings[] = '%' . $this->fuelType . '%';
+        }
+        
+        if (!empty($this->fuelStatus)) {
+            if ($this->fuelStatus === 'over_issued') {
+                $fuelQuery .= " AND NVL(f.qty, 0) > (NVL(vd.tank_capacity, 0) + NVL(vd.sub_tank_capacity, 0))";
+            } elseif ($this->fuelStatus === 'normal') {
+                $fuelQuery .= " AND NVL(f.qty, 0) <= (NVL(vd.tank_capacity, 0) + NVL(vd.sub_tank_capacity, 0))";
+            }
+        }
+        
+        if (!empty($this->fuelSearch)) {
+            $fuelQuery .= " AND (UPPER(gps.reg_number) LIKE UPPER(?) OR UPPER(vd.engine_brand) LIKE UPPER(?) OR UPPER(vh.model_name) LIKE UPPER(?) OR UPPER(f.document_no) LIKE UPPER(?))";
+            $bindings[] = '%' . $this->fuelSearch . '%';
+            $bindings[] = '%' . $this->fuelSearch . '%';
+            $bindings[] = '%' . $this->fuelSearch . '%';
+            $bindings[] = '%' . $this->fuelSearch . '%';
+        }
+
+        $fuelQuery .= " ORDER BY gps.reg_number";
+
+        $fuelData = \DB::select($fuelQuery, $bindings);
+
+        // Add row numbers for display
+        $result = [];
+        $rowNumber = 1;
+        foreach ($fuelData as $row) {
+            $row->rn = $rowNumber++;
+            $row->month = $row->issue_date ? date('Ym', strtotime($row->issue_date)) : date('Ym');
+            $result[] = $row;
+        }
+
+        return $result;
+    }
+
+    // -----------------------------
+    // Comprehensive Fuel Usage Analysis (Oracle safe)
+    // -----------------------------
+    public function getFuelUsageAnalysisProperty(): array
+    {
+        // Use fuel date range for consistency with fuel data table
+        $from = $this->fuelDateFrom ? Carbon::parse($this->fuelDateFrom) : $this->rangeFrom();
+        $to = $this->fuelDateTo ? Carbon::parse($this->fuelDateTo) : $this->rangeTo();
+
+
+        $fuelUsageQuery = "
+            SELECT /*+ FIRST_ROWS(200) */
+                f.reg_no,
+                vd.engine_brand || ' ' || g.model_name AS type_brand,
+                vd.engine_capacity AS engine_capacity,
+                vd.fuel_consumption AS fuel_consumption,
+                vd.tank_capacity AS tank_capacity,
+                vd.sub_tank_capacity AS sub_tank_capacity,
+                (NVL(vd.tank_capacity, 0) + NVL(vd.sub_tank_capacity, 0)) AS total_tank_capacity,
+                a.description AS fuel_type,
+                COUNT(*) AS fueling_events,
+                SUM(f.quantity) AS total_fuel_consumed,
+                SUM(f.amount) AS total_fuel_cost,
+                AVG(f.price) AS avg_price_per_liter,
+                MIN(f.voucher_date) AS first_fueling_date,
+                MAX(f.voucher_date) AS last_fueling_date,
+                -- Consumption analysis
+                CASE 
+                    WHEN COUNT(*) > 1 THEN 
+                        ROUND(SUM(f.quantity) / COUNT(*), 2)
+                    ELSE 0 
+                END AS avg_fuel_per_transaction,
+                -- Cost efficiency
+                ROUND(SUM(f.amount) / NULLIF(SUM(f.quantity), 0), 2) AS effective_cost_per_liter,
+                -- Frequency analysis
+                ROUND((MAX(f.voucher_date) - MIN(f.voucher_date)) / NULLIF(COUNT(*) - 1, 0), 0) AS days_between_fueling,
+                -- Over-issuing analysis
+                SUM(CASE 
+                    WHEN f.quantity > (NVL(vd.tank_capacity, 0) + NVL(vd.sub_tank_capacity, 0)) 
+                    THEN 1 
+                    ELSE 0 
+                END) AS over_issued_count,
+                -- Fueling type distribution
+                SUM(CASE WHEN f.fueling_type = 10 THEN 1 ELSE 0 END) AS normal_fueling_count,
+                SUM(CASE WHEN f.fueling_type = 20 THEN 1 ELSE 0 END) AS out_of_town_count,
+                SUM(CASE WHEN f.fueling_type = 30 THEN 1 ELSE 0 END) AS override_count,
+                -- Unit assignment
+                ou.description AS assigned_unit,
+                -- Performance indicators
+                ROUND(
+                    CASE 
+                        WHEN vd.fuel_consumption > 0 AND SUM(f.quantity) > 0 THEN
+                            (SUM(f.quantity) * vd.fuel_consumption)
+                        ELSE 0 
+                    END, 2
+                ) AS estimated_distance_traveled,
+                -- Efficiency rating
+                CASE 
+                    WHEN vd.fuel_consumption > 0 THEN
+                        CASE 
+                            WHEN (SUM(f.quantity) / NULLIF(COUNT(*), 0)) <= (NVL(vd.tank_capacity, 0) + NVL(vd.sub_tank_capacity, 0)) * 0.8 THEN 'Excellent'
+                            WHEN (SUM(f.quantity) / NULLIF(COUNT(*), 0)) <= (NVL(vd.tank_capacity, 0) + NVL(vd.sub_tank_capacity, 0)) * 0.9 THEN 'Good'
+                            WHEN (SUM(f.quantity) / NULLIF(COUNT(*), 0)) <= (NVL(vd.tank_capacity, 0) + NVL(vd.sub_tank_capacity, 0)) THEN 'Fair'
+                            ELSE 'Poor'
+                        END
+                    ELSE 'Unknown'
+                END AS efficiency_rating
+            FROM fleetmaster.fuel_management f
+                INNER JOIN FLEETMASTER.vm_vehicle_header g ON f.reg_no = g.REGISTRATION_NUMBER
+                INNER JOIN FLEETMASTER.vm_engine_details vd ON g.REGISTRATION_NUMBER = vd.reg_no
+                INNER JOIN ZFM_ARTICLES_VIEW a ON vd.fuel_types = a.code_article
+                INNER JOIN zfm_organizational_units_view ou ON f.user_unit = ou.code_unit
+                INNER JOIN fleetmaster.gps gps ON g.REGISTRATION_NUMBER = gps.REG_NUMBER
+            WHERE f.voucher_date BETWEEN ? AND ?
+            GROUP BY 
+                f.reg_no,
+                vd.engine_brand,
+                g.model_name,
+                vd.engine_capacity,
+                vd.fuel_consumption,
+                vd.tank_capacity,
+                vd.sub_tank_capacity,
+                a.description,
+                ou.description
+            ORDER BY total_fuel_cost DESC
+        ";
+
+        $fuelUsageData = \DB::select($fuelUsageQuery, [$from->format('Y-m-d'), $to->format('Y-m-d')]);
+
+        return collect($fuelUsageData)->toArray();
+    }
+
+    // -----------------------------
+    // Maintenance Data (Improved LEFT JOIN)
+    // -----------------------------
+    public function getMaintenanceDataProperty(): array
+    {
+        // Use broader date range for maintenance data
+        $maintenanceDateFrom = $this->maintenanceDateFrom ?: now()->subYear()->format('Y-m-d');
+        $maintenanceDateTo = $this->maintenanceDateTo ?: now()->format('Y-m-d');
+
+        $maintenanceQuery = "
+            SELECT 
+                ROW_NUMBER() OVER (
+                    ORDER BY gps.reg_number, m.document_date DESC, m.issue_no
+                ) AS rn,
+                gps.reg_number AS reg_no,
+                TRIM(NVL(ed.engine_brand, '') || ' ' || NVL(vh.model_name, '')) AS type_brand,
+                NVL(m.job_card_no, '--') AS job_card_no,
+                NVL(m.issue_no, '--') AS issue_no,
+                NVL(m.requi_number, '--') AS requi_number,
+                m.document_date,
+                NVL(m.article_description, 'No maintenance records found') AS article_description,
+                NVL(m.vehicle_assignment, '--') AS vehicle_assignment,
+                NVL(m.organizationalunit, '--') AS organizationalunit,
+                NVL(m.value_amount, 0) AS value_amount,
+                CASE
+                    WHEN m.reg_no IS NULL THEN 'No Records'
+                    ELSE m.status
+                END AS maintenance_status,
+                gps.status AS vehicle_status,
+                gps.mobile_number
+            FROM fleetmaster.gps gps
+            LEFT JOIN fleetmaster.vm_vehicle_header vh
+                ON vh.registration_number = gps.reg_number
+            LEFT JOIN fleetmaster.vm_engine_details ed
+                ON ed.reg_no = vh.registration_number
+            LEFT JOIN (
+                SELECT
+                    d.reg_no,
+                    h.st_pur AS requi_number,
+                    mh.document_no AS issue_no,
+                    h.document_no AS job_card_no,
+                    h.date_created AS document_date,
+                    LISTAGG(a.description, ', ') WITHIN GROUP (ORDER BY a.description) AS article_description,
+                    TRIM(NVL(MAX(va.business_unit_name), '') || ' ' || NVL(MAX(va.cost_center_name), '')) AS vehicle_assignment,
+                    MAX(td.organizationalunit) AS organizationalunit,
+                    SUM(d.quantity * d.price) AS value_amount,
+                    CASE 
+                        WHEN h.status = '26' THEN 'Pending'
+                        WHEN h.status = '32' THEN 'Approved'
+                        WHEN h.status = '42' THEN 'In Progress'
+                        WHEN h.status = '46' THEN 'Completed'
+                        ELSE 'Unknown'
+                    END AS status
+                FROM fleetmaster.gen_material_details d
+                INNER JOIN fleetmaster.gen_material_headers h
+                    ON h.req_no = d.req_no
+                INNER JOIN fleetmaster.vm_vehicle_header g
+                    ON d.reg_no = g.registration_number
+                INNER JOIN ZFM_ARTICLES_VIEW a
+                    ON d.material_code = a.code_article
+                LEFT JOIN fleetmaster.vm_assignments va
+                    ON g.registration_number = va.reg_no
+                LEFT JOIN fleetmaster.tms_data_clean_up td
+                    ON g.registration_number = td.registrationnumber
+                LEFT JOIN store_movements_header mh
+                    ON h.st_pur = mh.stores_requisition_no
+                WHERE h.status IN ('26', '32', '42', '46')
+                  AND h.is_fuel = 'N'
+                  AND h.date_created BETWEEN TO_DATE(?, 'YYYY-MM-DD') AND TO_DATE(?, 'YYYY-MM-DD')
+                GROUP BY
+                    d.reg_no,
+                    h.st_pur,
+                    mh.document_no,
+                    h.document_no,
+                    h.date_created,
+                    h.status
+            ) m
+                ON m.reg_no = gps.reg_number
+        ";
+
+        // Add dynamic filters
+        $bindings = [$maintenanceDateFrom, $maintenanceDateTo];
+        
+        if (!empty($this->maintenanceRegNo)) {
+            $maintenanceQuery .= " WHERE UPPER(gps.reg_number) LIKE UPPER(?)";
+            $bindings[] = '%' . $this->maintenanceRegNo . '%';
+        }
+        
+        if (!empty($this->maintenanceStatus)) {
+            $statusMap = [
+                'pending' => '26',
+                'approved' => '32',
+                'in_progress' => '42',
+                'completed' => '46'
+            ];
+            if (isset($statusMap[$this->maintenanceStatus])) {
+                $maintenanceQuery .= (strpos($maintenanceQuery, 'WHERE') !== false ? ' AND' : ' WHERE') . " m.status = ?";
+                $bindings[] = $statusMap[$this->maintenanceStatus];
+            }
+        }
+        
+        if (!empty($this->maintenanceSearch)) {
+            $maintenanceQuery .= (strpos($maintenanceQuery, 'WHERE') !== false ? ' AND' : ' WHERE') . " (UPPER(gps.reg_number) LIKE UPPER(?) OR UPPER(ed.engine_brand) LIKE UPPER(?) OR UPPER(vh.model_name) LIKE UPPER(?) OR UPPER(m.article_description) LIKE UPPER(?) OR UPPER(m.job_card_no) LIKE UPPER(?))";
+            $bindings[] = '%' . $this->maintenanceSearch . '%';
+            $bindings[] = '%' . $this->maintenanceSearch . '%';
+            $bindings[] = '%' . $this->maintenanceSearch . '%';
+            $bindings[] = '%' . $this->maintenanceSearch . '%';
+            $bindings[] = '%' . $this->maintenanceSearch . '%';
+        }
+
+        $maintenanceQuery .= " ORDER BY gps.reg_number, m.document_date DESC";
+
+        $maintenanceData = \DB::select($maintenanceQuery, $bindings);
+
+        return collect($maintenanceData)->toArray();
+    }
+
+    // ... (rest of the code remains the same)
+    public function getFuelKpisProperty(): array
+    {
+        $fuelData = $this->fuelData;
+        
+        $totalFuelIssued = collect($fuelData)->sum('qty_issued');
+        $totalFuelValue = collect($fuelData)->sum('qty_issued_value');
+        $overIssuedCount = collect($fuelData)->where('over_issued', 'Y')->count();
+        $uniqueVehicles = collect($fuelData)->unique('reg_no')->count();
+        $avgPricePerLitre = $totalFuelIssued > 0 ? $totalFuelValue / $totalFuelIssued : 0;
+
+        // Calculate fuel efficiency score
+        $overIssuedRate = $uniqueVehicles > 0 ? ($overIssuedCount / $uniqueVehicles) * 100 : 0;
+        $fuelScore = 100 - $overIssuedRate; // Higher score is better
+        $fuelScore = max(0, min(100, $fuelScore)); // Clamp between 0-100
+
+        // Determine badge color
+        $fuelBadge = 'success';
+        if ($fuelScore < 80) $fuelBadge = 'warning';
+        if ($fuelScore < 60) $fuelBadge = 'danger';
+
+        return [
+            'totalIssued' => $totalFuelIssued,
+            'totalValue' => $totalFuelValue,
+            'overIssuedCount' => $overIssuedCount,
+            'uniqueVehicles' => $uniqueVehicles,
+            'avgPricePerLitre' => round($avgPricePerLitre, 2),
+            'overIssuedRate' => round($overIssuedRate, 1),
+            'fuelScore' => round($fuelScore, 0),
+            'fuelBadge' => $fuelBadge
+        ];
+    }
+
+    // -----------------------------
+    // Fuel Usage KPIs and Analysis
+    // -----------------------------
+    public function getFuelUsageKpisProperty(): array
+    {
+        $fuelUsageData = $this->fuelUsageAnalysis;
+        
+        $totalVehicles = count($fuelUsageData);
+        $totalFuelConsumed = collect($fuelUsageData)->sum('total_fuel_consumed');
+        $totalFuelCost = collect($fuelUsageData)->sum('total_fuel_cost');
+        $totalFuelingEvents = collect($fuelUsageData)->sum('fueling_events');
+        $totalOverIssued = collect($fuelUsageData)->sum('over_issued_count');
+        
+        // Efficiency metrics
+        $avgFuelPerVehicle = $totalVehicles > 0 ? $totalFuelConsumed / $totalVehicles : 0;
+        $avgCostPerVehicle = $totalVehicles > 0 ? $totalFuelCost / $totalVehicles : 0;
+        $avgEventsPerVehicle = $totalVehicles > 0 ? $totalFuelingEvents / $totalVehicles : 0;
+        
+        // Performance distribution
+        $excellentVehicles = collect($fuelUsageData)->where('efficiency_rating', 'Excellent')->count();
+        $goodVehicles = collect($fuelUsageData)->where('efficiency_rating', 'Good')->count();
+        $fairVehicles = collect($fuelUsageData)->where('efficiency_rating', 'Fair')->count();
+        $poorVehicles = collect($fuelUsageData)->where('efficiency_rating', 'Poor')->count();
+        
+        // Fueling type analysis
+        $normalFueling = collect($fuelUsageData)->sum('normal_fueling_count');
+        $outOfTownFueling = collect($fuelUsageData)->sum('out_of_town_count');
+        $overrideFueling = collect($fuelUsageData)->sum('override_count');
+        
+        // Calculate overall efficiency score
+        $efficiencyScore = 0;
+        if ($totalVehicles > 0) {
+            $efficiencyScore = (($excellentVehicles * 100) + ($goodVehicles * 75) + ($fairVehicles * 50) + ($poorVehicles * 25)) / $totalVehicles;
+        }
+        
+        // Determine badge color for fuel usage
+        $fuelUsageBadge = 'success';
+        if ($efficiencyScore < 75) $fuelUsageBadge = 'warning';
+        if ($efficiencyScore < 50) $fuelUsageBadge = 'danger';
+        
+        return [
+            'totalVehicles' => $totalVehicles,
+            'totalFuelConsumed' => round($totalFuelConsumed, 2),
+            'totalFuelCost' => round($totalFuelCost, 2),
+            'totalFuelingEvents' => $totalFuelingEvents,
+            'totalOverIssued' => $totalOverIssued,
+            'avgFuelPerVehicle' => round($avgFuelPerVehicle, 2),
+            'avgCostPerVehicle' => round($avgCostPerVehicle, 2),
+            'avgEventsPerVehicle' => round($avgEventsPerVehicle, 1),
+            'excellentVehicles' => $excellentVehicles,
+            'goodVehicles' => $goodVehicles,
+            'fairVehicles' => $fairVehicles,
+            'poorVehicles' => $poorVehicles,
+            'normalFueling' => $normalFueling,
+            'outOfTownFueling' => $outOfTownFueling,
+            'overrideFueling' => $overrideFueling,
+            'efficiencyScore' => round($efficiencyScore, 0),
+            'fuelUsageBadge' => $fuelUsageBadge
+        ];
+    }
+
+    // -----------------------------
+    // Maintenance KPIs and Scoring
+    // -----------------------------
+    public function getMaintenanceKpisProperty(): array
+    {
+        $maintenanceData = $this->maintenanceData;
+        
+        $totalMaintenanceCost = collect($maintenanceData)->sum('value_amount');
+        $maintenanceCount = count($maintenanceData);
+        $uniqueVehicles = collect($maintenanceData)->unique('reg_no')->count();
+        $avgCostPerJob = $maintenanceCount > 0 ? $totalMaintenanceCost / $maintenanceCount : 0;
+        
+        // Calculate maintenance frequency (jobs per vehicle)
+        $maintenanceFrequency = $uniqueVehicles > 0 ? $maintenanceCount / $uniqueVehicles : 0;
+        
+        // Maintenance score based on frequency and cost
+        $frequencyScore = min(100, max(0, 100 - ($maintenanceFrequency - 1) * 20)); // Ideal is 1 job per vehicle
+        $costScore = $avgCostPerJob > 0 ? min(100, max(0, 100 - ($avgCostPerJob / 100) * 10)) : 100; // Lower cost is better
+        $maintenanceScore = ($frequencyScore + $costScore) / 2;
+
+        // Determine badge color
+        $maintenanceBadge = 'success';
+        if ($maintenanceScore < 80) $maintenanceBadge = 'warning';
+        if ($maintenanceScore < 60) $maintenanceBadge = 'danger';
+
+        return [
+            'totalCost' => $totalMaintenanceCost,
+            'jobCount' => $maintenanceCount,
+            'uniqueVehicles' => $uniqueVehicles,
+            'avgCostPerJob' => round($avgCostPerJob, 2),
+            'maintenanceFrequency' => round($maintenanceFrequency, 1),
+            'maintenanceScore' => round($maintenanceScore, 0),
+            'maintenanceBadge' => $maintenanceBadge
+        ];
+    }
+
+    // -----------------------------
+    // Top Problem Vehicles
+    // -----------------------------
+    public function getTopProblemVehiclesProperty(): array
+    {
+        $fuelData = $this->fuelData;
+        $maintenanceData = $this->maintenanceData;
+        
+        // Most expensive vehicles (fuel + maintenance)
+        $fuelByVehicle = collect($fuelData)->groupBy('reg_no')->map(function($group) {
+            return [
+                'reg_no' => $group->first()->reg_no,
+                'type_brand' => $group->first()->type_brand,
+                'fuel_cost' => $group->sum('qty_issued_value'),
+                'over_issued_count' => $group->where('over_issued', 'Y')->count()
+            ];
+        });
+
+        $maintenanceByVehicle = collect($maintenanceData)->groupBy('reg_no')->map(function($group) {
+            return [
+                'reg_no' => $group->first()->reg_no,
+                'type_brand' => $group->first()->type_brand,
+                'maintenance_cost' => $group->sum('value_amount'),
+                'job_count' => $group->count()
+            ];
+        });
+
+        // Combine fuel and maintenance data
+        $combined = $fuelByVehicle->map(function($fuel) use ($maintenanceByVehicle) {
+            $maintenance = $maintenanceByVehicle->get($fuel['reg_no'], [
+                'maintenance_cost' => 0,
+                'job_count' => 0
+            ]);
+            
+            return array_merge($fuel, $maintenance);
+        });
+
+        // Sort by total cost (fuel + maintenance)
+        $mostExpensive = $combined->sortByDesc(function($item) {
+            return $item['fuel_cost'] + $item['maintenance_cost'];
+        })->take(5)->values();
+
+        // Vehicles with highest maintenance frequency
+        $highMaintenanceFreq = $maintenanceByVehicle->sortByDesc('job_count')->take(5)->values();
+
+        // Vehicles with repeated over-issuing
+        $repeatedOverIssued = $fuelByVehicle->sortByDesc('over_issued_count')->take(5)->values();
+
+        return [
+            'most_expensive' => $mostExpensive->toArray(),
+            'high_maintenance_freq' => $highMaintenanceFreq->toArray(),
+            'repeated_over_issued' => $repeatedOverIssued->toArray()
         ];
     }
 
@@ -649,6 +1336,17 @@ class Dashboard extends Component
             'decisionSummary' => $this->decisionSummary,
             'summaryReport' => $this->summaryReport,
             'showSummaryModal' => $this->showSummaryModal,
+
+            // fuel and maintenance data
+            'fuelData' => $this->fuelData,
+            'maintenanceData' => $this->maintenanceData,
+            'fuelKpis' => $this->fuelKpis,
+            'maintenanceKpis' => $this->maintenanceKpis,
+            'topProblemVehicles' => $this->topProblemVehicles,
+            
+            // fuel usage analysis
+            'fuelUsageAnalysis' => $this->fuelUsageAnalysis,
+            'fuelUsageKpis' => $this->fuelUsageKpis,
         ]);
     }
 }

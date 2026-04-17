@@ -21,6 +21,7 @@ use App\Services\VehicleManagement\FuelAllocationService;
 use App\Services\VehicleManagement\InsuranceService;
 use App\Services\VehicleManagement\RoadTaxService;
 use App\Services\VehicleManagement\VehicleDetailsService;
+use App\Services\VehicleManagement\VehicleAnalyticsService;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -38,13 +39,15 @@ class VehicleController extends Controller
     private InsuranceService $insuranceService;
     private RoadTaxService $roadTaxService;
     private FitnessService $vehicleFitnessService;
+    private VehicleAnalyticsService $analyticsService;
 
     public function __construct(
         VehicleDetailsService               $vehicleDetailsService,
         ProcurementSystemIntegrationService $procurementService,
         InsuranceService                    $insuranceService,
         RoadTaxService                      $roadTaxService,
-        FitnessService                      $vehicleFitnessService
+        FitnessService                      $vehicleFitnessService,
+        VehicleAnalyticsService             $analyticsService
     )
     {
         $this->vehicleDetailsService = $vehicleDetailsService;
@@ -52,6 +55,7 @@ class VehicleController extends Controller
         $this->insuranceService = $insuranceService;
         $this->roadTaxService = $roadTaxService;
         $this->vehicleFitnessService = $vehicleFitnessService;
+        $this->analyticsService = $analyticsService;
     }
 
     public function getVehicleOverViewDetails(Request $request): JsonResponse
@@ -375,37 +379,322 @@ class VehicleController extends Controller
      */
     public function getVehicleOperationCosts(string $registrationNumber): array
     {
-        $fuelCostByYear = [];
-        $sparesCostByYear = [];
+        $fuelCostByMonth = [];
+        $sparesCostByMonth = [];
+        
         try {
-            DB::table('zfm_spare_cost')
-                ->where('reg_no',
-                    QueryComparisonOperator::EQUALS,
-                    $registrationNumber)
-                ->select(DB::raw('SUM(value_amount) as cost, EXTRACT(YEAR FROM TO_DATE(document_date)) year'))
-                ->groupBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
-                ->orderBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
+            // Get maintenance/spares costs by month with comprehensive joins
+            $sparesResults = DB::table('fleetmaster.gen_material_details as d')
+                ->join('fleetmaster.gen_material_headers as h', 'h.REQ_NO', '=', 'd.REQ_NO')
+                ->join('fleetmaster.vm_vehicle_header as g', 'd.reg_no', '=', 'g.REGISTRATION_NUMBER')
+                ->join('ZFM_ARTICLES_VIEW as a', 'd.MATERIAL_CODE', '=', 'a.code_article')
+                ->join('fleetmaster.vm_engine_details as ed', 'g.REGISTRATION_NUMBER', '=', 'ed.reg_no')
+                ->join('fleetmaster.vm_assignments as va', 'g.REGISTRATION_NUMBER', '=', 'VA.REG_NO')
+                ->join('fleetmaster.tms_data_clean_up as td', 'g.REGISTRATION_NUMBER', '=', 'td.REGISTRATIONNUMBER')
+                ->join('store_movements_header as mh', 'h.st_pur', '=', 'mh.stores_requisition_no')
+                ->join('fleetmaster.gps as gps', 'g.REGISTRATION_NUMBER', '=', 'gps.REG_NUMBER')
+                ->where('d.reg_no', QueryComparisonOperator::EQUALS, $registrationNumber)
+                ->where('h.status', 'IN', ['26', '32', '42', '46'])
+                ->where('h.IS_FUEL', '=', 'N')
+                ->select(
+                    DB::raw('SUM(d.QUANTITY * d.PRICE) as cost'),
+                    DB::raw('EXTRACT(YEAR FROM h.DATE_CREATED) as year'),
+                    DB::raw('EXTRACT(MONTH FROM h.DATE_CREATED) as month'),
+                    DB::raw('TO_CHAR(h.DATE_CREATED, \'YYYY-MM\') as period'),
+                    DB::raw('ed.engine_brand || \' \' || g.model_name as vehicle_type'),
+                    DB::raw('va.BUSINESS_UNIT_NAME || \' \' || va.COST_CENTER_NAME as vehicle_assignment'),
+                    'td.ORGANIZATIONALUNIT',
+                    'h.st_pur as requi_number',
+                    'mh.document_no as issue_no',
+                    'h.document_no as job_card_no',
+                    'd.MATERIAL_CODE as article_code',
+                    'a.description as article_description'
+                )
+                ->groupBy(
+                    DB::raw('EXTRACT(YEAR FROM h.DATE_CREATED)'),
+                    DB::raw('EXTRACT(MONTH FROM h.DATE_CREATED)'),
+                    DB::raw('TO_CHAR(h.DATE_CREATED, \'YYYY-MM\')'),
+                    'ed.engine_brand', 'g.model_name', 'va.BUSINESS_UNIT_NAME', 'va.COST_CENTER_NAME', 'td.ORGANIZATIONALUNIT',
+                    'h.st_pur', 'mh.document_no', 'h.document_no', 'd.MATERIAL_CODE', 'a.description'
+                )
+                ->orderBy(DB::raw('EXTRACT(YEAR FROM h.DATE_CREATED)'))
+                ->orderBy(DB::raw('EXTRACT(MONTH FROM h.DATE_CREATED)'))
                 ->get();
-        } catch (Exception $e) {
-            Log::debug("Fetching Vehicle Spares Report Data");
-            Log::error($e);
-        }
-
-        try {
-            DB::table('zfm_fuel_cost')
-                ->where('reg_no',
-                    QueryComparisonOperator::EQUALS,
-                    $registrationNumber)
-                ->select(DB::raw('SUM(ttl) as cost,year'))
-                ->groupBy('year')
-                ->orderBy('year')
-                ->get();
+                
+            $sparesCostByMonth = $sparesResults->toArray();
+            
         } catch (Exception $e) {
             Log::debug("Fetching Vehicle Maintenance Report Data");
             Log::error($e);
         }
 
-        return array($fuelCostByYear, $sparesCostByYear);
+        try {
+            // Get fuel costs by month
+            $fuelResults = DB::table('fleetmaster.fuel_management')
+                ->where('reg_no', QueryComparisonOperator::EQUALS, $registrationNumber)
+                ->select(
+                    DB::raw('SUM(amount) as cost'),
+                    DB::raw('EXTRACT(YEAR FROM FECH_ACT) as year'),
+                    DB::raw('EXTRACT(MONTH FROM FECH_ACT) as month'),
+                    DB::raw('TO_CHAR(FECH_ACT, \'YYYY-MM\') as period')
+                )
+                ->groupBy(
+                    DB::raw('EXTRACT(YEAR FROM FECH_ACT)'),
+                    DB::raw('EXTRACT(MONTH FROM FECH_ACT)'),
+                    DB::raw('TO_CHAR(FECH_ACT, \'YYYY-MM\')')
+                )
+                ->orderBy(DB::raw('EXTRACT(YEAR FROM FECH_ACT)'))
+                ->orderBy(DB::raw('EXTRACT(MONTH FROM FECH_ACT)'))
+                ->get();
+                
+            $fuelCostByMonth = $fuelResults->toArray();
+            
+        } catch (Exception $e) {
+            Log::debug("Fetching Vehicle Fuel Report Data");
+            Log::error($e);
+        }
+
+        return array($fuelCostByMonth, $sparesCostByMonth);
+    }
+
+    /**
+     * Get comprehensive maintenance details for a vehicle
+     */
+    public function getMaintenanceDetails(Request $request): JsonResponse
+    {
+        try {
+            $registrationNumber = $request->get('registration_number');
+            $months = $request->get('months', 12);
+
+            if (empty($registrationNumber)) {
+                throw new BadRequestException('Missing registration number');
+            }
+
+            $maintenanceDetails = $this->analyticsService->getMaintenanceDetails($registrationNumber, $months);
+
+            return response()->json([
+                'success' => true,
+                'data' => $maintenanceDetails,
+                'message' => 'Maintenance details retrieved successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error("Error fetching maintenance details: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve maintenance details'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get executive KPI summary for dashboard
+     */
+    public function getDashboardKpi(Request $request): JsonResponse
+    {
+        try {
+            $days = $request->get('days', 365); // Use 365 days for more data
+            $kpiData = $this->analyticsService->getExecutiveKpiSummaryWorking($days);
+
+            return response()->json([
+                'success' => true,
+                'data' => $kpiData,
+                'message' => 'KPI summary retrieved successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error("Error fetching dashboard KPI: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve KPI summary'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get monthly trend data for charts
+     */
+    public function getMonthlyTrends(Request $request): JsonResponse
+    {
+        try {
+            $months = $request->get('months', 12);
+            $trendData = $this->analyticsService->getMonthlyTrends($months);
+
+            return response()->json([
+                'success' => true,
+                'data' => $trendData,
+                'message' => 'Monthly trends retrieved successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error("Error fetching monthly trends: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve monthly trends'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get top vehicles by metric
+     */
+    public function getTopVehiclesByMetric(Request $request): JsonResponse
+    {
+        try {
+            $metric = $request->get('metric', 'total_cost');
+            $limit = $request->get('limit', 10);
+            $days = $request->get('days', 30);
+
+            $topVehicles = $this->analyticsService->getTopVehiclesByMetric($metric, $limit, $days);
+
+            return response()->json([
+                'success' => true,
+                'data' => $topVehicles,
+                'message' => 'Top vehicles retrieved successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error("Error fetching top vehicles by metric: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve top vehicles'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get cost distribution by organizational unit
+     */
+    public function getCostDistribution(Request $request): JsonResponse
+    {
+        try {
+            $days = $request->get('days', 30);
+            $distribution = $this->analyticsService->getCostDistributionByOrgUnit($days);
+
+            return response()->json([
+                'success' => true,
+                'data' => $distribution,
+                'message' => 'Cost distribution retrieved successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error("Error fetching cost distribution: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve cost distribution'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get fleet exceptions and alerts
+     */
+    public function getFleetExceptions(Request $request): JsonResponse
+    {
+        try {
+            $days = $request->get('days', 30);
+            $exceptions = $this->analyticsService->getFleetExceptions($days);
+
+            return response()->json([
+                'success' => true,
+                'data' => $exceptions,
+                'message' => 'Fleet exceptions retrieved successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error("Error fetching fleet exceptions: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve fleet exceptions'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get top vehicles by various metrics
+     */
+    public function getTopVehiclesAnalytics(Request $request): JsonResponse
+    {
+        try {
+            $limit = $request->get('limit', 10);
+            $metric = $request->get('metric', 'operating_cost');
+
+            $data = [];
+            switch ($metric) {
+                case 'fuel_consumption':
+                    $data = $this->analyticsService->getTopVehiclesByFuelConsumption($limit);
+                    break;
+                case 'maintenance_cost':
+                    $data = $this->analyticsService->getTopVehiclesByMaintenanceCost($limit);
+                    break;
+                case 'operating_cost':
+                default:
+                    $data = $this->analyticsService->getTopVehiclesByOperatingCosts($limit);
+                    break;
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $data,
+                'metric' => $metric,
+                'limit' => $limit
+            ]);
+        } catch (Exception $e) {
+            Log::error("Error fetching top vehicles analytics: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch analytics data'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get vehicle performance trends and behavior patterns
+     */
+    public function getVehiclePerformanceAnalytics(Request $request): JsonResponse
+    {
+        try {
+            $registrationNumber = $request->get('registration_number');
+            $months = $request->get('months', 12);
+
+            if (empty($registrationNumber)) {
+                throw new BadRequestException('Vehicle registration number is required');
+            }
+
+            $trends = $this->analyticsService->getVehiclePerformanceTrends($registrationNumber, $months);
+            $patterns = $this->analyticsService->getVehicleBehaviorPatterns($registrationNumber);
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'trends' => $trends,
+                    'patterns' => $patterns,
+                    'registration_number' => $registrationNumber,
+                    'analysis_period_months' => $months
+                ]
+            ]);
+        } catch (Exception $e) {
+            Log::error("Error fetching vehicle performance analytics: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch performance analytics'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get fleet-wide analytics summary
+     */
+    public function getFleetAnalyticsSummary(Request $request): JsonResponse
+    {
+        try {
+            $summary = $this->analyticsService->getFleetAnalyticsSummary();
+
+            return response()->json([
+                'success' => true,
+                'data' => $summary
+            ]);
+        } catch (Exception $e) {
+            Log::error("Error fetching fleet analytics summary: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch fleet analytics'
+            ], 500);
+        }
     }
 
 }

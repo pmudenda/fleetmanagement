@@ -101,6 +101,39 @@ Route::group(['middleware' => ['auth', 'is.active', 'change.password'], 'prefix'
     Route::get('vehicle/report', [VehicleController::class, 'getVehicleReportsOverView'])
         ->name('vehicle.details.report');
 
+    Route::get('analytics/top-vehicles', [VehicleController::class, 'getTopVehiclesAnalytics'])
+        ->name('analytics.top.vehicles');
+
+    Route::get('analytics/vehicle-performance', [VehicleController::class, 'getVehiclePerformanceAnalytics'])
+        ->name('analytics.vehicle.performance');
+
+    Route::get('analytics/fleet-summary', [VehicleController::class, 'getFleetAnalyticsSummary'])
+        ->name('analytics.fleet.summary');
+
+    Route::get('maintenance-details', [VehicleController::class, 'getMaintenanceDetails'])
+        ->name('maintenance.details');
+
+    Route::get('analytics/kpi', [VehicleController::class, 'getDashboardKpi'])
+        ->name('analytics.kpi');
+
+    Route::get('analytics/trends', [VehicleController::class, 'getMonthlyTrends'])
+        ->name('analytics.trends');
+
+    Route::get('analytics/top-vehicles-metric', [VehicleController::class, 'getTopVehiclesByMetric'])
+        ->name('analytics.top.vehicles.metric');
+
+    Route::get('analytics/cost-distribution', [VehicleController::class, 'getCostDistribution'])
+        ->name('analytics.cost.distribution');
+
+    Route::get('analytics/exceptions', [VehicleController::class, 'getFleetExceptions'])
+        ->name('analytics.exceptions');
+
+    Route::get('vehicle/models', [VehicleModelsController::class, 'get'])
+        ->name('vehicle.models.get');
+
+    Route::get('vehicle-operation-costs', [VehicleController::class, 'getVehicleOperationCosts'])
+        ->name('vehicle.operation.costs');
+
     Route::get('requisitions/vehicle/details', [VehicleController::class, 'getVehicleDetailsByRegistration'])
         ->name('requisition.vehicle.details');
 

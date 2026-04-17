@@ -1,10 +1,10 @@
 :root{
-    --bs-zesco-primary: #f59d33;
-    --bs-zesco-secondary: #1c9955;
-    --building-color: #FF9800;
-    --house-color: #0288D1;
-    --shop-color: #7B1FA2;
-    --warehouse-color: #558B2F;
+    --bs-zesco-primary: #af701e;  /* Modern blue */
+    --bs-zesco-secondary: #2a8611; /* Modern emerald green */
+    --building-color: #f59e0b;     /* Orange */
+    --house-color: #06b6d4;        /* Modern cyan */
+    --shop-color: #af701e;         /* Modern violet */
+    --warehouse-color: #10b981;    /* Modern emerald green */
 }
 .bg-zesco-orange{
     background-color: var(--bs-zesco-primary) !important;

@@ -7,7 +7,6 @@ use App\Helpers\StatusHelper;
 use App\Models\Settings\general\Status;
 use App\Models\VehicleManagement\Tracking\Gps;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Redis;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -27,7 +26,7 @@ class TrackingIndex extends Component {
             ->get();
 
         foreach ($devices as $device) {
-            $raw = Redis::client()->get("last-location-{$device->imei}");
+            $raw = Cache::get("last-location-{$device->imei}");
 
             if ($raw) {
                 $this->lastloactions[] = $raw ? json_decode($raw, true) : [];

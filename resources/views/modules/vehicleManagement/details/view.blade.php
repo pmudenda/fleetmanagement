@@ -342,6 +342,280 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0">
+                                <!-- Executive KPI Cards - 4x4 Grid Layout -->
+                                <div class="row mb-4">
+                                    <!-- Row 1: First 4 Cards -->
+                                    <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Active Vehicles</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="activeVehiclesCount">Loading...</div>
+                                                        <div class="text-xs text-gray-500" id="activeVehiclesTrend">Last 30 days</div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-truck fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+                                        <div class="card border-left-success shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Fuel Cost</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalFuelCost">Loading...</div>
+                                                        <div class="text-xs" id="fuelCostTrend">
+                                                            <span class="text-success">+0%</span> vs previous period
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-gas-pump fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+                                        <div class="card border-left-warning shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Maintenance Cost</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalMaintenanceCost">Loading...</div>
+                                                        <div class="text-xs" id="maintenanceCostTrend">
+                                                            <span class="text-warning">+0%</span> vs previous period
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-wrench fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+                                        <div class="card border-left-info shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Avg Cost/Vehicle</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="avgCostPerVehicle">Loading...</div>
+                                                        <div class="text-xs text-gray-500" id="avgCostVehiclesCount">0 vehicles</div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Row 2: Second 4 Cards -->
+                                <div class="row mb-4">
+                                    <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+                                        <div class="card border-left-danger shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Total Operating Cost</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalOperatingCost">Loading...</div>
+                                                        <div class="text-xs text-gray-500">Fuel + Maintenance</div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-calculator fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+                                        <div class="card border-left-secondary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Highest Cost Vehicle</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="highestCostVehicle">Loading...</div>
+                                                        <div class="text-xs text-gray-500" id="highestCostAmount">ZMW 0</div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Maintenance Events</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="maintenanceEvents">Loading...</div>
+                                                        <div class="text-xs text-gray-500" id="maintenanceVehiclesCount">0 vehicles</div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-tools fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+                                        <div class="card border-left-success shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Fuel Events</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="fuelEvents">Loading...</div>
+                                                        <div class="text-xs text-gray-500" id="fuelVehiclesCount">0 vehicles</div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-gas-pump fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Trend Charts Section -->
+                                <div class="row mb-4">
+                                    <div class="col-lg-8 col-md-12 mb-3">
+                                        <div class="card shadow-sm">
+                                            <div class="card-header bg-light">
+                                                <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i> Monthly Operating Cost Trends</h5>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div id="monthlyTrendsChart" style="height:350px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-12 mb-3">
+                                        <div class="card shadow-sm">
+                                            <div class="card-header bg-light">
+                                                <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i> Cost Distribution</h5>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div id="costDistributionChart" style="height:350px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Top Vehicles Performance with Tabs -->
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <div class="card shadow-sm">
+                                            <div class="card-header bg-light">
+                                                <h5 class="mb-3"><i class="fas fa-trophy me-2"></i> Top Vehicles Performance</h5>
+                                                <ul class="nav nav-tabs card-header-tabs" id="topVehiclesTabs" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="total-cost-tab" data-toggle="tab" href="#total-cost" role="tab" aria-controls="total-cost" aria-selected="true">
+                                                            <i class="fas fa-calculator me-1"></i> Operating Cost
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="fuel-cost-tab" data-toggle="tab" href="#fuel-cost" role="tab" aria-controls="fuel-cost" aria-selected="false">
+                                                            <i class="fas fa-gas-pump me-1"></i> Fuel Cost
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="maintenance-cost-tab" data-toggle="tab" href="#maintenance-cost" role="tab" aria-controls="maintenance-cost" aria-selected="false">
+                                                            <i class="fas fa-wrench me-1"></i> Maintenance Cost
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="maintenance-events-tab" data-toggle="tab" href="#maintenance-events" role="tab" aria-controls="maintenance-events" aria-selected="false">
+                                                            <i class="fas fa-tools me-1"></i> Maintenance Events
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="tab-content" id="topVehiclesTabContent">
+                                                    <div class="tab-pane fade show active" id="total-cost" role="tabpanel" aria-labelledby="total-cost-tab">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <div id="topVehiclesTotalCostChart" style="height:350px;"></div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="list-group" id="topVehiclesTotalCostList" style="max-height:350px; overflow-y:auto;">
+                                                                    <!-- Top vehicles by total cost will be loaded here -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="fuel-cost" role="tabpanel" aria-labelledby="fuel-cost-tab">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <div id="topVehiclesFuelCostChart" style="height:350px;"></div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="list-group" id="topVehiclesFuelCostList" style="max-height:350px; overflow-y:auto;">
+                                                                    <!-- Top vehicles by fuel cost will be loaded here -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="maintenance-cost" role="tabpanel" aria-labelledby="maintenance-cost-tab">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <div id="topVehiclesMaintenanceCostChart" style="height:350px;"></div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="list-group" id="topVehiclesMaintenanceCostList" style="max-height:350px; overflow-y:auto;">
+                                                                    <!-- Top vehicles by maintenance cost will be loaded here -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="maintenance-events" role="tabpanel" aria-labelledby="maintenance-events-tab">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <div id="topVehiclesMaintenanceEventsChart" style="height:350px;"></div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="list-group" id="topVehiclesMaintenanceEventsList" style="max-height:350px; overflow-y:auto;">
+                                                                    <!-- Top vehicles by maintenance events will be loaded here -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Cost by Organizational Unit -->
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0"><i class="fas fa-building"></i> Cost by Organizational Unit</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <div id="costByOrgUnitChart" style="height:350px;"></div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="list-group" id="costByOrgUnitList" style="max-height:350px; overflow-y:auto;">
+                                                            <!-- Cost by org unit list will be loaded here -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vehicle Cost Analysis -->
                                 <div class="row">
                                     <div class="col-4">
                                         <div class="card mt-5">
@@ -365,10 +639,220 @@
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <div id="pie" style="height:400px;"></div>
+                                        <div class="card mt-5">
+                                            <div class="card-header py-0">
+                                                <div class="card-title">
+                                                    <h2>Cost Distribution</h2>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="pie" style="height:300px;"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-4">
+                                        <div id="performanceMetrics" style="height:400px;"></div>
+                                    </div>
+                                </div>
 
+                                <!-- Fleet Exceptions & Alerts -->
+                                <div class="row mb-4">
+                                    <div class="col-lg-6 col-md-12 mb-3">
+                                        <div class="card shadow-sm border-left-warning">
+                                            <div class="card-header bg-light">
+                                                <h5 class="mb-0"><i class="fas fa-exclamation-triangle text-warning me-2"></i> Vehicles with No Maintenance (6+ months)</h5>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div id="noMaintenanceAlerts" style="max-height:250px; overflow-y:auto;">
+                                                    <div class="text-center text-muted">Loading alerts...</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 mb-3">
+                                        <div class="card shadow-sm border-left-danger">
+                                            <div class="card-header bg-light">
+                                                <h5 class="mb-0"><i class="fas fa-exclamation-circle text-danger me-2"></i> High Maintenance Spend Vehicles</h5>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div id="highMaintenanceAlerts" style="max-height:250px; overflow-y:auto;">
+                                                    <div class="text-center text-muted">Loading alerts...</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Drill-down Data Table -->
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0"><i class="fas fa-table"></i> Vehicle Performance Details</h5>
+                                                <div class="card-toolbar float-right">
+                                                    <div class="btn-group" role="group">
+                                                        <button class="btn btn-sm btn-outline-primary" onclick="exportDashboardData()">
+                                                            <i class="fas fa-download"></i> Export
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-secondary" onclick="refreshDashboardData()">
+                                                            <i class="fas fa-sync"></i> Refresh
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-3">
+                                                        <label for="dashboardOrgUnitFilter" class="form-label small">Organizational Unit</label>
+                                                        <select class="form-control form-control-sm" id="dashboardOrgUnitFilter" name="dashboardOrgUnitFilter">
+                                                            <option value="">All Org Units</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="dashboardPeriodFilter" class="form-label small">Time Period</label>
+                                                        <select class="form-control form-control-sm" id="dashboardPeriodFilter" name="dashboardPeriodFilter">
+                                                            <option value="30">Last 30 Days</option>
+                                                            <option value="90">Last 90 Days</option>
+                                                            <option value="180">Last 6 Months</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="dashboardMetricFilter" class="form-label small">Vehicle Filter</label>
+                                                        <select class="form-control form-control-sm" id="dashboardMetricFilter" name="dashboardMetricFilter">
+                                                            <option value="">All Vehicles</option>
+                                                            <option value="high_cost">High Cost Only</option>
+                                                            <option value="no_maintenance">No Maintenance</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="dashboardSearchFilter" class="form-label small">Search Vehicle</label>
+                                                        <input type="text" class="form-control form-control-sm" id="dashboardSearchFilter" name="dashboardSearchFilter" placeholder="Search by Reg No..." autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover" id="vehicleDetailsTable">
+                                                        <thead class="thead-dark">
+                                                            <tr>
+                                                                <th>Reg No</th>
+                                                                <th>Type/Brand</th>
+                                                                <th>Org Unit</th>
+                                                                <th>Fuel Cost</th>
+                                                                <th>Maintenance Cost</th>
+                                                                <th>Total Cost</th>
+                                                                <th>Fuel Events</th>
+                                                                <th>Maintenance Events</th>
+                                                                <th>Last Maintenance</th>
+                                                                <th>Alerts</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="vehicleDetailsBody">
+                                                            <tr>
+                                                                <td colspan="10" class="text-center text-muted">
+                                                                    Loading vehicle details...
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Comprehensive Maintenance Tracking Section -->
+                                <div class="row mt-5">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header bg-primary text-white">
+                                                <h5 class="mb-0"><i class="fas fa-wrench"></i> Comprehensive Maintenance Tracking</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <button class="btn btn-info" onclick="loadMaintenanceDetails()">
+                                                            <i class="fas fa-sync"></i> Load Maintenance Details
+                                                        </button>
+                                                        <button class="btn btn-secondary ml-2" onclick="exportMaintenanceData()">
+                                                            <i class="fas fa-download"></i> Export Data
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-6 text-right">
+                                                        <div class="form-group mb-0">
+                                                            <label for="maintenancePeriod" class="mr-2">Maintenance Period:</label>
+                                                            <select id="maintenancePeriod" name="maintenancePeriod" class="form-control d-inline-block" style="width: auto;">
+                                                                <option value="3">Last 3 Months</option>
+                                                                <option value="6" selected>Last 6 Months</option>
+                                                                <option value="12">Last 12 Months</option>
+                                                                <option value="24">Last 24 Months</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Maintenance Statistics Cards -->
+                                                <div class="row mb-4" id="maintenanceStatsCards">
+                                                    <div class="col-md-3">
+                                                        <div class="card bg-light">
+                                                            <div class="card-body text-center">
+                                                                <h6 class="text-muted">Total Maintenance Cost</h6>
+                                                                <h4 class="text-primary" id="totalMaintenanceCostDetail">ZMW 0.00</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="card bg-light">
+                                                            <div class="card-body text-center">
+                                                                <h6 class="text-muted">Maintenance Events</h6>
+                                                                <h4 class="text-info" id="maintenanceEventCount">0</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="card bg-light">
+                                                            <div class="card-body text-center">
+                                                                <h6 class="text-muted">Avg Cost per Event</h6>
+                                                                <h4 class="text-success" id="avgMaintenanceCost">ZMW 0.00</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="card bg-light">
+                                                            <div class="card-body text-center">
+                                                                <h6 class="text-muted">Last Maintenance</h6>
+                                                                <h5 class="text-warning" id="lastMaintenanceDate">N/A</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Maintenance Details Table -->
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover" id="maintenanceDetailsTable">
+                                                        <thead class="thead-dark">
+                                                            <tr>
+                                                                <th>Document Date</th>
+                                                                <th>Job Card No</th>
+                                                                <th>Requisition No</th>
+                                                                <th>Issue No</th>
+                                                                <th>Article Code</th>
+                                                                <th>Description</th>
+                                                                <th>Vehicle Assignment</th>
+                                                                <th>Org Unit</th>
+                                                                <th>Cost (ZMW)</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="maintenanceDetailsBody">
+                                                            <tr>
+                                                                <td colspan="10" class="text-center text-muted">
+                                                                    Click "Load Maintenance Details" to view comprehensive maintenance data
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
