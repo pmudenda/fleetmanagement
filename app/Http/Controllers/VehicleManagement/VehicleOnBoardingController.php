@@ -22,6 +22,7 @@ use App\Models\VehicleManagement\VehicleAccessory;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use App\Services\VehicleManagement\VehicleDetailsService;
+use App\Services\VehicleManagement\VehicleAnalyticsService;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -33,10 +34,12 @@ use Illuminate\Support\Facades\URL;
 class VehicleOnBoardingController extends Controller {
     private OnBoardingService $onBoardingService;
     private VehicleDetailsService $vehicleDetailsService;
+    private VehicleAnalyticsService $analyticsService;
 
-    public function __construct(OnBoardingService $onBoardingService, VehicleDetailsService $vehicleDetailsService) {
+    public function __construct(OnBoardingService $onBoardingService, VehicleDetailsService $vehicleDetailsService, VehicleAnalyticsService $analyticsService) {
         $this->onBoardingService = $onBoardingService;
         $this->vehicleDetailsService = $vehicleDetailsService;
+        $this->analyticsService = $analyticsService;
     }
 
     public function show(): View {
@@ -55,17 +58,57 @@ class VehicleOnBoardingController extends Controller {
 
         $step = $request->get('step') ?? 0;
         $reference = $request->get('reference') ?? 0;
+        $regNo = $request->get('reg_no'); // Support registration number parameter
         $vehicle = null;
         $vehicleDocuments = [];
         $enteredAccessories = [];
         $accessories = Accessory::where('status', '=', StatusHelper::active())->get();
+        
+        // Initialize analytics data
+        $fuelCostAnalysis = [];
+        $maintenanceAnalysis = [];
+        $performanceTrends = [];
+        $costSummary = [];
+        
         if (!empty($reference) && $reference != 0) {
-
             $vehicle = $this->vehicleDetailsService->getVehicleDetailsById($reference);
-
             $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
-
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
+            
+            // Get comprehensive analytics data
+            if ($vehicle && $vehicle->registration_number) {
+                try {
+                    $fuelCostAnalysis = $this->analyticsService->getVehicleFuelCostAnalysis($vehicle->registration_number, 12);
+                    $maintenanceAnalysis = $this->analyticsService->getVehicleMaintenanceAnalysis($vehicle->registration_number, 12);
+                    $performanceTrends = $this->analyticsService->getVehiclePerformanceTrends($vehicle->registration_number, 12);
+                    $costSummary = $this->analyticsService->getVehicleCostSummary($vehicle->registration_number, 12);
+                } catch (Exception $e) {
+                    Log::error("Error fetching vehicle analytics: " . $e->getMessage());
+                    // Set empty arrays to prevent view errors
+                    $fuelCostAnalysis = [];
+                    $maintenanceAnalysis = [];
+                    $performanceTrends = [];
+                    $costSummary = [];
+                }
+            }
+        } elseif (!empty($regNo)) {
+            // Handle case where registration number is passed directly
+            try {
+                $vehicle = $this->vehicleDetailsService->getVehicleDetailsByRegistration($regNo);
+                if ($vehicle) {
+                    $reference = $vehicle->vehicle_header_id;
+                    $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
+                    $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
+                    
+                    // Get comprehensive analytics data
+                    $fuelCostAnalysis = $this->analyticsService->getVehicleFuelCostAnalysis($regNo, 12);
+                    $maintenanceAnalysis = $this->analyticsService->getVehicleMaintenanceAnalysis($regNo, 12);
+                    $performanceTrends = $this->analyticsService->getVehiclePerformanceTrends($regNo, 12);
+                    $costSummary = $this->analyticsService->getVehicleCostSummary($regNo, 12);
+                }
+            } catch (Exception $e) {
+                Log::error("Error fetching vehicle by registration: " . $e->getMessage());
+            }
         }
 
         $roadtax = RoadTax::where('reg_no', $vehicle->registration_number ?? null)->first();
@@ -78,7 +121,11 @@ class VehicleOnBoardingController extends Controller {
                 'enteredAccessories',
                 'vehicle',
                 'vehicleDocuments',
-                'roadtax'
+                'roadtax',
+                'fuelCostAnalysis',
+                'maintenanceAnalysis',
+                'performanceTrends',
+                'costSummary'
             ));
     }
 

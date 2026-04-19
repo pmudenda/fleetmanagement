@@ -5,21 +5,21 @@
         transition: all 0.3s ease;
         border-radius: 12px;
     }
-    
+
     .dashboard-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
     }
-    
+
     .hover-lift {
         transition: all 0.2s ease;
     }
-    
+
     .hover-lift:hover {
         background-color: rgba(13, 110, 253, 0.05);
         transform: translateX(2px);
     }
-    
+
     /* KPI Cards Alignment */
     .dashboard-card .card-body {
         display: flex;
@@ -27,17 +27,17 @@
         justify-content: center;
         min-height: 100px;
     }
-    
+
     /* Table Improvements */
     .data-table-container {
         border-radius: 8px;
         overflow: hidden;
     }
-    
+
     .table {
         margin-bottom: 0;
     }
-    
+
     .table th {
         border-top: none;
         font-weight: 600;
@@ -49,12 +49,12 @@
         top: 0;
         z-index: 10;
     }
-    
+
     .table td {
         vertical-align: middle;
         padding: 0.75rem;
     }
-    
+
     /* Status Badge Alignment */
     .status-badge {
         font-size: 0.7rem;
@@ -62,94 +62,94 @@
         border-radius: 6px;
         font-weight: 500;
     }
-    
+
     /* Vehicle Link Styling */
     .vehicle-link {
         color: #0d6efd;
         text-decoration: none;
         font-weight: 600;
     }
-    
+
     .vehicle-link:hover {
         color: #0b5ed7;
         text-decoration: underline;
     }
-    
+
     /* Chart Container Alignment */
     .chart-card {
         min-height: 300px;
     }
-    
+
     .chart-card-body {
         padding: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    
+
     /* Responsive Improvements */
     @media (max-width: 768px) {
         .dashboard-card .card-body {
             min-height: 80px;
             padding: 1rem 0.75rem;
         }
-        
+
         .table th,
         .table td {
             padding: 0.5rem;
             font-size: 0.8rem;
         }
-        
+
         .status-badge {
             font-size: 0.6rem;
             padding: 0.2rem 0.4rem;
         }
     }
-    
+
     /* Filter Section Alignment */
     .card-header .d-flex {
         align-items: center;
     }
-    
+
     .form-control-sm,
     .form-select-sm {
         border-radius: 6px;
         border: 1px solid #dee2e6;
     }
-    
+
     .form-control-sm:focus,
     .form-select-sm:focus {
         border-color: #86b7fe;
         box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
     }
-    
+
     /* Button Alignment */
     .btn-group .btn {
         border-radius: 0;
     }
-    
+
     .btn-group .btn:first-child {
         border-top-left-radius: 6px;
         border-bottom-left-radius: 6px;
     }
-    
+
     .btn-group .btn:last-child {
         border-top-right-radius: 6px;
         border-bottom-right-radius: 6px;
     }
-    
+
     /* Loading State */
     .wire-loading {
         opacity: 0.6;
         pointer-events: none;
     }
-    
+
     /* Summary Box Alignment */
     .summary-box {
         border-left: 4px solid #0d6efd;
         background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
     }
-    
+
     .summary-box:hover {
         background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
     }
@@ -371,7 +371,7 @@
                         </div>
                     </div>
 
-                    
+
                     {{-- Monthly Operating Cost Trends --}}
                     <div class="row g-3">
                         <div class="col-12">
@@ -599,7 +599,16 @@
                                 <td class="fw-semibold">{{ $d->imei }}</td>
                                 <td>{{ $d->model ?? '--' }}</td>
                                 <td>{{ $d->type ?? '--' }}</td>
-                                <td>{{ $d->reg_number ?? '--' }}</td>
+                                <td>
+                                    @if($d->reg_number)
+                                        <a href="{{ route('vehicle.show', ['reg_no' => $d->reg_number]) }}"
+                                           class="vehicle-link" target="_blank">
+                                            {{ $d->reg_number }}
+                                        </a>
+                                    @else
+                                        --
+                                    @endif
+                                </td>
                                 <td>{{ $d->mobile_number ?? '--' }}</td>
                                 <td>
                                     <span class="badge bg-{{ $statusLabel === 'Active' ? 'success' : 'secondary' }}">
@@ -1029,16 +1038,11 @@
                             <th class="text-uppercase small">Reg No</th>
                             <th class="text-uppercase small">Vehicle Type</th>
                             <th class="text-uppercase small">Job Card No</th>
-
-                            <th class="text-uppercase small">Issue  No</th>
+                            <th class="text-uppercase small">Issue No</th>
                             <th class="text-uppercase small">Requi_No</th>
-{{--                            <th class="text-uppercase small">Document Date</th>--}}
-
-                            <th class="text-uppercase small">Vehicle Assignment </th>
-                            <th class="text-uppercase small">Value Amount</th>
-
+                            <th class="text-uppercase small">Vehicle Assignment</th>
+                            <th class="text-uppercase small text-end">Value Amount</th>
                             <th class="text-uppercase small">Document Date</th>
-                            <th class="text-uppercase small text-end">Cost</th>
                             <th class="text-uppercase small text-center">Actions</th>
                         </tr>
                         </thead>
@@ -1058,17 +1062,12 @@
                                 <td>{{ $maintenance->job_card_no ?? '--' }}</td>
                                 <td>{{ $maintenance->issue_no ?? '--' }}</td>
                                 <td>{{ $maintenance->requi_number ?? '--' }}</td>
-
-                                <td>
-{{--                                    <div class="small">{{ $maintenance->article_description ?? '--' }}</div>--}}
-                                    <div class="text-muted">{{ $maintenance->article_code ?? '--' }}</div>
-                                </td>
                                 <td>
                                     <div class="small">{{ $maintenance->vehicle_assignment ?? '--' }}</div>
-                                    <div class="text-muted">{{ $maintenance->ORGANIZATIONALUNIT ?? '--' }}</div>
+                                    <div class="text-muted">{{ $maintenance->organizationalunit ?? '--' }}</div>
                                 </td>
-                                <td>{{ $maintenance->document_date ? \Carbon\Carbon::parse($maintenance->document_date)->format('M d, Y') : '--' }}</td>
                                 <td class="text-end fw-bold">{{ number_format($maintenance->value_amount ?? 0, 2) }}</td>
+                                <td>{{ $maintenance->document_date ? \Carbon\Carbon::parse($maintenance->document_date)->format('M d, Y') : '--' }}</td>
                                 <td class="text-center">
                                     <button class="btn btn-xs btn-outline-primary" onclick="showVehicleDetails('{{ $maintenance->reg_no ?? '' }}')">
                                         <i class="fas fa-eye"></i>
@@ -1082,7 +1081,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center text-muted p-4">
+                                <td colspan="9" class="text-center text-muted p-4">
                                     <i class="fas fa-wrench fa-2x mb-2"></i>
                                     <div>No maintenance records found for the selected date range.</div>
                                 </td>
@@ -1561,7 +1560,7 @@
 
                 function showVehicleDetails(regNo) {
                     if (!regNo || regNo === '--') return;
-                    
+
                     try {
                         if (typeof showVehicleOverview === 'function') {
                             showVehicleOverview(regNo);
@@ -1586,7 +1585,7 @@
 
                 function showVehicleUsageDetails(regNo) {
                     if (!regNo || regNo === '--') return;
-                    
+
                     try {
                         const usageData = @json($fuelUsageAnalysis);
                         const vehicleData = usageData.find(v => v.reg_no === regNo);
@@ -2036,7 +2035,7 @@ Performance:
                         console.warn('jQuery not available, skipping trends chart');
                         return;
                     }
-                    
+
                     $.ajax({
                         url: '/vehicle-management/analytics/trends',
                         method: 'GET',
@@ -2077,14 +2076,14 @@ Performance:
                 function renderMonthlyTrendsChart(trendData) {
                     const chartDom = document.getElementById('monthlyTrendsChart');
                     if (!chartDom) return;
-                    
+
                     const myChart = echarts.init(chartDom);
-                    
+
                     const periods = trendData.map(d => d.period);
                     const fuelCosts = trendData.map(d => parseFloat(d.fuel_cost || 0));
                     const maintenanceCosts = trendData.map(d => parseFloat(d.maintenance_cost || 0));
                     const totalCosts = trendData.map(d => parseFloat(d.total_operating_cost || 0));
-                    
+
                     const option = {
                         title: {
                             text: 'Monthly Operating Cost Trends',
@@ -2163,9 +2162,9 @@ Performance:
                             }
                         ]
                     };
-                    
+
                     myChart.setOption(option);
-                    
+
                     // Responsive chart
                     window.addEventListener('resize', function() {
                         myChart.resize();
@@ -2178,7 +2177,7 @@ Performance:
                         console.warn('jQuery not available, skipping cost distribution chart');
                         return;
                     }
-                    
+
                     $.ajax({
                         url: '/vehicle-management/analytics/cost-distribution',
                         method: 'GET',
@@ -2202,16 +2201,16 @@ Performance:
                 function renderCostDistributionChart(data) {
                     const chartDom = document.getElementById('costDistributionChart');
                     if (!chartDom) return;
-                    
+
                     const myChart = echarts.init(chartDom);
-                    
+
                     const fuelCost = parseFloat(data.fuel_cost || 0);
                     const maintenanceCost = parseFloat(data.maintenance_cost || 0);
                     const total = fuelCost + maintenanceCost;
-                    
+
                     const fuelPercentage = total > 0 ? ((fuelCost / total) * 100).toFixed(2) : 0;
                     const maintenancePercentage = total > 0 ? ((maintenanceCost / total) * 100).toFixed(2) : 0;
-                    
+
                     const option = {
                         title: {
                             text: 'Cost Distribution',
@@ -2249,9 +2248,9 @@ Performance:
                             }
                         ]
                     };
-                    
+
                     myChart.setOption(option);
-                    
+
                     // Responsive chart
                     window.addEventListener('resize', function() {
                         myChart.resize();
@@ -2264,7 +2263,7 @@ Performance:
                         console.warn('jQuery not available, skipping top vehicles chart');
                         return;
                     }
-                    
+
                     // Update active button only if buttonElement is provided
                     if (buttonElement) {
                         document.querySelectorAll('.btn-group .btn').forEach(btn => {
@@ -2272,7 +2271,7 @@ Performance:
                         });
                         buttonElement.classList.add('active');
                     }
-                    
+
                     $.ajax({
                         url: '/vehicle-management/analytics/top-vehicles',
                         method: 'GET',
@@ -2309,20 +2308,20 @@ Performance:
                 function renderTopVehiclesChart(vehicleData, metric) {
                     const chartDom = document.getElementById('topVehiclesChart');
                     if (!chartDom) return;
-                    
+
                     const myChart = echarts.init(chartDom);
-                    
+
                     const vehicles = vehicleData.slice(0, 10);
                     const vehicleNames = vehicles.map(v => v.reg_no || v.vehicle_reg_no);
                     const values = vehicles.map(v => parseFloat(v[metric] || 0));
-                    
+
                     const metricLabels = {
                         'total_cost': 'Operating Cost',
                         'fuel_cost': 'Fuel Cost',
                         'maintenance_cost': 'Maintenance Cost',
                         'maintenance_events': 'Maintenance Events'
                     };
-                    
+
                     const option = {
                         title: {
                             text: 'Top Vehicles by ' + metricLabels[metric],
@@ -2377,9 +2376,9 @@ Performance:
                             }
                         ]
                     };
-                    
+
                     myChart.setOption(option);
-                    
+
                     // Responsive chart
                     window.addEventListener('resize', function() {
                         myChart.resize();
@@ -2389,7 +2388,7 @@ Performance:
                 function updateTopVehiclesList(vehicleData, metric) {
                     const listContainer = document.getElementById('topVehiclesList');
                     if (!listContainer) return;
-                    
+
                     const vehicles = vehicleData.slice(0, 5);
                     const metricLabels = {
                         'total_cost': 'Operating Cost',
@@ -2397,20 +2396,20 @@ Performance:
                         'maintenance_cost': 'Maintenance Cost',
                         'maintenance_events': 'Maintenance Events'
                     };
-                    
+
                     let html = '<div class="fw-bold mb-2">Top 5 Vehicles</div>';
                     vehicles.forEach((vehicle, index) => {
                         const regNo = vehicle.reg_no || vehicle.vehicle_reg_no;
                         const value = parseFloat(vehicle[metric] || 0);
                         const model = vehicle.model_name || 'Unknown Model';
-                        
+
                         let formattedValue;
                         if (metric === 'maintenance_events') {
                             formattedValue = value + ' events';
                         } else {
                             formattedValue = accounting.formatMoney(value, 'ZMW ');
                         }
-                        
+
                         html += `
                             <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
                                 <div>
@@ -2424,7 +2423,7 @@ Performance:
                             </div>
                         `;
                     });
-                    
+
                     listContainer.innerHTML = html;
                 }
 
@@ -2438,8 +2437,8 @@ Performance:
                                 type: 'text',
                                 left: 'center',
                                 top: 'center',
-                                style: { 
-                                    text: message, 
+                                style: {
+                                    text: message,
                                     fontSize: 14,
                                     fill: '#dc3545'
                                 }

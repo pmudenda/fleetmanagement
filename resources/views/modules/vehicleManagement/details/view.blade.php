@@ -272,7 +272,7 @@
                         role="tablist">
 
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
+                            <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Selected Motor Vehicle Overview</a>
                         </li>
 
                         <li class="nav-item" style="list-style: none;">
@@ -290,6 +290,15 @@
                                href="#financial" aria-selected="false" role="tab"
                                tabindex="-1">
                                 Financial
+                            </a>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link text-active-primary pb-5"
+                               data-bs-toggle="tab"
+                               href="#costAnalysis" aria-selected="false" role="tab"
+                               tabindex="-1">
+                                <i class="fas fa-chart-line me-1"></i> Cost Analysis
                             </a>
                         </li>
 
@@ -2933,6 +2942,262 @@
                             </div>
                         </div>
 
+                        <div class="tab-pane fade" id="costAnalysis" role="tabpanel">
+                            <div class="container-fluid pl-0">
+                                <!-- Vehicle Identification Header -->
+                                @if($vehicle && $vehicle->registration_number)
+                                <div class="alert alert-info mb-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ asset('img/car.png') }}" alt="Vehicle" class="me-3" style="width: 60px; height: auto; border-radius: 8px;">
+                                        <div>
+                                            <strong>Cost Analysis for Vehicle:</strong> 
+                                            <span class="badge bg-primary ms-2">{{ $vehicle->registration_number }}</span>
+                                            @if($vehicle->brand_name || $vehicle->model_name)
+                                                <span class="text-muted ms-2">
+                                                    {{ $vehicle->brand_name ?? '' }} {{ $vehicle->model_name ?? '' }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                @else
+                                <div class="alert alert-warning mb-4">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        <div>
+                                            <strong>No Vehicle Selected:</strong> 
+                                            Please select a vehicle from the dashboard to view its cost analysis.
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+
+                                <!-- Vehicle Cost Summary Cards -->
+                                @if($vehicle && $vehicle->registration_number)
+                                <div class="row mb-4">
+                                    <div class="col-lg-3 col-md-6 mb-3">
+                                        <div class="card bg-gradient-primary text-white shadow-lg border-0 h-100">
+                                            <div class="card-body">
+                                                <div class="d-flex flex-column">
+                                                    <div class="text-start">
+                                                        <div class="small text-white-50 mb-2">Total Fuel Cost</div>
+                                                        <div class="h3 mb-2 fw-bold text-start">
+                                                            ZMW {{ number_format($costSummary['fuel_summary']['total_fuel_cost'] ?? 0, 2) }}
+                                                        </div>
+                                                        <div class="small text-white-75 text-start">
+                                                            <i class="fas fa-receipt me-1"></i>
+                                                            {{ $costSummary['fuel_summary']['fuel_transactions'] ?? 0 }} transactions
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end mt-auto">
+                                                        <i class="fas fa-gas-pump fa-3x opacity-75"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer bg-transparent border-0 text-white-50 small">
+                                                <i class="fas fa-calendar me-1"></i> Last 12 months
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 mb-3">
+                                        <div class="card bg-gradient-warning text-white shadow-lg border-0 h-100">
+                                            <div class="card-body">
+                                                <div class="d-flex flex-column">
+                                                    <div class="text-start">
+                                                        <div class="small text-white-50 mb-2">Total Maintenance Cost</div>
+                                                        <div class="h3 mb-2 fw-bold text-start">
+                                                            ZMW {{ number_format($costSummary['maintenance_summary']['total_maintenance_cost'] ?? 0, 2) }}
+                                                        </div>
+                                                        <div class="small text-white-75 text-start">
+                                                            <i class="fas fa-tools me-1"></i>
+                                                            {{ $costSummary['maintenance_summary']['maintenance_events'] ?? 0 }} events
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end mt-auto">
+                                                        <i class="fas fa-wrench fa-3x opacity-75"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer bg-transparent border-0 text-white-50 small">
+                                                <i class="fas fa-calendar me-1"></i> Last 12 months
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 mb-3">
+                                        <div class="card bg-gradient-danger text-white shadow-lg border-0 h-100">
+                                            <div class="card-body">
+                                                <div class="d-flex flex-column">
+                                                    <div class="text-start">
+                                                        <div class="small text-white-50 mb-2">Total Operating Cost</div>
+                                                        <div class="h3 mb-2 fw-bold text-start">
+                                                            ZMW {{ number_format($costSummary['total_operating_cost'] ?? 0, 2) }}
+                                                        </div>
+                                                        <div class="small text-white-75 text-start">
+                                                            <i class="fas fa-plus me-1"></i> Fuel + Maintenance
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end mt-auto">
+                                                        <i class="fas fa-calculator fa-3x opacity-75"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer bg-transparent border-0 text-white-50 small">
+                                                <i class="fas fa-chart-pie me-1"></i> Total expenditure
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 mb-3">
+                                        <div class="card bg-gradient-info text-white shadow-lg border-0 h-100">
+                                            <div class="card-body">
+                                                <div class="d-flex flex-column">
+                                                    <div class="text-start">
+                                                        <div class="small text-white-50 mb-2">Avg Cost/Month</div>
+                                                        <div class="h3 mb-2 fw-bold text-start">
+                                                            ZMW {{ number_format(($costSummary['total_operating_cost'] ?? 0) / 12, 2) }}
+                                                        </div>
+                                                        <div class="small text-white-75 text-start">
+                                                            <i class="fas fa-chart-line me-1"></i> Monthly average
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end mt-auto">
+                                                        <i class="fas fa-trending-up fa-3x opacity-75"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer bg-transparent border-0 text-white-50 small">
+                                                <i class="fas fa-calculator me-1"></i> Per month analysis
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Cost Distribution Chart -->
+                                <div class="row mb-4">
+                                    <div class="col-lg-4 col-md-12 mb-3">
+                                        <div class="card bg-white shadow-lg border-0">
+                                            <div class="card-header bg-gradient-primary text-white border-0">
+                                                <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i> Cost Distribution</h5>
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <div id="vehicleCostDistributionChart" style="height:280px;"></div>
+                                                <div class="mt-4">
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <div>
+                                                            <div class="small text-muted">Fuel Cost</div>
+                                                            <div class="h5 mb-0 fw-bold text-success">{{ number_format($costSummary['cost_breakdown']['fuel_percentage'] ?? 0, 1) }}%</div>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <div class="small text-muted">ZMW {{ number_format($costSummary['fuel_summary']['total_fuel_cost'] ?? 0, 2) }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress mb-3" style="height: 10px;">
+                                                        <div class="progress-bar bg-success" style="width: {{ $costSummary['cost_breakdown']['fuel_percentage'] ?? 0 }}%"></div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <div class="small text-muted">Maintenance Cost</div>
+                                                            <div class="h5 mb-0 fw-bold text-warning">{{ number_format($costSummary['cost_breakdown']['maintenance_percentage'] ?? 0, 1) }}%</div>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <div class="small text-muted">ZMW {{ number_format($costSummary['maintenance_summary']['total_maintenance_cost'] ?? 0, 2) }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress" style="height: 10px;">
+                                                        <div class="progress-bar bg-warning" style="width: {{ $costSummary['cost_breakdown']['maintenance_percentage'] ?? 0 }}%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-12 mb-3">
+                                        <div class="card bg-white shadow-lg border-0">
+                                            <div class="card-header bg-gradient-info text-white border-0">
+                                                <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i> Monthly Cost Trends</h5>
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <div id="vehicleMonthlyTrendsChart" style="height:280px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Detailed Tables -->
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12 mb-3">
+                                        <div class="card bg-white shadow-lg border-0">
+                                            <div class="card-header bg-gradient-success text-white border-0">
+                                                <h5 class="mb-0"><i class="fas fa-gas-pump me-2"></i> Fuel Cost Analysis</h5>
+                                            </div>
+                                            <div class="card-body p-0">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover mb-0">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th class="border-0"><i class="fas fa-calendar me-1"></i> Period</th>
+                                                                <th class="text-end border-0"><i class="fas fa-money-bill-wave me-1"></i> Cost</th>
+                                                                <th class="text-end border-0"><i class="fas fa-receipt me-1"></i> Transactions</th>
+                                                                <th class="text-end border-0"><i class="fas fa-chart-bar me-1"></i> Avg Cost</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @forelse($fuelCostAnalysis as $fuel)
+                                                                <tr>
+                                                                    <td>{{ $fuel->period ?? '--' }}</td>
+                                                                    <td class="text-end">{{ number_format($fuel->total_cost ?? 0, 2) }}</td>
+                                                                    <td class="text-end">{{ $fuel->transaction_count ?? 0 }}</td>
+                                                                    <td class="text-end">{{ number_format($fuel->avg_cost_per_transaction ?? 0, 2) }}</td>
+                                                                </tr>
+                                                            @empty
+                                                                <tr>
+                                                                    <td colspan="4" class="text-center text-muted p-3">No fuel data available</td>
+                                                                </tr>
+                                                            @endforelse
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 mb-3">
+                                        <div class="card bg-white shadow-lg border-0">
+                                            <div class="card-header bg-gradient-warning text-white border-0">
+                                                <h5 class="mb-0"><i class="fas fa-wrench me-2"></i> Maintenance Analysis</h5>
+                                            </div>
+                                            <div class="card-body p-0">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover mb-0">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th class="border-0"><i class="fas fa-calendar me-1"></i> Period</th>
+                                                                <th class="text-end border-0"><i class="fas fa-money-bill-wave me-1"></i> Cost</th>
+                                                                <th class="text-end border-0"><i class="fas fa-tools me-1"></i> Events</th>
+                                                                <th class="text-end border-0"><i class="fas fa-chart-bar me-1"></i> Avg Cost</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @forelse($maintenanceAnalysis as $maintenance)
+                                                                <tr>
+                                                                    <td>{{ $maintenance->period ?? '--' }}</td>
+                                                                    <td class="text-end">{{ number_format($maintenance->total_cost ?? 0, 2) }}</td>
+                                                                    <td class="text-end">{{ $maintenance->maintenance_events ?? 0 }}</td>
+                                                                    <td class="text-end">{{ number_format($maintenance->avg_cost_per_transaction ?? 0, 2) }}</td>
+                                                                </tr>
+                                                            @empty
+                                                                <tr>
+                                                                    <td colspan="4" class="text-center text-muted p-3">No maintenance data available</td>
+                                                                </tr>
+                                                            @endforelse
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -3000,9 +3265,14 @@
     <script>
         window.reference = `{!! $reference !!}`;
         window.vehicle = `{!! json_encode($vehicle ?? (object)[]) !!}`;
+        window.costSummary = `{!! json_encode($costSummary ?? []) !!}`;
+        window.fuelCostAnalysis = `{!! json_encode($fuelCostAnalysis ?? []) !!}`;
+        window.maintenanceAnalysis = `{!! json_encode($maintenanceAnalysis ?? []) !!}`;
     </script>
     <script
             src="{{asset('modules/vehicleManagement/assets/js/vehicle_over_view.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{asset('modules/vehicleManagement/assets/js/cost_analysis_charts.js')}}"></script>
     <script>
         $(document).ready(function () {
             console.log('Are you working atleast')
@@ -3026,8 +3296,7 @@
                     $('#vehicleRegistration').val(registrationNumber.value).attr('readonly', true);
                 }
 
-            }, 600)
-
+            }, 600);
         });
     </script>
 @endpush

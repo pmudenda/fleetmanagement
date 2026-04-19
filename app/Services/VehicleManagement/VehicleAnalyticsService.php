@@ -868,4 +868,137 @@ class VehicleAnalyticsService
             return [];
         }
     }
+
+    /**
+     * Get vehicle fuel cost analysis for specific vehicle
+     */
+    public function getVehicleFuelCostAnalysis(string $registrationNumber, int $months = 12): array
+    {
+        try {
+            $results = DB::table('fleetmaster.fuel_management')
+                ->select(
+                    DB::raw('TO_CHAR(FECH_ACT, \'YYYY-MM\') as period'),
+                    DB::raw('SUM(amount) as total_cost'),
+                    DB::raw('COUNT(*) as transaction_count'),
+                    DB::raw('AVG(amount) as avg_cost_per_transaction'),
+                    DB::raw('SUM(quantity) as total_quantity'),
+                    DB::raw('AVG(price) as avg_price_per_liter')
+                )
+                ->where('reg_no', '=', $registrationNumber)
+                ->where('FECH_ACT', '>=', DB::raw('ADD_MONTHS(CURRENT_DATE, -' . $months . ')'))
+                ->groupBy(DB::raw('TO_CHAR(FECH_ACT, \'YYYY-MM\')'))
+                ->orderBy('period')
+                ->get();
+
+            return $results->toArray();
+        } catch (Exception $e) {
+            Log::error("Error fetching vehicle fuel cost analysis: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Get vehicle maintenance analysis for specific vehicle
+     */
+    public function getVehicleMaintenanceAnalysis(string $registrationNumber, int $months = 12): array
+    {
+        try {
+            $results = DB::table('fleetmaster.gen_material_details as d')
+                ->join('fleetmaster.gen_material_headers as h', 'h.REQ_NO', '=', 'd.REQ_NO')
+                ->leftJoin('ZFM_ARTICLES_VIEW as a', 'a.code_article', '=', 'd.material_code')
+                ->select(
+                    DB::raw('TO_CHAR(h.DATE_CREATED, \'YYYY-MM\') as period'),
+                    DB::raw('SUM(d.QUANTITY * d.PRICE) as total_cost'),
+                    DB::raw('COUNT(*) as transaction_count'),
+                    DB::raw('AVG(d.QUANTITY * d.PRICE) as avg_cost_per_transaction'),
+                    DB::raw('COUNT(DISTINCT h.document_no) as maintenance_events'),
+                    DB::raw('COUNT(DISTINCT d.material_code) as unique_parts')
+                )
+                ->where('d.reg_no', '=', $registrationNumber)
+                ->whereIn('h.status', ['26', '32', '42', '46'])
+                ->where('h.IS_FUEL', '=', 'N')
+                ->where('h.DATE_CREATED', '>=', DB::raw('ADD_MONTHS(CURRENT_DATE, -' . $months . ')'))
+                ->groupBy(DB::raw('TO_CHAR(h.DATE_CREATED, \'YYYY-MM\')'))
+                ->orderBy('period')
+                ->get();
+
+            return $results->toArray();
+        } catch (Exception $e) {
+            Log::error("Error fetching vehicle maintenance analysis: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Get comprehensive cost summary for specific vehicle
+     */
+    public function getVehicleCostSummary(string $registrationNumber, int $months = 12): array
+    {
+        try {
+            // Get fuel summary
+            $fuelSummary = DB::table('fleetmaster.fuel_management')
+                ->select(
+                    DB::raw('SUM(amount) as total_fuel_cost'),
+                    DB::raw('COUNT(*) as fuel_transactions'),
+                    DB::raw('AVG(amount) as avg_fuel_cost'),
+                    DB::raw('MAX(FECH_ACT) as last_fuel_date'),
+                    DB::raw('MIN(FECH_ACT) as first_fuel_date')
+                )
+                ->where('reg_no', '=', $registrationNumber)
+                ->where('FECH_ACT', '>=', DB::raw('ADD_MONTHS(CURRENT_DATE, -' . $months . ')'))
+                ->first();
+
+            // Get maintenance summary
+            $maintenanceSummary = DB::table('fleetmaster.gen_material_details as d')
+                ->join('fleetmaster.gen_material_headers as h', 'h.REQ_NO', '=', 'd.REQ_NO')
+                ->select(
+                    DB::raw('SUM(d.QUANTITY * d.PRICE) as total_maintenance_cost'),
+                    DB::raw('COUNT(*) as maintenance_transactions'),
+                    DB::raw('AVG(d.QUANTITY * d.PRICE) as avg_maintenance_cost'),
+                    DB::raw('MAX(h.DATE_CREATED) as last_maintenance_date'),
+                    DB::raw('MIN(h.DATE_CREATED) as first_maintenance_date'),
+                    DB::raw('COUNT(DISTINCT h.document_no) as maintenance_events')
+                )
+                ->where('d.reg_no', '=', $registrationNumber)
+                ->whereIn('h.status', ['26', '32', '42', '46'])
+                ->where('h.IS_FUEL', '=', 'N')
+                ->where('h.DATE_CREATED', '>=', DB::raw('ADD_MONTHS(CURRENT_DATE, -' . $months . ')'))
+                ->first();
+
+            $fuelCost = $fuelSummary ? (float)($fuelSummary->total_fuel_cost ?? 0) : 0;
+            $maintenanceCost = $maintenanceSummary ? (float)($maintenanceSummary->total_maintenance_cost ?? 0) : 0;
+            $totalCost = $fuelCost + $maintenanceCost;
+
+            return [
+                'fuel_summary' => $fuelSummary ? (array) $fuelSummary : [
+                    'total_fuel_cost' => 0,
+                    'fuel_transactions' => 0,
+                    'avg_fuel_cost' => 0,
+                    'last_fuel_date' => null,
+                    'first_fuel_date' => null
+                ],
+                'maintenance_summary' => $maintenanceSummary ? (array) $maintenanceSummary : [
+                    'total_maintenance_cost' => 0,
+                    'maintenance_transactions' => 0,
+                    'avg_maintenance_cost' => 0,
+                    'last_maintenance_date' => null,
+                    'first_maintenance_date' => null,
+                    'maintenance_events' => 0
+                ],
+                'total_operating_cost' => $totalCost,
+                'cost_breakdown' => [
+                    'fuel_percentage' => $totalCost > 0 ? ($fuelCost / $totalCost) * 100 : 0,
+                    'maintenance_percentage' => $totalCost > 0 ? ($maintenanceCost / $totalCost) * 100 : 0
+                ]
+            ];
+        } catch (Exception $e) {
+            Log::error("Error fetching vehicle cost summary: " . $e->getMessage());
+            return [
+                'fuel_summary' => ['total_fuel_cost' => 0, 'fuel_transactions' => 0, 'avg_fuel_cost' => 0],
+                'maintenance_summary' => ['total_maintenance_cost' => 0, 'maintenance_transactions' => 0, 'avg_maintenance_cost' => 0],
+                'total_operating_cost' => 0,
+                'cost_breakdown' => ['fuel_percentage' => 0, 'maintenance_percentage' => 0]
+            ];
+        }
+    }
 }
